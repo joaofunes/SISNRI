@@ -1,0 +1,29 @@
+package com.dimesa.dao;
+
+import com.dimesa.dao.generic.GenericDao;
+import com.dimesa.model.SsRoles;
+import java.util.List;
+import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
+
+@Repository(value = "ssRolesDao")
+public class SsRolesDao extends GenericDao<SsRoles, Integer> {
+
+    public List<SsRoles> findByUrl(String url) {
+        List<SsRoles> rolesYOpciones=null;
+        Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o FROM SsRoles o JOIN FETCH o.ssOpcionesSet op WHERE op.url LIKE :url ");
+        q.setParameter("url", "%" + url + "%");
+        rolesYOpciones=q.list();
+        return rolesYOpciones;
+    }
+    
+    
+    
+    public SsRoles findByUser(String user) {
+        SsRoles rolesYOpciones=null;
+        Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o FROM SsRoles o JOIN FETCH o.ssMenusSet op WHERE op.idRol LIKE :user ");
+        q.setParameter("user", "%" + user + "%");        
+        rolesYOpciones=(SsRoles) q.uniqueResult();
+        return rolesYOpciones;
+    }
+}

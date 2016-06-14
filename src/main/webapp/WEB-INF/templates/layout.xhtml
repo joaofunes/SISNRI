@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"       
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <h:head>
+        <ui:insert name="title">
+            <title>Default title</title>
+        </ui:insert>
+        <f:facet name="last">
+            <link rel="icon" type="image/x-icon" href="#{facesContext.externalContext.requestContextPath}/img/favicon.ico"/>
+            <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/style.css" />
+            <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/style_srni.css" />
+        </f:facet> 
+        <f:facet name="last">
+            <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/bootstrap.js"></script>
+            <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/reports.js"></script>
+            <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/funciones.js"></script>
+            <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/pfcrud.js"></script>
+            
+        </f:facet>
+        <script type="text/javascript">
+            var ctx = '#{facesContext.externalContext.requestContextPath}';
+        </script>
+
+        <style>
+
+            .ui-panelgrid td, .ui-panelgrid tr
+            {
+                border-style: none !important
+            }
+
+        </style>
+    </h:head>
+
+    <h:body>
+        <p:layout fullPage="true" rendered="true">  
+
+            <p:layoutUnit position="center" > 
+                <div class="cabecera">               
+                    <div class="texto_derecha">#{currentUserSessionBean.form.sessionUser.username}</div>
+                    <div class="menu_contenedor">
+
+                        <div class="logo_1 "></div>      
+                        <div class="menu">
+                            <ul>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml">Inicio</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Cerrar Sesion</a></li>
+                            </ul>
+                        </div>                                		
+                    </div>
+                </div>
+                        
+                    <ul id="nav">
+<!--                        <li  class='active'><a href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml">Inicio</a></li>-->
+
+                        <c:forEach items="#{currentUserSessionBean.form.menusLst}" var="menu"> 
+                            <li ><a class="hsubs"  href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml">#{menu.ssMenu.nombreMenu}</a>
+                                <ul class="subs">
+                                    <c:forEach items="#{menu.ssOpciones}" var="opcion"> 
+                                        <li><a href="#{opcion.url}">#{opcion.nombreOpcion}</a></li>                                          
+                                    </c:forEach>
+                                </ul>  
+                            </li>
+                        </c:forEach>  
+
+                    </ul>
+
+                
+                <div class="background_1">
+                    <p:growl id="growl" life="3000" showDetail="true" showSummary="true"  />
+
+                    <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">  
+                        <f:facet name="start">  
+                            <h:graphicImage value="/img/animation/loadingprimefaces.gif" />  
+                        </f:facet>  
+
+                        <f:facet name="complete">  
+                            <h:outputText value="" />  
+                        </f:facet>  
+                    </p:ajaxStatus> 
+                    <ui:insert name="content">
+                        Default content
+                    </ui:insert>
+
+                    <div class="center_line">
+                        <h5>Direccion SSRNI.
+                            <br/>Telefono: 2354-X9999XXX.</h5>
+                    </div>
+                </div>
+            </p:layoutUnit>  
+
+        </p:layout> 
+
+    </h:body>
+
+</html>
+
+

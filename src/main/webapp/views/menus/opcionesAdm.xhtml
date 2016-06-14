@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/commonLayout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+   
+    
+    <ui:define name="content">
+        <h:form id="formAdmin">
+            <p:panelGrid >
+                <p:row>
+                  
+                        <p:column>
+                            Nombre Opciones                            
+                        </p:column>
+                        <p:column>                           
+                            <p:inputText id="namemenu"   value="#{opcionesAdmMB.ssOpciones.nombreOpcion}" required="true" size="80" />
+                        </p:column>
+                       
+                </p:row>
+                <p:row>
+                       <p:column>
+                            Url                           
+                        </p:column>                    
+                       <p:column>
+                            <p:inputText id="idUrl"   value="#{opcionesAdmMB.ssOpciones.url}" required="true" size="80" />
+                        </p:column>                    
+                </p:row>
+                <p:row>
+                        <p:column>
+                            Visible
+                        </p:column>                       
+                        <p:column>
+                            <h:selectBooleanCheckbox id="idVisible" value="#{opcionesAdmMB.ssOpciones.visible}"  />
+                        </p:column>                       
+                </p:row>
+                <p:row>
+                    
+                        <p:column>
+                            <p:commandButton rendered="#{!opcionesAdmMB.actualizar}"
+                                             actionListener="#{opcionesAdmMB.guardar()}" update=":formAdmin :formMenu" process="@this :formAdmin"
+                                             value="Guardar" />
+                            <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
+                                             actionListener="#{opcionesAdmMB.editar()}" update=":formAdmin"
+                                             value="Actulizar" />
+                            <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
+                                             actionListener="#{opcionesAdmMB.cancelar()}" immediate="true" update=":formAdmin"
+                                             value="Cancelar" />
+                        </p:column>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>
+        <h:outputLabel style="margin-bottom: 20px;"/>
+        <h:form id="formMenu">
+            <p:dataTable var="menu" value="#{opcionesAdmMB.listadoOpciones}" paginator="true" rows="5"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="5,10,15"                       
+                        >
+                
+                <p:column headerText="Id" sortBy="#{menu.idOpcion}" filterBy="#{menu.idOpcion}">
+                    <h:outputText value="#{menu.idOpcion}" />
+                </p:column>
+                <p:column headerText="Nombre Opcion" sortBy="#{menu.nombreOpcion}" filterBy="#{menu.nombreOpcion}">
+                    <h:outputText value="#{menu.nombreOpcion}" />
+                </p:column>
+                <p:column headerText="Url" sortBy="#{menu.url}" filterBy="#{menu.url}">
+                    <h:outputText value="#{menu.url}" />
+                </p:column>
+                <p:column headerText="Visible" >
+                    <h:outputText value="#{menu.visible? 'Si':'No'}" />
+                </p:column>
+                <p:column headerText="Fecha" sortBy="#{menu.fechaRegistro}" filterBy="#{menu.fechaRegistro}">
+                    <h:outputText value="#{menu.fechaRegistro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>    
+                </p:column>
+                
+                <p:column headerText="Opciones">
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar"
+                                       value="Editar" actionListener="#{opcionesAdmMB.preEditar(menu)}" />
+                    </div>
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                       title="Eliminar" value="Eliminar"
+                                       actionListener="#{opcionesAdmMB.preEliminar(menu)}" />
+                    </div>
+                </p:column>
+            </p:dataTable>
+ 
+            
+        </h:form>
+        
+    </ui:define>
+    
+ </ui:composition> 

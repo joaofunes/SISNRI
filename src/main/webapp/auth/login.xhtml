@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "htth://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"     
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <title>DIMESA</title>
+        <f:facet name="last">
+            <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/bootstrap.css" />
+            <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/style.css" />
+        </f:facet> 
+        <f:facet name="last">
+            <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/bootstrap.js"></script>
+            <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/jquery.js"></script>
+        </f:facet>
+    </h:head>
+    <h:body>
+
+        <div class="box_top">
+            <div class="text_upper">Bienvenido(a) a su sistema DIMESA </div>
+            <div class="img_ing"></div>
+            <div class="img_ing2"></div>
+        </div>           
+
+        <div class="box_login">
+            <c:if test="${not empty param.error}">
+                <div class="error_login">
+                    Inicio de Sesi&oacute;n Invalido
+                    <br/>Favor intentarlo de nuevo<br />
+                                Reason: #{sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message} 
+                </div>
+            </c:if>
+
+            <form id="login-form" action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method='POST'>
+
+                <div class="content_login">
+                    <div class="text_login text_login_t"> Iniciar Sesi&oacute;n</div>
+
+                    <div class="l w20 login_l">
+                        <input placeholder="USUARIO" type="text" name="j_username" value="${j_username}" class="w100  form-control"/>
+                    </div>
+                    <div class="r w20 login_r">
+                        <input placeholder="CLAVE" type="password" name="j_password" class="w100 form-control"/>
+                    </div>
+                </div>
+                <div class="button-ingreso w100">
+                    <div class="l w10 buttom_l">
+                        <input type="submit" class="w100 text-center btn btn-success" value="Ingresar" name="commit" />
+                    </div>
+                    <div class="r w10 buttom_r">
+                        <input type="reset" class="w100 text-center btn btn-success" value="Limpiar" name="clean" />
+                    </div>
+                </div>
+                <div class="text_login1">
+                    <a href="#">Olvid&eacute; mi Clave</a>
+                </div>
+                <p class="text-danger">
+                    <h:messages />
+                </p>
+            </form>
+        </div>
+        <div class="box_tesis">
+        <div class="text_info_tesis"></div>
+            </div>
+    </h:body>
+</html>

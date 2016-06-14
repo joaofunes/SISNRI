@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+  		  http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd          
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.1.xsd
+          http://www.springframework.org/schema/beans 
+          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+ 
+    <tx:annotation-driven transaction-manager="transactionManager" />   
+    
+    <context:component-scan base-package="com.dimesa" />
+
+    <security:http auto-config="true" use-expressions="true" entry-point-ref="authEntryPoint" >
+    </security:http>
+
+    
+    <bean id="authEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <property name="loginFormUrl" value="/auth/login.xhtml"/>
+    </bean>    
+    
+    <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <property name="authenticationEntryPoint" ref="authEntryPoint" />
+        <property name="accessDeniedHandler">
+            <bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+                <property name="errorPage" value="/auth/login.xhtml?error=true"/>
+            </bean>
+        </property>
+        <property name="requestCache">
+            <bean id="nullRequestCache" class="org.springframework.security.web.savedrequest.NullRequestCache"/>
+        </property>
+    </bean>
+
+    <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg value="/auth/login.xhtml"/>
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+            </list>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <property name="defaultFailureUrl" value="/auth/login.xhtml?error=true"/>
+    </bean>
+    
+    <bean id="successHandler" class="com.dimesa.security.CustomAuthenticationSuccessHandler">
+    </bean>
+    
+    <bean id="authenticationProcessingFilter" 
+          class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="authenticationFailureHandler" ref="failureHandler"/>
+        <property name="authenticationSuccessHandler" ref="successHandler" />        
+    </bean>  
+    
+    <bean id="mySecurityMetadataSource" class="com.dimesa.security.CustomFilterInvocationDefinition"/>
+    
+    <bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <property name="securityMetadataSource" ref="mySecurityMetadataSource"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="accessDecisionManager" ref="accessDecisionManager"/>	    
+    </bean>         
+    
+    <bean id="filterSecurityInterceptorNotSecure"
+          class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="accessDecisionManager" ref="accessDecisionManager"/>
+        <property name="securityMetadataSource">
+            <security:filter-security-metadata-source>
+                <security:intercept-url pattern="/" access="IS_AUTHENTICATED_FULLY"/>
+            </security:filter-security-metadata-source>
+        </property>
+    </bean>
+    
+    <bean id="anonymousFilter" 
+          class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+        <property name="key" value="foobar"/>
+        <property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS"/>
+    </bean>
+    
+
+    
+    <bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
+        <property name="rolePrefix" value="" />
+    </bean>
+	
+    <bean id="authenticatedVoter" class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+    
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <property name="decisionVoters">
+            <list>
+                <ref bean="roleVoter"/>
+                <ref bean="authenticatedVoter"/>                
+            </list>
+        </property>
+    </bean>
+
+    <bean id="authServiceProvider"
+          class="com.dimesa.security.CustomUserDetailService">		
+    </bean>
+    
+    <bean id="passwordEncoder" class="com.dimesa.security.CustomPasswordEncoder" />
+    
+    <bean id="daoAuthenticationProvider"
+          class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">	
+        <property name="userDetailsService" ref="authServiceProvider"/>
+        <property name="passwordEncoder" ref="passwordEncoder" />
+    </bean>
+    
+    <bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter"/>
+        
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="daoAuthenticationProvider" />
+    </security:authentication-manager>  
+    
+    <bean id="filterChainProxy" class="org.springframework.security.web.FilterChainProxy">
+        <security:filter-chain-map path-type="ant">             
+            <security:filter-chain pattern="/js/**"  filters="none" />            
+            <security:filter-chain pattern="/css/**"  filters="none" />
+            <security:filter-chain pattern="/images/**"  filters="none" />
+            <security:filter-chain pattern="/img/**"  filters="none" />
+            <security:filter-chain pattern="/resources/**"  filters="none" />
+            <security:filter-chain pattern="/report**"  filters="none" />  
+            <security:filter-chain pattern="/report/report/**"  filters="none" />  
+            <security:filter-chain pattern="/javax.faces.resource/**"  filters="none" />
+            <security:filter-chain pattern="/auth/**"  filters="
+                   securityContextPersistenceFilter,
+                   logoutFilter,
+                   authenticationProcessingFilter,
+                   anonymousFilter,
+                   exceptionTranslationFilter,
+                   filterSecurityInterceptorNotSecure" />      
+            <security:filter-chain pattern="/**"  filters="
+                   securityContextPersistenceFilter,
+                   logoutFilter,
+                   authenticationProcessingFilter,
+                   exceptionTranslationFilter,
+                   filterSecurityInterceptor" />
+        </security:filter-chain-map>
+    </bean>
+    
+</beans>

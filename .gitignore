@@ -1,0 +1,4 @@
+#Quitando carpeta target
+target/*
+nb-configuration.xml
+*~

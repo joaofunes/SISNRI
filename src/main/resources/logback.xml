@@ -1,0 +1,78 @@
+<configuration scan="true" debug="false">
+    <property name="BASE_FOLDER" value="${catalina.home}" />
+    <property name="APP_NAME" value="DIMESA" />
+    
+    <property name="LOGS_FOLDER" value="${BASE_FOLDER}${file.separator}logs" />
+    <property name="LOGS_TO_COLLECT_FOLDER" value="${BASE_FOLDER}${file.separator}logs-to-collect" />
+    <!-- See http://logback.qos.ch/manual/index.html for more information -->
+    <!-- on how to configure the Logback logging engine. -->
+    <!-- Available levels: TRACE < DEBUG < INFO <  WARN < ERROR -->
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- only show event INFO and higher on the Console. -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- This pattern mimics the original PMS debug.log format -->
+            <!--<pattern>[%thread] %-5level %d{HH:mm:ss.SSS} %msg%n</pattern>-->
+            <pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} [%thread] %-5level %logger{36} - %m %throwable{0}%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="debug.log" class="ch.qos.logback.core.FileAppender">
+        <!-- only show event DEBUG and higher on the Console. -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <file>${LOGS_FOLDER}${file.separator}${APP_NAME}-debug.log</file>
+        <append>true</append>  <!-- Start new debug.log on each application start -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- This pattern mimics the original PMS debug.log format -->
+            <!--<pattern>[%thread] %-5level %d{HH:mm:ss.SSS} %msg%n</pattern>-->
+            <pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} [%thread] %-5level %logger{36} - %m %throwable{0}%n</pattern>
+        </encoder>
+    </appender>
+    <!-- If unlimited growth of debug.log is not desired use the "debug.log.10MB" -->
+    <!-- appender instead of the "debug.log" appender. This appender will -->
+    <!-- roll the debug.log file after 10 MBytes and will keep a maximum -->
+    <!-- of 5 old and compressed logs. -->
+    <appender name="debug.log.200MB" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- only show event DEBUG and higher on the Console. -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <file>${LOGS_FOLDER}${file.separator}${APP_NAME}-debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${LOGS_FOLDER}${APP_NAME}-debug.log.%i.zip</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>10</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>200MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--<pattern>[%thread] %-5level %d{HH:mm:ss.SSS} %msg%n</pattern>-->
+            <pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} [%thread] %-5level %logger{36} - %m %throwable{0}%n</pattern>
+        </encoder>
+    </appender>
+    <!-- testing log to file -->
+    <appender name="testing-log-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_FOLDER}${file.separator}${APP_NAME}-testing.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!--Available levels: TRACE < DEBUG < INFO <  WARN < ERROR--> 
+            <level>TRACE</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/${APP_NAME}-testing.%d{yyyyMMdd-HHmm}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} [%thread] %-5level %logger{36} - %m %throwable{0}%n</pattern>
+        </encoder>
+    </appender>
+    <root level="TRACE">
+        <appender-ref ref="STDOUT" />
+        <!--<appender-ref ref="debug.log" />-->
+        <!--<appender-ref ref="testing-log-file" />-->
+        <!--<appender-ref ref="debug.log.200MB" />--> 
+    </root>
+</configuration>

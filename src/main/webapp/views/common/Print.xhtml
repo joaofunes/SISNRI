@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog  id="PrintDlg" widgetVar="PrintDialog" modal="true" resizable="false" appendTo="@(body)" header="Print Preview" closeOnEscape="true" width="90%" height="500px" onHide="hidePrint()" maximizable="true" >
+            <p:ajax id="maximizeEvent" event="maximize" onstart="updateresize()" />
+            <p:ajax id="minimizeEvent" event="minimize" onstart="updateresize()" />
+            <iframe  id="PrintDlgFrame" style="width: 100%; height: 100%;" src="#{facesContext.externalContext.requestContextPath}/views/loading.xhtml" >
+            </iframe>
+        </p:dialog>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/commonLayout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+           <ui:include src="../common/Print.xhtml"/>
+
+        <h:form id="form">
+           
+                <div align="center" style="border: 1px black solid">
+                    <h3 align="center">Comparativo de Tiempo de Vida Util Entre los Diferentes Equipos</h3>
+                    <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
+
+                    <p:panelGrid  columns="2" columnClasses="column">
+                        <p:column>
+                            <h:outputLabel for="fechaActual" value="Fecha de Emision : #{comparativoDeTiempoVidaUtilManagedBean.fecha}"  />
+                        </p:column>
+                        <p:column>               
+                            <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
+                        </p:column>
+                        <p:column>
+                            <span>&nbsp;</span>
+                            <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_comparativo_vida_util" />
+                        </p:column>
+                    </p:panelGrid>
+
+                    <p:growl id="msgs" showDetail="true" />
+                    <br/> <br/>
+
+                    <h:panelGrid columns="4" cellpadding="5">
+
+                        <p:column>
+                            <p:outputLabel value="Equipo 1" for="equipo" />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="equipo" value="#{comparativoDeTiempoVidaUtilManagedBean.equipox}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                                <f:selectItem itemLabel="Seleccione equipo x" />
+                                <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Equipo 2" for="equipodos" />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="equipodos" value="#{comparativoDeTiempoVidaUtilManagedBean.equipoy}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                                <f:selectItem itemLabel="Seleccione equipo y" />
+                                <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                            </p:selectOneMenu>
+                        </p:column>
+                    </h:panelGrid>
+                    <br/> <br/>
+
+
+                    <h:panelGrid columns="2"  cellpadding="5">
+                        <f:facet name="footer">
+                            <div class="footer-section">
+                               <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" update="msgs" actionListener="#{comparativoDeTiempoVidaUtilManagedBean.click}"  oncomplete="print(xhr, status, args)" />                                              
+                                <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
+                                <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />                      
+                            </div>
+                        </f:facet>
+                    </h:panelGrid>
+                </div>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+
+

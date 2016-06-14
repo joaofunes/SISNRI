@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="BancoListForm">
+        <br/>
+        <br/>
+        <p:fieldset legend="#{crudbundle.BancoTitle}">
+            <p:dataTable id="datalist" var="item" value="#{bancoManagedBean.lazyItems}" paginator="true" rows="5"  
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"  
+                         rowsPerPageTemplate="5,10,15"  lazy="true" resizableColumns="true"  
+                         selectionMode="single" selection="#{bancoManagedBean.selected}"
+                         rowKey="#{item.bancoId}" paginatorPosition="bottom">
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton"/>
+
+                <f:facet name="header">  
+                    #{crudbundle.ListBancoTitle}
+                </f:facet>  
+
+                <p:column filterBy="#{item.bancoId}" width="15%" >
+                    <f:facet name="header">
+                        <h:outputText value="#{crudbundle.BancoTitle_bancoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.bancoId}"/>
+                </p:column>
+                <p:column filterBy="#{item.bancoNombre}" width="70%">
+                    <f:facet name="header">
+                        <h:outputText value="#{crudbundle.BancoTitle_bancoNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.bancoNombre}"/>
+                </p:column>
+                <p:column filterBy="#{item.activo}" filterOptions="#{bancoManagedBean.activoOptionsFilter}" width="15%" >
+                    <f:facet name="header">
+                        <h:outputText value="#{crudbundle.Title_activo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.activo}"/>
+                </p:column>
+
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{bancoManagedBean.prepareCreate}" update=" @(#BancoCreateForm)" oncomplete="BancoCreateDialog.show()"/>
+                        <span>&nbsp;</span>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{crudbundle.View}" update="@(#BancoViewForm)" oncomplete="BancoViewDialog.show()" disabled="#{empty bancoManagedBean.selected}"/>
+                        <span>&nbsp;</span>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{crudbundle.Edit}" update="@(#BancoEditForm)" oncomplete="BancoEditDialog.show()" disabled="#{empty bancoManagedBean.selected}"/>
+                        <!--<p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" actionListener="#{bancoManagedBean.print}" oncomplete="print(xhr, status, args)"/>-->                        
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:fieldset>
+
+    </h:form>
+</ui:composition>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/commonLayout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <ui:include src="../common/Print.xhtml"/>
+        <h:form id="form">
+            <div align="center" style="border: 1px black solid">
+                <h3 align="center">Exportaci&oacute;n de los Procesos de Proyeccion y Tazas a Formato Matriz</h3>
+                <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
+
+                <p:panelGrid  columns="2" columnClasses="column">
+                    <p:column>
+                        <h:outputLabel for="fechaActual" value="Fecha de Emision : #{exportacionDeProcesosProyeccionTazasManagedBean.fecha}"  />
+                    </p:column>
+                    <p:column>               
+                        <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
+                    </p:column>
+                    <p:column>
+                        <span>&nbsp;</span>
+                        <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_procesos_proyeccion" />
+                    </p:column>
+                </p:panelGrid>
+                <br/>
+                <p:growl id="msgs" showDetail="true" />
+                <h:outputLabel value="Indices" />
+                <div align="center" style="border: 1px black dashed" class="w50 h50"  >
+                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="10">
+                        <!--   <p:column>
+                               <p:selectBooleanCheckbox styleClass="aaa1" onchange="b()" value="#{exportacionDeProcesosProyeccionTazasManagedBean.value1}" />
+                           </p:column>
+                           <p:column>
+                               <h:outputText value="&Iacute;ndice de Encarrilamiento a Mis&iacute;on y Visi&oacute;n Empresarial" />
+                           </p:column>-->
+                        <p:column>
+                            <p:selectBooleanCheckbox styleClass="aaa"  value="#{exportacionDeProcesosProyeccionTazasManagedBean.value2}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="&Iacute;ndice/Promedio de Gasto por Reparaci&oacute;n de Equipo por &Aacute;rea dentro de la Instituci&oacute;n " />
+                        </p:column>
+                        <p:column>
+                            <p:selectBooleanCheckbox styleClass="aaa"  value="#{exportacionDeProcesosProyeccionTazasManagedBean.value3}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="&Iacute;ndice/Promedio de Depreciaci&oacute;n por Reparaci&oacute;n de Equipo por &Aacute;rea dentro de la Instituci&oacute;n " />
+                        </p:column>
+
+                    </h:panelGrid>
+                </div>
+                <br/>
+                <h:outputLabel value="Proyecciones" />
+                <div align="center" title="asdasd" style="border: 1px black dashed" class="w50 h30"  >
+                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="10">
+                        <p:column>
+                            <p:selectBooleanCheckbox value="#{exportacionDeProcesosProyeccionTazasManagedBean.value4}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Proyecci&oacute;n Tecnico/Tiempo Requerido Para Solventar un Incoveniente " />
+                        </p:column>
+                        <p:column>
+                            <p:selectBooleanCheckbox value="#{exportacionDeProcesosProyeccionTazasManagedBean.value5}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Proyecci&oacute;n de Efectividad de Reparaci&oacute;n vrs Tiempo " />
+                        </p:column>
+                        <p:column>
+                            <p:selectBooleanCheckbox value="#{exportacionDeProcesosProyeccionTazasManagedBean.value6}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Proyecci&oacute;n y Programacioacute;n de Mantenimientos Preventivos" />
+                        </p:column>
+
+
+                    </h:panelGrid>
+                </div>
+                <br/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:column>
+                        <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="fhInicial"  value="#{exportacionDeProcesosProyeccionTazasManagedBean.date1}"  pattern="dd-MM-yyyy"  />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="fhFin"  value="Fecha Final:" />
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="fhFin" value="#{exportacionDeProcesosProyeccionTazasManagedBean.date2}"  pattern="dd-MM-yyyy" />
+                    </p:column>
+                </h:panelGrid>
+                <br/>
+                <h:panelGrid columns="2"  cellpadding="5">
+                    <f:facet name="footer">
+                        <div class="footer-section">
+                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" update="msgs" actionListener="#{exportacionDeProcesosProyeccionTazasManagedBean.click}"  oncomplete="print(xhr, status, args)" />                                               
+                            <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
+                            <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />                      
+                        </div>
+                    </f:facet>
+                </h:panelGrid>
+                <br/>
+            </div>         
+        </h:form>
+    </ui:define>
+</ui:composition>
