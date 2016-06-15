@@ -20,14 +20,14 @@
                             Nombre Menu
                             <p:inputText id="namemenu"   value="#{menusOpcionesAdmMB.ssMenus.nombreMenu}" required="true" size="50" />
                         </p:column>
-                        <p:column styleClass="boton">
-                            <p:commandButton rendered="#{!menusOpcionesAdmMB.actualizar}"  
+                    <p:column  >
+                            <p:commandButton rendered="#{!menusOpcionesAdmMB.actualizar}"  styleClass="boton"
                                              actionListener="#{menusOpcionesAdmMB.guardar()}" update=":formAdmin :formMenu" process="@this :formAdmin"
                                              value="Guardar" />
-                            <p:commandButton rendered="#{menusOpcionesAdmMB.actualizar}"
+                            <p:commandButton rendered="#{menusOpcionesAdmMB.actualizar}" styleClass="boton"
                                              actionListener="#{menusOpcionesAdmMB.editar()}" update=":formAdmin"
                                              value="Actulizar" />
-                            <p:commandButton rendered="#{menusOpcionesAdmMB.actualizar}"
+                            <p:commandButton rendered="#{menusOpcionesAdmMB.actualizar}" styleClass="boton"
                                              actionListener="#{menusOpcionesAdmMB.cancelar()}" immediate="true" update=":formAdmin"
                                              value="Cancelar" />
                         </p:column>

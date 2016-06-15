@@ -16,7 +16,7 @@
  
     <tx:annotation-driven transaction-manager="transactionManager" />   
     
-    <context:component-scan base-package="com.dimesa" />
+    <context:component-scan base-package="com.sisrni" />
 
     <security:http auto-config="true" use-expressions="true" entry-point-ref="authEntryPoint" >
     </security:http>
@@ -51,7 +51,7 @@
         <property name="defaultFailureUrl" value="/auth/login.xhtml?error=true"/>
     </bean>
     
-    <bean id="successHandler" class="com.dimesa.security.CustomAuthenticationSuccessHandler">
+    <bean id="successHandler" class="com.sisrni.security.CustomAuthenticationSuccessHandler">
     </bean>
     
     <bean id="authenticationProcessingFilter" 
@@ -61,7 +61,7 @@
         <property name="authenticationSuccessHandler" ref="successHandler" />        
     </bean>  
     
-    <bean id="mySecurityMetadataSource" class="com.dimesa.security.CustomFilterInvocationDefinition"/>
+    <bean id="mySecurityMetadataSource" class="com.sisrni.security.CustomFilterInvocationDefinition"/>
     
     <bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
         <property name="securityMetadataSource" ref="mySecurityMetadataSource"/>
@@ -104,10 +104,10 @@
     </bean>
 
     <bean id="authServiceProvider"
-          class="com.dimesa.security.CustomUserDetailService">		
+          class="com.sisrni.security.CustomUserDetailService">		
     </bean>
     
-    <bean id="passwordEncoder" class="com.dimesa.security.CustomPasswordEncoder" />
+    <bean id="passwordEncoder" class="com.sisrni.security.CustomPasswordEncoder" />
     
     <bean id="daoAuthenticationProvider"
           class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">	

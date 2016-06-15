@@ -23,17 +23,17 @@
     </converter>
     <managed-bean>
         <managed-bean-name>tasaExitoFalloManagedBean</managed-bean-name>
-        <managed-bean-class>com.dimesa.managedbean.TasaExitoFalloManagedBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
+        <managed-bean-class>com.sisrni.managedbean.TasaExitoFalloManagedBean</managed-bean-class>
+    
+        <managed-bean-scope>session</managed-bean-scope></managed-bean>
     <managed-bean>
         <managed-bean-name>resumenHistorialReparacionTecnicoNoSubContratado</managed-bean-name>
-        <managed-bean-class>com.dimesa.managedbean.ResumenHistorialReparacionTecnicoNoSubContratado</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
+        <managed-bean-class>com.sisrni.managedbean.ResumenHistorialReparacionTecnicoNoSubContratado</managed-bean-class>
+    
+        <managed-bean-scope>request</managed-bean-scope></managed-bean>
     <managed-bean>
         <managed-bean-name>tipoResumenHistorialService</managed-bean-name>
-        <managed-bean-class>com.dimesa.service.TipoResumenHistorialService</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
+        <managed-bean-class>com.sisrni.service.TipoResumenHistorialService</managed-bean-class>
+    
+        <managed-bean-scope>request</managed-bean-scope></managed-bean>
 </faces-config>

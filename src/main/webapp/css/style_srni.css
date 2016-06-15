@@ -1,5 +1,9 @@
 .boton {
-   background-image: none !important;;
-    background-color: blue !important;
+ 
+    border: #ffffff !important;
+    background: #cc0000 !important;
+    color: #ffffff !important;
+  
+
  
 }
