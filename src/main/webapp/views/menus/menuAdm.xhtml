@@ -84,11 +84,13 @@
 
             <h:form>
               
+                
                 <h3 style="margin-top: 0">Seleccionar opciones del menu</h3>
-<!--              
-                <p:pickList id="pickList" value="#{menusOpcionesAdmMB.options}" var="cities" itemLabel="#{cities}" itemValue="#{cities}" />
+              
+               
+                <p:pickList id="pick" value="#{menusOpcionesAdmMB.options}" var="city" itemLabel="#{city.nombreOpcion}" itemValue="#{city}" />
 
-                <p:commandButton id="citySubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />-->
+                <!--<p:commandButton id="citySubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />-->
 
             </h:form>
                     

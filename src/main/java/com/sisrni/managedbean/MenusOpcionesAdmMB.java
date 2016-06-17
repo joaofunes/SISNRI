@@ -54,8 +54,8 @@ public class MenusOpcionesAdmMB implements Serializable{
     
     //listado ListPicker
     private DualListModel<SsOpciones> options;
-    List<SsOpciones> optionsSource ;
-    List<SsOpciones> optionsTarget ;
+    private List<SsOpciones> optionsSource ;
+    private List<SsOpciones> optionsTarget ;
     
     private boolean actualizar;
     private List<SsMenus> listadoMenus;
@@ -74,6 +74,7 @@ public class MenusOpcionesAdmMB implements Serializable{
             usuario = user.getSessionUser();
             listadoMenus = new ArrayList<SsMenus>();
             ssMenus = new SsMenus();
+            options=new DualListModel<SsOpciones>();
             setActualizar(false);
             getMenus();
         } catch (Exception e) {
@@ -85,7 +86,8 @@ public class MenusOpcionesAdmMB implements Serializable{
         try { 
             roles = new SsRoles();
             listadoMenus = null;
-            listadoMenus = menusService.getDao().findAll();           
+            listadoMenus = menusService.getDao().findAll();       
+            
         } catch (Exception e) {
             e.printStackTrace();
         } finally{
@@ -242,6 +244,22 @@ public class MenusOpcionesAdmMB implements Serializable{
 
     public void setOptions(DualListModel<SsOpciones> options) {
         this.options = options;
+    }
+
+    public List<SsOpciones> getOptionsSource() {
+        return optionsSource;
+    }
+
+    public void setOptionsSource(List<SsOpciones> optionsSource) {
+        this.optionsSource = optionsSource;
+    }
+
+    public List<SsOpciones> getOptionsTarget() {
+        return optionsTarget;
+    }
+
+    public void setOptionsTarget(List<SsOpciones> optionsTarget) {
+        this.optionsTarget = optionsTarget;
     }
 
     

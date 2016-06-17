@@ -4,6 +4,7 @@ import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.SsMenus;
 import com.sisrni.model.SsOpciones;
 import com.sisrni.model.SsRoles;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -22,13 +23,40 @@ public class SsOpcionesDao extends GenericDao<SsOpciones, Integer> {
     }
     
     public List<SsOpciones> getOpcionesNotMenu() {
-        Query q = getSessionFactory().getCurrentSession().createSQLQuery("SELECT * FROM ss_opciones op WHERE op.ID_OPCION NOT IN \n" +
-        "(SELECT DISTINCT menopc.ID_OPCION FROM ss_menus_opciones menopc");
-        return q.list();
+        try {
+            List<SsOpciones> lst = new ArrayList<SsOpciones>();
+            //  Query q = getSessionFactory().getCurrentSession().createSQLQuery("SELECT * FROM ss_opciones op WHERE op.ID_OPCION NOT IN (SELECT DISTINCT menopc.ID_OPCION FROM ss_menus_opciones menopc)");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT op FROM SsOpciones op WHERE op.idOpcion NOT IN (SELECT DISTINCT o.idOpcion  FROM SsOpciones o INNER JOIN o.ssMenusSet m  )");
+            lst = q.list();
+            if (lst != null) {
+                return lst;
+            } else {
+                return null;
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+        
+        
+   
     public List<SsOpciones> getOpcionestMenu(Integer idMenu) {
-        Query q = getSessionFactory().getCurrentSession().createSQLQuery("SELECT * FROM ss_opciones op WHERE op.ID_OPCION IN (SELECT menopc.ID_OPCION FROM ss_menus_opciones menopc WHERE menopc.ID_MENU =:idMenu)");
-        q.setParameter("idMenu",idMenu);
-        return q.list();
+        try {
+            List<SsOpciones> lst = new ArrayList<SsOpciones>();
+            //Query q = getSessionFactory().getCurrentSession().createSQLQuery("SELECT * FROM ss_opciones op WHERE op.ID_OPCION IN (SELECT menopc.ID_OPCION FROM ss_menus_opciones menopc WHERE menopc.ID_MENU =:idMenu)");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT op FROM SsOpciones op WHERE op.idOpcion IN (SELECT  o.idOpcion  FROM SsOpciones o INNER JOIN o.ssMenusSet m WHERE m.idMenu=:idMenu)");
+            q.setParameter("idMenu", idMenu);
+            lst = q.list();
+            if (lst != null) {
+                return lst;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
