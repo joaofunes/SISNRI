@@ -31,7 +31,7 @@ import javax.persistence.Transient;
  * @author Angel
  */
 @Entity
-@Table(name = "ss_opciones", catalog = "dimesa", schema = "")
+@Table(name = "ss_opciones", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "SsOpciones.findAll", query = "SELECT s FROM SsOpciones s")})
 public class SsOpciones implements Serializable {
@@ -182,7 +182,7 @@ public class SsOpciones implements Serializable {
 
     @Override
     public String toString() {
-        return "com.dimesa.model.SsOpciones[ idOpcion=" + idOpcion + " ]";
+        return "com.sisrni.model.SsOpciones[ idOpcion=" + idOpcion + " ]";
     }
 
 //    public boolean isVisibleTemop() {

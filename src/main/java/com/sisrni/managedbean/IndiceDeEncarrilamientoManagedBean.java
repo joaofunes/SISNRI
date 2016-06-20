@@ -114,7 +114,7 @@ public class IndiceDeEncarrilamientoManagedBean {
         for (Evento item : listadoFallos) {
             prueba = new RptIndiceDeEncarrilamiento();
             prueba.setArea(item.getUnidad());
-            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setEquipo(item.getPlasisrni().getNombequipo());
             prueba.setGastoDept(item.getIdcostoequipo().getCosto().doubleValue());
             prueba.setTasaRep(0.0);
             Time time = new Time((long) r.nextInt(millisInDay));
@@ -135,7 +135,7 @@ public class IndiceDeEncarrilamientoManagedBean {
         for (Evento item : listadoFallos) {
             prueba = new RptIndiceDeEncarrilamiento();
             prueba.setArea(item.getUnidad());
-            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setEquipo(item.getPlasisrni().getNombequipo());
             prueba.setGastoDept(item.getIdcostoequipo().getCosto().doubleValue());
             prueba.setTasaRep(item.getServicio().equals("REPARACION") ? 100 : 0.0);
             Time time = new Time((long) r.nextInt(millisInDay));
@@ -154,7 +154,7 @@ public class IndiceDeEncarrilamientoManagedBean {
         for (Evento item : listadoFallos) {
             prueba = new RptIndiceDeEncarrilamiento();
             prueba.setArea(item.getUnidad());
-            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setEquipo(item.getPlasisrni().getNombequipo());
             prueba.setGastoDept(item.getIdcostoequipo().getCosto().doubleValue());
             prueba.setTasaRep(item.getServicio().equals("REPARACION") ? 100 : 0.0);
             prueba.setTiempoRe(item.getServicio().equals("REPARACION") ? item.getFechainicio().toString() : "No Reparacion");
@@ -171,7 +171,7 @@ public class IndiceDeEncarrilamientoManagedBean {
         for (Evento item : listadoFallos) {
             prueba = new RptIndiceDeEncarrilamiento();
             prueba.setArea(item.getUnidad());
-            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setEquipo(item.getPlasisrni().getNombequipo());
             prueba.setGastoDept(item.getIdcostoequipo().getCosto().doubleValue());
             prueba.setTasaRep(item.getServicio().equals("REPARACION") ? 100 : 0.0);
             prueba.setTiempoRe(item.getServicio().equals("REPARACION") ? item.getFechainicio().toString() : "No Reparacion");
@@ -188,7 +188,7 @@ public class IndiceDeEncarrilamientoManagedBean {
         for (Evento item : listadoFallos) {
             prueba = new RptIndiceDeEncarrilamiento();
             prueba.setArea(item.getUnidad());
-            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setEquipo(item.getPlasisrni().getNombequipo());
             prueba.setGastoDept(item.getIdcostoequipo().getCosto().doubleValue());
             prueba.setTasaRep(0.0);
             prueba.setTiempoRe("No Reparacion");

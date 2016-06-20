@@ -43,7 +43,7 @@ public class EquipoConverter implements Converter {
         }
         if (object instanceof Equipo) {
             Equipo o = (Equipo) object;
-            return getStringKey(o.getPladimesa());
+            return getStringKey(o.getPlasisrni());
         } else {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Equipo.class.getName()});
             return null;

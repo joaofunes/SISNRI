@@ -116,7 +116,7 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
     private void llenar() {
         List<RptComparativoDeTiempoVidaUtil> list = new ArrayList<RptComparativoDeTiempoVidaUtil>();
 
-        List<Evento> listadoFallos = eventoService.getListadoVidaUtil(getEquipox().getPladimesa(),getEquipoy().getPladimesa());
+        List<Evento> listadoFallos = eventoService.getListadoVidaUtil(getEquipox().getPlasisrni(),getEquipoy().getPlasisrni());
         RptComparativoDeTiempoVidaUtil prueba = new RptComparativoDeTiempoVidaUtil();      
         prueba = new RptComparativoDeTiempoVidaUtil();
         prueba.setCostoinicialA(listadoFallos.get(0).getServicio().equals("INSTALACION") ? listadoFallos.get(0).getIdcostoequipo().getCosto() : Double.parseDouble("0.0"));

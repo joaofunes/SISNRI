@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author HDEZ
  */
 @Entity
-@Table(name = "evento", catalog = "dimesa", schema = "")
+@Table(name = "evento", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Evento.findAll", query = "SELECT e FROM Evento e")})
 public class Evento implements Serializable {
@@ -40,17 +40,17 @@ public class Evento implements Serializable {
 //    @Basic(optional = false)
 //    @NotNull
 //    @Size(min = 1, max = 10)
-//    @Column(name = "num_dimesa", nullable = false, length = 10)
+//    @Column(name = "num_sisrni", nullable = false, length = 10)
 //    private String numDimesa;
 
     @Id
     @GeneratedValue
-    @Column(name = "num_dimesa", nullable = true)
+    @Column(name = "num_sisrni", nullable = true)
     private Integer numDimesa;
 
     @Size(max = 10)
-    @Column(name = "Tbl_equipo_pla_dimesa", length = 10)
-    private String tblequipopladimesa;
+    @Column(name = "Tbl_equipo_pla_sisrni", length = 10)
+    private String tblequipoplasisrni;
     @Column(name = "Fecha_inicio")
     @Temporal(TemporalType.DATE)
     private Date fechainicio;
@@ -63,9 +63,9 @@ public class Evento implements Serializable {
     @Size(max = 105)
     @Column(name = "Falla", length = 105)
     private String falla;
-    @JoinColumn(name = "Pla_dimesa", referencedColumnName = "Pla_dimesa")
+    @JoinColumn(name = "Pla_sisrni", referencedColumnName = "Pla_sisrni")
     @ManyToOne
-    private Equipo pladimesa;
+    private Equipo plasisrni;
     @JoinColumn(name = "Id_costo_equipo", referencedColumnName = "Id_costo_equipo")
     @ManyToOne
     private CostoEquipo idcostoequipo;
@@ -85,12 +85,12 @@ public class Evento implements Serializable {
         this.numDimesa = numDimesa;
     }
 
-    public String getTblequipopladimesa() {
-        return tblequipopladimesa;
+    public String getTblequipoplasisrni() {
+        return tblequipoplasisrni;
     }
 
-    public void setTblequipopladimesa(String tblequipopladimesa) {
-        this.tblequipopladimesa = tblequipopladimesa;
+    public void setTblequipoplasisrni(String tblequipoplasisrni) {
+        this.tblequipoplasisrni = tblequipoplasisrni;
     }
 
     public Date getFechainicio() {
@@ -125,12 +125,12 @@ public class Evento implements Serializable {
         this.falla = falla;
     }
 
-    public Equipo getPladimesa() {
-        return pladimesa;
+    public Equipo getPlasisrni() {
+        return plasisrni;
     }
 
-    public void setPladimesa(Equipo pladimesa) {
-        this.pladimesa = pladimesa;
+    public void setPlasisrni(Equipo plasisrni) {
+        this.plasisrni = plasisrni;
     }
 
     public CostoEquipo getIdcostoequipo() {
@@ -163,7 +163,7 @@ public class Evento implements Serializable {
 
     @Override
     public String toString() {
-        return "com.dimesa.model.Evento[ numDimesa=" + numDimesa + " ]";
+        return "com.sisrni.model.Evento[ numDimesa=" + numDimesa + " ]";
     }
 
     public String getServicio() {

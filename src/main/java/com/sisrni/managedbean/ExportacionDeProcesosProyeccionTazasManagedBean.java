@@ -104,7 +104,7 @@ public class ExportacionDeProcesosProyeccionTazasManagedBean {
             for (Evento item : comparativoReparacionesAllUnidad) {
                 prueba = new RptIndicePromedioDeGastoDepreciacionEquipo();
                 prueba.setArea(item.getUnidad());
-                prueba.setEquipo(item.getPladimesa().getNombequipo());
+                prueba.setEquipo(item.getPlasisrni().getNombequipo());
                 prueba.setFechaRep(item.getFechainicio().toString());
                 prueba.setGasto(50 + (100 - 50) * r.nextDouble());
                 list.add(prueba);
@@ -124,7 +124,7 @@ public class ExportacionDeProcesosProyeccionTazasManagedBean {
             for (Evento item : comparativoReparacionesDos) {
                 prueba = new RptIndicePromedioDeGastoReparacionEquipo();
                 prueba.setArea(item.getUnidad());
-                prueba.setEquipo(item.getPladimesa().getNombequipo());
+                prueba.setEquipo(item.getPlasisrni().getNombequipo());
                 prueba.setFechaRep(item.getFechainicio().toString());
                 prueba.setGasto(100 + (300 - 100) * r.nextDouble());
                 list.add(prueba);

@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
  * @author Angel
  */
 @Entity
-@Table(name = "ss_usuarios", catalog = "dimesa", schema = "")
+@Table(name = "ss_usuarios", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "SsUsuarios.findAll", query = "SELECT s FROM SsUsuarios s")})
 public class SsUsuarios implements Serializable {
@@ -278,7 +278,7 @@ public class SsUsuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "com.dimesa.model.SsUsuarios[ idUsuario=" + idUsuario + " ]";
+        return "com.sisrni.model.SsUsuarios[ idUsuario=" + idUsuario + " ]";
     }
     
 }

@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
  * @author HDEZ
  */
 @Entity
-@Table(name = "equipo", catalog = "dimesa", schema = "")
+@Table(name = "equipo", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Equipo.findAll", query = "SELECT e FROM Equipo e")})
 public class Equipo implements Serializable {
@@ -39,8 +39,8 @@ public class Equipo implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "Pla_dimesa", nullable = true)
-    private Integer pladimesa;
+    @Column(name = "Pla_sisrni", nullable = true)
+    private Integer plasisrni;
     
     @Basic(optional = false)
     @NotNull
@@ -75,18 +75,18 @@ public class Equipo implements Serializable {
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
-    @OneToMany(mappedBy = "pladimesa")
+    @OneToMany(mappedBy = "plasisrni")
     private Set<Evento> eventoSet;
 
     public Equipo() {
     }
 
-    public Equipo(Integer pladimesa) {
-        this.pladimesa = pladimesa;
+    public Equipo(Integer plasisrni) {
+        this.plasisrni = plasisrni;
     }
 
-    public Equipo(Integer pladimesa, String numserie, String marcaequipo, String modeloequipo, String nombequipo, String observeq, String empresaresponsable) {
-        this.pladimesa = pladimesa;
+    public Equipo(Integer plasisrni, String numserie, String marcaequipo, String modeloequipo, String nombequipo, String observeq, String empresaresponsable) {
+        this.plasisrni = plasisrni;
         this.numserie = numserie;
         this.marcaequipo = marcaequipo;
         this.modeloequipo = modeloequipo;
@@ -95,12 +95,12 @@ public class Equipo implements Serializable {
         this.empresaresponsable = empresaresponsable;
     }
 
-    public Integer getPladimesa() {
-        return pladimesa;
+    public Integer getPlasisrni() {
+        return plasisrni;
     }
 
-    public void setPladimesa(Integer pladimesa) {
-        this.pladimesa = pladimesa;
+    public void setPlasisrni(Integer plasisrni) {
+        this.plasisrni = plasisrni;
     }
 
     public String getNumserie() {
@@ -171,7 +171,7 @@ public class Equipo implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (pladimesa != null ? pladimesa.hashCode() : 0);
+        hash += (plasisrni != null ? plasisrni.hashCode() : 0);
         return hash;
     }
 
@@ -182,7 +182,7 @@ public class Equipo implements Serializable {
             return false;
         }
         Equipo other = (Equipo) object;
-        if ((this.pladimesa == null && other.pladimesa != null) || (this.pladimesa != null && !this.pladimesa.equals(other.pladimesa))) {
+        if ((this.plasisrni == null && other.plasisrni != null) || (this.plasisrni != null && !this.plasisrni.equals(other.plasisrni))) {
             return false;
         }
         return true;
@@ -190,7 +190,7 @@ public class Equipo implements Serializable {
 
     @Override
     public String toString() {
-        return "com.dimesa.model.Equipo[ pladimesa=" + pladimesa + " ]";
+        return "com.sisrni.model.Equipo[ plasisrni=" + plasisrni + " ]";
     }
 
     public byte[] getImagen() {

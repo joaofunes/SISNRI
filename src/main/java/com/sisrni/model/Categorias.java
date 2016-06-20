@@ -6,7 +6,7 @@ package com.sisrni.model;
 // * and open the template in the editor.
 // */
 //
-//package com.dimesa.model;
+//package com.sisrni.model;
 //
 //import java.io.Serializable;
 //import java.util.Set;

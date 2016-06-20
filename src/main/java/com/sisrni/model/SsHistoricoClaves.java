@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
  * @author Angel
  */
 @Entity
-@Table(name = "ss_historico_claves", catalog = "dimesa", schema = "")
+@Table(name = "ss_historico_claves", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "SsHistoricoClaves.findAll", query = "SELECT s FROM SsHistoricoClaves s")})
 public class SsHistoricoClaves implements Serializable {
@@ -115,7 +115,7 @@ public class SsHistoricoClaves implements Serializable {
 
     @Override
     public String toString() {
-        return "com.dimesa.model.SsHistoricoClaves[ idHistoricoClave=" + idHistoricoClave + " ]";
+        return "com.sisrni.model.SsHistoricoClaves[ idHistoricoClave=" + idHistoricoClave + " ]";
     }
     
 }

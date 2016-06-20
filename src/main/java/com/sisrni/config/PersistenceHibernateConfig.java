@@ -51,7 +51,7 @@ public class PersistenceHibernateConfig {
 //        ds.setUsername("sisrni");
 //        ds.setPassword("s1ac0fing3s_UES");
         //ds.setUrl("jdbc:mysql://localhost:3307/sisrni");
-        ds.setUrl("jdbc:mysql://localhost:3307/dimesa");
+        ds.setUrl("jdbc:mysql://localhost:3307/sisrni");
         ds.setUsername("root");
        ds.setPassword("");
 //        ds.setUsername("root");

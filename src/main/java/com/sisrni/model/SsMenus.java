@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
  * @author Angel
  */
 @Entity
-@Table(name = "ss_menus", catalog = "dimesa", schema = "")
+@Table(name = "ss_menus", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "SsMenus.findAll", query = "SELECT s FROM SsMenus s")})
 public class SsMenus implements Serializable {
@@ -177,7 +177,7 @@ public class SsMenus implements Serializable {
 
     @Override
     public String toString() {
-        return "com.dimesa.model.SsMenus[ idMenu=" + idMenu + " ]";
+        return "com.sisrni.model.SsMenus[ idMenu=" + idMenu + " ]";
     }
     
 }

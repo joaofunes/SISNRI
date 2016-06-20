@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
  * @author HDEZ
  */
 @Entity
-@Table(name = "servicio", catalog = "dimesa", schema = "")
+@Table(name = "servicio", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Servicio.findAll", query = "SELECT s FROM Servicio s")})
 public class Servicio implements Serializable {
@@ -87,7 +87,7 @@ public class Servicio implements Serializable {
 
     @Override
     public String toString() {
-        return "com.dimesa.model.Servicio[ idServicios=" + idServicios + " ]";
+        return "com.sisrni.model.Servicio[ idServicios=" + idServicios + " ]";
     }
 
 }

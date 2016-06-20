@@ -7,8 +7,8 @@ package com.sisrni.model.managedbean.crud.converter;
 // */
 //package com.siapa.model.managedbean.crud.converter;
 //
-//import com.dimesa.model.Alimento;
-//import com.dimesa.model.Categorias;
+//import com.sisrni.model.Alimento;
+//import com.sisrni.model.Categorias;
 //import com.siapa.model.managedbean.crud.util.JsfUtil;
 //import com.siapa.service.AlimentoService;
 //import java.util.logging.Level;

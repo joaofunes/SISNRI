@@ -22,7 +22,7 @@ public class IndicePromedioDeGastoReparacionEquipoLazyModel extends GenericLazyM
     @Override
     public Equipo getRowData(String rowKey) {
         for (Equipo equipo : getDatasource()) {
-            if (equipo.getPladimesa().equals(Integer.valueOf(rowKey)));
+            if (equipo.getPlasisrni().equals(Integer.valueOf(rowKey)));
             return equipo;
         }
         return null;
@@ -30,7 +30,7 @@ public class IndicePromedioDeGastoReparacionEquipoLazyModel extends GenericLazyM
 
     @Override
     public Integer getRowKey(Equipo element) {
-        return element.getPladimesa();
+        return element.getPlasisrni();
     }
 
 }

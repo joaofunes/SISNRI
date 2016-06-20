@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
  * @author HDEZ
  */
 @Entity
-@Table(name = "costo_equipo", catalog = "dimesa", schema = "")
+@Table(name = "costo_equipo", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "CostoEquipo.findAll", query = "SELECT c FROM CostoEquipo c")})
 public class CostoEquipo implements Serializable {
@@ -94,7 +94,7 @@ public class CostoEquipo implements Serializable {
 
     @Override
     public String toString() {
-        return "com.dimesa.model.CostoEquipo[ idcostoequipo=" + idcostoequipo + " ]";
+        return "com.sisrni.model.CostoEquipo[ idcostoequipo=" + idcostoequipo + " ]";
     }
 
 }
