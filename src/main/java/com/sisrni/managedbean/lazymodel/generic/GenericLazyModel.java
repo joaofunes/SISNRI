@@ -29,18 +29,18 @@ public abstract class GenericLazyModel<T, ID extends Serializable> extends LazyD
     @Override
     public abstract ID getRowKey(T element);
 
-    @Override
-    public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
-        List<T> ret = new ArrayList<T>();
-        List<Map<String, String>> criterions = new ArrayList<Map<String, String>>();
-        criterions.add(filters);
-        if (service != null) {
-            PagedResult page = service.getPage((first/pageSize)+1, pageSize, sortField, sortOrder.toString().substring(0, 3), criterions);
-            ret = page.getList();
-            setRowCount(page.getCounter());
-        }
-        return ret;
-    }
+//    @Override
+//    public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
+//        List<T> ret = new ArrayList<T>();
+//        List<Map<String, String>> criterions = new ArrayList<Map<String, String>>();
+//        criterions.add(filters);
+//        if (service != null) {
+//            PagedResult page = service.getPage((first/pageSize)+1, pageSize, sortField, sortOrder.toString().substring(0, 3), criterions);
+//            ret = page.getList();
+//            setRowCount(page.getCounter());
+//        }
+//        return ret;
+//    }
 
     public List<T> getDatasource() {
         return datasource;
