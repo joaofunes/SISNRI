@@ -7,27 +7,24 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.SsMenus;
 import com.sisrni.model.SsRoles;
-import com.sisrni.model.SsUsuarios;
+
 import com.sisrni.model.managedbean.crud.util.JsfUtil;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.SsMenusService;
 import com.sisrni.service.SsRolesService;
-import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
+
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
+
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 

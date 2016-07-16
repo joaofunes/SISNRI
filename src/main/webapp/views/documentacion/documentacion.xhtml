@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<ui:composition 
-                template="/WEB-INF/templates/layout.xhtml"
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" 
                 >
     
     
@@ -33,7 +33,8 @@
               
                     <p:column>
                         <p:commandButton  styleClass="boton"
-                                          actionListener="#{documentacionMB.iniciar()}" update=":formAdmin :formMenu" process="@this :formAdmin"
+                                          actionListener="#{documentacionMB.iniciar}"
+                                          update=":formAdmin :formMenu" process="@this :formAdmin"
                                           value="Buscar" />                          
                     </p:column>
                 </p:row>
@@ -80,9 +81,9 @@
                         </div>
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-document-b"
-                                           title="Opciones" value="Agregar Opciones a Menu"
-                                           onclick="dlg2.show();"
-                                           actionListener="#{menusOpcionesAdmMB.addOpciones(menu)}" />
+                                           title="Opciones" value="Agregar Opciones a Menu"                                          
+                                           onclick="PF('dlg').show();" 
+                                           />
                         </div>
                     </p:column>
                 </p:dataTable>
@@ -90,7 +91,12 @@
            </center>     
         </h:form>
 
+       
 
+        <p:dialog header="Dialog" widgetVar="dlg" modal="true" appendTo="@(body)" > 
+           <h:outputText value="This content is loaded lazy." />
+            <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
+        </p:dialog>
  
         
     </ui:define>
