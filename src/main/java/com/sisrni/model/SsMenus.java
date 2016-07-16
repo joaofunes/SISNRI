@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
  * @author Angel
  */
 @Entity
-@Table(name = "ss_menus", catalog = "sisrni", schema = "")
+@Table(name = "ss_menus", catalog = "srnibd", schema = "")
 @NamedQueries({
     @NamedQuery(name = "SsMenus.findAll", query = "SELECT s FROM SsMenus s")})
 public class SsMenus implements Serializable {

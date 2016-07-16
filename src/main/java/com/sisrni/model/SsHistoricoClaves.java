@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
  * @author Angel
  */
 @Entity
-@Table(name = "ss_historico_claves", catalog = "sisrni", schema = "")
+@Table(name = "ss_historico_claves", catalog = "srnibd", schema = "")
 @NamedQueries({
     @NamedQuery(name = "SsHistoricoClaves.findAll", query = "SELECT s FROM SsHistoricoClaves s")})
 public class SsHistoricoClaves implements Serializable {
