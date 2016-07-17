@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author HDEZ
+ * @author HDEZ 
  */
 @Repository
 public class CostoEquipoDao extends GenericDao<CostoEquipo, Integer>{

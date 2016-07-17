@@ -47,15 +47,18 @@ public class PersistenceHibernateConfig {
     public DataSource dataSource() throws Exception {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-//        ds.setUrl("jdbc:mysql://5.56.58.10:3306/sisrni");
-//        ds.setUsername("sisrni");
-//        ds.setPassword("s1ac0fing3s_UES");
-        //ds.setUrl("jdbc:mysql://localhost:3307/sisrni");
-        ds.setUrl("jdbc:mysql://localhost:3307/sisrni");
-        ds.setUsername("root");
-       ds.setPassword("");
+        
+        //servidor BD
+        ds.setUrl("jdbc:mysql://srnidb.cdl1mrxlsyzf.sa-east-1.rds.amazonaws.com:3306/sisrni");
+        ds.setUsername("srnidb");
+        ds.setPassword("tragra01");
+      
+        
+        //local
+//        ds.setUrl("jdbc:mysql://localhost:3307/sisrni");
 //        ds.setUsername("root");
- //       ds.setPassword("siacofinges");
+//        ds.setPassword("");
+
         return ds;
     }
 
