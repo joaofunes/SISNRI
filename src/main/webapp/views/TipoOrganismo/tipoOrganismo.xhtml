@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+        <h:form id="formAdmin">
+          <p:panelGrid >
+                <p:row>
+
+                    <p:column>
+                        <h:outputText value="Nombre Organismo:" />
+                        <p:inputText id="nombreOrganismo" value="#{tipoOrganismoMB.tipoOrganismo.nombreTipo}" required="true" size="50" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="Descripcion Organismo:" />
+                        <p:inputText id="descri" value="#{tipoOrganismoMB.tipoOrganismo.descripcionTipo}" required="true" size="50" />
+                    </p:column>
+                    <p:column  >
+                        <p:commandButton rendered="#{!tipoOrganismoMB.actualizar}"  styleClass="boton"
+                                         actionListener="#{tipoOrganismoMB.guardarTipoOrganismo()}" update=":formAdmin :formPrincipal" process="@this :formAdmin"
+                                         value="Guardar" />
+                        <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoOrganismoMB.updateTipoOrganismo()}" update=":formAdmin"
+                                         value="Actulizar" />
+                        <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoOrganismoMB.cancelarTipoOrganismo()}" immediate="true" update=":formAdmin"
+                                         value="Cancelar" />
+                    </p:column>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form> 
+        <h:outputLabel style="margin-bottom: 20px;"/>
+        <h:form id="formPrincipal">
+            <p:panelGrid >
+                <p:dataTable var="organismo" value="#{tipoOrganismoMB.listadoTipoOrganismo}" paginator="true" rows="10"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15" >
+
+
+                    <p:column headerText="Nombre Menu" sortBy="#{organismo.nombreTipo}" filterBy="#{organismo.nombreTipo}">
+                        <h:outputText value="#{organismo.nombreTipo}" />
+                    </p:column>
+
+                    <p:column headerText="Descripcion" sortBy="#{organismo.descripcionTipo}" filterBy="#{organismo.descripcionTipo}">
+                        <h:outputText value="#{organismo.descripcionTipo}" />
+                    </p:column>
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{tipoOrganismoMB.preUpdate(organismo)}" />
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                           title="Eliminar" value="Eliminar"
+                                           actionListener="#{tipoOrganismoMB.deleteTipoOrganismo(organismo)}"
+                                           />
+                        </div>
+                        <p:growl id="message" showDetail="true" />
+ 
+                        <p:commandButton value="Destroy the World" actionListener="#{tipoOrganismoMB.deleteTipoOrganismo(organismo)}" update="message">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        
+                    </p:column>
+                </p:dataTable>
+
+            </p:panelGrid>
+        </h:form>
+
+        <p:dialog header="" widgetVar="eliminacion" modal="true" appendTo="@(body)" > 
+            <h:outputText value="Esta seguro que desea eliminar tipo organismo?." />            
+        </p:dialog>
+        <p:confirmDialog header="Eliminar Tipo Organismo" global="true" showEffect="fade" hideEffect="fade">
+                <h:outputText value="Esta seguro que desea eliminar tipo organismo?." />
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>

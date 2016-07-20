@@ -44,7 +44,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
     
     private TipoOrganismo tipoOrganismo;
     private List<TipoOrganismo> listadoTipoOrganismo;
-    
+    private boolean actualizar;
 
    /**implementacion de GenericManagedBen
     * 
@@ -63,6 +63,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
     public void init() {
         //inicializacion de loadLazyModels
         loadLazyModels();
+        tipoOrganismo = new TipoOrganismo();
         cargarTipoOrganismo();
     }
     
@@ -125,13 +126,29 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
       * Metodo para eliminar registro en Tipo Organismo
       * 
       */
-     public void deleteTipoOrganismo() {
+     public void deleteTipoOrganismo(TipoOrganismo tipoOrganismo) {
         String msg = "Tipo Organismo Eliminado Exitosamente!";       
         try {            
             tipoOrganismoService.delete(tipoOrganismo);           
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al eliminar registro tipo de organismo");
+        }
+        cargarTipoOrganismo();
+    } 
+     
+     
+      /**
+      * Metodo para eliminar registro en Tipo Organismo
+      * 
+      */
+     public void cancelarTipoOrganismo() {
+        String msg = "Tipo Organismo cancelado!";       
+        try {            
+            tipoOrganismo = new TipoOrganismo();
+            JsfUtil.addSuccessMessage(msg);
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Error al cancelar registro tipo de organismo");
         }
         cargarTipoOrganismo();
     } 
@@ -153,5 +170,13 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
 
     public void setListadoTipoOrganismo(List<TipoOrganismo> listadoTipoOrganismo) {
         this.listadoTipoOrganismo = listadoTipoOrganismo;
+    }
+
+    public boolean isActualizar() {
+        return actualizar;
+    }
+
+    public void setActualizar(boolean actualizar) {
+        this.actualizar = actualizar;
     }
 }
