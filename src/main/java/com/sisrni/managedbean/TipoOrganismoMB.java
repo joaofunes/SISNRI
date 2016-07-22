@@ -63,12 +63,13 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
     public void init() {
         //inicializacion de loadLazyModels
         loadLazyModels();
-        tipoOrganismo = new TipoOrganismo();
         cargarTipoOrganismo();
     }
     
      private void cargarTipoOrganismo() {
         try {
+            actualizar=false;
+            tipoOrganismo = new TipoOrganismo();
             listadoTipoOrganismo = tipoOrganismoService.findAll();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
@@ -86,6 +87,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
         try {            
             tipoOrganismoService.save(tipoOrganismo);                  
             JsfUtil.addSuccessMessage(msg);
+            cargarTipoOrganismo();
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al guardar tipo de organismo");
         }
@@ -103,6 +105,9 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
             if (!isValidationFailed()) {
                 items = null;
             }
+            actualizar=false;
+            cancelarTipoOrganismo();
+            cargarTipoOrganismo();
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar tipo de organismo");
@@ -116,7 +121,10 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
      */
     public void preUpdate(TipoOrganismo tipoOrganismo){
         try {
-            this.tipoOrganismo = tipoOrganismo;            
+            String msg = " Actualizar registro!!";      
+            this.tipoOrganismo = tipoOrganismo;    
+             JsfUtil.addSuccessMessage(msg);
+             actualizar=true;
         } catch (Exception e) {
              JsfUtil.addErrorMessage("Error al precargar registro para ser actualizado");
         }

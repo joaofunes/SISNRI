@@ -11,17 +11,23 @@
     
     <ui:define name="content">
         <h:form id="formAdmin">
-          <p:panelGrid >
-                <p:row>
-
+            <center> 
+                <p:panelGrid columns="2" >
+                
                     <p:column>
                         <h:outputText value="Nombre Organismo:" />
-                        <p:inputText id="nombreOrganismo" value="#{tipoOrganismoMB.tipoOrganismo.nombreTipo}" required="true" size="50" />
                     </p:column>
                     <p:column>
+                        <p:inputText id="nombreOrganismo" value="#{tipoOrganismoMB.tipoOrganismo.nombreTipo}" required="true" size="50" />
+                    </p:column>
+               
+                    <p:column>
                         <h:outputText value="Descripcion Organismo:" />
+                    </p:column>
+                    <p:column>
                         <p:inputText id="descri" value="#{tipoOrganismoMB.tipoOrganismo.descripcionTipo}" required="true" size="50" />
                     </p:column>
+                    
                     <p:column  >
                         <p:commandButton rendered="#{!tipoOrganismoMB.actualizar}"  styleClass="boton"
                                          actionListener="#{tipoOrganismoMB.guardarTipoOrganismo()}" update=":formAdmin :formPrincipal" process="@this :formAdmin"
@@ -33,16 +39,21 @@
                                          actionListener="#{tipoOrganismoMB.cancelarTipoOrganismo()}" immediate="true" update=":formAdmin"
                                          value="Cancelar" />
                     </p:column>
-                </p:row>
+                 
 
-            </p:panelGrid>
+                </p:panelGrid>
+            </center>
         </h:form> 
         <h:outputLabel style="margin-bottom: 20px;"/>
+      
         <h:form id="formPrincipal">
-            <p:panelGrid >
-                <p:dataTable var="organismo" value="#{tipoOrganismoMB.listadoTipoOrganismo}" paginator="true" rows="10"
+            <center>
+            <p:panel style="width: 900px">
+            
+                <p:dataTable var="organismo" value="#{tipoOrganismoMB.listadoTipoOrganismo}"  rows="10"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             rowsPerPageTemplate="5,10,15" >
+                             rowsPerPageTemplate="5,10,15"
+                             paginator="true">
 
 
                     <p:column headerText="Nombre Menu" sortBy="#{organismo.nombreTipo}" filterBy="#{organismo.nombreTipo}">
@@ -55,7 +66,7 @@
                     <p:column headerText="Opciones" >
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                           value="Editar" actionListener="#{tipoOrganismoMB.preUpdate(organismo)}" />
+                                           value="Editar" actionListener="#{tipoOrganismoMB.preUpdate(organismo)}" update=":formAdmin" process="@form :formPrincipal"/>
                         </div>
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-closethick"
@@ -63,16 +74,13 @@
                                            actionListener="#{tipoOrganismoMB.deleteTipoOrganismo(organismo)}"
                                            />
                         </div>
-                        <p:growl id="message" showDetail="true" />
- 
-                        <p:commandButton value="Destroy the World" actionListener="#{tipoOrganismoMB.deleteTipoOrganismo(organismo)}" update="message">
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                        </p:commandButton>
+                      
                         
                     </p:column>
                 </p:dataTable>
 
-            </p:panelGrid>
+            </p:panel>
+             </center>   
         </h:form>
 
         <p:dialog header="" widgetVar="eliminacion" modal="true" appendTo="@(body)" > 
