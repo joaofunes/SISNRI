@@ -45,8 +45,4 @@ public abstract class GenericService<T, ID extends Serializable> {
     public PagedResult getPage(int page, int pageSize, String sortProperty, String sortDirection, List criterions) {
         return getDao().getPage(page, pageSize, sortProperty, sortDirection, criterions);
     }
-
-    public PagedResult getPageAsesoria(int page, int pageSize, String sortProperty, String sortDirection, List criterions) {
-        return getDao().getPageAsesoria(page, pageSize, sortProperty, sortDirection, criterions);
-    }
 }

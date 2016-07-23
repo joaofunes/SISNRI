@@ -28,7 +28,7 @@ import javax.persistence.TemporalType;
  * @author Angel
  */
 @Entity
-@Table(name = "ss_roles", catalog = "sisrni", schema = "")
+@Table(name = "ss_roles")//ec2-52-67-90-249.sa-east-1.compute.amazonaws.com
 @NamedQueries({
     @NamedQuery(name = "SsRoles.findAll", query = "SELECT s FROM SsRoles s")})
 public class SsRoles implements Serializable {

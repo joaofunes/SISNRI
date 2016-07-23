@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -134,16 +135,31 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
       * Metodo para eliminar registro en Tipo Organismo
       * 
       */
-     public void deleteTipoOrganismo(TipoOrganismo tipoOrganismo) {
+     public void deleteTipoOrganismo() {
         String msg = "Tipo Organismo Eliminado Exitosamente!";       
         try {            
-            tipoOrganismoService.delete(tipoOrganismo);           
+            tipoOrganismoService.delete(this.tipoOrganismo);           
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al eliminar registro tipo de organismo");
         }
         cargarTipoOrganismo();
     } 
+     
+     
+     /**
+      * Metodo para precargar eliminacion de registro tipo organismo
+     * @param tipoOrganismo
+      */
+     public void preDeleteTipoOrganismo(TipoOrganismo tipoOrganismo){
+         try {
+             this.tipoOrganismo=tipoOrganismo;
+             RequestContext context = RequestContext.getCurrentInstance();
+                // execute javascript and show dialog
+             context.execute("PF('dataChangeDlg').show();");
+         } catch (Exception e) {
+         }
+     }
      
      
       /**

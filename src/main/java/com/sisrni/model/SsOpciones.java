@@ -31,7 +31,7 @@ import javax.persistence.Transient;
  * @author Angel
  */
 @Entity
-@Table(name = "ss_opciones", catalog = "sisrni", schema = "")
+@Table(name = "ss_opciones")//, catalog = "sisrni", schema = ""
 @NamedQueries({
     @NamedQuery(name = "SsOpciones.findAll", query = "SELECT s FROM SsOpciones s")})
 public class SsOpciones implements Serializable {

@@ -35,9 +35,13 @@
                         <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
                                          actionListener="#{tipoOrganismoMB.updateTipoOrganismo()}" update=":formAdmin"
                                          value="Actulizar" />
+                        
+                       
                         <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
                                          actionListener="#{tipoOrganismoMB.cancelarTipoOrganismo()}" immediate="true" update=":formAdmin"
                                          value="Cancelar" />
+                        
+                       
                     </p:column>
                  
 
@@ -71,11 +75,9 @@
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                            title="Eliminar" value="Eliminar"
-                                           actionListener="#{tipoOrganismoMB.deleteTipoOrganismo(organismo)}"
-                                           />
+                                           actionListener="#{tipoOrganismoMB.preDeleteTipoOrganismo(organismo)}" />
                         </div>
                       
-                        
                     </p:column>
                 </p:dataTable>
 
@@ -86,9 +88,17 @@
         <p:dialog header="" widgetVar="eliminacion" modal="true" appendTo="@(body)" > 
             <h:outputText value="Esta seguro que desea eliminar tipo organismo?." />            
         </p:dialog>
-        <p:confirmDialog header="Eliminar Tipo Organismo" global="true" showEffect="fade" hideEffect="fade">
-                <h:outputText value="Esta seguro que desea eliminar tipo organismo?." />
-                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar tipo organismo?" header="Eliminar Tipo Organismo" global="true" showEffect="fade" hideEffect="fade">
+                <br/>
+                 <h:outputText value="Nombre de Organismo : "  style="font-weight:bold"/>
+                 <h:outputText value="#{tipoOrganismoMB.tipoOrganismo.nombreTipo}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Descripcion de Organismo : "  style="font-weight:bold" />
+                 <h:outputText value="#{tipoOrganismoMB.tipoOrganismo.descripcionTipo}" />
+                 <br/>
+               <p:separator />
+               <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" actionListener="#{tipoOrganismoMB.deleteTipoOrganismo()}"/>
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
     </ui:define>
