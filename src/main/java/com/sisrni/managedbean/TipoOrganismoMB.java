@@ -67,6 +67,8 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
         cargarTipoOrganismo();
     }
     
+    
+    
      private void cargarTipoOrganismo() {
         try {
             actualizar=false;
@@ -91,6 +93,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
             cargarTipoOrganismo();
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al guardar tipo de organismo");
+            e.printStackTrace();
         }
         cargarTipoOrganismo();
     } 
@@ -168,8 +171,11 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
       */
      public void cancelarTipoOrganismo() {
         String msg = "Tipo Organismo cancelado!";       
-        try {            
+        try {      
+            tipoOrganismo = null;
             tipoOrganismo = new TipoOrganismo();
+            RequestContext.getCurrentInstance().reset("form:formAdmin");
+            
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al cancelar registro tipo de organismo");

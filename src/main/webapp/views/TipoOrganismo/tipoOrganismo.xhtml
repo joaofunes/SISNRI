@@ -12,7 +12,8 @@
     <ui:define name="content">
         <h:form id="formAdmin">
             <center> 
-                <p:panelGrid columns="2" >
+                
+                <p:panelGrid id="idGrilPrincipal" columns="2" >
                 
                     <p:column>
                         <h:outputText value="Nombre Organismo:" />
@@ -30,22 +31,22 @@
                     
                     <p:column  >
                         <p:commandButton rendered="#{!tipoOrganismoMB.actualizar}"  styleClass="boton"
-                                         actionListener="#{tipoOrganismoMB.guardarTipoOrganismo()}" update=":formAdmin :formPrincipal" process="@this :formAdmin"
+                                         actionListener="#{tipoOrganismoMB.guardarTipoOrganismo()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
                                          value="Guardar" />
-                        <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
-                                         actionListener="#{tipoOrganismoMB.updateTipoOrganismo()}" update=":formAdmin"
-                                         value="Actulizar" />
-                        
                        
                         <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
-                                         actionListener="#{tipoOrganismoMB.cancelarTipoOrganismo()}" immediate="true" update=":formAdmin"
-                                         value="Cancelar" />
+                                         actionListener="#{tipoOrganismoMB.updateTipoOrganismo()}" update="formAdmin :formPrincipal"
+                                         value="Actulizar" />
+                       
+                        <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoOrganismoMB.cancelarTipoOrganismo()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
+                          
                        
                     </p:column>
                  
-
                 </p:panelGrid>
+                    
             </center>
         </h:form> 
         <h:outputLabel style="margin-bottom: 20px;"/>
@@ -75,7 +76,7 @@
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                            title="Eliminar" value="Eliminar"
-                                           actionListener="#{tipoOrganismoMB.preDeleteTipoOrganismo(organismo)}" />
+                                           actionListener="#{tipoOrganismoMB.preDeleteTipoOrganismo(organismo)}" update=":idEliminacion" />
                         </div>
                       
                     </p:column>
@@ -89,14 +90,17 @@
             <h:outputText value="Esta seguro que desea eliminar tipo organismo?." />            
         </p:dialog>
         <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar tipo organismo?" header="Eliminar Tipo Organismo" global="true" showEffect="fade" hideEffect="fade">
-                <br/>
+              
+            <h:form id="idEliminacion"> 
+              <br/>
                  <h:outputText value="Nombre de Organismo : "  style="font-weight:bold"/>
                  <h:outputText value="#{tipoOrganismoMB.tipoOrganismo.nombreTipo}" />
                  <br/>
                  <br/>
                  <h:outputText value="Descripcion de Organismo : "  style="font-weight:bold" />
                  <h:outputText value="#{tipoOrganismoMB.tipoOrganismo.descripcionTipo}" />
-                 <br/>
+              <br/>
+            </h:form>  
                <p:separator />
                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" actionListener="#{tipoOrganismoMB.deleteTipoOrganismo()}"/>
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
