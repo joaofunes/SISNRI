@@ -47,7 +47,7 @@ public class Noticia implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaNoticia;
     @Size(max = 600)
-    @Column(name = "CONTENIDO", length = 600)
+    @Column(name = "CONTENIDO", length = 10000)
     private String contenido;
     @Column(name = "ESTADO_NOTICIA")
     private Boolean estadoNoticia;

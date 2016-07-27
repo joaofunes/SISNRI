@@ -8,7 +8,8 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:pe="http://primefaces.org/ui/extensions" 
-                 >
+
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
     <ui:define name="content">
@@ -19,15 +20,20 @@
 
                         <h:outputLabel value="Titulo:" />
                         <p:inputText value="#{noticiaMB.noticia.tituloNoticia}"/>
+                        <p:outputLabel for="categoria" value="Categoria:" />
+                        <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelected.idCategoria}" style="width:125px">
+                            <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
+                                <f:selectItem itemLabel="#{cat.categoriaNoticia}" itemValue="#{cat.idCategoria}" />        
+                            </c:forEach>
+                        </p:selectOneMenu>
 
-                    
 
                         <h:outputLabel value="Descripcion:"/>
                         <p:inputTextarea value="#{noticiaMB.noticia.descripcionNoticia}" maxlength="50" />
 
                         <h:outputLabel value="Contenido"/>
                         <p:editor id="editor" widgetVar="editorWidget" value="#{noticiaMB.noticia.contenido}" width="600" />
-                        
+
                         <p:outputLabel for="estado" value="Estado:" />
                         <p:selectOneMenu id="estado" value="#{noticiaMB.noticia.estadoNoticia}" style="width:125px">
                             <f:selectItem itemLabel="Activa" itemValue="true" />
