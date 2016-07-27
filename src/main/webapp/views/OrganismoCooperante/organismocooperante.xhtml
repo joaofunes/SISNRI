@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:pe="http://primefaces.org/ui/extensions" 
+
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Nombre:"/>
+                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.nombreOrganismo}"/>
+                <h:outputLabel value="Tipo Organismo"/>
+                <p:selectOneMenu id="tipoorganismo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}">
+                    <c:forEach var="tipoOrg" items="#{organismoCooperanteMB.tipoOrganismoList}">
+                        <f:selectItem itemLabel="#{tipoOrg.nombreTipo}" itemValue="#{tipoOrg.idTipoOrganismo}"/>
+                    </c:forEach>
+                </p:selectOneMenu>
+                <h:outputLabel value="Telefono:"/>
+                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.telefonoOrganismo}"/>
+                <h:outputLabel value="Fax:"/>
+                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.faxOranismo}"/>
+                <h:outputLabel value="Correo:"/>
+                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}"/>
+                <h:outputLabel value="Direccion:"/>
+                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+
+</ui:composition> 
