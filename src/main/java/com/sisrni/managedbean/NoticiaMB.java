@@ -67,7 +67,7 @@ public class NoticiaMB {
     public void init() {
         cargarNoticia();
     }
-
+//inicializa las variables del MB
     public void cargarNoticia() {
         noticia = new Noticia();
         categoriaSelected = new CategoriaNoticia();
