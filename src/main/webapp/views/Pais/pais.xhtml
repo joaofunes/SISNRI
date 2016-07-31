@@ -33,6 +33,7 @@
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="regionPais" value="#{paisMB.region.idRegion}"  style="width:120px">
+                                  <f:selectItem itemLabel="--Seleccione--" itemValue=""/>
                                 <c:forEach var="reg" items="#{paisMB.listRegion}">
                                     <f:selectItem itemLabel="#{reg.nombreRegion}" itemValue="#{reg.idRegion}"/>
                                 </c:forEach>
@@ -71,9 +72,7 @@
                         <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
-                                              update=":formPais" process="@form:formTablaPaises">
-                                    <f:setPropertyActionListener target="#{paisMB.pais}" value="#{pais}"/>
-                                
+                                               actionListener="#{paisMB.preActualizarPais(pais)}"  update=":formPais" process="@form:formTablaPaises">
                                 </p:commandLink>
                             </div>
                             

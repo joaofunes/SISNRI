@@ -100,7 +100,7 @@ public class PaisMB{
        try{ 
         actualizar = true;
         this.pais = pais;
-        this.region.setIdRegion(getPais().getIdRegion().getIdRegion());
+        this.region.setIdRegion(pais.getIdRegion().getIdRegion());
        }catch(Exception e){
            System.out.println(e.getMessage());
        }
