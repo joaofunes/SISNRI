@@ -6,11 +6,12 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="content">
         <center> 
-            <p:panel style="width: 800px" >   
+            <p:panel style="width: 800px">   
                 <h:form id="formPais">
 
                     <h2>Paises cooperantes</h2>
@@ -19,33 +20,34 @@
                             <h:outputLabel for="codigoPais" value="Codigo pais:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="codigoPais" value="#" required="true" size="10"/>
+                            <p:inputText id="codigoPais" value="#{paisMB.pais.codigoPais}" required="true" size="10"/>
                         </p:column>
                         <p:column>
                             <h:outputLabel for="nombrePais" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombrePais" value="#" required="true" size="60"/>
+                            <p:inputText id="nombrePais" value="#{paisMB.pais.nombrePais}" required="true" size="60"/>
                         </p:column>
                         <p:column>
                             <h:outputLabel for="regionPais" value="Region:"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="regionPais" value="#" style="width:60px">
-                                <f:selectItem itemLabel="#" itemValue="#"/>
+                            <p:selectOneMenu id="regionPais" value="#{paisMB.region.idRegion}"  style="width:120px">
+                                <c:forEach var="reg" items="#{paisMB.listRegion}">
+                                    <f:selectItem itemLabel="#{reg.nombreRegion}" itemValue="#{reg.idRegion}"/>
+                                </c:forEach>
                             </p:selectOneMenu>
                         </p:column>
-                        <p:column  >
-                            <p:commandButton  styleClass="boton"
-                                              actionListener="#" update="" process=""
-                                              value="Guardar" />
+                        <p:column>
+                            <p:commandButton styleClass="boton" 
+                                             actionListener="#{paisMB.guardarPais}" value="Guardar"  update="formPais :formTablaPaises" process="@this :formPais"/>
 
-                            <p:commandButton styleClass="boton"
+                         <!--   <p:commandButton styleClass="boton"
                                              actionListener="#" update=""
                                              value="Actualizar" />
 
                             <p:commandButton styleClass="boton"
-                                             actionListener="#" immediate="true" value="Cancelar" update=""  process="@this" />
+                                             actionListener="#" immediate="true" value="Cancelar" update=""  process="@this" /> -->
 
 
                         </p:column>
@@ -53,34 +55,61 @@
 
                 </h:form>
                 <br></br>
-                <form id="formTablaPaises">
-                    <p:dataTable var="pais" value="#" rows="10" 
+                <h:form id="formTablaPaises">
+                    <p:dataTable var="pais" value="#{paisMB.listPais}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 rowsPerPageTemplate="5,10,15,20" paginator="true" emptyMessage="No exiisten paises registrados actualmente" >
-                        <p:column headerText="Codigo" sortBy="#" filterBy="#" style="width: 15%">
-                            <h:outputText value="#"/>
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen paises registrados actualmente" >
+                        <p:column headerText="Codigo"  style="width: 15%">
+                            <h:outputText value="#{pais.codigoPais}"/>
                         </p:column>
-                        <p:column headerText="Pais" sortBy="#" filterBy="#">
-                            <h:outputText value="#"/>
+                        <p:column headerText="Pais"  filterBy="#{pais.nombrePais}">
+                            <h:outputText value="#{pais.nombrePais}"/>
                         </p:column>
-                        <p:column headerText="Region" sortBy="#" filterBy="#">
-                            <h:outputText value="#"/>
+                        <p:column headerText="Region" filterBy="#{pais.idRegion.nombreRegion}">
+                            <h:outputText value="#{pais.idRegion.nombreRegion}"/>
                         </p:column> 
                         <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
-                                               actionListener="#" update="" process=""/>
+                                              update=":formPais" process="@form:formTablaPaises">
+                                    <f:setPropertyActionListener target="#{paisMB.pais}" value="#{pais}"/>
+                                
+                                </p:commandLink>
                             </div>
+                            
+                            
+                            
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                                title="Eliminar" value="Eliminar"
-                                               actionListener="#" update="" />
+                                               actionListener="#{paisMB.preBorradoPais(pais)}" update=":idEliminacion" />
                             </div> 
                         </p:column>
 
                     </p:dataTable>
-                </form>
+                </h:form>
             </p:panel>     
-        </center>      
+        </center> 
+        
+        
+        <!--'Dialog de confirmacion de la operacion de Borrado'-->
+        <p:confirmDialog widgetVar="confirmDeletePaisDlg" header="Borrar Pais" message="Confirma la eliminacion del Pais?" 
+                         global="true" showEffect="fade" hideEffect="fade">
+            <h:form id="idEliminacion">
+                <p:panelGrid columns="2">
+                    <h:outputLabel  value="Codigo de Pais:"/>
+                    <h:outputText value="#{paisMB.pais.codigoPais}"/>
+                    <h:outputLabel value="Nombre Pais:"/>
+                    <h:outputText value="#{paisMB.pais.nombrePais}"/>
+                    <h:outputLabel value="Region:"/>
+                    <h:outputText value="#{paisMB.pais.idRegion.nombreRegion}"/>
+                </p:panelGrid>
+                <br/>
+                <br/>
+            </h:form>
+             <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                              actionListener="#{paisMB.borrarPais()}"/>
+             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
     </ui:define>
 </ui:composition>
