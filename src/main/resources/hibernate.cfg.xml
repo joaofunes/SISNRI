@@ -9,6 +9,6 @@
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">root</property>
         -->
-    <mapping package="com.dimesa.model" />
+    <mapping package="com.sisrni.model" />
   </session-factory>
 </hibernate-configuration>

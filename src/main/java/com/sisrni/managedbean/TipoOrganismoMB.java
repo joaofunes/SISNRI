@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.primefaces.context.RequestContext;
@@ -44,6 +46,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
     /**listas a utulizar*/
     
     private TipoOrganismo tipoOrganismo;
+    private TipoOrganismo delTipoOrganismo;    
     private List<TipoOrganismo> listadoTipoOrganismo;
     private boolean actualizar;
 
@@ -88,9 +91,10 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
      public void guardarTipoOrganismo() {
         String msg = "Tipo Organismo Almacenado Exitosamente!";       
         try {            
-            tipoOrganismoService.save(tipoOrganismo);                  
-            JsfUtil.addSuccessMessage(msg);
+            tipoOrganismoService.save(tipoOrganismo);                              
             cargarTipoOrganismo();
+            RequestContext.getCurrentInstance().update(":formPrincipal");
+            JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al guardar tipo de organismo");
             e.printStackTrace();
@@ -124,11 +128,9 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
      * @param tipoOrganismo 
      */
     public void preUpdate(TipoOrganismo tipoOrganismo){
-        try {
-            String msg = " Actualizar registro!!";      
-            this.tipoOrganismo = tipoOrganismo;    
-             JsfUtil.addSuccessMessage(msg);
-             actualizar=true;
+        try {        
+            this.tipoOrganismo = tipoOrganismo;            
+            actualizar=true;      
         } catch (Exception e) {
              JsfUtil.addErrorMessage("Error al precargar registro para ser actualizado");
         }
@@ -141,12 +143,19 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
      public void deleteTipoOrganismo() {
         String msg = "Tipo Organismo Eliminado Exitosamente!";       
         try {            
-            tipoOrganismoService.delete(this.tipoOrganismo);           
-            JsfUtil.addSuccessMessage(msg);
+            tipoOrganismoService.delete(this.delTipoOrganismo);                         
+            listadoTipoOrganismo = tipoOrganismoService.findAll(); 
+            RequestContext.getCurrentInstance().update(":formPrincipal");
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dataChangeDlg').hide();");   
+             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al eliminar registro tipo de organismo");
+        }finally{
+             actualizar=false;
+            delTipoOrganismo = new TipoOrganismo();
         }
-        cargarTipoOrganismo();
+       
     } 
      
      
@@ -156,9 +165,8 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
       */
      public void preDeleteTipoOrganismo(TipoOrganismo tipoOrganismo){
          try {
-             this.tipoOrganismo=tipoOrganismo;
-             RequestContext context = RequestContext.getCurrentInstance();
-                // execute javascript and show dialog
+             this.delTipoOrganismo=tipoOrganismo;
+             RequestContext context = RequestContext.getCurrentInstance();              
              context.execute("PF('dataChangeDlg').show();");
          } catch (Exception e) {
          }
@@ -174,8 +182,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
         try {      
             tipoOrganismo = null;
             tipoOrganismo = new TipoOrganismo();
-            RequestContext.getCurrentInstance().reset("form:formAdmin");
-            
+            RequestContext.getCurrentInstance().reset(":formAdmin");            
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al cancelar registro tipo de organismo");
@@ -208,5 +215,13 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
 
     public void setActualizar(boolean actualizar) {
         this.actualizar = actualizar;
+    }
+
+    public TipoOrganismo getDelTipoOrganismo() {
+        return delTipoOrganismo;
+    }
+
+    public void setDelTipoOrganismo(TipoOrganismo delTipoOrganismo) {
+        this.delTipoOrganismo = delTipoOrganismo;
     }
 }

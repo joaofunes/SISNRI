@@ -11,10 +11,13 @@
     
     <ui:define name="content">
         <h:form id="formAdmin">
+           
             <center> 
-                
+                <p:panel style="align-content: left">
+                      <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                </p:panel>
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
-                
+               
                     <p:column>
                         <h:outputText value="Nombre Organismo:" />
                     </p:column>
@@ -86,24 +89,24 @@
              </center>   
         </h:form>
 
-        <p:dialog header="" widgetVar="eliminacion" modal="true" appendTo="@(body)" > 
-            <h:outputText value="Esta seguro que desea eliminar tipo organismo?." />            
-        </p:dialog>
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar tipo organismo?" header="Eliminar Tipo Organismo" global="true" showEffect="fade" hideEffect="fade">
-              
+     
+        
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar tipo organismo?" header="Eliminar Tipo Organismo"  global="true">
             <h:form id="idEliminacion"> 
-              <br/>
+             
                  <h:outputText value="Nombre de Organismo : "  style="font-weight:bold"/>
-                 <h:outputText value="#{tipoOrganismoMB.tipoOrganismo.nombreTipo}" />
+                 <h:outputText value="#{tipoOrganismoMB.delTipoOrganismo.nombreTipo}" />
                  <br/>
                  <br/>
                  <h:outputText value="Descripcion de Organismo : "  style="font-weight:bold" />
-                 <h:outputText value="#{tipoOrganismoMB.tipoOrganismo.descripcionTipo}" />
-              <br/>
-            </h:form>  
-               <p:separator />
-               <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" actionListener="#{tipoOrganismoMB.deleteTipoOrganismo()}"/>
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                 <h:outputText value="#{tipoOrganismoMB.delTipoOrganismo.descripcionTipo}" />
+             
+            </h:form>    
+            
+            <p:separator />
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoOrganismoMB.deleteTipoOrganismo()}" process="@this" update=":formPrincipal"/>
+               <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
+
     </ui:define>
 </ui:composition>
