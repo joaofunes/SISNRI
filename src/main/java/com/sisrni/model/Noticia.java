@@ -46,13 +46,13 @@ public class Noticia implements Serializable {
     @Column(name = "FECHA_NOTICIA")
     @Temporal(TemporalType.DATE)
     private Date fechaNoticia;
-    @Size(max = 600)
+    @Size(max = 10000)
     @Column(name = "CONTENIDO", length = 10000)
     private String contenido;
     @Column(name = "ESTADO_NOTICIA")
     private Boolean estadoNoticia;
-    @Size(max = 300)
-    @Column(name = "DESCRIPCION_NOTICIA", length = 300)
+    @Size(max = 3000)
+    @Column(name = "DESCRIPCION_NOTICIA", length = 3000)
     private String descripcionNoticia;
     @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID_CATEGORIA")
     @ManyToOne

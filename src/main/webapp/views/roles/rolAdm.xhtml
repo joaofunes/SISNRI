@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    
+    
+    <ui:define name="content">
+        <h:form id="formAdmin">
+            <p:panelGrid >
+                <p:row>
+                  
+                        <p:column>
+                            Nombre Rol
+                            <p:inputText id="namerol"   value="#{rolesMB.ssRoles.nombreRol}" required="true" size="50" />
+                        </p:column>
+                    <p:column  >
+                            <p:commandButton rendered="#{!rolesMB.actualizar}"  styleClass="boton"
+                                             actionListener="#{rolesMB.guardar()}" update=":formAdmin :formRol" process="@this :formAdmin"
+                                             value="Guardar" />
+                            <p:commandButton rendered="#{rolesMB.actualizar}" styleClass="boton"
+                                             actionListener="#{rolesMB.editar()}" update=":formAdmin"
+                                             value="Actulizar" />
+                            <p:commandButton rendered="#{rolesMB.actualizar}" styleClass="boton"
+                                             actionListener="#{rolesMB.cancelar()}" immediate="true" update=":formAdmin"
+                                             value="Cancelar" />
+                        </p:column>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>
+        <h:outputLabel style="margin-bottom: 20px;"/>
+        <h:form id="formRol">
+            <p:dataTable var="rol" value="#{rolesMB.listadoRoles}" paginator="true" rows="15"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="5,10,15"                       
+                        >
+                
+                <p:column headerText="Id" sortBy="#{rol.idRol}" filterBy="#{rol.idRol}">
+                    <h:outputText value="#{rol.idRol}" />
+                </p:column>
+                <p:column headerText="Nombre Rol" sortBy="#{rol.nombreRol}" filterBy="#{rol.nombreRol}">
+                    <h:outputText value="#{rol.nombreRol}" />
+                </p:column>
+                <p:column headerText="Fecha" sortBy="#{rol.fechaRegistro}" filterBy="#{rol.fechaRegistro}">
+                    <h:outputText value="#{rol.fechaRegistro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>    
+                </p:column>
+                <p:column headerText="Registrado Por" sortBy="#{rol.usuarioRegistro}" filterBy="#{rol.usuarioRegistro}">
+                    <h:outputText value="#{rol.usuarioRegistro}" />
+                </p:column>
+                <p:column headerText="Opciones" >
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                       value="Editar" actionListener="#{rolesMB.preEditar(rol)}" />
+                    </div>
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                       title="Eliminar" value="Eliminar"
+                                       actionListener="#{rolesMB.preEliminar(rol)}" />
+                    </div>
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-document-b"
+                                       title="Opciones" value="Agregar Opciones a Role"
+                                       onclick="dlg2.show();"
+                                       actionListener="#{rolesMB.addOpciones(rol)}" />
+                    </div>
+                </p:column>
+            </p:dataTable>
+ 
+
+        </h:form>
+
+
+        <p:dialog header="Agregar Opciones" widgetVar="dlg2"  appendToBody="true" modal="true" height="100">
+            <h:outputText value="This is a Modal Dialog." />
+
+            <h:form>
+              
+                
+                <h3 style="margin-top: 0">Seleccionar opciones del menu</h3>
+              
+               
+   
+
+                <!--<p:commandButton id="citySubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />-->
+
+            </h:form>
+                    
+                    
+        </p:dialog> 
+        
+    </ui:define>
+    
+ </ui:composition> 
