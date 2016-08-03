@@ -18,9 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,18 +36,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URL;
 import org.springframework.context.annotation.Scope;
 
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-
-
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import org.exolab.castor.xml.NodeType;
 
 /**
  *
@@ -85,13 +75,14 @@ public class DocumentacionMB implements Serializable{
             //user = new CurrentUserSessionBean();
             listadoDocumentosPojo = new ArrayList<DocumentosPojo>();
             documentosPojo=new DocumentosPojo();
-            preView();
+           
         } catch (Exception e) {
         }
     } 
 
     
-    public void iniciar(){
+    public void iniciar() throws IOException{
+        
         int i=0;
         int f=getCantidad();
         listadoDocumentosPojo = new ArrayList<DocumentosPojo>();
@@ -104,6 +95,8 @@ public class DocumentacionMB implements Serializable{
             documentosPojo.setTipoDocumento("zzzz zzzzzz");
             listadoDocumentosPojo.add(documentosPojo);
         }
+        
+         preView();
     }
     
     
@@ -122,24 +115,56 @@ public class DocumentacionMB implements Serializable{
      
      public void preView() throws IOException{
          try {
-              File fl= new File("WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.doc");
+            //  File fl= new File("WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.doc");
                 String ruta="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.doc";
                 
-                Path path = Paths.get(ruta);
-                byte[] data = Files.readAllBytes(path);
-                ByteArrayInputStream bais = new ByteArrayInputStream(data);
-                BufferedImage image = ImageIO.read(bais);
-                
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write(image, "jpg", baos);
-                byte [] bytes = baos.toByteArray();
-                
-                ImageIcon imageIcon = new ImageIcon(bytes);
-                imageIcon.getImage();
+//                Path path = Paths.get(ruta);
+//                byte[] data = Files.readAllBytes(path);
+//                ByteArrayInputStream bais = new ByteArrayInputStream(data);
+//                BufferedImage image = ImageIO.read(bais);
+//                
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                ImageIO.write(image, "jpg", baos);
+//                byte [] bytes = baos.toByteArray();
+//                
+//                ImageIcon imageIcon = new ImageIcon(bytes);
+//                imageIcon.getImage();
                
+//             
+
+    ClassLoader classloader =org.apache.poi.poifs.filesystem.POIFSFileSystem.class.getClassLoader();
+    URL res = classloader.getResource("org/apache/poi/poifs/filesystem/POIFSFileSystem.class");
+    String path = res.getPath();
+    System.out.println("Core POI came from " + path);
+
+        File file = null;
+        WordExtractor extractor = null;
+        try
+        {
+
+            file = new File(ruta);
+            FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+            HWPFDocument document = new HWPFDocument(fis);
+            extractor = new WordExtractor(document);
+            String[] fileData = extractor.getParagraphText();
+            for (int i = 0; i < fileData.length; i++)
+            {
+                if (fileData[i] != null)
+                    System.out.println(fileData[i]);
+            }
+        }
+        catch (Exception exep)
+        {
+            exep.printStackTrace();
+        }
+                
+                
+                
+                
+                
 
             //content = new DefaultStreamedContent(new ByteArrayInputStream(baos.toByteArray()), "application/pdf"); 
-            content = new DefaultStreamedContent(new ByteArrayInputStream(bytes), "application/pdf"); 
+       //     content = new DefaultStreamedContent(new ByteArrayInputStream(bytes), "application/pdf"); 
                 
 //                        File file = new File(ruta);
 //			FileInputStream fis = new FileInputStream(file.getAbsolutePath());

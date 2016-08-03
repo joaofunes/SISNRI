@@ -15,6 +15,7 @@
     <ui:define name="content">
         <center>
             <div style="width: 600">
+                <p:growl autoUpdate="true" id="msj" showDetail="true"/>
                 <h:form id="form">
                     <h:panelGrid columns="2">
 
@@ -29,10 +30,10 @@
 
 
                         <h:outputLabel value="Descripcion:"/>
-                        <p:inputTextarea value="#{noticiaMB.noticia.descripcionNoticia}" maxlength="50" />
+                        <p:inputTextarea value="#{noticiaMB.noticia.descripcionNoticia}"  maxlength="3000" />
 
                         <h:outputLabel value="Contenido"/>
-                        <p:editor id="editor" widgetVar="editorWidget" value="#{noticiaMB.noticia.contenido}" width="600" />
+                        <p:editor id="editor" widgetVar="editorWidget" value="#{noticiaMB.noticia.contenido}" maxlength="10000" />
 
                         <p:outputLabel for="estado" value="Estado:" />
                         <p:selectOneMenu id="estado" value="#{noticiaMB.noticia.estadoNoticia}" style="width:125px">
@@ -41,7 +42,9 @@
                         </p:selectOneMenu>
 
                     </h:panelGrid>
-                    <h:commandButton value="guardar" actionListener="#{noticiaMB.guardarNoticia}"/>
+                    <p:commandButton value="Limpiar" actionListener="#{noticiaMB.cargarNoticia()}" icon="ui-icon-disk" update="form"/>
+                    <p:commandButton value="guardar" actionListener="#{noticiaMB.guardarNoticia}" icon="ui-icon-disk"/>
+                    
                 </h:form>
             </div>
         </center>
