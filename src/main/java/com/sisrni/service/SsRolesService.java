@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service(value = "ssRolesService")
 public class SsRolesService extends GenericService<SsRoles, Integer> {
 
     @Autowired
@@ -25,5 +25,9 @@ public class SsRolesService extends GenericService<SsRoles, Integer> {
     public SsRoles findByUser(String user) {
         return ssRolesDao.findByUser(user);
     }
+//    
+//       public List<SsRoles> getRolesByUrl(SsRoles rol) {
+//        return this.ssRolesDao.getRolesByUrl(rol);
+//    }
 
 }
