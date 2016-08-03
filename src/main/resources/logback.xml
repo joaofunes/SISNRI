@@ -1,6 +1,6 @@
 <configuration scan="true" debug="false">
     <property name="BASE_FOLDER" value="${catalina.home}" />
-    <property name="APP_NAME" value="DIMESA" />
+    <property name="APP_NAME" value="SISRNI" />
     
     <property name="LOGS_FOLDER" value="${BASE_FOLDER}${file.separator}logs" />
     <property name="LOGS_TO_COLLECT_FOLDER" value="${BASE_FOLDER}${file.separator}logs-to-collect" />
@@ -19,19 +19,35 @@
             <pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} [%thread] %-5level %logger{36} - %m %throwable{0}%n</pattern>
         </encoder>
     </appender>
-    <appender name="debug.log" class="ch.qos.logback.core.FileAppender">
-        <!-- only show event DEBUG and higher on the Console. -->
+<!--    <appender name="debug.log" class="ch.qos.logback.core.FileAppender">
+         only show event DEBUG and higher on the Console. 
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
         </filter>
         <file>${LOGS_FOLDER}${file.separator}${APP_NAME}-debug.log</file>
-        <append>true</append>  <!-- Start new debug.log on each application start -->
+        <append>true</append>   Start new debug.log on each application start 
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!-- This pattern mimics the original PMS debug.log format -->
-            <!--<pattern>[%thread] %-5level %d{HH:mm:ss.SSS} %msg%n</pattern>-->
+             This pattern mimics the original PMS debug.log format 
+            <pattern>[%thread] %-5level %d{HH:mm:ss.SSS} %msg%n</pattern>
             <pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} [%thread] %-5level %logger{36} - %m %throwable{0}%n</pattern>
         </encoder>
-    </appender>
+    </appender>-->
+    
+    
+    <appender name="FILE-ENGINE-ERROR" class="ch.qos.logback.core.FileAppender">
+		<file>${USER_HOME}/${log.name}.error</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="FILE-ENGINE" class="ch.qos.logback.core.FileAppender">
+		<file>${USER_HOME}/${log.name}.log</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
+    
     <!-- If unlimited growth of debug.log is not desired use the "debug.log.10MB" -->
     <!-- appender instead of the "debug.log" appender. This appender will -->
     <!-- roll the debug.log file after 10 MBytes and will keep a maximum -->

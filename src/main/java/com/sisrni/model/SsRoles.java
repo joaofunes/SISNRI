@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -34,7 +35,7 @@ import javax.persistence.TemporalType;
 public class SsRoles implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue
     @Column(name = "ID_ROL", nullable = false)
     private Integer idRol;
     @Column(name = "CODIGO_ROL", length = 50)

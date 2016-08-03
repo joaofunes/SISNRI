@@ -306,6 +306,11 @@
     <version>3.0.1-FINAL</version>
 </dependency>
 
+<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>itextpdf</artifactId>
+    <version>5.0.6</version>
+</dependency>
 
 
 <dependency>
