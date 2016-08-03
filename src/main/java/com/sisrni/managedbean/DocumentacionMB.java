@@ -7,6 +7,9 @@
 package com.sisrni.managedbean;
 
 import com.lowagie.text.Document;
+import com.lowagie.text.LargeElement;
+import com.lowagie.text.ListItem;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 import com.sisrni.pojo.rpt.DocumentosPojo;
 import com.sisrni.security.AppUserDetails;
@@ -36,7 +39,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import javax.xml.transform.stream.StreamResult;
 import org.springframework.context.annotation.Scope;
 
 import org.apache.poi.hwpf.HWPFDocument;
@@ -96,7 +103,7 @@ public class DocumentacionMB implements Serializable{
             listadoDocumentosPojo.add(documentosPojo);
         }
         
-         preView();
+         
     }
     
     
@@ -135,8 +142,9 @@ public class DocumentacionMB implements Serializable{
     ClassLoader classloader =org.apache.poi.poifs.filesystem.POIFSFileSystem.class.getClassLoader();
     URL res = classloader.getResource("org/apache/poi/poifs/filesystem/POIFSFileSystem.class");
     String path = res.getPath();
-    System.out.println("Core POI came from " + path);
-
+   
+     Document documentPDF = new Document();
+    
         File file = null;
         WordExtractor extractor = null;
         try
@@ -147,18 +155,30 @@ public class DocumentacionMB implements Serializable{
             HWPFDocument document = new HWPFDocument(fis);
             extractor = new WordExtractor(document);
             String[] fileData = extractor.getParagraphText();
+            
+            
+            /*pdf*/
+            ByteArrayOutputStream out = new ByteArrayOutputStream();  
+            PdfWriter.getInstance(documentPDF, out);  
+            documentPDF.open();  
+            
+            
             for (int i = 0; i < fileData.length; i++)
             {
                 if (fileData[i] != null)
                     System.out.println(fileData[i]);
+                    documentPDF.add(new Paragraph(fileData[i]));  
             }
+           
+              
+            documentPDF.close();  
+            content = new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/pdf");
+            
         }
         catch (Exception exep)
         {
             exep.printStackTrace();
         }
-                
-                
                 
                 
                 
