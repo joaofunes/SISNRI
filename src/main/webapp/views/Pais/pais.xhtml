@@ -72,7 +72,7 @@
                         <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
-                                               actionListener="#{paisMB.preActualizarPais(pais)}"  update=":formPais" process="@form:formTablaPaises">
+                                               actionListener="#{paisMB.preActualizarPais(pais)}" update=":formPais" process="@form:formTablaPaises">
                                 </p:commandLink>
                             </div>
                             
@@ -106,8 +106,8 @@
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
-                              actionListener="#{paisMB.borrarPais()}"/>
+             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+                              actionListener="#{paisMB.borrarPais()}" update=":formPais"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
     </ui:define>

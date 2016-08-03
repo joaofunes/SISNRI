@@ -74,6 +74,7 @@ public class PaisMB{
         region = new Region();
         listRegion = regionService.findAll();
         listPais = paisService.findAll();
+        actualizar = false;
     }
     
     
@@ -112,12 +113,12 @@ public class PaisMB{
      */
     public void actualizarPais(){
         try{
+            pais.setIdRegion(regionService.findById(region.getIdRegion()));
             //actualizando la instancia
             paisService.merge(pais);
             actualizar = false;
             cancelarPais();
-            cargarPais();
-                
+            cargarPais();  
         }catch(Exception e){
             
             System.out.println(e.getMessage());
@@ -143,14 +144,21 @@ public class PaisMB{
     /**
      * Metodo que borra una instancia de 'Pais' de la Base de datos (PENDIENTE)
      */
-    public void borrarPais(){
+    public void borrarPais(){  // pendiente hacer que recargue la tabla luego de borrar
         try{
+            //Borrando la instancia de pais
             paisService.delete(pais);
+            cargarPais();
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('confirmDeletePaisDlg').hide();"); 
           
         }catch(Exception e){
             System.out.println( e.getMessage());
+        }finally{
+            actualizar = false;
         }
-         cargarPais();
+        
+        
     }
     
     
@@ -159,11 +167,16 @@ public class PaisMB{
      * actualizacion de Pais
      */
     public void cancelarPais(){
+        try{
         pais = null;
         pais = new Pais();
-        
+        region=null;
+        region = new Region();
         RequestContext.getCurrentInstance().reset("form:formPais");
-      
+        }catch(Exception e){
+             System.out.println(e.getMessage());
+        }
+      cargarPais();
     }
             
     
@@ -204,6 +217,14 @@ public class PaisMB{
 
     public void setListPais(List<Pais> listPais) {
         this.listPais = listPais;
+    }
+
+    public boolean isActualizar() {
+        return actualizar;
+    }
+
+    public void setActualizar(boolean actualizar) {
+        this.actualizar = actualizar;
     }
     
    
