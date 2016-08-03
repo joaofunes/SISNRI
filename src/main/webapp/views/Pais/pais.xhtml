@@ -40,15 +40,15 @@
                             </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                            <p:commandButton styleClass="boton" 
+                            <p:commandButton styleClass="boton" rendered="#{!paisMB.actualizar}"
                                              actionListener="#{paisMB.guardarPais}" value="Guardar"  update="formPais :formTablaPaises" process="@this :formPais"/>
 
-                         <!--   <p:commandButton styleClass="boton"
-                                             actionListener="#" update=""
+                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
+                                             actionListener="#{paisMB.actualizarPais()}" update="formPais :formTablaPaises "
                                              value="Actualizar" />
 
-                            <p:commandButton styleClass="boton"
-                                             actionListener="#" immediate="true" value="Cancelar" update=""  process="@this" /> -->
+                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
+                                             actionListener="#{paisMB.cancelarPais()}" immediate="true" value="Cancelar" update=""  process="@this" />
 
 
                         </p:column>
