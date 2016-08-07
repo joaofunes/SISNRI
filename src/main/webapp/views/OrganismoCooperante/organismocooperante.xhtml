@@ -13,7 +13,7 @@
 
 
     <ui:define name="content">
-        <h:form>
+        <h:form id="formAdmin">
             <h:panelGrid columns="2">
                 <h:outputLabel value="Nombre:"/>
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.nombreOrganismo}"/>
@@ -32,7 +32,60 @@
                 <h:outputLabel value="Direccion:"/>
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}"/>
             </h:panelGrid>
+           
+                        <p:commandButton rendered="#{!organismoCooperanteMB.actualizar}"  styleClass="boton"
+                                         actionListener="#{organismoCooperanteMB.guardarOrganismo()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
+                                         value="Guardar" />
+                       
+                        <p:commandButton rendered="#{organismoCooperanteMB.actualizar}" styleClass="boton"
+                                         actionListener="#{organismoCooperanteMB.updateorganismo}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" />
+                       
+                      
+                          
+                       
+                   
         </h:form>
+        
+        <h:outputLabel style="margin-bottom: 20px;"/>
+      
+        <h:form id="formPrincipal">
+            <center>
+            <p:panel style="width: 900px">
+            
+                <p:dataTable var="organismo" value="#{organismoCooperanteMB.organismosList}"  rows="10"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"
+                             paginator="true">
+
+
+                    <p:column headerText="Nombre" sortBy="#{organismo.nombreOrganismo}" filterBy="#{organismo.nombreOrganismo}">
+                        <h:outputText value="#{organismo.nombreOrganismo}" />
+                    </p:column>
+                    
+                    <p:column headerText="Tipo" sortBy="#{organismo.idTipoOrganismo.nombreTipo}" filterBy="#{organismo.idTipoOrganismo.nombreTipo}">
+                        <h:outputText value="#{organismo.idTipoOrganismo.nombreTipo}" />
+                    </p:column>
+                    
+                    <p:column headerText="Fax" sortBy="#{organismo.faxOranismo}" filterBy="#{organismo.faxOranismo}">
+                        <h:outputText value="#{organismo.faxOranismo}" />
+                    </p:column>
+                    
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{organismoCooperanteMB.preUpdate(organismo)}" update=":formAdmin" process="@form :formPrincipal"/>
+                        </div>
+                        
+                      
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+             </center>   
+        </h:form>
+
     </ui:define>
 
 </ui:composition> 
+

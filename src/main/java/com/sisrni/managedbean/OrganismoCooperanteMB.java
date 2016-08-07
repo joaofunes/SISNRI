@@ -7,11 +7,16 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Organismo;
 import com.sisrni.model.TipoOrganismo;
+import com.sisrni.service.OrganismoService;
 import com.sisrni.service.TipoOrganismoService;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -19,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Lillian
  */
 @Named(value = "organismoCooperanteMB")
-@RequestScoped
+@ViewScoped
 public class OrganismoCooperanteMB {
 
     /**
@@ -30,6 +35,10 @@ public class OrganismoCooperanteMB {
     TipoOrganismoService tipoOrganismoService;
     private List<TipoOrganismo> tipoOrganismoList;
     private TipoOrganismo organismoSelected;
+    private List<Organismo> organismosList;
+    private boolean actualizar;
+    @Autowired
+    OrganismoService organismoService;
 
     public OrganismoCooperanteMB() {    
     }
@@ -41,7 +50,50 @@ public class OrganismoCooperanteMB {
     organismoCooperante =new Organismo();
     tipoOrganismoList = tipoOrganismoService.findAll();
     organismoSelected=new TipoOrganismo();
-    }    
+    organismosList=organismoService.findAll();
+    actualizar=false;
+    }
+    public void guardarOrganismo(){
+        try {
+            //seteamos el tipo organismo seleccionado el cual buscamos en la base para ver si existe utilizando el tipoorganismoservice
+            organismoCooperante.setIdTipoOrganismo(tipoOrganismoService.findById(organismoSelected.getIdTipoOrganismo()));
+            organismoCooperante.setIdOrganismo(Integer.MIN_VALUE);
+            organismoService.save(organismoCooperante);
+            inicializarVariables();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Informacion se ha registrado correctamente!"));
+            
+                    
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "el organismo no se puede ingresar."));
+        }
+    }
+    public void updateTipoOrganismo() {
+        String msg = " Organismo Actualizado Exitosamente!";       
+        try { 
+            organismoCooperante.setIdTipoOrganismo(tipoOrganismoService.findById(organismoSelected.getIdTipoOrganismo()));
+            organismoService.merge(organismoCooperante);
+            actualizar=false;
+            //cancelarTipoOrganismo();
+            inicializarVariables();
+            RequestContext.getCurrentInstance().update(":formAdmin");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", msg));
+            
+        } catch (Exception e) {
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "el organismo no se puede actualizar."));
+        }
+        inicializarVariables();
+    }
+   
+    public void preUpdate(Organismo organismoCooperante){
+        try {        
+            this.organismoCooperante = organismoCooperante; 
+            this.organismoSelected.setIdTipoOrganismo(organismoCooperante.getIdTipoOrganismo().getIdTipoOrganismo());
+            actualizar=true;      
+        } catch (Exception e) {
+              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Al precargar registro para ser actualizado"));
+        }
+    }
+    
     public List<TipoOrganismo> getTipoOrganismoList() {
         return tipoOrganismoList;
     }
@@ -63,6 +115,22 @@ public class OrganismoCooperanteMB {
 
     public void setOrganismoSelected(TipoOrganismo organismoSelected) {
         this.organismoSelected = organismoSelected;
+    }
+
+    public List<Organismo> getOrganismosList() {
+        return organismosList;
+    }
+
+    public void setOrganismosList(List<Organismo> organismosList) {
+        this.organismosList = organismosList;
+    }
+
+    public boolean isActualizar() {
+        return actualizar;
+    }
+
+    public void setActualizar(boolean actualizar) {
+        this.actualizar = actualizar;
     }
     
 }
