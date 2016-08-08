@@ -67,7 +67,7 @@ public class OrganismoCooperanteMB {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "el organismo no se puede ingresar."));
         }
     }
-    public void updateTipoOrganismo() {
+    public void updateorganismo() {
         String msg = " Organismo Actualizado Exitosamente!";       
         try { 
             organismoCooperante.setIdTipoOrganismo(tipoOrganismoService.findById(organismoSelected.getIdTipoOrganismo()));
