@@ -8,6 +8,7 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Pais;
 import com.sisrni.model.Region;
+import com.sisrni.model.managedbean.crud.util.JsfUtil;
 import com.sisrni.service.PaisService;
 import com.sisrni.service.RegionService;
 import java.util.List;
@@ -83,14 +84,18 @@ public class PaisMB{
      * correspondiente de la base de datos
      */
     public void guardarPais(){
+        String msg ="Pais Almacenado Exitosamente!";
         try{
            pais.setIdPais(Integer.MIN_VALUE);
            pais.setIdRegion(regionService.findById(region.getIdRegion()));
            paisService.save(pais);
-           cargarPais();
+           JsfUtil.addSuccessMessage(msg);
+           
         }catch(Exception e){
-            System.out.println( e.getMessage());
+            JsfUtil.addErrorMessage("Error al Guardar Pais!");
+            e.printStackTrace();
         }
+        cargarPais();
     }
     
     /**
@@ -112,18 +117,19 @@ public class PaisMB{
      * seleccionada
      */
     public void actualizarPais(){
+        String msg ="Pais Actualizado Exitosamente!";
         try{
             pais.setIdRegion(regionService.findById(region.getIdRegion()));
             //actualizando la instancia
             paisService.merge(pais);
             actualizar = false;
-            cancelarPais();
-            cargarPais();  
+            cancelarPais(); 
+            JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
-            
-            System.out.println(e.getMessage());
+            JsfUtil.addErrorMessage("Error al Actualizar Pais");
+            e.printStackTrace();
         }
-        
+        cargarPais(); 
     }
     
     
@@ -142,18 +148,20 @@ public class PaisMB{
     }
     
     /**
-     * Metodo que borra una instancia de 'Pais' de la Base de datos (PENDIENTE)
+     * Metodo que borra una instancia de 'Pais' de la Base de datos
      */
-    public void borrarPais(){  // pendiente hacer que recargue la tabla luego de borrar
+    public void borrarPais(){ 
+        String msg ="Pais Eliminado Exitosamente!";
         try{
             //Borrando la instancia de pais
             paisService.delete(pais);
             cargarPais();
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('confirmDeletePaisDlg').hide();"); 
-          
+            JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
-            System.out.println( e.getMessage());
+            JsfUtil.addErrorMessage("Error al Eliminar Pais!");
+            e.printStackTrace();
         }finally{
             actualizar = false;
         }

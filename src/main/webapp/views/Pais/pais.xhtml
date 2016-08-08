@@ -10,30 +10,30 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="content">
-        <center> 
-            <p:panel style="width: 800px">   
+        <center>
+            <p:messages id="mensajeConfirmacion" showDetail="true" autoUpdate="true" closable="true" style="width: 800px"/>
+            <p:panel style="width: 800px" header="Paises Cooperantes">  
+                
                 <h:form id="formPais">
-
-                    <h2>Paises cooperantes</h2>
                     <p:panelGrid columns="2">
                         <p:column>
                             <h:outputLabel for="codigoPais" value="Codigo pais:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="codigoPais" value="#{paisMB.pais.codigoPais}" required="true" size="10"/>
+                            <p:inputText id="codigoPais" value="#{paisMB.pais.codigoPais}"  size="10"/>
                         </p:column>
                         <p:column>
                             <h:outputLabel for="nombrePais" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombrePais" value="#{paisMB.pais.nombrePais}" required="true" size="60"/>
+                            <p:inputText id="nombrePais" value="#{paisMB.pais.nombrePais}" required="true" size="60" />
                         </p:column>
                         <p:column>
                             <h:outputLabel for="regionPais" value="Region:"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="regionPais" value="#{paisMB.region.idRegion}"  style="width:120px">
-                                  <f:selectItem itemLabel="--Seleccione--" itemValue=""/>
+                            <p:selectOneMenu id="regionPais" value="#{paisMB.region.idRegion}"  style="width:120px" required="true">
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                 <c:forEach var="reg" items="#{paisMB.listRegion}">
                                     <f:selectItem itemLabel="#{reg.nombreRegion}" itemValue="#{reg.idRegion}"/>
                                 </c:forEach>
@@ -107,7 +107,7 @@
                 <br/>
             </h:form>
              <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
-                              actionListener="#{paisMB.borrarPais()}" update=":formPais"/>
+                              actionListener="#{paisMB.borrarPais()}" update=":formTablaPaises"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
     </ui:define>
