@@ -13,15 +13,13 @@ import com.sisrni.service.TipoOrganismoService;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.primefaces.context.RequestContext;
@@ -94,7 +92,9 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
             tipoOrganismoService.save(tipoOrganismo);                              
             cargarTipoOrganismo();
             RequestContext.getCurrentInstance().update(":formPrincipal");
-            JsfUtil.addSuccessMessage(msg);
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+            
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al guardar tipo de organismo");
             e.printStackTrace();
@@ -116,7 +116,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
             actualizar=false;
             cancelarTipoOrganismo();
             cargarTipoOrganismo();
-            JsfUtil.addSuccessMessage(msg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar tipo de organismo");
         }

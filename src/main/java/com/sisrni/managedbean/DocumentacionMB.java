@@ -48,6 +48,7 @@ import org.springframework.context.annotation.Scope;
 
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -124,18 +125,7 @@ public class DocumentacionMB implements Serializable{
          try {
             //  File fl= new File("WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.doc");
                 String ruta="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.doc";
-                
-//                Path path = Paths.get(ruta);
-//                byte[] data = Files.readAllBytes(path);
-//                ByteArrayInputStream bais = new ByteArrayInputStream(data);
-//                BufferedImage image = ImageIO.read(bais);
-//                
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                ImageIO.write(image, "jpg", baos);
-//                byte [] bytes = baos.toByteArray();
-//                
-//                ImageIcon imageIcon = new ImageIcon(bytes);
-//                imageIcon.getImage();
+
                
 //             
 
@@ -163,46 +153,23 @@ public class DocumentacionMB implements Serializable{
             documentPDF.open();  
             
             
-            for (int i = 0; i < fileData.length; i++)
-            {
-                if (fileData[i] != null)
-                    System.out.println(fileData[i]);
-                    documentPDF.add(new Paragraph(fileData[i]));  
-            }
+                    for (String fileData1 : fileData) {
+                        if (fileData1 != null) {
+                            System.out.println(fileData1);
+                             documentPDF.add(new Paragraph(fileData1));
+                        }
+                       
+                    }
            
               
             documentPDF.close();  
             content = new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/pdf");
-            
+            RequestContext.getCurrentInstance().execute("PF('dlg').show()");         
         }
         catch (Exception exep)
         {
             exep.printStackTrace();
         }
-                
-                
-                
-
-            //content = new DefaultStreamedContent(new ByteArrayInputStream(baos.toByteArray()), "application/pdf"); 
-       //     content = new DefaultStreamedContent(new ByteArrayInputStream(bytes), "application/pdf"); 
-                
-//                        File file = new File(ruta);
-//			FileInputStream fis = new FileInputStream(file.getAbsolutePath());
-//
-//			HWPFDocument doc = new HWPFDocument(fis);
-//
-//			WordExtractor we = new WordExtractor(doc);
-//
-//			String[] paragraphs = we.getParagraphText();
-//			
-//			System.out.println("Total no of paragraph "+paragraphs.length);
-//			for (String para : paragraphs) {
-//				System.out.println(para.toString());
-//			}
-//			fis.close();
-//            
-           
-//         doc.save(getMyDir() + "Document.Doc2PdfSave Out.pdf");
          } catch (Exception e) {
              e.printStackTrace();
          }                    
