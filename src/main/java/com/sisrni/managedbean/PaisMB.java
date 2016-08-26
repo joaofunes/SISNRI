@@ -14,6 +14,8 @@ import com.sisrni.service.RegionService;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -89,7 +91,7 @@ public class PaisMB{
            pais.setIdPais(Integer.MIN_VALUE);
            pais.setIdRegion(regionService.findById(region.getIdRegion()));
            paisService.save(pais);
-           JsfUtil.addSuccessMessage(msg);
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
            
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Guardar Pais!");
@@ -124,7 +126,7 @@ public class PaisMB{
             paisService.merge(pais);
             actualizar = false;
             cancelarPais(); 
-            JsfUtil.addSuccessMessage(msg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Pais");
             e.printStackTrace();
@@ -158,7 +160,7 @@ public class PaisMB{
             cargarPais();
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('confirmDeletePaisDlg').hide();"); 
-            JsfUtil.addSuccessMessage(msg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Eliminar Pais!");
             e.printStackTrace();
