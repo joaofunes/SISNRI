@@ -10,6 +10,7 @@ import com.sisrni.dao.DocumentoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Documento;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,12 @@ public class DocumentoService extends GenericService<Documento, Integer>{
     @Autowired
     private DocumentoDao documentoDao;
 
-   @Override
+    @Override
     public GenericDao<Documento, Integer> getDao() {
         return documentoDao;
+    }
+    
+    public List<Documento> getDocumentFindCovenio(String convenio){
+        return documentoDao.getDocumentFindCovenio(convenio);
     }
 }

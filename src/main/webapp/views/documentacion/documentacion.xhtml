@@ -18,22 +18,19 @@
             <p:panelGrid>
                 <p:row >
                     <p:column >
-                        <p:outputLabel for="console" value="Convenios" />
+                        <p:outputLabel for="idsearch" value="Ingrese Convenio" />
                     </p:column>
 
                     <p:column>
-                        <p:selectOneMenu id="console" value="#{documentacionMB.console}" style="width:225px">
-                            <f:selectItem itemLabel="Seleccione Convenio " itemDisabled="true"/>
-                            <f:selectItem itemLabel="Convenio 1" itemValue="1" />
-                            <f:selectItem itemLabel="Convenio 2" itemValue="2" />
-                            <f:selectItem itemLabel="Convenio 3" itemValue="3" />
-                            <f:selectItem itemLabel="Convenio 4" itemValue="4" />
-                        </p:selectOneMenu>
+                        <p:inputText id="idsearch" value="#{documentacionMB.nombreConvenio}" required="true" label="Text 1">
+                            <f:validateLength minimum="4" />
+                        </p:inputText>
+                        
                     </p:column>
               
                     <p:column>
                         <p:commandButton  styleClass="boton"
-                                          actionListener="#{documentacionMB.iniciar}"
+                                          actionListener="#{documentacionMB.searchConvenio()}"
                                           update=":formAdmin :formMenu" process="@this :formAdmin"
                                           value="Buscar" />                          
                     </p:column>
@@ -44,25 +41,26 @@
          </center>   
         </h:form>
         <p:spacer height="40" /> 
-        <h:form id="formMenu">
+     
+           <h:form id="formMenu">
             <center>
             <p:panel style="width: 900px">
-                <p:dataTable var="menu" value="#{documentacionMB.listadoDocumentosPojo}" paginator="true" rows="5"                             
+                <p:dataTable var="menu" value="#{documentacionMB.listadoDocumentos}" paginator="true" rows="5"                             
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              rowsPerPageTemplate="5,10,15"                       
                              >
 
-                    <p:column headerText="Tipo de Documento" sortBy="#{menu.tipoDocumento}" filterBy="#{menu.tipoDocumento}">
-                        <h:outputText value="#{menu.tipoDocumento}" />
+                    <p:column headerText="Tipo de Documento" sortBy="#{menu.idTipoDocumento.nombreDocumento}" filterBy="#{menu.idTipoDocumento.nombreDocumento}">
+                        <h:outputText value="#{menu.idTipoDocumento.nombreDocumento}" />
                     </p:column>
-                    <p:column headerText="Nombre de Documento" sortBy="#{menu.nombreDocumento}" filterBy="#{menu.nombreDocumento}">
-                        <h:outputText value="#{menu.nombreDocumento}" />
+                    <p:column headerText="Nombre de Documento" sortBy="#{menu.idPropuesta.nombrePropuesta}" filterBy="#{menu.idPropuesta.nombrePropuesta}">
+                        <h:outputText value="#{menu.idPropuesta.nombrePropuesta}" />
                     </p:column>
-                    <p:column headerText="Persona que recibi&oacute;" sortBy="#{menu.personaRecibe}" filterBy="#{menu.personaRecibe}">
-                         <h:outputText value="#{menu.personaRecibe}" />
+                    <p:column headerText="Persona que recibi&oacute;" sortBy="#{menu.idPropuesta.perIdPersona}" filterBy="#{menu.idPropuesta.perIdPersona}">
+                         <h:outputText value="#{menu.idPropuesta.perIdPersona}" />
                     </p:column>
-                    <p:column headerText="Fecha de recibido" sortBy="#{menu.fechaRecibo}" filterBy="#{menu.fechaRecibo}">                       
-                        <h:outputText value="#{menu.fechaRecibo}">
+                    <p:column headerText="Fecha de recibido" sortBy="#{menu.fechaRecibido}" filterBy="#{menu.fechaRecibido}">                       
+                        <h:outputText value="#{menu.fechaRecibido}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>  
                     </p:column>
@@ -86,15 +84,31 @@
                         </div>
                     </p:column>
                 </p:dataTable>
+                
+                 <f:event listener="#{documentacionMB.onPrerender}" type="preRenderView" />  
+            <p:tabView>  
+                <p:tab title="URL">  
+                    <pe:documentViewer height="500" url="/src/main/webapp/WEB-INF/reports/MANUAL CONVENIOS AÑO 2011.pdf"/>  
+                </p:tab>  
+                <p:tab title="Resource">  
+                    <pe:documentViewer height="500" library="books" name="hood.pdf"/>  
+                </p:tab>  
+                <p:tab title="StreamedContent">  
+                    <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
+                </p:tab>  
+            </p:tabView>  
             </p:panel> 
            </center>     
         </h:form>
 
        
 
-        <p:dialog header="Dialog" widgetVar="dlg" modal="true" appendTo="@(body)" > 
+        <p:dialog header="Dialog" widgetVar="dlg" id="idPreview" modal="true" appendTo="@(body)" > 
            <h:outputText value="This content is loaded lazy." />
             <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
+            
+            
+           
         </p:dialog>
  
         
