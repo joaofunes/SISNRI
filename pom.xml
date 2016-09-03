@@ -15,6 +15,7 @@
         <org.springframework-version>3.1.4.RELEASE</org.springframework-version>
         <org.springframework.security-version>3.1.4.RELEASE</org.springframework.security-version>
         <org.slf4j-version>1.6.1</org.slf4j-version>
+        <poi.version>3.13</poi.version>
     </properties>
 
     <dependencies>
@@ -344,24 +345,39 @@
     <version>1.0.5</version>
 </dependency>
 
-<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi</artifactId>
-    <version>3.10-FINAL</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-ooxml</artifactId>
-    <version>3.10-FINAL</version>
-</dependency>
+
+
+ <dependency>
+         <groupId>jodconverter-core-3.0-beta-4</groupId>
+         <artifactId>jodconverter</artifactId>
+         <scope>system</scope>
+         <version>1.0</version>
+         <systemPath>${basedir}\src\lib\jodconverter-core-3.0-beta-4.jar</systemPath>
+ </dependency>
+
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
 <dependency>
     <groupId>org.apache.poi</groupId>
     <artifactId>poi-ooxml-schemas</artifactId>
-    <version>3.10-FINAL</version>
+    <version>${poi.version}</version>
 </dependency>
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>${poi.version}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-scratchpad</artifactId>
+    <version>${poi.version}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>${poi.version}</version>
+  </dependency>
+
+
 <!-- https://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans -->
 <dependency>
     <groupId>org.apache.xmlbeans</groupId>

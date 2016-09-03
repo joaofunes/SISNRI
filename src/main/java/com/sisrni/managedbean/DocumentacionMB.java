@@ -42,8 +42,13 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayInputStream;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.primefaces.model.DefaultStreamedContent;
+import org.apache.poi.xwpf.converter.pdf.PdfConverter;
 
+import org.artofsolving.jodconverter.OfficeDocumentConverter;
+import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
+import org.artofsolving.jodconverter.office.OfficeManager;
 
 
 @Named("documentacionMB")
@@ -81,22 +86,22 @@ public class DocumentacionMB implements Serializable{
     public void preView() throws IOException{
          try {
             //  File fl= new File("WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.doc");
-                String filePath="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.doc";
-
-          //        ByteArrayOutputStream out = new ByteArrayOutputStream();  
-                  
-                 
-        FileInputStream fInputStream = new FileInputStream(new File(filePath));
-         XWPFDocument document = new XWPFDocument(Data.class.getResourceAsStream(filePath));
-       // XWPFDocument document = new XWPFDocument(fInputStream);
-        
-
-        File outFile = new File("C:\\Users\\Joao\\Desktop\\Pera ciclo II\\Doc1.pdf");
-        outFile.getParentFile().mkdirs();
-
-        OutputStream out = new FileOutputStream(outFile);
-        PdfOptions options = PdfOptions.create().fontEncoding("windows-1250");
-        PdfConverter.getInstance().convert(document, out, options);
+//                String filePath="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.doc";
+//
+//          //        ByteArrayOutputStream out = new ByteArrayOutputStream();  
+//                  
+//                 
+//        FileInputStream fInputStream = new FileInputStream(new File(filePath));
+//         XWPFDocument document = new XWPFDocument(Data.class.getResourceAsStream(filePath));
+//       // XWPFDocument document = new XWPFDocument(fInputStream);
+//        
+//
+//        File outFile = new File("C:\\Users\\Joao\\Desktop\\Pera ciclo II\\Doc1.pdf");
+//        outFile.getParentFile().mkdirs();
+//
+//        OutputStream out = new FileOutputStream(outFile);
+//        PdfOptions options = PdfOptions.create().fontEncoding("windows-1250");
+//        PdfConverter.getInstance().convert(document, out, options);
 
         System.out.println("Sucess");
   
@@ -188,8 +193,8 @@ public class DocumentacionMB implements Serializable{
 //        
 //        InputStream stream = new ByteArrayInputStream(baos.toByteArray());
 //            content = new DefaultStreamedContent(stream, "application/pdf");
- //           RequestContext.getCurrentInstance().execute("PF('dlg').show()");         
-//            RequestContext.getCurrentInstance().update(":idPreview");         
+           RequestContext.getCurrentInstance().execute("PF('dlg').show()");         
+            RequestContext.getCurrentInstance().update(":idPreview");         
                
          } catch (Exception e) {
              e.printStackTrace();
@@ -203,24 +208,107 @@ public class DocumentacionMB implements Serializable{
     public void onPrerender(ComponentSystemEvent event) {  
   
         try {  
-      
+            /*******prueba eliminar**/
+            String filePath="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.docx";
+             File file = new File(filePath);
+             FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+             XWPFDocument pr = new XWPFDocument(fis);
+
+             List<XWPFParagraph> paragraphs = pr.getParagraphs();
+
+                
+            /*******prueba eliminar**/
+                    
+            
             ByteArrayOutputStream out = new ByteArrayOutputStream();  
   
-            Document document = new Document();  
-            PdfWriter.getInstance(document, out);  
-            document.open();  
+            //Document document = new Document();  
+            //PdfWriter.getInstance(document, out); 
+            PdfOptions options = PdfOptions.create().fontEncoding("windows-1250");
+            PdfConverter.getInstance().convert(pr, out, options);
+            //document.open();  
   
-            for (int i = 0; i < 50; i++) {  
-                document.add(new Paragraph("All work and no play makes Jack a dull boy"));  
-            }  
-              
-            document.close();  
+//             for (XWPFParagraph para : paragraphs) {
+//                    System.out.println(para.getText());
+//                    document.add(new Paragraph(para.getText()));  
+//                }
+//            
+//            fis.close();
+//            document.close();  
             content = new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/pdf");  
         } catch (Exception e) {  
             e.printStackTrace();  
         }  
     }  
     
+    
+    
+    
+    public void convertImage(){
+        try {
+//       
+//               String sourcePath="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.docx";
+//               Document doc = new Document(sourcePath);  
+//               ImageSaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);  
+//               options.setJpegQuality(100);  
+//               options.setResolution(100);  
+//               options.setUseHighQualityRendering(true);  
+//               for (int i = 0; i < doc.getPageCount(); i++) {  
+//                    String imageFilePath = "E://"+ "images" + File.separator + "img_" + i + ".jpeg";  
+//                    options.setPageIndex(i);  
+//                    doc.save(imageFilePath, options);  
+//               }  
+//               System.out.println("Done...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+     public static Integer ConvertDocToPNG(String doc){
+        OfficeManager officeManager = null;
+        Integer result=-1;
+        try {
+            officeManager = new DefaultOfficeManagerConfiguration()
+                    //.setOfficeHome("/home/dryize/openoffice4")
+                    //.setConnectionProtocol(OfficeConnectionProtocol.PIPE)
+                    .buildOfficeManager();
+            officeManager.start();
+
+            // 2) Create JODConverter converter
+            OfficeDocumentConverter converter = new OfficeDocumentConverter(
+                    officeManager);
+
+            File pdf = new File(doc + "raw.pdf");
+            converter.convert(new File(doc), pdf);
+/*
+            PDFDocument document = new PDFDocument();
+            document.load(pdf);
+            SimpleRenderer renderer = new SimpleRenderer();
+
+            // set resolution (in DPI)
+            renderer.setResolution(72);
+            java.util.List<Image> images = renderer.render(document);
+
+
+            new File(doc.path() + "png/").mkdirs();
+            for (int i = 0; i < images.size(); i++) {
+
+                ImageIO.write((RenderedImage) images.get(i), "jpg", new File(doc.path() + "png/" + (i + 1) + ".jpg"));
+            }
+
+            result =images.size();
+*/
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally {
+            // 4) Stop LibreOffice in headless mode.
+            if (officeManager != null) {
+                officeManager.stop();
+            }
+        }
+
+        return result;
+    }
     
     
      

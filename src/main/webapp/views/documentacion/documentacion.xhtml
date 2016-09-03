@@ -87,12 +87,7 @@
                 
                  <f:event listener="#{documentacionMB.onPrerender}" type="preRenderView" />  
             <p:tabView>  
-                <p:tab title="URL">  
-                    <pe:documentViewer height="500" url="/src/main/webapp/WEB-INF/reports/MANUAL CONVENIOS AÑO 2011.pdf"/>  
-                </p:tab>  
-                <p:tab title="Resource">  
-                    <pe:documentViewer height="500" library="books" name="hood.pdf"/>  
-                </p:tab>  
+              
                 <p:tab title="StreamedContent">  
                     <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
                 </p:tab>  
