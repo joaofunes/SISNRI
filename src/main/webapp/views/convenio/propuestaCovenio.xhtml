@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" 
+    >
+                    
+    <ui:define name="content">
+            <h:form id="formAdmin">
+                <p:accordionPanel multiple="true">
+                        <p:tab title="Datos del Solicitante">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                 <p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" />
+                                    <p:inputText id="idSolicinateNombre"  required="true" label="Nombre Solicitante"/>
+                                    <p:message for="idSolicinateNombre" />
+            
+                                  <p:outputLabel for="idFacultad" value="Facultad" />
+                                    <p:inputText id="idFacultad"  required="true" label="Facultad"/>
+                                    <p:message for="idFacultad" />
+                                    
+                                  <p:outputLabel for="idUnidad" value="Unidad" />
+                                    <p:inputText id="idUnidad"  required="true" label="unidad"/>
+                                    <p:message for="idUnidad" />
+            
+                                  <p:outputLabel for="idCargo" value="Cargo Solicitante" />
+                                    <p:inputText id="idCargo"  required="true" label="cargo"/>
+                                    <p:message for="idCargo" />
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Datos Referente Interno">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                 <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
+                                    <p:inputText id="idSolicinateNombreInterno"  required="true" label="Nombre Solicitante"/>
+                                    <p:message for="idSolicinateNombreInterno" />
+            
+                                  <p:outputLabel for="idFacultadInterno" value="Facultad" />
+                                    <p:inputText id="idFacultadInterno"  required="true" label="Facultad"/>
+                                    <p:message for="idFacultadInterno" />
+                                    
+                                  <p:outputLabel for="idUnidadInterno" value="Unidad" />
+                                    <p:inputText id="idUnidadInterno"  required="true" label="unidad"/>
+                                    <p:message for="idUnidadInterno" />
+            
+                                  <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
+                                    <p:inputText id="idCargoInterno"  required="true" label="cargo"/>
+                                    <p:message for="idCargoInterno" />
+                                    
+                                  <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
+                                    <p:inputText id="email" value="#{customValidationView.text}">
+                                        <f:validator validatorId="custom.emailValidator" />
+                                    </p:inputText>
+                                
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Datos Referente Externo">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                >
+                                <h:outputText value="After a break of more than 15 years...." />
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Datos de Propuesta">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+                                <h:outputText value="After a break of more than 15 years...." />
+                            </h:panelGrid>
+                        </p:tab>
+                </p:accordionPanel>
+            </h:form>    
+    </ui:define>
+    
+    
+</ui:composition>
