@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
 
 /**
  *
@@ -47,6 +48,7 @@ public class Persona implements Serializable {
     private String telefonoPersona;
     @Size(max = 30)
     @Column(name = "CORREO_PERSONA", length = 30)
+    @Email(message = "must be a valid email")
     private String correoPersona;
     @Size(max = 10)
     @Column(name = "DUI_PERSONA", length = 10)

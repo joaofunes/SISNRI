@@ -42,6 +42,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayInputStream;
+import javax.faces.view.ViewScoped;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.primefaces.model.DefaultStreamedContent;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
@@ -52,7 +53,7 @@ import org.artofsolving.jodconverter.office.OfficeManager;
 
 
 @Named("documentacionMB")
-@Scope(WebApplicationContext.SCOPE_SESSION)
+@ViewScoped
 public class DocumentacionMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  

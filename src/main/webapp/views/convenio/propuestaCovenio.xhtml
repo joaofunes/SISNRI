@@ -12,65 +12,221 @@
                     
     <ui:define name="content">
             <h:form id="formAdmin">
-                <p:accordionPanel multiple="true">
-                        <p:tab title="Datos del Solicitante">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                 <p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" />
-                                    <p:inputText id="idSolicinateNombre"  required="true" label="Nombre Solicitante"/>
-                                    <p:message for="idSolicinateNombre" />
-            
-                                  <p:outputLabel for="idFacultad" value="Facultad" />
-                                    <p:inputText id="idFacultad"  required="true" label="Facultad"/>
-                                    <p:message for="idFacultad" />
-                                    
-                                  <p:outputLabel for="idUnidad" value="Unidad" />
-                                    <p:inputText id="idUnidad"  required="true" label="unidad"/>
-                                    <p:message for="idUnidad" />
-            
-                                  <p:outputLabel for="idCargo" value="Cargo Solicitante" />
-                                    <p:inputText id="idCargo"  required="true" label="cargo"/>
-                                    <p:message for="idCargo" />
-                            </h:panelGrid>
-                        </p:tab>
-                        <p:tab title="Datos Referente Interno">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                 <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
-                                    <p:inputText id="idSolicinateNombreInterno"  required="true" label="Nombre Solicitante"/>
-                                    <p:message for="idSolicinateNombreInterno" />
-            
-                                  <p:outputLabel for="idFacultadInterno" value="Facultad" />
-                                    <p:inputText id="idFacultadInterno"  required="true" label="Facultad"/>
-                                    <p:message for="idFacultadInterno" />
-                                    
-                                  <p:outputLabel for="idUnidadInterno" value="Unidad" />
-                                    <p:inputText id="idUnidadInterno"  required="true" label="unidad"/>
-                                    <p:message for="idUnidadInterno" />
-            
-                                  <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
-                                    <p:inputText id="idCargoInterno"  required="true" label="cargo"/>
-                                    <p:message for="idCargoInterno" />
-                                    
-                                  <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
-                                    <p:inputText id="email" value="#{customValidationView.text}">
-                                        <f:validator validatorId="custom.emailValidator" />
-                                    </p:inputText>
-                                
-                            </h:panelGrid>
-                        </p:tab>
-                        <p:tab title="Datos Referente Externo">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                >
-                                <h:outputText value="After a break of more than 15 years...." />
-                            </h:panelGrid>
-                        </p:tab>
-                        <p:tab title="Datos de Propuesta">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                                <h:outputText value="After a break of more than 15 years...." />
-                            </h:panelGrid>
-                        </p:tab>
-                </p:accordionPanel>
-            </h:form>    
+                <center> 
+                <p:panel style="width: 75%">  
+                        <p:accordionPanel multiple="true">
+                           <p:tab title="Datos del Solicitante">
+                               <h:panelGrid columns="2" >
+                                   <p:column>  
+                                     <p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" />
+                                   </p:column>                                         
+                                   <p:column>  
+                                       
+                                       <p:selectOneMenu id="idSolicinateNombre" value="#{propuestaConvenioMB.solicitante}"  effect="fade" converter="personaConverter" required="true">  
+                                         <f:selectItem itemLabel="Nombre Solicitante" itemValue="null" itemDisabled="true" />  
+                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonas}" var="solicitante" itemLabel="#{solicitante.nombrePersona}" itemValue="#{solicitante}"/>  
+                                    </p:selectOneMenu> 
+                                        <p:message for="idSolicinateNombre" />
+                                   </p:column>
+
+                                   <p:column>  
+                                     <p:outputLabel for="idFacultad" value="Facultad" />
+                                     </p:column>                                         
+                                    <p:column>  
+                                       <p:inputText id="idFacultad"  required="true" label="Facultad"/>
+                                       <p:message for="idFacultad" />
+                                   </p:column>  
+
+                                   <p:column>  
+                                     <p:outputLabel for="idUnidad" value="Unidad" />
+                                      </p:column>                                         
+                                    <p:column> 
+                                     <p:inputText id="idUnidad"  required="true" label="unidad"/>
+                                       <p:message for="idUnidad" />
+                                   </p:column>
+
+                                   <p:column>
+                                     <p:outputLabel for="idCargo" value="Cargo Solicitante" />
+                                      </p:column>                                         
+                                    <p:column> 
+                                       <p:inputText id="idCargo"  required="true" label="cargo"/>
+                                       <p:message for="idCargo" />
+                                   </p:column>    
+                               </h:panelGrid>
+                           </p:tab>
+                           <p:tab title="Datos Referente Interno">
+                               <h:panelGrid columns="2">
+                                   <p:column>  
+                                    <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
+                                   </p:column>                                         
+                                   <p:column>   
+                                       <p:inputText id="idSolicinateNombreInterno"  required="true" label="Nombre Solicitante"/>
+                                       <p:message for="idSolicinateNombreInterno" />
+                                   </p:column>      
+                                   <p:column>  
+                                     <p:outputLabel for="idFacultadInterno" value="Facultad" />
+                                   </p:column>                                         
+                                   <p:column>    
+                                       <p:inputText id="idFacultadInterno"  required="true" label="Facultad"/>
+                                       <p:message for="idFacultadInterno" />
+                                   </p:column>  
+                                   <p:column>      
+                                     <p:outputLabel for="idUnidadInterno" value="Unidad" />
+                                    </p:column>                                         
+                                   <p:column>  
+                                       <p:inputText id="idUnidadInterno"  required="true" label="unidad"/>
+                                       <p:message for="idUnidadInterno" />
+                                   </p:column>         
+                                   <p:column>  
+                                     <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
+                                   </p:column>                                         
+                                   <p:column>  
+                                       <p:inputText id="idCargoInterno"  required="true" label="cargo"/>
+                                       <p:message for="idCargoInterno" />
+                                   </p:column>
+                                   <p:column>  
+                                     <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
+                                    </p:column>                                         
+                                   <p:column>  
+                                     <p:inputText id="email" value="#{propuestaConvenioMB.referenteInterno.correoPersona}">
+                                           <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                      </p:inputText>
+                                      <p:message for="email" display="tooltip" />
+                                      <h:outputText value="#{propuestaConvenioMB.referenteInterno.correoPersona}" />
+                                   </p:column>     
+                                   <p:column>  
+                                      <p:outputLabel for="idTelefonoInterno" value="Tel&eacute;fono " />  
+                                    </p:column>                                         
+                                   <p:column>  
+                                      <p:inputMask id="idTelefonoInterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.referenteInterno.telefonoPersona}" required="true"/>
+                                      <p:message for="idTelefonoInterno" />
+                                   </p:column>  
+                                   <p:column>      
+                                      <p:outputLabel for="idFaxInterno" value="Fax" /> 
+                                    </p:column>                                         
+                                   <p:column>  
+                                      <p:inputMask id="idFaxInterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.referenteInterno.telefonoPersona}" required="true"/>
+                                      <p:message for="idFaxInterno" />
+                                   </p:column>  
+                               </h:panelGrid>
+                           </p:tab>
+                           <p:tab title="Datos Referente Externo">
+                               <h:panelGrid  columns="2">
+                                   <p:column>  
+                                       <p:outputLabel for="idNombreExterno" value="Nombre" />
+                                   </p:column>  
+                                   <p:column>       
+                                        <p:inputText id="idNombreExterno"  required="true" label="Nombre"/>
+                                        <p:message for="idNombreExterno" />
+                                   </p:column>      
+                                   <p:column>  
+                                        <p:outputLabel for="idCargoExterno" value="Cargo" />
+                                   </p:column>      
+                                   <p:column> 
+                                       <p:inputText id="idCargoExterno"  required="true" label="cargo"/>
+                                       <p:message for="idCargoExterno" />   
+                                   </p:column>  
+                                   <p:column>      
+                                        <p:outputLabel for="idEntidadInstitucion" value="Entidad o Instituci&oacute;n" />
+                                   </p:column>      
+                                   <p:column> 
+                                       <p:inputText id="idEntidadInstitucion"  required="true" label="Entidad o institucion"/>
+                                       <p:message for="idEntidadInstitucion" />    
+                                   </p:column>      
+                                   <p:column>  
+                                     <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
+                                   </p:column>      
+                                   <p:column> 
+                                     <p:inputText id="emailExterno" value="#{propuestaConvenioMB.referenteInterno.correoPersona}">
+                                           <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                      </p:inputText>
+                                       <p:message for="emailExterno" display="tooltip" />
+                                       <h:outputText value="#{propuestaConvenioMB.referenteInterno.correoPersona}" />
+                                    </p:column>                                         
+                                    <p:column>  
+                                      <p:outputLabel for="idTelefonoExterno" value="Tel&eacute;fono " />   
+                                    </p:column>      
+                                   <p:column>   
+                                      <p:inputMask id="idTelefonoExterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.referenteInterno.telefonoPersona}" required="true"/>
+                                      <p:message for="idTelefonoExterno" />
+                                   </p:column>  
+                                   <p:column>      
+                                      <p:outputLabel for="idFaxExterno" value="Fax" />  
+                                    </p:column>      
+                                   <p:column>   
+                                      <p:inputMask id="idFaxExterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.referenteInterno.telefonoPersona}" required="true"/>
+                                      <p:message for="idFaxExterno" />
+                                   </p:column>
+
+                               </h:panelGrid>
+                           </p:tab>
+                           <p:tab title="Datos de Propuesta">
+                               <h:panelGrid columns="2" >
+                                   
+                                   <p:column style="padding:5px">  
+                                        <p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" />                                         
+                                   </p:column>  
+                                  
+                                    <p:column>  
+                                        <p:outputLabel for="idConvenioPropuesta" value="Convenio" />                                            
+                                   </p:column>
+                                   
+                                    <p:column style="padding:20px">
+                                        <p:inputText id="idTipoPropuesta"  required="true" label="Tipo Propuesta"/>
+                                        <p:message for="idTipoPropuesta" />                                        
+                                   </p:column>
+                                   
+                                   <p:column>
+                                        <p:inputText id="idConvenioPropuesta"  required="true" label="convenio"/>
+                                        <p:message for="idConvenioPropuesta" />   
+                                   </p:column>
+                                   
+                                   
+                                    <p:column>  
+                                        <p:outputLabel for="idNombrePropuesta" value="Nombre de Propuesta" />                                          
+                                   </p:column>
+                                   
+                                    <p:column>  
+                                        <p:outputLabel for="idDescripcionPropuesta" value="Descripci&oacute;n" />                                        
+                                   </p:column> 
+                                   
+                                   <p:column>
+                                       <p:inputText id="idNombrePropuesta"  required="true" label="nombre propuesta"/>
+                                       <p:message for="idNombrePropuesta" />
+                                   </p:column>
+                                   
+                                   <p:column>
+                                        <p:inputText id="idDescripcionPropuesta"  required="true" label="descripcion"/>
+                                       <p:message for="idDescripcionPropuesta" /> 
+                                   </p:column>
+                                   
+                               </h:panelGrid>
+                           </p:tab>
+                   </p:accordionPanel>
+                </p:panel>   
+                </center>    
+            </h:form>   
+        
+        <script type="text/javascript">
+            /**
+             * Faces Validator
+             */
+            PrimeFaces.validator['custom.emailValidator'] = {
+
+                pattern: /\S+@\S+/,
+
+                validate: function(element, value) {
+                    //use element.data() to access validation metadata, in this case there is none.
+                    if(!this.pattern.test(value)) {
+                        throw {
+                            summary: 'Validation Error',
+                            detail: value + ' is not a valid email.'
+                        }
+                    }
+                }
+            };    
+        </script>
+        
     </ui:define>
     
     
