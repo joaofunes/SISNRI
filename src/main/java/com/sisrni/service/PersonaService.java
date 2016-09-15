@@ -27,4 +27,7 @@ public class PersonaService extends GenericService<Persona, Integer> {
         return personaDao;
     }
     
+    public Persona getByID(int id){
+        return personaDao.findById(id);
+    }
 }

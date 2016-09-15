@@ -65,6 +65,9 @@ public class Persona implements Serializable {
     @Size(max = 60)
     @Column(name = "PASAPORTE", length = 60)
     private String pasaporte;
+    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
+    @ManyToOne
+    private Unidad idUnidad;
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
@@ -207,6 +210,14 @@ public class Persona implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Persona[ idPersona=" + idPersona + " ]";
+    }
+
+    public Unidad getIdUnidad() {
+        return idUnidad;
+    }
+
+    public void setIdUnidad(Unidad idUnidad) {
+        this.idUnidad = idUnidad;
     }
     
 }

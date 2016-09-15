@@ -11,29 +11,56 @@ import com.sisrni.model.managedbean.crud.util.JsfUtil;
 import com.sisrni.service.PersonaService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
+import javax.faces.convert.ConverterException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Joao
  */
 
-@FacesConverter("personaConverter")
+@Component(value = "personaConverter")
 public class PersonaConverter implements Converter {
 
     @Autowired
+    @Qualifier(value = "personaService")
     private PersonaService personaService;
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-        if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value)) {
+        value=String.valueOf(value);
+        
+      
+           if(JsfUtil.isDummySelectItem(component, value)){
+                     return null;
+                }
+          System.out.println(value.trim().length()); 
+          
+          
+        if(value != null && value.trim().length() > 0 && !value.equalsIgnoreCase("null")) {
+            try {
+                Integer key = getKey(value);
+                Persona findById = this.personaService.getByID(key); 
+                
+               return findById;
+            } catch(NumberFormatException e) {
+                e.printStackTrace();
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
+            }
+        }
+        else {
             return null;
         }
-        return this.personaService.findById(getKey(value));
+          
+           
+        
     }
 
    @Override

@@ -20,20 +20,40 @@
                                    <p:column>  
                                      <p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" />
                                    </p:column>                                         
-                                   <p:column>  
+                                   <p:column>                                         
+                                      
                                        
-                                       <p:selectOneMenu id="idSolicinateNombre" value="#{propuestaConvenioMB.solicitante}"  effect="fade" converter="personaConverter" required="true">  
+                                        <p:selectOneMenu id="idSolicinateNombre" value="#{propuestaConvenioMB.solicitante}"  effect="fade" converter="#{personaConverter}" required="true">  
+                                           <p:ajax  listener="#{propuestaConvenioMB.onChange}" update="idUnidad,idCargo,formAdmin" />
                                          <f:selectItem itemLabel="Nombre Solicitante" itemValue="null" itemDisabled="true" />  
                                          <f:selectItems value="#{propuestaConvenioMB.listadoPersonas}" var="solicitante" itemLabel="#{solicitante.nombrePersona}" itemValue="#{solicitante}"/>  
-                                    </p:selectOneMenu> 
+                                        </p:selectOneMenu> 
                                         <p:message for="idSolicinateNombre" />
+										
+                                       
+                                        
+<!--                                        <h:panelGroup >
+                                            <p:selectOneMenu id="idSolicinateNombre" value="#{propuestaConvenioMB.solicitante.idPersona}" required="true" requiredMessage="Seleccionar Solcitante">
+                                                <p:ajax  listener="#{propuestaConvenioMB.onChange}" update="idUnidad,idCargo,formAdmin" />
+                                            <f:selectItem itemLabel="Nombre Solicitante" itemValue="null" itemDisabled="true" />  
+                                            <f:selectItems value="#{propuestaConvenioMB.listadoPersonas}"
+                                                           var="activoItem"
+                                                           itemValue="#{activoItem.idPersona}"
+                                                           itemLabel="#{activoItem.nombrePersona}"/>
+                                        </p:selectOneMenu>
+                                        
+                                    </h:panelGroup>-->
+                                        
                                    </p:column>
 
                                    <p:column>  
                                      <p:outputLabel for="idFacultad" value="Facultad" />
-                                     </p:column>                                         
-                                    <p:column>  
-                                       <p:inputText id="idFacultad"  required="true" label="Facultad"/>
+                                   </p:column>                                         
+                                   <p:column>                                         
+                                       <p:selectOneMenu id="idFacultad" value="#{propuestaConvenioMB.facultad}"  effect="fade" converter="#{personaConverter}" required="true">  
+                                         <f:selectItem itemLabel="Facultad" itemValue="null" itemDisabled="true" />  
+                                         <f:selectItems value="#{propuestaConvenioMB.listadoFacultad}" var="facu" itemLabel="#{facu.nombreFacultad}" itemValue="#{facu}"/>  
+                                        </p:selectOneMenu>                                         
                                        <p:message for="idFacultad" />
                                    </p:column>  
 
@@ -41,7 +61,7 @@
                                      <p:outputLabel for="idUnidad" value="Unidad" />
                                       </p:column>                                         
                                     <p:column> 
-                                     <p:inputText id="idUnidad"  required="true" label="unidad"/>
+                                        <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombre }"/>
                                        <p:message for="idUnidad" />
                                    </p:column>
 
@@ -49,7 +69,7 @@
                                      <p:outputLabel for="idCargo" value="Cargo Solicitante" />
                                       </p:column>                                         
                                     <p:column> 
-                                       <p:inputText id="idCargo"  required="true" label="cargo"/>
+                                        <p:inputText id="idCargo"  required="true" label="cargo" value="#{propuestaConvenioMB.solicitante.cargoPersona}"/>
                                        <p:message for="idCargo" />
                                    </p:column>    
                                </h:panelGrid>
@@ -59,9 +79,12 @@
                                    <p:column>  
                                     <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
                                    </p:column>                                         
-                                   <p:column>   
-                                       <p:inputText id="idSolicinateNombreInterno"  required="true" label="Nombre Solicitante"/>
-                                       <p:message for="idSolicinateNombreInterno" />
+                                   <p:column>                                         
+                                       <p:selectOneMenu id="idSolicinateNombreInterno" value="#{propuestaConvenioMB.referenteInterno}"  effect="fade" converter="#{personaConverter}" required="true">  
+                                         <f:selectItem itemLabel="Nombre Referente" itemValue="null" itemDisabled="true" />  
+                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonas}" var="solicitante" itemLabel="#{solicitante.nombrePersona}" itemValue="#{solicitante}"/>  
+                                        </p:selectOneMenu> 
+                                        <p:message for="idSolicinateNombreInterno" />
                                    </p:column>      
                                    <p:column>  
                                      <p:outputLabel for="idFacultadInterno" value="Facultad" />

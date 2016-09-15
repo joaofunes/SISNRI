@@ -7,6 +7,7 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Persona;
+import com.sisrni.model.Unidad;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.PersonaService;
 import java.io.Serializable;
@@ -16,6 +17,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  *
@@ -23,7 +26,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 
 @Named("propuestaConvenioMB")
-@ViewScoped
+@Scope(WebApplicationContext.SCOPE_SESSION)
 public class PropuestaConvenioMB implements Serializable{
     
      private static final long serialVersionUID = 1L;  
@@ -42,23 +45,34 @@ public class PropuestaConvenioMB implements Serializable{
     
     private Persona solicitante;
     private Persona referenteInterno;
+    private Facultad facultad;
     
         
     @PostConstruct
     public void init() {
         try {
+           solicitante= new Persona();
+           solicitante.setCargoPersona("");
+           solicitante.setIdUnidad(new Unidad());
            inicializador();          
         } catch (Exception e) {
         }
     } 
     
      private void inicializador() {
-         try {
+         try {             
              listadoPersonas= personaService.findAll();
              listadoFacultad= facultadService.findAll();
          } catch (Exception e) {
            e.printStackTrace();
          }
+    }
+     
+     
+    public void  onChange(){
+        System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante );
+        System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante.getApellidoPersona() );
+        System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante.getTipoPersona() );
     }
     
 
@@ -96,6 +110,14 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setSolicitante(Persona solicitante) {
         this.solicitante = solicitante;
+    }
+
+    public Facultad getFacultad() {
+        return facultad;
+    }
+
+    public void setFacultad(Facultad facultad) {
+        this.facultad = facultad;
     }
 
    
