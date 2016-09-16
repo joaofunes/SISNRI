@@ -34,6 +34,8 @@ import javax.persistence.TemporalType;
 @Table(name = "ss_menus")//, catalog = "sisrni", schema = ""
 @NamedQueries({
     @NamedQuery(name = "SsMenus.findAll", query = "SELECT s FROM SsMenus s")})
+
+
 public class SsMenus implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
