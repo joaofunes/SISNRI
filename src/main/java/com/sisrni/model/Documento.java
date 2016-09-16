@@ -31,10 +31,6 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Documento.findAll", query = "SELECT d FROM Documento d")})
 public class Documento implements Serializable {
 
-    @Lob
-    @Column(name = "DOCUMENTO")
-    private byte[] documento;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -44,6 +40,9 @@ public class Documento implements Serializable {
     @Column(name = "FECHA_RECIBIDO")
     @Temporal(TemporalType.DATE)
     private Date fechaRecibido;
+    @Lob
+    @Column(name = "DOCUMENTO")
+    private byte[] documento;
     @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")
     @ManyToOne
     private Proyecto idProyecto;
@@ -80,6 +79,13 @@ public class Documento implements Serializable {
         this.fechaRecibido = fechaRecibido;
     }
 
+    public byte[] getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(byte[] documento) {
+        this.documento = documento;
+    }
 
     public Proyecto getIdProyecto() {
         return idProyecto;
@@ -136,14 +142,6 @@ public class Documento implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Documento[ idDocumento=" + idDocumento + " ]";
-    }
-
-    public byte[] getDocumento() {
-        return documento;
-    }
-
-    public void setDocumento(byte[] documento) {
-        this.documento = documento;
     }
     
 }

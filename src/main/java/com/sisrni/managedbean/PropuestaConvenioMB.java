@@ -53,7 +53,7 @@ public class PropuestaConvenioMB implements Serializable{
         try {
            solicitante= new Persona();
            solicitante.setCargoPersona("");
-           solicitante.setIdUnidad(new Unidad());
+           //solicitante.setIdUnidad(new Unidad());
            inicializador();          
         } catch (Exception e) {
         }

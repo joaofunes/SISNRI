@@ -20,33 +20,28 @@
                                    <p:column>  
                                      <p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" />
                                    </p:column>                                         
-                                   <p:column>                                         
-                                      
+                                   <p:column>                                                                               
                                         <p:selectOneMenu id="idSolicinateNombre" value="#{propuestaConvenioMB.solicitante}"  effect="fade" converter="#{personaConverter}" required="true">  
                                            <p:ajax  listener="#{propuestaConvenioMB.onChange}" update="idUnidad,idCargo,formAdmin" />
                                          <f:selectItem itemLabel="Nombre Solicitante" itemValue="null" itemDisabled="true" />  
                                          <f:selectItems value="#{propuestaConvenioMB.listadoPersonas}" var="solicitante" itemLabel="#{solicitante.nombrePersona}" itemValue="#{solicitante}"/>  
                                         </p:selectOneMenu> 
-                                        <p:message for="idSolicinateNombre" />
-							
+                                        <p:message for="idSolicinateNombre" />							
                                    </p:column>
 
                                    <p:column>  
                                      <p:outputLabel for="idFacultad" value="Facultad" />
                                    </p:column>                                         
-                                   <p:column>                                         
-                                       <p:selectOneMenu id="idFacultad" value="#{propuestaConvenioMB.facultad}"  effect="fade" converter="#{personaConverter}" required="true">  
-                                         <f:selectItem itemLabel="Facultad" itemValue="null" itemDisabled="true" />  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoFacultad}" var="facu" itemLabel="#{facu.nombreFacultad}" itemValue="#{facu}"/>  
-                                        </p:selectOneMenu>                                         
+                                  <p:column> 
+                                      <p:inputText id="idFacultad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idFacultad.nombreFacultad}"/>
                                        <p:message for="idFacultad" />
-                                   </p:column>  
+                                   </p:column>
 
                                    <p:column>  
                                      <p:outputLabel for="idUnidad" value="Unidad" />
                                       </p:column>                                         
                                     <p:column> 
-                                        <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombre }"/>
+                                        <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idFacultad.idUnidad.nombre}"/>
                                        <p:message for="idUnidad" />
                                    </p:column>
 

@@ -20,7 +20,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -35,9 +34,8 @@ public class Noticia implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_NOTICIA", nullable = false)
     private Integer idNoticia;
     @Size(max = 100)
@@ -145,5 +143,5 @@ public class Noticia implements Serializable {
     public String toString() {
         return "com.sisrni.model.Noticia[ idNoticia=" + idNoticia + " ]";
     }
-
+    
 }

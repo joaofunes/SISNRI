@@ -30,14 +30,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Facultad.findAll", query = "SELECT f FROM Facultad f")})
 public class Facultad implements Serializable {
 
-    @OneToMany(mappedBy = "idFacultad")
-    private List<Persona> personaList;
-    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
-    @ManyToOne
-    private Unidad idUnidad;
-    @OneToMany(mappedBy = "idFacultad")
-    private List<Propuesta> propuestaList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -48,10 +40,17 @@ public class Facultad implements Serializable {
     @Column(name = "NOMBRE_FACULTAD", length = 60)
     private String nombreFacultad;
     @OneToMany(mappedBy = "idFacultad")
+    private List<Persona> personaList;
+    @OneToMany(mappedBy = "idFacultad")
     private List<Escuela> escuelaList;
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_UNIVERSIDAD")
     @ManyToOne
     private Universidad idUniversidad;
+    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
+    @ManyToOne
+    private Unidad idUnidad;
+    @OneToMany(mappedBy = "idFacultad")
+    private List<Propuesta> propuestaList;
 
     public Facultad() {
     }
@@ -76,6 +75,14 @@ public class Facultad implements Serializable {
         this.nombreFacultad = nombreFacultad;
     }
 
+    public List<Persona> getPersonaList() {
+        return personaList;
+    }
+
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
+    }
+
     public List<Escuela> getEscuelaList() {
         return escuelaList;
     }
@@ -90,6 +97,22 @@ public class Facultad implements Serializable {
 
     public void setIdUniversidad(Universidad idUniversidad) {
         this.idUniversidad = idUniversidad;
+    }
+
+    public Unidad getIdUnidad() {
+        return idUnidad;
+    }
+
+    public void setIdUnidad(Unidad idUnidad) {
+        this.idUnidad = idUnidad;
+    }
+
+    public List<Propuesta> getPropuestaList() {
+        return propuestaList;
+    }
+
+    public void setPropuestaList(List<Propuesta> propuestaList) {
+        this.propuestaList = propuestaList;
     }
 
     @Override
@@ -115,30 +138,6 @@ public class Facultad implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Facultad[ idFacultad=" + idFacultad + " ]";
-    }
-
-    public List<Persona> getPersonaList() {
-        return personaList;
-    }
-
-    public void setPersonaList(List<Persona> personaList) {
-        this.personaList = personaList;
-    }
-
-    public Unidad getIdUnidad() {
-        return idUnidad;
-    }
-
-    public void setIdUnidad(Unidad idUnidad) {
-        this.idUnidad = idUnidad;
-    }
-
-    public List<Propuesta> getPropuestaList() {
-        return propuestaList;
-    }
-
-    public void setPropuestaList(List<Propuesta> propuestaList) {
-        this.propuestaList = propuestaList;
     }
     
 }

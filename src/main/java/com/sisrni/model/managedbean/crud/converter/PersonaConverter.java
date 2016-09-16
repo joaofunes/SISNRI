@@ -38,11 +38,9 @@ public class PersonaConverter implements Converter {
         value=String.valueOf(value);
         
       
-           if(JsfUtil.isDummySelectItem(component, value)){
+         if(JsfUtil.isDummySelectItem(component, value)){
                      return null;
-                }
-          System.out.println(value.trim().length()); 
-          
+         }
           
         if(value != null && value.trim().length() > 0 && !value.equalsIgnoreCase("null")) {
             try {

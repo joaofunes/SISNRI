@@ -19,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -32,14 +31,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Pais.findAll", query = "SELECT p FROM Pais p")})
 public class Pais implements Serializable {
 
-    @OneToMany(mappedBy = "idPais")
-    private List<Provincia> provinciaList;
-
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_PAIS", nullable = false)
     private Integer idPais;
     @Size(max = 10)
@@ -48,11 +43,11 @@ public class Pais implements Serializable {
     @Size(max = 60)
     @Column(name = "NOMBRE_PAIS", length = 60)
     private String nombrePais;
+    @OneToMany(mappedBy = "idPais")
+    private List<Provincia> provinciaList;
     @JoinColumn(name = "ID_REGION", referencedColumnName = "ID_REGION")
     @ManyToOne
     private Region idRegion;
-    @OneToMany(mappedBy = "idPais")
-    private List<Ubicacion> ubicacionList;
 
     public Pais() {
     }
@@ -85,20 +80,20 @@ public class Pais implements Serializable {
         this.nombrePais = nombrePais;
     }
 
+    public List<Provincia> getProvinciaList() {
+        return provinciaList;
+    }
+
+    public void setProvinciaList(List<Provincia> provinciaList) {
+        this.provinciaList = provinciaList;
+    }
+
     public Region getIdRegion() {
         return idRegion;
     }
 
     public void setIdRegion(Region idRegion) {
         this.idRegion = idRegion;
-    }
-
-    public List<Ubicacion> getUbicacionList() {
-        return ubicacionList;
-    }
-
-    public void setUbicacionList(List<Ubicacion> ubicacionList) {
-        this.ubicacionList = ubicacionList;
     }
 
     @Override
@@ -124,14 +119,6 @@ public class Pais implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Pais[ idPais=" + idPais + " ]";
-    }
-
-    public List<Provincia> getProvinciaList() {
-        return provinciaList;
-    }
-
-    public void setProvinciaList(List<Provincia> provinciaList) {
-        this.provinciaList = provinciaList;
     }
     
 }

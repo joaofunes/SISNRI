@@ -28,12 +28,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "Unidad.findAll", query = "SELECT u FROM Unidad u")})
 public class Unidad implements Serializable {
 
-    @OneToMany(mappedBy = "idUnidad")
-    private List<Facultad> facultadList;
-
-    @OneToMany(mappedBy = "idUnidad")
-    private List<Persona> personaList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +38,8 @@ public class Unidad implements Serializable {
     private Character nombre;
     @Column(name = "DESCRIPCION")
     private Character descripcion;
+    @OneToMany(mappedBy = "idUnidad")
+    private List<Facultad> facultadList;
 
     public Unidad() {
     }
@@ -76,6 +72,14 @@ public class Unidad implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public List<Facultad> getFacultadList() {
+        return facultadList;
+    }
+
+    public void setFacultadList(List<Facultad> facultadList) {
+        this.facultadList = facultadList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -99,22 +103,6 @@ public class Unidad implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Unidad[ idUnidad=" + idUnidad + " ]";
-    }
-
-    public List<Persona> getPersonaList() {
-        return personaList;
-    }
-
-    public void setPersonaList(List<Persona> personaList) {
-        this.personaList = personaList;
-    }
-
-    public List<Facultad> getFacultadList() {
-        return facultadList;
-    }
-
-    public void setFacultadList(List<Facultad> facultadList) {
-        this.facultadList = facultadList;
     }
     
 }

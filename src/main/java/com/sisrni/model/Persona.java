@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.Email;
 
 /**
  *
@@ -30,10 +29,6 @@ import org.hibernate.validator.constraints.Email;
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")})
 public class Persona implements Serializable {
-
-    @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
-    @ManyToOne
-    private Facultad idFacultad;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,7 +47,6 @@ public class Persona implements Serializable {
     private String telefonoPersona;
     @Size(max = 30)
     @Column(name = "CORREO_PERSONA", length = 30)
-    @Email(message = "must be a valid email")
     private String correoPersona;
     @Size(max = 10)
     @Column(name = "DUI_PERSONA", length = 10)
@@ -69,12 +63,12 @@ public class Persona implements Serializable {
     @Size(max = 60)
     @Column(name = "PASAPORTE", length = 60)
     private String pasaporte;
-    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
-    @ManyToOne
-    private Unidad idUnidad;
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
+    @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
+    @ManyToOne
+    private Facultad idFacultad;
     @OneToMany(mappedBy = "idPersona")
     private List<Propuesta> propuestaList;
     @OneToMany(mappedBy = "idPersona")
@@ -175,6 +169,14 @@ public class Persona implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
+    public Facultad getIdFacultad() {
+        return idFacultad;
+    }
+
+    public void setIdFacultad(Facultad idFacultad) {
+        this.idFacultad = idFacultad;
+    }
+
     public List<Propuesta> getPropuestaList() {
         return propuestaList;
     }
@@ -214,22 +216,6 @@ public class Persona implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Persona[ idPersona=" + idPersona + " ]";
-    }
-
-    public Unidad getIdUnidad() {
-        return idUnidad;
-    }
-
-    public void setIdUnidad(Unidad idUnidad) {
-        this.idUnidad = idUnidad;
-    }
-
-    public Facultad getIdFacultad() {
-        return idFacultad;
-    }
-
-    public void setIdFacultad(Facultad idFacultad) {
-        this.idFacultad = idFacultad;
     }
     
 }

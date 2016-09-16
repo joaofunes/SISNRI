@@ -39,8 +39,6 @@ public class Universidad implements Serializable {
     private String nombreUniversidad;
     @OneToMany(mappedBy = "idUniversidad")
     private List<Facultad> facultadList;
-    @OneToMany(mappedBy = "idUniversidad")
-    private List<Propuesta> propuestaList;
 
     public Universidad() {
     }
@@ -71,14 +69,6 @@ public class Universidad implements Serializable {
 
     public void setFacultadList(List<Facultad> facultadList) {
         this.facultadList = facultadList;
-    }
-
-    public List<Propuesta> getPropuestaList() {
-        return propuestaList;
-    }
-
-    public void setPropuestaList(List<Propuesta> propuestaList) {
-        this.propuestaList = propuestaList;
     }
 
     @Override

@@ -37,6 +37,7 @@ public class OrganismoCooperanteMB {
     private TipoOrganismo organismoSelected;
     private List<Organismo> organismosList;
     private boolean actualizar;
+    
     @Autowired
     OrganismoService organismoService;
 

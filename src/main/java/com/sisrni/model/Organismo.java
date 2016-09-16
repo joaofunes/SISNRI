@@ -19,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -32,24 +31,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Organismo.findAll", query = "SELECT o FROM Organismo o")})
 public class Organismo implements Serializable {
 
-    @Column(name = "CODIGO_POSTAL")
-    private Integer codigoPostal;
-    @Column(name = "ID_REGION")
-    private Integer idRegion;
-    @Column(name = "ID_PAIS")
-    private Integer idPais;
-    @Column(name = "ID_PROVINCIA")
-    private Integer idProvincia;
-    @Column(name = "ID_CUIDAD")
-    private Integer idCuidad;
-    @OneToMany(mappedBy = "idOrganismo")
-    private List<Propuesta> propuestaList;
-
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_ORGANISMO", nullable = false)
     private Integer idOrganismo;
     @Size(max = 100)
@@ -67,14 +52,23 @@ public class Organismo implements Serializable {
     @Size(max = 100)
     @Column(name = "DIRECCION_ORGANISMO", length = 100)
     private String direccionOrganismo;
+    @Column(name = "CODIGO_POSTAL")
+    private Integer codigoPostal;
+    @Column(name = "ID_REGION")
+    private Integer idRegion;
+    @Column(name = "ID_PAIS")
+    private Integer idPais;
+    @Column(name = "ID_PROVINCIA")
+    private Integer idProvincia;
+    @Column(name = "ID_CUIDAD")
+    private Integer idCuidad;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Persona> personaList;
     @JoinColumn(name = "ID_TIPO_ORGANISMO", referencedColumnName = "ID_TIPO_ORGANISMO")
     @ManyToOne
     private TipoOrganismo idTipoOrganismo;
-    @JoinColumn(name = "ID_UBICACION", referencedColumnName = "ID_UBICACION")
-    @ManyToOne
-    private Ubicacion idUbicacion;
+    @OneToMany(mappedBy = "idOrganismo")
+    private List<Propuesta> propuestaList;
 
     public Organismo() {
     }
@@ -131,55 +125,6 @@ public class Organismo implements Serializable {
         this.direccionOrganismo = direccionOrganismo;
     }
 
-    public List<Persona> getPersonaList() {
-        return personaList;
-    }
-
-    public void setPersonaList(List<Persona> personaList) {
-        this.personaList = personaList;
-    }
-
-    public TipoOrganismo getIdTipoOrganismo() {
-        return idTipoOrganismo;
-    }
-
-    public void setIdTipoOrganismo(TipoOrganismo idTipoOrganismo) {
-        this.idTipoOrganismo = idTipoOrganismo;
-    }
-
-    public Ubicacion getIdUbicacion() {
-        return idUbicacion;
-    }
-
-    public void setIdUbicacion(Ubicacion idUbicacion) {
-        this.idUbicacion = idUbicacion;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idOrganismo != null ? idOrganismo.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Organismo)) {
-            return false;
-        }
-        Organismo other = (Organismo) object;
-        if ((this.idOrganismo == null && other.idOrganismo != null) || (this.idOrganismo != null && !this.idOrganismo.equals(other.idOrganismo))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.sisrni.model.Organismo[ idOrganismo=" + idOrganismo + " ]";
-    }
-
     public Integer getCodigoPostal() {
         return codigoPostal;
     }
@@ -220,6 +165,22 @@ public class Organismo implements Serializable {
         this.idCuidad = idCuidad;
     }
 
+    public List<Persona> getPersonaList() {
+        return personaList;
+    }
+
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
+    }
+
+    public TipoOrganismo getIdTipoOrganismo() {
+        return idTipoOrganismo;
+    }
+
+    public void setIdTipoOrganismo(TipoOrganismo idTipoOrganismo) {
+        this.idTipoOrganismo = idTipoOrganismo;
+    }
+
     public List<Propuesta> getPropuestaList() {
         return propuestaList;
     }
@@ -228,4 +189,29 @@ public class Organismo implements Serializable {
         this.propuestaList = propuestaList;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idOrganismo != null ? idOrganismo.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Organismo)) {
+            return false;
+        }
+        Organismo other = (Organismo) object;
+        if ((this.idOrganismo == null && other.idOrganismo != null) || (this.idOrganismo != null && !this.idOrganismo.equals(other.idOrganismo))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.sisrni.model.Organismo[ idOrganismo=" + idOrganismo + " ]";
+    }
+    
 }
