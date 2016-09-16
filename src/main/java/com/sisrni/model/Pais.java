@@ -32,6 +32,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Pais.findAll", query = "SELECT p FROM Pais p")})
 public class Pais implements Serializable {
 
+    @OneToMany(mappedBy = "idPais")
+    private List<Provincia> provinciaList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -121,6 +124,14 @@ public class Pais implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Pais[ idPais=" + idPais + " ]";
+    }
+
+    public List<Provincia> getProvinciaList() {
+        return provinciaList;
+    }
+
+    public void setProvinciaList(List<Provincia> provinciaList) {
+        this.provinciaList = provinciaList;
     }
     
 }

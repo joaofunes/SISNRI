@@ -30,6 +30,14 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Facultad.findAll", query = "SELECT f FROM Facultad f")})
 public class Facultad implements Serializable {
 
+    @OneToMany(mappedBy = "idFacultad")
+    private List<Persona> personaList;
+    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
+    @ManyToOne
+    private Unidad idUnidad;
+    @OneToMany(mappedBy = "idFacultad")
+    private List<Propuesta> propuestaList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -107,6 +115,30 @@ public class Facultad implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Facultad[ idFacultad=" + idFacultad + " ]";
+    }
+
+    public List<Persona> getPersonaList() {
+        return personaList;
+    }
+
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
+    }
+
+    public Unidad getIdUnidad() {
+        return idUnidad;
+    }
+
+    public void setIdUnidad(Unidad idUnidad) {
+        this.idUnidad = idUnidad;
+    }
+
+    public List<Propuesta> getPropuestaList() {
+        return propuestaList;
+    }
+
+    public void setPropuestaList(List<Propuesta> propuestaList) {
+        this.propuestaList = propuestaList;
     }
     
 }

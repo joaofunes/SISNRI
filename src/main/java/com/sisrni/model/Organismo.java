@@ -32,6 +32,19 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Organismo.findAll", query = "SELECT o FROM Organismo o")})
 public class Organismo implements Serializable {
 
+    @Column(name = "CODIGO_POSTAL")
+    private Integer codigoPostal;
+    @Column(name = "ID_REGION")
+    private Integer idRegion;
+    @Column(name = "ID_PAIS")
+    private Integer idPais;
+    @Column(name = "ID_PROVINCIA")
+    private Integer idProvincia;
+    @Column(name = "ID_CUIDAD")
+    private Integer idCuidad;
+    @OneToMany(mappedBy = "idOrganismo")
+    private List<Propuesta> propuestaList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -165,6 +178,54 @@ public class Organismo implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Organismo[ idOrganismo=" + idOrganismo + " ]";
+    }
+
+    public Integer getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(Integer codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public Integer getIdRegion() {
+        return idRegion;
+    }
+
+    public void setIdRegion(Integer idRegion) {
+        this.idRegion = idRegion;
+    }
+
+    public Integer getIdPais() {
+        return idPais;
+    }
+
+    public void setIdPais(Integer idPais) {
+        this.idPais = idPais;
+    }
+
+    public Integer getIdProvincia() {
+        return idProvincia;
+    }
+
+    public void setIdProvincia(Integer idProvincia) {
+        this.idProvincia = idProvincia;
+    }
+
+    public Integer getIdCuidad() {
+        return idCuidad;
+    }
+
+    public void setIdCuidad(Integer idCuidad) {
+        this.idCuidad = idCuidad;
+    }
+
+    public List<Propuesta> getPropuestaList() {
+        return propuestaList;
+    }
+
+    public void setPropuestaList(List<Propuesta> propuestaList) {
+        this.propuestaList = propuestaList;
     }
 
 }

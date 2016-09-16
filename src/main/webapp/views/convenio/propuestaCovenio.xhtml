@@ -22,28 +22,13 @@
                                    </p:column>                                         
                                    <p:column>                                         
                                       
-                                       
                                         <p:selectOneMenu id="idSolicinateNombre" value="#{propuestaConvenioMB.solicitante}"  effect="fade" converter="#{personaConverter}" required="true">  
                                            <p:ajax  listener="#{propuestaConvenioMB.onChange}" update="idUnidad,idCargo,formAdmin" />
                                          <f:selectItem itemLabel="Nombre Solicitante" itemValue="null" itemDisabled="true" />  
                                          <f:selectItems value="#{propuestaConvenioMB.listadoPersonas}" var="solicitante" itemLabel="#{solicitante.nombrePersona}" itemValue="#{solicitante}"/>  
                                         </p:selectOneMenu> 
                                         <p:message for="idSolicinateNombre" />
-										
-                                       
-                                        
-<!--                                        <h:panelGroup >
-                                            <p:selectOneMenu id="idSolicinateNombre" value="#{propuestaConvenioMB.solicitante.idPersona}" required="true" requiredMessage="Seleccionar Solcitante">
-                                                <p:ajax  listener="#{propuestaConvenioMB.onChange}" update="idUnidad,idCargo,formAdmin" />
-                                            <f:selectItem itemLabel="Nombre Solicitante" itemValue="null" itemDisabled="true" />  
-                                            <f:selectItems value="#{propuestaConvenioMB.listadoPersonas}"
-                                                           var="activoItem"
-                                                           itemValue="#{activoItem.idPersona}"
-                                                           itemLabel="#{activoItem.nombrePersona}"/>
-                                        </p:selectOneMenu>
-                                        
-                                    </h:panelGroup>-->
-                                        
+							
                                    </p:column>
 
                                    <p:column>  

@@ -34,6 +34,29 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Propuesta.findAll", query = "SELECT p FROM Propuesta p")})
 public class Propuesta implements Serializable {
 
+    @Size(max = 100)
+    @Column(name = "NOMBRE_REFERENTE_EXTERNO", length = 100)
+    private String nombreReferenteExterno;
+    @Size(max = 100)
+    @Column(name = "CARGO_REFERENTE", length = 100)
+    private String cargoReferente;
+    @Size(max = 100)
+    @Column(name = "CORREO_REFERENTE", length = 100)
+    private String correoReferente;
+    @Size(max = 10)
+    @Column(name = "TELEFONO", length = 10)
+    private String telefono;
+    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
+    @Size(max = 10)
+    @Column(name = "FAX", length = 10)
+    private String fax;
+    @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
+    @ManyToOne
+    private Organismo idOrganismo;
+    @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
+    @ManyToOne
+    private Facultad idFacultad;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -177,6 +200,62 @@ public class Propuesta implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Propuesta[ idPropuesta=" + idPropuesta + " ]";
+    }
+
+    public String getNombreReferenteExterno() {
+        return nombreReferenteExterno;
+    }
+
+    public void setNombreReferenteExterno(String nombreReferenteExterno) {
+        this.nombreReferenteExterno = nombreReferenteExterno;
+    }
+
+    public String getCargoReferente() {
+        return cargoReferente;
+    }
+
+    public void setCargoReferente(String cargoReferente) {
+        this.cargoReferente = cargoReferente;
+    }
+
+    public String getCorreoReferente() {
+        return correoReferente;
+    }
+
+    public void setCorreoReferente(String correoReferente) {
+        this.correoReferente = correoReferente;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public Organismo getIdOrganismo() {
+        return idOrganismo;
+    }
+
+    public void setIdOrganismo(Organismo idOrganismo) {
+        this.idOrganismo = idOrganismo;
+    }
+
+    public Facultad getIdFacultad() {
+        return idFacultad;
+    }
+
+    public void setIdFacultad(Facultad idFacultad) {
+        this.idFacultad = idFacultad;
     }
     
 }

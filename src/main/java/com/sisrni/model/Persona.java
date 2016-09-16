@@ -31,6 +31,10 @@ import org.hibernate.validator.constraints.Email;
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")})
 public class Persona implements Serializable {
 
+    @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
+    @ManyToOne
+    private Facultad idFacultad;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -218,6 +222,14 @@ public class Persona implements Serializable {
 
     public void setIdUnidad(Unidad idUnidad) {
         this.idUnidad = idUnidad;
+    }
+
+    public Facultad getIdFacultad() {
+        return idFacultad;
+    }
+
+    public void setIdFacultad(Facultad idFacultad) {
+        this.idFacultad = idFacultad;
     }
     
 }
