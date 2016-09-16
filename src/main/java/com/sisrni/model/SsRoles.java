@@ -18,10 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,19 +29,22 @@ import javax.persistence.TemporalType;
  * @author Angel
  */
 @Entity
-@Table(name = "ss_menus")//, catalog = "sisrni", schema = ""
+@Table(name = "ss_roles")//ec2-52-67-90-249.sa-east-1.compute.amazonaws.com
 @NamedQueries({
-    @NamedQuery(name = "SsMenus.findAll", query = "SELECT s FROM SsMenus s")})
+@NamedQuery(name = "SsRoles.findAll", query = "SELECT s FROM SsRoles s")})
 
-
-public class SsMenus implements Serializable {
+public class SsRoles implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
-    @Column(name = "ID_MENU", nullable = false)
-    private Integer idMenu;
-    @Column(name = "NOMBRE_MENU", length = 100)
-    private String nombreMenu;
+    @Column(name = "ID_ROL", nullable = false)
+    private Integer idRol;
+    @Column(name = "CODIGO_ROL", length = 50)
+    private String codigoRol;
+    @Column(name = "NOMBRE_ROL", length = 50)
+    private String nombreRol;
+    @Column(length = 150)
+    private String descripcion;
     @Column(name = "USUARIO_REGISTRO", length = 15)
     private String usuarioRegistro;
     @Column(name = "FECHA_REGISTRO")
@@ -54,43 +55,56 @@ public class SsMenus implements Serializable {
     @Column(name = "FECHA_ULTIMAMODIFICACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaUltimamodificacion;
-    @JoinTable(name = "ss_roles_menu", joinColumns = {
-        @JoinColumn(name = "ID_MENU", referencedColumnName = "ID_MENU", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL", nullable = false)})
+    @ManyToMany(mappedBy = "ssRolesSet", fetch = FetchType.LAZY)
+    private Set<SsMenus> ssMenusSet;
+    @JoinTable(name = "ss_roles_usuarios", joinColumns = {
+        @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO", nullable = false)})
     @ManyToMany(fetch = FetchType.LAZY)
-    private Set<SsRoles> ssRolesSet;
-    @JoinTable(name = "ss_menus_opciones", joinColumns = {
-        @JoinColumn(name = "ID_MENU", referencedColumnName = "ID_MENU", nullable = false)}, inverseJoinColumns = {
+    private Set<SsUsuarios> ssUsuariosSet;
+    @JoinTable(name = "ss_roles_opciones", joinColumns = {
+        @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_OPCION", referencedColumnName = "ID_OPCION", nullable = false)})
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<SsOpciones> ssOpcionesSet;
-    @OneToMany(mappedBy = "ssIdMenu", fetch = FetchType.LAZY)
-    private Set<SsMenus> ssMenusSet;
-    @JoinColumn(name = "SS__ID_MENU", referencedColumnName = "ID_MENU")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private SsMenus ssIdMenu;
 
-    public SsMenus() {
+    public SsRoles() {
     }
 
-    public SsMenus(Integer idMenu) {
-        this.idMenu = idMenu;
+    public SsRoles(Integer idRol) {
+        this.idRol = idRol;
     }
 
-    public Integer getIdMenu() {
-        return idMenu;
+    public Integer getIdRol() {
+        return idRol;
     }
 
-    public void setIdMenu(Integer idMenu) {
-        this.idMenu = idMenu;
+    public void setIdRol(Integer idRol) {
+        this.idRol = idRol;
     }
 
-    public String getNombreMenu() {
-        return nombreMenu;
+    public String getCodigoRol() {
+        return codigoRol;
     }
 
-    public void setNombreMenu(String nombreMenu) {
-        this.nombreMenu = nombreMenu;
+    public void setCodigoRol(String codigoRol) {
+        this.codigoRol = codigoRol;
+    }
+
+    public String getNombreRol() {
+        return nombreRol;
+    }
+
+    public void setNombreRol(String nombreRol) {
+        this.nombreRol = nombreRol;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getUsuarioRegistro() {
@@ -125,12 +139,20 @@ public class SsMenus implements Serializable {
         this.fechaUltimamodificacion = fechaUltimamodificacion;
     }
 
-    public Set<SsRoles> getSsRolesSet() {
-        return ssRolesSet;
+    public Set<SsMenus> getSsMenusSet() {
+        return ssMenusSet;
     }
 
-    public void setSsRolesSet(Set<SsRoles> ssRolesSet) {
-        this.ssRolesSet = ssRolesSet;
+    public void setSsMenusSet(Set<SsMenus> ssMenusSet) {
+        this.ssMenusSet = ssMenusSet;
+    }
+
+    public Set<SsUsuarios> getSsUsuariosSet() {
+        return ssUsuariosSet;
+    }
+
+    public void setSsUsuariosSet(Set<SsUsuarios> ssUsuariosSet) {
+        this.ssUsuariosSet = ssUsuariosSet;
     }
 
     public Set<SsOpciones> getSsOpcionesSet() {
@@ -141,37 +163,21 @@ public class SsMenus implements Serializable {
         this.ssOpcionesSet = ssOpcionesSet;
     }
 
-    public Set<SsMenus> getSsMenusSet() {
-        return ssMenusSet;
-    }
-
-    public void setSsMenusSet(Set<SsMenus> ssMenusSet) {
-        this.ssMenusSet = ssMenusSet;
-    }
-
-    public SsMenus getSsIdMenu() {
-        return ssIdMenu;
-    }
-
-    public void setSsIdMenu(SsMenus ssIdMenu) {
-        this.ssIdMenu = ssIdMenu;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idMenu != null ? idMenu.hashCode() : 0);
+        hash += (idRol != null ? idRol.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SsMenus)) {
+        if (!(object instanceof SsRoles)) {
             return false;
         }
-        SsMenus other = (SsMenus) object;
-        if ((this.idMenu == null && other.idMenu != null) || (this.idMenu != null && !this.idMenu.equals(other.idMenu))) {
+        SsRoles other = (SsRoles) object;
+        if ((this.idRol == null && other.idRol != null) || (this.idRol != null && !this.idRol.equals(other.idRol))) {
             return false;
         }
         return true;
@@ -179,7 +185,7 @@ public class SsMenus implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.SsMenus[ idMenu=" + idMenu + " ]";
+        return "com.sisrni.model.SsRoles[ idRol=" + idRol + " ]";
     }
     
 }

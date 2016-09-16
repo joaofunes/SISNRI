@@ -6,6 +6,7 @@
 
 package com.sisrni.model;
 
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -14,36 +15,38 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
 
 /**
  *
  * @author Angel
  */
 @Entity
-@Table(name = "ss_menus")//, catalog = "sisrni", schema = ""
+@Table(name = "ss_opciones")//, catalog = "sisrni", schema = ""
 @NamedQueries({
-    @NamedQuery(name = "SsMenus.findAll", query = "SELECT s FROM SsMenus s")})
+@NamedQuery(name = "SsOpciones.findAll", query = "SELECT s FROM SsOpciones s")})
 
-
-public class SsMenus implements Serializable {
+public class SsOpciones implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
-    @Column(name = "ID_MENU", nullable = false)
-    private Integer idMenu;
-    @Column(name = "NOMBRE_MENU", length = 100)
-    private String nombreMenu;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "ID_OPCION", nullable = false)
+    private Integer idOpcion;
+    @Column(name = "NOMBRE_OPCION", length = 100)
+    private String nombreOpcion;
+    @Column(length = 300)
+    private String url;
+    @Column(length = 1)
+    private String visible;
     @Column(name = "USUARIO_REGISTRO", length = 15)
     private String usuarioRegistro;
     @Column(name = "FECHA_REGISTRO")
@@ -54,43 +57,52 @@ public class SsMenus implements Serializable {
     @Column(name = "FECHA_ULTIMAMODIFICACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaUltimamodificacion;
-    @JoinTable(name = "ss_roles_menu", joinColumns = {
-        @JoinColumn(name = "ID_MENU", referencedColumnName = "ID_MENU", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL", nullable = false)})
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<SsRoles> ssRolesSet;
-    @JoinTable(name = "ss_menus_opciones", joinColumns = {
-        @JoinColumn(name = "ID_MENU", referencedColumnName = "ID_MENU", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_OPCION", referencedColumnName = "ID_OPCION", nullable = false)})
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<SsOpciones> ssOpcionesSet;
-    @OneToMany(mappedBy = "ssIdMenu", fetch = FetchType.LAZY)
+    @Column(name = "IMAGEN_OPCION", length = 45)
+    private String imagenOpcion;
+    @ManyToMany(mappedBy = "ssOpcionesSet", fetch = FetchType.LAZY)
     private Set<SsMenus> ssMenusSet;
-    @JoinColumn(name = "SS__ID_MENU", referencedColumnName = "ID_MENU")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private SsMenus ssIdMenu;
+    @ManyToMany(mappedBy = "ssOpcionesSet", fetch = FetchType.LAZY)
+    private Set<SsRoles> ssRolesSet;
+    
+ 
 
-    public SsMenus() {
+    public SsOpciones() {
     }
 
-    public SsMenus(Integer idMenu) {
-        this.idMenu = idMenu;
+    public SsOpciones(Integer idOpcion) {
+        this.idOpcion = idOpcion;
     }
 
-    public Integer getIdMenu() {
-        return idMenu;
+    public Integer getIdOpcion() {
+        return idOpcion;
     }
 
-    public void setIdMenu(Integer idMenu) {
-        this.idMenu = idMenu;
+    public void setIdOpcion(Integer idOpcion) {
+        this.idOpcion = idOpcion;
     }
 
-    public String getNombreMenu() {
-        return nombreMenu;
+    public String getNombreOpcion() {
+        return nombreOpcion;
     }
 
-    public void setNombreMenu(String nombreMenu) {
-        this.nombreMenu = nombreMenu;
+    public void setNombreOpcion(String nombreOpcion) {
+        this.nombreOpcion = nombreOpcion;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public boolean isVisible() {
+        return "S".equals(visible);
+    }
+
+    public void setVisible(boolean visible) {
+         this.visible = visible ? "S" : "N";
     }
 
     public String getUsuarioRegistro() {
@@ -125,20 +137,12 @@ public class SsMenus implements Serializable {
         this.fechaUltimamodificacion = fechaUltimamodificacion;
     }
 
-    public Set<SsRoles> getSsRolesSet() {
-        return ssRolesSet;
+    public String getImagenOpcion() {
+        return imagenOpcion;
     }
 
-    public void setSsRolesSet(Set<SsRoles> ssRolesSet) {
-        this.ssRolesSet = ssRolesSet;
-    }
-
-    public Set<SsOpciones> getSsOpcionesSet() {
-        return ssOpcionesSet;
-    }
-
-    public void setSsOpcionesSet(Set<SsOpciones> ssOpcionesSet) {
-        this.ssOpcionesSet = ssOpcionesSet;
+    public void setImagenOpcion(String imagenOpcion) {
+        this.imagenOpcion = imagenOpcion;
     }
 
     public Set<SsMenus> getSsMenusSet() {
@@ -149,29 +153,29 @@ public class SsMenus implements Serializable {
         this.ssMenusSet = ssMenusSet;
     }
 
-    public SsMenus getSsIdMenu() {
-        return ssIdMenu;
+    public Set<SsRoles> getSsRolesSet() {
+        return ssRolesSet;
     }
 
-    public void setSsIdMenu(SsMenus ssIdMenu) {
-        this.ssIdMenu = ssIdMenu;
+    public void setSsRolesSet(Set<SsRoles> ssRolesSet) {
+        this.ssRolesSet = ssRolesSet;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idMenu != null ? idMenu.hashCode() : 0);
+        hash += (idOpcion != null ? idOpcion.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SsMenus)) {
+        if (!(object instanceof SsOpciones)) {
             return false;
         }
-        SsMenus other = (SsMenus) object;
-        if ((this.idMenu == null && other.idMenu != null) || (this.idMenu != null && !this.idMenu.equals(other.idMenu))) {
+        SsOpciones other = (SsOpciones) object;
+        if ((this.idOpcion == null && other.idOpcion != null) || (this.idOpcion != null && !this.idOpcion.equals(other.idOpcion))) {
             return false;
         }
         return true;
@@ -179,7 +183,23 @@ public class SsMenus implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.SsMenus[ idMenu=" + idMenu + " ]";
+        return "com.sisrni.model.SsOpciones[ idOpcion=" + idOpcion + " ]";
     }
+
+//    public boolean isVisibleTemop() {
+//        return getVisible().equals("S");        
+//    }
+//
+////     if(getVisible().equals("1")){
+////         return true;
+////        }else{
+////         return false;
+////        }    
+//    public void setVisibleTemop(boolean visibleTemop) {
+//        this.visibleTemop = visibleTemop;
+//        setVisible(this.visibleTemop ? "S" : "N");
+//
+//    }
+    
     
 }
