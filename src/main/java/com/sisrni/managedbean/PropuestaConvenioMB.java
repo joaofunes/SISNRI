@@ -7,9 +7,11 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Persona;
+import com.sisrni.model.Telefono;
 import com.sisrni.model.Unidad;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.PersonaService;
+import com.sisrni.service.TelefonoService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -38,22 +40,40 @@ public class PropuestaConvenioMB implements Serializable{
     @Autowired
     @Qualifier(value = "facultadService")
     private FacultadService facultadService;
+
+    @Autowired
+    @Qualifier(value = "telefonoService")
+    private TelefonoService telefonoService;
     
     
-    private List<Persona> listadoPersonas;
+    private List<Persona> listadoPersonasSolicitante;
+    private List<Persona> listadoPersonasInterno;
     private List<Facultad> listadoFacultad;
+    private List<Telefono> listadoTelefonoReferenteInterno;
     
     private Persona solicitante;
     private Persona referenteInterno;
+    
     private Facultad facultad;
     
+ 
+    
+    private Telefono telFijoInterno;
+    private Telefono faxInterno;
+    
+    private Telefono telFijoExterno;
+    private Telefono faxExterno;
+            
         
     @PostConstruct
     public void init() {
         try {
            solicitante= new Persona();
-           solicitante.setCargoPersona("");
-           //solicitante.setIdUnidad(new Unidad());
+           referenteInterno = new Persona();
+           telFijoInterno = new Telefono();
+           faxInterno = new Telefono();
+           telFijoExterno = new Telefono(); 
+           faxExterno = new Telefono();       
            inicializador();          
         } catch (Exception e) {
         }
@@ -61,18 +81,43 @@ public class PropuestaConvenioMB implements Serializable{
     
      private void inicializador() {
          try {             
-             listadoPersonas= personaService.findAll();
-             listadoFacultad= facultadService.findAll();
+             listadoPersonasSolicitante= personaService.findAll();
+             listadoPersonasInterno= personaService.findAll();
+             listadoFacultad= facultadService.findAll();             
+             
          } catch (Exception e) {
            e.printStackTrace();
          }
     }
      
      
-    public void  onChange(){
-        System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante );
+    public void  onChangeSolicitante(){
+        try {
+             System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante );
+             listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(solicitante);
+             
+             
+        } catch (Exception e) {
+        }
+    }
+    
+    
+    public void  onChangeInterno(){
+        try {
+             System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante );
         System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante.getApellidoPersona() );
         System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante.getTipoPersona() );
+        } catch (Exception e) {
+        }
+    }
+    
+    public void  onChangeExterno(){
+        try {
+             System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante );
+        System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante.getApellidoPersona() );
+        System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante.getTipoPersona() );
+        } catch (Exception e) {
+        }
     }
     
 
@@ -88,14 +133,7 @@ public class PropuestaConvenioMB implements Serializable{
         this.referenteInterno = referenteInterno;
     }
 
-    public List<Persona> getListadoPersonas() {
-        return listadoPersonas;
-    }
-
-    public void setListadoPersonas(List<Persona> listadoPersonas) {
-        this.listadoPersonas = listadoPersonas;
-    }
-
+    
     public List<Facultad> getListadoFacultad() {
         return listadoFacultad;
     }
@@ -118,6 +156,63 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setFacultad(Facultad facultad) {
         this.facultad = facultad;
+    }
+
+    public List<Persona> getListadoPersonasSolicitante() {
+        return listadoPersonasSolicitante;
+    }
+
+    public void setListadoPersonasSolicitante(List<Persona> listadoPersonasSolicitante) {
+        this.listadoPersonasSolicitante = listadoPersonasSolicitante;
+    }
+
+    public List<Persona> getListadoPersonasInterno() {
+        return listadoPersonasInterno;
+    }
+
+    public void setListadoPersonasInterno(List<Persona> listadoPersonasInterno) {
+        this.listadoPersonasInterno = listadoPersonasInterno;
+    }
+
+  
+    public List<Telefono> getListadoTelefonoReferenteInterno() {
+        return listadoTelefonoReferenteInterno;
+    }
+
+    public void setListadoTelefonoReferenteInterno(List<Telefono> listadoTelefonoReferenteInterno) {
+        this.listadoTelefonoReferenteInterno = listadoTelefonoReferenteInterno;
+    }
+
+    public Telefono getTelFijoInterno() {
+        return telFijoInterno;
+    }
+
+    public void setTelFijoInterno(Telefono telFijoInterno) {
+        this.telFijoInterno = telFijoInterno;
+    }
+
+    public Telefono getFaxInterno() {
+        return faxInterno;
+    }
+
+    public void setFaxInterno(Telefono faxInterno) {
+        this.faxInterno = faxInterno;
+    }
+
+    public Telefono getTelFijoExterno() {
+        return telFijoExterno;
+    }
+
+    public void setTelFijoExterno(Telefono telFijoExterno) {
+        this.telFijoExterno = telFijoExterno;
+    }
+
+    public Telefono getFaxExterno() {
+        return faxExterno;
+    }
+
+    public void setFaxExterno(Telefono faxExterno) {
+        this.faxExterno = faxExterno;
     }
 
    

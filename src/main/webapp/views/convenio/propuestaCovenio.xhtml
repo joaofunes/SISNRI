@@ -22,9 +22,9 @@
                                    </p:column>                                         
                                    <p:column>                                                                               
                                         <p:selectOneMenu id="idSolicinateNombre" value="#{propuestaConvenioMB.solicitante}"  effect="fade" converter="#{personaConverter}" required="true">  
-                                           <p:ajax  listener="#{propuestaConvenioMB.onChange}" update="idUnidad,idCargo,formAdmin" />
+                                           <p:ajax  listener="#{propuestaConvenioMB.onChangeSolicitante}" update="idUnidad,idCargo,formAdmin" />
                                          <f:selectItem itemLabel="Nombre Solicitante" itemValue="null" itemDisabled="true" />  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonas}" var="solicitante" itemLabel="#{solicitante.nombrePersona}" itemValue="#{solicitante}"/>  
+                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonasSolicitante}" var="solicitante" itemLabel="#{solicitante.nombrePersona}" itemValue="#{solicitante}"/>  
                                         </p:selectOneMenu> 
                                         <p:message for="idSolicinateNombre" />							
                                    </p:column>
@@ -33,7 +33,7 @@
                                      <p:outputLabel for="idFacultad" value="Facultad" />
                                    </p:column>                                         
                                   <p:column> 
-                                      <p:inputText id="idFacultad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idFacultad.nombreFacultad}"/>
+                                      <p:inputText id="idFacultad"  required="true" label="Facultad" value="#{propuestaConvenioMB.solicitante.idUnidad.idFacultad.nombreFacultad}"/>
                                        <p:message for="idFacultad" />
                                    </p:column>
 
@@ -41,7 +41,7 @@
                                      <p:outputLabel for="idUnidad" value="Unidad" />
                                       </p:column>                                         
                                     <p:column> 
-                                        <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idFacultad.idUnidad.nombre}"/>
+                                        <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombre}"/>
                                        <p:message for="idUnidad" />
                                    </p:column>
 
@@ -62,7 +62,7 @@
                                    <p:column>                                         
                                        <p:selectOneMenu id="idSolicinateNombreInterno" value="#{propuestaConvenioMB.referenteInterno}"  effect="fade" converter="#{personaConverter}" required="true">  
                                          <f:selectItem itemLabel="Nombre Referente" itemValue="null" itemDisabled="true" />  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonas}" var="solicitante" itemLabel="#{solicitante.nombrePersona}" itemValue="#{solicitante}"/>  
+                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonasInterno}" var="solicitante" itemLabel="#{referenteInterno.nombrePersona}" itemValue="#{referenteInterno}"/>  
                                         </p:selectOneMenu> 
                                         <p:message for="idSolicinateNombreInterno" />
                                    </p:column>      
@@ -70,45 +70,49 @@
                                      <p:outputLabel for="idFacultadInterno" value="Facultad" />
                                    </p:column>                                         
                                    <p:column>    
-                                       <p:inputText id="idFacultadInterno"  required="true" label="Facultad"/>
+                                       <p:inputText id="idFacultadInterno"  required="true" label="Facultad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.idFacultad.nombreFacultad}"/>
                                        <p:message for="idFacultadInterno" />
                                    </p:column>  
                                    <p:column>      
                                      <p:outputLabel for="idUnidadInterno" value="Unidad" />
                                     </p:column>                                         
                                    <p:column>  
-                                       <p:inputText id="idUnidadInterno"  required="true" label="unidad"/>
+                                       <p:inputText id="idUnidadInterno"  required="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombre}"/>
                                        <p:message for="idUnidadInterno" />
                                    </p:column>         
                                    <p:column>  
                                      <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
                                    </p:column>                                         
                                    <p:column>  
-                                       <p:inputText id="idCargoInterno"  required="true" label="cargo"/>
+                                       <p:inputText id="idCargoInterno"  required="true" label="cargo" value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
                                        <p:message for="idCargoInterno" />
                                    </p:column>
                                    <p:column>  
                                      <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
                                     </p:column>                                         
                                    <p:column>  
-                                     <p:inputText id="email" value="#{propuestaConvenioMB.referenteInterno.correoPersona}">
+                                       <p:inputText id="email" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                       </p:inputText>
                                       <p:message for="email" display="tooltip" />
-                                      <h:outputText value="#{propuestaConvenioMB.referenteInterno.correoPersona}" />
+                                      <h:outputText value="#{propuestaConvenioMB.referenteInterno.emailPersona}" />
                                    </p:column>     
                                    <p:column>  
                                       <p:outputLabel for="idTelefonoInterno" value="Tel&eacute;fono " />  
                                     </p:column>                                         
                                    <p:column>  
-                                      <p:inputMask id="idTelefonoInterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.referenteInterno.telefonoPersona}" required="true"/>
+                                       <h:outputText id="idTelefonoInterno" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}">
+                                           <f:convertNumber pattern="####-####"/>
+                                       </h:outputText >    
                                       <p:message for="idTelefonoInterno" />
                                    </p:column>  
                                    <p:column>      
                                       <p:outputLabel for="idFaxInterno" value="Fax" /> 
                                     </p:column>                                         
                                    <p:column>  
-                                      <p:inputMask id="idFaxInterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.referenteInterno.telefonoPersona}" required="true"/>
+                                       <h:outputText id="idFaxInterno"  value="#{propuestaConvenioMB.faxInterno.numeroTelefono}" >
+                                          <f:convertNumber pattern="####-####"/>
+                                      </h:outputText>    
                                       <p:message for="idFaxInterno" />
                                    </p:column>  
                                </h:panelGrid>
@@ -140,24 +144,24 @@
                                      <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
                                    </p:column>      
                                    <p:column> 
-                                     <p:inputText id="emailExterno" value="#{propuestaConvenioMB.referenteInterno.correoPersona}">
+                                       <p:inputText id="emailExterno" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                       </p:inputText>
                                        <p:message for="emailExterno" display="tooltip" />
-                                       <h:outputText value="#{propuestaConvenioMB.referenteInterno.correoPersona}" />
+                                       <h:outputText value="#{propuestaConvenioMB.referenteInterno.emailPersona}" />
                                     </p:column>                                         
                                     <p:column>  
                                       <p:outputLabel for="idTelefonoExterno" value="Tel&eacute;fono " />   
                                     </p:column>      
                                    <p:column>   
-                                      <p:inputMask id="idTelefonoExterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.referenteInterno.telefonoPersona}" required="true"/>
+                                      <p:inputMask id="idTelefonoExterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.telFijoExterno}" required="true"/>
                                       <p:message for="idTelefonoExterno" />
                                    </p:column>  
                                    <p:column>      
                                       <p:outputLabel for="idFaxExterno" value="Fax" />  
                                     </p:column>      
                                    <p:column>   
-                                      <p:inputMask id="idFaxExterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.referenteInterno.telefonoPersona}" required="true"/>
+                                       <p:inputMask id="idFaxExterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.faxExterno}" required="true"/>
                                       <p:message for="idFaxExterno" />
                                    </p:column>
 

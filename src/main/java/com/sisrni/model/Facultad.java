@@ -40,15 +40,10 @@ public class Facultad implements Serializable {
     @Column(name = "NOMBRE_FACULTAD", length = 60)
     private String nombreFacultad;
     @OneToMany(mappedBy = "idFacultad")
-    private List<Persona> personaList;
-    @OneToMany(mappedBy = "idFacultad")
-    private List<Escuela> escuelaList;
+    private List<Unidad> unidadList;
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_UNIVERSIDAD")
     @ManyToOne
     private Universidad idUniversidad;
-    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
-    @ManyToOne
-    private Unidad idUnidad;
     @OneToMany(mappedBy = "idFacultad")
     private List<Propuesta> propuestaList;
 
@@ -75,20 +70,12 @@ public class Facultad implements Serializable {
         this.nombreFacultad = nombreFacultad;
     }
 
-    public List<Persona> getPersonaList() {
-        return personaList;
+    public List<Unidad> getUnidadList() {
+        return unidadList;
     }
 
-    public void setPersonaList(List<Persona> personaList) {
-        this.personaList = personaList;
-    }
-
-    public List<Escuela> getEscuelaList() {
-        return escuelaList;
-    }
-
-    public void setEscuelaList(List<Escuela> escuelaList) {
-        this.escuelaList = escuelaList;
+    public void setUnidadList(List<Unidad> unidadList) {
+        this.unidadList = unidadList;
     }
 
     public Universidad getIdUniversidad() {
@@ -97,14 +84,6 @@ public class Facultad implements Serializable {
 
     public void setIdUniversidad(Universidad idUniversidad) {
         this.idUniversidad = idUniversidad;
-    }
-
-    public Unidad getIdUnidad() {
-        return idUnidad;
-    }
-
-    public void setIdUnidad(Unidad idUnidad) {
-        this.idUnidad = idUnidad;
     }
 
     public List<Propuesta> getPropuestaList() {

@@ -41,12 +41,6 @@ public class Organismo implements Serializable {
     @Column(name = "NOMBRE_ORGANISMO", length = 100)
     private String nombreOrganismo;
     @Size(max = 60)
-    @Column(name = "TELEFONO_ORGANISMO", length = 60)
-    private String telefonoOrganismo;
-    @Size(max = 60)
-    @Column(name = "FAX_ORANISMO", length = 60)
-    private String faxOranismo;
-    @Size(max = 60)
     @Column(name = "CORREO_ORGANISMO", length = 60)
     private String correoOrganismo;
     @Size(max = 100)
@@ -64,6 +58,8 @@ public class Organismo implements Serializable {
     private Integer idCuidad;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Persona> personaList;
+    @OneToMany(mappedBy = "idOrganismo")
+    private List<Telefono> telefonoList;
     @JoinColumn(name = "ID_TIPO_ORGANISMO", referencedColumnName = "ID_TIPO_ORGANISMO")
     @ManyToOne
     private TipoOrganismo idTipoOrganismo;
@@ -91,22 +87,6 @@ public class Organismo implements Serializable {
 
     public void setNombreOrganismo(String nombreOrganismo) {
         this.nombreOrganismo = nombreOrganismo;
-    }
-
-    public String getTelefonoOrganismo() {
-        return telefonoOrganismo;
-    }
-
-    public void setTelefonoOrganismo(String telefonoOrganismo) {
-        this.telefonoOrganismo = telefonoOrganismo;
-    }
-
-    public String getFaxOranismo() {
-        return faxOranismo;
-    }
-
-    public void setFaxOranismo(String faxOranismo) {
-        this.faxOranismo = faxOranismo;
     }
 
     public String getCorreoOrganismo() {
@@ -171,6 +151,14 @@ public class Organismo implements Serializable {
 
     public void setPersonaList(List<Persona> personaList) {
         this.personaList = personaList;
+    }
+
+    public List<Telefono> getTelefonoList() {
+        return telefonoList;
+    }
+
+    public void setTelefonoList(List<Telefono> telefonoList) {
+        this.telefonoList = telefonoList;
     }
 
     public TipoOrganismo getIdTipoOrganismo() {

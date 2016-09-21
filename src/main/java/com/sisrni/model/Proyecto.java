@@ -6,6 +6,7 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -37,8 +40,6 @@ public class Proyecto implements Serializable {
     @NotNull
     @Column(name = "ID_PROYECTO", nullable = false)
     private Integer idProyecto;
-    @Column(name = "PER_ID_PERSONA")
-    private Integer perIdPersona;
     @Size(max = 300)
     @Column(name = "NOMBRE_PROYECTO", length = 300)
     private String nombreProyecto;
@@ -50,6 +51,9 @@ public class Proyecto implements Serializable {
     @Size(max = 300)
     @Column(name = "OBJETIVO_PROYECTO", length = 300)
     private String objetivoProyecto;
+    @Column(name = "FECHA_GESTION")
+    @Temporal(TemporalType.DATE)
+    private Date fechaGestion;
     @ManyToMany(mappedBy = "proyectoList")
     private List<Estado> estadoList;
     @OneToMany(mappedBy = "idProyecto")
@@ -57,9 +61,15 @@ public class Proyecto implements Serializable {
     @JoinColumn(name = "ID_TIPO_PROYECTO", referencedColumnName = "ID_TIPO_PROYECTO")
     @ManyToOne
     private TipoProyecto idTipoProyecto;
-    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
+    @JoinColumn(name = "ID_REFERENTE", referencedColumnName = "ID_PERSONA")
     @ManyToOne
-    private Persona idPersona;
+    private Persona idReferente;
+    @JoinColumn(name = "ID_ASISTENTE", referencedColumnName = "ID_PERSONA")
+    @ManyToOne
+    private Persona idAsistente;
+    @JoinColumn(name = "ID_CORDINADOR", referencedColumnName = "ID_PERSONA")
+    @ManyToOne
+    private Persona idCordinador;
     @JoinColumn(name = "ID_CONVENIO", referencedColumnName = "ID_CONVENIO")
     @ManyToOne
     private Convenio idConvenio;
@@ -77,14 +87,6 @@ public class Proyecto implements Serializable {
 
     public void setIdProyecto(Integer idProyecto) {
         this.idProyecto = idProyecto;
-    }
-
-    public Integer getPerIdPersona() {
-        return perIdPersona;
-    }
-
-    public void setPerIdPersona(Integer perIdPersona) {
-        this.perIdPersona = perIdPersona;
     }
 
     public String getNombreProyecto() {
@@ -119,6 +121,14 @@ public class Proyecto implements Serializable {
         this.objetivoProyecto = objetivoProyecto;
     }
 
+    public Date getFechaGestion() {
+        return fechaGestion;
+    }
+
+    public void setFechaGestion(Date fechaGestion) {
+        this.fechaGestion = fechaGestion;
+    }
+
     public List<Estado> getEstadoList() {
         return estadoList;
     }
@@ -143,12 +153,28 @@ public class Proyecto implements Serializable {
         this.idTipoProyecto = idTipoProyecto;
     }
 
-    public Persona getIdPersona() {
-        return idPersona;
+    public Persona getIdReferente() {
+        return idReferente;
     }
 
-    public void setIdPersona(Persona idPersona) {
-        this.idPersona = idPersona;
+    public void setIdReferente(Persona idReferente) {
+        this.idReferente = idReferente;
+    }
+
+    public Persona getIdAsistente() {
+        return idAsistente;
+    }
+
+    public void setIdAsistente(Persona idAsistente) {
+        this.idAsistente = idAsistente;
+    }
+
+    public Persona getIdCordinador() {
+        return idCordinador;
+    }
+
+    public void setIdCordinador(Persona idCordinador) {
+        this.idCordinador = idCordinador;
     }
 
     public Convenio getIdConvenio() {

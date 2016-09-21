@@ -40,32 +40,12 @@ public class Propuesta implements Serializable {
     @NotNull
     @Column(name = "ID_PROPUESTA", nullable = false)
     private Integer idPropuesta;
-    @Column(name = "PER_ID_PERSONA")
-    private Integer perIdPersona;
-    @Column(name = "PER_ID_PERSONA2")
-    private Integer perIdPersona2;
     @Size(max = 100)
     @Column(name = "NOMBRE_PROPUESTA", length = 100)
     private String nombrePropuesta;
     @Size(max = 300)
     @Column(name = "FINALIDAD_PROPUESTA", length = 300)
     private String finalidadPropuesta;
-    @Size(max = 100)
-    @Column(name = "NOMBRE_REFERENTE_EXTERNO", length = 100)
-    private String nombreReferenteExterno;
-    @Size(max = 100)
-    @Column(name = "CARGO_REFERENTE", length = 100)
-    private String cargoReferente;
-    @Size(max = 100)
-    @Column(name = "CORREO_REFERENTE", length = 100)
-    private String correoReferente;
-    @Size(max = 10)
-    @Column(name = "TELEFONO", length = 10)
-    private String telefono;
-    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
-    @Size(max = 10)
-    @Column(name = "FAX", length = 10)
-    private String fax;
     @JoinTable(name = "PROPUESTA_ESTADO", joinColumns = {
         @JoinColumn(name = "ID_PROPUESTA", referencedColumnName = "ID_PROPUESTA", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO", nullable = false)})
@@ -76,15 +56,21 @@ public class Propuesta implements Serializable {
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
+    @JoinColumn(name = "ID_PERSONA_INTERNO", referencedColumnName = "ID_PERSONA")
+    @ManyToOne
+    private Persona idPersonaInterno;
     @JoinColumn(name = "ID_CONVENIO", referencedColumnName = "ID_CONVENIO")
     @ManyToOne
     private Convenio idConvenio;
+    @JoinColumn(name = "ID_PERSONA_EXTERNO", referencedColumnName = "ID_PERSONA")
+    @ManyToOne
+    private Persona idPersonaExterno;
     @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
     @ManyToOne
     private Facultad idFacultad;
-    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
+    @JoinColumn(name = "ID_PERSONA_SOLICITANTE", referencedColumnName = "ID_PERSONA")
     @ManyToOne
-    private Persona idPersona;
+    private Persona idPersonaSolicitante;
 
     public Propuesta() {
     }
@@ -101,22 +87,6 @@ public class Propuesta implements Serializable {
         this.idPropuesta = idPropuesta;
     }
 
-    public Integer getPerIdPersona() {
-        return perIdPersona;
-    }
-
-    public void setPerIdPersona(Integer perIdPersona) {
-        this.perIdPersona = perIdPersona;
-    }
-
-    public Integer getPerIdPersona2() {
-        return perIdPersona2;
-    }
-
-    public void setPerIdPersona2(Integer perIdPersona2) {
-        this.perIdPersona2 = perIdPersona2;
-    }
-
     public String getNombrePropuesta() {
         return nombrePropuesta;
     }
@@ -131,46 +101,6 @@ public class Propuesta implements Serializable {
 
     public void setFinalidadPropuesta(String finalidadPropuesta) {
         this.finalidadPropuesta = finalidadPropuesta;
-    }
-
-    public String getNombreReferenteExterno() {
-        return nombreReferenteExterno;
-    }
-
-    public void setNombreReferenteExterno(String nombreReferenteExterno) {
-        this.nombreReferenteExterno = nombreReferenteExterno;
-    }
-
-    public String getCargoReferente() {
-        return cargoReferente;
-    }
-
-    public void setCargoReferente(String cargoReferente) {
-        this.cargoReferente = cargoReferente;
-    }
-
-    public String getCorreoReferente() {
-        return correoReferente;
-    }
-
-    public void setCorreoReferente(String correoReferente) {
-        this.correoReferente = correoReferente;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax;
     }
 
     public List<Estado> getEstadoList() {
@@ -197,12 +127,28 @@ public class Propuesta implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
+    public Persona getIdPersonaInterno() {
+        return idPersonaInterno;
+    }
+
+    public void setIdPersonaInterno(Persona idPersonaInterno) {
+        this.idPersonaInterno = idPersonaInterno;
+    }
+
     public Convenio getIdConvenio() {
         return idConvenio;
     }
 
     public void setIdConvenio(Convenio idConvenio) {
         this.idConvenio = idConvenio;
+    }
+
+    public Persona getIdPersonaExterno() {
+        return idPersonaExterno;
+    }
+
+    public void setIdPersonaExterno(Persona idPersonaExterno) {
+        this.idPersonaExterno = idPersonaExterno;
     }
 
     public Facultad getIdFacultad() {
@@ -213,12 +159,12 @@ public class Propuesta implements Serializable {
         this.idFacultad = idFacultad;
     }
 
-    public Persona getIdPersona() {
-        return idPersona;
+    public Persona getIdPersonaSolicitante() {
+        return idPersonaSolicitante;
     }
 
-    public void setIdPersona(Persona idPersona) {
-        this.idPersona = idPersona;
+    public void setIdPersonaSolicitante(Persona idPersonaSolicitante) {
+        this.idPersonaSolicitante = idPersonaSolicitante;
     }
 
     @Override

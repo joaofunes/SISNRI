@@ -42,12 +42,9 @@ public class Persona implements Serializable {
     @Size(max = 60)
     @Column(name = "APELLIDO_PERSONA", length = 60)
     private String apellidoPersona;
-    @Size(max = 60)
-    @Column(name = "TELEFONO_PERSONA", length = 60)
-    private String telefonoPersona;
     @Size(max = 30)
-    @Column(name = "CORREO_PERSONA", length = 30)
-    private String correoPersona;
+    @Column(name = "EMAIL_PERSONA", length = 30)
+    private String emailPersona;
     @Size(max = 10)
     @Column(name = "DUI_PERSONA", length = 10)
     private String duiPersona;
@@ -63,16 +60,26 @@ public class Persona implements Serializable {
     @Size(max = 60)
     @Column(name = "PASAPORTE", length = 60)
     private String pasaporte;
+    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
+    @ManyToOne
+    private Unidad idUnidad;
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
-    @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
-    @ManyToOne
-    private Facultad idFacultad;
     @OneToMany(mappedBy = "idPersona")
+    private List<Telefono> telefonoList;
+    @OneToMany(mappedBy = "idPersonaInterno")
     private List<Propuesta> propuestaList;
-    @OneToMany(mappedBy = "idPersona")
+    @OneToMany(mappedBy = "idPersonaExterno")
+    private List<Propuesta> propuestaList1;
+    @OneToMany(mappedBy = "idPersonaSolicitante")
+    private List<Propuesta> propuestaList2;
+    @OneToMany(mappedBy = "idReferente")
     private List<Proyecto> proyectoList;
+    @OneToMany(mappedBy = "idAsistente")
+    private List<Proyecto> proyectoList1;
+    @OneToMany(mappedBy = "idCordinador")
+    private List<Proyecto> proyectoList2;
 
     public Persona() {
     }
@@ -105,20 +112,12 @@ public class Persona implements Serializable {
         this.apellidoPersona = apellidoPersona;
     }
 
-    public String getTelefonoPersona() {
-        return telefonoPersona;
+    public String getEmailPersona() {
+        return emailPersona;
     }
 
-    public void setTelefonoPersona(String telefonoPersona) {
-        this.telefonoPersona = telefonoPersona;
-    }
-
-    public String getCorreoPersona() {
-        return correoPersona;
-    }
-
-    public void setCorreoPersona(String correoPersona) {
-        this.correoPersona = correoPersona;
+    public void setEmailPersona(String emailPersona) {
+        this.emailPersona = emailPersona;
     }
 
     public String getDuiPersona() {
@@ -161,6 +160,14 @@ public class Persona implements Serializable {
         this.pasaporte = pasaporte;
     }
 
+    public Unidad getIdUnidad() {
+        return idUnidad;
+    }
+
+    public void setIdUnidad(Unidad idUnidad) {
+        this.idUnidad = idUnidad;
+    }
+
     public Organismo getIdOrganismo() {
         return idOrganismo;
     }
@@ -169,12 +176,12 @@ public class Persona implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
-    public Facultad getIdFacultad() {
-        return idFacultad;
+    public List<Telefono> getTelefonoList() {
+        return telefonoList;
     }
 
-    public void setIdFacultad(Facultad idFacultad) {
-        this.idFacultad = idFacultad;
+    public void setTelefonoList(List<Telefono> telefonoList) {
+        this.telefonoList = telefonoList;
     }
 
     public List<Propuesta> getPropuestaList() {
@@ -185,12 +192,44 @@ public class Persona implements Serializable {
         this.propuestaList = propuestaList;
     }
 
+    public List<Propuesta> getPropuestaList1() {
+        return propuestaList1;
+    }
+
+    public void setPropuestaList1(List<Propuesta> propuestaList1) {
+        this.propuestaList1 = propuestaList1;
+    }
+
+    public List<Propuesta> getPropuestaList2() {
+        return propuestaList2;
+    }
+
+    public void setPropuestaList2(List<Propuesta> propuestaList2) {
+        this.propuestaList2 = propuestaList2;
+    }
+
     public List<Proyecto> getProyectoList() {
         return proyectoList;
     }
 
     public void setProyectoList(List<Proyecto> proyectoList) {
         this.proyectoList = proyectoList;
+    }
+
+    public List<Proyecto> getProyectoList1() {
+        return proyectoList1;
+    }
+
+    public void setProyectoList1(List<Proyecto> proyectoList1) {
+        this.proyectoList1 = proyectoList1;
+    }
+
+    public List<Proyecto> getProyectoList2() {
+        return proyectoList2;
+    }
+
+    public void setProyectoList2(List<Proyecto> proyectoList2) {
+        this.proyectoList2 = proyectoList2;
     }
 
     @Override

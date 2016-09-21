@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,7 +41,10 @@ public class Unidad implements Serializable {
     @Column(name = "DESCRIPCION")
     private Character descripcion;
     @OneToMany(mappedBy = "idUnidad")
-    private List<Facultad> facultadList;
+    private List<Persona> personaList;
+    @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
+    @ManyToOne
+    private Facultad idFacultad;
 
     public Unidad() {
     }
@@ -72,12 +77,20 @@ public class Unidad implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public List<Facultad> getFacultadList() {
-        return facultadList;
+    public List<Persona> getPersonaList() {
+        return personaList;
     }
 
-    public void setFacultadList(List<Facultad> facultadList) {
-        this.facultadList = facultadList;
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
+    }
+
+    public Facultad getIdFacultad() {
+        return idFacultad;
+    }
+
+    public void setIdFacultad(Facultad idFacultad) {
+        this.idFacultad = idFacultad;
     }
 
     @Override

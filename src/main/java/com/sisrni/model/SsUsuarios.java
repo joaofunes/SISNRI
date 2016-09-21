@@ -40,10 +40,7 @@ public class SsUsuarios implements Serializable {
     private String codigoUsuario;
     @Column(name = "NOMBRE_USUARIO", length = 100)
     private String nombreUsuario;
-    @Column(length = 20)
-    private String telefono;
-    @Column(length = 100)
-    private String email;
+    
     @Column(length = 100)
     private String cargo;
     @Column(length = 150)
@@ -74,8 +71,7 @@ public class SsUsuarios implements Serializable {
     @Column(name = "FECHA_CAMBIO_CLAVE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCambioClave;
-    @Column(name = "CODIGO_SUCURSAL", length = 2)
-    private String codigoSucursal;
+   
     @ManyToMany(mappedBy = "ssUsuariosSet", fetch = FetchType.LAZY)
     private Set<SsRoles> ssRolesSet;
     @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
@@ -112,21 +108,7 @@ public class SsUsuarios implements Serializable {
         this.nombreUsuario = nombreUsuario;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+   
 
     public String getCargo() {
         return cargo;
@@ -232,14 +214,7 @@ public class SsUsuarios implements Serializable {
         this.fechaCambioClave = fechaCambioClave;
     }
 
-    public String getCodigoSucursal() {
-        return codigoSucursal;
-    }
-
-    public void setCodigoSucursal(String codigoSucursal) {
-        this.codigoSucursal = codigoSucursal;
-    }
-
+   
     public Set<SsRoles> getSsRolesSet() {
         return ssRolesSet;
     }
