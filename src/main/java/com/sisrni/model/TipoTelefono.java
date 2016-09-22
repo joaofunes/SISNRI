@@ -35,7 +35,7 @@ public class TipoTelefono implements Serializable {
     @Column(name = "ID_TIPO_TELEFONO", nullable = false)
     private Integer idTipoTelefono;
     @Column(name = "NOMBRE")
-    private Character nombre;
+    private String nombre;
     @OneToMany(mappedBy = "idTipoTelefono")
     private List<Telefono> telefonoList;
 
@@ -54,11 +54,11 @@ public class TipoTelefono implements Serializable {
         this.idTipoTelefono = idTipoTelefono;
     }
 
-    public Character getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(Character nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 

@@ -22,7 +22,7 @@ public class TelefonoDao extends GenericDao<Telefono, Integer> {
     
     public List<Telefono> getTelefonosByPersona(Persona persona) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM  Telefono a JOIN FETCH  a.idTipoTelefono tipo WHERE a.idPersona = :idPersona  ");
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM  Telefono a JOIN FETCH  a.idTipoTelefono tipo WHERE a.idPersona.idPersona = :idPersona ");
              q.setParameter("idPersona",persona.getIdPersona());
        
              return q.list();

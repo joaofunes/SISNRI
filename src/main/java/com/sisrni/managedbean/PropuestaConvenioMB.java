@@ -33,6 +33,9 @@ public class PropuestaConvenioMB implements Serializable{
     
      private static final long serialVersionUID = 1L;  
      
+    private static final String FIJO ="FIJO";  
+    private static final String FAX ="FAX";  
+     
     @Autowired
     @Qualifier(value = "personaService")
     private PersonaService personaService;
@@ -96,6 +99,17 @@ public class PropuestaConvenioMB implements Serializable{
              System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante );
              listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(solicitante);
              
+            for( Telefono us: listadoTelefonoReferenteInterno){
+               
+                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
+                    telFijoInterno= us;
+                }
+                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
+                    faxInterno= us;
+                }
+                
+            }
+             
              
         } catch (Exception e) {
         }
@@ -104,18 +118,38 @@ public class PropuestaConvenioMB implements Serializable{
     
     public void  onChangeInterno(){
         try {
-             System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante );
-        System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante.getApellidoPersona() );
-        System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante.getTipoPersona() );
+           listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(referenteInterno);
+             
+            for( Telefono us: listadoTelefonoReferenteInterno){
+               
+                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
+                    telFijoInterno= us;
+                }
+                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
+                    faxInterno= us;
+                }
+                
+            }
+             
         } catch (Exception e) {
         }
     }
     
     public void  onChangeExterno(){
         try {
-             System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante );
-        System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante.getApellidoPersona() );
-        System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante.getTipoPersona() );
+            listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(solicitante);
+             
+            for( Telefono us: listadoTelefonoReferenteInterno){
+               
+                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
+                    telFijoInterno= us;
+                }
+                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
+                    faxInterno= us;
+                }
+                
+            }
+             
         } catch (Exception e) {
         }
     }

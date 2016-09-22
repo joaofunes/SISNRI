@@ -61,8 +61,9 @@
                                    </p:column>                                         
                                    <p:column>                                         
                                        <p:selectOneMenu id="idSolicinateNombreInterno" value="#{propuestaConvenioMB.referenteInterno}"  effect="fade" converter="#{personaConverter}" required="true">  
+                                         <p:ajax  listener="#{propuestaConvenioMB.onChangeInterno}" update="idFacultadInterno,idUnidadInterno,formAdmin" />
                                          <f:selectItem itemLabel="Nombre Referente" itemValue="null" itemDisabled="true" />  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonasInterno}" var="solicitante" itemLabel="#{referenteInterno.nombrePersona}" itemValue="#{referenteInterno}"/>  
+                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonasInterno}" var="solicitanteInterno" itemLabel="#{solicitanteInterno.nombrePersona}" itemValue="#{solicitanteInterno}"/>  
                                         </p:selectOneMenu> 
                                         <p:message for="idSolicinateNombreInterno" />
                                    </p:column>      
