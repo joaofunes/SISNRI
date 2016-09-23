@@ -13,6 +13,7 @@ import com.sisrni.service.FacultadService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.TelefonoService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -51,13 +52,18 @@ public class PropuestaConvenioMB implements Serializable{
     
     private List<Persona> listadoPersonasSolicitante;
     private List<Persona> listadoPersonasInterno;
-    private List<Facultad> listadoFacultad;
+    private List<Persona> listadoPersonasExterno;
+    
+    
+   
     private List<Telefono> listadoTelefonoReferenteInterno;
+    private List<Telefono> listadoTelefonoReferenteExterno;
     
     private Persona solicitante;
     private Persona referenteInterno;
+    private Persona referenteExterno;
     
-    private Facultad facultad;
+    
     
  
     
@@ -73,6 +79,7 @@ public class PropuestaConvenioMB implements Serializable{
         try {
            solicitante= new Persona();
            referenteInterno = new Persona();
+           referenteExterno = new Persona();
            telFijoInterno = new Telefono();
            faxInterno = new Telefono();
            telFijoExterno = new Telefono(); 
@@ -83,10 +90,16 @@ public class PropuestaConvenioMB implements Serializable{
     } 
     
      private void inicializador() {
-         try {             
+         try {     
+             listadoPersonasSolicitante = new ArrayList<Persona>();
+             listadoPersonasInterno = new ArrayList<Persona>();
+             listadoPersonasExterno = new ArrayList<Persona>();
+             
              listadoPersonasSolicitante= personaService.findAll();
              listadoPersonasInterno= personaService.findAll();
-             listadoFacultad= facultadService.findAll();             
+             listadoPersonasExterno= personaService.findAll();
+             
+                 
              
          } catch (Exception e) {
            e.printStackTrace();
@@ -98,18 +111,6 @@ public class PropuestaConvenioMB implements Serializable{
         try {
              System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante );
              listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(solicitante);
-             
-            for( Telefono us: listadoTelefonoReferenteInterno){
-               
-                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
-                    telFijoInterno= us;
-                }
-                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
-                    faxInterno= us;
-                }
-                
-            }
-             
              
         } catch (Exception e) {
         }
@@ -137,15 +138,15 @@ public class PropuestaConvenioMB implements Serializable{
     
     public void  onChangeExterno(){
         try {
-            listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(solicitante);
+            listadoTelefonoReferenteExterno = telefonoService.getTelefonosByPersona(referenteExterno);
              
-            for( Telefono us: listadoTelefonoReferenteInterno){
+            for( Telefono us: listadoTelefonoReferenteExterno){
                
                 if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
-                    telFijoInterno= us;
+                    telFijoExterno= us;
                 }
                 if(us.getIdTipoTelefono().getNombre().equals(FAX)){
-                    faxInterno= us;
+                    faxExterno= us;
                 }
                 
             }
@@ -168,13 +169,7 @@ public class PropuestaConvenioMB implements Serializable{
     }
 
     
-    public List<Facultad> getListadoFacultad() {
-        return listadoFacultad;
-    }
-
-    public void setListadoFacultad(List<Facultad> listadoFacultad) {
-        this.listadoFacultad = listadoFacultad;
-    }
+    
 
     public Persona getSolicitante() {
         return solicitante;
@@ -184,13 +179,7 @@ public class PropuestaConvenioMB implements Serializable{
         this.solicitante = solicitante;
     }
 
-    public Facultad getFacultad() {
-        return facultad;
-    }
-
-    public void setFacultad(Facultad facultad) {
-        this.facultad = facultad;
-    }
+    
 
     public List<Persona> getListadoPersonasSolicitante() {
         return listadoPersonasSolicitante;
@@ -247,6 +236,30 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setFaxExterno(Telefono faxExterno) {
         this.faxExterno = faxExterno;
+    }
+
+    public List<Persona> getListadoPersonasExterno() {
+        return listadoPersonasExterno;
+    }
+
+    public void setListadoPersonasExterno(List<Persona> listadoPersonasExterno) {
+        this.listadoPersonasExterno = listadoPersonasExterno;
+    }
+
+    public List<Telefono> getListadoTelefonoReferenteExterno() {
+        return listadoTelefonoReferenteExterno;
+    }
+
+    public void setListadoTelefonoReferenteExterno(List<Telefono> listadoTelefonoReferenteExterno) {
+        this.listadoTelefonoReferenteExterno = listadoTelefonoReferenteExterno;
+    }
+
+    public Persona getReferenteExterno() {
+        return referenteExterno;
+    }
+
+    public void setReferenteExterno(Persona referenteExterno) {
+        this.referenteExterno = referenteExterno;
     }
 
    
