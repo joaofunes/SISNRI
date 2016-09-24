@@ -50,6 +50,9 @@ public class PropuestaConvenioMB implements Serializable{
     private TelefonoService telefonoService;
     
     
+    private String numDocumentoInterno;
+    private String numDocumentoExterno;
+    
     private List<Persona> listadoPersonasSolicitante;
     private List<Persona> listadoPersonasInterno;
     private List<Persona> listadoPersonasExterno;
@@ -155,11 +158,6 @@ public class PropuestaConvenioMB implements Serializable{
         }
     }
     
-
-    
-    
-    
-
     public Persona getReferenteInterno() {
         return referenteInterno;
     }
@@ -167,9 +165,6 @@ public class PropuestaConvenioMB implements Serializable{
     public void setReferenteInterno(Persona referenteInterno) {
         this.referenteInterno = referenteInterno;
     }
-
-    
-    
 
     public Persona getSolicitante() {
         return solicitante;
@@ -260,6 +255,22 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setReferenteExterno(Persona referenteExterno) {
         this.referenteExterno = referenteExterno;
+    }
+
+    public String getNumDocumentoInterno() {
+        return numDocumentoInterno;
+    }
+
+    public void setNumDocumentoInterno(String numDocumentoInterno) {
+        this.numDocumentoInterno = numDocumentoInterno;
+    }
+
+    public String getNumDocumentoExterno() {
+        return numDocumentoExterno;
+    }
+
+    public void setNumDocumentoExterno(String numDocumentoExterno) {
+        this.numDocumentoExterno = numDocumentoExterno;
     }
 
    

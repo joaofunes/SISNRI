@@ -57,6 +57,22 @@
                            <p:tab title="Datos Referente Interno">
                                <h:panelGrid columns="2">
                                    <p:column>  
+                                       <p:outputLabel for="idDocumentoInterno" value="N&deg; Documento" />
+                                   </p:column>                                         
+                                   <p:column>                                         
+                                       <p:inputText id="idDocumentoInterno"  required="true" label="c" value="#{propuestaConvenioMB.numDocumentoInterno}"/>
+                                       <p:message for="idDocumentoInterno" />
+                                   </p:column>  
+                                   <p:column>  
+                                     <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
+                                    </p:column>                                         
+                                   <p:column>  
+                                       <p:inputText id="email" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
+                                           <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                      </p:inputText>
+                                      <p:message for="email" display="tooltip" />                                   
+                                   </p:column>  
+                                   <p:column>  
                                     <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
                                    </p:column>                                         
                                    <p:column>                                         
@@ -64,7 +80,7 @@
                                          <p:ajax  listener="#{propuestaConvenioMB.onChangeInterno}" update="idFacultadInterno,idUnidadInterno,formAdmin" />
                                          <f:selectItem itemLabel="Nombre Referente" itemValue="null" itemDisabled="true" />  
                                          <f:selectItems value="#{propuestaConvenioMB.listadoPersonasInterno}" var="solicitanteInterno" itemLabel="#{solicitanteInterno.nombrePersona}" itemValue="#{solicitanteInterno}"/>  
-                                        </p:selectOneMenu> 
+                                        </p:selectOneMenu> f
                                         <p:message for="idSolicinateNombreInterno" />
                                    </p:column>      
                                    <p:column>  
@@ -88,15 +104,7 @@
                                        <p:inputText id="idCargoInterno"  required="true" label="cargo" value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
                                        <p:message for="idCargoInterno" />
                                    </p:column>
-                                   <p:column>  
-                                     <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
-                                    </p:column>                                         
-                                   <p:column>  
-                                       <p:inputText id="email" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
-                                           <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                                      </p:inputText>
-                                      <p:message for="email" display="tooltip" />                                   
-                                   </p:column>     
+                                      
                                    <p:column>  
                                       <p:outputLabel for="idTelefonoInterno" value="Tel&eacute;fono " />  
                                     </p:column>                                         
@@ -117,6 +125,25 @@
                            </p:tab>
                            <p:tab title="Datos Referente Externo">
                                <h:panelGrid  columns="2">
+                                   
+                                    <p:column>  
+                                       <p:outputLabel for="idDocumentoExterno" value="N&deg; Documento" />
+                                   </p:column>                                         
+                                   <p:column>                                         
+                                       <p:inputText id="idDocumentoExterno"  required="true" label="c" value="#{propuestaConvenioMB.numDocumentoExterno}"/>
+                                       <p:message for="idDocumentoInternoExterno" />
+                                   </p:column>  
+                                   <p:column>  
+                                     <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
+                                   </p:column>      
+                                   <p:column> 
+                                       <p:inputText id="emailExterno" value="#{propuestaConvenioMB.referenteExterno.emailPersona}">
+                                           <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                      </p:inputText>
+                                       <p:message for="emailExterno" display="tooltip" />                                       
+                                    </p:column>                                         
+                                  
+                                   
                                    <p:column>  
                                        <p:outputLabel for="idNombreExterno" value="Nombre" />
                                    </p:column>  
@@ -144,15 +171,6 @@
                                        <p:inputText id="idEntidadInstitucion"  required="true" label="Entidad o institucion" value="#{propuestaConvenioMB.referenteExterno.idOrganismo.nombreOrganismo}"/>
                                        <p:message for="idEntidadInstitucion" />    
                                    </p:column>      
-                                   <p:column>  
-                                     <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
-                                   </p:column>      
-                                   <p:column> 
-                                       <p:inputText id="emailExterno" value="#{propuestaConvenioMB.referenteExterno.emailPersona}">
-                                           <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                                      </p:inputText>
-                                       <p:message for="emailExterno" display="tooltip" />                                       
-                                    </p:column>                                         
                                     <p:column>  
                                       <p:outputLabel for="idTelefonoExterno" value="Tel&eacute;fono " />   
                                     </p:column>      
