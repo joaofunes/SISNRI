@@ -177,12 +177,14 @@ public class PaisMB{
      * actualizacion de Pais
      */
     public void cancelarPais(){
+        String msg ="Pais cancelado";
         try{
         pais = null;
         pais = new Pais();
         region=null;
         region = new Region();
-        RequestContext.getCurrentInstance().reset("form:formPais");
+        RequestContext.getCurrentInstance().reset(":formPais");
+        JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
              System.out.println(e.getMessage());
         }

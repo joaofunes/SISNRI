@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 800px" header="Paises Cooperantes">  
+            <p:panel style="width: 70%" header="Paises Cooperantes">  
                 
                 <h:form id="formPais">
                     <p:panelGrid columns="2">
@@ -48,7 +48,7 @@
                                              value="Actualizar" />
 
                             <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
-                                             actionListener="#{paisMB.cancelarPais()}" immediate="true" value="Cancelar" update=""  process="@this" />
+                                             actionListener="#{paisMB.cancelarPais()}" immediate="true" value="Cancelar" update="formPais"  process="@this" />
 
 
                         </p:column>
