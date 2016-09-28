@@ -9,6 +9,7 @@ import com.sisrni.dao.PersonaDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Persona;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,9 @@ public class PersonaService extends GenericService<Persona, Integer> {
     
     public Persona getByID(int id){
         return personaDao.findById(id);
+    }
+    
+    public List<Persona> getReferenteInternoByName(String query){
+        return personaDao.getReferenteInternoByName(query);
     }
 }

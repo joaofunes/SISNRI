@@ -7,6 +7,8 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Persona;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,4 +18,19 @@ import org.springframework.stereotype.Repository;
 @Repository(value = "personaDao")
 public class PersonaDao extends GenericDao<Persona, Integer> {
     
+    
+    public List<Persona> getReferenteInternoByName(String query) {
+        try {
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM  Persona a JOIN FETCH a.idTipoPersona tipo");
+//             SELECT a FROM  Persona a JOIN FETCH  a.idTipoPersona tipo WHERE tipo.nombre='B' AND (a.nombrePersona nombrePersona LIKE CONCAT('%', :query, '%'))
+             q.setParameter("query",query);
+       
+             return q.list();
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
