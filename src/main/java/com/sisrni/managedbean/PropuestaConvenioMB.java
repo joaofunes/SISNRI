@@ -66,10 +66,6 @@ public class PropuestaConvenioMB implements Serializable{
     private Persona referenteInterno;
     private Persona referenteExterno;
     
-    
-    
- 
-    
     private Telefono telFijoInterno;
     private Telefono faxInterno;
     
@@ -157,6 +153,25 @@ public class PropuestaConvenioMB implements Serializable{
         } catch (Exception e) {
         }
     }
+    
+    
+    public List<Persona> completeSolicitanteInterno(String query) {
+        
+        List<Persona> filteredThemes = new ArrayList<Persona>();
+        
+        if(!query.equals("") && query!=null ){
+            filteredThemes = personaService.getReferenteInternoByName(query);
+        }
+//        for (int i = 0; i < listadoPersonasInterno.size(); i++) {
+//            Persona skin = listadoPersonasInterno.get(i);
+//            if(skin.getNombrePersona().toLowerCase().startsWith(query)) {
+//                filteredThemes.add(skin);
+//            }
+//        }
+         
+        return filteredThemes;
+    }
+    
     
     public Persona getReferenteInterno() {
         return referenteInterno;

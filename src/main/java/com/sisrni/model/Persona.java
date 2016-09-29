@@ -48,9 +48,6 @@ public class Persona implements Serializable {
     @Size(max = 10)
     @Column(name = "DUI_PERSONA", length = 10)
     private String duiPersona;
-    @Size(max = 60)
-    @Column(name = "TIPO_PERSONA", length = 60)
-    private String tipoPersona;
     @Size(max = 17)
     @Column(name = "NIT_PERSONA", length = 17)
     private String nitPersona;
@@ -63,6 +60,9 @@ public class Persona implements Serializable {
     @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
     @ManyToOne
     private Unidad idUnidad;
+    @JoinColumn(name = "ID_TIPO_PERSONA", referencedColumnName = "ID_TIPO_PERSONA")
+    @ManyToOne
+    private TipoPersona idTipoPersona;
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
@@ -80,6 +80,8 @@ public class Persona implements Serializable {
     private List<Proyecto> proyectoList1;
     @OneToMany(mappedBy = "idCordinador")
     private List<Proyecto> proyectoList2;
+    
+    
 
     public Persona() {
     }
@@ -128,14 +130,7 @@ public class Persona implements Serializable {
         this.duiPersona = duiPersona;
     }
 
-    public String getTipoPersona() {
-        return tipoPersona;
-    }
-
-    public void setTipoPersona(String tipoPersona) {
-        this.tipoPersona = tipoPersona;
-    }
-
+   
     public String getNitPersona() {
         return nitPersona;
     }
@@ -231,6 +226,14 @@ public class Persona implements Serializable {
     public void setProyectoList2(List<Proyecto> proyectoList2) {
         this.proyectoList2 = proyectoList2;
     }
+    
+    public TipoPersona getIdTipoPersona() {
+        return idTipoPersona;
+    }
+
+    public void setIdTipoPersona(TipoPersona idTipoPersona) {
+        this.idTipoPersona = idTipoPersona;
+    }
 
     @Override
     public int hashCode() {
@@ -256,5 +259,7 @@ public class Persona implements Serializable {
     public String toString() {
         return "com.sisrni.model.Persona[ idPersona=" + idPersona + " ]";
     }
+
+    
     
 }

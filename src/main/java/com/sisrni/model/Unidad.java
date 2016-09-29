@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -30,16 +31,19 @@ import javax.persistence.Table;
     @NamedQuery(name = "Unidad.findAll", query = "SELECT u FROM Unidad u")})
 public class Unidad implements Serializable {
 
+    @Size(max = 20)
+    @Column(name = "NOMBRE", length = 20)
+    private String nombre;
+    @Size(max = 100)
+    @Column(name = "DESCRIPCION", length = 100)
+    private String descripcion;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_UNIDAD", nullable = false)
     private Integer idUnidad;
-    @Column(name = "NOMBRE")
-    private Character nombre;
-    @Column(name = "DESCRIPCION")
-    private Character descripcion;
     @OneToMany(mappedBy = "idUnidad")
     private List<Persona> personaList;
     @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
@@ -61,21 +65,6 @@ public class Unidad implements Serializable {
         this.idUnidad = idUnidad;
     }
 
-    public Character getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(Character nombre) {
-        this.nombre = nombre;
-    }
-
-    public Character getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(Character descripcion) {
-        this.descripcion = descripcion;
-    }
 
     public List<Persona> getPersonaList() {
         return personaList;
@@ -116,6 +105,22 @@ public class Unidad implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Unidad[ idUnidad=" + idUnidad + " ]";
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
     
 }
