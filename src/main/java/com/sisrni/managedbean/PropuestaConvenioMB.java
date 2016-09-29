@@ -158,9 +158,10 @@ public class PropuestaConvenioMB implements Serializable{
     public List<Persona> completeSolicitanteInterno(String query) {
         
         List<Persona> filteredThemes = new ArrayList<Persona>();
-         
-        filteredThemes = personaService.getReferenteInternoByName(query);
         
+        if(!query.equals("") && query!=null ){
+            filteredThemes = personaService.getReferenteInternoByName(query);
+        }
 //        for (int i = 0; i < listadoPersonasInterno.size(); i++) {
 //            Persona skin = listadoPersonasInterno.get(i);
 //            if(skin.getNombrePersona().toLowerCase().startsWith(query)) {

@@ -29,7 +29,7 @@
                                         <p:message for="idSolicinateNombre" />	
                                         
                                         
-                                         <p:autoComplete id="idSolicinateNombre" dropdown="true" value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
+                                        <p:autoComplete id="idSolicinateNombre" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
                                                             var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" forceSelection="true">                                                                                           
                                                 <p:column>
                                                     <h:outputText value="#{interno.nombrePersona} #{interno.apellidoPersona}" />

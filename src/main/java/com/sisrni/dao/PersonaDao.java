@@ -21,9 +21,9 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
     
     public List<Persona> getReferenteInternoByName(String query) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM  Persona a JOIN FETCH a.idTipoPersona tipo");
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo WHERE tipo.nombre='B' AND lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
 //             SELECT a FROM  Persona a JOIN FETCH  a.idTipoPersona tipo WHERE tipo.nombre='B' AND (a.nombrePersona nombrePersona LIKE CONCAT('%', :query, '%'))
-             q.setParameter("query",query);
+             q.setParameter("name", '%' + query.toLowerCase() + '%');
        
              return q.list();
        
