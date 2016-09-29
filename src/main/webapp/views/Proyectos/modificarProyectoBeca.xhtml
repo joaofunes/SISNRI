@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+            <ui:define name="title">
+                title
+            </ui:define>
+
+            <ui:define name="content">
+                <center>
+                    <p:panel style="width: 70%" header="Modificar Proyecto Beca">
+                        <h:form id="formModProyBeca">
+                            <p:accordionPanel>
+                                <p:tab title="Datos del proyecto">
+                                    <h:panelGrid columns="2" cellpadding="10">
+                                        <p:column>
+                                            <p:outputLabel for="tipoProyectoBeca" value="Tipo de proyecto"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="tipoProyectoBeca" label="tipoProyecto"  value="#" readonly="true"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="programaBeca" value="Programa de Beca"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="programaBeca" label="programaBeca" required="true" value="#"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="monto" value="Monto"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="monto" label="monto" value="#"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="anioGestion" value="A&ntilde;o Gestion"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:calendar id="anioGestion" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="otorgada" value="Otorgada"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="otorgada" value="#" style="width: 120px" required="true">
+                                                <f:selectItem itemLabel="Si" itemValue="1"/>
+                                                <f:selectItem itemLabel="No" itemValue="2"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+
+                                    </h:panelGrid>
+
+                                </p:tab>
+                                <p:tab title="Datos del Becario">
+                                    <h:panelGrid columns="2" cellpadding="10">
+                                        <p:column>
+                                            <p:outputLabel for="nombreBecario" value="Nombre"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="nombreBecario" label="nombreBecario" value="#" required="true"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="facultadBecario" value="Facultad"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="facultadBecario" value="#" style="width: 120px" required="true">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="#" itemValue="#"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="telefonoBecario" value="Telefono"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="telefonoBecario" label="telefonoBecario" mask="(503)-9999-9999" required="true" value="#"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="emailBecario" value="Correo electronico"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="emailBecario" label="emailBecario" value="#" required="true"/>
+                                        </p:column>
+                                    </h:panelGrid>
+                                </p:tab>
+
+                            </p:accordionPanel>
+                        </h:form>
+                    </p:panel> 
+                </center>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
