@@ -162,12 +162,28 @@ public class PropuestaConvenioMB implements Serializable{
         if(!query.equals("") && query!=null ){
             filteredThemes = personaService.getReferenteInternoByName(query);
         }
-//        for (int i = 0; i < listadoPersonasInterno.size(); i++) {
-//            Persona skin = listadoPersonasInterno.get(i);
-//            if(skin.getNombrePersona().toLowerCase().startsWith(query)) {
-//                filteredThemes.add(skin);
-//            }
-//        }
+        return filteredThemes;
+    }
+    
+    
+    public void searchByDocEmailInterno(){
+        try {
+            System.out.println("referenteInterno"+referenteInterno.getApellidoPersona());
+            System.out.println("referenteInterno"+referenteInterno.getEmailPersona());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+     public List<Persona> completeSolicitanteExterno(String query) {
+        
+        List<Persona> filteredThemes = new ArrayList<Persona>();
+        
+        if(!query.equals("") && query!=null ){
+            filteredThemes = personaService.getReferenteExternoByName(query);
+        }
          
         return filteredThemes;
     }
