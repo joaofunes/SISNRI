@@ -18,13 +18,33 @@ import org.springframework.stereotype.Repository;
 @Repository(value = "personaDao")
 public class PersonaDao extends GenericDao<Persona, Integer> {
     
-    
+    /**
+     * 
+     * @param query
+     * @return 
+     */
     public List<Persona> getReferenteInternoByName(String query) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo WHERE tipo.nombre='B' AND lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
-//             SELECT a FROM  Persona a JOIN FETCH  a.idTipoPersona tipo WHERE tipo.nombre='B' AND (a.nombrePersona nombrePersona LIKE CONCAT('%', :query, '%'))
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo JOIN FETCH a.idUnidad unidad WHERE tipo.nombre='B' AND lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
              q.setParameter("name", '%' + query.toLowerCase() + '%');
        
+             return q.list();
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**
+     * Metodo para relizar busquedas de persona externas en base a LIKE
+     * @param query
+     * @return 
+     */
+    public List<Persona> getReferenteExternoByName(String query) {
+        try {
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad WHERE tipo.nombre='C' AND lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
+             q.setParameter("name", '%' + query.toLowerCase() + '%');       
              return q.list();
        
         } catch (Exception e) {

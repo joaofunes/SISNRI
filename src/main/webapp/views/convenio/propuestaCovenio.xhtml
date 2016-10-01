@@ -20,25 +20,9 @@
                                    <p:column>  
                                      <p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" />
                                    </p:column>                                         
-                                   <p:column>                                                                               
-<!--                                       <p:selectOneMenu id="idSolicinateNombre" value="#{propuestaConvenioMB.solicitante}"  effect="fade" converter="#{personaConverter}" required="true" >  
-                                           <p:ajax  listener="#{propuestaConvenioMB.onChangeSolicitante}" update="idUnidad,idCargo,formAdmin" />
-                                         <f:selectItem itemLabel="Nombre Solicitante" itemValue="${null}" itemDisabled="true" rendered="@form"/>  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonasSolicitante}" var="solicitante" itemLabel="#{solicitante.nombrePersona}" itemValue="#{solicitante}"/>  
-                                        </p:selectOneMenu> -->
-                                        <p:message for="idSolicinateNombre" />	
-                                        
-                                        
-                                        <p:autoComplete id="idSolicinateNombre" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
-                                                            var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" forceSelection="true">                                                                                           
-                                                <p:column>
-                                                    <h:outputText value="#{interno.nombrePersona} #{interno.apellidoPersona}" />
-                                                </p:column>
-                                         </p:autoComplete>
-                                        
-                                       
- 
-                                        
+                                   <p:column>                                                                                                                                                                                             
+                                       <p:inputText id="idSolicinateNombre"  required="true" label="Nombre" value="#{propuestaConvenioMB.solicitante.nombrePersona}"/>
+                                       <p:message for="idSolicinateNombre" />                                       
                                    </p:column>
 
                                    <p:column>  
@@ -68,6 +52,22 @@
                            </p:tab>
                            <p:tab title="Datos Referente Interno">
                                <h:panelGrid columns="2">
+                                    <p:column>  
+                                    <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
+                                   </p:column>                                         
+                                   <p:column>                                                                                
+                                         <p:autoComplete id="idSolicinateNombreInterno" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
+                                                            var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" forceSelection="true">                                                                                                                                            
+                                                 <p:column>
+                                                    <h:outputText value="#{interno.nombrePersona} #{interno.apellidoPersona}" />
+                                                </p:column>
+                                         </p:autoComplete>
+                                         <p:message for="idSolicinateNombreInterno" />
+                                         <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" id="idBtnSearchIn" update="growl" icon="ui-icon-disk" title="Icon Only">
+                                            <p:ajax  update="email,idFacultadInterno,idUnidadInterno" />
+                                         </p:commandButton>    
+                                   </p:column> 
+                                   
                                    <p:column>  
                                        <p:outputLabel for="idDocumentoInterno" value="N&deg; Documento" />
                                    </p:column>                                         
@@ -82,19 +82,10 @@
                                        <p:inputText id="email" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                       </p:inputText>
-                                      <p:message for="email" display="tooltip" />                                   
-                                   </p:column>  
-                                   <p:column>  
-                                    <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
-                                   </p:column>                                         
-                                   <p:column>                                         
-                                       <p:selectOneMenu id="idSolicinateNombreInterno" value="#{propuestaConvenioMB.referenteInterno}"  effect="fade" converter="#{personaConverter}" required="true">  
-                                         <p:ajax  listener="#{propuestaConvenioMB.onChangeInterno}" update="idFacultadInterno,idUnidadInterno,formAdmin" />
-                                         <f:selectItem itemLabel="Nombre Referente" itemValue="null" itemDisabled="true" />  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonasInterno}" var="solicitanteInterno" itemLabel="#{solicitanteInterno.nombrePersona}" itemValue="#{solicitanteInterno}"/>  
-                                        </p:selectOneMenu> f
-                                        <p:message for="idSolicinateNombreInterno" />
-                                   </p:column>      
+                                      <p:message for="email" display="tooltip" />  
+                                       <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" id="idBtnSearchInByEmail" update="growl" icon="ui-icon-disk" title="Icon Only" />
+                                   </p:column> 
+                                   
                                    <p:column>  
                                      <p:outputLabel for="idFacultadInterno" value="Facultad" />
                                    </p:column>                                         
@@ -138,6 +129,33 @@
                            <p:tab title="Datos Referente Externo">
                                <h:panelGrid  columns="2">
                                    
+                                   
+                                    <p:column>  
+                                       <p:outputLabel for="idNombreExterno" value="Nombre" />
+                                   </p:column>  
+                                                          
+                                   <p:column>                                         
+<!--                                       <p:selectOneMenu id="idNombreExterno" value="#{propuestaConvenioMB.referenteInterno}"  effect="fade" converter="#{personaConverter}" required="true">  
+                                         <p:ajax  listener="#{propuestaConvenioMB.onChangeExterno}" update="idFacultadInterno,idUnidadInterno,formAdmin" />
+                                         <f:selectItem itemLabel="Nombre Referente" itemValue="null" noSelectionOption="true" />  
+                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonasExterno}" var="solicitanteInterno" itemLabel="#{solicitanteInterno.nombrePersona}" itemValue="#{solicitanteInterno}"/>  
+                                        </p:selectOneMenu> -->
+                                       
+                                       <p:autoComplete id="idNombreExterno" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteExterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteExterno}"
+                                                            var="interno" itemLabel="#{externo.nombrePersona}" itemValue="#{externo}" converter="#{personaConverter}" forceSelection="true">                                                                                           
+                                                 <f:selectItem itemLabel="Nombre Referente Interno" itemValue="null" itemDisabled="true" />
+                                                <p:column>
+                                                    <h:outputText value="#{externo.nombrePersona} #{externo.apellidoPersona}" />
+                                                </p:column>
+                                         </p:autoComplete>
+                                         <p:message for="idNombreExterno" />
+                                         <p:commandButton actionListener="#{buttonView.buttonAction}" id="idBtnSearchEx" update="growl" icon="ui-icon-disk" title="Icon Only" />
+                                   
+                                   </p:column> 
+                                   
+                                   
+                                  
+                                   
                                     <p:column>  
                                        <p:outputLabel for="idDocumentoExterno" value="N&deg; Documento" />
                                    </p:column>                                         
@@ -155,20 +173,6 @@
                                        <p:message for="emailExterno" display="tooltip" />                                       
                                     </p:column>                                         
                                   
-                                   
-                                   <p:column>  
-                                       <p:outputLabel for="idNombreExterno" value="Nombre" />
-                                   </p:column>  
-                                                          
-                                   <p:column>                                         
-                                       <p:selectOneMenu id="idNombreExterno" value="#{propuestaConvenioMB.referenteInterno}"  effect="fade" converter="#{personaConverter}" required="true">  
-                                         <p:ajax  listener="#{propuestaConvenioMB.onChangeExterno}" update="idFacultadInterno,idUnidadInterno,formAdmin" />
-                                         <f:selectItem itemLabel="Nombre Referente" itemValue="null" noSelectionOption="true" />  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonasExterno}" var="solicitanteInterno" itemLabel="#{solicitanteInterno.nombrePersona}" itemValue="#{solicitanteInterno}"/>  
-                                        </p:selectOneMenu> 
-                                        <p:message for="idNombreExterno" />
-                                   </p:column> 
-                                   
                                    <p:column>  
                                         <p:outputLabel for="idCargoExterno" value="Cargo" />
                                    </p:column>      
