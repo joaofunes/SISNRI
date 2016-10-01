@@ -60,9 +60,15 @@ public class PersistenceHibernateConfig {
       
         
         //local
+<<<<<<< Updated upstream
 //        ds.setUrl("jdbc:mysql://localhost:3307/sisrni");
 //        ds.setUsername("root");
 //        ds.setPassword("");
+=======
+     //   ds.setUrl("jdbc:mysql://localhost:3307/sisrni");
+     //   ds.setUsername("root");
+     //   ds.setPassword("");
+>>>>>>> Stashed changes
 
         return ds;
     }
