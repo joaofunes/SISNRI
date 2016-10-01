@@ -34,6 +34,42 @@
                                             <p:inputText id="programaBeca" label="programaBeca" required="true" value="#"/>
                                         </p:column>
                                         <p:column>
+                                            <p:outputLabel for="paisDestino" value="Pais"/>
+                                        </p:column>
+                                        <p:column>
+                                             <p:selectOneMenu id="paisDestino" value="#" style="width: 120px" required="true">
+                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="#" itemValue="#"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="entidadInstitucion" value="Entidad o Institucion"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="entidadInstitucion" value="#" style="width: 120px" required="true">
+                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="#" itemValue="#"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Tiempo de Estadia"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="desdeEstadia" value="Desde&nbsp;"/>
+                                            <p:calendar id="desdeEstadia" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10" />
+                                            <p:outputLabel for="hastaEstadia" value="&nbsp;&nbsp;&nbsp;Hasta&nbsp;"/>
+                                            <p:calendar id="hastaEstadia" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10" />
+                                        </p:column>
+                                        <p:column>
+                                        <p:outputLabel for="modalidadFinanciamiento" value="Modalidad de financiamiento"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="modalidadFinanciamiento" value="#" style="width: 120px" required="true">
+                                                <f:selectItem itemLabel="Total" itemValue="1"/>
+                                                <f:selectItem itemLabel="Parcial" itemValue="2"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
                                             <p:outputLabel for="monto" value="Monto"/>
                                         </p:column>
                                         <p:column>
