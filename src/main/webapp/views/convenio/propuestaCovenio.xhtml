@@ -56,16 +56,15 @@
                                     <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
                                    </p:column>                                         
                                    <p:column>                                                                                
-                                         <p:autoComplete id="idSolicinateNombreInterno" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
-                                                            var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" forceSelection="true">                                                                                                                                            
-                                                 <p:column>
+                                         <p:autoComplete id="idSolicinateNombreInterno"  dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
+                                                            var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" forceSelection="true" >                                                                                                                                                                                                                                         
+                                                <p:column>
                                                     <h:outputText value="#{interno.nombrePersona} #{interno.apellidoPersona}" />
                                                 </p:column>
                                          </p:autoComplete>
                                          <p:message for="idSolicinateNombreInterno" />
-                                         <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" id="idBtnSearchIn" update="growl" icon="ui-icon-disk" title="Icon Only">
-                                            <p:ajax  update="email,idFacultadInterno,idUnidadInterno" />
-                                         </p:commandButton>    
+                                         <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameInterno}" id="idBtnSearchIn" process="@this,idSolicinateNombreInterno" update="idFacultadInterno,idUnidadInterno,formAdmin" icon="ui-icon-disk" title="Icon Only"/>
+                                        <p:message for="idBtnSearchIn" /> 
                                    </p:column> 
                                    
                                    <p:column>  
@@ -79,32 +78,32 @@
                                      <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
                                     </p:column>                                         
                                    <p:column>  
-                                       <p:inputText id="email" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
+                                       <p:inputText id="email" required="true" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                       </p:inputText>
                                       <p:message for="email" display="tooltip" />  
-                                       <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" id="idBtnSearchInByEmail" update="growl" icon="ui-icon-disk" title="Icon Only" />
+                                      <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" process="@this idDocumentoInterno email" id="idBtnSearchInByEmail" update="growl" icon="ui-icon-search" title="Buscar referente interno" />
                                    </p:column> 
                                    
                                    <p:column>  
                                      <p:outputLabel for="idFacultadInterno" value="Facultad" />
                                    </p:column>                                         
                                    <p:column>    
-                                       <p:inputText id="idFacultadInterno"  required="true" label="Facultad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.idFacultad.nombreFacultad}"/>
+                                       <p:inputText id="idFacultadInterno"  required="true" readonly="true" label="Facultad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.idFacultad.nombreFacultad}"/>
                                        <p:message for="idFacultadInterno" />
                                    </p:column>  
                                    <p:column>      
                                      <p:outputLabel for="idUnidadInterno" value="Unidad" />
                                     </p:column>                                         
                                    <p:column>  
-                                       <p:inputText id="idUnidadInterno"  required="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombre}"/>
+                                       <p:inputText id="idUnidadInterno"  required="true" readonly="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombre}"/>
                                        <p:message for="idUnidadInterno" />
                                    </p:column>         
                                    <p:column>  
                                      <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
                                    </p:column>                                         
                                    <p:column>  
-                                       <p:inputText id="idCargoInterno"  required="true" label="cargo" value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
+                                       <p:inputText id="idCargoInterno"  required="true" label="cargo" readonly="true" value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
                                        <p:message for="idCargoInterno" />
                                    </p:column>
                                       
@@ -112,7 +111,7 @@
                                       <p:outputLabel for="idTelefonoInterno" value="Tel&eacute;fono " />  
                                     </p:column>                                         
                                    <p:column>  
-                                       <p:inputText id="idTelefonoInterno" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}"/>
+                                       <p:inputText id="idTelefonoInterno" readonly="true" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}"/>
                                          
                                       <p:message for="idTelefonoInterno" />
                                    </p:column>  
@@ -120,8 +119,7 @@
                                       <p:outputLabel for="idFaxInterno" value="Fax" /> 
                                     </p:column>                                         
                                    <p:column>  
-                                       <p:inputText id="idFaxInterno"  value="#{propuestaConvenioMB.faxInterno.numeroTelefono}"/> 
-                                         
+                                       <p:inputText id="idFaxInterno" readonly="true" value="#{propuestaConvenioMB.faxInterno.numeroTelefono}"/>                                          
                                       <p:message for="idFaxInterno" />
                                    </p:column>  
                                </h:panelGrid>
@@ -129,32 +127,24 @@
                            <p:tab title="Datos Referente Externo">
                                <h:panelGrid  columns="2">
                                    
-                                   
                                     <p:column>  
                                        <p:outputLabel for="idNombreExterno" value="Nombre" />
                                    </p:column>  
                                                           
-                                   <p:column>                                         
-<!--                                       <p:selectOneMenu id="idNombreExterno" value="#{propuestaConvenioMB.referenteInterno}"  effect="fade" converter="#{personaConverter}" required="true">  
-                                         <p:ajax  listener="#{propuestaConvenioMB.onChangeExterno}" update="idFacultadInterno,idUnidadInterno,formAdmin" />
-                                         <f:selectItem itemLabel="Nombre Referente" itemValue="null" noSelectionOption="true" />  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonasExterno}" var="solicitanteInterno" itemLabel="#{solicitanteInterno.nombrePersona}" itemValue="#{solicitanteInterno}"/>  
-                                        </p:selectOneMenu> -->
+                                   <p:column>                 
                                        
+   
                                        <p:autoComplete id="idNombreExterno" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteExterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteExterno}"
-                                                            var="interno" itemLabel="#{externo.nombrePersona}" itemValue="#{externo}" converter="#{personaConverter}" forceSelection="true">                                                                                           
+                                                            var="externo" itemLabel="#{externo.nombrePersona}" itemValue="#{externo}" converter="#{personaConverter}" forceSelection="true">                                                                                           
                                                  <f:selectItem itemLabel="Nombre Referente Interno" itemValue="null" itemDisabled="true" />
                                                 <p:column>
                                                     <h:outputText value="#{externo.nombrePersona} #{externo.apellidoPersona}" />
                                                 </p:column>
                                          </p:autoComplete>
                                          <p:message for="idNombreExterno" />
-                                         <p:commandButton actionListener="#{buttonView.buttonAction}" id="idBtnSearchEx" update="growl" icon="ui-icon-disk" title="Icon Only" />
-                                   
+                                         <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameExterno}" id="idBtnSearchEx" process="@this,idNombreExterno" update="formAdmin" icon="ui-icon-disk" title="Icon Only"/>
                                    </p:column> 
                                    
-                                   
-                                  
                                    
                                     <p:column>  
                                        <p:outputLabel for="idDocumentoExterno" value="N&deg; Documento" />
@@ -167,38 +157,39 @@
                                      <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
                                    </p:column>      
                                    <p:column> 
-                                       <p:inputText id="emailExterno" value="#{propuestaConvenioMB.referenteExterno.emailPersona}">
+                                       <p:inputText id="emailExterno" required="true" value="#{propuestaConvenioMB.referenteExterno.emailPersona}">
                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                       </p:inputText>
-                                       <p:message for="emailExterno" display="tooltip" />                                       
+                                       <p:message for="emailExterno" display="tooltip" />  
+                                       <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailExterno}" process="@this idDocumentoExterno emailExterno" id="idBtnSearchExByEmail" update="growl" icon="ui-icon-search" title="Buscar referente interno" />
                                     </p:column>                                         
                                   
                                    <p:column>  
                                         <p:outputLabel for="idCargoExterno" value="Cargo" />
                                    </p:column>      
                                    <p:column> 
-                                       <p:inputText id="idCargoExterno"  required="true" label="cargo" value="#{propuestaConvenioMB.referenteExterno.cargoPersona}"/>
+                                       <p:inputText id="idCargoExterno" readonly="true" label="cargo" value="#{propuestaConvenioMB.referenteExterno.cargoPersona}"/>
                                        <p:message for="idCargoExterno" />   
                                    </p:column>  
                                    <p:column>      
                                         <p:outputLabel for="idEntidadInstitucion" value="Entidad o Instituci&oacute;n" />
                                    </p:column>      
                                    <p:column> 
-                                       <p:inputText id="idEntidadInstitucion"  required="true" label="Entidad o institucion" value="#{propuestaConvenioMB.referenteExterno.idOrganismo.nombreOrganismo}"/>
+                                       <p:inputText id="idEntidadInstitucion"  readonly="true" label="Entidad o institucion" value="#{propuestaConvenioMB.referenteExterno.idOrganismo.nombreOrganismo}"/>
                                        <p:message for="idEntidadInstitucion" />    
                                    </p:column>      
                                     <p:column>  
                                       <p:outputLabel for="idTelefonoExterno" value="Tel&eacute;fono " />   
                                     </p:column>      
                                    <p:column>   
-                                      <p:inputMask id="idTelefonoExterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.telFijoExterno}" required="true"/>
+                                       <p:inputMask id="idTelefonoExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" required="true"/>
                                       <p:message for="idTelefonoExterno" />
                                    </p:column>  
                                    <p:column>      
                                       <p:outputLabel for="idFaxExterno" value="Fax" />  
                                     </p:column>      
                                    <p:column>   
-                                       <p:inputMask id="idFaxExterno" mask="(999) 999-9999" value="#{propuestaConvenioMB.faxExterno}" required="true"/>
+                                       <p:inputMask id="idFaxExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.faxExterno.numeroTelefono}" required="true"/>
                                       <p:message for="idFaxExterno" />
                                    </p:column>
 

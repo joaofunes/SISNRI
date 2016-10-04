@@ -35,7 +35,17 @@ public class PersonaService extends GenericService<Persona, Integer> {
     public List<Persona> getReferenteInternoByName(String query){
         return personaDao.getReferenteInternoByName(query);
     }
+    
+    
+    public Persona getReferenteInternoByDocEmail(String doc, Persona persona){
+        return personaDao.getReferenteInternoByDocEmail(doc,persona);
+    }
+    
     public List<Persona> getReferenteExternoByName(String query){
         return personaDao.getReferenteExternoByName(query);
+    }
+    
+     public Persona getReferenteExternoByDocEmail(String doc, Persona persona){
+        return personaDao.getReferenteExternoByDocEmail(doc,persona);
     }
 }

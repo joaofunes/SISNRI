@@ -9,15 +9,18 @@ import com.sisrni.model.Facultad;
 import com.sisrni.model.Persona;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.Unidad;
-import com.sisrni.service.FacultadService;
+import com.sisrni.security.AppUserDetails;
+import com.sisrni.service.FacultadService;  
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.TelefonoService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -29,10 +32,10 @@ import org.springframework.web.context.WebApplicationContext;
  */
 
 @Named("propuestaConvenioMB")
-@Scope(WebApplicationContext.SCOPE_SESSION)
+@Scope(WebApplicationContext.SCOPE_APPLICATION)
 public class PropuestaConvenioMB implements Serializable{
     
-     private static final long serialVersionUID = 1L;  
+    private static final long serialVersionUID = 1L;  
      
     private static final String FIJO ="FIJO";  
     private static final String FAX ="FAX";  
@@ -71,25 +74,47 @@ public class PropuestaConvenioMB implements Serializable{
     
     private Telefono telFijoExterno;
     private Telefono faxExterno;
-            
+      
+    private CurrentUserSessionBean user;
+    private AppUserDetails usuario;
         
     @PostConstruct
     public void init() {
         try {
-           solicitante= new Persona();
-           referenteInterno = new Persona();
-           referenteExterno = new Persona();
-           telFijoInterno = new Telefono();
-           faxInterno = new Telefono();
-           telFijoExterno = new Telefono(); 
-           faxExterno = new Telefono();       
-           inicializador();          
+          
+           RequestContext.getCurrentInstance().reset(":formAdmin"); 
+           inicializador();   
+           cargarUsuario();
         } catch (Exception e) {
         }
     } 
     
-     private void inicializador() {
-         try {     
+    /**
+     * cargar datos de usuario logeado
+     */
+    private void cargarUsuario() {
+        try {
+          usuario.getUsername();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    private void inicializador() {
+         try {  
+            solicitante= new Persona();
+            referenteInterno = new Persona();
+            referenteExterno = new Persona();
+            telFijoInterno = new Telefono();
+            faxInterno = new Telefono();
+            telFijoExterno = new Telefono(); 
+            faxExterno = new Telefono(); 
+             user = new CurrentUserSessionBean();
+            usuario = user.getSessionUser();
+             
              listadoPersonasSolicitante = new ArrayList<Persona>();
              listadoPersonasInterno = new ArrayList<Persona>();
              listadoPersonasExterno = new ArrayList<Persona>();
@@ -159,36 +184,91 @@ public class PropuestaConvenioMB implements Serializable{
         
         List<Persona> filteredThemes = new ArrayList<Persona>();
         
-        if(!query.equals("") && query!=null ){
+        if(query!=null && !query.equals("")){
             filteredThemes = personaService.getReferenteInternoByName(query);
         }
         return filteredThemes;
     }
     
-    
-    public void searchByDocEmailInterno(){
-        try {
-            System.out.println("referenteInterno"+referenteInterno.getApellidoPersona());
-            System.out.println("referenteInterno"+referenteInterno.getEmailPersona());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    
-    
+        
      public List<Persona> completeSolicitanteExterno(String query) {
         
         List<Persona> filteredThemes = new ArrayList<Persona>();
         
-        if(!query.equals("") && query!=null ){
+        if(query!=null && !query.equals("")){
             filteredThemes = personaService.getReferenteExternoByName(query);
         }
          
         return filteredThemes;
     }
     
+     
+      public void searchByNameInterno(){
+        try {
+            
+            onChangeInterno();
+            
+            if(referenteInterno.getDuiPersona()!= null){
+                 setNumDocumentoInterno(referenteInterno.getDuiPersona());
+            }else if(referenteInterno.getNitPersona() != null){
+                setNumDocumentoInterno(referenteInterno.getNitPersona());
+            }else if(referenteInterno.getPasaporte() != null){
+                 setNumDocumentoInterno(referenteInterno.getPasaporte());
+            }else{
+                setNumDocumentoInterno("");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     
+     public void searchByDocEmailInterno(){
+        try {
+            
+            if(numDocumentoInterno!=null && referenteInterno!= null && !numDocumentoInterno.equals("") &&  !referenteInterno.getEmailPersona().equals("")){
+            referenteInterno = personaService.getReferenteInternoByDocEmail(numDocumentoInterno, referenteInterno);
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     
+     
+      public void searchByDocEmailExterno(){
+        try {
+            
+            if(numDocumentoExterno!=null && referenteExterno!= null && !numDocumentoExterno.equals("") &&  !referenteExterno.getEmailPersona().equals("")){
+            referenteExterno = personaService.getReferenteExternoByDocEmail(numDocumentoExterno, referenteExterno);
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
+     
+     public void searchByNameExterno(){
+        try {
+            
+            onChangeExterno();
+            
+            if(referenteExterno.getDuiPersona()!= null){
+                 setNumDocumentoExterno(referenteExterno.getDuiPersona());
+            }else if(referenteExterno.getNitPersona() != null){
+                setNumDocumentoExterno(referenteExterno.getNitPersona());
+            }else if(referenteExterno.getPasaporte() != null){
+                 setNumDocumentoExterno(referenteExterno.getPasaporte());
+            }else{
+                setNumDocumentoExterno("");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+     
     public Persona getReferenteInterno() {
         return referenteInterno;
     }
@@ -302,6 +382,22 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setNumDocumentoExterno(String numDocumentoExterno) {
         this.numDocumentoExterno = numDocumentoExterno;
+    }
+
+    public AppUserDetails getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(AppUserDetails usuario) {
+        this.usuario = usuario;
+    }
+
+    public CurrentUserSessionBean getUser() {
+        return user;
+    }
+
+    public void setUser(CurrentUserSessionBean user) {
+        this.user = user;
     }
 
    
