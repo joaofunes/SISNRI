@@ -70,7 +70,7 @@
                                      <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
                                    </p:column>      
                                    <p:column> 
-                                       <p:inputText id="email" required="true" value="#{propuestaConvenioMB.referenteExterno.emailPersona}">
+                                       <p:inputText id="email" required="true" value="#{personaMB.persona.emailPersona}">
                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                       </p:inputText>
                                        <p:watermark for="email" value="email@email.com" id="watermarkEmail" />
@@ -80,26 +80,19 @@
                                    <p:column>  
                                      <p:outputLabel for="idUnidad" value="Unidad" />
                                       </p:column>                                         
-                                    <p:column> 
-                                        
-                                         <p:selectOneMenu id="idNombreExterno" value="#{propuestaConvenioMB.referenteInterno}"  effect="fade" converter="#{personaConverter}" required="true">  
-                                         <p:ajax  listener="#{propuestaConvenioMB.onChangeExterno}" update="idFacultadInterno,idUnidadInterno,formAdmin" />
-                                         <f:selectItem itemLabel="Nombre Referente" itemValue="null" noSelectionOption="true" />  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoPersonasExterno}" var="solicitanteInterno" itemLabel="#{solicitanteInterno.nombrePersona}" itemValue="#{solicitanteInterno}"/>  
-                                        </p:selectOneMenu> -->
-                                        
-                                        <p:inputText id="idUnidad"  required="true" label="unidad" value="#{personaMB.persona.idUnidad.nombre}"/>
-                                        <p:watermark for="idUnidad" value="unidad" id="watermarkUnidad" />
-                                        <p:message for="idUnidad" />
+                                    <p:column>                                         
+                                        <p:selectOneMenu id="idUnidad"  value="#{personaMB.persona.idUnidad}" effect="fade" converter="#{unidadConverter}" required="true">                                           
+                                            <f:selectItem itemLabel="Unidad" itemValue="null" noSelectionOption="true" />  
+                                            <f:selectItems value="#{personaMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad}"/>  
+                                        </p:selectOneMenu>    
                                    </p:column>
                                    <p:column>  
                                      <p:outputLabel for="idOrganismo" value="Organismo" />
                                    </p:column>                                         
                                    <p:column>                                         
-                                         <p:selectOneMenu id="idOrganismo" value="#{personaMB.referenteInterno}"  effect="fade" converter="#{personaConverter}" required="true">  
-                                         <p:ajax  listener="#{personaMB.onChangeExterno}" update="idFacultadInterno,idUnidadInterno,formAdmin" />
-                                         <f:selectItem itemLabel="Nombre Referente" itemValue="null" noSelectionOption="true" />  
-                                         <f:selectItems value="#{personaMB.listadoPersonasExterno}" var="solicitanteInterno" itemLabel="#{solicitanteInterno.nombrePersona}" itemValue="#{solicitanteInterno}"/>  
+                                       <p:selectOneMenu id="idOrganismo" value="#{personaMB.persona.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
+                                         <f:selectItem itemLabel="Organismo" itemValue="null" noSelectionOption="true" />  
+                                         <f:selectItems value="#{personaMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
                                         </p:selectOneMenu>                                                                               
                                    </p:column>
                                    

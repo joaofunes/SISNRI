@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sisrni.model.managedbean.crud.converter;
+package com.sisrni.converter;
 
 
 import com.sisrni.model.Persona;
