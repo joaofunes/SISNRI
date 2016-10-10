@@ -20,6 +20,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -119,12 +120,32 @@ public class PersonaMB implements Serializable{
     /**
      * Metodo para almacenar una nueva persona
      */ 
-    public void preEditar(Persona persona){
+    public void preEditarPropuestaInterno(String nDocumento){
         try {
-            String msg = "Persona Editada Exitosamente!";    
-          
             
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
+            if(nDocumento!=null && !nDocumento.equals("")){
+             this.persona  = personaService.getReferenteInternoByDocumento(nDocumento);
+             RequestContext context = RequestContext.getCurrentInstance();              
+             context.execute("PF('PersonaEditDialog').show();");
+            }     
+             
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
+    /**
+     * Metodo para almacenar una nueva persona
+     */ 
+    public void preEditarPropuestaExterno(String nDocumento){
+        try {
+            
+            if(nDocumento!=null && !nDocumento.equals("")){
+             this.persona  = personaService.getReferenteExternoByDoccumento(nDocumento);
+             RequestContext context = RequestContext.getCurrentInstance();              
+             context.execute("PF('PersonaEditDialog').show();");
+            }     
+             
         } catch (Exception e) {
             e.printStackTrace();
         }

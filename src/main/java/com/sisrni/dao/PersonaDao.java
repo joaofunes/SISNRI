@@ -92,5 +92,42 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         }
         return null;
     }
+    
+    
+    /**
+     * Metodo para relaizar busquedas de referente externos por medio de su documento
+     * @param doc
+     * @param persona
+     * @return 
+     */
+    public Persona getReferenteInternoByDocumento(String doc) {
+        try {
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='C'  AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
+             q.setParameter("num",doc);             
+             return (Persona) q.uniqueResult();
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**
+     * Metodo para relaizar busquedas de referente externos por medio de su documento
+     * @param doc
+     * @param persona
+     * @return 
+     */
+    public Persona getReferenteExternoByDoccumento(String doc) {
+        try {
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='C'  AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
+             q.setParameter("num",doc);            
+             return (Persona) q.uniqueResult();
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

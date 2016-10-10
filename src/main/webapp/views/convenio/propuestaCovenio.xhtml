@@ -54,6 +54,8 @@
                                </h:panelGrid>
                            </p:tab>
                            <p:tab title="Datos Referente Interno">
+                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
+                                <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idSolicinateNombreInterno" update="formAdmin"  actionListener="#{personaMB.preEditarPropuestaInterno(numDocumentoInterno)}"  />
                                <h:panelGrid columns="2">
                                     <p:column>  
                                     <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
@@ -129,15 +131,14 @@
                            </p:tab>
                            <p:tab title="Datos Referente Externo">
                                 <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
-                                <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoExterno emailExterno"  actionListener="#{personaMB.preEditar(referenteExterno)}"  oncomplete="PF('PersonaEditDialog').show();"/>
+                                <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoExterno" update="formAdmin"  actionListener="#{personaMB.preEditarPropuestaExterno(numDocumentoExterno)}"  />
                                <h:panelGrid  columns="2">
                                    
                                     <p:column>  
                                        <p:outputLabel for="idNombreExterno" value="Nombre" />
                                    </p:column>  
                                                           
-                                   <p:column>                 
-                                       
+                                   <p:column>                                                        
                                        <p:autoComplete id="idNombreExterno" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteExterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteExterno}"
                                                             var="externo" itemLabel="#{externo.nombrePersona}" itemValue="#{externo}" converter="#{personaConverter}" forceSelection="true">                                                                                           
                                                  <f:selectItem itemLabel="Nombre Referente Interno" itemValue="null" itemDisabled="true" />
