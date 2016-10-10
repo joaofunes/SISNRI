@@ -11,6 +11,9 @@
     >
                     
     <ui:define name="content">
+             <ui:include src="../persona/crearPersona.xhtml" />
+             <ui:include src="../persona/editPersona.xhtml" />
+        
             <h:form id="formAdmin">
                 <center> 
                 <p:panel style="width: 75%">  
@@ -82,7 +85,7 @@
                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                       </p:inputText>
                                       <p:message for="email" display="tooltip" />  
-                                      <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" process="@this idDocumentoInterno email" id="idBtnSearchInByEmail" update="growl" icon="ui-icon-search" title="Buscar referente interno" />
+                                      <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" process="@this idDocumentoInterno email" id="idBtnSearchInByEmail" icon="ui-icon-search" title="Buscar referente interno" />
                                    </p:column> 
                                    
                                    <p:column>  
@@ -125,6 +128,8 @@
                                </h:panelGrid>
                            </p:tab>
                            <p:tab title="Datos Referente Externo">
+                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
+                                <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoExterno emailExterno"  actionListener="#{personaMB.preEditar(referenteExterno)}"  oncomplete="PF('PersonaEditDialog').show();"/>
                                <h:panelGrid  columns="2">
                                    
                                     <p:column>  
@@ -133,7 +138,6 @@
                                                           
                                    <p:column>                 
                                        
-   
                                        <p:autoComplete id="idNombreExterno" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteExterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteExterno}"
                                                             var="externo" itemLabel="#{externo.nombrePersona}" itemValue="#{externo}" converter="#{personaConverter}" forceSelection="true">                                                                                           
                                                  <f:selectItem itemLabel="Nombre Referente Interno" itemValue="null" itemDisabled="true" />
@@ -161,7 +165,7 @@
                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                       </p:inputText>
                                        <p:message for="emailExterno" display="tooltip" />  
-                                       <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailExterno}" process="@this idDocumentoExterno emailExterno" id="idBtnSearchExByEmail" update="growl" icon="ui-icon-search" title="Buscar referente interno" />
+                                       <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailExterno}" process="@this idDocumentoExterno emailExterno" id="idBtnSearchExByEmail" icon="ui-icon-search" title="Buscar referente interno" />
                                     </p:column>                                         
                                   
                                    <p:column>  
@@ -262,6 +266,12 @@
             };    
         </script>
         
+             
+             
+             
+   
+             
+             
     </ui:define>
     
     

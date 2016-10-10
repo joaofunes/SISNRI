@@ -29,9 +29,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "TipoPersona.findAll", query = "SELECT t FROM TipoPersona t")})
 public class TipoPersona implements Serializable {
 
-    @OneToMany(mappedBy = "idTipoPersona")
-    private List<Persona> personaList;
-
+   
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +45,9 @@ public class TipoPersona implements Serializable {
     @Size(max = 100)
     @Column(name = "VALOR", length = 100)
     private String valor;
+
+     @OneToMany(mappedBy = "idTipoPersona")
+    private List<Persona> personaList;
 
     public TipoPersona() {
     }

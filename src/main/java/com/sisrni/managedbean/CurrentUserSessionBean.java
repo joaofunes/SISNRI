@@ -8,6 +8,7 @@ import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.SsMenusService;
 import com.sisrni.service.SsOpcionesService;
 import com.sisrni.utils.MenuList;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Named;
@@ -21,7 +22,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 @Named("currentUserSessionBean")
 @Scope(WebApplicationContext.SCOPE_SESSION)
-public class CurrentUserSessionBean {
+public class CurrentUserSessionBean implements Serializable{
+    
 
     private final static Log log = LogFactory.getLog(CurrentUserSessionBean.class);
 

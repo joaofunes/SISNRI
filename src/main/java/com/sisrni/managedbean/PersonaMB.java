@@ -5,7 +5,7 @@
  */
 package com.sisrni.managedbean;
 
-import com.sisrni.managedbean.generic.GenericManagedBean;
+
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.TipoPersona;
@@ -37,7 +37,7 @@ public class PersonaMB implements Serializable{
     
     private List<Organismo> listadoOrganismo;
     private List<Unidad> listadoUnidad;
-    private List<String> selectedTipoPersona;
+    private List<TipoPersona> listadoTipoPersona;
     
     private Persona persona;
     private TipoPersona tipoPersona;
@@ -57,9 +57,6 @@ public class PersonaMB implements Serializable{
     @Autowired
     @Qualifier(value = "tipoPersonaService")
     private TipoPersonaService tipoPersonaService;
-    
-    
-    
     
     //declaracion de listas
     @PostConstruct
@@ -81,6 +78,7 @@ public class PersonaMB implements Serializable{
          try {
              listadoOrganismo = organismoService.findAll();
              listadoUnidad = unidadService.findAll();
+             listadoTipoPersona = tipoPersonaService.findAll();
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -92,13 +90,41 @@ public class PersonaMB implements Serializable{
     public void guardar(){
         try {
             String msg = "Persona Almacenado Exitosamente!";    
-            for(String us:selectedTipoPersona){
-                tipoPersona = tipoPersonaService.getTipoPersonaByNombre(us);
-            }            
-            persona.setIdTipoPersona(tipoPersona);
+           
             personaService.save(persona);
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
+    
+    /**
+     * Metodo para almacenar una nueva persona
+     */ 
+    public void editar(){
+        try {
+            String msg = "Persona Editada Exitosamente!";    
+            personaService.merge(persona);
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
+    
+    
+    /**
+     * Metodo para almacenar una nueva persona
+     */ 
+    public void preEditar(Persona persona){
+        try {
+            String msg = "Persona Editada Exitosamente!";    
+          
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,14 +154,6 @@ public class PersonaMB implements Serializable{
         this.listadoUnidad = listadoUnidad;
     }
 
-    public List<String> getSelectedTipoPersona() {
-        return selectedTipoPersona;
-    }
-
-    public void setSelectedTipoPersona(List<String> selectedTipoPersona) {
-        this.selectedTipoPersona = selectedTipoPersona;
-    }
-
     public PersonaService getPersonaService() {
         return personaService;
     }
@@ -152,7 +170,13 @@ public class PersonaMB implements Serializable{
         this.tipoPersona = tipoPersona;
     }
 
-   
+    public List<TipoPersona> getListadoTipoPersona() {
+        return listadoTipoPersona;
+    }
+
+    public void setListadoTipoPersona(List<TipoPersona> listadoTipoPersona) {
+        this.listadoTipoPersona = listadoTipoPersona;
+    }
 
     
     

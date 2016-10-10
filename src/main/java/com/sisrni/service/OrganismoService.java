@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @author Joao
  */
 @Service(value = "organismoService")
-public class OrganismoService extends GenericService<Organismo, Integer> {
+public class OrganismoService extends GenericService<Organismo, Integer>  {
     
     @Autowired
     private OrganismoDao organismoDao;
