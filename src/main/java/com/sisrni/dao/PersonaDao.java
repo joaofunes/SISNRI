@@ -102,7 +102,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public Persona getReferenteInternoByDocumento(String doc) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='C'  AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='B'  AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
              q.setParameter("num",doc);             
              return (Persona) q.uniqueResult();
        

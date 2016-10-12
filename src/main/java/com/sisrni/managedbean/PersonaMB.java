@@ -40,8 +40,10 @@ public class PersonaMB implements Serializable{
     private List<Unidad> listadoUnidad;
     private List<TipoPersona> listadoTipoPersona;
     
-    private Persona persona;
+    public Persona persona;
     private TipoPersona tipoPersona;
+    
+    public String nDocumento;
     
     @Autowired
     @Qualifier(value = "organismoService")
@@ -107,8 +109,7 @@ public class PersonaMB implements Serializable{
     public void editar(){
         try {
             String msg = "Persona Editada Exitosamente!";    
-            personaService.merge(persona);
-            
+            personaService.merge(persona);            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,7 +121,7 @@ public class PersonaMB implements Serializable{
     /**
      * Metodo para almacenar una nueva persona
      */ 
-    public void preEditarPropuestaInterno(String nDocumento){
+    public void preEditarPropuestaInterno(String nDoc){
         try {
             
             if(nDocumento!=null && !nDocumento.equals("")){
@@ -137,7 +138,7 @@ public class PersonaMB implements Serializable{
     /**
      * Metodo para almacenar una nueva persona
      */ 
-    public void preEditarPropuestaExterno(String nDocumento){
+    public void preEditarPropuestaExterno(){
         try {
             
             if(nDocumento!=null && !nDocumento.equals("")){
@@ -199,6 +200,13 @@ public class PersonaMB implements Serializable{
         this.listadoTipoPersona = listadoTipoPersona;
     }
 
-    
+    public String getnDocumento() {
+        return nDocumento;
+    }
+
+    public void setnDocumento(String nDocumento) {
+        this.nDocumento = nDocumento;
+    }
+
     
 }

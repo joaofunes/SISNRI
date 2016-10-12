@@ -16,7 +16,7 @@
         
             <h:form id="formAdmin">
                 <center> 
-                <p:panel style="width: 75%">  
+                <p:panel style="width: 65%">  
                     <p:accordionPanel multiple="true" activeIndex="0,1,2,3">
                            <p:tab title="Datos del Solicitante">
                                <h:panelGrid columns="2" >
@@ -54,9 +54,12 @@
                                </h:panelGrid>
                            </p:tab>
                            <p:tab title="Datos Referente Interno">
-                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
-                                <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idSolicinateNombreInterno" update="formAdmin"  actionListener="#{personaMB.preEditarPropuestaInterno(numDocumentoInterno)}"  />
-                               <h:panelGrid columns="2">
+                                <p:commandButton id="createButtonInterno" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
+                               
+                                <p:commandButton id="editButtonInterno" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoInterno" update=":formEditPersonas"  action="#{propuestaConvenioMB.preEditarPropuestaInterno}"/>
+                                   
+                               
+                                <h:panelGrid columns="2">
                                     <p:column>  
                                     <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
                                    </p:column>                                         
@@ -131,7 +134,7 @@
                            </p:tab>
                            <p:tab title="Datos Referente Externo">
                                 <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
-                                <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoExterno" update="formAdmin"  actionListener="#{personaMB.preEditarPropuestaExterno(numDocumentoExterno)}"  />
+                                <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoExterno" update=":formEditPersonas"  actionListener="#{propuestaConvenioMB.preEditarPropuestaExterno}"  />
                                <h:panelGrid  columns="2">
                                    
                                     <p:column>  
@@ -167,7 +170,7 @@
                                       </p:inputText>
                                        <p:message for="emailExterno" display="tooltip" />  
                                        <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailExterno}" process="@this idDocumentoExterno emailExterno" id="idBtnSearchExByEmail" icon="ui-icon-search" title="Buscar referente interno" />
-                                    </p:column>                                         
+                                   </p:column>                                         
                                   
                                    <p:column>  
                                         <p:outputLabel for="idCargoExterno" value="Cargo" />
@@ -231,13 +234,15 @@
                                    </p:column> 
                                    
                                    <p:column>
-                                       <p:inputText id="idNombrePropuesta"  required="true" label="nombre propuesta"/>
+                                       <p:inputText id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{propuestaConvenioMB.propuesta.nombrePropuesta}"/>
                                        <p:message for="idNombrePropuesta" />
+                                       <p:watermark for="idNombrePropuesta" value="Nombre Propuesta" id="nameProp" />
                                    </p:column>
                                    
                                    <p:column>
-                                        <p:inputText id="idDescripcionPropuesta"  required="true" label="descripcion"/>
+                                       <p:inputText id="idDescripcionPropuesta"  required="true" label="descripcion" value="#{propuestaConvenioMB.propuesta.finalidadPropuesta}"/>
                                        <p:message for="idDescripcionPropuesta" /> 
+                                       <p:watermark for="idDescripcionPropuesta" value="Descripcion" id="descripcionProp" />
                                    </p:column>
                                    
                                </h:panelGrid>
@@ -267,6 +272,112 @@
             };    
         </script>
         
+             
+       
+             
+    <p:dialog id="EditDlg" widgetVar="EditDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Edicion Persona" closeOnEscape="true">
+            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
+          
+    <h:form id="formEditPersonas">
+                <center>                  
+                               <h:panelGrid columns="2" >
+                                   <p:column>  
+                                     <p:outputLabel for="idNombrePersona" value="Nombre Persona" />
+                                   </p:column>                                         
+                                   <p:column>                                                                                                                                                                                             
+                                       <p:inputText id="idNombrePersona"  required="true" label="Nombre" value="#{propuestaConvenioMB.personaEdit.nombrePersona}"/>
+                                       <p:watermark for="idNombrePersona" value="Nombre de la Persona" id="watermarkNombre" />
+                                       <p:message for="idNombrePersona" />                                       
+                                   </p:column>
+
+                                   <p:column>  
+                                     <p:outputLabel for="idApellido" value="Apellido Persona" />
+                                   </p:column>                                         
+                                  <p:column> 
+                                      <p:inputText id="idApellido"  required="true" label="Apellido" value="#{propuestaConvenioMB.personaEdit.apellidoPersona}"/>
+                                       <p:watermark for="idApellido" value="Apellido de la Persona" id="watermarkApeliido" />
+                                      <p:message for="idApellido" />
+                                   </p:column>
+                                   
+                                    <p:column> 
+                                         <p:outputLabel for="dui" value="DUI" />
+                                    </p:column> 
+                                    <p:column> 
+                                        <p:inputMask id="dui" value="#{propuestaConvenioMB.personaEdit.duiPersona}" mask="99999999-9"/>
+                                         <p:watermark for="dui" value="99999999-9" id="watermarkDui" />
+                                    </p:column> 
+                                  
+                                    <p:column> 
+                                         <p:outputLabel for="nit" value="NIT" />
+                                    </p:column> 
+                                    <p:column> 
+                                        <p:inputMask id="nit" value="#{propuestaConvenioMB.personaEdit.nitPersona}" mask="9999-999999-999-9"/>
+                                         <p:watermark for="nit" value="9999-999999-999-9" id="watermarkNit" />
+                                    </p:column> 
+                                   
+                                    <p:column> 
+                                         <p:outputLabel for="passaporte" value="Pasaporte" />
+                                    </p:column> 
+                                    <p:column> 
+                                        <p:inputText id="passaporte"  required="true" label="pasaporte" value="#{propuestaConvenioMB.personaEdit.pasaporte}"/>
+                                         <p:watermark for="passaporte" value="pasaporte" id="watermarkPass" />
+                                    </p:column> 
+                                   
+                                    <p:column>
+                                     <p:outputLabel for="idCargo" value="Cargo" />
+                                      </p:column>                                         
+                                    <p:column> 
+                                       <p:inputText id="idCargo"  required="true" label="cargo" value="#{propuestaConvenioMB.personaEdit.cargoPersona}"/>
+                                       <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
+                                       <p:message for="idCargo" />
+                                   </p:column> 
+                                   
+                                    <p:column>  
+                                     <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
+                                   </p:column>      
+                                   <p:column> 
+                                       <p:inputText id="email" required="true" value="#{propuestaConvenioMB.personaEdit.emailPersona}">
+                                           <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                      </p:inputText>
+                                       <p:watermark for="email" value="email@email.com" id="watermarkEmail" />
+                                       <p:message for="email" display="tooltip" />                                         
+                                    </p:column>    
+                                   
+                                   <p:column>  
+                                     <p:outputLabel for="idUnidad" value="Unidad" />
+                                      </p:column>                                         
+                                    <p:column>                                         
+                                        <p:selectOneMenu id="idUnidad"  value="#{propuestaConvenioMB.personaEdit.idUnidad}" effect="fade" converter="#{unidadConverter}" required="true">                                           
+                                            <f:selectItem itemLabel="Unidad" itemValue="null" noSelectionOption="true" />  
+                                            <f:selectItems value="#{propuestaConvenioMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad}"/>  
+                                        </p:selectOneMenu>    
+                                   </p:column>
+                                   <p:column>  
+                                     <p:outputLabel for="idOrganismo" value="Organismo" />
+                                   </p:column>                                         
+                                   <p:column>                                         
+                                       <p:selectOneMenu id="idOrganismo" value="#{propuestaConvenioMB.personaEdit.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
+                                         <f:selectItem itemLabel="Organismo" itemValue="null" noSelectionOption="true" />  
+                                         <f:selectItems value="#{propuestaConvenioMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
+                                        </p:selectOneMenu>                                                                               
+                                   </p:column>
+                                   
+                                   <p:column>  
+                                     <p:outputLabel for="idTipoPersona" value="Tipo persona" />
+                                      </p:column>                                         
+                                   <p:column>                                                                       
+                                       <p:selectOneMenu id="idTipoPersona" value="#{propuestaConvenioMB.personaEdit.idTipoPersona}"  effect="fade" converter="#{tipoPersonaConverter}" required="true">                                           
+                                         <f:selectItem itemLabel="Tipo Persona" itemValue="null" noSelectionOption="true" />  
+                                         <f:selectItems value="#{propuestaConvenioMB.listadoTipoPersona}" var="tipoPrs" itemLabel="#{tipoPrs.nombre}" itemValue="#{tipoPrs}"/>  
+                                        </p:selectOneMenu>                                     
+                                   </p:column>                        
+                                   <p:column> 
+                                       <p:commandButton value="Editar Persona" id="idGuardarPersona" actionListener="#{propuestaConvenioMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" />
+                                   </p:column>
+                            </h:panelGrid>
+                </center>    
+            </h:form>  
+        </p:dialog>        
              
              
              

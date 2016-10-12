@@ -6,18 +6,27 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Facultad;
+import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
+import com.sisrni.model.Propuesta;
 import com.sisrni.model.Telefono;
+import com.sisrni.model.TipoPersona;
 import com.sisrni.model.Unidad;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.FacultadService;  
+import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
+import com.sisrni.service.PropuestaService;
 import com.sisrni.service.TelefonoService;
+import com.sisrni.service.TipoPersonaService;
+import com.sisrni.service.UnidadService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
@@ -52,6 +61,26 @@ public class PropuestaConvenioMB implements Serializable{
     @Qualifier(value = "telefonoService")
     private TelefonoService telefonoService;
     
+    @Autowired
+    @Qualifier(value = "organismoService")
+    private OrganismoService organismoService;
+    
+    @Autowired
+    @Qualifier(value = "unidadService")
+    private UnidadService unidadService;
+    
+    @Autowired
+    @Qualifier(value = "tipoPersonaService")
+    private TipoPersonaService tipoPersonaService;
+    
+    
+    @Autowired
+    @Qualifier(value = "propuestaService")
+    private PropuestaService propuestaService;
+    
+    
+    
+    
     
     private String numDocumentoInterno;
     private String numDocumentoExterno;
@@ -60,11 +89,17 @@ public class PropuestaConvenioMB implements Serializable{
     private List<Persona> listadoPersonasInterno;
     private List<Persona> listadoPersonasExterno;
     
+    private List<Organismo> listadoOrganismo;
+    private List<Unidad> listadoUnidad;
+    private List<TipoPersona> listadoTipoPersona;
     
-   
     private List<Telefono> listadoTelefonoReferenteInterno;
     private List<Telefono> listadoTelefonoReferenteExterno;
     
+    
+    private Propuesta propuesta;
+    
+    private Persona personaEdit;
     private Persona solicitante;
     private Persona referenteInterno;
     private Persona referenteExterno;
@@ -77,6 +112,7 @@ public class PropuestaConvenioMB implements Serializable{
       
     private CurrentUserSessionBean user;
     private AppUserDetails usuario;
+
         
     @PostConstruct
     public void init() {
@@ -112,8 +148,10 @@ public class PropuestaConvenioMB implements Serializable{
             faxInterno = new Telefono();
             telFijoExterno = new Telefono(); 
             faxExterno = new Telefono(); 
-             user = new CurrentUserSessionBean();
+            user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
+            personaEdit = new Persona();
+            propuesta = new Propuesta();
              
              listadoPersonasSolicitante = new ArrayList<Persona>();
              listadoPersonasInterno = new ArrayList<Persona>();
@@ -122,6 +160,11 @@ public class PropuestaConvenioMB implements Serializable{
              listadoPersonasSolicitante= personaService.findAll();
              listadoPersonasInterno= personaService.findAll();
              listadoPersonasExterno= personaService.findAll();
+             
+             //***Editar Persona***
+             listadoOrganismo = organismoService.findAll();
+             listadoUnidad = unidadService.findAll();
+             listadoTipoPersona = tipoPersonaService.findAll();
              
                  
              
@@ -269,6 +312,86 @@ public class PropuestaConvenioMB implements Serializable{
         }
     } 
      
+     
+      /**
+     * Metodo para almacenar una nueva persona
+     */ 
+    public void preEditarPropuestaInterno(){
+        try {
+            
+            if(numDocumentoInterno!=null && !numDocumentoInterno.equals("")){
+             personaEdit = new Persona();
+             personaEdit = personaService.getReferenteInternoByDocumento(numDocumentoInterno);
+              if(personaEdit != null){  
+                RequestContext context = RequestContext.getCurrentInstance();              
+                context.execute("PF('EditDialog').show();");
+              } else {
+                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Editado", "Persona no encontrada"));
+              } 
+            }     
+             
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
+    /**
+     * Metodo para almacenar una nueva persona
+     */ 
+    public void preEditarPropuestaExterno(){
+        try {
+           
+            if(numDocumentoExterno!=null && !numDocumentoExterno.equals("")){
+             personaEdit = new Persona();   
+             personaEdit  = personaService.getReferenteExternoByDoccumento(numDocumentoExterno);
+              if(personaEdit != null){  
+                RequestContext context = RequestContext.getCurrentInstance();              
+                context.execute("PF('EditDialog').show();");
+               } else {
+                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Editado", "Persona no encontrada"));
+              }   
+            }     
+             
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
+    
+    /**
+     * Metodo para almacenar una nueva persona
+     */ 
+    public void editar(){
+        try {
+            String msg = "Persona Editada Exitosamente!";    
+            personaService.merge(personaEdit);            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
+    
+    /**
+     * Metodo para alamacenar nueva propuesta de convenio
+     */
+    public void guardarPropuestaConvenio(){
+        try {
+            propuesta.setIdPersonaSolicitante(solicitante);
+            propuesta.setIdPersonaInterno(referenteInterno);
+            propuesta.setIdPersonaExterno(referenteExterno);
+           // propuesta.setIdConvenio(idConvenio);
+           //propuesta.setIdOrganismo(idOrganismo);
+           //propuesta.setIdFacultad(idFacultad);
+           propuestaService.save(propuesta);
+            
+            
+            
+        } catch (Exception e) {
+        }
+    }
+     
+     
     public Persona getReferenteInterno() {
         return referenteInterno;
     }
@@ -398,6 +521,46 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setUser(CurrentUserSessionBean user) {
         this.user = user;
+    }
+    
+    public Persona getPersonaEdit() {
+        return personaEdit;
+    }
+
+    public void setPersonaEdit(Persona personaEdit) {
+        this.personaEdit = personaEdit;
+    }
+
+    public List<Organismo> getListadoOrganismo() {
+        return listadoOrganismo;
+    }
+
+    public void setListadoOrganismo(List<Organismo> listadoOrganismo) {
+        this.listadoOrganismo = listadoOrganismo;
+    }
+
+    public List<Unidad> getListadoUnidad() {
+        return listadoUnidad;
+    }
+
+    public void setListadoUnidad(List<Unidad> listadoUnidad) {
+        this.listadoUnidad = listadoUnidad;
+    }
+
+    public List<TipoPersona> getListadoTipoPersona() {
+        return listadoTipoPersona;
+    }
+
+    public void setListadoTipoPersona(List<TipoPersona> listadoTipoPersona) {
+        this.listadoTipoPersona = listadoTipoPersona;
+    }
+
+    public Propuesta getPropuesta() {
+        return propuesta;
+    }
+
+    public void setPropuesta(Propuesta propuesta) {
+        this.propuesta = propuesta;
     }
 
    
