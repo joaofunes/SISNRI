@@ -78,10 +78,7 @@ public class PropuestaConvenioMB implements Serializable{
     @Qualifier(value = "propuestaService")
     private PropuestaService propuestaService;
     
-    
-    
-    
-    
+        
     private String numDocumentoInterno;
     private String numDocumentoExterno;
     
@@ -176,7 +173,7 @@ public class PropuestaConvenioMB implements Serializable{
      
     public void  onChangeSolicitante(){
         try {
-             System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onChange()"+solicitante );
+             
              listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(solicitante);
              
         } catch (Exception e) {
@@ -222,6 +219,15 @@ public class PropuestaConvenioMB implements Serializable{
         }
     }
     
+    public List<Persona> completeSolicitante(String query) {
+        
+        List<Persona> filteredThemes = new ArrayList<Persona>();
+        
+        if(query!=null && !query.equals("")){
+            filteredThemes = personaService.getSolicitanteByName(query);
+        }
+        return filteredThemes;
+    }
     
     public List<Persona> completeSolicitanteInterno(String query) {
         
@@ -245,6 +251,17 @@ public class PropuestaConvenioMB implements Serializable{
         return filteredThemes;
     }
     
+     
+     
+     public void searchByNameSolicitante(){
+        try {            
+             RequestContext.getCurrentInstance().update(":formAdmin");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     
+     
      
       public void searchByNameInterno(){
         try {
@@ -278,6 +295,8 @@ public class PropuestaConvenioMB implements Serializable{
         }
     }
      
+     
+  
      
       public void searchByDocEmailExterno(){
         try {

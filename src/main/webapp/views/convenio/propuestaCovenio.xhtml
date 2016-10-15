@@ -25,23 +25,37 @@
                                    </p:column>                                         
                                    <p:column>                                                                                                                                                                                             
                                        <p:inputText id="idSolicinateNombre"  required="true" label="Nombre" value="#{propuestaConvenioMB.solicitante.nombrePersona}"/>
-                                       <p:message for="idSolicinateNombre" />                                       
+                                       <p:message for="idSolicinateNombre" />   
+                                       <p:watermark for="idSolicinateNombre" value="Nombre" id="watermarkNameSol" />
                                    </p:column>
+                                   <p:column>                                                                                
+                                         <p:autoComplete id="idSolicinateNombreAuto"  dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeSolicitante}"
+                                                            var="solici" itemLabel="#{solici.nombrePersona}" itemValue="#{solici}" converter="#{personaConverter}" forceSelection="true" >                                                                                                                                                                                                                                         
+                                                <p:column>
+                                                    <h:outputText value="#{solici.nombrePersona} #{solici.apellidoPersona}" />
+                                                </p:column>
+                                         </p:autoComplete>
+                                         <p:message for="idSolicinateNombreAuto" />
+                                         <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameSolicitante}" id="idBtnSearchInSol" process="@this,idSolicinateNombre" update="idFacultad,idUnidad,idCargo" icon="ui-icon-disk" title="Icon Only"/>
+                                        <p:message for="idBtnSearchInSol" /> 
+                                   </p:column> 
 
                                    <p:column>  
                                      <p:outputLabel for="idFacultad" value="Facultad" />
                                    </p:column>                                         
                                   <p:column> 
                                       <p:inputText id="idFacultad"  required="true" label="Facultad" value="#{propuestaConvenioMB.solicitante.idUnidad.idFacultad.nombreFacultad}"/>
-                                       <p:message for="idFacultad" />
+                                      <p:message for="idFacultad" />
+                                      <p:watermark for="idFacultad" value="Facultad" id="watermarkFacultad" />
                                    </p:column>
 
                                    <p:column>  
                                      <p:outputLabel for="idUnidad" value="Unidad" />
                                       </p:column>                                         
                                     <p:column> 
-                                        <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombre}"/>
+                                       <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombre}"/>
                                        <p:message for="idUnidad" />
+                                       <p:watermark for="idUnidad" value="Unidad" id="watermarkUnion" />
                                    </p:column>
 
                                    <p:column>
@@ -50,6 +64,7 @@
                                     <p:column> 
                                         <p:inputText id="idCargo"  required="true" label="cargo" value="#{propuestaConvenioMB.solicitante.cargoPersona}"/>
                                        <p:message for="idCargo" />
+                                        <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
                                    </p:column>    
                                </h:panelGrid>
                            </p:tab>
@@ -81,6 +96,7 @@
                                    <p:column>                                         
                                        <p:inputText id="idDocumentoInterno"  required="true" label="c" value="#{propuestaConvenioMB.numDocumentoInterno}"/>
                                        <p:message for="idDocumentoInterno" />
+                                       <p:watermark for="idDocumentoInterno" value="N° Documento" id="watermarkNDocumento" />
                                    </p:column>  
                                    <p:column>  
                                      <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
@@ -90,6 +106,7 @@
                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                       </p:inputText>
                                       <p:message for="email" display="tooltip" />  
+                                      <p:watermark for="email" value="correo@email.com" id="watermarkEmail" />
                                       <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" process="@this idDocumentoInterno email" id="idBtnSearchInByEmail" icon="ui-icon-search" title="Buscar referente interno" />
                                    </p:column> 
                                    
@@ -98,6 +115,7 @@
                                    </p:column>                                         
                                    <p:column>    
                                        <p:inputText id="idFacultadInterno"  required="true" readonly="true" label="Facultad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.idFacultad.nombreFacultad}"/>
+                                       <p:watermark for="idFacultadInterno" value="Facultad" id="watermarkFac" />
                                        <p:message for="idFacultadInterno" />
                                    </p:column>  
                                    <p:column>      
@@ -105,6 +123,7 @@
                                     </p:column>                                         
                                    <p:column>  
                                        <p:inputText id="idUnidadInterno"  required="true" readonly="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombre}"/>
+                                       <p:watermark for="idUnidadInterno" value="Unidad" id="watermarkuni" />
                                        <p:message for="idUnidadInterno" />
                                    </p:column>         
                                    <p:column>  
@@ -112,6 +131,7 @@
                                    </p:column>                                         
                                    <p:column>  
                                        <p:inputText id="idCargoInterno"  required="true" label="cargo" readonly="true" value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
+                                       <p:watermark for="idCargoInterno" value="Cargo" id="waterCargo" />
                                        <p:message for="idCargoInterno" />
                                    </p:column>
                                       
@@ -120,14 +140,15 @@
                                     </p:column>                                         
                                    <p:column>  
                                        <p:inputText id="idTelefonoInterno" readonly="true" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}"/>
-                                         
-                                      <p:message for="idTelefonoInterno" />
+                                       <p:watermark for="idTelefonoInterno" value="xxxx-xxxx" id="waterTelef" /> 
+                                       <p:message for="idTelefonoInterno" />
                                    </p:column>  
                                    <p:column>      
                                       <p:outputLabel for="idFaxInterno" value="Fax" /> 
                                     </p:column>                                         
                                    <p:column>  
-                                       <p:inputText id="idFaxInterno" readonly="true" value="#{propuestaConvenioMB.faxInterno.numeroTelefono}"/>                                          
+                                       <p:inputText id="idFaxInterno" readonly="true" value="#{propuestaConvenioMB.faxInterno.numeroTelefono}"/> 
+                                       <p:watermark for="idFaxInterno" value="xxxx-xxxx" id="waterfax" /> 
                                       <p:message for="idFaxInterno" />
                                    </p:column>  
                                </h:panelGrid>
@@ -150,6 +171,7 @@
                                                 </p:column>
                                          </p:autoComplete>
                                          <p:message for="idNombreExterno" />
+                                          <p:watermark for="idNombreExterno" value="Nombre Externo" id="waterNameEx" />
                                          <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameExterno}" id="idBtnSearchEx" process="@this,idNombreExterno" update="formAdmin" icon="ui-icon-disk" title="Icon Only"/>
                                    </p:column> 
                                    
@@ -160,6 +182,7 @@
                                    <p:column>                                         
                                        <p:inputText id="idDocumentoExterno"  required="true" label="c" value="#{propuestaConvenioMB.numDocumentoExterno}"/>
                                        <p:message for="idDocumentoExterno" />
+                                       <p:watermark for="idDocumentoExterno" value="N° Documento" id="waterNDoc" />
                                    </p:column>  
                                    <p:column>  
                                      <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
@@ -169,6 +192,7 @@
                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                       </p:inputText>
                                        <p:message for="emailExterno" display="tooltip" />  
+                                       <p:watermark for="emailExterno" value="correo@email.com" id="waterCorreo" />
                                        <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailExterno}" process="@this idDocumentoExterno emailExterno" id="idBtnSearchExByEmail" icon="ui-icon-search" title="Buscar referente interno" />
                                    </p:column>                                         
                                   
@@ -177,6 +201,7 @@
                                    </p:column>      
                                    <p:column> 
                                        <p:inputText id="idCargoExterno" readonly="true" label="cargo" value="#{propuestaConvenioMB.referenteExterno.cargoPersona}"/>
+                                       <p:watermark for="idCargoExterno" value="Cargo" id="waterCargoEx" />
                                        <p:message for="idCargoExterno" />   
                                    </p:column>  
                                    <p:column>      
@@ -184,20 +209,23 @@
                                    </p:column>      
                                    <p:column> 
                                        <p:inputText id="idEntidadInstitucion"  readonly="true" label="Entidad o institucion" value="#{propuestaConvenioMB.referenteExterno.idOrganismo.nombreOrganismo}"/>
+                                        <p:watermark for="idEntidadInstitucion" value="Entidad o Institucion" id="waterentidad_inst" />
                                        <p:message for="idEntidadInstitucion" />    
                                    </p:column>      
                                     <p:column>  
                                       <p:outputLabel for="idTelefonoExterno" value="Tel&eacute;fono " />   
                                     </p:column>      
                                    <p:column>   
-                                       <p:inputMask id="idTelefonoExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" required="true"/>
-                                      <p:message for="idTelefonoExterno" />
+                                       <p:inputMask id="idTelefonoExterno" readonly="true" mask="9999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" required="true"/>
+                                        <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
+                                       <p:message for="idTelefonoExterno" />
                                    </p:column>  
                                    <p:column>      
                                       <p:outputLabel for="idFaxExterno" value="Fax" />  
                                     </p:column>      
                                    <p:column>   
-                                       <p:inputMask id="idFaxExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.faxExterno.numeroTelefono}" required="true"/>
+                                      <p:inputMask id="idFaxExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.faxExterno.numeroTelefono}" required="true"/>
+                                       <p:watermark for="idFaxExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
                                       <p:message for="idFaxExterno" />
                                    </p:column>
 
@@ -378,12 +406,7 @@
                 </center>    
             </h:form>  
         </p:dialog>        
-             
-             
-             
-   
-             
-             
+         
     </ui:define>
     
     

@@ -18,6 +18,26 @@ import org.springframework.stereotype.Repository;
 @Repository(value = "personaDao")
 public class PersonaDao extends GenericDao<Persona, Integer> {
     
+    
+    /**
+     * Metodo para realizar busquedas de solicitantes por nombre
+     * @param doc
+     * @return 
+     */
+     public List<Persona> getSolicitanteByName(String name) {
+          try {
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='A' AND lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
+             q.setParameter("name", '%' + name.toLowerCase() + '%');       
+             return q.list();
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    
+    
     /**
      * 
      * @param query
@@ -130,4 +150,5 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         return null;
     }
 
+   
 }
