@@ -40,7 +40,6 @@
                                         <p:outputLabel for="objetivoProyecto" value="Objetivo del proyecto"/>
                                     </p:column>
                                     <p:column>
-                                        <!--<p:inputText id="objetivoProyecto" label="objetivoProyecto" value="#"/>-->
                                         <p:inputTextarea id="objetivoProyecto" label="objetivoProyecto" rows="5" cols="30" value="#"/>
                                     </p:column>
                                     <p:column>
@@ -48,6 +47,15 @@
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="lugarEjecucion" label="lugarEjecucion" required="true" value="#"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Duracion"/>
+                                    </p:column>
+                                    <p:column>
+                                         <p:outputLabel for="desdeDuracionProy" value="Desde&nbsp;"/>
+                                            <p:calendar id="desdeDuracionProy" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10" />
+                                            <p:outputLabel for="hastaDuracionProy" value="&nbsp;&nbsp;&nbsp;Hasta&nbsp;"/>
+                                            <p:calendar id="hastaDuracionProy" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10" />
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="montoProyecto" value="Monto"/>
@@ -72,6 +80,7 @@
                                     <p:column>
                                         <p:selectOneMenu id="nombCoord" value="#" style="width: 120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listInternoItem}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
@@ -86,6 +95,7 @@
                                     <p:column>
                                         <p:selectOneMenu id="factCoord" value="#" style="width: 120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listFacultadItem}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
@@ -117,6 +127,7 @@
                                     <p:column>
                                         <p:selectOneMenu id="nombAsistente" value="#" style="width: 120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listAsistenteInternoItem}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
@@ -131,6 +142,7 @@
                                     <p:column>
                                         <p:selectOneMenu id="factAsistente" value="#" style="width: 120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listFacultadItem}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                      <p:column>
@@ -173,7 +185,7 @@
                                     <p:column>
                                         <p:selectOneMenu id="entidadInst" value="#"  style="width:120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <f:selectItem itemLabel="#" itemValue="#"/>
+                                            <f:selectItems value="#{proyectoMB.listOrganismosItem}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
