@@ -8,9 +8,9 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Pais;
 import com.sisrni.model.Region;
-import com.sisrni.model.managedbean.crud.util.JsfUtil;
 import com.sisrni.service.PaisService;
 import com.sisrni.service.RegionService;
+import com.sisrni.utils.JsfUtil;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;

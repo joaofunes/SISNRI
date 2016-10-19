@@ -7,10 +7,10 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.SsOpciones;
 import com.sisrni.model.SsRoles;
-import com.sisrni.model.managedbean.crud.util.JsfUtil;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.SsOpcionesService;
 import com.sisrni.service.SsRolesService;
+import com.sisrni.utils.JsfUtil;
 
 
 import java.io.Serializable;

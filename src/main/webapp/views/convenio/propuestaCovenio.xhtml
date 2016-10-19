@@ -96,7 +96,7 @@
                                    <p:column>                                         
                                        <p:inputText id="idDocumentoInterno"  required="true" label="c" value="#{propuestaConvenioMB.numDocumentoInterno}"/>
                                        <p:message for="idDocumentoInterno" />
-                                       <p:watermark for="idDocumentoInterno" value="N° Documento" id="watermarkNDocumento" />
+                                       <p:watermark for="idDocumentoInterno" value="NÂ° Documento" id="watermarkNDocumento" />
                                    </p:column>  
                                    <p:column>  
                                      <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
@@ -182,7 +182,7 @@
                                    <p:column>                                         
                                        <p:inputText id="idDocumentoExterno"  required="true" label="c" value="#{propuestaConvenioMB.numDocumentoExterno}"/>
                                        <p:message for="idDocumentoExterno" />
-                                       <p:watermark for="idDocumentoExterno" value="N° Documento" id="waterNDoc" />
+                                       <p:watermark for="idDocumentoExterno" value="NÂ° Documento" id="waterNDoc" />
                                    </p:column>  
                                    <p:column>  
                                      <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
@@ -244,7 +244,27 @@
                                    
                                     <p:column style="padding:20px">
                                         <p:inputText id="idTipoPropuesta"  required="true" label="Tipo Propuesta"/>
-                                        <p:message for="idTipoPropuesta" />                                        
+                                        <p:message for="idTipoPropuesta" />  
+                                        
+                                         <p:selectOneMenu id="country" value="#{dropdownView.country}" style="width:150px">
+                                            <p:ajax listener="#{dropdownView.onCountryChange}" update="city" />
+                                            <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
+                                            <f:selectItems value="#{dropdownView.countries}" />
+                                         </p:selectOneMenu>  
+                                        
+                                        <p:selectOneMenu id="advanced" value="#{selectOneMenuView.theme}" converter="themeConverter" panelStyle="width:180px"
+                                                        effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                           <f:selectItems value="#{selectOneMenuView.themes}" var="theme" itemLabel="#{theme.displayName}" itemValue="#{theme}" />
+
+                                           <p:column style="width:10%">
+                                               <h:outputText styleClass="ui-theme ui-theme-#{t.name}" />
+                                           </p:column>
+
+                                           <p:column>
+                                               <h:outputText value="#{t.displayName}" />
+                                           </p:column>
+                                       </p:selectOneMenu>
+                                        
                                    </p:column>
                                    
                                    <p:column>

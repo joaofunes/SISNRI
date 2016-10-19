@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -54,25 +56,30 @@ public class Proyecto implements Serializable {
     @Column(name = "FECHA_GESTION")
     @Temporal(TemporalType.DATE)
     private Date fechaGestion;
+    @Column(name = "ID_UNIDAD")
+    private Integer idUnidad;
+    @Column(name = "ID_FACULTAD")
+    private Integer idFacultad;
+    @Column(name = "FECHA_INICIO")
+    @Temporal(TemporalType.DATE)
+    private Date fechaInicio;
+    @Column(name = "FECHA_FIN")
+    @Temporal(TemporalType.DATE)
+    private Date fechaFin;
     @ManyToMany(mappedBy = "proyectoList")
     private List<Estado> estadoList;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "proyecto")
+    private ProyectoGenerico proyectoGenerico;
     @OneToMany(mappedBy = "idProyecto")
     private List<Documento> documentoList;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "proyecto")
+    private Beca beca;
     @JoinColumn(name = "ID_TIPO_PROYECTO", referencedColumnName = "ID_TIPO_PROYECTO")
     @ManyToOne
     private TipoProyecto idTipoProyecto;
-    @JoinColumn(name = "ID_REFERENTE", referencedColumnName = "ID_PERSONA")
-    @ManyToOne
-    private Persona idReferente;
-    @JoinColumn(name = "ID_ASISTENTE", referencedColumnName = "ID_PERSONA")
-    @ManyToOne
-    private Persona idAsistente;
-    @JoinColumn(name = "ID_CORDINADOR", referencedColumnName = "ID_PERSONA")
-    @ManyToOne
-    private Persona idCordinador;
-    @JoinColumn(name = "ID_CONVENIO", referencedColumnName = "ID_CONVENIO")
-    @ManyToOne
-    private Convenio idConvenio;
+    @JoinColumn(name = "ID_PROPUESTA_CONVENIO", referencedColumnName = "ID_PROPUESTA", nullable = false)
+    @ManyToOne(optional = false)
+    private PropuestaConvenio idPropuestaConvenio;
 
     public Proyecto() {
     }
@@ -129,12 +136,52 @@ public class Proyecto implements Serializable {
         this.fechaGestion = fechaGestion;
     }
 
+    public Integer getIdUnidad() {
+        return idUnidad;
+    }
+
+    public void setIdUnidad(Integer idUnidad) {
+        this.idUnidad = idUnidad;
+    }
+
+    public Integer getIdFacultad() {
+        return idFacultad;
+    }
+
+    public void setIdFacultad(Integer idFacultad) {
+        this.idFacultad = idFacultad;
+    }
+
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
     public List<Estado> getEstadoList() {
         return estadoList;
     }
 
     public void setEstadoList(List<Estado> estadoList) {
         this.estadoList = estadoList;
+    }
+
+    public ProyectoGenerico getProyectoGenerico() {
+        return proyectoGenerico;
+    }
+
+    public void setProyectoGenerico(ProyectoGenerico proyectoGenerico) {
+        this.proyectoGenerico = proyectoGenerico;
     }
 
     public List<Documento> getDocumentoList() {
@@ -145,6 +192,14 @@ public class Proyecto implements Serializable {
         this.documentoList = documentoList;
     }
 
+    public Beca getBeca() {
+        return beca;
+    }
+
+    public void setBeca(Beca beca) {
+        this.beca = beca;
+    }
+
     public TipoProyecto getIdTipoProyecto() {
         return idTipoProyecto;
     }
@@ -153,36 +208,12 @@ public class Proyecto implements Serializable {
         this.idTipoProyecto = idTipoProyecto;
     }
 
-    public Persona getIdReferente() {
-        return idReferente;
+    public PropuestaConvenio getIdPropuestaConvenio() {
+        return idPropuestaConvenio;
     }
 
-    public void setIdReferente(Persona idReferente) {
-        this.idReferente = idReferente;
-    }
-
-    public Persona getIdAsistente() {
-        return idAsistente;
-    }
-
-    public void setIdAsistente(Persona idAsistente) {
-        this.idAsistente = idAsistente;
-    }
-
-    public Persona getIdCordinador() {
-        return idCordinador;
-    }
-
-    public void setIdCordinador(Persona idCordinador) {
-        this.idCordinador = idCordinador;
-    }
-
-    public Convenio getIdConvenio() {
-        return idConvenio;
-    }
-
-    public void setIdConvenio(Convenio idConvenio) {
-        this.idConvenio = idConvenio;
+    public void setIdPropuestaConvenio(PropuestaConvenio idPropuestaConvenio) {
+        this.idPropuestaConvenio = idPropuestaConvenio;
     }
 
     @Override

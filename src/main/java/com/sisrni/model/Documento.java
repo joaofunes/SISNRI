@@ -48,13 +48,10 @@ public class Documento implements Serializable {
     private Proyecto idProyecto;
     @JoinColumn(name = "ID_PROPUESTA", referencedColumnName = "ID_PROPUESTA")
     @ManyToOne
-    private Propuesta idPropuesta;
+    private PropuestaConvenio idPropuesta;
     @JoinColumn(name = "ID_TIPO_DOCUMENTO", referencedColumnName = "ID_TIPO_DOCUMENTO")
     @ManyToOne
     private TipoDocumento idTipoDocumento;
-    @JoinColumn(name = "ID_CONVENIO", referencedColumnName = "ID_CONVENIO")
-    @ManyToOne
-    private Convenio idConvenio;
 
     public Documento() {
     }
@@ -95,11 +92,11 @@ public class Documento implements Serializable {
         this.idProyecto = idProyecto;
     }
 
-    public Propuesta getIdPropuesta() {
+    public PropuestaConvenio getIdPropuesta() {
         return idPropuesta;
     }
 
-    public void setIdPropuesta(Propuesta idPropuesta) {
+    public void setIdPropuesta(PropuestaConvenio idPropuesta) {
         this.idPropuesta = idPropuesta;
     }
 
@@ -109,14 +106,6 @@ public class Documento implements Serializable {
 
     public void setIdTipoDocumento(TipoDocumento idTipoDocumento) {
         this.idTipoDocumento = idTipoDocumento;
-    }
-
-    public Convenio getIdConvenio() {
-        return idConvenio;
-    }
-
-    public void setIdConvenio(Convenio idConvenio) {
-        this.idConvenio = idConvenio;
     }
 
     @Override

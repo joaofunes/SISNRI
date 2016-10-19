@@ -7,7 +7,6 @@ package com.sisrni.service;
 
 import com.sisrni.dao.TipoDocumentoDao;
 import com.sisrni.dao.generic.GenericDao;
-import com.sisrni.model.Convenio;
 import com.sisrni.model.TipoDocumento;
 import com.sisrni.service.generic.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
