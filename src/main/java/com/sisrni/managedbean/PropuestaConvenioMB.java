@@ -5,18 +5,17 @@
  */
 package com.sisrni.managedbean;
 
-import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
-import com.sisrni.model.Propuesta;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.Unidad;
+import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.FacultadService;  
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
-import com.sisrni.service.PropuestaService;
+import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.UnidadService;
@@ -25,9 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,8 +72,8 @@ public class PropuestaConvenioMB implements Serializable{
     
     
     @Autowired
-    @Qualifier(value = "propuestaService")
-    private PropuestaService propuestaService;
+    @Qualifier(value = "propuestaConvenioService")
+    private PropuestaConvenioService propuestaConvenioService;
     
         
     private String numDocumentoInterno;
@@ -94,7 +91,7 @@ public class PropuestaConvenioMB implements Serializable{
     private List<Telefono> listadoTelefonoReferenteExterno;
     
     
-    private Propuesta propuesta;
+    private PropuestaConvenio propuestaConvenio;
     
     private Persona personaEdit;
     private Persona solicitante;
@@ -148,7 +145,7 @@ public class PropuestaConvenioMB implements Serializable{
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
             personaEdit = new Persona();
-            propuesta = new Propuesta();
+            propuestaConvenio = new PropuestaConvenio();
              
              listadoPersonasSolicitante = new ArrayList<Persona>();
              listadoPersonasInterno = new ArrayList<Persona>();
@@ -396,13 +393,13 @@ public class PropuestaConvenioMB implements Serializable{
      */
     public void guardarPropuestaConvenio(){
         try {
-            propuesta.setIdPersonaSolicitante(solicitante);
-            propuesta.setIdPersonaInterno(referenteInterno);
-            propuesta.setIdPersonaExterno(referenteExterno);
+//            propuestaConvenio.setIdPersonaSolicitante(solicitante);
+//            propuestaConvenio.setIdPersonaInterno(referenteInterno);
+//            propuestaConvenio.setIdPersonaExterno(referenteExterno);
            // propuesta.setIdConvenio(idConvenio);
            //propuesta.setIdOrganismo(idOrganismo);
            //propuesta.setIdFacultad(idFacultad);
-           propuestaService.save(propuesta);
+            propuestaConvenioService.save(propuestaConvenio);
             
             
             
@@ -574,12 +571,12 @@ public class PropuestaConvenioMB implements Serializable{
         this.listadoTipoPersona = listadoTipoPersona;
     }
 
-    public Propuesta getPropuesta() {
-        return propuesta;
+    public PropuestaConvenio getPropuestaConvenio() {
+        return propuestaConvenio;
     }
 
-    public void setPropuesta(Propuesta propuesta) {
-        this.propuesta = propuesta;
+    public void setPropuestaConvenio(PropuestaConvenio propuestaConvenio) {
+        this.propuestaConvenio = propuestaConvenio;
     }
 
    

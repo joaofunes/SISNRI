@@ -5,10 +5,9 @@
  */
 package com.sisrni.service;
 
-
-import com.sisrni.dao.ConvenioDao;
+import com.sisrni.dao.PropuestaConvenioDao;
 import com.sisrni.dao.generic.GenericDao;
-import com.sisrni.model.Convenio;
+import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.service.generic.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +16,16 @@ import org.springframework.stereotype.Service;
  *
  * @author Joao
  */
-@Service(value = "convenioService")
-public class ConvenioService extends GenericService<Convenio, Integer>{
-   
-    @Autowired
-    private ConvenioDao convenioDao;
 
+@Service(value = "propuestaConvenioService")
+public class PropuestaConvenioService extends GenericService<PropuestaConvenio, Integer>{
+
+    @Autowired
+    private PropuestaConvenioDao propuestaConvenioDao;
+    
     @Override
-    public GenericDao<Convenio, Integer> getDao() {
-        return convenioDao;
+    public GenericDao<PropuestaConvenio, Integer> getDao() {
+        return propuestaConvenioDao;
     }
+    
 }

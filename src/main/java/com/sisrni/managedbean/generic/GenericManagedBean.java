@@ -1,8 +1,8 @@
 package com.sisrni.managedbean.generic;
 
 import com.sisrni.managedbean.CurrentUserSessionBean;
-import com.sisrni.model.managedbean.crud.util.JsfUtil;
 import com.sisrni.service.generic.GenericService;
+import com.sisrni.utils.JsfUtil;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.sisrni.model.managedbean.crud.util;
+package com.sisrni.utils;
 
 import java.util.Iterator;
 import java.util.List;

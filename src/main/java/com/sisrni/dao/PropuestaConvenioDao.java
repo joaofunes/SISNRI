@@ -6,14 +6,15 @@
 package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
-import com.sisrni.model.Convenio;
+import com.sisrni.model.PropuestaConvenio;
 import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Joao
  */
-@Repository(value = "convenioDao")
-public class ConvenioDao extends GenericDao<Convenio, Integer>{
+
+@Repository(value = "propuestaConvenioDao")
+public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>{
     
 }

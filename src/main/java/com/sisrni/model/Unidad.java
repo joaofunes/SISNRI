@@ -31,19 +31,18 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Unidad.findAll", query = "SELECT u FROM Unidad u")})
 public class Unidad implements Serializable {
 
-    @Size(max = 20)
-    @Column(name = "NOMBRE", length = 20)
-    private String nombre;
-    @Size(max = 100)
-    @Column(name = "DESCRIPCION", length = 100)
-    private String descripcion;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_UNIDAD", nullable = false)
     private Integer idUnidad;
+    @Size(max = 20)
+    @Column(name = "NOMBRE", length = 20)
+    private String nombre;
+    @Size(max = 100)
+    @Column(name = "DESCRIPCION", length = 100)
+    private String descripcion;
     @OneToMany(mappedBy = "idUnidad")
     private List<Persona> personaList;
     @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
@@ -65,6 +64,21 @@ public class Unidad implements Serializable {
         this.idUnidad = idUnidad;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     public List<Persona> getPersonaList() {
         return personaList;
@@ -105,22 +119,6 @@ public class Unidad implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Unidad[ idUnidad=" + idUnidad + " ]";
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
     
 }

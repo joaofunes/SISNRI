@@ -8,6 +8,7 @@ package com.sisrni.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "TipoPersona.findAll", query = "SELECT t FROM TipoPersona t")})
 public class TipoPersona implements Serializable {
 
-   
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,12 +42,10 @@ public class TipoPersona implements Serializable {
     @Size(max = 100)
     @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
-    @Size(max = 100)
-    @Column(name = "VALOR", length = 100)
-    private String valor;
-
-     @OneToMany(mappedBy = "idTipoPersona")
-    private List<Persona> personaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoPersona")
+    private List<PersonaProyecto> personaProyectoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoPersona")
+    private List<PersonaPropuesta> personaPropuestaList;
 
     public TipoPersona() {
     }
@@ -80,12 +78,20 @@ public class TipoPersona implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getValor() {
-        return valor;
+    public List<PersonaProyecto> getPersonaProyectoList() {
+        return personaProyectoList;
     }
 
-    public void setValor(String valor) {
-        this.valor = valor;
+    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
+        this.personaProyectoList = personaProyectoList;
+    }
+
+    public List<PersonaPropuesta> getPersonaPropuestaList() {
+        return personaPropuestaList;
+    }
+
+    public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
+        this.personaPropuestaList = personaPropuestaList;
     }
 
     @Override
@@ -111,14 +117,6 @@ public class TipoPersona implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.TipoPersona[ idTipoPersona=" + idTipoPersona + " ]";
-    }
-
-    public List<Persona> getPersonaList() {
-        return personaList;
-    }
-
-    public void setPersonaList(List<Persona> personaList) {
-        this.personaList = personaList;
     }
     
 }

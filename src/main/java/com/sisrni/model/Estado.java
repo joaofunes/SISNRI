@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -50,13 +52,8 @@ public class Estado implements Serializable {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
     @ManyToMany
     private List<Proyecto> proyectoList;
-    @JoinTable(name = "CONVENIO_ESTADO", joinColumns = {
-        @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_CONVENIO", referencedColumnName = "ID_CONVENIO", nullable = false)})
-    @ManyToMany
-    private List<Convenio> convenioList;
-    @ManyToMany(mappedBy = "estadoList")
-    private List<Propuesta> propuestaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado")
+    private List<PropuestaEstado> propuestaEstadoList;
 
     public Estado() {
     }
@@ -97,20 +94,12 @@ public class Estado implements Serializable {
         this.proyectoList = proyectoList;
     }
 
-    public List<Convenio> getConvenioList() {
-        return convenioList;
+    public List<PropuestaEstado> getPropuestaEstadoList() {
+        return propuestaEstadoList;
     }
 
-    public void setConvenioList(List<Convenio> convenioList) {
-        this.convenioList = convenioList;
-    }
-
-    public List<Propuesta> getPropuestaList() {
-        return propuestaList;
-    }
-
-    public void setPropuestaList(List<Propuesta> propuestaList) {
-        this.propuestaList = propuestaList;
+    public void setPropuestaEstadoList(List<PropuestaEstado> propuestaEstadoList) {
+        this.propuestaEstadoList = propuestaEstadoList;
     }
 
     @Override

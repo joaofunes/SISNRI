@@ -58,13 +58,11 @@ public class Organismo implements Serializable {
     private Integer idCuidad;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Persona> personaList;
-    @OneToMany(mappedBy = "idOrganismo")
-    private List<Telefono> telefonoList;
     @JoinColumn(name = "ID_TIPO_ORGANISMO", referencedColumnName = "ID_TIPO_ORGANISMO")
     @ManyToOne
     private TipoOrganismo idTipoOrganismo;
     @OneToMany(mappedBy = "idOrganismo")
-    private List<Propuesta> propuestaList;
+    private List<Telefono> telefonoList;
 
     public Organismo() {
     }
@@ -153,14 +151,6 @@ public class Organismo implements Serializable {
         this.personaList = personaList;
     }
 
-    public List<Telefono> getTelefonoList() {
-        return telefonoList;
-    }
-
-    public void setTelefonoList(List<Telefono> telefonoList) {
-        this.telefonoList = telefonoList;
-    }
-
     public TipoOrganismo getIdTipoOrganismo() {
         return idTipoOrganismo;
     }
@@ -169,12 +159,12 @@ public class Organismo implements Serializable {
         this.idTipoOrganismo = idTipoOrganismo;
     }
 
-    public List<Propuesta> getPropuestaList() {
-        return propuestaList;
+    public List<Telefono> getTelefonoList() {
+        return telefonoList;
     }
 
-    public void setPropuestaList(List<Propuesta> propuestaList) {
-        this.propuestaList = propuestaList;
+    public void setTelefonoList(List<Telefono> telefonoList) {
+        this.telefonoList = telefonoList;
     }
 
     @Override

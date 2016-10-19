@@ -7,8 +7,8 @@ package com.sisrni.converter;
 
 
 import com.sisrni.model.Persona;
-import com.sisrni.model.managedbean.crud.util.JsfUtil;
 import com.sisrni.service.PersonaService;
+import com.sisrni.utils.JsfUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;

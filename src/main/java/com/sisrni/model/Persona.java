@@ -8,6 +8,7 @@ package com.sisrni.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -34,7 +34,8 @@ public class Persona implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "ID_PERSONA", nullable = false)
     private Integer idPersona;
     @Size(max = 60)
@@ -49,6 +50,8 @@ public class Persona implements Serializable {
     @Size(max = 10)
     @Column(name = "DUI_PERSONA", length = 10)
     private String duiPersona;
+    @Column(name = "ID_TIPO_PERSONA")
+    private Integer idTipoPersona;
     @Size(max = 17)
     @Column(name = "NIT_PERSONA", length = 17)
     private String nitPersona;
@@ -58,31 +61,22 @@ public class Persona implements Serializable {
     @Size(max = 60)
     @Column(name = "PASAPORTE", length = 60)
     private String pasaporte;
+    @Column(name = "ID_BECA")
+    private Integer idBeca;
     @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
     @ManyToOne
     private Unidad idUnidad;
-    @JoinColumn(name = "ID_TIPO_PERSONA", referencedColumnName = "ID_TIPO_PERSONA")
-    @ManyToOne
-    private TipoPersona idTipoPersona;
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
     @OneToMany(mappedBy = "idPersona")
+    private List<Beca> becaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private List<PersonaProyecto> personaProyectoList;
+    @OneToMany(mappedBy = "idPersona")
     private List<Telefono> telefonoList;
-    @OneToMany(mappedBy = "idPersonaInterno")
-    private List<Propuesta> propuestaList;
-    @OneToMany(mappedBy = "idPersonaExterno")
-    private List<Propuesta> propuestaList1;
-    @OneToMany(mappedBy = "idPersonaSolicitante")
-    private List<Propuesta> propuestaList2;
-    @OneToMany(mappedBy = "idReferente")
-    private List<Proyecto> proyectoList;
-    @OneToMany(mappedBy = "idAsistente")
-    private List<Proyecto> proyectoList1;
-    @OneToMany(mappedBy = "idCordinador")
-    private List<Proyecto> proyectoList2;
-    
-    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private List<PersonaPropuesta> personaPropuestaList;
 
     public Persona() {
     }
@@ -131,7 +125,14 @@ public class Persona implements Serializable {
         this.duiPersona = duiPersona;
     }
 
-   
+    public Integer getIdTipoPersona() {
+        return idTipoPersona;
+    }
+
+    public void setIdTipoPersona(Integer idTipoPersona) {
+        this.idTipoPersona = idTipoPersona;
+    }
+
     public String getNitPersona() {
         return nitPersona;
     }
@@ -156,6 +157,14 @@ public class Persona implements Serializable {
         this.pasaporte = pasaporte;
     }
 
+    public Integer getIdBeca() {
+        return idBeca;
+    }
+
+    public void setIdBeca(Integer idBeca) {
+        this.idBeca = idBeca;
+    }
+
     public Unidad getIdUnidad() {
         return idUnidad;
     }
@@ -172,6 +181,22 @@ public class Persona implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
+    public List<Beca> getBecaList() {
+        return becaList;
+    }
+
+    public void setBecaList(List<Beca> becaList) {
+        this.becaList = becaList;
+    }
+
+    public List<PersonaProyecto> getPersonaProyectoList() {
+        return personaProyectoList;
+    }
+
+    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
+        this.personaProyectoList = personaProyectoList;
+    }
+
     public List<Telefono> getTelefonoList() {
         return telefonoList;
     }
@@ -180,60 +205,12 @@ public class Persona implements Serializable {
         this.telefonoList = telefonoList;
     }
 
-    public List<Propuesta> getPropuestaList() {
-        return propuestaList;
+    public List<PersonaPropuesta> getPersonaPropuestaList() {
+        return personaPropuestaList;
     }
 
-    public void setPropuestaList(List<Propuesta> propuestaList) {
-        this.propuestaList = propuestaList;
-    }
-
-    public List<Propuesta> getPropuestaList1() {
-        return propuestaList1;
-    }
-
-    public void setPropuestaList1(List<Propuesta> propuestaList1) {
-        this.propuestaList1 = propuestaList1;
-    }
-
-    public List<Propuesta> getPropuestaList2() {
-        return propuestaList2;
-    }
-
-    public void setPropuestaList2(List<Propuesta> propuestaList2) {
-        this.propuestaList2 = propuestaList2;
-    }
-
-    public List<Proyecto> getProyectoList() {
-        return proyectoList;
-    }
-
-    public void setProyectoList(List<Proyecto> proyectoList) {
-        this.proyectoList = proyectoList;
-    }
-
-    public List<Proyecto> getProyectoList1() {
-        return proyectoList1;
-    }
-
-    public void setProyectoList1(List<Proyecto> proyectoList1) {
-        this.proyectoList1 = proyectoList1;
-    }
-
-    public List<Proyecto> getProyectoList2() {
-        return proyectoList2;
-    }
-
-    public void setProyectoList2(List<Proyecto> proyectoList2) {
-        this.proyectoList2 = proyectoList2;
-    }
-    
-    public TipoPersona getIdTipoPersona() {
-        return idTipoPersona;
-    }
-
-    public void setIdTipoPersona(TipoPersona idTipoPersona) {
-        this.idTipoPersona = idTipoPersona;
+    public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
+        this.personaPropuestaList = personaPropuestaList;
     }
 
     @Override
@@ -260,7 +237,5 @@ public class Persona implements Serializable {
     public String toString() {
         return "com.sisrni.model.Persona[ idPersona=" + idPersona + " ]";
     }
-
-    
     
 }

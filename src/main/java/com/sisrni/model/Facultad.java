@@ -44,8 +44,6 @@ public class Facultad implements Serializable {
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_UNIVERSIDAD")
     @ManyToOne
     private Universidad idUniversidad;
-    @OneToMany(mappedBy = "idFacultad")
-    private List<Propuesta> propuestaList;
 
     public Facultad() {
     }
@@ -84,14 +82,6 @@ public class Facultad implements Serializable {
 
     public void setIdUniversidad(Universidad idUniversidad) {
         this.idUniversidad = idUniversidad;
-    }
-
-    public List<Propuesta> getPropuestaList() {
-        return propuestaList;
-    }
-
-    public void setPropuestaList(List<Propuesta> propuestaList) {
-        this.propuestaList = propuestaList;
     }
 
     @Override
