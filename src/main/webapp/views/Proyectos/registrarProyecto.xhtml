@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+            <h:form id="formAdmin">
+                <center> 
+                <p:panel style="width: 75%">  
+                    <p:accordionPanel multiple="true" activeIndex="0,1,2,3">
+                <p:tab title="Datos del Proyecto">
+                    <p:panelGrid columns="2">
+                        
+                        <p:column>
+                            <p:outputLabel value="Tipo de Proyecto"/>
+                            <p:selectOneMenu id="regionPais" value="#{proyectosMB.proyectoSelected.idTipoProyecto}"  style="width:120px" required="true">
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                <c:forEach var="reg" items="#{proyectosMB.tipoproyectolist}">
+                                    <f:selectItem itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg.idTipoProyecto}"/>
+                                </c:forEach>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel value="Nombre del Proyecto:"/>
+                            <p:inputTextarea value="#{proyectosMB.proyecto.nombreProyecto}"  maxlength="300" />
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel value="Objetivo del Proyecto:"/>
+                            <p:inputTextarea value="#{proyectosMB.proyecto.objetivoProyecto}"  maxlength="1000" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Area de Conocimiento:"/>
+                            <p:selectCheckboxMenu id="areaconocimiento" value="#{proyectosMB.areaConocimientoSelected}" label="Areas"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                <c:forEach var="reg" items="#{proyectosMB.areaConocimientoList}">
+                                    <f:selectItem itemLabel="#{reg.nombreArea}" itemValue="#{reg.idAreaConocimiento}"/>
+                                </c:forEach>
+                            </p:selectCheckboxMenu>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Lugar de Ejecucion"/>
+                            <p:inputText value="#{proyectosMB.proyecto.lugarProyecto}"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Monto del Proyecto"/>
+                            <p:inputText value="#{proyectosMB.proyecto.montoProyecto}"/>
+                        </p:column> 
+                        <p:column>
+                            <p:outputLabel value="Anio de Gestion"/>
+                            <p:calendar value="#{proyectosMB.proyecto.fechaGestion}"/>
+                        </p:column>
+                        
+                    </p:panelGrid>
+                </p:tab>
+                        <p:tab title="Datos del Solicitante">
+                            <p:panelGrid columns="2">
+                                <p:column>
+                                    <p:outputLabel value="Nombre:"/>
+                                    <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Cargo:"/>
+                                    <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Facultad:"/>
+                                    <p:inputText id="facultadsolicitante" value="#{proyectosMB.facultad.nombreFacultad}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Correo Electronico:"/>
+                                    <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Telefono:"/>
+                                    <p:inputText id="telefonosolicitante" value="#{proyectosMB.telefono.numeroTelefono}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Fax:"/>
+                                    <p:inputText id="faxsolicitante" value="#{proyectosMB.telefonofax.numeroTelefono}"/>
+                                </p:column>
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab title="Datos del Asistente de Coordinador">
+                            <p:panelGrid columns="2">
+                                <p:column>
+                                    <p:outputLabel value="Nombre:"/>
+                                    <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Cargo:"/>
+                                    <p:inputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Facultad:"/>
+                                    <p:inputText id="facultadasistente" value="#{proyectosMB.facultad.nombreFacultad}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Correo Electronico:"/>
+                                    <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Telefono:"/>
+                                    <p:inputText id="telefonoasistente" value="#{proyectosMB.telefonorefint.numeroTelefono}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Fax:"/>
+                                    <p:inputText id="faxasistente" value="#{proyectosMB.telefonorefintfax.numeroTelefono}"/>
+                                </p:column>
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab title="Datos Referente Externo">
+                            <p:panelGrid columns="2">
+                                <p:column>
+                                    <p:outputLabel value="Nombre:"/>
+                                    <p:inputText id="nombreexterna" value="#{proyectosMB.personaExterna.nombrePersona}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Cargo:"/>
+                                    <p:inputText id="cargoexterna" value="#{proyectosMB.personaExterna.cargoPersona}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Facultad:"/>
+                                    <p:inputText id="facultadexterna" value="#{proyectosMB.facultad.nombreFacultad}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Correo Electronico:"/>
+                                    <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Telefono:"/>
+                                    <p:inputText id="telefonoexterna" value="#{proyectosMB.telefonorefext.numeroTelefono}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Fax:"/>
+                                    <p:inputText id="faxexterna" value="#{proyectosMB.telefonorefextfax.numeroTelefono}"/>
+                                </p:column>
+                            </p:panelGrid>
+                        </p:tab>
+              </p:accordionPanel>
+                </p:panel>
+                </center>
+            </h:form>
+    </ui:define>
+</ui:composition>

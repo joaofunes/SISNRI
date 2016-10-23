@@ -36,8 +36,8 @@ public class TipoPersona implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_TIPO_PERSONA", nullable = false)
     private Integer idTipoPersona;
-    @Size(max = 10)
-    @Column(name = "NOMBRE", length = 10)
+    @Size(max = 50)
+    @Column(name = "NOMBRE", length = 50)
     private String nombre;
     @Size(max = 100)
     @Column(name = "DESCRIPCION", length = 100)

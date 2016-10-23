@@ -7,17 +7,20 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
+import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.Unidad;
 import com.sisrni.model.PropuestaConvenio;
+import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.security.AppUserDetails;
-import com.sisrni.service.FacultadService;  
 import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PersonaPropuestaService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
+import com.sisrni.service.TipoPropuestaConvenioService;
 import com.sisrni.service.UnidadService;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,14 +48,13 @@ public class PropuestaConvenioMB implements Serializable{
      
     private static final String FIJO ="FIJO";  
     private static final String FAX ="FAX";  
+    private static final String SOLICITANTE ="SOLICITANTE";  
+    private static final String REFERENTE_INTERNO ="REFERENTE INTERNO";  
+    private static final String REFERENTE_EXTERNO ="REFERENTE EXTERNO";  
      
     @Autowired
     @Qualifier(value = "personaService")
     private PersonaService personaService;
-    
-    @Autowired
-    @Qualifier(value = "facultadService")
-    private FacultadService facultadService;
 
     @Autowired
     @Qualifier(value = "telefonoService")
@@ -75,7 +77,15 @@ public class PropuestaConvenioMB implements Serializable{
     @Qualifier(value = "propuestaConvenioService")
     private PropuestaConvenioService propuestaConvenioService;
     
-        
+    @Autowired
+    @Qualifier(value = "personaPropuestaService")
+    private PersonaPropuestaService personaPropuestaService;
+    
+    @Autowired
+    @Qualifier(value = "tipoPropuestaConvenioService")
+    private TipoPropuestaConvenioService tipoPropuestaConvenioService;
+    
+    
     private String numDocumentoInterno;
     private String numDocumentoExterno;
     
@@ -90,8 +100,11 @@ public class PropuestaConvenioMB implements Serializable{
     private List<Telefono> listadoTelefonoReferenteInterno;
     private List<Telefono> listadoTelefonoReferenteExterno;
     
+    private List<TipoPropuestaConvenio> listadoTipoPrpouestaConvenio;
+    private List<PropuestaConvenio> listadoPropuestaConvenio;
     
     private PropuestaConvenio propuestaConvenio;
+    private PropuestaConvenio propuestaConvenioTemp;
     
     private Persona personaEdit;
     private Persona solicitante;
@@ -150,10 +163,13 @@ public class PropuestaConvenioMB implements Serializable{
              listadoPersonasSolicitante = new ArrayList<Persona>();
              listadoPersonasInterno = new ArrayList<Persona>();
              listadoPersonasExterno = new ArrayList<Persona>();
+             listadoTipoPrpouestaConvenio = new ArrayList<TipoPropuestaConvenio>();
+             listadoPropuestaConvenio = new ArrayList<PropuestaConvenio>();
              
              listadoPersonasSolicitante= personaService.findAll();
              listadoPersonasInterno= personaService.findAll();
              listadoPersonasExterno= personaService.findAll();
+             listadoTipoPrpouestaConvenio = tipoPropuestaConvenioService.findAll();
              
              //***Editar Persona***
              listadoOrganismo = organismoService.findAll();
@@ -393,20 +409,58 @@ public class PropuestaConvenioMB implements Serializable{
      */
     public void guardarPropuestaConvenio(){
         try {
-//            propuestaConvenio.setIdPersonaSolicitante(solicitante);
-//            propuestaConvenio.setIdPersonaInterno(referenteInterno);
-//            propuestaConvenio.setIdPersonaExterno(referenteExterno);
-           // propuesta.setIdConvenio(idConvenio);
-           //propuesta.setIdOrganismo(idOrganismo);
-           //propuesta.setIdFacultad(idFacultad);
+            PersonaPropuesta prsSolicitante  = new PersonaPropuesta();
+            PersonaPropuesta prsRefInterno  = new PersonaPropuesta();
+            PersonaPropuesta prsRefExterno  = new PersonaPropuesta();
+            
+            // guardar propuesta convenio
+   
+            //***propuestaConvenio.setIdTipoPropuestaConvenio(idTipoPropuestaConvenio);
+
             propuestaConvenioService.save(propuestaConvenio);
             
+            // persona solicitante
+            prsSolicitante.setPropuestaConvenio(propuestaConvenio);
+            for(TipoPersona tp:listadoTipoPersona){
+                if(tp.getNombre().equals(SOLICITANTE)){
+                   prsSolicitante.setTipoPersona(tp);
+                }
+            }
+            prsSolicitante.setPersona(solicitante);
+            personaPropuestaService.save(prsSolicitante);
             
+             // persona REFERENTE_INTERNO
+            prsRefInterno.setPropuestaConvenio(propuestaConvenio);
+            for(TipoPersona tp:listadoTipoPersona){
+                if(tp.getNombre().equals(REFERENTE_INTERNO)){
+                   prsRefInterno.setTipoPersona(tp);
+                }
+            }
+            prsRefInterno.setPersona(referenteInterno);
+            personaPropuestaService.save(prsRefInterno);
+            
+               // persona REFERENTE_EXTERNO
+            prsRefExterno.setPropuestaConvenio(propuestaConvenio);
+            for(TipoPersona tp:listadoTipoPersona){
+                if(tp.getNombre().equals(REFERENTE_EXTERNO)){
+                   prsRefExterno.setTipoPersona(tp);
+                }
+            }
+            prsRefExterno.setPersona(referenteExterno);
+            personaPropuestaService.save(prsRefExterno);
             
         } catch (Exception e) {
         }
     }
      
+    
+    public void onTipoConvenioChange(){
+        try {
+          listadoPropuestaConvenio = propuestaConvenioService.getPropuestaConvenioByTipoPropuesta(propuestaConvenio.getIdTipoPropuestaConvenio());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
      
     public Persona getReferenteInterno() {
         return referenteInterno;
@@ -422,9 +476,7 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setSolicitante(Persona solicitante) {
         this.solicitante = solicitante;
-    }
-
-    
+    }  
 
     public List<Persona> getListadoPersonasSolicitante() {
         return listadoPersonasSolicitante;
@@ -579,5 +631,28 @@ public class PropuestaConvenioMB implements Serializable{
         this.propuestaConvenio = propuestaConvenio;
     }
 
-   
+    public List<TipoPropuestaConvenio> getListadoTipoPrpouestaConvenio() {
+        return listadoTipoPrpouestaConvenio;
+    }
+
+    public void setListadoTipoPrpouestaConvenio(List<TipoPropuestaConvenio> listadoTipoPrpouestaConvenio) {
+        this.listadoTipoPrpouestaConvenio = listadoTipoPrpouestaConvenio;
+    }
+
+    public List<PropuestaConvenio> getListadoPropuestaConvenio() {
+        return listadoPropuestaConvenio;
+    }
+
+    public void setListadoPropuestaConvenio(List<PropuestaConvenio> listadoPropuestaConvenio) {
+        this.listadoPropuestaConvenio = listadoPropuestaConvenio;
+    }
+
+    public PropuestaConvenio getPropuestaConvenioTemp() {
+        return propuestaConvenioTemp;
+    }
+
+    public void setPropuestaConvenioTemp(PropuestaConvenio propuestaConvenioTemp) {
+        this.propuestaConvenioTemp = propuestaConvenioTemp;
+    }
+
 }
