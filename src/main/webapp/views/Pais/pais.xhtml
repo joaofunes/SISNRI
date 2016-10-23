@@ -21,12 +21,14 @@
                         </p:column>
                         <p:column>
                             <p:inputText id="codigoPais" value="#{paisMB.pais.codigoPais}"  size="10"/>
+                            <p:watermark for="codigoPais" value="Codigo" id="watermarkCodigoPais"/>
                         </p:column>
                         <p:column>
                             <h:outputLabel for="nombrePais" value="Nombre:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="nombrePais" value="#{paisMB.pais.nombrePais}" required="true" size="60" />
+                            <p:watermark for="nombrePais" value="Nombre pais" id="watermarkNombrePais"/>
                         </p:column>
                         <p:column>
                             <h:outputLabel for="regionPais" value="Region:"/>
