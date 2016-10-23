@@ -5,6 +5,7 @@
  */
 package com.sisrni.managedbean;
 
+import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaPropuesta;
@@ -149,6 +150,8 @@ public class PropuestaConvenioMB implements Serializable{
     private void inicializador() {
          try {  
             solicitante= new Persona();
+            solicitante.setIdUnidad(new Unidad());
+            solicitante.getIdUnidad().setIdFacultad(new Facultad());
             referenteInterno = new Persona();
             referenteExterno = new Persona();
             telFijoInterno = new Telefono();
