@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" 
+    >
+                    
+    <ui:define name="content">
+             <ui:include src="../persona/crearPersona.xhtml" />
+             <ui:include src="../persona/editPersona.xhtml" />
+        
+            <h:form id="formAdmin">
+
+                <p:dataTable var="pconvenios" value="#{consultarConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"                       
+                             >    
+                    <p:column headerText="Nombre Prouesta">
+                        <h:outputText value="#{pconvenios.id}" />
+                    </p:column>
+                    <p:column headerText="Finalidad">
+                        <h:outputText value="#{pconvenios.year}" />
+                    </p:column>
+                    <p:column headerText="Solicitante">
+                        <h:outputText value="#{pconvenios.brand}" />
+                    </p:column>
+                    <p:column headerText="Referente Interno">
+                        <h:outputText value="#{pconvenios.idPropuesta.}" />
+                    </p:column>
+                    <p:column headerText="Referente Externo">
+                        <h:outputText value="#{pconvenios.color}" />
+                    </p:column>
+                    <p:column headerText="Tipo Propuesta">
+                        <h:outputText value="#{pconvenios.color}" />
+                    </p:column>
+                    <p:column headerText="Estado Propuesta">
+                        <h:outputText value="#{pconvenios.color}" />
+                    </p:column>
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{consultarConvenioMB.preEditar(menu)}" />
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                           title="Eliminar" value="Eliminar"
+                                           actionListener="#{consultarConvenioMB.preEliminar(menu)}" />
+                        </div>                        
+                    </p:column>
+                </p:dataTable>
+            </h:form>   
+        
+    </ui:define>
+    
+    
+</ui:composition>
