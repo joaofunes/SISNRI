@@ -37,7 +37,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
     }
      
      
-      public List<PojoPropuestaConvenio> getAllPropuestaConvenioSQL() {
+ public List<PojoPropuestaConvenio> getAllPropuestaConvenioSQL() {
           
           String sql="SELECT * FROM  \n" +
                     "\n" +
@@ -87,6 +87,13 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
              Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                      .addScalar("NOMBRE_PROPUESTA",new StringType())
                      .addScalar("FINALIDAD_PROPUESTA",new StringType())
+                     .addScalar("TIPO_CONVENIO",new StringType())
+                     .addScalar("NOMBRE_ESTADO",new StringType())
+                     .addScalar("ID_PROPUESTA",new StringType())
+                     .addScalar("SOLICITANTE",new StringType())
+                     .addScalar("INTERNO",new StringType())
+                     .addScalar("EXTERNO",new StringType())
+                     .addScalar("PROPUESTA",new StringType())
                      .setResultTransformer(Transformers.aliasToBean(PojoPropuestaConvenio.class));
                
              return q.list();

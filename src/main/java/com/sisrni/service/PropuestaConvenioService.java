@@ -9,6 +9,7 @@ import com.sisrni.dao.PropuestaConvenioDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.TipoPropuestaConvenio;
+import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,9 @@ public class PropuestaConvenioService extends GenericService<PropuestaConvenio, 
     public List<PropuestaConvenio> getPropuestaConvenioByTipoPropuesta(TipoPropuestaConvenio tipoPropuestaConvenio) {
          return propuestaConvenioDao.getPropuestaConvenioByTipoPropuesta(tipoPropuestaConvenio);
     }
+    
+     public List<PojoPropuestaConvenio> getAllPropuestaConvenioSQL() {
+        return propuestaConvenioDao.getAllPropuestaConvenioSQL();
+     }
     
 }

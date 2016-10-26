@@ -18,28 +18,28 @@
 
                 <p:dataTable var="pconvenios" value="#{consultarConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             rowsPerPageTemplate="5,10,15"                       
+                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
                              >    
                     <p:column headerText="Nombre Prouesta">
-                        <h:outputText value="#{pconvenios.id}" />
+                        <h:outputText value="#{pconvenios.NOMBRE_PROPUESTA}" />
                     </p:column>
                     <p:column headerText="Finalidad">
-                        <h:outputText value="#{pconvenios.year}" />
+                        <h:outputText value="#{pconvenios.FINALIDAD_PROPUESTA}" />
                     </p:column>
                     <p:column headerText="Solicitante">
-                        <h:outputText value="#{pconvenios.brand}" />
+                        <h:outputText value="#{pconvenios.SOLICITANTE}" />
                     </p:column>
                     <p:column headerText="Referente Interno">
-                        <h:outputText value="#{pconvenios.idPropuesta.byteValue}" />
+                        <h:outputText value="#{pconvenios.INTERNO}" />
                     </p:column>
                     <p:column headerText="Referente Externo">
-                        <h:outputText value="#{pconvenios.color}" />
+                        <h:outputText value="#{pconvenios.EXTERNO}" />
                     </p:column>
                     <p:column headerText="Tipo Propuesta">
-                        <h:outputText value="#{pconvenios.color}" />
+                        <h:outputText value="#{pconvenios.PROPUESTA}" />
                     </p:column>
                     <p:column headerText="Estado Propuesta">
-                        <h:outputText value="#{pconvenios.color}" />
+                        <h:outputText value="#{pconvenios.NOMBRE_ESTADO}" />
                     </p:column>
                     <p:column headerText="Opciones" >
                         <div style="float: left">

@@ -6,6 +6,7 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.PropuestaConvenio;
+import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.service.PropuestaConvenioService;
 import java.io.Serializable;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ConsultarConvenioMB implements Serializable{
     @Qualifier(value = "propuestaConvenioService")
     private PropuestaConvenioService propuestaConvenioService;
     
-    private List<PropuestaConvenio> listadoPropuestaConvenio;
+    private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
     
     
@@ -49,18 +50,14 @@ public class ConsultarConvenioMB implements Serializable{
     private void inicializador() {
         try {
             propuestaConvenio = new PropuestaConvenio();
+            
+            listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<PropuestaConvenio> getListadoPropuestaConvenio() {
-        return listadoPropuestaConvenio;
-    }
-
-    public void setListadoPropuestaConvenio(List<PropuestaConvenio> listadoPropuestaConvenio) {
-        this.listadoPropuestaConvenio = listadoPropuestaConvenio;
-    }
+   
 
     public PropuestaConvenio getPropuestaConvenio() {
         return propuestaConvenio;
@@ -68,5 +65,13 @@ public class ConsultarConvenioMB implements Serializable{
 
     public void setPropuestaConvenio(PropuestaConvenio propuestaConvenio) {
         this.propuestaConvenio = propuestaConvenio;
+    }
+
+    public List<PojoPropuestaConvenio> getListadoPropuestaConvenio() {
+        return listadoPropuestaConvenio;
+    }
+
+    public void setListadoPropuestaConvenio(List<PojoPropuestaConvenio> listadoPropuestaConvenio) {
+        this.listadoPropuestaConvenio = listadoPropuestaConvenio;
     }
 }
