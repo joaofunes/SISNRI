@@ -8,6 +8,7 @@ package com.sisrni.dao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.TipoPropuestaConvenio;
+import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
@@ -36,7 +37,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
     }
      
      
-      public List<PropuestaConvenio> getAllPropuestaConvenioSQL() {
+      public List<PojoPropuestaConvenio> getAllPropuestaConvenioSQL() {
           
           String sql="SELECT * FROM  \n" +
                     "\n" +
@@ -86,7 +87,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
              Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                      .addScalar("NOMBRE_PROPUESTA",new StringType())
                      .addScalar("FINALIDAD_PROPUESTA",new StringType())
-                     .setResultTransformer(Transformers.aliasToBean(MessageExtDto.class));
+                     .setResultTransformer(Transformers.aliasToBean(PojoPropuestaConvenio.class));
                
              return q.list();
        
