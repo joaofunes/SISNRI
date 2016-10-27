@@ -55,12 +55,16 @@ public class ProyectoMB {
     private Persona persona;
     private Persona personaCoordinador;
     private Persona personaAsistente;
+    private Persona personaExterno;
     
     private Telefono telFijoInterno;
     private Telefono faxInterno;
     
     private Telefono telFijoAsistente;
     private Telefono faxAsistente;
+    
+    private Telefono telFijoExterno;
+    private Telefono faxExterno;
     
     
     @Autowired
@@ -98,6 +102,8 @@ public class ProyectoMB {
     public void init(){
       personaCoordinador = new Persona();  
       personaAsistente = new Persona();
+      personaExterno = new Persona();
+      
       listFacultad = facultadService.findAll();
       listOrganismos = organismoService.findAll();
       listInterno = personaService.findAll();
@@ -106,6 +112,8 @@ public class ProyectoMB {
       
       telFijoInterno = new Telefono();
       faxInterno = new Telefono();
+      telFijoAsistente = new Telefono();
+      faxAsistente = new Telefono();
     }
     
     
@@ -144,6 +152,17 @@ public class ProyectoMB {
     }
     
     
+     
+      public void preActualizarProyecto(){
+      
+    }
+    
+   
+    public void actualizarProyecto(){
+        
+    }
+     
+     
     
     
 
@@ -280,13 +299,6 @@ public class ProyectoMB {
     }
 
     public List<AreaConocimiento> getListAreaConocimiento() {
-         this.listAreaConocimientoItem = new ArrayList<SelectItem>();
-         listAreaConocimientoItem.clear();
-        
-        for(AreaConocimiento a :listAreaConocimiento ){
-          SelectItem areaConocimientoItem = new SelectItem(a.getIdAreaConocimiento(),a.getNombreArea());
-          this.listOrganismosItem.add(areaConocimientoItem);
-    }
         return listAreaConocimiento;
     }
 
@@ -294,13 +306,7 @@ public class ProyectoMB {
         this.listAreaConocimiento = listAreaConocimiento;
     }
 
-    public List<SelectItem> getListAreaConocimientoItem() {
-        return listAreaConocimientoItem;
-    }
-
-    public void setListAreaConocimientoItem(List<SelectItem> listAreaConocimientoItem) {
-        this.listAreaConocimientoItem = listAreaConocimientoItem;
-    }
+      
 
     public String[] getAreaConocimientoSelected() {
         return areaConocimientoSelected;
@@ -308,6 +314,30 @@ public class ProyectoMB {
 
     public void setAreaConocimientoSelected(String[] areaConocimientoSelected) {
         this.areaConocimientoSelected = areaConocimientoSelected;
+    }
+
+    public Persona getPersonaExterno() {
+        return personaExterno;
+    }
+
+    public void setPersonaExterno(Persona personaExterno) {
+        this.personaExterno = personaExterno;
+    }
+
+    public Telefono getTelFijoExterno() {
+        return telFijoExterno;
+    }
+
+    public void setTelFijoExterno(Telefono telFijoExterno) {
+        this.telFijoExterno = telFijoExterno;
+    }
+
+    public Telefono getFaxExterno() {
+        return faxExterno;
+    }
+
+    public void setFaxExterno(Telefono faxExterno) {
+        this.faxExterno = faxExterno;
     }
 
     

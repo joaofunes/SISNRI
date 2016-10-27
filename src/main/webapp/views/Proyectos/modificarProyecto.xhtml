@@ -110,10 +110,7 @@
                                         <p:outputLabel for="factCoord" value="Facultad"/>
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="factCoord" value="" style="width: 120px" required="true">
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <f:selectItems value="#{proyectoMB.listFacultad}" var="facultad" itemLabel="#{facultad.nombreFacultad}" itemValue="#{facultad.idFacultad}"/>
-                                        </p:selectOneMenu>
+                                        <p:inputText id="factCoord" label="factCoord" value="#{proyectoMB.personaCoordinador.idUnidad.idFacultad.nombreFacultad}"/>
                                     </p:column>
                                     <p:column>
                                          <p:outputLabel for="mailCoord" value="Correo Electronico"/>
@@ -158,10 +155,7 @@
                                         <p:outputLabel for="factAsistente" value="Facultad"/>
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="factAsistente" value="#" style="width: 120px" required="true">
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <f:selectItems value="#{proyectoMB.listFacultadItem}"/>
-                                        </p:selectOneMenu>
+                                        <p:inputText id="factAsistente" label="factCoord" value="#{proyectoMB.personaAsistente.idUnidad.idFacultad.nombreFacultad}"/>
                                     </p:column>
                                      <p:column>
                                          <p:outputLabel for="mailAsistente" value="Correo Electronico"/>
@@ -189,13 +183,13 @@
                                         <p:outputLabel for="nombreRefExt" value="Nombre"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="nombreRefExt" label="nombreRefExt" required="true" value="#"/>
+                                        <p:inputText id="nombreRefExt" label="nombreRefExt" required="true" value="#{proyectoMB.personaExterno.nombrePersona}"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="CargoRefExt" value="Cargo"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="CargoRefExt" label="CargoRefExt" value="#"/>
+                                        <p:inputText id="CargoRefExt" label="CargoRefExt" value="#{proyectoMB.personaExterno.cargoPersona}"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="entidadInst" value="Entidad o institucion"/>
@@ -210,24 +204,37 @@
                                         <p:outputLabel for="correoE" value="Correo Electronico"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="correoE" label="correoE" required="true" value="#"/>
+                                        <p:inputText id="correoE" label="correoE" required="true" value="#{proyectoMB.personaExterno.emailPersona}"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="telefonoRefExt" value="Telefono"/>                                    
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="telefonoRefExt" label="telefonoRefExt" required="true" value="#"/>
+                                        <p:inputText id="telefonoRefExt" label="telefonoRefExt" required="true" value="#{proyectoMB.telFijoExterno.numeroTelefono}"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="faxRefExt" value="Fax"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="faxRefExt" label="faxRefExt" value="#"/>
+                                        <p:inputText id="faxRefExt" label="faxRefExt" value="#{proyectoMB.faxExterno.numeroTelefono}"/>
                                     </p:column>
 
                                 </h:panelGrid>
                             </p:tab>
                         </p:accordionPanel>
+                        <p:panel>
+                            <h:panelGrid columns="3">
+                                <p:column>
+                                    <h:panelGroup/>
+                                </p:column>
+                                <p:column>
+                                    <p:commandButton styleClass="boton"  actionListener="null" process="" update="" value="Cancelar"  id="btnCancelar" title="Modificar proyecto" />
+                                </p:column>
+                                <p:column>
+                                    <p:commandButton styleClass="boton"  actionListener="null" process="" update="" value="Modificar proyecto"  id="btnModificar"  title="Modificar proyecto" />                                 
+                                </p:column>
+                            </h:panelGrid>
+                        </p:panel>
                     </h:form>
                 </p:panel>
             </center>
