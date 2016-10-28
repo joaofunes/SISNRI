@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -34,6 +35,7 @@ public class ConsultarConvenioMB implements Serializable{
     
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
+    private PojoPropuestaConvenio pojoPropuestaConvenio;
     
     
     @PostConstruct
@@ -57,8 +59,26 @@ public class ConsultarConvenioMB implements Serializable{
         }
     }
 
-   
+    public void preEliminar(PojoPropuestaConvenio pojo){
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            RequestContext context = RequestContext.getCurrentInstance();              
+            context.execute("PF('dataChangeDlg').show();");
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
 
+    
+    public void eliminarConvenio(){
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     public PropuestaConvenio getPropuestaConvenio() {
         return propuestaConvenio;
     }
@@ -73,5 +93,13 @@ public class ConsultarConvenioMB implements Serializable{
 
     public void setListadoPropuestaConvenio(List<PojoPropuestaConvenio> listadoPropuestaConvenio) {
         this.listadoPropuestaConvenio = listadoPropuestaConvenio;
+    }
+
+    public PojoPropuestaConvenio getPojoPropuestaConvenio() {
+        return pojoPropuestaConvenio;
+    }
+
+    public void setPojoPropuestaConvenio(PojoPropuestaConvenio pojoPropuestaConvenio) {
+        this.pojoPropuestaConvenio = pojoPropuestaConvenio;
     }
 }

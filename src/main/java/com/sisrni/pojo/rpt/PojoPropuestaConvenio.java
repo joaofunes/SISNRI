@@ -23,6 +23,7 @@ public class PojoPropuestaConvenio implements Serializable{
     private String EXTERNO;
     private String PROPUESTA;
     private String FINALIDAD_PROPUESTA;
+    private String VIGENCIA;
 
     public String getNOMBRE_PROPUESTA() {
         return NOMBRE_PROPUESTA;
@@ -94,6 +95,14 @@ public class PojoPropuestaConvenio implements Serializable{
 
     public void setFINALIDAD_PROPUESTA(String FINALIDAD_PROPUESTA) {
         this.FINALIDAD_PROPUESTA = FINALIDAD_PROPUESTA;
+    }
+
+    public String getVIGENCIA() {
+        return VIGENCIA;
+    }
+
+    public void setVIGENCIA(String VIGENCIA) {
+        this.VIGENCIA = VIGENCIA;
     }
 
    
