@@ -11,6 +11,9 @@ import com.sisrni.service.PropuestaConvenioService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,10 @@ import org.springframework.web.context.WebApplicationContext;
 public class ConsultarConvenioMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
+    
+    @Inject
+    PropuestaConvenioMB propuestaConvenioMB;
+    
     
     @Autowired
     @Qualifier(value = "propuestaConvenioService")
@@ -64,11 +71,28 @@ public class ConsultarConvenioMB implements Serializable{
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
             RequestContext context = RequestContext.getCurrentInstance();              
             context.execute("PF('dataChangeDlg').show();");
+            //RequestContext.getCurrentInstance().update(":formPrincipal");
         } catch (Exception e) {
          e.printStackTrace();
         }
     }
 
+    
+    public void preEditar(){
+        try {
+//            propuestaConvenioMB.setSolicitante(referenteInterno);            
+//            propuestaConvenioMB.setReferenteInterno(referenteInterno);
+//            propuestaConvenioMB.setReferenteExterno(referenteExterno);
+            
+            propuestaConvenioMB.onChangeInterno();
+            
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            context.redirect(context.getRequestContextPath() + "propuestaCovenio.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+    }
     
     public void eliminarConvenio(){
         try {
