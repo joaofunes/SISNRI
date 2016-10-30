@@ -7,6 +7,7 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import java.io.Serializable;
 import java.util.List;
@@ -39,6 +40,10 @@ public class ConsultarConvenioMB implements Serializable{
     @Autowired
     @Qualifier(value = "propuestaConvenioService")
     private PropuestaConvenioService propuestaConvenioService;
+    
+    @Autowired
+    @Qualifier(value = "personaService")
+    private PersonaService personaService;
     
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
@@ -80,9 +85,11 @@ public class ConsultarConvenioMB implements Serializable{
     
     public void preEditar(){
         try {
-//            propuestaConvenioMB.setSolicitante(referenteInterno);            
-//            propuestaConvenioMB.setReferenteInterno(referenteInterno);
-//            propuestaConvenioMB.setReferenteExterno(referenteExterno);
+              
+              
+            propuestaConvenioMB.setSolicitante(personaService.getByID(Integer.parseInt(pojoPropuestaConvenio.getID_SOLICITANTE())));            
+            propuestaConvenioMB.setReferenteInterno(personaService.getByID(Integer.parseInt(pojoPropuestaConvenio.getID_REF_INTERNO())));
+            propuestaConvenioMB.setReferenteExterno(personaService.getByID(Integer.parseInt(pojoPropuestaConvenio.getID_REF_EXTERNO())));
             
             propuestaConvenioMB.onChangeInterno();
             

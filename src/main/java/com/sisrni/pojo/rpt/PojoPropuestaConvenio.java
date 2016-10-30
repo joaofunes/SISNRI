@@ -24,6 +24,9 @@ public class PojoPropuestaConvenio implements Serializable{
     private String PROPUESTA;
     private String FINALIDAD_PROPUESTA;
     private String VIGENCIA;
+    private String ID_SOLICITANTE;
+    private String ID_REF_INTERNO;
+    private String ID_REF_EXTERNO;
 
     public String getNOMBRE_PROPUESTA() {
         return NOMBRE_PROPUESTA;
@@ -103,6 +106,30 @@ public class PojoPropuestaConvenio implements Serializable{
 
     public void setVIGENCIA(String VIGENCIA) {
         this.VIGENCIA = VIGENCIA;
+    }
+
+    public String getID_SOLICITANTE() {
+        return ID_SOLICITANTE;
+    }
+
+    public void setID_SOLICITANTE(String ID_SOLICITANTE) {
+        this.ID_SOLICITANTE = ID_SOLICITANTE;
+    }
+
+    public String getID_REF_INTERNO() {
+        return ID_REF_INTERNO;
+    }
+
+    public void setID_REF_INTERNO(String ID_REF_INTERNO) {
+        this.ID_REF_INTERNO = ID_REF_INTERNO;
+    }
+
+    public String getID_REF_EXTERNO() {
+        return ID_REF_EXTERNO;
+    }
+
+    public void setID_REF_EXTERNO(String ID_REF_EXTERNO) {
+        this.ID_REF_EXTERNO = ID_REF_EXTERNO;
     }
 
    
