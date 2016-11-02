@@ -412,7 +412,7 @@ public class PropuestaConvenioMB implements Serializable{
      */
     public void guardarPropuestaConvenio(){
         try {
-            PersonaPropuesta prsSolicitante  = new PersonaPropuesta();
+            PersonaPropuesta prsSolicitante = new PersonaPropuesta();
             PersonaPropuesta prsRefInterno  = new PersonaPropuesta();
             PersonaPropuesta prsRefExterno  = new PersonaPropuesta();
             

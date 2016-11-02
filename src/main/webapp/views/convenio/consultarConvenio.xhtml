@@ -18,42 +18,85 @@
 
                 <p:dataTable var="pconvenios" value="#{consultarConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             rowsPerPageTemplate="5,10,15"                       
+                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
                              >    
-                    <p:column headerText="Nombre Prouesta">
-                        <h:outputText value="#{pconvenios.id}" />
+                    <p:column headerText="Nombre Propuesta">
+                        <h:outputText value="#{pconvenios.NOMBRE_PROPUESTA}" />
                     </p:column>
                     <p:column headerText="Finalidad">
-                        <h:outputText value="#{pconvenios.year}" />
+                        <h:outputText value="#{pconvenios.FINALIDAD_PROPUESTA}" />
                     </p:column>
                     <p:column headerText="Solicitante">
-                        <h:outputText value="#{pconvenios.brand}" />
+                        <h:outputText value="#{pconvenios.SOLICITANTE}" />
                     </p:column>
                     <p:column headerText="Referente Interno">
-                        <h:outputText value="#{pconvenios.idPropuesta.}" />
+                        <h:outputText value="#{pconvenios.INTERNO}" />
                     </p:column>
                     <p:column headerText="Referente Externo">
-                        <h:outputText value="#{pconvenios.color}" />
+                        <h:outputText value="#{pconvenios.EXTERNO}" />
                     </p:column>
                     <p:column headerText="Tipo Propuesta">
-                        <h:outputText value="#{pconvenios.color}" />
+                        <h:outputText value="#{pconvenios.TIPO_CONVENIO}" />
                     </p:column>
                     <p:column headerText="Estado Propuesta">
-                        <h:outputText value="#{pconvenios.color}" />
+                        <h:outputText value="#{pconvenios.NOMBRE_ESTADO}" />
                     </p:column>
                     <p:column headerText="Opciones" >
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                           value="Editar" actionListener="#{consultarConvenioMB.preEditar(menu)}" />
+                                           value="Editar" actionListener="#{consultarConvenioMB.preEditar(pconvenios)}" />
                         </div>
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                            title="Eliminar" value="Eliminar"
-                                           actionListener="#{consultarConvenioMB.preEliminar(menu)}" />
+                                           actionListener="#{consultarConvenioMB.preEliminar(pconvenios)}" update="idEliminacion"/>
                         </div>                        
                     </p:column>
                 </p:dataTable>
             </h:form>   
+             
+             
+             
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar convenio?" header="Eliminar Convenio"  global="true">
+            <h:form id="idEliminacion"> 
+             
+                 <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
+                 <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Finalidad: "  style="font-weight:bold" />
+                 <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Solicitante: "  style="font-weight:bold" />
+                 <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.SOLICITANTE}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Referente Interno: "  style="font-weight:bold" />
+                 <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.INTERNO}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Referente Externo: "  style="font-weight:bold" />
+                 <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.EXTERNO}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
+                 <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Estado Propuesta: "  style="font-weight:bold" />
+                 <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.NOMBRE_ESTADO}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="VIGENCIA: "  style="font-weight:bold" />
+                 <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.VIGENCIA}" />
+             
+            </h:form>    
+            
+            <p:separator />
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarConvenioMB.eliminarConvenio()}" process="@this" update=":formAdmin"/>
+               <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
         
     </ui:define>
     
