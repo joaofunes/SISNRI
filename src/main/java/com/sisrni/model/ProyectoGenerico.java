@@ -22,6 +22,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -39,10 +40,12 @@ public class ProyectoGenerico implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_PROYECTO", nullable = false)
     private Integer idProyecto;
-    @Column(name = "LUGAR_PROYECTO")
-    private Integer lugarProyecto;
-    @Column(name = "OBJETIVO")
-    private Integer objetivo;
+    @Size(max = 300)
+    @Column(name = "LUGAR_PROYECTO", length = 300)
+    private String lugarProyecto;
+    @Size(max = 300)
+    @Column(name = "OBJETIVO", length = 300)
+    private String objetivo;
     @JoinTable(name = "PROYECTO_GENERICO_AREA", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO", nullable = false)})
@@ -69,22 +72,7 @@ public class ProyectoGenerico implements Serializable {
         this.idProyecto = idProyecto;
     }
 
-    public Integer getLugarProyecto() {
-        return lugarProyecto;
-    }
-
-    public void setLugarProyecto(Integer lugarProyecto) {
-        this.lugarProyecto = lugarProyecto;
-    }
-
-    public Integer getObjetivo() {
-        return objetivo;
-    }
-
-    public void setObjetivo(Integer objetivo) {
-        this.objetivo = objetivo;
-    }
-
+    
     public List<AreaConocimiento> getAreaConocimientoList() {
         return areaConocimientoList;
     }
@@ -132,6 +120,22 @@ public class ProyectoGenerico implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.ProyectoGenerico[ idProyecto=" + idProyecto + " ]";
+    }
+
+    public String getLugarProyecto() {
+        return lugarProyecto;
+    }
+
+    public void setLugarProyecto(String lugarProyecto) {
+        this.lugarProyecto = lugarProyecto;
+    }
+
+    public String getObjetivo() {
+        return objetivo;
+    }
+
+    public void setObjetivo(String objetivo) {
+        this.objetivo = objetivo;
     }
     
 }

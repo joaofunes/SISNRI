@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -38,6 +40,7 @@ public class Proyecto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_PROYECTO", nullable = false)
@@ -45,14 +48,8 @@ public class Proyecto implements Serializable {
     @Size(max = 300)
     @Column(name = "NOMBRE_PROYECTO", length = 300)
     private String nombreProyecto;
-    @Size(max = 300)
-    @Column(name = "LUGAR_PROYECTO", length = 300)
-    private String lugarProyecto;
     @Column(name = "MONTO_PROYECTO")
     private Integer montoProyecto;
-    @Size(max = 300)
-    @Column(name = "OBJETIVO_PROYECTO", length = 300)
-    private String objetivoProyecto;
     @Column(name = "FECHA_GESTION")
     @Temporal(TemporalType.DATE)
     private Date fechaGestion;
@@ -104,28 +101,12 @@ public class Proyecto implements Serializable {
         this.nombreProyecto = nombreProyecto;
     }
 
-    public String getLugarProyecto() {
-        return lugarProyecto;
-    }
-
-    public void setLugarProyecto(String lugarProyecto) {
-        this.lugarProyecto = lugarProyecto;
-    }
-
     public Integer getMontoProyecto() {
         return montoProyecto;
     }
 
     public void setMontoProyecto(Integer montoProyecto) {
         this.montoProyecto = montoProyecto;
-    }
-
-    public String getObjetivoProyecto() {
-        return objetivoProyecto;
-    }
-
-    public void setObjetivoProyecto(String objetivoProyecto) {
-        this.objetivoProyecto = objetivoProyecto;
     }
 
     public Date getFechaGestion() {
