@@ -18,6 +18,7 @@ import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.Unidad;
 import com.sisrni.service.AreaConocimientoService;
 import com.sisrni.service.FacultadService;
+import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.ProyectoGenericoService;
@@ -26,13 +27,13 @@ import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
@@ -67,35 +68,41 @@ public class ProyectosMB {
     private PropuestaConvenioService propuestaConvenioService;
     @Autowired
     private TipoTelefonoService tipoTelefonoService;
-    
-private TipoProyecto proyectoSelected;
-private List<TipoProyecto> tipoproyectolist;
-private String [] areaConocimientoSelected;
-private List<AreaConocimiento> areaConocimientoList;
-private Facultad facultadSelected;
-private List<Facultad> facultadList;
-private Unidad unidadSelected;
-private List<Unidad> unidadList;
+    @Autowired
+    private OrganismoService organismoService;
+
+//Definicion de objetos    
 private Proyecto proyecto;
 private ProyectoGenerico proyectoGenerico;
 private PropuestaConvenio propuestaConvenio;
-private List<PropuestaConvenio> propuestaConvenioList;
-private PropuestaConvenio propuestaConvenioSelected;
 private Persona persona;
 private Persona personaAsistente;
 private Persona personaExterna;
 private Facultad facultad;
+private Unidad unidadProyecto;
+private Organismo organismo;
+private Facultad facultadAsistente;
+private Facultad facultadExterna;
+//Definicion de listas
+private List<Facultad> facultadList;
+private List<AreaConocimiento> areaConocimientoList;
+private List<TipoProyecto> tipoproyectolist;
+private List<Unidad> unidadList;
+private List<PropuestaConvenio> propuestaConvenioList;
+private List<Organismo> organismoList;
+//Definicion de selected
+private TipoProyecto proyectoSelected;
+private String [] areaConocimientoSelected;
+private Facultad facultadSelected;
+private Unidad unidadSelected;
+private PropuestaConvenio propuestaConvenioSelected;
 private Facultad facultadSelectedSol;
 private Facultad facultadSelectedAsis;
 private Facultad facultadSelectedExt;
-private Unidad unidadProyecto;
 private Unidad unidadSelectedSol;
 private Unidad unidadSelectedAsis;
-private Organismo Organismo;
-private List<Organismo> organismoList;
 private Organismo organismoSelected;
-private Facultad facultadAsistente;
-private Facultad facultadExterna;
+//Telefono
 private Telefono telefono;
 private Telefono telefonosol;
 private Telefono telefonofax;
@@ -135,17 +142,20 @@ private TipoTelefono tipoTelefonoFijo;
     facultadSelectedExt=new Facultad();
     unidadSelectedSol=new Unidad();
     unidadSelectedAsis=new Unidad();
-     facultadAsistente = new Facultad();
-     facultadExterna = new Facultad();
-     telefono = new Telefono();
-     telefonosol=new Telefono();
-     telefonofax = new Telefono();
-     telefonorefint=new Telefono();
-     telefonorefintfax=new Telefono();
-     telefonorefext=new Telefono();
-     telefonorefextfax=new Telefono();
-     personaAsistente=new Persona();
-     personaExterna=new Persona();
+    organismoSelected=new Organismo();
+    facultadAsistente = new Facultad();
+    facultadExterna = new Facultad();
+    telefono = new Telefono();
+    telefonosol=new Telefono();
+    telefonofax = new Telefono();
+    telefonorefint=new Telefono();
+    telefonorefintfax=new Telefono();
+    telefonorefext=new Telefono();
+    telefonorefextfax=new Telefono();
+    personaAsistente=new Persona();
+    personaExterna=new Persona();
+    organismo = new Organismo();
+    organismoList=organismoService.findAll();
     // tipos telefonos
        tipoTelefonoFax= tipoTelefonoService.getTipoByDesc("FAX");
        tipoTelefonoFijo= tipoTelefonoService.getTipoByDesc("FIJO");
@@ -364,13 +374,29 @@ private TipoTelefono tipoTelefonoFijo;
     }
 
     public Organismo getOrganismo() {
-        return Organismo;
+        return organismo;
     }
 
-    public void setOrganismo(Organismo Organismo) {
-        this.Organismo = Organismo;
+    public void setOrganismo(Organismo organismo) {
+        this.organismo = organismo;
     }
 
+    public TipoTelefono getTipoTelefonoFax() {
+        return tipoTelefonoFax;
+    }
+
+    public void setTipoTelefonoFax(TipoTelefono tipoTelefonoFax) {
+        this.tipoTelefonoFax = tipoTelefonoFax;
+    }
+
+    public TipoTelefono getTipoTelefonoFijo() {
+        return tipoTelefonoFijo;
+    }
+
+    public void setTipoTelefonoFijo(TipoTelefono tipoTelefonoFijo) {
+        this.tipoTelefonoFijo = tipoTelefonoFijo;
+    }
+    
     public List<Organismo> getOrganismoList() {
         return organismoList;
     }
