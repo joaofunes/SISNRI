@@ -198,7 +198,7 @@
                                 <p:column >
                                     <p:outputLabel value="Unidad"/>
                                     <p:selectOneMenu id="unidadext" value="#{proyectosMB.organismoSelected.idOrganismo}"  style="width:120px" required="false">
-                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" />
                                         <c:forEach var="uni" items="#{proyectosMB.organismoList}">
                                             <f:selectItem itemLabel="#{uni.nombreOrganismo}" itemValue="#{uni.idOrganismo}"/>
                                         </c:forEach>
