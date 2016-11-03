@@ -23,7 +23,7 @@ public class UnidadDao extends GenericDao<Unidad, Integer>  {
     
     //retorna la lista de unidades perteneciente a una facultad
     public List<Unidad> getUnidadesByFacultadId(Integer id){
-        Query q =getSessionFactory().getCurrentSession().createQuery("FROM Unidad u WHERE u.idFacultad = :id");
+        Query q =getSessionFactory().getCurrentSession().createQuery("FROM Unidad u WHERE u.idFacultad.idFacultad = :id");
         q.setParameter("id",id);
         List<Unidad> lista= q.list();
         return q.list();        

@@ -7,12 +7,14 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.AreaConocimiento;
 import com.sisrni.model.Facultad;
+import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.Proyecto;
 import com.sisrni.model.ProyectoGenerico;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoProyecto;
+import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.Unidad;
 import com.sisrni.service.AreaConocimientoService;
 import com.sisrni.service.FacultadService;
@@ -22,6 +24,7 @@ import com.sisrni.service.ProyectoGenericoService;
 import com.sisrni.service.ProyectoService;
 import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoProyectoService;
+import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +65,8 @@ public class ProyectosMB {
     private ProyectoGenericoService proyectoGenericoService;
     @Autowired
     private PropuestaConvenioService propuestaConvenioService;
+    @Autowired
+    private TipoTelefonoService tipoTelefonoService;
     
 private TipoProyecto proyectoSelected;
 private List<TipoProyecto> tipoproyectolist;
@@ -81,17 +86,25 @@ private Persona personaAsistente;
 private Persona personaExterna;
 private Facultad facultad;
 private Facultad facultadSelectedSol;
+private Facultad facultadSelectedAsis;
+private Facultad facultadSelectedExt;
 private Unidad unidadProyecto;
 private Unidad unidadSelectedSol;
+private Unidad unidadSelectedAsis;
+private Organismo Organismo;
+private List<Organismo> organismoList;
+private Organismo organismoSelected;
 private Facultad facultadAsistente;
 private Facultad facultadExterna;
 private Telefono telefono;
+private Telefono telefonosol;
 private Telefono telefonofax;
 private Telefono telefonorefint ;
 private Telefono telefonorefintfax;
 private Telefono telefonorefext;
 private Telefono telefonorefextfax;
-    
+private TipoTelefono tipoTelefonoFax;
+private TipoTelefono tipoTelefonoFijo;
     
     /**
      * Creates a new instance of ProyectosMB
@@ -118,10 +131,14 @@ private Telefono telefonorefextfax;
     persona = new Persona();
     facultad = new Facultad();
     facultadSelectedSol=new Facultad();
+    facultadSelectedAsis=new Facultad();
+    facultadSelectedExt=new Facultad();
     unidadSelectedSol=new Unidad();
+    unidadSelectedAsis=new Unidad();
      facultadAsistente = new Facultad();
      facultadExterna = new Facultad();
      telefono = new Telefono();
+     telefonosol=new Telefono();
      telefonofax = new Telefono();
      telefonorefint=new Telefono();
      telefonorefintfax=new Telefono();
@@ -129,7 +146,9 @@ private Telefono telefonorefextfax;
      telefonorefextfax=new Telefono();
      personaAsistente=new Persona();
      personaExterna=new Persona();
-    
+    // tipos telefonos
+       tipoTelefonoFax= tipoTelefonoService.getTipoByDesc("FAX");
+       tipoTelefonoFijo= tipoTelefonoService.getTipoByDesc("FIJO");
     }
     
     
@@ -149,14 +168,39 @@ private Telefono telefonorefextfax;
         proyectoGenericoService.save(proyectoGenerico);
         
         //guardar persona solicitante
+        Unidad unidadSolicitante=unidadService.findById(unidadSelectedSol.getIdUnidad());
+        persona.setIdUnidad(unidadSolicitante);
+        persona.setIdTipoPersona(5);
+        personaService.save(persona);
+        //guardar telefono fijo
+        telefono.setIdPersona(persona);
+        telefono.setIdTipoTelefono(tipoTelefonoFijo);
+        telefonoService.save(telefono);
+        // guardar fax
+        telefonofax.setIdPersona(persona);
+        telefonofax.setIdTipoTelefono(tipoTelefonoFax);
+        telefonoService.save(telefonofax);
+        //guardar persona Asistente
         
     }catch(Exception e){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
     }
     }
     public void onFacultadChange() {
+        if( facultadSelected.getIdFacultad()!=null && !facultadSelected.getIdFacultad().equals(""))
+            unidadList = unidadService.getUnidadesByFacultadId(facultadSelected.getIdFacultad());
+        else
+            unidadList= new ArrayList<Unidad>();
+    }
+    public void onFacultadSolicitanteChange() {
         if( facultadSelectedSol.getIdFacultad()!=null && !facultadSelectedSol.getIdFacultad().equals(""))
             unidadList = unidadService.getUnidadesByFacultadId(facultadSelectedSol.getIdFacultad());
+        else
+            unidadList= new ArrayList<Unidad>();
+    }
+    public void onFacultadAsistenteChange() {
+        if( facultadSelectedAsis.getIdFacultad()!=null && !facultadSelectedAsis.getIdFacultad().equals(""))
+            unidadList = unidadService.getUnidadesByFacultadId(facultadSelectedAsis.getIdFacultad());
         else
             unidadList= new ArrayList<Unidad>();
     }
@@ -191,22 +235,6 @@ private Telefono telefonorefextfax;
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
-
-    public Facultad getFacultad() {
-        return facultad;
-    }
-
-    public void setFacultad(Facultad facultad) {
-        this.facultad = facultad;
-    }
-
-    public Unidad getUnidadSelectedSol() {
-        return unidadSelectedSol;
-    }
-
-    public void setUnidadSelectedSol(Unidad unidadSelectedSol) {
-        this.unidadSelectedSol = unidadSelectedSol;
-    }
     
     public Telefono getTelefono() {
         return telefono;
@@ -214,6 +242,14 @@ private Telefono telefonorefextfax;
 
     public void setTelefono(Telefono telefono) {
         this.telefono = telefono;
+    }
+
+    public Telefono getTelefonosol() {
+        return telefonosol;
+    }
+
+    public void setTelefonosol(Telefono telefonosol) {
+        this.telefonosol = telefonosol;
     }
 
     public Telefono getTelefonofax() {
@@ -271,6 +307,13 @@ private Telefono telefonorefextfax;
     public void setPersonaExterna(Persona personaExterna) {
         this.personaExterna = personaExterna;
     }
+    public Facultad getFacultad() {
+        return facultad;
+    }
+
+    public void setFacultad(Facultad facultad) {
+        this.facultad = facultad;
+    }
 
     public Facultad getFacultadAsistente() {
         return facultadAsistente;
@@ -288,6 +331,62 @@ private Telefono telefonorefextfax;
         this.facultadExterna = facultadExterna;
     }
 
+    public Facultad getFacultadSelectedAsis() {
+        return facultadSelectedAsis;
+    }
+
+    public void setFacultadSelectedAsis(Facultad facultadSelectedAsis) {
+        this.facultadSelectedAsis = facultadSelectedAsis;
+    }
+
+    public Facultad getFacultadSelectedExt() {
+        return facultadSelectedExt;
+    }
+
+    public void setFacultadSelectedExt(Facultad facultadSelectedExt) {
+        this.facultadSelectedExt = facultadSelectedExt;
+    }
+    
+    public Unidad getUnidadSelectedSol() {
+        return unidadSelectedSol;
+    }
+
+    public void setUnidadSelectedSol(Unidad unidadSelectedSol) {
+        this.unidadSelectedSol = unidadSelectedSol;
+    }
+
+    public Unidad getUnidadSelectedAsis() {
+        return unidadSelectedAsis;
+    }
+
+    public void setUnidadSelectedAsis(Unidad unidadSelectedAsis) {
+        this.unidadSelectedAsis = unidadSelectedAsis;
+    }
+
+    public Organismo getOrganismo() {
+        return Organismo;
+    }
+
+    public void setOrganismo(Organismo Organismo) {
+        this.Organismo = Organismo;
+    }
+
+    public List<Organismo> getOrganismoList() {
+        return organismoList;
+    }
+
+    public void setOrganismoList(List<Organismo> organismoList) {
+        this.organismoList = organismoList;
+    }
+
+    public Organismo getOrganismoSelected() {
+        return organismoSelected;
+    }
+
+    public void setOrganismoSelected(Organismo organismoSelected) {
+        this.organismoSelected = organismoSelected;
+    }
+    
     public String[] getAreaConocimientoSelected() {
         return areaConocimientoSelected;
     }
