@@ -45,6 +45,7 @@ public class ProyectoMB {
     private String [] areaConocimientoSelected;
     
    /*Variables*/
+    private List<Proyectos> listProyectos;
     private List<Facultad> listFacultad;
     private List<Unidad>   listUnidad;
 
@@ -198,8 +199,13 @@ public class ProyectoMB {
     }
      
      
-    
-    
+    public List<Proyectos> getListProyectos() {
+        return listProyectos;
+    }
+
+    public void setListProyectos(List<Proyectos> listProyectos) {
+        this.listProyectos = listProyectos;
+    }
 
     public List<Facultad> getListFacultad() {
         return listFacultad;

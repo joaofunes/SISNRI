@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    
+    
+    <ui:define name="content">
+<!--        <h:form id="formAdmin">
+            <p:panelGrid >
+                <p:row>
+                  
+                        <p:column>
+                            Nombre Proyecto
+                            <p:inputText id="nameproyecto"   value="#{proyectoMB.proyecto.nombreProyecto}" required="true" size="50" />
+                        </p:column>
+                    <p:column  >
+                            <p:commandButton rendered="#{!proyectoMB.actualizar}"  styleClass="boton"
+                                             actionListener="#{proyectoMB.guardar()}" update=":formAdmin :formProyecto" process="@this :formAdmin"
+                                             value="Guardar" />
+                            <p:commandButton rendered="#{proyectoMB.actualizar}" styleClass="boton"
+                                             actionListener="#{proyectosMB.editar()}" update=":formAdmin"
+                                             value="Actulizar" />
+                            <p:commandButton rendered="#{proyectoMB.actualizar}" styleClass="boton"
+                                             actionListener="#{proyectoMB.cancelar()}" immediate="true" update=":formAdmin"
+                                             value="Cancelar" />
+                        </p:column>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>-->
+        <h:outputLabel style="margin-bottom: 20px;"/>
+        <h:form id="formProyecto">
+            <p:dataTable var="proyecto" value="#{proyectoMB.listProyectos}" paginator="true" rows="15"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="5,10,15"                       
+                        >
+                
+                <p:column headerText="Id" sortBy="#{proyecto.idProyecto}" filterBy="#{proyecto.idProyecto}">
+                    <h:outputText value="#{proyecto.idProyecto}" />
+                </p:column>
+                <p:column headerText="Nombre Proyecto" sortBy="#{proyecto.nombreProyecto}" filterBy="#{proyecto.nombreProyecto}">
+                    <h:outputText value="#{proyecto.nombreProyecto}" />
+                </p:column>
+                <p:column headerText="Fecha" sortBy="#{proyecto.fechaRegistro}" filterBy="#{proyecto.fechaRegistro}">
+                    <h:outputText value="#{proyecto.fechaRegistro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>    
+                </p:column>
+                <p:column headerText="Registrado Por" sortBy="#{proyecto.usuarioRegistro}" filterBy="#{proyecto.usuarioRegistro}">
+                    <h:outputText value="#{proyecto.usuarioRegistro}" />
+                </p:column>
+                <p:column headerText="Opciones" >
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                       value="Editar" actionListener="#{proyectoMB.preEditar(proyecto)}" />
+                    </div>
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                       title="Eliminar" value="Eliminar"
+                                       actionListener="#{proyectoMB.preEliminar(proyecto)}" />
+                    </div>
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-document-b"
+                                       title="Opciones" value="Agregar Opciones a Proyectoe"
+                                       onclick="dlg2.show();"
+                                       actionListener="#{proyectoMB.addOpciones(proyecto)}" />
+                    </div>
+                </p:column>
+            </p:dataTable>
+ 
+
+        </h:form>
+
+
+        <p:dialog header="Agregar Opciones" widgetVar="dlg2"  appendTo="@(body)" modal="true" height="100">
+            <h:outputText value="This is a Modal Dialog." />
+
+            <h:form>
+              
+                
+                <h3 style="margin-top: 0">Seleccionar opciones del menu</h3>
+              
+               
+   
+
+                <!--<p:commandButton id="citySubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />-->
+
+            </h:form>
+                    
+                    
+        </p:dialog> 
+        
+    </ui:define>
+    
+ </ui:composition> 
