@@ -27,7 +27,10 @@
                                         <p:outputLabel  for="tipoProyecto" value="Tipo de proyecto"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="tipoProyecto" label="tipoProyecto" required="true" value="#"/>
+                                        <p:selectOneMenu id="tipoProyecto" value="#" style="width: 120px" required="true">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listTipoProyecto}" var="tipoProyecto" itemLabel="#{tipoProyecto.nombreTipoProyecto}" itemValue="#{tipoProyecto.idTipoProyecto}"/>
+                                        </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="nombreProyecto" value="Nombre del proyecto"/>
@@ -41,6 +44,7 @@
                                     <p:column>
                                         <p:selectOneMenu id="vinculoConvenio" value="#" style="width: 120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listPropuestaConvenio}" var="propuestaConvenio" itemLabel="#{propuestaConvenio.nombrePropuesta}" itemValue="#{propuestaConvenio.idPropuesta}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
@@ -64,6 +68,27 @@
                                     <p:column>
                                         <p:inputText id="lugarEjecucion" label="lugarEjecucion" required="true" value="#"/>
                                     </p:column>
+                                    
+                                    <p:column>
+                                        <p:outputLabel  for="facultadEjecucion" value="Facultad"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="facultadEjecucion" value="#{proyectoMB.proyecto.idFacultad}" style="width: 120px" required="true">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listFacultad}" var="facultad" itemLabel="#{facultad.nombreFacultad}" itemValue="#{facultad.idFacultad}"/>
+                                            <f:ajax listener="#{proyectoMB.onchangeFacultad()}" execute="facultadEjecucion" render="unidadEjecucion"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel  for="unidadEjecucion" value="Unidad"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="unidadEjecucion" value="#" style="width: 120px" required="true">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listUnidad}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad.idUnidad}"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    
                                     <p:column>
                                         <p:outputLabel value="Duracion"/>
                                     </p:column>
@@ -195,9 +220,9 @@
                                         <p:outputLabel for="entidadInst" value="Entidad o institucion"/>
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="entidadInst" value="#"  style="width:120px" required="true">
+                                        <p:selectOneMenu id="entidadInst" value="#{proyectoMB.personaExterno.idOrganismo}"  style="width:120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <f:selectItems value="#{proyectoMB.listOrganismosItem}"/>
+                                            <f:selectItems value="#{proyectoMB.listOrganismos}" var="organismo" itemLabel="${organismo.nombreOrganismo}" itemValue="${organismo.idOrganismo}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
@@ -231,7 +256,7 @@
                                     <p:commandButton styleClass="boton"  actionListener="null" process="" update="" value="Cancelar"  id="btnCancelar" title="Modificar proyecto" />
                                 </p:column>
                                 <p:column>
-                                    <p:commandButton styleClass="boton"  actionListener="null" process="" update="" value="Modificar proyecto"  id="btnModificar"  title="Modificar proyecto" />                                 
+                                    <p:commandButton styleClass="boton"  actionListener="#{proyectoMB.preActualizarProyecto()}" process="@this" update="" value="Modificar proyecto"  id="btnModificar"  title="Modificar proyecto" />                                 
                                 </p:column>
                             </h:panelGrid>
                         </p:panel>
