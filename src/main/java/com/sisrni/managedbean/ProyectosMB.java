@@ -9,10 +9,12 @@ import com.sisrni.model.AreaConocimiento;
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
+import com.sisrni.model.PersonaProyecto;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.Proyecto;
 import com.sisrni.model.ProyectoGenerico;
 import com.sisrni.model.Telefono;
+import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.Unidad;
@@ -24,6 +26,7 @@ import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.ProyectoGenericoService;
 import com.sisrni.service.ProyectoService;
 import com.sisrni.service.TelefonoService;
+import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
@@ -70,6 +73,8 @@ public class ProyectosMB {
     private TipoTelefonoService tipoTelefonoService;
     @Autowired
     private OrganismoService organismoService;
+    @Autowired
+    private TipoPersonaService tipoPersonaService;
 
 //Definicion de objetos    
 private Proyecto proyecto;
@@ -83,6 +88,7 @@ private Unidad unidadProyecto;
 private Organismo organismo;
 private Facultad facultadAsistente;
 private Facultad facultadExterna;
+private PersonaProyecto personaProyecto;
 //Definicion de listas
 private List<Facultad> facultadList;
 private List<AreaConocimiento> areaConocimientoList;
@@ -103,16 +109,23 @@ private Unidad unidadSelectedSol;
 private Unidad unidadSelectedAsis;
 private Organismo organismoSelected;
 //Telefono
-private Telefono telefono;
-private Telefono telefonosol;
-private Telefono telefonofax;
-private Telefono telefonorefint ;
-private Telefono telefonorefintfax;
-private Telefono telefonorefext;
-private Telefono telefonorefextfax;
-private TipoTelefono tipoTelefonoFax;
-private TipoTelefono tipoTelefonoFijo;
-    
+//private Telefono telefono;
+private Telefono telefonoSolFijo;
+private Telefono telefonoSolFax;
+private Telefono telefonoAsisFijo ;
+private Telefono telefonoAsisFax;
+private Telefono telefonoRefextFijo;
+private Telefono telefonoRefextFax;
+private TipoTelefono tipoTelefonoSolFax;
+private TipoTelefono tipoTelefonoSolFijo;
+private TipoTelefono tipoTelefonoAsisFijo;
+private TipoTelefono tipoTelefonoAsisFax;
+private TipoTelefono tipoTelefonoRefextFijo;
+private TipoTelefono tipoTelefonoRefextFax;
+//Tipo Persona
+private TipoPersona tipoPersonaSol;
+private TipoPersona tipoPersonaAsis;
+private TipoPersona tipoPersonaRefext;
     /**
      * Creates a new instance of ProyectosMB
      */
@@ -122,43 +135,53 @@ private TipoTelefono tipoTelefonoFijo;
     }
     
     public void inicializador(){
+    //selected
     proyectoSelected = new TipoProyecto();
-    tipoproyectolist = tipoProyectoService.findAll();
-    areaConocimientoList=areaConocimientoService.findAll();
     facultadSelected=new Facultad();
-    facultadList=new ArrayList<Facultad>();
-    facultadList=facultadService.findAll();
     unidadSelected=new Unidad();
-    unidadList=unidadService.findAll();
-    proyecto = new Proyecto();
-    proyectoGenerico=new ProyectoGenerico();
-    propuestaConvenio=new PropuestaConvenio();
     propuestaConvenioSelected=new PropuestaConvenio();
-    propuestaConvenioList=propuestaConvenioService.findAll();
-    persona = new Persona();
-    facultad = new Facultad();
     facultadSelectedSol=new Facultad();
     facultadSelectedAsis=new Facultad();
     facultadSelectedExt=new Facultad();
     unidadSelectedSol=new Unidad();
     unidadSelectedAsis=new Unidad();
     organismoSelected=new Organismo();
+    //Listas
+    tipoproyectolist = tipoProyectoService.findAll();
+    areaConocimientoList=areaConocimientoService.findAll();
+    facultadList=new ArrayList<Facultad>();
+    facultadList=facultadService.findAll();
+    propuestaConvenioList=propuestaConvenioService.findAll();
+    organismoList=organismoService.findAll();
+    //unidadList=unidadService.findAll();
+    proyecto = new Proyecto();
+    proyectoGenerico=new ProyectoGenerico();
+    propuestaConvenio=new PropuestaConvenio();
+    facultad = new Facultad();
     facultadAsistente = new Facultad();
     facultadExterna = new Facultad();
-    telefono = new Telefono();
-    telefonosol=new Telefono();
-    telefonofax = new Telefono();
-    telefonorefint=new Telefono();
-    telefonorefintfax=new Telefono();
-    telefonorefext=new Telefono();
-    telefonorefextfax=new Telefono();
+    //telefono = new Telefono();
+    telefonoSolFijo=new Telefono();
+    telefonoSolFax = new Telefono();
+    telefonoAsisFijo=new Telefono();
+    telefonoAsisFax=new Telefono();
+    telefonoRefextFijo=new Telefono();
+    telefonoRefextFax=new Telefono();
+    persona = new Persona();
     personaAsistente=new Persona();
     personaExterna=new Persona();
     organismo = new Organismo();
-    organismoList=organismoService.findAll();
     // tipos telefonos
-       tipoTelefonoFax= tipoTelefonoService.getTipoByDesc("FAX");
-       tipoTelefonoFijo= tipoTelefonoService.getTipoByDesc("FIJO");
+       tipoTelefonoSolFax= tipoTelefonoService.getTipoByDesc("FAX");
+       tipoTelefonoSolFijo= tipoTelefonoService.getTipoByDesc("FIJO");
+       tipoTelefonoAsisFijo=tipoTelefonoService.getTipoByDesc("FIJO");
+       tipoTelefonoAsisFax=tipoTelefonoService.getTipoByDesc("FAX");
+       tipoTelefonoRefextFijo=tipoTelefonoService.getTipoByDesc("FIJO");
+       tipoTelefonoRefextFax=tipoTelefonoService.getTipoByDesc("FAX");
+    // tipo persona
+       tipoPersonaSol=tipoPersonaService.getTipoPersonaByNombre("SOLICITANTE");
+       tipoPersonaAsis=tipoPersonaService.getTipoPersonaByNombre("ASISTENTE DE COORDINADOR");
+       tipoPersonaRefext=tipoPersonaService.getTipoPersonaByNombre("REFERENTE EXTERNO");
     }
     
     
@@ -180,17 +203,36 @@ private TipoTelefono tipoTelefonoFijo;
         //guardar persona solicitante
         Unidad unidadSolicitante=unidadService.findById(unidadSelectedSol.getIdUnidad());
         persona.setIdUnidad(unidadSolicitante);
-        persona.setIdTipoPersona(5);
+        persona.setIdTipoPersona(tipoPersonaSol.getIdTipoPersona());
         personaService.save(persona);
-        //guardar telefono fijo
-        telefono.setIdPersona(persona);
-        telefono.setIdTipoTelefono(tipoTelefonoFijo);
-        telefonoService.save(telefono);
-        // guardar fax
-        telefonofax.setIdPersona(persona);
-        telefonofax.setIdTipoTelefono(tipoTelefonoFax);
-        telefonoService.save(telefonofax);
+        //guardar telefono fijo solicitante
+        telefonoSolFijo.setIdPersona(persona);
+        telefonoSolFijo.setIdTipoTelefono(tipoTelefonoSolFijo);
+        telefonoService.save(telefonoSolFijo);
+        // guardar fax solicitante
+        telefonoSolFax.setIdPersona(persona);
+        telefonoSolFax.setIdTipoTelefono(tipoTelefonoSolFax);
+        telefonoService.save(telefonoSolFax);
+        //guardar en tabla intermedia persona_proyecto de un solicitante 
+        personaProyecto.setProyectoGenerico(proyectoGenerico);
+        personaProyecto.setPersona(persona);
+        personaProyecto.setTipoPersona(tipoPersonaSol);
+        
         //guardar persona Asistente
+        Unidad unidadAsistente=unidadService.findById(unidadSelectedAsis.getIdUnidad());
+        personaAsistente.setIdUnidad(unidadAsistente);
+        personaAsistente.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
+        personaService.save(personaAsistente);
+        //guardar telefono fijo asistente
+        telefonoAsisFijo.setIdPersona(personaAsistente);
+        telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoAsisFijo);
+        telefonoService.save(telefonoAsisFijo);
+        // guardar fax Asistente
+        telefonoAsisFax.setIdPersona(personaAsistente);
+        telefonoAsisFax.setIdTipoTelefono(tipoTelefonoAsisFax);
+        telefonoService.save(telefonoAsisFax);
+        
+        //guardar en tabla intermedia persona_proyecto 
         
     }catch(Exception e){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
@@ -245,61 +287,53 @@ private TipoTelefono tipoTelefonoFijo;
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
-    
-    public Telefono getTelefono() {
-        return telefono;
+
+    public Telefono getTelefonoSolFijo() {
+        return telefonoSolFijo;
     }
 
-    public void setTelefono(Telefono telefono) {
-        this.telefono = telefono;
+    public void setTelefonoSolFijo(Telefono telefonoSolFijo) {
+        this.telefonoSolFijo = telefonoSolFijo;
     }
 
-    public Telefono getTelefonosol() {
-        return telefonosol;
+    public Telefono getTelefonoSolFax() {
+        return telefonoSolFax;
     }
 
-    public void setTelefonosol(Telefono telefonosol) {
-        this.telefonosol = telefonosol;
+    public void setTelefonoSolFax(Telefono telefonoSolFax) {
+        this.telefonoSolFax = telefonoSolFax;
     }
 
-    public Telefono getTelefonofax() {
-        return telefonofax;
+    public Telefono getTelefonoAsisFijo() {
+        return telefonoAsisFijo;
     }
 
-    public void setTelefonofax(Telefono telefonofax) {
-        this.telefonofax = telefonofax;
+    public void setTelefonoAsisFijo(Telefono telefonoAsisFijo) {
+        this.telefonoAsisFijo = telefonoAsisFijo;
     }
 
-    public Telefono getTelefonorefint() {
-        return telefonorefint;
+    public Telefono getTelefonoAsisFax() {
+        return telefonoAsisFax;
     }
 
-    public void setTelefonorefint(Telefono telefonorefint) {
-        this.telefonorefint = telefonorefint;
+    public void setTelefonoAsisFax(Telefono telefonoAsisFax) {
+        this.telefonoAsisFax = telefonoAsisFax;
     }
 
-    public Telefono getTelefonorefintfax() {
-        return telefonorefintfax;
+    public Telefono getTelefonoRefextFijo() {
+        return telefonoRefextFijo;
     }
 
-    public void setTelefonorefintfax(Telefono telefonorefintfax) {
-        this.telefonorefintfax = telefonorefintfax;
+    public void setTelefonoRefextFijo(Telefono telefonoRefextFijo) {
+        this.telefonoRefextFijo = telefonoRefextFijo;
     }
 
-    public Telefono getTelefonorefext() {
-        return telefonorefext;
+    public Telefono getTelefonoRefextFax() {
+        return telefonoRefextFax;
     }
 
-    public void setTelefonorefext(Telefono telefonorefext) {
-        this.telefonorefext = telefonorefext;
-    }
-
-    public Telefono getTelefonorefextfax() {
-        return telefonorefextfax;
-    }
-
-    public void setTelefonorefextfax(Telefono telefonorefextfax) {
-        this.telefonorefextfax = telefonorefextfax;
+    public void setTelefonoRefextFax(Telefono telefonoRefextFax) {
+        this.telefonoRefextFax = telefonoRefextFax;
     }
 
     public Persona getPersonaAsistente() {
@@ -381,20 +415,52 @@ private TipoTelefono tipoTelefonoFijo;
         this.organismo = organismo;
     }
 
-    public TipoTelefono getTipoTelefonoFax() {
-        return tipoTelefonoFax;
+    public TipoTelefono getTipoTelefonoSolFax() {
+        return tipoTelefonoSolFax;
     }
 
-    public void setTipoTelefonoFax(TipoTelefono tipoTelefonoFax) {
-        this.tipoTelefonoFax = tipoTelefonoFax;
+    public void setTipoTelefonoSolFax(TipoTelefono tipoTelefonoSolFax) {
+        this.tipoTelefonoSolFax = tipoTelefonoSolFax;
     }
 
-    public TipoTelefono getTipoTelefonoFijo() {
-        return tipoTelefonoFijo;
+    public TipoTelefono getTipoTelefonoSolFijo() {
+        return tipoTelefonoSolFijo;
     }
 
-    public void setTipoTelefonoFijo(TipoTelefono tipoTelefonoFijo) {
-        this.tipoTelefonoFijo = tipoTelefonoFijo;
+    public void setTipoTelefonoSolFijo(TipoTelefono tipoTelefonoSolFijo) {
+        this.tipoTelefonoSolFijo = tipoTelefonoSolFijo;
+    }
+
+    public PersonaProyecto getPersonaProyecto() {
+        return personaProyecto;
+    }
+
+    public void setPersonaProyecto(PersonaProyecto personaProyecto) {
+        this.personaProyecto = personaProyecto;
+    }
+
+    public TipoPersona getTipoPersonaSol() {
+        return tipoPersonaSol;
+    }
+
+    public void setTipoPersonaSol(TipoPersona tipoPersonaSol) {
+        this.tipoPersonaSol = tipoPersonaSol;
+    }
+
+    public TipoPersona getTipoPersonaAsis() {
+        return tipoPersonaAsis;
+    }
+
+    public void setTipoPersonaAsis(TipoPersona tipoPersonaAsis) {
+        this.tipoPersonaAsis = tipoPersonaAsis;
+    }
+
+    public TipoPersona getTipoPersonaRefext() {
+        return tipoPersonaRefext;
+    }
+
+    public void setTipoPersonaRefext(TipoPersona tipoPersonaRefext) {
+        this.tipoPersonaRefext = tipoPersonaRefext;
     }
     
     public List<Organismo> getOrganismoList() {
