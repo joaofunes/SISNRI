@@ -73,7 +73,6 @@ public class PropuestaConvenioMB implements Serializable{
     @Qualifier(value = "tipoPersonaService")
     private TipoPersonaService tipoPersonaService;
     
-    
     @Autowired
     @Qualifier(value = "propuestaConvenioService")
     private PropuestaConvenioService propuestaConvenioService;
@@ -124,8 +123,7 @@ public class PropuestaConvenioMB implements Serializable{
         
     @PostConstruct
     public void init() {
-        try {
-          
+        try {          
            RequestContext.getCurrentInstance().reset(":formAdmin"); 
            inicializador();
            inicializadorListados();
@@ -138,7 +136,9 @@ public class PropuestaConvenioMB implements Serializable{
     public void test(){
         try {
             inicializadorListados();
-           cargarUsuario();
+            cargarUsuario();
+            searchByNameInterno();
+            searchByNameExterno();
         } catch (Exception e) {
         }
     }
@@ -172,8 +172,7 @@ public class PropuestaConvenioMB implements Serializable{
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
             personaEdit = new Persona();
-            propuestaConvenio = new PropuestaConvenio();
-             
+            propuestaConvenio = new PropuestaConvenio();             
          } catch (Exception e) {
            e.printStackTrace();
          }
@@ -197,61 +196,19 @@ public class PropuestaConvenioMB implements Serializable{
              listadoUnidad = unidadService.findAll();
              listadoTipoPersona = tipoPersonaService.findAll();
              
-                 
-             
          } catch (Exception e) {
            e.printStackTrace();
          }
     }
      
      
-    public void  onChangeSolicitante(){
-        try {
-             
-             listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(solicitante);
-             
+   public void  onChangeSolicitante(){
+        try {             
+             listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(solicitante);             
         } catch (Exception e) {
         }
     }
     
-    
-    public void  onChangeInterno(){
-        try {
-           listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(referenteInterno);
-             
-            for( Telefono us: listadoTelefonoReferenteInterno){
-               
-                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
-                    telFijoInterno= us;
-                }
-                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
-                    faxInterno= us;
-                }
-                
-            }
-             
-        } catch (Exception e) {
-        }
-    }
-    
-    public void  onChangeExterno(){
-        try {
-            listadoTelefonoReferenteExterno = telefonoService.getTelefonosByPersona(referenteExterno);
-             
-            for( Telefono us: listadoTelefonoReferenteExterno){
-               
-                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
-                    telFijoExterno= us;
-                }
-                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
-                    faxExterno= us;
-                }
-                
-            }
-             
-        } catch (Exception e) {
-        }
-    }
     
     public List<Persona> completeSolicitante(String query) {
         
@@ -297,7 +254,7 @@ public class PropuestaConvenioMB implements Serializable{
      
      
      
-      public void searchByNameInterno(){
+   public void searchByNameInterno(){
         try {
             
             onChangeInterno();
@@ -314,6 +271,22 @@ public class PropuestaConvenioMB implements Serializable{
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+   
+   public void  onChangeInterno(){
+        try {
+           listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(referenteInterno);             
+            for( Telefono us: listadoTelefonoReferenteInterno){
+               
+                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
+                    telFijoInterno= us;
+                }
+                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
+                    faxInterno= us;
+                }                
+            }             
+        } catch (Exception e) {
         }
     }
      
@@ -335,7 +308,7 @@ public class PropuestaConvenioMB implements Serializable{
       public void searchByDocEmailExterno(){
         try {
             
-            if(numDocumentoExterno!=null && referenteExterno!= null && !numDocumentoExterno.equals("") &&  !referenteExterno.getEmailPersona().equals("")){
+        if(numDocumentoExterno!=null && referenteExterno!= null && !numDocumentoExterno.equals("") &&  !referenteExterno.getEmailPersona().equals("")){
             referenteExterno = personaService.getReferenteExternoByDocEmail(numDocumentoExterno, referenteExterno);
         }
 
@@ -364,6 +337,25 @@ public class PropuestaConvenioMB implements Serializable{
             e.printStackTrace();
         }
     } 
+     
+    public void  onChangeExterno(){
+        try {
+            listadoTelefonoReferenteExterno = telefonoService.getTelefonosByPersona(referenteExterno);
+             
+            for( Telefono us: listadoTelefonoReferenteExterno){
+               
+                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
+                    telFijoExterno= us;
+                }
+                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
+                    faxExterno= us;
+                }                
+            }             
+        } catch (Exception e) {
+        }
+    } 
+     
+     
      
      
       /**
