@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:define name="content">
+        <h:form>
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <p:panel id="parametros" header="Parametros de Busqueda">
+                <h:panelGrid columns="6" cellpadding="5">
+
+                    <p:outputLabel for="pais" value="Pais"/>
+                    <p:selectOneMenu id="pais" value="#{geoChartGChartMB.paisSelected.idPais}" filter="true" style="width:125px">
+                        <p:ajax listener="#{geoChartGChartMB.onCountryChange}" update="mapa"/>
+                        <f:selectItem itemLabel="--Seleccione--" itemValue=""/>
+                        <c:forEach var="c" items="#{geoChartGChartMB.paisList}">
+                            <f:selectItem itemLabel="#{c.nombrePais}" itemValue="#{c.idPais}"/>
+                        </c:forEach>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="desde" value="Desde:"/>
+                    <p:calendar id="desde" yearRange="1900:2010" navigator="true" showOn="button" pattern="dd/MM/yyyy"/>
+                    <p:outputLabel for="hasta" value="Hasta:"/>
+                    <p:calendar id="hasta" yearRange="1900:2010" navigator="true" showOn="button" pattern="dd/MM/yyyy"/>
+                    <p:outputLabel for="tipoProyecto" value="Tipo de Proyecto:"/>
+                    <p:selectOneMenu id="tipoProyecto" value="#{geoChartGChartMB.tipoProyectoSelected.idTipoProyecto}"
+                                     style="width:125px">
+                        <f:selectItem itemLabel="--Seleccione--" itemValue=""/>
+                        <c:forEach var="c" items="#{geoChartGChartMB.tipoProyectosList}">
+                            <f:selectItem itemLabel="#{c.nombreTipoProyecto}" itemValue="#{c.idTipoProyecto}"/>
+                        </c:forEach>
+                    </p:selectOneMenu>
+                    <p:separator/>
+                </h:panelGrid>
+            </p:panel>
+            <h:panelGrid></h:panelGrid>
+            <p:panel id="mapa" header="Mapa de Cooperacion" footer="Cooperacion externa">
+                <pe:gChart value="#{geoChartGChartMB.chart}"/>
+            </p:panel>
+            <p:panel id="bar" header="Cooperacion Por Año">
+                <h:panelGrid columns="2">
+                    <p:chart type="bar" model="#{geoChartGChartMB.barModel}" style="width:400px;"/>
+                    <p:chart type="pie" model="#{geoChartGChartMB.pieModel}" style="width:400px;height:300px" />
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition> 

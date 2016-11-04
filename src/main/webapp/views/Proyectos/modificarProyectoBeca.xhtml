@@ -33,6 +33,15 @@
                                         <p:column>
                                             <p:inputText id="programaBeca" label="programaBeca" required="true" value="#"/>
                                         </p:column>
+                                         <p:column>
+                                            <p:outputLabel for="regionDestino" value="Region"/>
+                                        </p:column>
+                                        <p:column>
+                                             <p:selectOneMenu id="regionDestino" value="#" style="width: 120px" required="true">
+                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="#" itemValue="#"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
                                         <p:column>
                                             <p:outputLabel for="paisDestino" value="Pais"/>
                                         </p:column>
@@ -41,7 +50,7 @@
                                                  <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItem itemLabel="#" itemValue="#"/>
                                             </p:selectOneMenu>
-                                        </p:column>
+                                        </p:column>                                   
                                         <p:column>
                                             <p:outputLabel for="entidadInstitucion" value="Entidad o Institucion"/>
                                         </p:column>
@@ -50,6 +59,12 @@
                                                  <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItem itemLabel="#" itemValue="#"/>
                                             </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="carrera" value="Carrera"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="carrera" label="carrera" required="true" value="#"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tiempo de Estadia"/>
@@ -74,6 +89,12 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="monto" label="monto" value="#"/>
+                                        </p:column>
+                                         <p:column>
+                                            <p:outputLabel for="montoBecario" value="Monto Becario"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="montoBecario" label="montoBecario" value="#"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="anioGestion" value="A&ntilde;o Gestion"/>

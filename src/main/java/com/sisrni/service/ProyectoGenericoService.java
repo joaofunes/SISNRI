@@ -5,30 +5,23 @@
  */
 package com.sisrni.service;
 
-import com.sisrni.dao.UnidadDao;
+import com.sisrni.dao.ProyectoGenericoDao;
 import com.sisrni.dao.generic.GenericDao;
-import com.sisrni.model.Unidad;
+import com.sisrni.model.ProyectoGenerico;
 import com.sisrni.service.generic.GenericService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Joao
+ * @author Lillian
  */
-@Service(value = "unidadService")
-public class UnidadService extends GenericService<Unidad, Integer>{
-    
+@Service(value="proyectoGenericoService")
+public class ProyectoGenericoService extends GenericService<ProyectoGenerico, Integer>{
     @Autowired
-    private UnidadDao unidadDao;
-    
+    private ProyectoGenericoDao proyectoGenericoDao;
     @Override
-    public GenericDao<Unidad, Integer> getDao() {
-     return unidadDao;
-   }
-    public List<Unidad> getUnidadesByFacultadId(Integer id){
-    return unidadDao.getUnidadesByFacultadId(id);
+    public GenericDao<ProyectoGenerico, Integer> getDao() {
+        return proyectoGenericoDao;
     }
-    
 }

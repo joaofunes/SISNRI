@@ -54,7 +54,6 @@ public class ConsultarConvenioMB implements Serializable{
     public void init() {
         try {
           
-           
            inicializador();   
            
         } catch (Exception e) {
@@ -63,8 +62,7 @@ public class ConsultarConvenioMB implements Serializable{
 
     private void inicializador() {
         try {
-            propuestaConvenio = new PropuestaConvenio();
-            
+            propuestaConvenio = new PropuestaConvenio();            
             listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,18 +81,25 @@ public class ConsultarConvenioMB implements Serializable{
     }
 
     
-    public void preEditar(){
+    public void preEditar(PojoPropuestaConvenio pj){
         try {
               
               
-            propuestaConvenioMB.setSolicitante(personaService.getByID(Integer.parseInt(pojoPropuestaConvenio.getID_SOLICITANTE())));            
-            propuestaConvenioMB.setReferenteInterno(personaService.getByID(Integer.parseInt(pojoPropuestaConvenio.getID_REF_INTERNO())));
-            propuestaConvenioMB.setReferenteExterno(personaService.getByID(Integer.parseInt(pojoPropuestaConvenio.getID_REF_EXTERNO())));
+            propuestaConvenioMB.setSolicitante(personaService.getByID(Integer.parseInt(pj.getID_SOLICITANTE())));            
+            propuestaConvenioMB.setReferenteInterno(personaService.getByID(Integer.parseInt(pj.getID_REF_INTERNO())));
+            propuestaConvenioMB.setReferenteExterno(personaService.getByID(Integer.parseInt(pj.getID_REF_EXTERNO())));
             
-            propuestaConvenioMB.onChangeInterno();
+            propuestaConvenioMB.test();
             
-            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-            context.redirect(context.getRequestContextPath() + "propuestaCovenio.xhtml");
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
+           
+            String outcome = "propuestaCovenio.xhtml";
+            FacesContext context = FacesContext.getCurrentInstance();
+            
+            context.getApplication().getNavigationHandler().handleNavigation(context, null, outcome);
+
+            
+            //context.redirect(context.getRequestContextPath() + "/views/convenio/propuestaCovenio.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }

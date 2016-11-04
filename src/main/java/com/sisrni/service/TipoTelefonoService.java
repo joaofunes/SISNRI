@@ -5,11 +5,11 @@
  */
 package com.sisrni.service;
 
-import com.sisrni.dao.UnidadDao;
+
+import com.sisrni.dao.TipoTelefonoDao;
 import com.sisrni.dao.generic.GenericDao;
-import com.sisrni.model.Unidad;
+import com.sisrni.model.TipoTelefono;
 import com.sisrni.service.generic.GenericService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +17,17 @@ import org.springframework.stereotype.Service;
  *
  * @author Joao
  */
-@Service(value = "unidadService")
-public class UnidadService extends GenericService<Unidad, Integer>{
-    
+@Service(value = "tipoTelefonoService")
+public class TipoTelefonoService extends GenericService<TipoTelefono, Integer> {
+
     @Autowired
-    private UnidadDao unidadDao;
-    
+    private TipoTelefonoDao tipoTelefonoDao;
     @Override
-    public GenericDao<Unidad, Integer> getDao() {
-     return unidadDao;
-   }
-    public List<Unidad> getUnidadesByFacultadId(Integer id){
-    return unidadDao.getUnidadesByFacultadId(id);
+    public GenericDao<TipoTelefono, Integer> getDao() {
+     return tipoTelefonoDao;
     }
+    public TipoTelefono getTipoByDesc (String nombretelefono){
+    return tipoTelefonoDao.getTipoByDesc(nombretelefono);
     
+    }
 }
