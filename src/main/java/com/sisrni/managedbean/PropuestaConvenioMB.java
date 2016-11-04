@@ -127,11 +127,22 @@ public class PropuestaConvenioMB implements Serializable{
         try {
           
            RequestContext.getCurrentInstance().reset(":formAdmin"); 
-           inicializador();   
+           inicializador();
+           inicializadorListados();
            cargarUsuario();
         } catch (Exception e) {
         }
     } 
+    
+    
+    public void test(){
+        try {
+            inicializadorListados();
+           cargarUsuario();
+        } catch (Exception e) {
+        }
+    }
+    
     
     /**
      * cargar datos de usuario logeado
@@ -162,6 +173,13 @@ public class PropuestaConvenioMB implements Serializable{
             usuario = user.getSessionUser();
             personaEdit = new Persona();
             propuestaConvenio = new PropuestaConvenio();
+             
+         } catch (Exception e) {
+           e.printStackTrace();
+         }
+    }
+    private void inicializadorListados() {
+         try {  
              
              listadoPersonasSolicitante = new ArrayList<Persona>();
              listadoPersonasInterno = new ArrayList<Persona>();
