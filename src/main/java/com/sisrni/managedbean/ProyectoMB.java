@@ -19,6 +19,7 @@ import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
+import com.sisrni.service.ProyectoService;
 import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.UnidadService;
@@ -45,7 +46,8 @@ public class ProyectoMB {
     private String [] areaConocimientoSelected;
     
    /*Variables*/
-    private List<Proyectos> listProyectos;
+    private List<Proyecto> listProyectos;
+
     private List<Facultad> listFacultad;
     private List<Unidad>   listUnidad;
 
@@ -110,6 +112,10 @@ public class ProyectoMB {
     @Qualifier(value ="propuestaConvenioService")
     private PropuestaConvenioService propuestaConvenioService;
     
+    @Autowired
+    @Qualifier(value ="proyectoService")
+    private ProyectoService proyectoService;
+    
 
     /**
      * constructor
@@ -136,6 +142,7 @@ public class ProyectoMB {
       listAreaConocimiento = areaConocimientoService.findAll();
       listTipoProyecto = tipoProyectoService.findAll();
       listPropuestaConvenio = propuestaConvenioService.findAll();
+      listProyectos = proyectoService.findAll();
       
       
       telFijoInterno = new Telefono();
@@ -199,13 +206,7 @@ public class ProyectoMB {
     }
      
      
-    public List<Proyectos> getListProyectos() {
-        return listProyectos;
-    }
-
-    public void setListProyectos(List<Proyectos> listProyectos) {
-        this.listProyectos = listProyectos;
-    }
+    
 
     public List<Facultad> getListFacultad() {
         return listFacultad;
@@ -382,7 +383,13 @@ public class ProyectoMB {
     }
 
     
-    
+    public List<Proyecto> getListProyectos() {
+        return listProyectos;
+    }
+
+    public void setListProyectos(List<Proyecto> listProyectos) {
+        this.listProyectos = listProyectos;
+    }
     
       
     

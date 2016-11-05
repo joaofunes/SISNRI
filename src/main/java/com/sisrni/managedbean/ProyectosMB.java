@@ -46,7 +46,7 @@ import org.springframework.web.context.WebApplicationContext;
  * @author Lillian
  */
 @Named(value = "proyectosMB")
-@Scope(WebApplicationContext.SCOPE_REQUEST)
+@Scope(WebApplicationContext.SCOPE_APPLICATION)
 
 public class ProyectosMB {
     
