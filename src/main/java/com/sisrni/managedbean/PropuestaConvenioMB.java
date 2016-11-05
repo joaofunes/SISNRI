@@ -52,6 +52,7 @@ public class PropuestaConvenioMB implements Serializable{
     private static final String SOLICITANTE ="SOLICITANTE";  
     private static final String REFERENTE_INTERNO ="REFERENTE INTERNO";  
     private static final String REFERENTE_EXTERNO ="REFERENTE EXTERNO";  
+    private static final String CONVENIO_MARCO ="CONVENIO MARCO";  
      
     @Autowired
     @Qualifier(value = "personaService")
@@ -120,7 +121,8 @@ public class PropuestaConvenioMB implements Serializable{
     private CurrentUserSessionBean user;
     private AppUserDetails usuario;
 
-        
+    private boolean flagConvenioMarco;
+    
     @PostConstruct
     public void init() {
         try {          
@@ -468,8 +470,17 @@ public class PropuestaConvenioMB implements Serializable{
      
     
     public void onTipoConvenioChange(){
-        try {
-          listadoPropuestaConvenio = propuestaConvenioService.getPropuestaConvenioByTipoPropuesta(propuestaConvenio.getIdTipoPropuestaConvenio());
+        try {            
+            
+            if(propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equals(CONVENIO_MARCO)){
+                flagConvenioMarco=true;
+            }else{
+                listadoPropuestaConvenio = propuestaConvenioService.getPropuestaConvenioByTipoPropuesta(propuestaConvenio.getIdTipoPropuestaConvenio());
+            }
+            
+             RequestContext.getCurrentInstance().update(":idConvenioPropuesta");
+            
+          
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -666,6 +677,14 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setPropuestaConvenioTemp(PropuestaConvenio propuestaConvenioTemp) {
         this.propuestaConvenioTemp = propuestaConvenioTemp;
+    }
+
+    public boolean isFlagConvenioMarco() {
+        return flagConvenioMarco;
+    }
+
+    public void setFlagConvenioMarco(boolean flagConvenioMarco) {
+        this.flagConvenioMarco = flagConvenioMarco;
     }
 
 }

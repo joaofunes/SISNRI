@@ -83,21 +83,18 @@ public class ConsultarConvenioMB implements Serializable{
     
     public void preEditar(PojoPropuestaConvenio pj){
         try {
-              
-              
             propuestaConvenioMB.setSolicitante(personaService.getByID(Integer.parseInt(pj.getID_SOLICITANTE())));            
             propuestaConvenioMB.setReferenteInterno(personaService.getByID(Integer.parseInt(pj.getID_REF_INTERNO())));
-            propuestaConvenioMB.setReferenteExterno(personaService.getByID(Integer.parseInt(pj.getID_REF_EXTERNO())));
-            
+            propuestaConvenioMB.setReferenteExterno(personaService.getByID(Integer.parseInt(pj.getID_REF_EXTERNO())));            
             propuestaConvenioMB.test();
             
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
            
             String outcome = "propuestaCovenio.xhtml";
-            FacesContext context = FacesContext.getCurrentInstance();
+           // FacesContext context = FacesContext.getCurrentInstance();            
+          //  context.getApplication().getNavigationHandler().handleNavigation(context, null, outcome);
             
-            context.getApplication().getNavigationHandler().handleNavigation(context, null, outcome);
-
+            FacesContext.getCurrentInstance().getExternalContext().redirect("propuestaCovenio.xhtml");
             
             //context.redirect(context.getRequestContextPath() + "/views/convenio/propuestaCovenio.xhtml");
         } catch (Exception e) {

@@ -239,22 +239,20 @@
                                       <td>
                                           <p:message for="idTipoPropuesta" />  
                                                                                                                      
-                                        <p:selectOneMenu id="idTipoPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" 
-                                                          effect="fade"  style="width:160px" >
+                                        <p:selectOneMenu id="idTipoPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >
                                             <p:ajax listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="idConvenioPropuesta" />
                                             <f:selectItem itemLabel="Tipo Propuesta" itemValue="null" itemDisabled="true" />
-                                            <f:selectItems value="#{propuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />
-                                          
+                                            <f:selectItems value="#{propuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />                                          
                                         </p:selectOneMenu>
                                       </td>
                                       <td></td>
                                     </tr>
-                                    <tr>
+                                    <tr >
                                       <td> <p:outputLabel for="idConvenioPropuesta" value="Convenio" /></td>
                                       <td>
-                                          <p:selectOneMenu id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{tipoPropuestaConvenioConverter}" 
-                                                         panelStyle="width:180px" effect="fade" var="t" style="width:160px" >
-                                            <f:selectItems value="#{propuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
+                                          <p:selectOneMenu id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{tipoPropuestaConvenioConverter}"  style="width:160px" >
+                                             <f:selectItem itemLabel="Convenio" itemValue="null" itemDisabled="true" />
+                                              <f:selectItems value="#{propuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
                                            <f:selectItem />
                                         </p:selectOneMenu>
                                         
