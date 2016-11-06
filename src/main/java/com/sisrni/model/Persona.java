@@ -60,9 +60,7 @@ public class Persona implements Serializable {
     private String cargoPersona;
     @Size(max = 60)
     @Column(name = "PASAPORTE", length = 60)
-    private String pasaporte;
-    @Column(name = "ID_BECA")
-    private Integer idBeca;
+    private String pasaporte;   
     @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
     @ManyToOne
     private Unidad idUnidad;
