@@ -476,6 +476,7 @@ public class PropuestaConvenioMB implements Serializable{
                 flagConvenioMarco=true;
             }else{
                 listadoPropuestaConvenio = propuestaConvenioService.getPropuestaConvenioByTipoPropuesta(propuestaConvenio.getIdTipoPropuestaConvenio());
+                flagConvenioMarco=false;
             }
             
              RequestContext.getCurrentInstance().update(":idConvenioPropuesta");

@@ -154,15 +154,7 @@ public class Persona implements Serializable {
     public void setPasaporte(String pasaporte) {
         this.pasaporte = pasaporte;
     }
-
-    public Integer getIdBeca() {
-        return idBeca;
-    }
-
-    public void setIdBeca(Integer idBeca) {
-        this.idBeca = idBeca;
-    }
-
+    
     public Unidad getIdUnidad() {
         return idUnidad;
     }
