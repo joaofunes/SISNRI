@@ -121,16 +121,17 @@ public class PropuestaConvenioMB implements Serializable{
     private CurrentUserSessionBean user;
     private AppUserDetails usuario;
 
-    private boolean flagConvenioMarco;
+    private boolean flagConvenioMarco = false;
     
     @PostConstruct
     public void init() {
         try {          
-           RequestContext.getCurrentInstance().reset(":formAdmin"); 
+          // RequestContext.getCurrentInstance().reset(":formAdmin"); 
            inicializador();
            inicializadorListados();
            cargarUsuario();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     } 
     
@@ -479,8 +480,9 @@ public class PropuestaConvenioMB implements Serializable{
                 flagConvenioMarco=false;
             }
             
-             RequestContext.getCurrentInstance().update(":idConvenioPropuesta");
+             RequestContext.getCurrentInstance().update("formAdmin:idNamePropuesta");
             
+             System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onTipoConvenioChange()");
           
         } catch (Exception e) {
             e.printStackTrace();
