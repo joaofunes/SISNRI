@@ -142,7 +142,7 @@ public class ProyectoMB {
       listAreaConocimiento = areaConocimientoService.findAll();
       listTipoProyecto = tipoProyectoService.findAll();
       listPropuestaConvenio = propuestaConvenioService.findAll();
-      listProyectos = proyectoService.findAll();
+      // listProyectos = proyectoService.findAll();
       
       
       telFijoInterno = new Telefono();
