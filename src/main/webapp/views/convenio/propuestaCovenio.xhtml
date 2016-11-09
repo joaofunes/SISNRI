@@ -87,7 +87,9 @@
                                          <p:message for="idSolicinateNombreInterno" />
                                   </td>                                 
                                   <td> 
-                                      <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameInterno}" id="idBtnSearchIn" process="@this,idSolicinateNombreInterno" update="idFacultadInterno,idUnidadInterno,formAdmin" icon="ui-icon-disk" title="Icon Only"/>
+                                      <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameInterno}" id="idBtnSearchIn"
+                                                       process="@this,idSolicinateNombreInterno" update="idFacultadInterno,idUnidadInterno,formAdmin" 
+                                                       icon="ui-icon-disk" title="Icon Only"/>
                                         <p:message for="idBtnSearchIn" /> 
                                   </td>                                 
                                 </tr>
@@ -233,7 +235,25 @@
                             </p:panel>
                         
                              <p:panel id="idPanelProp" header="Datos de Propuesta" style="margin-bottom:20px"> 
-                                 <table style="width:70%" >                               
+                                 <table style="width:70%" > 
+                                     
+                                     <tr>
+                                         <td>
+                                             <p:selectOneMenu id="country" value="#{propuestaConvenioMB.country}" style="width:150px">
+                                                    <p:ajax listener="#{propuestaConvenioMB.onCountryChange}" update="city" />
+                                                    <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItems value="#{propuestaConvenioMB.countries}" />
+                                             </p:selectOneMenu>
+
+                                             <p:outputLabel for="city" value="City: " />
+                                                <p:selectOneMenu id="city" value="#{propuestaConvenioMB.city}" style="width:150px">
+                                                    <f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItems value="#{propuestaConvenioMB.cities}" />
+                                             </p:selectOneMenu>
+                                             
+                                         </td>
+                                     </tr> 
+                                     
                                     <tr>
                                       <td><p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" /> </td>
                                       <td>
