@@ -296,19 +296,19 @@ public class PropuestaConvenioMB implements Serializable{
      
    public void searchByNameInterno(){
         try {
-            
-            onChangeInterno();
-            
-            if(referenteInterno.getDuiPersona()!= null){
-                 setNumDocumentoInterno(referenteInterno.getDuiPersona());
-            }else if(referenteInterno.getNitPersona() != null){
-                setNumDocumentoInterno(referenteInterno.getNitPersona());
-            }else if(referenteInterno.getPasaporte() != null){
-                 setNumDocumentoInterno(referenteInterno.getPasaporte());
-            }else{
-                setNumDocumentoInterno("");
-            }
+            if(referenteInterno != null){
+                onChangeInterno();
 
+                if(referenteInterno.getDuiPersona()!= null){
+                     setNumDocumentoInterno(referenteInterno.getDuiPersona());
+                }else if(referenteInterno.getNitPersona() != null){
+                    setNumDocumentoInterno(referenteInterno.getNitPersona());
+                }else if(referenteInterno.getPasaporte() != null){
+                     setNumDocumentoInterno(referenteInterno.getPasaporte());
+                }else{
+                    setNumDocumentoInterno("");
+                }
+           }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -360,19 +360,19 @@ public class PropuestaConvenioMB implements Serializable{
      
      public void searchByNameExterno(){
         try {
-            
-            onChangeExterno();
-            
-            if(referenteExterno.getDuiPersona()!= null){
-                 setNumDocumentoExterno(referenteExterno.getDuiPersona());
-            }else if(referenteExterno.getNitPersona() != null){
-                setNumDocumentoExterno(referenteExterno.getNitPersona());
-            }else if(referenteExterno.getPasaporte() != null){
-                 setNumDocumentoExterno(referenteExterno.getPasaporte());
-            }else{
-                setNumDocumentoExterno("");
-            }
+            if(referenteExterno != null){
+                onChangeExterno();
 
+                if(referenteExterno.getDuiPersona()!= null){
+                     setNumDocumentoExterno(referenteExterno.getDuiPersona());
+                }else if(referenteExterno.getNitPersona() != null){
+                    setNumDocumentoExterno(referenteExterno.getNitPersona());
+                }else if(referenteExterno.getPasaporte() != null){
+                     setNumDocumentoExterno(referenteExterno.getPasaporte());
+                }else{
+                    setNumDocumentoExterno("");
+                }
+         }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -517,7 +517,7 @@ public class PropuestaConvenioMB implements Serializable{
                 flagConvenioMarco=false;
             }
             
-             //RequestContext.getCurrentInstance().update("formAdmin:idNamePropuesta");
+             RequestContext.getCurrentInstance().update("formAdmin:idNamePropuesta");
             
              System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onTipoConvenioChange()");
           

@@ -266,19 +266,7 @@
                                       </td>
                                       <td></td>
                                     </tr>
-                                     <tr id="act">
-                                        <td> <p:outputLabel rendered="#{propuestaConvenioMB.flagConvenioMarco}" id="idNamePropuesta" for="idConvenioPropuesta" value="Convenio"  /></td>
-                                      <td>
-                                          <p:selectOneMenu rendered="#{propuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{tipoPropuestaConvenioConverter}"  style="width:160px" >
-                                             <f:selectItem itemLabel="Convenio" itemValue="null" itemDisabled="true" />
-                                              <f:selectItems value="#{propuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
-                                           <f:selectItem />
-                                        </p:selectOneMenu>
-                                        
-                                        <p:message for="idConvenioPropuesta" />  
-                                      </td> 
-                                      <td></td>
-                                    </tr>
+                                    
                                     <tr>
                                       <td> <p:outputLabel for="idNombrePropuesta" value="Nombre de Propuesta" /></td>
                                       <td>
@@ -306,6 +294,19 @@
                                     </tfoot>
                                 </table>    
                               
+                                 
+                                  
+                                        <p:outputLabel rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idNamePropuesta" value="Convenio"  />
+                                      
+                                          <p:selectOneMenu rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{tipoPropuestaConvenioConverter}"  style="width:160px" >
+                                             <f:selectItem itemLabel="Convenio" itemValue="null" itemDisabled="true" />
+                                              <f:selectItems value="#{propuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
+                                           <f:selectItem />
+                                        </p:selectOneMenu>
+                                        
+                                       
+                                     
+                                   
                              </p:panel>
                    
                 </p:panel>   
