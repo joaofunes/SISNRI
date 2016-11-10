@@ -189,7 +189,8 @@ public class PropuestaConvenioMB implements Serializable{
      */
     private void cargarUsuario() {
         try {
-          usuario.getUsername();
+         
+          solicitante=personaService.findById( usuario.getUsuario().getIdPersona());
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -517,10 +518,8 @@ public class PropuestaConvenioMB implements Serializable{
                 flagConvenioMarco=false;
             }
             
-             RequestContext.getCurrentInstance().update("formAdmin:idNamePropuesta");
+            // RequestContext.getCurrentInstance().update("formAdmin:idNamePropuesta");
             
-             System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onTipoConvenioChange()");
-          
         } catch (Exception e) {
             e.printStackTrace();
         }
