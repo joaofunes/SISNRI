@@ -45,17 +45,17 @@
                 <p:column headerText="Id" sortBy="#{proyecto.idProyecto}" filterBy="#{proyecto.idProyecto}">
                     <h:outputText value="#{proyecto.idProyecto}" />
                 </p:column>
-                <p:column headerText="Nombre Proyecto" sortBy="#{proyecto.nombreProyecto}" filterBy="#{proyecto.nombreProyecto}">
+                <p:column headerText="Nombre" sortBy="#{proyecto.nombreProyecto}" filterBy="#{proyecto.nombreProyecto}">
                     <h:outputText value="#{proyecto.nombreProyecto}" />
                 </p:column>
-                <p:column headerText="Fecha" sortBy="#{proyecto.fechaRegistro}" filterBy="#{proyecto.fechaRegistro}">
-                    <h:outputText value="#{proyecto.fechaRegistro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                    </h:outputText>    
+                 <p:column headerText="Monto ($)" sortBy="#{proyecto.montoProyecto}" filterBy="#{proyecto.montoProyecto}">
+                    <h:outputText value="#{proyecto.montoProyecto}" />
                 </p:column>
-                <p:column headerText="Registrado Por" sortBy="#{proyecto.usuarioRegistro}" filterBy="#{proyecto.usuarioRegistro}">
-                    <h:outputText value="#{proyecto.usuarioRegistro}" />
+                <p:column headerText="Fecha de Gestión" sortBy="#{proyecto.fechaGestion}" filterBy="#{proyecto.fechaGestion}">
+                    <h:outputText value="#{proyecto.fechaGestion}" />
                 </p:column>
+                
+             
                 <p:column headerText="Opciones" >
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
