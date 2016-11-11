@@ -9,6 +9,7 @@ import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaPropuesta;
+import com.sisrni.model.PersonaPropuestaPK;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.Unidad;
@@ -126,13 +127,7 @@ public class PropuestaConvenioMB implements Serializable{
     private boolean flagConvenioMarco = false;
     
     
-    ///////////////////////////7777777
-      private Map<String,Map<String,String>> data = new HashMap<String, Map<String,String>>();
-    private String country; 
-    private String city;  
-    private Map<String,String> countries;
-    private Map<String,String> cities;
-    ////////////////////////////////77
+ 
     
     
     
@@ -143,30 +138,7 @@ public class PropuestaConvenioMB implements Serializable{
            inicializador();
            inicializadorListados();
            cargarUsuario();
-           
-           countries  = new HashMap<String, String>();
-        countries.put("USA", "USA");
-        countries.put("Germany", "Germany");
-        countries.put("Brazil", "Brazil");
-         
-        Map<String,String> map = new HashMap<String, String>();
-        map.put("New York", "New York");
-        map.put("San Francisco", "San Francisco");
-        map.put("Denver", "Denver");
-        data.put("USA", map);
-         
-        map = new HashMap<String, String>();
-        map.put("Berlin", "Berlin");
-        map.put("Munich", "Munich");
-        map.put("Frankfurt", "Frankfurt");
-        data.put("Germany", map);
-         
-        map = new HashMap<String, String>();
-        map.put("Sao Paolo", "Sao Paolo");
-        map.put("Rio de Janerio", "Rio de Janerio");
-        map.put("Salvador", "Salvador");
-        data.put("Brazil", map);
-           
+        
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -474,6 +446,7 @@ public class PropuestaConvenioMB implements Serializable{
             propuestaConvenioService.save(propuestaConvenio);
             
             // persona solicitante
+           
             prsSolicitante.setPropuestaConvenio(propuestaConvenio);
             for(TipoPersona tp:listadoTipoPersona){
                 if(tp.getNombre().equals(SOLICITANTE)){
@@ -481,6 +454,19 @@ public class PropuestaConvenioMB implements Serializable{
                 }
             }
             prsSolicitante.setPersona(solicitante);
+            
+            PersonaPropuestaPK personaPropuestaPK = null;
+            
+//            personaPropuestaPK.setIdPersona(solicitante.getIdPersona());
+//            personaPropuestaPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());
+//            personaPropuestaPK.setIdTipoPersona(prsSolicitante.getTipoPersona().getIdTipoPersona());
+            
+           // prsSolicitante.setPersonaPropuestaPK(personaPropuestaPK);
+            prsSolicitante.getPersonaPropuestaPK().setIdPersona(solicitante.getIdPersona());
+            prsSolicitante.getPersonaPropuestaPK().setIdPropuesta(propuestaConvenio.getIdPropuesta());
+            prsSolicitante.getPersonaPropuestaPK().setIdTipoPersona(prsSolicitante.getTipoPersona().getIdTipoPersona());
+            
+            
             personaPropuestaService.save(prsSolicitante);
             
              // persona REFERENTE_INTERNO
@@ -504,6 +490,7 @@ public class PropuestaConvenioMB implements Serializable{
             personaPropuestaService.save(prsRefExterno);
             
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
      
@@ -725,56 +712,6 @@ public class PropuestaConvenioMB implements Serializable{
     public void setFlagConvenioMarco(boolean flagConvenioMarco) {
         this.flagConvenioMarco = flagConvenioMarco;
     }
-    
-    
-    
-    /////////////////////////////
-public Map<String, Map<String, String>> getData() {
-        return data;
-    }
- 
-    public String getCountry() {
-        return country;
-    }
- 
-    public void setCountry(String country) {
-        this.country = country;
-    }
- 
-    public String getCity() {
-        return city;
-    }
- 
-    public void setCity(String city) {
-        this.city = city;
-    }
- 
-    public Map<String, String> getCountries() {
-        return countries;
-    }
- 
-    public Map<String, String> getCities() {
-        return cities;
-    }
- 
-    public void onCountryChange() {
-        if(country !=null && !country.equals(""))
-            cities = data.get(country);
-        else
-            cities = new HashMap<String, String>();
-    }
-     
-    public void displayLocation() {
-        FacesMessage msg;
-        if(city != null && country != null)
-            msg = new FacesMessage("Selected", city + " of " + country);
-        else
-            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid", "City is not selected."); 
-             
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-    }
-
-////////////////////////////////////777
     
 
 }

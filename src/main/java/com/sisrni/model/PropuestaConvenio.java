@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -37,10 +39,9 @@ import javax.validation.constraints.Size;
 public class PropuestaConvenio implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
+    @Id      
     @Column(name = "ID_PROPUESTA", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPropuesta;
     @Basic(optional = false)
     @NotNull
