@@ -5,27 +5,36 @@
  */
 package com.sisrni.managedbean;
 
+import com.sisrni.model.Estado;
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaPropuesta;
+import com.sisrni.model.PersonaPropuestaPK;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.Unidad;
 import com.sisrni.model.PropuestaConvenio;
+import com.sisrni.model.PropuestaEstado;
+import com.sisrni.model.PropuestaEstadoPK;
 import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.security.AppUserDetails;
+import com.sisrni.service.EstadoService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaPropuestaService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
+import com.sisrni.service.PropuestaEstadoService;
 import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoPropuestaConvenioService;
 import com.sisrni.service.UnidadService;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -53,6 +62,7 @@ public class PropuestaConvenioMB implements Serializable{
     private static final String REFERENTE_INTERNO ="REFERENTE INTERNO";  
     private static final String REFERENTE_EXTERNO ="REFERENTE EXTERNO";  
     private static final String CONVENIO_MARCO ="CONVENIO MARCO";  
+    private static final String ESTADO ="ACTIVO";  
      
     @Autowired
     @Qualifier(value = "personaService")
@@ -85,6 +95,15 @@ public class PropuestaConvenioMB implements Serializable{
     @Autowired
     @Qualifier(value = "tipoPropuestaConvenioService")
     private TipoPropuestaConvenioService tipoPropuestaConvenioService;
+    
+    @Autowired
+    @Qualifier(value = "propuestaEstadoService")
+    private PropuestaEstadoService propuestaEstadoService;
+  
+    @Autowired
+    @Qualifier(value = "estadoService")
+    private EstadoService estadoService;
+    
     
     
     private String numDocumentoInterno;
@@ -123,6 +142,11 @@ public class PropuestaConvenioMB implements Serializable{
 
     private boolean flagConvenioMarco = false;
     
+    
+ 
+    
+    
+    
     @PostConstruct
     public void init() {
         try {          
@@ -130,6 +154,7 @@ public class PropuestaConvenioMB implements Serializable{
            inicializador();
            inicializadorListados();
            cargarUsuario();
+        
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,7 +177,8 @@ public class PropuestaConvenioMB implements Serializable{
      */
     private void cargarUsuario() {
         try {
-          usuario.getUsername();
+         
+          solicitante=personaService.findById( usuario.getUsuario().getIdPersona());
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -259,19 +285,19 @@ public class PropuestaConvenioMB implements Serializable{
      
    public void searchByNameInterno(){
         try {
-            
-            onChangeInterno();
-            
-            if(referenteInterno.getDuiPersona()!= null){
-                 setNumDocumentoInterno(referenteInterno.getDuiPersona());
-            }else if(referenteInterno.getNitPersona() != null){
-                setNumDocumentoInterno(referenteInterno.getNitPersona());
-            }else if(referenteInterno.getPasaporte() != null){
-                 setNumDocumentoInterno(referenteInterno.getPasaporte());
-            }else{
-                setNumDocumentoInterno("");
-            }
+            if(referenteInterno != null){
+                onChangeInterno();
 
+                if(referenteInterno.getDuiPersona()!= null){
+                     setNumDocumentoInterno(referenteInterno.getDuiPersona());
+                }else if(referenteInterno.getNitPersona() != null){
+                    setNumDocumentoInterno(referenteInterno.getNitPersona());
+                }else if(referenteInterno.getPasaporte() != null){
+                     setNumDocumentoInterno(referenteInterno.getPasaporte());
+                }else{
+                    setNumDocumentoInterno("");
+                }
+           }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -323,19 +349,19 @@ public class PropuestaConvenioMB implements Serializable{
      
      public void searchByNameExterno(){
         try {
-            
-            onChangeExterno();
-            
-            if(referenteExterno.getDuiPersona()!= null){
-                 setNumDocumentoExterno(referenteExterno.getDuiPersona());
-            }else if(referenteExterno.getNitPersona() != null){
-                setNumDocumentoExterno(referenteExterno.getNitPersona());
-            }else if(referenteExterno.getPasaporte() != null){
-                 setNumDocumentoExterno(referenteExterno.getPasaporte());
-            }else{
-                setNumDocumentoExterno("");
-            }
+            if(referenteExterno != null){
+                onChangeExterno();
 
+                if(referenteExterno.getDuiPersona()!= null){
+                     setNumDocumentoExterno(referenteExterno.getDuiPersona());
+                }else if(referenteExterno.getNitPersona() != null){
+                    setNumDocumentoExterno(referenteExterno.getNitPersona());
+                }else if(referenteExterno.getPasaporte() != null){
+                     setNumDocumentoExterno(referenteExterno.getPasaporte());
+                }else{
+                    setNumDocumentoExterno("");
+                }
+         }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -428,44 +454,64 @@ public class PropuestaConvenioMB implements Serializable{
             PersonaPropuesta prsSolicitante = new PersonaPropuesta();
             PersonaPropuesta prsRefInterno  = new PersonaPropuesta();
             PersonaPropuesta prsRefExterno  = new PersonaPropuesta();
+            PersonaPropuestaPK personaPropuestaPK = new PersonaPropuestaPK();     
             
             // guardar propuesta convenio
-   
-            //***propuestaConvenio.setIdTipoPropuestaConvenio(idTipoPropuestaConvenio);
-
+  
             propuestaConvenioService.save(propuestaConvenio);
             
+            PropuestaEstado estado = new PropuestaEstado();
+            PropuestaEstadoPK estadoPK= new PropuestaEstadoPK();
+            Estado stado = estadoService.getEstadoByName(ESTADO);
+            
+            
+            estadoPK.setIdEstado(stado.getIdEstado());
+            estadoPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());
+            
+            estado.setFecha(new Date());
+            estado.setPropuestaConvenio(propuestaConvenio);
+            estado.setEstado(stado);
+            estado.setPropuestaEstadoPK(estadoPK);
+            
+            propuestaEstadoService.save(estado);
+            
             // persona solicitante
+           
             prsSolicitante.setPropuestaConvenio(propuestaConvenio);
-            for(TipoPersona tp:listadoTipoPersona){
-                if(tp.getNombre().equals(SOLICITANTE)){
-                   prsSolicitante.setTipoPersona(tp);
-                }
-            }
-            prsSolicitante.setPersona(solicitante);
+                              
+            prsSolicitante.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(SOLICITANTE));            
+            prsSolicitante.setPersona(solicitante);            
+            personaPropuestaPK = new PersonaPropuestaPK();            
+            personaPropuestaPK.setIdPersona(solicitante.getIdPersona());
+            personaPropuestaPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());
+            personaPropuestaPK.setIdTipoPersona(prsSolicitante.getTipoPersona().getIdTipoPersona());            
+            prsSolicitante.setPersonaPropuestaPK(personaPropuestaPK);             
             personaPropuestaService.save(prsSolicitante);
             
              // persona REFERENTE_INTERNO
-            prsRefInterno.setPropuestaConvenio(propuestaConvenio);
-            for(TipoPersona tp:listadoTipoPersona){
-                if(tp.getNombre().equals(REFERENTE_INTERNO)){
-                   prsRefInterno.setTipoPersona(tp);
-                }
-            }
+
+            prsRefInterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_INTERNO));        
             prsRefInterno.setPersona(referenteInterno);
+            personaPropuestaPK = new PersonaPropuestaPK();            
+            personaPropuestaPK.setIdPersona(referenteInterno.getIdPersona());
+            personaPropuestaPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());
+            personaPropuestaPK.setIdTipoPersona(prsRefInterno.getTipoPersona().getIdTipoPersona());            
+            prsRefInterno.setPersonaPropuestaPK(personaPropuestaPK);       
             personaPropuestaService.save(prsRefInterno);
             
                // persona REFERENTE_EXTERNO
-            prsRefExterno.setPropuestaConvenio(propuestaConvenio);
-            for(TipoPersona tp:listadoTipoPersona){
-                if(tp.getNombre().equals(REFERENTE_EXTERNO)){
-                   prsRefExterno.setTipoPersona(tp);
-                }
-            }
+
+            prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));        
             prsRefExterno.setPersona(referenteExterno);
+            personaPropuestaPK = new PersonaPropuestaPK();            
+            personaPropuestaPK.setIdPersona(referenteExterno.getIdPersona());
+            personaPropuestaPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());
+            personaPropuestaPK.setIdTipoPersona(prsRefExterno.getTipoPersona().getIdTipoPersona());            
+            prsRefExterno.setPersonaPropuestaPK(personaPropuestaPK);    
             personaPropuestaService.save(prsRefExterno);
             
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
      
@@ -480,10 +526,8 @@ public class PropuestaConvenioMB implements Serializable{
                 flagConvenioMarco=false;
             }
             
-             RequestContext.getCurrentInstance().update("formAdmin:idNamePropuesta");
+            // RequestContext.getCurrentInstance().update("formAdmin:idNamePropuesta");
             
-             System.out.println("com.sisrni.managedbean.PropuestaConvenioMB.onTipoConvenioChange()");
-          
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -689,5 +733,6 @@ public class PropuestaConvenioMB implements Serializable{
     public void setFlagConvenioMarco(boolean flagConvenioMarco) {
         this.flagConvenioMarco = flagConvenioMarco;
     }
+    
 
 }

@@ -26,7 +26,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
      public List<Persona> getSolicitanteByName(String name) {
           try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='A' AND lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a   JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
              q.setParameter("name", '%' + name.toLowerCase() + '%');       
              return q.list();
        
@@ -45,7 +45,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getReferenteInternoByName(String query) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='B' AND lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
              q.setParameter("name", '%' + query.toLowerCase() + '%');
        
              return q.list();
@@ -62,8 +62,8 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      * @return 
      */
     public List<Persona> getReferenteExternoByName(String query) {
-        try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='C' AND lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
+        try {            
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name");
              q.setParameter("name", '%' + query.toLowerCase() + '%');       
              return q.list();
        
@@ -82,7 +82,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public Persona getReferenteInternoByDocEmail(String doc, Persona persona) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='B' AND a.emailPersona =:email AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a   JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE  a.emailPersona =:email AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
              q.setParameter("num",doc);       
              q.setParameter("email",persona.getEmailPersona());       
              return (Persona) q.uniqueResult();
@@ -102,7 +102,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public Persona getReferenteExternoByDocEmail(String doc, Persona persona) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='C' AND a.emailPersona =:email AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE  a.emailPersona =:email AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
              q.setParameter("num",doc);       
              q.setParameter("email",persona.getEmailPersona());       
              return (Persona) q.uniqueResult();
@@ -122,7 +122,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public Persona getReferenteInternoByDocumento(String doc) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='B'  AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE  a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
              q.setParameter("num",doc);             
              return (Persona) q.uniqueResult();
        
@@ -140,7 +140,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public Persona getReferenteExternoByDoccumento(String doc) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idTipoPersona tipo  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE tipo.nombre='C'  AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num");
              q.setParameter("num",doc);            
              return (Persona) q.uniqueResult();
        
