@@ -9,6 +9,7 @@ import com.sisrni.dao.*;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.AreaConocimiento;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,11 @@ public class AreaConocimientoService extends GenericService<AreaConocimiento, In
     @Override
     public GenericDao<AreaConocimiento, Integer> getDao() {
         return areaConocimientoDao;
+    }
+    
+   
+     public List<Integer> getAreasConocimientoProyecto(Integer id){
+        return areaConocimientoDao.getAreasConocimientoProyecto(id);
     }
     
 }

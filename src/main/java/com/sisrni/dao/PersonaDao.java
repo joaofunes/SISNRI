@@ -149,6 +149,25 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         }
         return null;
     }
+    
+    /**
+     * Mentodo para obtener una persona en base a el proyecto al que pertenece  y a su tipo de persona
+     * @param idProy
+     * @param idTipoPer
+     * @return 
+     */
+    public Persona getPersonaByProyectoTipoPersona(Integer idProy,Integer idTipoPer){
+        try{
+           Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM Persona p JOIN p.personaProyectoList pp WHERE pp.proyectoGenerico.idProyecto =:proy AND pp.tipoPersona.idTipoPersona =:tipo");
+            q.setParameter("proy", idProy);
+            q.setParameter("tipo",idTipoPer );
+            return (Persona)q.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
 
    
 }

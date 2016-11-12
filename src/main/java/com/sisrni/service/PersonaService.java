@@ -62,4 +62,10 @@ public class PersonaService extends GenericService<Persona, Integer> {
       public List<Persona> getSolicitanteByName(String doc){
         return personaDao.getSolicitanteByName(doc);
     }
+      
+      
+      public Persona getPersonaByProyectoTipoPersona(Integer idProy,Integer idTipoPer){
+          return personaDao.getPersonaByProyectoTipoPersona(idProy, idTipoPer);
+      }
+      
 }
