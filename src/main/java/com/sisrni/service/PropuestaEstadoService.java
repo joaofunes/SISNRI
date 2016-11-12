@@ -5,9 +5,9 @@
  */
 package com.sisrni.service;
 
-import com.sisrni.dao.EstadoDao;
+import com.sisrni.dao.PropuestaEstadoDao;
 import com.sisrni.dao.generic.GenericDao;
-import com.sisrni.model.Estado;
+import com.sisrni.model.PropuestaEstado;
 import com.sisrni.service.generic.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,19 +16,15 @@ import org.springframework.stereotype.Service;
  *
  * @author Joao
  */
-@Service(value = "estadoService")
-public class EstadoService extends GenericService<Estado, Integer> {
+@Service(value = "propuestaEstadoService")
+public class PropuestaEstadoService extends GenericService<PropuestaEstado, Integer> {
 
     @Autowired
-    private EstadoDao estadoDao;
+    private PropuestaEstadoDao propuestaEstadoDao;
     
     @Override
-    public GenericDao<Estado, Integer> getDao() {
-        return estadoDao;
-    }
-    
-    public Estado getEstadoByName(String estado){
-        return estadoDao.getEstadoByName(estado);
+    public GenericDao<PropuestaEstado, Integer> getDao() {
+       return propuestaEstadoDao;
     }
     
 }
