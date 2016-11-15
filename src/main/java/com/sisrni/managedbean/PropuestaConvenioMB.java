@@ -510,6 +510,8 @@ public class PropuestaConvenioMB implements Serializable{
             prsRefExterno.setPersonaPropuestaPK(personaPropuestaPK);    
             personaPropuestaService.save(prsRefExterno);
             
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", "Propuesta Convenio almacenada"));
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
