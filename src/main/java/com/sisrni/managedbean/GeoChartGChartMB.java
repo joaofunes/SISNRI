@@ -13,18 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
+import javax.faces.view.ViewScoped;
 
 /**
  * Created by Cortez on 2/11/2016.
  */
 @Named(value = "geoChartGChartMB")
-@SessionScoped
+@ViewScoped
 public class GeoChartGChartMB implements Serializable {
+
     private static final long serialVersionUID = 253762400419864192L;
     @Autowired
     PaisService paisService;
@@ -35,23 +36,19 @@ public class GeoChartGChartMB implements Serializable {
     @Autowired
     UnidadService unidadService;
 
-    Locale englishLocale = Locale.ENGLISH;
-    private Map<String, String> countries;
+    Locale englishLocale;
     private Pais paisSelected;
     private TipoProyecto tipoProyectoSelected;
     private Date desde;
     private Date hasta;
     List<Pais> paisList;
     List<TipoProyecto> tipoProyectosList;
-    private GChartModel chartModel = null;
+    private GChartModel chartModel;
     private BarChartModel barModel;
     private PieChartModel pieModel;
-    Map<String, Object> colorAxis = new HashMap<String, Object>();
 
-    public GChartModel getChart() {
-        return chartModel;
-
-    }
+    private boolean showGraphics;
+    Map<String, Object> colorAxis;
 
     public PieChartModel getPieModel() {
         return pieModel;
@@ -59,19 +56,13 @@ public class GeoChartGChartMB implements Serializable {
 
     @PostConstruct
     public void generateModel() {
-
+        showGraphics = false;
         paisSelected = new Pais();
         tipoProyectoSelected = new TipoProyecto();
         paisList = paisService.findAll();
         tipoProyectosList = tipoProyectoService.findAll();
-        createBarModel();
+        colorAxis = new HashMap<String, Object>();
 
-        createPieModel();
-        colorAxis.put("colors", new String[]{"green", "blue"});
-        chartModel = new GChartModelBuilder().setChartType(GChartType.GEO)
-                .addColumns("Country", "Popularity")
-                .addOption("colorAxis", colorAxis)
-                .build();
     }
 
     private void createPieModel() {
@@ -85,9 +76,9 @@ public class GeoChartGChartMB implements Serializable {
         pieModel.setLegendPosition("w");
     }
 
-    public void onCountryChange() {
-        Pais pais = paisService.findById(paisSelected.getIdPais());
-        String region = String.format("%03d", pais.getIdRegion().getIdRegion());
+    public void createGeoChart(String region) {
+        englishLocale = Locale.ENGLISH;
+        colorAxis.put("colors", new String[]{"green", "blue"});
         chartModel = new GChartModelBuilder().setChartType(GChartType.GEO)
                 .addColumns("Country", "Popularity")
                 .addRow(Locale.GERMANY.getDisplayCountry(englishLocale), 1200)
@@ -100,7 +91,18 @@ public class GeoChartGChartMB implements Serializable {
                 .addOption("colorAxis", colorAxis)
                 .addOption("region", region)
                 .build();
+    }
 
+    public void onCountryChange() {
+        createBarModel();
+        createPieModel();
+        Pais pais = paisService.findById(paisSelected.getIdPais());
+        String region = String.format("%03d", pais.getIdRegion().getIdRegion());
+        createGeoChart(region);
+
+        if (pieModel != null && barModel != null) {
+            showGraphics = true;
+        }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "PrimeFaces Rocks."));
     }
 
@@ -135,6 +137,34 @@ public class GeoChartGChartMB implements Serializable {
         return model;
     }
 
+    public GChartModel getChartModel() {
+        return chartModel;
+    }
+
+    public Locale getEnglishLocale() {
+        return englishLocale;
+    }
+
+    public void setEnglishLocale(Locale englishLocale) {
+        this.englishLocale = englishLocale;
+    }
+
+    public boolean isShowGraphics() {
+        return showGraphics;
+    }
+
+    public void setShowGraphics(boolean showGraphics) {
+        this.showGraphics = showGraphics;
+    }
+
+    public Map<String, Object> getColorAxis() {
+        return colorAxis;
+    }
+
+    public void setColorAxis(Map<String, Object> colorAxis) {
+        this.colorAxis = colorAxis;
+    }
+
     public BarChartModel getBarModel() {
         return barModel;
     }
@@ -153,14 +183,6 @@ public class GeoChartGChartMB implements Serializable {
 
     public void setPaisSelected(Pais paisSelected) {
         this.paisSelected = paisSelected;
-    }
-
-    public Map<String, String> getCountries() {
-        return countries;
-    }
-
-    public void setCountries(Map<String, String> countries) {
-        this.countries = countries;
     }
 
     public Date getDesde() {
