@@ -62,7 +62,7 @@ public class PropuestaConvenioMB implements Serializable{
     private static final String REFERENTE_INTERNO ="REFERENTE INTERNO";  
     private static final String REFERENTE_EXTERNO ="REFERENTE EXTERNO";  
     private static final String CONVENIO_MARCO ="CONVENIO MARCO";  
-    private static final String ESTADO ="ACTIVO";  
+    private static final String ESTADO ="REVISION";  
      
     @Autowired
     @Qualifier(value = "personaService")
@@ -163,11 +163,14 @@ public class PropuestaConvenioMB implements Serializable{
     
     public void test(){
         try {
+            inicializador();
             inicializadorListados();
             cargarUsuario();
             searchByNameInterno();
-            searchByNameExterno();
+            searchByNameExterno();           
+            
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
@@ -518,6 +521,48 @@ public class PropuestaConvenioMB implements Serializable{
     }
      
     
+    
+      /**
+     * Metodo para actualizar propuesta de convenio.
+     */
+    public void actualizarPropuestaConvenio(){
+        try {
+           
+            // actualizar propuesta convenio
+  
+            propuestaConvenioService.merge(propuestaConvenio);
+            
+          
+            // persona solicitante
+            PersonaPropuesta persPropuesta = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), SOLICITANTE);                           
+            persPropuesta.setPersona(solicitante);   
+            persPropuesta.getPersonaPropuestaPK().setIdPersona(solicitante.getIdPersona());                                
+            personaPropuestaService.merge(persPropuesta);
+            
+             // persona REFERENTE_INTERNO
+             
+            PersonaPropuesta persPropuestaRefInterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_INTERNO);                           
+            persPropuestaRefInterno.setPersona(referenteInterno);   
+            persPropuestaRefInterno.getPersonaPropuestaPK().setIdPersona(referenteInterno.getIdPersona());           
+             
+            personaPropuestaService.merge(persPropuestaRefInterno);
+            
+            // persona REFERENTE_EXTERNO
+
+            PersonaPropuesta persPropuestaRefExterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_EXTERNO);                           
+            persPropuestaRefExterno.setPersona(referenteExterno);   
+            persPropuestaRefExterno.getPersonaPropuestaPK().setIdPersona(referenteExterno.getIdPersona());           
+           
+            personaPropuestaService.merge(persPropuestaRefExterno);
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizado", "Propuesta Convenio!!"));
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     public void onTipoConvenioChange(){
         try {            
             
@@ -535,6 +580,15 @@ public class PropuestaConvenioMB implements Serializable{
         }
     }
      
+    
+    public void cargarPropuestaConvenio(int idPropuestaConvenio) {
+         try {
+             propuestaConvenio=propuestaConvenioService.getPropuestaCovenioByID(idPropuestaConvenio);
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    }    
+    
     public Persona getReferenteInterno() {
         return referenteInterno;
     }
@@ -735,6 +789,7 @@ public class PropuestaConvenioMB implements Serializable{
     public void setFlagConvenioMarco(boolean flagConvenioMarco) {
         this.flagConvenioMarco = flagConvenioMarco;
     }
-    
+
+   
 
 }
