@@ -161,9 +161,8 @@ public class PropuestaConvenioMB implements Serializable{
     } 
     
     
-    public void test(){
-        try {
-            inicializador();
+    public void postInit(){
+        try {            
             inicializadorListados();
             cargarUsuario();
             searchByNameInterno();
@@ -190,7 +189,7 @@ public class PropuestaConvenioMB implements Serializable{
     
     
     
-    private void inicializador() {
+    public void inicializador() {
          try {  
             solicitante= new Persona();
             solicitante.setIdUnidad(new Unidad());
