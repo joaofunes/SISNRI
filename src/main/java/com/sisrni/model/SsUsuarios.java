@@ -71,6 +71,9 @@ public class SsUsuarios implements Serializable {
     @Column(name = "FECHA_CAMBIO_CLAVE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCambioClave;
+    
+    @Column(name = "ID_PERSONA")
+    private Integer idPersona;
    
     @ManyToMany(mappedBy = "ssUsuariosSet", fetch = FetchType.LAZY)
     private Set<SsRoles> ssRolesSet;
@@ -254,6 +257,14 @@ public class SsUsuarios implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.SsUsuarios[ idUsuario=" + idUsuario + " ]";
+    }
+
+    public Integer getIdPersona() {
+        return idPersona;
+    }
+
+    public void setIdPersona(Integer idPersona) {
+        this.idPersona = idPersona;
     }
     
 }

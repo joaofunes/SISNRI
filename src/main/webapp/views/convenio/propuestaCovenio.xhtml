@@ -16,8 +16,9 @@
         
             <h:form id="formAdmin">
                 <center> 
-                <p:panel style="width: 50%">                     
-                           <p:panel id="idpanelSolcitante" header="Datos del Solicitante" >  
+                   
+                              
+                           <p:panel style="width: 50%" id="idpanelSolcitante" header="Datos del Solicitante" >  
                                <table style="width:70%" >                               
                                 <tr>
                                   <td><p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" /></td>
@@ -69,7 +70,7 @@
                               </table>                               
                            </p:panel> 
                            
-                    <p:panel id="idpanelRefInter" header="Datos Referente Interno" style="margin-bottom:20px">                          
+                    <p:panel id="idpanelRefInter" header="Datos Referente Interno" style="width: 50%;margin-bottom:20px">                          
                                 <p:commandButton id="createButtonInterno" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
                                
                                 <p:commandButton id="editButtonInterno" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoInterno" update=":formEditPersonas"  action="#{propuestaConvenioMB.preEditarPropuestaInterno}"/>
@@ -87,7 +88,7 @@
                                          <p:message for="idSolicinateNombreInterno" />
                                   </td>                                 
                                   <td> 
-                                      <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameInterno}" id="idBtnSearchIn" process="@this,idSolicinateNombreInterno" update="idFacultadInterno,idUnidadInterno,formAdmin" icon="ui-icon-disk" title="Icon Only"/>
+                                      <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameInterno}" id="idBtnSearchIn" process="@this,idSolicinateNombreInterno" update="idFacultadInterno,idUnidadInterno,formAdmin" icon="ui-icon-search" title="Icon Only"/>
                                         <p:message for="idBtnSearchIn" /> 
                                   </td>                                 
                                 </tr>
@@ -155,7 +156,7 @@
                                </table>    
                                
                            </p:panel> 
-                            <p:panel id="idpanelRefEx" header="Datos Referente Externo" style="margin-bottom:20px"> 
+                            <p:panel  id="idpanelRefEx" header="Datos Referente Externo" style="width: 50%;margin-bottom:20px"> 
 
                                 <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
                                 <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoExterno" update=":formEditPersonas"  actionListener="#{propuestaConvenioMB.preEditarPropuestaExterno}"  />
@@ -231,49 +232,48 @@
                                 
                                
                             </p:panel>
-                        
-                             <p:panel id="idPanelProp" header="Datos de Propuesta" style="margin-bottom:20px"> 
-                                 <table style="width:70%" >                               
+                 <h:panelGroup id="fileUploadGroup" >    
+                             <p:panel  id="idPanelProp" header="Datos de Propuesta" style="width: 50%; margin-bottom:20px"> 
+                                 <table style="width:70%" > 
+                                   
                                     <tr>
                                       <td><p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" /> </td>
                                       <td>
                                         <p:selectOneMenu id="idTipoPropuesta"  required="true" value="#{propuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >                                            
                                             <f:selectItem itemValue="#{null}" itemLabel="Seleccione Tipo Propuesta" noSelectionOption="true" />                                            
                                             <f:selectItems value="#{propuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />  
-                                            <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="idConvenioPropuesta idNamePropuesta"  process="@this" />
+                                            <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="fileUploadGroup"  process="@this" />
                                         </p:selectOneMenu>
                                         <p:message for="idTipoPropuesta" />  
                                       </td>
                                       <td></td>
                                     </tr>
-                                     <tr id="act">
-                                        <td> <p:outputLabel rendered="#{propuestaConvenioMB.flagConvenioMarco}" id="idNamePropuesta" for="idConvenioPropuesta" value="Convenio"  /></td>
-                                      <td>
-                                          <p:selectOneMenu rendered="#{propuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{tipoPropuestaConvenioConverter}"  style="width:160px" >
-                                             <f:selectItem itemLabel="Convenio" itemValue="null" itemDisabled="true" />
+                                    <tr>
+                                        <td>   <p:outputLabel rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idNamePropuesta" value="Convenio"  /> </td>
+                                        <td>
+                                           <p:selectOneMenu rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{tipoPropuestaConvenioConverter}"  style="width:160px" >
+                                              <f:selectItem itemLabel="Convenio" itemValue="null" itemDisabled="true" />
                                               <f:selectItems value="#{propuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
-                                           <f:selectItem />
-                                        </p:selectOneMenu>
-                                        
-                                        <p:message for="idConvenioPropuesta" />  
-                                      </td> 
-                                      <td></td>
-                                    </tr>
+                                              <f:selectItem />
+                                           </p:selectOneMenu>
+                                       </td> 
+                                    </tr> 
+                                    
                                     <tr>
                                       <td> <p:outputLabel for="idNombrePropuesta" value="Nombre de Propuesta" /></td>
                                       <td>
-                                           <p:inputText id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{propuestaConvenioMB.propuestaConvenio.nombrePropuesta}"/>
-                                       <p:message for="idNombrePropuesta" />
-                                       <p:watermark for="idNombrePropuesta" value="Nombre Propuesta" id="nameProp" />
+                                            <p:inputText id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{propuestaConvenioMB.propuestaConvenio.nombrePropuesta}"/>
+                                            <p:message for="idNombrePropuesta" />
+                                            <p:watermark for="idNombrePropuesta" value="Nombre Propuesta" id="nameProp" />
                                       </td>  
                                       <td></td>
                                     </tr>
                                     <tr>
                                       <td> <p:outputLabel for="idDescripcionPropuesta" value="Descripci&oacute;n" />  </td>
                                       <td>
-                                          <p:inputText id="idDescripcionPropuesta"  required="true" label="descripcion" value="#{propuestaConvenioMB.propuestaConvenio.finalidadPropuesta}"/>
-                                       <p:message for="idDescripcionPropuesta" /> 
-                                       <p:watermark for="idDescripcionPropuesta" value="Descripcion" id="descripcionProp" />
+                                             <p:inputText id="idDescripcionPropuesta"  required="true" label="descripcion" value="#{propuestaConvenioMB.propuestaConvenio.finalidadPropuesta}"/>
+                                            <p:message for="idDescripcionPropuesta" /> 
+                                            <p:watermark for="idDescripcionPropuesta" value="Descripcion" id="descripcionProp" />
                                       </td>  
                                       <td></td>
                                     </tr>
@@ -281,14 +281,16 @@
                                         <tr align="right"> 
                                             <td></td>
                                             <td></td>
-                                            <td colspan="3"><p:commandButton actionListener="#{propuestaConvenioMB.guardarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Guardar"  id="btnGuardar" icon="ui-icon-disk" title="Guardar Propuesta Convenio" /></td>                                 
+                                            <td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.guardarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Guardar"  id="btnGuardar" icon="ui-icon-disk" title="Guardar Propuesta Convenio" /></td>                                 
+                                            <td colspan="3"><p:commandButton rendered="#{propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.actualizarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Actualizar"  id="btnActualizar" icon="ui-icon-diskbtnGuardar" title="Actualizar Propuesta Convenio" /></td>                                 
+                                            <td colspan="3"><p:commandButton  rendered="#{propuestaConvenioMB.flagEdicion}"  actionListener="#{propuestaConvenioMB.volver()}" process="formAdmin" update="formAdmin" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
                                         </tr>
                                     </tfoot>
                                 </table>    
                               
                              </p:panel>
-                   
-                </p:panel>   
+                   </h:panelGroup>
+               
                 </center>    
             </h:form>   
         

@@ -22,12 +22,12 @@
                         <!--<h3 style="margin-top:0">Basic</h3>-->
                         <p:accordionPanel>
                             <p:tab title="Datos del proyecto">
-                                <h:panelGrid columns="2" cellpadding="10">
+                                <h:panelGrid columns="2">
                                     <p:column>
                                         <p:outputLabel  for="tipoProyecto" value="Tipo de proyecto"/>
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="tipoProyecto" value="#" style="width: 120px" required="true">
+                                        <p:selectOneMenu id="tipoProyecto" value="#{proyectoMB.proyecto.idTipoProyecto.idTipoProyecto}" style="width: 120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <f:selectItems value="#{proyectoMB.listTipoProyecto}" var="tipoProyecto" itemLabel="#{tipoProyecto.nombreTipoProyecto}" itemValue="#{tipoProyecto.idTipoProyecto}"/>
                                         </p:selectOneMenu>
@@ -36,22 +36,69 @@
                                         <p:outputLabel for="nombreProyecto" value="Nombre del proyecto"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="nombreProyecto" label="nombreProyecto" required="true" value="#"/>
+                                        <p:inputText id="nombreProyecto" label="nombreProyecto" required="true" value="#{proyectoMB.proyecto.nombreProyecto}"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel  for="vinculoConvenio" value="Vinculado a convenio"/>
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="vinculoConvenio" value="#" style="width: 120px" required="true">
+                                        <p:selectOneMenu id="vinculoConvenio" value="#{proyectoMB.proyecto.idPropuestaConvenio.idPropuesta}" style="width: 120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <f:selectItems value="#{proyectoMB.listPropuestaConvenio}" var="propuestaConvenio" itemLabel="#{propuestaConvenio.nombrePropuesta}" itemValue="#{propuestaConvenio.idPropuesta}"/>
                                         </p:selectOneMenu>
+                                    </p:column>  
+
+                                    <p:column>
+                                        <p:outputLabel  for="facultadEjecucion" value="Facultad"/>
                                     </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="facultadEjecucion" value="#{proyectoMB.proyecto.idFacultad}" style="width: 120px" required="true" >
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listFacultad}" var="facultad" itemLabel="#{facultad.nombreFacultad}" itemValue="#{facultad.idFacultad}"/>
+                                            
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel  for="unidadEjecucion" value="Unidad"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="unidadEjecucion" value="#{proyectoMB.proyecto.idUnidad}" style="width: 120px" required="true">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listUnidad}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad.idUnidad}"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:outputLabel value="Duracion"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="desdeDuracionProy" value="Desde&nbsp;"/>
+                                        <p:calendar id="desdeDuracionProy" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10"  value="#{proyectoMB.proyecto.fechaInicio}"/>
+                                        <p:outputLabel for="hastaDuracionProy" value="&nbsp;&nbsp;&nbsp;Hasta&nbsp;"/>
+                                        <p:calendar id="hastaDuracionProy" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10" value="#{proyectoMB.proyecto.fechaFin}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="montoProyecto" value="Monto"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="montoProyecto" label="montoProyecto" value="#{proyectoMB.proyecto.montoProyecto}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="fechaGestion" value="Fecha de gestion"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:calendar id="fechaGestion" pattern="dd/MM/yyyy" showOn="button" style="width: 100px" navigator="true" yearRange="c-50:c+10" value="#{proyectoMB.proyecto.fechaGestion}"/>
+                                    </p:column>
+
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Datos genericos del proyecto">
+                                <h:panelGrid columns="2" cellpadding="10">
                                     <p:column>
                                         <p:outputLabel for="objetivoProyecto" value="Objetivo del proyecto"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputTextarea id="objetivoProyecto" label="objetivoProyecto" rows="5" cols="30" value="#"/>
+                                        <p:inputTextarea id="objetivoProyecto" label="objetivoProyecto" rows="5" cols="30" value="#{proyectoMB.proyectoGenerico.objetivo}"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel  for="areaConocimiento" value="Area de conocimientos"/>
@@ -62,56 +109,17 @@
                                             <f:selectItems value="#{proyectoMB.listAreaConocimiento}" var="area" itemLabel="#{area.nombreArea}" itemValue="#{area.idAreaConocimiento}"/>
                                         </p:selectCheckboxMenu>
                                     </p:column>
+                                    
                                     <p:column>
                                         <p:outputLabel for="lugarEjecucion" value="Lugar de ejecucion"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="lugarEjecucion" label="lugarEjecucion" required="true" value="#"/>
+                                        <p:inputText id="lugarEjecucion" label="lugarEjecucion" required="true" value="#{proyectoMB.proyectoGenerico.lugarProyecto}"/>
                                     </p:column>
-                                    
-                                    <p:column>
-                                        <p:outputLabel  for="facultadEjecucion" value="Facultad"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="facultadEjecucion" value="#{proyectoMB.proyecto.idFacultad}" style="width: 120px" required="true">
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <f:selectItems value="#{proyectoMB.listFacultad}" var="facultad" itemLabel="#{facultad.nombreFacultad}" itemValue="#{facultad.idFacultad}"/>
-                                            <f:ajax listener="#{proyectoMB.onchangeFacultad()}" execute="facultadEjecucion" render="unidadEjecucion"/>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel  for="unidadEjecucion" value="Unidad"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="unidadEjecucion" value="#" style="width: 120px" required="true">
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <f:selectItems value="#{proyectoMB.listUnidad}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad.idUnidad}"/>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    
-                                    <p:column>
-                                        <p:outputLabel value="Duracion"/>
-                                    </p:column>
-                                    <p:column>
-                                         <p:outputLabel for="desdeDuracionProy" value="Desde&nbsp;"/>
-                                            <p:calendar id="desdeDuracionProy" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10" />
-                                            <p:outputLabel for="hastaDuracionProy" value="&nbsp;&nbsp;&nbsp;Hasta&nbsp;"/>
-                                            <p:calendar id="hastaDuracionProy" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="montoProyecto" value="Monto"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="montoProyecto" label="montoProyecto" value="#"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="fechaGestion" value="Fecha de gestion"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:calendar id="fechaGestion" pattern="dd/MM/yyyy" showOn="button" style="width: 100px" navigator="true" yearRange="c-50:c+10"/>
-                                    </p:column>
-
-                                </h:panelGrid>
+                                </h:panelGrid>    
+                            </p:tab>
+                            <p:tab title="Entidades o instituciones cooperantes">
+                            
                             </p:tab>
                             <p:tab title="Datos coordinador">
                                 <h:panelGrid columns="2" cellpadding="10">  
@@ -122,7 +130,7 @@
                                         <p:selectOneMenu id="nombCoord" value="#{proyectoMB.personaCoordinador}" style="width: 120px" required="true" converter="#{personaConverter}">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <f:selectItems value="#{proyectoMB.listInterno}" var="coordinador" itemLabel="#{coordinador.nombrePersona} #{coordinador.apellidoPersona}" itemValue="#{coordinador}"/>
-                                            <f:ajax listener="#{proyectoMB.onchangeCoordinador()}" execute="nombCoord" render="cargoCoord mailCoord telCoord faxCoord"/>
+                                            <f:ajax listener="#{proyectoMB.onchangeCoordinador()}" execute="nombCoord" render="cargoCoord mailCoord telCoord faxCoord unidadCoord"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
@@ -138,12 +146,18 @@
                                         <p:inputText id="factCoord" label="factCoord" value="#{proyectoMB.personaCoordinador.idUnidad.idFacultad.nombreFacultad}"/>
                                     </p:column>
                                     <p:column>
-                                         <p:outputLabel for="mailCoord" value="Correo Electronico"/>
+                                        <p:outputLabel for="unidadCoord" value="Unidad"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="unidadCoord" label="unidadCoord" value="#{proyectoMB.personaCoordinador.idUnidad.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="mailCoord" value="Correo Electronico"/>
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="mailCoord" label="mailCoord" value="#{proyectoMB.personaCoordinador.emailPersona}"/>
                                     </p:column>
-                                    
+
                                     <p:column>
                                         <p:outputLabel for="telCoord" value="Telefono"/>
                                     </p:column>
@@ -160,7 +174,7 @@
                             </p:tab>
                             <p:tab title="Datos Asistente de Coordinador">
                                 <h:panelGrid columns="2" cellpadding="10">
-                                     <p:column>
+                                    <p:column>
                                         <p:outputLabel for="nombAsistente" value="Nombre"/>
                                     </p:column>
                                     <p:column>
@@ -183,7 +197,13 @@
                                         <p:inputText id="factAsistente" label="factCoord" value="#{proyectoMB.personaAsistente.idUnidad.idFacultad.nombreFacultad}"/>
                                     </p:column>
                                      <p:column>
-                                         <p:outputLabel for="mailAsistente" value="Correo Electronico"/>
+                                        <p:outputLabel for="unidadAsistenteCoord" value="Unidad"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="unidadAsistenteCoord" label="unidadAsistenteCoord" value="#{proyectoMB.personaAsistente.idUnidad.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="mailAsistente" value="Correo Electronico"/>
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="mailAsistente" label="mailAsistente" value="#{proyectoMB.personaAsistente.emailPersona}"/>
@@ -220,7 +240,7 @@
                                         <p:outputLabel for="entidadInst" value="Entidad o institucion"/>
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="entidadInst" value="#{proyectoMB.personaExterno.idOrganismo}"  style="width:120px" required="true">
+                                        <p:selectOneMenu id="entidadInst" value="#{proyectoMB.personaExterno.idOrganismo.idOrganismo}"  style="width:120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <f:selectItems value="#{proyectoMB.listOrganismos}" var="organismo" itemLabel="${organismo.nombreOrganismo}" itemValue="${organismo.idOrganismo}"/>
                                         </p:selectOneMenu>

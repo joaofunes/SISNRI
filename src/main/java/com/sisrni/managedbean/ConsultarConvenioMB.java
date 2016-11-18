@@ -5,8 +5,10 @@
  */
 package com.sisrni.managedbean;
 
+import com.sisrni.model.Estado;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.service.EstadoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import java.io.Serializable;
@@ -28,7 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
  */
 
 @Named("consultarConvenioMB")
-@Scope(WebApplicationContext.SCOPE_SESSION)
+@Scope(WebApplicationContext.SCOPE_APPLICATION)
 public class ConsultarConvenioMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
@@ -44,11 +46,15 @@ public class ConsultarConvenioMB implements Serializable{
     @Autowired
     @Qualifier(value = "personaService")
     private PersonaService personaService;
+
+    @Autowired
+    @Qualifier(value = "estadoService")
+    private EstadoService estadoService;
     
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
     private PojoPropuestaConvenio pojoPropuestaConvenio;
-    
+    private List<Estado> listadoEstados;
     
     @PostConstruct
     public void init() {
@@ -64,6 +70,7 @@ public class ConsultarConvenioMB implements Serializable{
         try {
             propuestaConvenio = new PropuestaConvenio();            
             listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();
+            listadoEstados = estadoService.getEstadoPropuestasConvenio();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,17 +90,17 @@ public class ConsultarConvenioMB implements Serializable{
     
     public void preEditar(PojoPropuestaConvenio pj){
         try {
+            propuestaConvenioMB.inicializador();
             propuestaConvenioMB.setSolicitante(personaService.getByID(Integer.parseInt(pj.getID_SOLICITANTE())));            
             propuestaConvenioMB.setReferenteInterno(personaService.getByID(Integer.parseInt(pj.getID_REF_INTERNO())));
-            propuestaConvenioMB.setReferenteExterno(personaService.getByID(Integer.parseInt(pj.getID_REF_EXTERNO())));            
-            propuestaConvenioMB.test();
+            propuestaConvenioMB.setReferenteExterno(personaService.getByID(Integer.parseInt(pj.getID_REF_EXTERNO())));  
+            propuestaConvenioMB.postInit();
+            propuestaConvenioMB.cargarPropuestaConvenio(Integer.parseInt(pj.getID_PROPUESTA()));   
+            
             
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
            
             String outcome = "propuestaCovenio.xhtml";
-           // FacesContext context = FacesContext.getCurrentInstance();            
-          //  context.getApplication().getNavigationHandler().handleNavigation(context, null, outcome);
-            
             FacesContext.getCurrentInstance().getExternalContext().redirect("propuestaCovenio.xhtml");
             
             //context.redirect(context.getRequestContextPath() + "/views/convenio/propuestaCovenio.xhtml");
@@ -134,5 +141,13 @@ public class ConsultarConvenioMB implements Serializable{
 
     public void setPojoPropuestaConvenio(PojoPropuestaConvenio pojoPropuestaConvenio) {
         this.pojoPropuestaConvenio = pojoPropuestaConvenio;
+    }
+
+    public List<Estado> getListadoEstados() {
+        return listadoEstados;
+    }
+
+    public void setListadoEstados(List<Estado> listadoEstados) {
+        this.listadoEstados = listadoEstados;
     }
 }

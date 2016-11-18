@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition template="/WEB-INF/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
@@ -9,7 +9,6 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pe="http://primefaces.org/ui/extensions"
-
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
@@ -21,7 +20,7 @@
 
                     <p:outputLabel for="pais" value="Pais"/>
                     <p:selectOneMenu id="pais" value="#{geoChartGChartMB.paisSelected.idPais}" filter="true" style="width:125px">
-                        <p:ajax listener="#{geoChartGChartMB.onCountryChange}" update="mapa"/>
+                        <p:ajax listener="#{geoChartGChartMB.onCountryChange}" update=":graficos"/>
                         <f:selectItem itemLabel="--Seleccione--" itemValue=""/>
                         <c:forEach var="c" items="#{geoChartGChartMB.paisList}">
                             <f:selectItem itemLabel="#{c.nombrePais}" itemValue="#{c.idPais}"/>
@@ -42,18 +41,39 @@
                     <p:separator/>
                 </h:panelGrid>
             </p:panel>
-            <h:panelGrid></h:panelGrid>
-            <p:panel id="mapa" header="Mapa de Cooperacion" footer="Cooperacion externa">
-                <pe:gChart value="#{geoChartGChartMB.chart}"/>
-            </p:panel>
-            <p:panel id="bar" header="Cooperacion Por Año">
-                <h:panelGrid columns="2">
-                    <p:chart type="bar" model="#{geoChartGChartMB.barModel}" style="width:400px;"/>
-                    <p:chart type="pie" model="#{geoChartGChartMB.pieModel}" style="width:400px;height:300px" />
-                </h:panelGrid>
-            </p:panel>
         </h:form>
 
+        <h:panelGroup id="graficos" rendered="#{geoChartGChartMB.showGraphics}">
+          <p:panelGrid  columns="2" >
+            <p:row>
+                <p:column>
+                    <p:panel id="mapa" header="Mapa de Cooperacion" footer="Cooperacion externa">
+                        <pe:gChart value="#{geoChartGChartMB.chartModel}" />  
+                    </p:panel>   
+                </p:column>
+                <p:column>
+                    <h:panelGrid columns="1">
+                        <p:row>
+                            <p:column>
+                                <p:panel header="Grafico de Barra">
+                                    <p:chart type="bar" model="#{geoChartGChartMB.barModel}" style="width:400px;"/>
+                                </p:panel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:panel header="Grafico de Pastel">
+                                     <p:chart type="pie" model="#{geoChartGChartMB.pieModel}" style="width:400px;height:300px" />
+                                </p:panel>    
+                            </p:column>
+                        </p:row>
+
+                    </h:panelGrid>
+                </p:column>
+            </p:row>
+        </p:panelGrid>  
+        </h:panelGroup>
+        
     </ui:define>
 
 </ui:composition> 

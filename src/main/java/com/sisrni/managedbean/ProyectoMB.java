@@ -11,6 +11,7 @@ import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.Proyecto;
+import com.sisrni.model.ProyectoGenerico;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.Unidad;
@@ -19,6 +20,7 @@ import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
+import com.sisrni.service.ProyectoGenericoService;
 import com.sisrni.service.ProyectoService;
 import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoProyectoService;
@@ -43,10 +45,11 @@ public class ProyectoMB {
     
     private static final String FIJO ="FIJO";  
     private static final String FAX ="FAX";
-    private String [] areaConocimientoSelected;
+    private List<Integer> areaConocimientoSelected;
     
    /*Variables*/
     private List<Proyecto> listProyectos;
+    private List<Proyecto> listProyectosPrueba;
 
     private List<Facultad> listFacultad;
     private List<Unidad>   listUnidad;
@@ -60,11 +63,14 @@ public class ProyectoMB {
     private List<Persona> listAsistenteInterno;
     private List<Telefono> listTelefonoAsistenteInterno;
     
+    private List<Telefono> listTelefonoExterno;
+    
     private List<AreaConocimiento> listAreaConocimiento;
     private List<TipoProyecto> listTipoProyecto;
     private List<PropuestaConvenio> listPropuestaConvenio;
     
     private Proyecto proyecto;
+    private ProyectoGenerico proyectoGenerico;
     private Persona persona;
     private Persona personaCoordinador;
     private Persona personaAsistente;
@@ -116,6 +122,11 @@ public class ProyectoMB {
     @Qualifier(value ="proyectoService")
     private ProyectoService proyectoService;
     
+    @Autowired
+    @Qualifier(value ="proyectoGenericoService")
+    private ProyectoGenericoService  proyectoGenericoService;
+    
+    
 
     /**
      * constructor
@@ -129,6 +140,10 @@ public class ProyectoMB {
     
     @PostConstruct
     public void init(){
+      cargarProyecto();
+    }
+    
+    public void cargarProyecto(){
       proyecto = new Proyecto();  
       personaCoordinador = new Persona();  
       personaAsistente = new Persona();
@@ -142,13 +157,17 @@ public class ProyectoMB {
       listAreaConocimiento = areaConocimientoService.findAll();
       listTipoProyecto = tipoProyectoService.findAll();
       listPropuestaConvenio = propuestaConvenioService.findAll();
-      // listProyectos = proyectoService.findAll();
+      listProyectosPrueba = proyectoService.findAll();
+      areaConocimientoSelected = new ArrayList<Integer>();
+      listProyectos = proyectoService.findAll();
       
       
       telFijoInterno = new Telefono();
       faxInterno = new Telefono();
       telFijoAsistente = new Telefono();
       faxAsistente = new Telefono();
+      telFijoExterno = new Telefono();
+      faxExterno = new Telefono();
     }
     
     
@@ -186,9 +205,29 @@ public class ProyectoMB {
         }
     }
      
+     public void onchangeExterno(){
+        try{
+            listTelefonoExterno = telefonoService.getTelefonosByPersona(personaExterno);
+            
+            for(Telefono tlfx : listTelefonoExterno){
+                if(tlfx.getIdTipoTelefono().getNombre().equals(FIJO)){
+                    telFijoExterno =tlfx;
+                }
+                if(tlfx.getIdTipoTelefono().getNombre().equals(FAX)){
+                    faxExterno = tlfx;
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+     
      public void onchangeFacultad(){
          try{
-            listUnidad = unidadService.getUnidadesByFacultadId(proyecto.getIdFacultad().intValue());
+             if(proyecto.getIdFacultad()!=null && !proyecto.getIdFacultad().equals("")){
+               listUnidad = unidadService.getUnidadesByFacultadId(proyecto.getIdFacultad());  
+             }
+            
          }catch(Exception e){
             e.printStackTrace();
          }
@@ -196,8 +235,22 @@ public class ProyectoMB {
     
     
      
-      public void preActualizarProyecto(){
-       JOptionPane.showMessageDialog(null, "Prueba exitosa");
+      public String preActualizarProyecto(){
+       proyecto = proyectoService.findById(proyecto.getIdProyecto());
+      
+      proyectoGenerico = proyectoGenericoService.findById(proyecto.getIdProyecto());
+      areaConocimientoSelected = areaConocimientoService.getAreasConocimientoProyecto(proyecto.getIdProyecto());
+      
+      personaCoordinador = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(),2);
+      onchangeCoordinador();
+      
+      personaAsistente = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(),5);
+      onchangeAsistenteCoordinador();
+      
+      personaExterno = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(),3);
+      onchangeExterno();
+     
+      return "modificarProyecto.xhtml";
     }
     
    
@@ -316,16 +369,16 @@ public class ProyectoMB {
         this.listAreaConocimiento = listAreaConocimiento;
     }
 
-      
-
-    public String[] getAreaConocimientoSelected() {
+    public List<Integer> getAreaConocimientoSelected() {
         return areaConocimientoSelected;
     }
 
-    public void setAreaConocimientoSelected(String[] areaConocimientoSelected) {
+    public void setAreaConocimientoSelected(List<Integer> areaConocimientoSelected) {
         this.areaConocimientoSelected = areaConocimientoSelected;
     }
 
+    
+    
     public Persona getPersonaExterno() {
         return personaExterno;
     }
@@ -390,7 +443,25 @@ public class ProyectoMB {
     public void setListProyectos(List<Proyecto> listProyectos) {
         this.listProyectos = listProyectos;
     }
+
+    public ProyectoGenerico getProyectoGenerico() {
+        return proyectoGenerico;
+    }
+
+    public void setProyectoGenerico(ProyectoGenerico proyectoGenerico) {
+        this.proyectoGenerico = proyectoGenerico;
+    }
+
+    public List<Proyecto> getListProyectosPrueba() {
+        return listProyectosPrueba;
+    }
+
+    public void setListProyectosPrueba(List<Proyecto> listProyectosPrueba) {
+        this.listProyectosPrueba = listProyectosPrueba;
+    }
     
-      
+    
+    
+    
     
 }

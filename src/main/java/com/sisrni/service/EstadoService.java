@@ -9,6 +9,7 @@ import com.sisrni.dao.EstadoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Estado;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,13 @@ public class EstadoService extends GenericService<Estado, Integer> {
     public GenericDao<Estado, Integer> getDao() {
         return estadoDao;
     }
+    
+    public Estado getEstadoByName(String estado){
+        return estadoDao.getEstadoByName(estado);
+    }
+    
+     public List<Estado> getEstadoPropuestasConvenio(){
+          return estadoDao.getEstadoPropuestasConvenio();
+     }
     
 }
