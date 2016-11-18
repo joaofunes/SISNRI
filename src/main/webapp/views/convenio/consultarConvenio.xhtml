@@ -50,11 +50,17 @@
                             <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                            title="Eliminar" value="Eliminar"
                                            actionListener="#{consultarConvenioMB.preEliminar(pconvenios)}" update="idEliminacion"/>
+                                <p:commandButton value="Modal" type="button" onclick="PF('dlgEstado').show();" />
                         </div>                        
                     </p:column>
                 </p:dataTable>
             </h:form>   
              
+        <p:dialog header="Cambiar Estado" widgetVar="dlgEstado" modal="true" appendTo="@(body)" >                         
+            <h:form id="idCambiarEstado"> 
+                <h:outputText value="This is a Modal Dialog." />
+            </h:form>      
+        </p:dialog>        
              
              
         <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar convenio?" header="Eliminar Convenio"  global="true">

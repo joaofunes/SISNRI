@@ -49,6 +49,9 @@ public class Estado implements Serializable {
     @Column(name = "FECHA_INGRESO_ESTADO")
     @Temporal(TemporalType.DATE)
     private Date fechaIngresoEstado;
+    @Column(name = "TIPO_ESTADO")
+    private Integer tipoEstado;
+    
     @JoinTable(name = "PROYECTO_ESTADO", joinColumns = {
         @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
@@ -56,7 +59,7 @@ public class Estado implements Serializable {
     private List<Proyecto> proyectoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado")
     private List<PropuestaEstado> propuestaEstadoList;
-
+    
     public Estado() {
     }
 
@@ -127,6 +130,14 @@ public class Estado implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Estado[ idEstado=" + idEstado + " ]";
+    }
+
+    public Integer getTipoEstado() {
+        return tipoEstado;
+    }
+
+    public void setTipoEstado(Integer tipoEstado) {
+        this.tipoEstado = tipoEstado;
     }
     
 }
