@@ -10,6 +10,7 @@ import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaProyecto;
+import com.sisrni.model.PersonaProyectoPK;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.Proyecto;
 import com.sisrni.model.ProyectoGenerico;
@@ -21,6 +22,7 @@ import com.sisrni.model.Unidad;
 import com.sisrni.service.AreaConocimientoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PersonaProyectoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.ProyectoGenericoService;
@@ -37,6 +39,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
@@ -75,6 +78,11 @@ public class ProyectosMB {
     private OrganismoService organismoService;
     @Autowired
     private TipoPersonaService tipoPersonaService;
+    @Autowired
+    private PersonaProyectoService personaProyectoService;
+    //@Autowired
+    //PENDIENTE
+    
 
 //Definicion de objetos    
 private Proyecto proyecto;
@@ -89,6 +97,13 @@ private Organismo organismo;
 private Facultad facultadAsistente;
 private Facultad facultadExterna;
 private PersonaProyecto personaProyecto;
+private PersonaProyecto personaProyectoAsis;
+private PersonaProyecto personaProyectoExt;
+private PersonaProyectoPK personaProyectoPK; 
+private PersonaProyectoPK personaProyectoAsisPK;
+private PersonaProyectoPK personaProyectoExtPK; 
+private String numDocumentoSol;
+private Persona emailSol;
 //Definicion de listas
 private List<Facultad> facultadList;
 private List<AreaConocimiento> areaConocimientoList;
@@ -99,6 +114,7 @@ private List<Organismo> organismoList;
 //Definicion de selected
 private TipoProyecto proyectoSelected;
 private String [] areaConocimientoSelected;
+private List<AreaConocimiento> areasConocimiento;
 private Facultad facultadSelected;
 private Unidad unidadSelected;
 private PropuestaConvenio propuestaConvenioSelected;
@@ -108,6 +124,7 @@ private Facultad facultadSelectedExt;
 private Unidad unidadSelectedSol;
 private Unidad unidadSelectedAsis;
 private Organismo organismoSelected;
+
 //Telefono
 //private Telefono telefono;
 private Telefono telefonoSolFijo;
@@ -116,16 +133,13 @@ private Telefono telefonoAsisFijo ;
 private Telefono telefonoAsisFax;
 private Telefono telefonoRefextFijo;
 private Telefono telefonoRefextFax;
-private TipoTelefono tipoTelefonoSolFax;
-private TipoTelefono tipoTelefonoSolFijo;
-private TipoTelefono tipoTelefonoAsisFijo;
-private TipoTelefono tipoTelefonoAsisFax;
-private TipoTelefono tipoTelefonoRefextFijo;
-private TipoTelefono tipoTelefonoRefextFax;
-//Tipo Persona
+private TipoTelefono tipoTelefonoFax;
+private TipoTelefono tipoTelefonoFijo;
+
 private TipoPersona tipoPersonaSol;
 private TipoPersona tipoPersonaAsis;
 private TipoPersona tipoPersonaRefext;
+
     /**
      * Creates a new instance of ProyectosMB
      */
@@ -146,6 +160,7 @@ private TipoPersona tipoPersonaRefext;
     unidadSelectedSol=new Unidad();
     unidadSelectedAsis=new Unidad();
     organismoSelected=new Organismo();
+    areasConocimiento=new ArrayList<AreaConocimiento>();
     //Listas
     tipoproyectolist = tipoProyectoService.findAll();
     areaConocimientoList=areaConocimientoService.findAll();
@@ -171,15 +186,18 @@ private TipoPersona tipoPersonaRefext;
     personaAsistente=new Persona();
     personaExterna=new Persona();
     organismo = new Organismo();
+    personaProyecto=new PersonaProyecto();
+    personaProyectoAsis=new PersonaProyecto();
+    personaProyectoExt=new PersonaProyecto();
+    personaProyectoPK = new PersonaProyectoPK();
+    personaProyectoAsisPK=new PersonaProyectoPK();
+    personaProyectoExtPK=new PersonaProyectoPK();
+  
     // tipos telefonos
-       tipoTelefonoSolFax= tipoTelefonoService.getTipoByDesc("FAX");
-       tipoTelefonoSolFijo= tipoTelefonoService.getTipoByDesc("FIJO");
-       tipoTelefonoAsisFijo=tipoTelefonoService.getTipoByDesc("FIJO");
-       tipoTelefonoAsisFax=tipoTelefonoService.getTipoByDesc("FAX");
-       tipoTelefonoRefextFijo=tipoTelefonoService.getTipoByDesc("FIJO");
-       tipoTelefonoRefextFax=tipoTelefonoService.getTipoByDesc("FAX");
+       tipoTelefonoFax= tipoTelefonoService.getTipoByDesc("FAX");
+       tipoTelefonoFijo= tipoTelefonoService.getTipoByDesc("FIJO");
     // tipo persona
-       tipoPersonaSol=tipoPersonaService.getTipoPersonaByNombre("SOLICITANTE");
+       tipoPersonaSol=tipoPersonaService.getTipoPersonaByNombre("REFERENTE INTERNO");
        tipoPersonaAsis=tipoPersonaService.getTipoPersonaByNombre("ASISTENTE DE COORDINADOR");
        tipoPersonaRefext=tipoPersonaService.getTipoPersonaByNombre("REFERENTE EXTERNO");
     }
@@ -197,9 +215,17 @@ private TipoPersona tipoPersonaRefext;
         proyectoService.save(proyecto);
         
         //guardar proyecto genérico
+        //proyectoGenerico.setAreaConocimientoList(areaConocimientoList);
         proyectoGenerico.setIdProyecto(proyecto.getIdProyecto());
+        //Intermedia de proyecto y area de conocimiento
+        for(int i=0;i<areaConocimientoSelected.length;i++){
+        AreaConocimiento area=areaConocimientoService.findById(Integer.parseInt(areaConocimientoSelected[i]));
+        if (area !=null){
+        areasConocimiento.add(area);
+        }
+        }
+        proyectoGenerico.setAreaConocimientoList(areasConocimiento);
         proyectoGenericoService.save(proyectoGenerico);
-        
         //guardar persona solicitante
         Unidad unidadSolicitante=unidadService.findById(unidadSelectedSol.getIdUnidad());
         persona.setIdUnidad(unidadSolicitante);
@@ -207,17 +233,25 @@ private TipoPersona tipoPersonaRefext;
         personaService.save(persona);
         //guardar telefono fijo solicitante
         telefonoSolFijo.setIdPersona(persona);
-        telefonoSolFijo.setIdTipoTelefono(tipoTelefonoSolFijo);
+        telefonoSolFijo.setIdTipoTelefono(tipoTelefonoFijo);
         telefonoService.save(telefonoSolFijo);
         // guardar fax solicitante
         telefonoSolFax.setIdPersona(persona);
-        telefonoSolFax.setIdTipoTelefono(tipoTelefonoSolFax);
+        telefonoSolFax.setIdTipoTelefono(tipoTelefonoFax);
         telefonoService.save(telefonoSolFax);
         //guardar en tabla intermedia persona_proyecto de un solicitante 
+                    
+         personaProyectoPK.setIdPersona(persona.getIdPersona());
+         personaProyectoPK.setIdProyectoGenerico(proyectoGenerico.getIdProyecto());
+         personaProyectoPK.setIdTipoPersona(tipoPersonaSol.getIdTipoPersona());            
+                   
+        /////////////        
         personaProyecto.setProyectoGenerico(proyectoGenerico);
         personaProyecto.setPersona(persona);
         personaProyecto.setTipoPersona(tipoPersonaSol);
-        
+        personaProyecto.setPersonaProyectoPK(personaProyectoPK);
+        personaProyectoService.save(personaProyecto);
+   
         //guardar persona Asistente
         Unidad unidadAsistente=unidadService.findById(unidadSelectedAsis.getIdUnidad());
         personaAsistente.setIdUnidad(unidadAsistente);
@@ -225,15 +259,47 @@ private TipoPersona tipoPersonaRefext;
         personaService.save(personaAsistente);
         //guardar telefono fijo asistente
         telefonoAsisFijo.setIdPersona(personaAsistente);
-        telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoAsisFijo);
+        telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoFijo);
         telefonoService.save(telefonoAsisFijo);
         // guardar fax Asistente
         telefonoAsisFax.setIdPersona(personaAsistente);
-        telefonoAsisFax.setIdTipoTelefono(tipoTelefonoAsisFax);
+        telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
         telefonoService.save(telefonoAsisFax);
+        //guardar en tabla intermedia persona_proyecto Asistente
+        //PersonaProyectoPK personaProyectoPK = new PersonaProyectoPK();            
+         personaProyectoAsisPK.setIdPersona(personaAsistente.getIdPersona());
+         personaProyectoAsisPK.setIdProyectoGenerico(proyectoGenerico.getIdProyecto());
+         personaProyectoAsisPK.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());       
+        /////////////        
+        personaProyectoAsis.setProyectoGenerico(proyectoGenerico);
+        personaProyectoAsis.setPersona(personaAsistente);
+        personaProyectoAsis.setTipoPersona(tipoPersonaAsis);
+        personaProyectoAsis.setPersonaProyectoPK(personaProyectoAsisPK);
+        personaProyectoService.save(personaProyectoAsis);
         
-        //guardar en tabla intermedia persona_proyecto 
-        
+        //Guardar informacion de referente externo
+        personaExterna.setIdTipoPersona(tipoPersonaRefext.getIdTipoPersona());
+        Organismo organismoExt=organismoService.findById(organismoSelected.getIdOrganismo());
+        personaExterna.setIdOrganismo(organismoExt);
+        personaService.save(personaExterna);
+        //guardar telefono fijo persona externa
+        telefonoRefextFijo.setIdPersona(personaExterna);
+        telefonoRefextFijo.setIdTipoTelefono(tipoTelefonoFijo);
+        telefonoService.save(telefonoRefextFijo);
+        //guardar fax persona externa
+        telefonoRefextFax.setIdPersona(personaExterna);
+        telefonoRefextFax.setIdTipoTelefono(tipoTelefonoFax);
+        telefonoService.save(telefonoRefextFax);
+        //guardar en tabla intermedia persona_proyecto Referente externo
+        personaProyectoExtPK.setIdPersona(personaExterna.getIdPersona());
+        personaProyectoExtPK.setIdProyectoGenerico(proyectoGenerico.getIdProyecto());
+        personaProyectoExtPK.setIdTipoPersona(tipoPersonaRefext.getIdTipoPersona());
+        //////
+        personaProyectoExt.setProyectoGenerico(proyectoGenerico);
+        personaProyectoExt.setPersona(personaExterna);
+        personaProyectoExt.setTipoPersona(tipoPersonaRefext);
+        personaProyectoExt.setPersonaProyectoPK(personaProyectoExtPK);
+        personaProyectoService.save(personaProyectoExt);
     }catch(Exception e){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
     }
@@ -255,6 +321,17 @@ private TipoPersona tipoPersonaRefext;
             unidadList = unidadService.getUnidadesByFacultadId(facultadSelectedAsis.getIdFacultad());
         else
             unidadList= new ArrayList<Unidad>();
+    }
+    public void searchByDocEmailInterno(){
+        try {
+            
+            if(numDocumentoSol!=null && persona!= null && !numDocumentoSol.equals("") &&  !persona.getEmailPersona().equals("")){
+            persona = personaService.getReferenteInternoByDocEmail(numDocumentoSol, persona);
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public TipoProyecto getProyectoSelected() {
         return proyectoSelected;
@@ -415,20 +492,20 @@ private TipoPersona tipoPersonaRefext;
         this.organismo = organismo;
     }
 
-    public TipoTelefono getTipoTelefonoSolFax() {
-        return tipoTelefonoSolFax;
+    public TipoTelefono getTipoTelefonoFax() {
+        return tipoTelefonoFax;
     }
 
-    public void setTipoTelefonoSolFax(TipoTelefono tipoTelefonoSolFax) {
-        this.tipoTelefonoSolFax = tipoTelefonoSolFax;
+    public void setTipoTelefonoFax(TipoTelefono tipoTelefonoFax) {
+        this.tipoTelefonoFax = tipoTelefonoFax;
     }
 
-    public TipoTelefono getTipoTelefonoSolFijo() {
-        return tipoTelefonoSolFijo;
+    public TipoTelefono getTipoTelefonoFijo() {
+        return tipoTelefonoFijo;
     }
 
-    public void setTipoTelefonoSolFijo(TipoTelefono tipoTelefonoSolFijo) {
-        this.tipoTelefonoSolFijo = tipoTelefonoSolFijo;
+    public void setTipoTelefonoFijo(TipoTelefono tipoTelefonoFijo) {
+        this.tipoTelefonoFijo = tipoTelefonoFijo;
     }
 
     public PersonaProyecto getPersonaProyecto() {
@@ -574,6 +651,32 @@ private TipoPersona tipoPersonaRefext;
     public void setPropuestaConvenioSelected(PropuestaConvenio propuestaConvenioSelected) {
         this.propuestaConvenioSelected = propuestaConvenioSelected;
     }
+
+    public List<AreaConocimiento> getAreasConocimiento() {
+        return areasConocimiento;
+    }
+
+    public void setAreasConocimiento(List<AreaConocimiento> areasConocimiento) {
+        this.areasConocimiento = areasConocimiento;
+    }
+
+    public String getNumDocumentoSol() {
+        return numDocumentoSol;
+    }
+
+    public void setNumDocumentoSol(String numDocumentoSol) {
+        this.numDocumentoSol = numDocumentoSol;
+    }
+
+    public Persona getEmailSol() {
+        return emailSol;
+    }
+
+    public void setEmailSol(Persona emailSol) {
+        this.emailSol = emailSol;
+    }
+
+    
 
    
     
