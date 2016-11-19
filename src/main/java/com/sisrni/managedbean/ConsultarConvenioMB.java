@@ -55,6 +55,8 @@ public class ConsultarConvenioMB implements Serializable{
     private PropuestaConvenio propuestaConvenio;
     private PojoPropuestaConvenio pojoPropuestaConvenio;
     private List<Estado> listadoEstados;
+    private Estado estado;
+    
     
     @PostConstruct
     public void init() {
@@ -149,5 +151,13 @@ public class ConsultarConvenioMB implements Serializable{
 
     public void setListadoEstados(List<Estado> listadoEstados) {
         this.listadoEstados = listadoEstados;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 }
