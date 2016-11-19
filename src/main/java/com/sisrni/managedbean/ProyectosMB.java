@@ -103,7 +103,8 @@ private PersonaProyectoPK personaProyectoPK;
 private PersonaProyectoPK personaProyectoAsisPK;
 private PersonaProyectoPK personaProyectoExtPK; 
 private String numDocumentoSol;
-private Persona emailSol;
+private String numDocumentoAsis;
+private String numDocumentoRefExt;
 //Definicion de listas
 private List<Facultad> facultadList;
 private List<AreaConocimiento> areaConocimientoList;
@@ -111,6 +112,9 @@ private List<TipoProyecto> tipoproyectolist;
 private List<Unidad> unidadList;
 private List<PropuestaConvenio> propuestaConvenioList;
 private List<Organismo> organismoList;
+private List<Telefono> listadoTelefonoSol;
+private List<Telefono> listadoTelefonoAsis;
+private List<Telefono> listadoTelefonoRefExt;
 //Definicion de selected
 private TipoProyecto proyectoSelected;
 private String [] areaConocimientoSelected;
@@ -140,6 +144,12 @@ private TipoPersona tipoPersonaSol;
 private TipoPersona tipoPersonaAsis;
 private TipoPersona tipoPersonaRefext;
 
+private static final String FIJO ="FIJO";  
+private static final String FAX ="FAX";
+private int existeSol;
+private int existeAsis;
+private int existeRefExt;
+
     /**
      * Creates a new instance of ProyectosMB
      */
@@ -168,6 +178,9 @@ private TipoPersona tipoPersonaRefext;
     facultadList=facultadService.findAll();
     propuestaConvenioList=propuestaConvenioService.findAll();
     organismoList=organismoService.findAll();
+    listadoTelefonoSol=telefonoService.findAll();
+    listadoTelefonoAsis=telefonoService.findAll();
+    listadoTelefonoRefExt=telefonoService.findAll();
     //unidadList=unidadService.findAll();
     proyecto = new Proyecto();
     proyectoGenerico=new ProyectoGenerico();
@@ -200,6 +213,11 @@ private TipoPersona tipoPersonaRefext;
        tipoPersonaSol=tipoPersonaService.getTipoPersonaByNombre("REFERENTE INTERNO");
        tipoPersonaAsis=tipoPersonaService.getTipoPersonaByNombre("ASISTENTE DE COORDINADOR");
        tipoPersonaRefext=tipoPersonaService.getTipoPersonaByNombre("REFERENTE EXTERNO");
+       
+       //bandera
+       existeSol=0;
+       existeAsis=0;
+       existeRefExt=0;
     }
     
     
@@ -227,9 +245,11 @@ private TipoPersona tipoPersonaRefext;
         proyectoGenerico.setAreaConocimientoList(areasConocimiento);
         proyectoGenericoService.save(proyectoGenerico);
         //guardar persona solicitante
+        if(existeSol!=1){
         Unidad unidadSolicitante=unidadService.findById(unidadSelectedSol.getIdUnidad());
         persona.setIdUnidad(unidadSolicitante);
         persona.setIdTipoPersona(tipoPersonaSol.getIdTipoPersona());
+        persona.setDuiPersona(numDocumentoSol);
         personaService.save(persona);
         //guardar telefono fijo solicitante
         telefonoSolFijo.setIdPersona(persona);
@@ -251,11 +271,13 @@ private TipoPersona tipoPersonaRefext;
         personaProyecto.setTipoPersona(tipoPersonaSol);
         personaProyecto.setPersonaProyectoPK(personaProyectoPK);
         personaProyectoService.save(personaProyecto);
-   
+        }
         //guardar persona Asistente
+        if(existeAsis!=1){
         Unidad unidadAsistente=unidadService.findById(unidadSelectedAsis.getIdUnidad());
         personaAsistente.setIdUnidad(unidadAsistente);
         personaAsistente.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
+        personaAsistente.setDuiPersona(numDocumentoAsis);
         personaService.save(personaAsistente);
         //guardar telefono fijo asistente
         telefonoAsisFijo.setIdPersona(personaAsistente);
@@ -276,11 +298,14 @@ private TipoPersona tipoPersonaRefext;
         personaProyectoAsis.setTipoPersona(tipoPersonaAsis);
         personaProyectoAsis.setPersonaProyectoPK(personaProyectoAsisPK);
         personaProyectoService.save(personaProyectoAsis);
+        }
         
         //Guardar informacion de referente externo
+        if(existeRefExt!=1){
         personaExterna.setIdTipoPersona(tipoPersonaRefext.getIdTipoPersona());
         Organismo organismoExt=organismoService.findById(organismoSelected.getIdOrganismo());
         personaExterna.setIdOrganismo(organismoExt);
+        personaExterna.setPasaporte(numDocumentoRefExt);
         personaService.save(personaExterna);
         //guardar telefono fijo persona externa
         telefonoRefextFijo.setIdPersona(personaExterna);
@@ -300,6 +325,7 @@ private TipoPersona tipoPersonaRefext;
         personaProyectoExt.setTipoPersona(tipoPersonaRefext);
         personaProyectoExt.setPersonaProyectoPK(personaProyectoExtPK);
         personaProyectoService.save(personaProyectoExt);
+        }
     }catch(Exception e){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
     }
@@ -322,17 +348,116 @@ private TipoPersona tipoPersonaRefext;
         else
             unidadList= new ArrayList<Unidad>();
     }
+    //Buscando a persona  Solicitante existente
     public void searchByDocEmailInterno(){
         try {
             
             if(numDocumentoSol!=null && persona!= null && !numDocumentoSol.equals("") &&  !persona.getEmailPersona().equals("")){
             persona = personaService.getReferenteInternoByDocEmail(numDocumentoSol, persona);
+            if (persona!=null){
+            existeSol=1;
+            }
+            facultadSelectedSol=persona.getIdUnidad().getIdFacultad();
+            unidadSelectedSol=persona.getIdUnidad();
+            onChangeInterno();
+            
         }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    public void  onChangeInterno(){
+        try {
+            listadoTelefonoSol = telefonoService.getTelefonosByPersona(persona);
+             
+            for( Telefono us: listadoTelefonoSol){
+               
+                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
+                    telefonoSolFijo= us;
+                }
+                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
+                    telefonoSolFax= us;
+                }                
+            }             
+        } catch (Exception e) {
+        }
+    }//Fin Buscando a persona  Solicitante existente 
+    
+//Buscando si existe persona asistente
+    public void searchByDocEmailAsistente(){
+        try {
+            
+            if(numDocumentoAsis!=null && personaAsistente!= null && !numDocumentoAsis.equals("") &&  !personaAsistente.getEmailPersona().equals("")){
+            personaAsistente = personaService.getReferenteInternoByDocEmail(numDocumentoAsis, personaAsistente);
+            if (personaAsistente!=null){
+            existeAsis=1;
+            }
+            facultadSelectedAsis=personaAsistente.getIdUnidad().getIdFacultad();
+            unidadSelectedAsis=personaAsistente.getIdUnidad();
+            onChangeAsistente();
+            
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void  onChangeAsistente(){
+        try {
+            listadoTelefonoAsis = telefonoService.getTelefonosByPersona(personaAsistente);
+             
+            for( Telefono us: listadoTelefonoAsis){
+               
+                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
+                    telefonoAsisFijo= us;
+                }
+                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
+                    telefonoAsisFax= us;
+                }                
+            }             
+        } catch (Exception e) {
+        }
+    } 
+    //Fin busca de persona asistente
+
+//Buscando si existe persona Referente externo
+    public void searchByDocEmailReferenteExterno(){
+        try {
+            
+            if(numDocumentoRefExt!=null && personaExterna!= null && !numDocumentoRefExt.equals("") &&  !personaExterna.getEmailPersona().equals("")){
+            personaExterna = personaService.getReferenteInternoByDocEmail(numDocumentoRefExt, personaExterna);
+            if (personaExterna!=null){
+            existeRefExt=1;
+            }
+            facultadSelectedExt=personaExterna.getIdUnidad().getIdFacultad();
+            organismoSelected=personaExterna.getIdOrganismo();
+            onChangeReferenteExterno();
+            
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void  onChangeReferenteExterno(){
+        try {
+            listadoTelefonoRefExt = telefonoService.getTelefonosByPersona(personaExterna);
+             
+            for( Telefono us: listadoTelefonoRefExt){
+               
+                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
+                    telefonoRefextFijo= us;
+                }
+                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
+                    telefonoRefextFax= us;
+                }                
+            }             
+        } catch (Exception e) {
+        }
+    } 
+    //Fin busca de persona Referente externo
+        
     public TipoProyecto getProyectoSelected() {
         return proyectoSelected;
     }
@@ -668,13 +793,31 @@ private TipoPersona tipoPersonaRefext;
         this.numDocumentoSol = numDocumentoSol;
     }
 
-    public Persona getEmailSol() {
-        return emailSol;
+    public String getNumDocumentoAsis() {
+        return numDocumentoAsis;
     }
 
-    public void setEmailSol(Persona emailSol) {
-        this.emailSol = emailSol;
+    public void setNumDocumentoAsis(String numDocumentoAsis) {
+        this.numDocumentoAsis = numDocumentoAsis;
     }
+
+    public String getNumDocumentoRefExt() {
+        return numDocumentoRefExt;
+    }
+
+    public void setNumDocumentoRefExt(String numDocumentoRefExt) {
+        this.numDocumentoRefExt = numDocumentoRefExt;
+    }
+
+    public List<Telefono> getListadoTelefonoSol() {
+        return listadoTelefonoSol;
+    }
+
+    public void setListadoTelefonoSol(List<Telefono> listadoTelefonoSol) {
+        this.listadoTelefonoSol = listadoTelefonoSol;
+    }
+
+    
 
     
 
