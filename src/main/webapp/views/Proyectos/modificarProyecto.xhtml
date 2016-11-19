@@ -55,7 +55,7 @@
                                         <p:selectOneMenu id="facultadEjecucion" value="#{proyectoMB.proyecto.idFacultad}" style="width: 120px" required="true" >
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <f:selectItems value="#{proyectoMB.listFacultad}" var="facultad" itemLabel="#{facultad.nombreFacultad}" itemValue="#{facultad.idFacultad}"/>
-                                            
+                                            <p:ajax listener="#{proyectoMB.onchangeFacultad()}" update="unidadEjecucion"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
@@ -109,7 +109,7 @@
                                             <f:selectItems value="#{proyectoMB.listAreaConocimiento}" var="area" itemLabel="#{area.nombreArea}" itemValue="#{area.idAreaConocimiento}"/>
                                         </p:selectCheckboxMenu>
                                     </p:column>
-                                    
+
                                     <p:column>
                                         <p:outputLabel for="lugarEjecucion" value="Lugar de ejecucion"/>
                                     </p:column>
@@ -119,19 +119,40 @@
                                 </h:panelGrid>    
                             </p:tab>
                             <p:tab title="Entidades o instituciones cooperantes">
-                            
+
                             </p:tab>
                             <p:tab title="Datos coordinador">
                                 <h:panelGrid columns="2" cellpadding="10">  
                                     <p:column>
-                                        <p:outputLabel for="nombCoord" value="Nombre"/>
+                                        <p:outputLabel for="listaCoord" value="Coordinador del proyecto"/>
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="nombCoord" value="#{proyectoMB.personaCoordinador}" style="width: 120px" required="true" converter="#{personaConverter}">
+                                        <p:selectOneMenu id="listaCoord" value="#{proyectoMB.personaCoordinador}" style="width: 120px" required="true" converter="#{personaConverter}">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <f:selectItems value="#{proyectoMB.listInterno}" var="coordinador" itemLabel="#{coordinador.nombrePersona} #{coordinador.apellidoPersona}" itemValue="#{coordinador}"/>
-                                            <f:ajax listener="#{proyectoMB.onchangeCoordinador()}" execute="nombCoord" render="cargoCoord mailCoord telCoord faxCoord unidadCoord"/>
+                                            <f:ajax listener="#{proyectoMB.onchangeCoordinador()}" execute="listaCoord" render="apellidoCoord nombreCoord duiCoord cargoCoord mailCoord telCoord faxCoord unidadCoord"/>
                                         </p:selectOneMenu>
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:outputLabel for="nombreCoord" value="Nombre(s)"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="nombreCoord" label="nombreCoord" value="#{proyectoMB.personaCoordinador.nombrePersona}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:outputLabel for="apellidoCoord" value="Apellido(s)"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="apellidoCoord" label="apellidoCoord" value="#{proyectoMB.personaCoordinador.apellidoPersona}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:outputLabel for="duiCoord" value="DUI"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="duiCoord" label="duiCoord" mask="99999999-9" value="#{proyectoMB.personaCoordinador.duiPersona}" required="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="cargoCoord" value="Cargo"/>
@@ -143,13 +164,24 @@
                                         <p:outputLabel for="factCoord" value="Facultad"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="factCoord" label="factCoord" value="#{proyectoMB.personaCoordinador.idUnidad.idFacultad.nombreFacultad}"/>
+                                        <!--<p:inputText id="factCoord" label="factCoord" value="#{proyectoMB.personaCoordinador.idUnidad.idFacultad.nombreFacultad}"/>-->
+                                        
+                                        <p:selectOneMenu id="factCoord" value="#{proyectoMB.facultadCoordinadorSelected.idFacultad}" style="width: 120px" required="true" >
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listFacultad}" var="facultad" itemLabel="#{facultad.nombreFacultad}" itemValue="#{facultad.idFacultad}"/>
+                                            <p:ajax listener="#{proyectoMB.onchangeFacultadCoordinador()}" update="unidadCoord"/>
+                                        </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="unidadCoord" value="Unidad"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="unidadCoord" label="unidadCoord" value="#{proyectoMB.personaCoordinador.idUnidad.nombre}"/>
+                                        <!--<p:inputText id="unidadCoord" label="unidadCoord" value="#{proyectoMB.personaCoordinador.idUnidad.nombre}"/>-->
+                                        <p:selectOneMenu id="unidadCoord" value="#{proyectoMB.unidadCoordinadorSelected.idUnidad}" style="width: 120px" required="true">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listUnidadCoordinador}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad.idUnidad}"/>
+                                        </p:selectOneMenu>
+                                        
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="mailCoord" value="Correo Electronico"/>
@@ -175,14 +207,33 @@
                             <p:tab title="Datos Asistente de Coordinador">
                                 <h:panelGrid columns="2" cellpadding="10">
                                     <p:column>
-                                        <p:outputLabel for="nombAsistente" value="Nombre"/>
+                                        <p:outputLabel for="listAsistente" value="Asistente de coordinador"/>
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="nombAsistente" value="#{proyectoMB.personaAsistente}" style="width: 120px" required="true" converter="#{personaConverter}">
+                                        <p:selectOneMenu id="listAsistente" value="#{proyectoMB.personaAsistente}" style="width: 120px" required="true" converter="#{personaConverter}">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <f:selectItems value="#{proyectoMB.listInterno}" var="interno" itemLabel="#{interno.nombrePersona} #{interno.apellidoPersona}" itemValue="#{interno}"/>
-                                            <f:ajax listener="#{proyectoMB.onchangeAsistenteCoordinador()}" execute="nombAsistente" render="cargoAsistente factAsistente mailAsistente telAsistente faxAsistente"/>
+                                            <f:ajax listener="#{proyectoMB.onchangeAsistenteCoordinador()}" execute="listAsistente" render="nombreAsistente apellidoAsistente duiAsistente cargoAsistente factAsistente mailAsistente telAsistente faxAsistente"/>
                                         </p:selectOneMenu>
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:outputLabel for="nombreAsistente" value="Nombre(s)"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="nombreAsistente" label="nombreAsistente" value="#{proyectoMB.personaAsistente.nombrePersona}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="apellidoAsistente" value="Apellido(s)"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="apellidoAsistente" label="apellidoAsistente" value="#{proyectoMB.personaAsistente.apellidoPersona}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="duiAsistente" value="DUI"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="duiAsistente" label="duiAsistente" mask="99999999-9" value="#{proyectoMB.personaAsistente.duiPersona}" required="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="cargoAsistente" value="Cargo"/>
@@ -194,13 +245,22 @@
                                         <p:outputLabel for="factAsistente" value="Facultad"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="factAsistente" label="factCoord" value="#{proyectoMB.personaAsistente.idUnidad.idFacultad.nombreFacultad}"/>
+                                        <!--<p:inputText id="factAsistente" label="factCoord" value="#{proyectoMB.personaAsistente.idUnidad.idFacultad.nombreFacultad}"/>-->
+                                        <p:selectOneMenu id="factAsistente" value="#{proyectoMB.facultadAsistenteSelected.idFacultad}"  style=" width: 120px" required="true">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listFacultad}" var="facultad" itemLabel="#{facultad.nombreFacultad}" itemValue="#{facultad.idFacultad}"/>
+                                            <p:ajax listener="#{proyectoMB.onchangeFacultadAsistente()}" update="unidadAsistenteCoord"/>
+                                        </p:selectOneMenu>
                                     </p:column>
-                                     <p:column>
+                                    <p:column>
                                         <p:outputLabel for="unidadAsistenteCoord" value="Unidad"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="unidadAsistenteCoord" label="unidadAsistenteCoord" value="#{proyectoMB.personaAsistente.idUnidad.nombre}"/>
+                                        <!--<p:inputText id="unidadAsistenteCoord" label="unidadAsistenteCoord" value="#{proyectoMB.personaAsistente.idUnidad.nombre}"/>-->
+                                        <p:selectOneMenu id="unidadAsistenteCoord" value="#{proyectoMB.unidadAsistenteSelected.idUnidad}" style="width: 120px" required="true">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listUnidadAsistente}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad.idUnidad}"/>
+                                        </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="mailAsistente" value="Correo Electronico"/>
@@ -230,6 +290,13 @@
                                     <p:column>
                                         <p:inputText id="nombreRefExt" label="nombreRefExt" required="true" value="#{proyectoMB.personaExterno.nombrePersona}"/>
                                     </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="apellidoRefExt" value="Apellido(s)"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="apellidoRefExt" label="apellidoRefExt" required="true" value="#{proyectoMB.personaExterno.apellidoPersona}"/>
+                                    </p:column>
+                                    
                                     <p:column>
                                         <p:outputLabel for="CargoRefExt" value="Cargo"/>
                                     </p:column>
@@ -276,7 +343,7 @@
                                     <p:commandButton styleClass="boton"  actionListener="null" process="" update="" value="Cancelar"  id="btnCancelar" title="Modificar proyecto" />
                                 </p:column>
                                 <p:column>
-                                    <p:commandButton styleClass="boton"  actionListener="#{proyectoMB.preActualizarProyecto()}" process="@this" update="" value="Modificar proyecto"  id="btnModificar"  title="Modificar proyecto" />                                 
+                                    <p:commandButton styleClass="boton"  actionListener="#{proyectoMB.actualizarProyecto()}" process="@this :formModProy" update="formModProy" value="Modificar proyecto"  id="btnModificar"  title="Modificar proyecto" />                                 
                                 </p:column>
                             </h:panelGrid>
                         </p:panel>

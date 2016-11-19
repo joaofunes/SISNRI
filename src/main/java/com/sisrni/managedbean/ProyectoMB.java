@@ -28,6 +28,8 @@ import com.sisrni.service.UnidadService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -43,17 +45,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @ViewScoped
 public class ProyectoMB {
     
-    private static final String FIJO ="FIJO";  
-    private static final String FAX ="FAX";
+    private static final int tipoCoord = 2;
+    private static final int tipoAsist = 5;
+    private static final int tipoExt = 3;
+    private static final String FIJO = "FIJO";    
+    private static final String FAX = "FAX";
     private List<Integer> areaConocimientoSelected;
-    
-   /*Variables*/
+
+    /*Variables*/
     private List<Proyecto> listProyectos;
     private List<Proyecto> listProyectosPrueba;
-
+    
     private List<Facultad> listFacultad;
-    private List<Unidad>   listUnidad;
-
+    private List<Unidad> listUnidad;
+    
     private List<Organismo> listOrganismos;
     private List<SelectItem> listOrganismosItem;
     
@@ -68,6 +73,9 @@ public class ProyectoMB {
     private List<AreaConocimiento> listAreaConocimiento;
     private List<TipoProyecto> listTipoProyecto;
     private List<PropuestaConvenio> listPropuestaConvenio;
+    
+    private List<Unidad> listUnidadCoordinador;
+    private List<Unidad> listUnidadAsistente;
     
     private Proyecto proyecto;
     private ProyectoGenerico proyectoGenerico;
@@ -85,6 +93,11 @@ public class ProyectoMB {
     private Telefono telFijoExterno;
     private Telefono faxExterno;
     
+    private Facultad facultadCoordinadorSelected;
+    private Unidad unidadCoordinadorSelected;
+    
+    private Facultad facultadAsistenteSelected;
+    private Unidad unidadAsistenteSelected;
     
     @Autowired
     @Qualifier(value = "facultadService")
@@ -103,176 +116,224 @@ public class ProyectoMB {
     private PersonaService personaService;
     
     @Autowired
-    @Qualifier(value ="telefonoService")
+    @Qualifier(value = "telefonoService")
     private TelefonoService telefonoService;
     
     @Autowired
-    @Qualifier(value ="areaConocimientoService")
+    @Qualifier(value = "areaConocimientoService")
     private AreaConocimientoService areaConocimientoService;
     
     @Autowired
-    @Qualifier(value ="tipoProyectoService")
+    @Qualifier(value = "tipoProyectoService")
     private TipoProyectoService tipoProyectoService;
     
     @Autowired
-    @Qualifier(value ="propuestaConvenioService")
+    @Qualifier(value = "propuestaConvenioService")
     private PropuestaConvenioService propuestaConvenioService;
     
     @Autowired
-    @Qualifier(value ="proyectoService")
+    @Qualifier(value = "proyectoService")
     private ProyectoService proyectoService;
     
     @Autowired
-    @Qualifier(value ="proyectoGenericoService")
-    private ProyectoGenericoService  proyectoGenericoService;
-    
-    
+    @Qualifier(value = "proyectoGenericoService")
+    private ProyectoGenericoService proyectoGenericoService;
 
     /**
      * constructor
      */
     public ProyectoMB() {
     }
-    
+
     /**
      * Post Constructor
      */
-    
     @PostConstruct
-    public void init(){
-      cargarProyecto();
+    public void init() {
+        cargarProyecto();
     }
     
-    public void cargarProyecto(){
-      proyecto = new Proyecto();  
-      personaCoordinador = new Persona();  
-      personaAsistente = new Persona();
-      personaExterno = new Persona();
-      
-      listFacultad = facultadService.findAll();
-      listUnidad = unidadService.findAll();
-      listOrganismos = organismoService.findAll();
-      listInterno = personaService.findAll();
-      listAsistenteInterno =personaService.findAll();
-      listAreaConocimiento = areaConocimientoService.findAll();
-      listTipoProyecto = tipoProyectoService.findAll();
-      listPropuestaConvenio = propuestaConvenioService.findAll();
-      listProyectosPrueba = proyectoService.findAll();
-      areaConocimientoSelected = new ArrayList<Integer>();
-      listProyectos = proyectoService.findAll();
-      
-      
-      telFijoInterno = new Telefono();
-      faxInterno = new Telefono();
-      telFijoAsistente = new Telefono();
-      faxAsistente = new Telefono();
-      telFijoExterno = new Telefono();
-      faxExterno = new Telefono();
+    public void cargarProyecto() {
+        proyecto = new Proyecto();        
+        personaCoordinador = new Persona();        
+        personaAsistente = new Persona();
+        personaExterno = new Persona();
+        
+        listFacultad = facultadService.findAll();
+        //listUnidad = unidadService.findAll();
+        listOrganismos = organismoService.findAll();
+        listInterno = personaService.findAll();
+        listAsistenteInterno = personaService.findAll();
+        listAreaConocimiento = areaConocimientoService.findAll();
+        listTipoProyecto = tipoProyectoService.findAll();
+        listPropuestaConvenio = propuestaConvenioService.findAll();
+        listProyectosPrueba = proyectoService.findAll();
+        areaConocimientoSelected = new ArrayList<Integer>();
+        listProyectos = proyectoService.findAll();
+        
+        telFijoInterno = new Telefono();
+        faxInterno = new Telefono();
+        telFijoAsistente = new Telefono();
+        faxAsistente = new Telefono();
+        telFijoExterno = new Telefono();
+        faxExterno = new Telefono();
     }
     
-    
-    public void onchangeCoordinador(){
-        try{
+    public void onchangeCoordinador() {
+        try {
             listTelefonoInterno = telefonoService.getTelefonosByPersona(personaCoordinador);
             
-            for(Telefono tlfx : listTelefonoInterno){
-                if(tlfx.getIdTipoTelefono().getNombre().equals(FIJO)){
-                    telFijoInterno =tlfx;
+            for (Telefono tlfx : listTelefonoInterno) {
+                if (tlfx.getIdTipoTelefono().getNombre().equals(FIJO)) {
+                    telFijoInterno = tlfx;
                 }
-                if(tlfx.getIdTipoTelefono().getNombre().equals(FAX)){
+                if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
                     faxInterno = tlfx;
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-     public void onchangeAsistenteCoordinador(){
-        try{
+    public void onchangeAsistenteCoordinador() {
+        try {
             listTelefonoAsistenteInterno = telefonoService.getTelefonosByPersona(personaAsistente);
             
-            for(Telefono tlfx : listTelefonoAsistenteInterno){
-                if(tlfx.getIdTipoTelefono().getNombre().equals(FIJO)){
-                    telFijoAsistente =tlfx;
+            for (Telefono tlfx : listTelefonoAsistenteInterno) {
+                if (tlfx.getIdTipoTelefono().getNombre().equals(FIJO)) {
+                    telFijoAsistente = tlfx;
                 }
-                if(tlfx.getIdTipoTelefono().getNombre().equals(FAX)){
+                if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
                     faxAsistente = tlfx;
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-     
-     public void onchangeExterno(){
-        try{
+    
+    public void onchangeExterno() {
+        try {
             listTelefonoExterno = telefonoService.getTelefonosByPersona(personaExterno);
             
-            for(Telefono tlfx : listTelefonoExterno){
-                if(tlfx.getIdTipoTelefono().getNombre().equals(FIJO)){
-                    telFijoExterno =tlfx;
+            for (Telefono tlfx : listTelefonoExterno) {
+                if (tlfx.getIdTipoTelefono().getNombre().equals(FIJO)) {
+                    telFijoExterno = tlfx;
                 }
-                if(tlfx.getIdTipoTelefono().getNombre().equals(FAX)){
+                if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
                     faxExterno = tlfx;
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-     
-     public void onchangeFacultad(){
-         try{
-             if(proyecto.getIdFacultad()!=null && !proyecto.getIdFacultad().equals("")){
-               listUnidad = unidadService.getUnidadesByFacultadId(proyecto.getIdFacultad());  
-             }
+    
+    public void onchangeFacultad() {
+        try {
+            if (proyecto.getIdFacultad() != null && !proyecto.getIdFacultad().equals("")) {
+                listUnidad = unidadService.getUnidadesByFacultadId(proyecto.getIdFacultad());                
+            }
             
-         }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-         }
-     }
-    
-    
-     
-      public String preActualizarProyecto(){
-       proyecto = proyectoService.findById(proyecto.getIdProyecto());
-      
-      proyectoGenerico = proyectoGenericoService.findById(proyecto.getIdProyecto());
-      areaConocimientoSelected = areaConocimientoService.getAreasConocimientoProyecto(proyecto.getIdProyecto());
-      
-      personaCoordinador = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(),2);
-      onchangeCoordinador();
-      
-      personaAsistente = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(),5);
-      onchangeAsistenteCoordinador();
-      
-      personaExterno = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(),3);
-      onchangeExterno();
-     
-      return "modificarProyecto.xhtml";
+        }
     }
     
-   
-    public void actualizarProyecto(){
+    public void onchangeFacultadCoordinador() {
+        try {
+            if (facultadCoordinadorSelected.getIdFacultad() != null && !facultadCoordinadorSelected.getIdFacultad().equals("")) {
+                //listUnidadCoordinador = unidadService.getUnidadesByFacultadId(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad()); 
+                listUnidadCoordinador = unidadService.getUnidadesByFacultadId(facultadCoordinadorSelected.getIdFacultad());                
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void onchangeFacultadAsistente() {
+        try {
+            if (facultadAsistenteSelected.getIdFacultad() != null && !facultadAsistenteSelected.getIdFacultad().equals("")) {
+                listUnidadAsistente = unidadService.getUnidadesByFacultadId(facultadAsistenteSelected.getIdFacultad());                
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public String preActualizarProyecto() {
+        try {            
+            proyecto = proyectoService.findById(proyecto.getIdProyecto());
+            listUnidad = unidadService.getUnidadesByFacultadId(proyecto.getIdFacultad());
+            
+            proyectoGenerico = proyectoGenericoService.findById(proyecto.getIdProyecto());
+            areaConocimientoSelected = areaConocimientoService.getAreasConocimientoProyecto(proyecto.getIdProyecto());
+            
+            personaCoordinador = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoCoord);
+            facultadCoordinadorSelected = facultadService.findById(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad());
+            unidadCoordinadorSelected = unidadService.findById(personaCoordinador.getIdUnidad().getIdUnidad());
+            listUnidadCoordinador = unidadService.getUnidadesByFacultadId(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad());
+            onchangeCoordinador();
+            
+            personaAsistente = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoAsist);
+            facultadAsistenteSelected = facultadService.findById(personaAsistente.getIdUnidad().getIdFacultad().getIdFacultad());
+            unidadAsistenteSelected = unidadService.findById(personaAsistente.getIdUnidad().getIdUnidad());
+            listUnidadAsistente = unidadService.getUnidadesByFacultadId(personaAsistente.getIdUnidad().getIdFacultad().getIdFacultad());
+            onchangeAsistenteCoordinador();
+            
+            personaExterno = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoExt);
+            onchangeExterno();
+            
+            return "modificarProyecto.xhtml";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Metodo para modificar los datos de un proyecto
+     */
+    public void actualizarProyecto() {
+        String msg = "Proyecto Actualizado Exitosamente!";
+        try {
+            proyectoService.merge(proyecto);
+            
+            personaCoordinador.setIdUnidad(unidadCoordinadorSelected);
+            personaService.merge(personaCoordinador);
+            telefonoService.merge(telFijoInterno);
+            telefonoService.merge(faxInterno);
+            
+            personaAsistente.setIdUnidad(unidadAsistenteSelected);
+            personaService.merge(personaAsistente);
+            telefonoService.merge(telFijoAsistente);
+            telefonoService.merge(faxAsistente);
+            
+            personaService.merge(personaExterno);
+            telefonoService.merge(telFijoExterno);
+            telefonoService.merge(faxExterno);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualizacion!!", msg));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
     }
-     
-     
     
-
     public List<Facultad> getListFacultad() {
         return listFacultad;
     }
-
+    
     public void setListFacultad(List<Facultad> listFacultad) {
         this.listFacultad = listFacultad;
     }
-
+    
     public List<Organismo> getListOrganismos() {
         return listOrganismos;
     }
-
+    
     public void setListOrganismos(List<Organismo> listOrganismos) {
         this.listOrganismos = listOrganismos;
     }
@@ -280,184 +341,226 @@ public class ProyectoMB {
     public List<Persona> getListInterno() {
         return listInterno;
     }
-
+    
     public void setListInterno(List<Persona> listInterno) {
         this.listInterno = listInterno;
     }
-
- 
+    
     public List<Persona> getListAsistenteInterno() {
         return listAsistenteInterno;
     }
-
+    
     public void setListAsistenteInterno(List<Persona> listAsistenteInterno) {
         this.listAsistenteInterno = listAsistenteInterno;
     }
-
+    
     public Persona getPersonaCoordinador() {
         
         return personaCoordinador;
     }
-
+    
     public void setPersonaCoordinador(Persona personaCoordinador) {
         this.personaCoordinador = personaCoordinador;
     }
-
+    
     public Persona getPersonaAsistente() {
         return personaAsistente;
     }
-
+    
     public void setPersonaAsistente(Persona personaAsistente) {
         this.personaAsistente = personaAsistente;
     }
     
-    
-    
     public Persona getPersona() {
         return persona;
     }
-
+    
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
-
+    
     public List<Telefono> getListTelefonoInterno() {
         return listTelefonoInterno;
     }
-
+    
     public void setListTelefonoInterno(List<Telefono> listTelefonoInterno) {
         this.listTelefonoInterno = listTelefonoInterno;
     }
-
+    
     public Telefono getTelFijoInterno() {
         return telFijoInterno;
     }
-
+    
     public void setTelFijoInterno(Telefono telFijoInterno) {
         this.telFijoInterno = telFijoInterno;
     }
-
+    
     public Telefono getFaxInterno() {
         return faxInterno;
     }
-
+    
     public void setFaxInterno(Telefono faxInterno) {
         this.faxInterno = faxInterno;
     }
-
+    
     public Telefono getTelFijoAsistente() {
         return telFijoAsistente;
     }
-
+    
     public void setTelFijoAsistente(Telefono telFijoAsistente) {
         this.telFijoAsistente = telFijoAsistente;
     }
-
+    
     public Telefono getFaxAsistente() {
         return faxAsistente;
     }
-
+    
     public void setFaxAsistente(Telefono faxAsistente) {
         this.faxAsistente = faxAsistente;
     }
-
+    
     public List<AreaConocimiento> getListAreaConocimiento() {
         return listAreaConocimiento;
     }
-
+    
     public void setListAreaConocimiento(List<AreaConocimiento> listAreaConocimiento) {
         this.listAreaConocimiento = listAreaConocimiento;
     }
-
+    
     public List<Integer> getAreaConocimientoSelected() {
         return areaConocimientoSelected;
     }
-
+    
     public void setAreaConocimientoSelected(List<Integer> areaConocimientoSelected) {
         this.areaConocimientoSelected = areaConocimientoSelected;
     }
-
-    
     
     public Persona getPersonaExterno() {
         return personaExterno;
     }
-
+    
     public void setPersonaExterno(Persona personaExterno) {
         this.personaExterno = personaExterno;
     }
-
+    
     public Telefono getTelFijoExterno() {
         return telFijoExterno;
     }
-
+    
     public void setTelFijoExterno(Telefono telFijoExterno) {
         this.telFijoExterno = telFijoExterno;
     }
-
+    
     public Telefono getFaxExterno() {
         return faxExterno;
     }
-
+    
     public void setFaxExterno(Telefono faxExterno) {
         this.faxExterno = faxExterno;
     }
-
+    
     public List<TipoProyecto> getListTipoProyecto() {
         return listTipoProyecto;
     }
-
+    
     public void setListTipoProyecto(List<TipoProyecto> listTipoProyecto) {
         this.listTipoProyecto = listTipoProyecto;
     }
-
+    
     public List<PropuestaConvenio> getListPropuestaConvenio() {
         return listPropuestaConvenio;
     }
-
+    
     public void setListPropuestaConvenio(List<PropuestaConvenio> listPropuestaConvenio) {
         this.listPropuestaConvenio = listPropuestaConvenio;
     }
-
+    
     public List<Unidad> getListUnidad() {
         return listUnidad;
     }
-
+    
     public void setListUnidad(List<Unidad> listUnidad) {
         this.listUnidad = listUnidad;
     }
-
+    
     public Proyecto getProyecto() {
         return proyecto;
     }
-
+    
     public void setProyecto(Proyecto proyecto) {
         this.proyecto = proyecto;
     }
-
     
     public List<Proyecto> getListProyectos() {
         return listProyectos;
     }
-
+    
     public void setListProyectos(List<Proyecto> listProyectos) {
         this.listProyectos = listProyectos;
     }
-
+    
     public ProyectoGenerico getProyectoGenerico() {
         return proyectoGenerico;
     }
-
+    
     public void setProyectoGenerico(ProyectoGenerico proyectoGenerico) {
         this.proyectoGenerico = proyectoGenerico;
     }
-
+    
     public List<Proyecto> getListProyectosPrueba() {
         return listProyectosPrueba;
     }
-
+    
     public void setListProyectosPrueba(List<Proyecto> listProyectosPrueba) {
         this.listProyectosPrueba = listProyectosPrueba;
+    }
+    
+    public List<Unidad> getListUnidadCoordinador() {
+        return listUnidadCoordinador;
+    }
+    
+    public void setListUnidadCoordinador(List<Unidad> listUnidadCoordinador) {
+        this.listUnidadCoordinador = listUnidadCoordinador;
+    }
+    
+    public Unidad getUnidadCoordinadorSelected() {
+        return unidadCoordinadorSelected;
+    }
+    
+    public void setUnidadCoordinadorSelected(Unidad unidadCoordinadorSelected) {
+        this.unidadCoordinadorSelected = unidadCoordinadorSelected;
+    }
+    
+    public Facultad getFacultadCoordinadorSelected() {
+        return facultadCoordinadorSelected;
+    }
+    
+    public void setFacultadCoordinadorSelected(Facultad facultadCoordinadorSelected) {
+        this.facultadCoordinadorSelected = facultadCoordinadorSelected;
+    }
+
+    public Facultad getFacultadAsistenteSelected() {
+        return facultadAsistenteSelected;
+    }
+
+    public void setFacultadAsistenteSelected(Facultad facultadAsistenteSelected) {
+        this.facultadAsistenteSelected = facultadAsistenteSelected;
+    }
+
+    public Unidad getUnidadAsistenteSelected() {
+        return unidadAsistenteSelected;
+    }
+
+    public void setUnidadAsistenteSelected(Unidad unidadAsistenteSelected) {
+        this.unidadAsistenteSelected = unidadAsistenteSelected;
+    }
+
+    public List<Unidad> getListUnidadAsistente() {
+        return listUnidadAsistente;
+    }
+
+    public void setListUnidadAsistente(List<Unidad> listUnidadAsistente) {
+        this.listUnidadAsistente = listUnidadAsistente;
     }
     
     
