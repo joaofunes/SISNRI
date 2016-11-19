@@ -10,95 +10,95 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="content">
-            <h:form id="formAdmin">
-                <center> 
+        <h:form id="formAdmin">
+            <center> 
                 <p:panel style="width: 75%">  
                     <p:accordionPanel multiple="true" activeIndex="0,1,2,3">
-                                <p:tab title="Datos del Proyecto">
-                    <p:panelGrid columns="2">
-                        
-                        <p:column>
-                            <p:outputLabel value="Tipo de Proyecto"/>
-                            <p:selectOneMenu id="tipoproyecto" value="#{proyectosMB.proyectoSelected.idTipoProyecto}"  style="width:120px" required="true">
-                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                <c:forEach var="reg" items="#{proyectosMB.tipoproyectolist}">
-                                    <f:selectItem itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg.idTipoProyecto}"/>
-                                </c:forEach>
-                            </p:selectOneMenu>
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="Nombre Convenio"/>
-                            <p:selectOneMenu id="propuesta" value="#{proyectosMB.propuestaConvenioSelected.idPropuesta}"  style="width:120px" required="true">
-                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                <c:forEach var="propuesta" items="#{proyectosMB.propuestaConvenioList}">
-                                    <f:selectItem itemLabel="#{propuesta.nombrePropuesta}" itemValue="#{propuesta.idPropuesta}"/>
-                                </c:forEach>
-                            </p:selectOneMenu>
-                        </p:column>
-                        <p:column>
-                            <h:outputLabel value="Nombre del Proyecto:"/>
-                            <p:inputTextarea value="#{proyectosMB.proyecto.nombreProyecto}"  maxlength="300" />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="Anio de Gestion"/>
-                            <p:calendar value="#{proyectosMB.proyecto.fechaGestion}"/>
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="Facultad"/>
-                            <p:selectOneMenu id="facultadproyecto" value="#{proyectosMB.facultadSelected.idFacultad}"  style="width:120px" required="true">
-                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                <p:ajax listener="#{proyectosMB.onFacultadChange()}" update="unidadproyecto" />
-                                <c:forEach var="fac" items="#{proyectosMB.facultadList}">
-                                    <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
-                                </c:forEach>
-                            </p:selectOneMenu>
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="Unidad"/>
-                            <p:selectOneMenu id="unidadproyecto" value="#{proyectosMB.unidadSelected.idUnidad}"  style="width:120px" required="true">
-                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                <c:forEach var="uni" items="#{proyectosMB.unidadList}">
-                                    <f:selectItem itemLabel="#{uni.nombre}" itemValue="#{uni.idUnidad}"/>
-                                </c:forEach>
-                            </p:selectOneMenu>
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="Fecha Inicio"/>
-                            <p:calendar value="#{proyectosMB.proyecto.fechaInicio}"/>
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="Fecha Fin"/>
-                            <p:calendar value="#{proyectosMB.proyecto.fechaFin}"/>
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="Monto del Proyecto"/>
-                            <p:inputText value="#{proyectosMB.proyecto.montoProyecto}"/>
-                        </p:column> 
-                    </p:panelGrid>
-                                    
-                </p:tab>
-                <p:tab title="Datos Genericos del Proyecto ">
-                    <p:panelGrid columns="2">
-                        <p:column>
-                            <h:outputLabel value="Objetivo del Proyecto:"/>
-                            <p:inputTextarea value="#{proyectosMB.proyectoGenerico.objetivo}"  maxlength="1000" />
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="Area de Conocimiento:"/>
-                            <p:selectCheckboxMenu id="areaconocimiento" value="#{proyectosMB.areaConocimientoSelected}" label="Areas"
-                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                <c:forEach var="reg" items="#{proyectosMB.areaConocimientoList}">
-                                    <f:selectItem itemLabel="#{reg.nombreArea}" itemValue="#{reg.idAreaConocimiento}"/>
-                                </c:forEach>
-                            </p:selectCheckboxMenu>
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="Lugar de Ejecucion"/>
-                            <p:inputText value="#{proyectosMB.proyectoGenerico.lugarProyecto}"/>
-                        </p:column>
-                    </p:panelGrid>
-                </p:tab>
+                        <p:tab title="Datos del Proyecto">
+                            <p:panelGrid columns="2">
+
+                                <p:column>
+                                    <p:outputLabel value="Tipo de Proyecto"/>
+                                    <p:selectOneMenu id="tipoproyecto" value="#{proyectosMB.proyectoSelected.idTipoProyecto}"  style="width:120px" required="true">
+                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                        <c:forEach var="reg" items="#{proyectosMB.tipoproyectolist}">
+                                            <f:selectItem itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg.idTipoProyecto}"/>
+                                        </c:forEach>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Nombre Convenio"/>
+                                    <p:selectOneMenu id="propuesta" value="#{proyectosMB.propuestaConvenioSelected.idPropuesta}"  style="width:120px" required="true">
+                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                        <c:forEach var="propuesta" items="#{proyectosMB.propuestaConvenioList}">
+                                            <f:selectItem itemLabel="#{propuesta.nombrePropuesta}" itemValue="#{propuesta.idPropuesta}"/>
+                                        </c:forEach>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <h:outputLabel value="Nombre del Proyecto:"/>
+                                    <p:inputTextarea value="#{proyectosMB.proyecto.nombreProyecto}"  maxlength="300" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Anio de Gestion"/>
+                                    <p:calendar value="#{proyectosMB.proyecto.fechaGestion}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Facultad"/>
+                                    <p:selectOneMenu id="facultadproyecto" value="#{proyectosMB.facultadSelected.idFacultad}"  style="width:120px" required="true">
+                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                        <p:ajax listener="#{proyectosMB.onFacultadChange()}" update="unidadproyecto" />
+                                        <c:forEach var="fac" items="#{proyectosMB.facultadList}">
+                                            <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
+                                        </c:forEach>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Unidad"/>
+                                    <p:selectOneMenu id="unidadproyecto" value="#{proyectosMB.unidadSelected.idUnidad}"  style="width:120px" required="true">
+                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                        <c:forEach var="uni" items="#{proyectosMB.unidadList}">
+                                            <f:selectItem itemLabel="#{uni.nombre}" itemValue="#{uni.idUnidad}"/>
+                                        </c:forEach>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Fecha Inicio"/>
+                                    <p:calendar value="#{proyectosMB.proyecto.fechaInicio}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Fecha Fin"/>
+                                    <p:calendar value="#{proyectosMB.proyecto.fechaFin}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Monto del Proyecto"/>
+                                    <p:inputText value="#{proyectosMB.proyecto.montoProyecto}"/>
+                                </p:column> 
+                            </p:panelGrid>
+
+                        </p:tab>
+                        <p:tab title="Datos Genericos del Proyecto ">
+                            <p:panelGrid columns="2">
+                                <p:column>
+                                    <h:outputLabel value="Objetivo del Proyecto:"/>
+                                    <p:inputTextarea value="#{proyectosMB.proyectoGenerico.objetivo}"  maxlength="1000" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Area de Conocimiento:"/>
+                                    <p:selectCheckboxMenu id="areaconocimiento" value="#{proyectosMB.areaConocimientoSelected}" label="Areas"
+                                                          filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                        <c:forEach var="reg" items="#{proyectosMB.areaConocimientoList}">
+                                            <f:selectItem itemLabel="#{reg.nombreArea}" itemValue="#{reg.idAreaConocimiento}"/>
+                                        </c:forEach>
+                                    </p:selectCheckboxMenu>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Lugar de Ejecucion"/>
+                                    <p:inputText value="#{proyectosMB.proyectoGenerico.lugarProyecto}"/>
+                                </p:column>
+                            </p:panelGrid>
+                        </p:tab>
                         <p:tab title="Datos del Coordinador">
                             <p:panelGrid columns="2">
                                 <p:column>
@@ -123,18 +123,18 @@
                                 </p:column>
                                 <p:outputLabel value="Facultad:"/>
                                 <p:selectOneMenu id="facultadsolicitante" value="#{proyectosMB.facultadSelectedSol.idFacultad}"  style="width:120px" required="true">
-                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                <p:ajax listener="#{proyectosMB.onFacultadSolicitanteChange()}" update="unidadsolicitante" />
-                                <c:forEach var="fac" items="#{proyectosMB.facultadList}">
-                                    <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
-                                </c:forEach>
+                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                    <p:ajax listener="#{proyectosMB.onFacultadSolicitanteChange()}" update="unidadsolicitante" />
+                                    <c:forEach var="fac" items="#{proyectosMB.facultadList}">
+                                        <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
+                                    </c:forEach>
                                 </p:selectOneMenu>
                                 <p:outputLabel value="Unidad:"/>
                                 <p:selectOneMenu id="unidadsolicitante" value="#{proyectosMB.unidadSelectedSol.idUnidad}"  style="width:120px" required="true">
-                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                <c:forEach var="fac" items="#{proyectosMB.unidadList}">
-                                    <f:selectItem itemLabel="#{fac.nombre}" itemValue="#{fac.idUnidad}"/>
-                                </c:forEach>
+                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                    <c:forEach var="fac" items="#{proyectosMB.unidadList}">
+                                        <f:selectItem itemLabel="#{fac.nombre}" itemValue="#{fac.idUnidad}"/>
+                                    </c:forEach>
                                 </p:selectOneMenu>
                                 <p:column>
                                     <p:outputLabel value="Telefono:"/>
@@ -146,14 +146,14 @@
                                 </p:column>
                             </p:panelGrid>
                             <p:column>
-                                <p:commandButton actionListener="#{proyectosMB.searchByDocEmailInterno()}" id="idBtnSearchInSol" process="@this,duisolicitante,correosolicitante" icon="ui-icon-search" title="Buscar"/>                                       
+                                <p:commandButton actionListener="#{proyectosMB.searchByDocEmailInterno()}" id="idBtnSearchInSol" process="@this,duisolicitante,correosolicitante" update="nombresolicitante,apellidosolicitante,cargosolicitante,facultadsolicitante,unidadsolicitante,telefonosolicitante,faxsolicitante" icon="ui-icon-search" title="Buscar"/>                                       
                             </p:column> 
                         </p:tab>
                         <p:tab title="Datos del Asistente de Coordinador">
                             <p:panelGrid columns="2">
                                 <p:column>
                                     <p:outputLabel value="Dui:"/>
-                                    <p:inputText id="duiasistente" value="#{proyectosMB.personaAsistente.duiPersona}"/>
+                                    <p:inputText id="duiasistente" value="#{proyectosMB.numDocumentoAsis}"/>
                                 </p:column>
                                 <p:column>
                                     <p:outputLabel value="Correo Electronico:"/>
@@ -182,13 +182,13 @@
                                     </p:selectOneMenu>
                                 </p:column>
                                 <p:column>
-                                <p:outputLabel value="Unidad"/>
-                                <p:selectOneMenu id="unidadasis" value="#{proyectosMB.unidadSelectedAsis.idUnidad}"  style="width:120px" required="true">
-                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                    <c:forEach var="uni" items="#{proyectosMB.unidadList}">
-                                    <f:selectItem itemLabel="#{uni.nombre}" itemValue="#{uni.idUnidad}"/>
-                                    </c:forEach>
-                                </p:selectOneMenu>
+                                    <p:outputLabel value="Unidad"/>
+                                    <p:selectOneMenu id="unidadasis" value="#{proyectosMB.unidadSelectedAsis.idUnidad}"  style="width:120px" required="true">
+                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                        <c:forEach var="uni" items="#{proyectosMB.unidadList}">
+                                            <f:selectItem itemLabel="#{uni.nombre}" itemValue="#{uni.idUnidad}"/>
+                                        </c:forEach>
+                                    </p:selectOneMenu>
                                 </p:column>
                                 <p:column>
                                     <p:outputLabel value="Telefono:"/>
@@ -198,13 +198,16 @@
                                     <p:outputLabel value="Fax:"/>
                                     <p:inputText id="faxasistente" value="#{proyectosMB.telefonoSolFax.numeroTelefono}"/>
                                 </p:column>
+                                <p:column>
+                                    <p:commandButton actionListener="#{proyectosMB.searchByDocEmailAsistente()}" id="idBtnSearchInAsis" process="@this,duiasistente,correoasistente" update="nombreasistente,apellidoasistente,cargoasistente,facultadasistente,unidadasis,telefonoasistente,faxasistente" icon="ui-icon-search" title="Buscar Persona"/>                                       
+                                </p:column> 
                             </p:panelGrid>
                         </p:tab>
                         <p:tab title="Datos Referente Externo">
                             <p:panelGrid columns="2">
                                 <p:column>
                                     <p:outputLabel value="Pasaporte:"/>
-                                    <p:inputText id="pasaportereferenteext" value="#{proyectosMB.personaExterna.pasaporte}"/>
+                                    <p:inputText id="pasaporteexterna" value="#{proyectosMB.numDocumentoRefExt}"/>
                                 </p:column>
                                 <p:column>
                                     <p:outputLabel value="Correo Electronico:"/>
@@ -239,18 +242,22 @@
                                     <p:outputLabel value="Fax:"/>
                                     <p:inputText id="faxexterna" value="#{proyectosMB.telefonoRefextFax.numeroTelefono}"/>
                                 </p:column>
+                                <p:column>
+                                    <p:commandButton actionListener="#{proyectosMB.searchByDocEmailReferenteExterno()}" id="idBtnSearchInRefExt" process="@this,pasaporteexterna,correoexterna" update="nombreexterna,apellidoexterna,cargoexterna,unidadext,telefonoexterna,faxexterna" icon="ui-icon-search" title="Buscar Persona"/>                                       
+                                </p:column>
+
                                 <tfoot>                                        
-                                        <tr align="right"> 
-                                            <td></td>
-                                            <td></td>
-                                            <td colspan="3"><p:commandButton actionListener="#{proyectosMB.guardarProyecto()}" process="formAdmin" update="formAdmin" value="guardar" id="btnguardarProyecto" title="Guardar Proyecto"/></td>                                 
-                                        </tr>
+                                    <tr align="right"> 
+                                        <td></td>
+                                        <td></td>
+                                        <td colspan="3"><p:commandButton actionListener="#{proyectosMB.guardarProyecto()}" process="formAdmin" update="formAdmin" value="guardar" id="btnguardarProyecto" title="Guardar Proyecto"/></td>                                 
+                                    </tr>
                                 </tfoot>
                             </p:panelGrid>
                         </p:tab>
-              </p:accordionPanel>
-                   
+                    </p:accordionPanel>
+
                 </p:panel>
-                </center>
-            </h:form>
+            </center>
+        </h:form>
     </ui:define></ui:composition>       
