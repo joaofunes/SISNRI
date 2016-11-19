@@ -51,7 +51,7 @@
                  <p:column headerText="Monto ($)" sortBy="#{proyecto.montoProyecto}" filterBy="#{proyecto.montoProyecto}">
                     <h:outputText value="#{proyecto.montoProyecto}" />
                 </p:column>
-                <p:column headerText="Fecha de Gestión" sortBy="#{proyecto.fechaGestion}" filterBy="#{proyecto.fechaGestion}">
+                <p:column headerText="Fecha de GestiÃ³n" sortBy="#{proyecto.fechaGestion}" filterBy="#{proyecto.fechaGestion}">
                     <h:outputText value="#{proyecto.fechaGestion}" />
                 </p:column>
                 
@@ -59,7 +59,7 @@
                 <p:column headerText="Opciones" >
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       value="Editar" actionListener="#{proyectoMB.preEditar(proyecto)}" />
+                                       value="Editar" actionListener="#{proyectoMB.preActualizarProyecto(proyecto)}" />
                     </div>
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-closethick"

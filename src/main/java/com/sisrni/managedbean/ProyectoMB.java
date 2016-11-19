@@ -264,8 +264,9 @@ public class ProyectoMB {
         }
     }
     
-    public String preActualizarProyecto() {
+    public String preActualizarProyecto(Proyecto proyectoIn) {
         try {            
+            this.proyecto = proyectoIn;
             proyecto = proyectoService.findById(proyecto.getIdProyecto());
             listUnidad = unidadService.getUnidadesByFacultadId(proyecto.getIdFacultad());
             
@@ -287,7 +288,11 @@ public class ProyectoMB {
             personaExterno = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoExt);
             onchangeExterno();
             
-            return "modificarProyecto.xhtml";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("modificarProyecto.xhtml");
+            
+            //return "modificarProyecto.xhtml";
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
