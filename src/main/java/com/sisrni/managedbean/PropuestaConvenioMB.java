@@ -29,14 +29,16 @@ import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoPropuestaConvenioService;
 import com.sisrni.service.UnidadService;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
@@ -141,6 +143,7 @@ public class PropuestaConvenioMB implements Serializable{
     private AppUserDetails usuario;
 
     private boolean flagConvenioMarco = false;
+    private boolean flagEdicion = false;
     
     
  
@@ -161,9 +164,8 @@ public class PropuestaConvenioMB implements Serializable{
     } 
     
     
-    public void test(){
-        try {
-            inicializador();
+    public void postInit(){
+        try {            
             inicializadorListados();
             cargarUsuario();
             searchByNameInterno();
@@ -190,7 +192,7 @@ public class PropuestaConvenioMB implements Serializable{
     
     
     
-    private void inicializador() {
+    public void inicializador() {
          try {  
             solicitante= new Persona();
             solicitante.setIdUnidad(new Unidad());
@@ -529,44 +531,56 @@ public class PropuestaConvenioMB implements Serializable{
         try {
            
             // actualizar propuesta convenio
-  
             propuestaConvenioService.merge(propuestaConvenio);
             
-          
             // persona solicitante
             PersonaPropuesta persPropuesta = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), SOLICITANTE);                           
             persPropuesta.setPersona(solicitante);   
             persPropuesta.getPersonaPropuestaPK().setIdPersona(solicitante.getIdPersona());                                
-            personaPropuestaService.merge(persPropuesta);
+            personaPropuestaService.updatePersonaPropuesta(solicitante.getIdPersona(),persPropuesta.getPropuestaConvenio().getIdPropuesta(),persPropuesta.getTipoPersona().getIdTipoPersona());
             
-             // persona REFERENTE_INTERNO
-             
+            
+             // persona REFERENTE_INTERNO             
             PersonaPropuesta persPropuestaRefInterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_INTERNO);                           
             persPropuestaRefInterno.setPersona(referenteInterno);   
             persPropuestaRefInterno.getPersonaPropuestaPK().setIdPersona(referenteInterno.getIdPersona());           
-             
-            personaPropuestaService.merge(persPropuestaRefInterno);
+            personaPropuestaService.updatePersonaPropuesta(referenteInterno.getIdPersona(),persPropuestaRefInterno.getPropuestaConvenio().getIdPropuesta(),persPropuestaRefInterno.getTipoPersona().getIdTipoPersona());
             
             // persona REFERENTE_EXTERNO
-
             PersonaPropuesta persPropuestaRefExterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_EXTERNO);                           
             persPropuestaRefExterno.setPersona(referenteExterno);   
             persPropuestaRefExterno.getPersonaPropuestaPK().setIdPersona(referenteExterno.getIdPersona());           
            
-            personaPropuestaService.merge(persPropuestaRefExterno);
+            personaPropuestaService.updatePersonaPropuesta(referenteExterno.getIdPersona(),persPropuestaRefExterno.getPropuestaConvenio().getIdPropuesta(),persPropuestaRefExterno.getTipoPersona().getIdTipoPersona());
+            
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.getExternalContext().getFlash().setKeepMessages(true);
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizado", "Propuesta Convenio!!"));
+            
+            //sleep 3 seconds
+            Thread.sleep(3000);
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("consultarConvenio.xhtml");
+            
             
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
+    public void volver(){
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("consultarConvenio.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(PropuestaConvenioMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public void onTipoConvenioChange(){
         try {            
             
-            if(propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equals(CONVENIO_MARCO)){
+            if(propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_MARCO)){
                 flagConvenioMarco=true;
             }else{
                 listadoPropuestaConvenio = propuestaConvenioService.getPropuestaConvenioByTipoPropuesta(propuestaConvenio.getIdTipoPropuestaConvenio());
@@ -583,7 +597,11 @@ public class PropuestaConvenioMB implements Serializable{
     
     public void cargarPropuestaConvenio(int idPropuestaConvenio) {
          try {
-             propuestaConvenio=propuestaConvenioService.getPropuestaCovenioByID(idPropuestaConvenio);
+             flagEdicion= true;
+             propuestaConvenio=propuestaConvenioService.getPropuestaCovenioByID(idPropuestaConvenio);             
+             if(propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_MARCO)){
+                 flagConvenioMarco=true;
+             }
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -788,6 +806,14 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setFlagConvenioMarco(boolean flagConvenioMarco) {
         this.flagConvenioMarco = flagConvenioMarco;
+    }
+
+    public boolean isFlagEdicion() {
+        return flagEdicion;
+    }
+
+    public void setFlagEdicion(boolean flagEdicion) {
+        this.flagEdicion = flagEdicion;
     }
 
    

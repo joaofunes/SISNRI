@@ -32,4 +32,8 @@ public class PersonaPropuestaService extends GenericService<PersonaPropuesta, In
        return personaPropuestaDao.getPersonaPropuestaByPropuestaTipoPersona(propuesta, tipoPersona);
      }
      
+     public int updatePersonaPropuesta(int persona,int propuesta,int tipoPersona){
+       return personaPropuestaDao.updatePersonaPropuesta(persona, propuesta, tipoPersona);
+     }
+     
 }
