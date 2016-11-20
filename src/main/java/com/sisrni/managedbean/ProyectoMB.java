@@ -264,7 +264,7 @@ public class ProyectoMB {
         }
     }
     
-    public String preActualizarProyecto(Proyecto proyectoIn) {
+    public void preActualizarProyecto(Proyecto proyectoIn) {
         try {            
             this.proyecto = proyectoIn;
             proyecto = proyectoService.findById(proyecto.getIdProyecto());
@@ -296,7 +296,7 @@ public class ProyectoMB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        //return null;
     }
 
     /**
@@ -306,6 +306,7 @@ public class ProyectoMB {
         String msg = "Proyecto Actualizado Exitosamente!";
         try {
             proyectoService.merge(proyecto);
+            proyectoGenericoService.merge(proyectoGenerico);
             
             personaCoordinador.setIdUnidad(unidadCoordinadorSelected);
             personaService.merge(personaCoordinador);
