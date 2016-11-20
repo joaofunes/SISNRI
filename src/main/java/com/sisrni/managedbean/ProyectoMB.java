@@ -298,6 +298,50 @@ public class ProyectoMB {
         }
         //return null;
     }
+    
+     public String preConsultarProyecto(Proyecto proyectoIn) {
+        try {            
+            this.proyecto = proyectoIn;
+            proyecto = proyectoService.findById(proyecto.getIdProyecto());
+            listUnidad = unidadService.getUnidadesByFacultadId(proyecto.getIdFacultad());
+            
+            proyectoGenerico = proyectoGenericoService.findById(proyecto.getIdProyecto());
+            areaConocimientoSelected = areaConocimientoService.getAreasConocimientoProyecto(proyecto.getIdProyecto());
+            
+            personaCoordinador = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoCoord);
+            facultadCoordinadorSelected = facultadService.findById(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad());
+            unidadCoordinadorSelected = unidadService.findById(personaCoordinador.getIdUnidad().getIdUnidad());
+            listUnidadCoordinador = unidadService.getUnidadesByFacultadId(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad());
+            onchangeCoordinador();
+            
+            personaAsistente = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoAsist);
+            facultadAsistenteSelected = facultadService.findById(personaAsistente.getIdUnidad().getIdFacultad().getIdFacultad());
+            unidadAsistenteSelected = unidadService.findById(personaAsistente.getIdUnidad().getIdUnidad());
+            listUnidadAsistente = unidadService.getUnidadesByFacultadId(personaAsistente.getIdUnidad().getIdFacultad().getIdFacultad());
+            onchangeAsistenteCoordinador();
+            
+            personaExterno = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoExt);
+            onchangeExterno();
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("consultarProyecto.xhtml");
+            
+            //return "modificarProyecto.xhtml";
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+      public String preGuardarProyecto() {
+        try {            
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("registrarProyecto.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * Metodo para modificar los datos de un proyecto

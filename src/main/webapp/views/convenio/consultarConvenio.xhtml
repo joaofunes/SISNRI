@@ -58,7 +58,14 @@
              
         <p:dialog header="Cambiar Estado" widgetVar="dlgEstado" modal="true" appendTo="@(body)" >                         
             <h:form id="idCambiarEstado"> 
-                <h:outputText value="This is a Modal Dialog." />
+                <p:panelGrid columns="2" id="display" columnClasses="label,value">
+                    <h:outputText value="Estado:" />
+                    <p:selectOneMenu id="idEstado" value="#{consultarConvenioMB.estado}" converter="#{estadoConverter}" panelStyle="width:180px"
+                         effect="fade" var="t" style="width:160px">
+                        <f:selectItems value="#{consultarConvenioMB.listadoEstados}" var="theme" itemLabel="#{theme.nombreEstado}" itemValue="#{theme}" />                      
+                    </p:selectOneMenu>
+
+                </p:panelGrid>
             </h:form>      
         </p:dialog>        
              
