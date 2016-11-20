@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -28,8 +29,30 @@ import org.springframework.stereotype.Component;
 public class EstadoConverter implements Converter{
   
     @Autowired
-    @Qualifier(value = "estadoService")
     private EstadoService estadoService;
+    
+    
+//    @Override
+//    public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+//        if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value)) {
+//            return null;
+//        }
+//        return this.estadoService.findById(getKey(value));
+//    }
+
+    java.lang.Integer getKey(String value) {
+        java.lang.Integer key;
+        key = Integer.valueOf(value);
+        return key;
+    }
+
+    String getStringKey(java.lang.Integer value) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(value);
+        return sb.toString();
+    }
+
+    
     
      @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
@@ -41,9 +64,7 @@ public class EstadoConverter implements Converter{
           
         if(value != null && value.trim().length() > 0 && !value.equalsIgnoreCase("null")) {
             try {
-                Integer key = getKey(value);
-                Estado findById = this.estadoService.findById(key);                 
-               return findById;
+                return  this.estadoService.findById(getKey(value));                                
             } catch(NumberFormatException e) {
                 e.printStackTrace();
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
@@ -52,8 +73,6 @@ public class EstadoConverter implements Converter{
         else {
             return null;
         }
-          
-           
         
     }
 
@@ -72,16 +91,8 @@ public class EstadoConverter implements Converter{
         }
     }
     
-    java.lang.Integer getKey(String value) {
-        java.lang.Integer key;
-        key = Integer.valueOf(value);
-        return key;
-    }
-
-    String getStringKey(java.lang.Integer value) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(value);
-        return sb.toString();
-    }
+    
+    
+  
     
 }

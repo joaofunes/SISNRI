@@ -49,9 +49,9 @@
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                            title="Eliminar" value="Eliminar"
-                                           update="idCambiarEstado"
+                                           update=":idCambiarEstado"
                                            actionListener="#{consultarConvenioMB.preEliminar(pconvenios)}"
-                                           onclick="PF('dlgEstado').show();"/>
+                                           oncomplete="PF('dlgEstado').show();"/>
                                
                         </div>                        
                     </p:column>
@@ -104,12 +104,10 @@
                         <p:selectOneMenu id="idEstado" value="#{consultarConvenioMB.estado}" converter="#{estadoConverter}" panelStyle="width:250px" style="width:200px">
                             <f:selectItems value="#{consultarConvenioMB.listadoEstados}" var="theme" itemLabel="#{theme.nombreEstado}" itemValue="#{theme}" />                      
                         </p:selectOneMenu>
-                    </p:column>    
-                    
-                    <p:column>
-                        
-                         <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarConvenioMB.eliminarConvenio()}" process="@this" update=":formAdmin"/>
-                         <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('dlgEstado').show();"/>
+                    </p:column>                        
+                    <p:column>                        
+                        <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarConvenioMB.eliminarConvenio()}" process="idCambiarEstado" update=":formAdmin" onclick="PF('dlgEstado').close();" />
+                         <p:commandButton value="No"  icon="ui-icon-close" onclick="PF('dlgEstado').close();" process="@this" />
                     </p:column>
                     <p:column></p:column>
                 </p:panelGrid>
