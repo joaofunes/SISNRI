@@ -7,10 +7,12 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Estado;
 import com.sisrni.model.PropuestaConvenio;
+import com.sisrni.model.PropuestaEstado;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
+import com.sisrni.service.PropuestaEstadoService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,7 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
  */
 
 @Named("consultarConvenioMB")
-@Scope(WebApplicationContext.SCOPE_APPLICATION)
+@Scope(WebApplicationContext.SCOPE_REQUEST)
 public class ConsultarConvenioMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
@@ -50,6 +52,11 @@ public class ConsultarConvenioMB implements Serializable{
     @Autowired
     @Qualifier(value = "estadoService")
     private EstadoService estadoService;
+    
+    
+    @Autowired
+    @Qualifier(value = "propuestaEstadoService")
+    private PropuestaEstadoService propuestaEstadoService;
     
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
@@ -81,8 +88,8 @@ public class ConsultarConvenioMB implements Serializable{
     public void preEliminar(PojoPropuestaConvenio pojo){
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
-            RequestContext context = RequestContext.getCurrentInstance();              
-            context.execute("PF('dataChangeDlg').show();");
+           // RequestContext context = RequestContext.getCurrentInstance();              
+           // context.execute("PF('dataChangeDlg').show();");
             //RequestContext.getCurrentInstance().update(":formPrincipal");
         } catch (Exception e) {
          e.printStackTrace();
@@ -114,7 +121,11 @@ public class ConsultarConvenioMB implements Serializable{
     
     public void eliminarConvenio(){
         try {
-            
+//            PropuestaEstado proEstado = new PropuestaEstado();
+//            proEstado=propuestaEstadoService.getPrpuestaEstadoByID(Integer.parseInt(pojoPropuestaConvenio.getID_PROPUESTA()));
+//            proEstado.setPropuestaConvenio(propuestaConvenio);
+//                    
+            propuestaEstadoService.updatePropuestaEstado(estado.getIdEstado(),Integer.parseInt(pojoPropuestaConvenio.getID_PROPUESTA()));
         } catch (Exception e) {
             e.printStackTrace();
         }

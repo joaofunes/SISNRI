@@ -27,4 +27,13 @@ public class PropuestaEstadoService extends GenericService<PropuestaEstado, Inte
        return propuestaEstadoDao;
     }
     
+    
+    public PropuestaEstado getPrpuestaEstadoByID(int id){
+      return propuestaEstadoDao.getPrpuestaEstadoByID(id);
+    }
+    
+     public int updatePropuestaEstado(int idPropuesta,int idEstado){
+       return propuestaEstadoDao.updatePropuestaEstado(idPropuesta, idEstado);
+     }
+    
 }
