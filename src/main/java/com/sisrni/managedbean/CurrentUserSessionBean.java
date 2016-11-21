@@ -24,7 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(WebApplicationContext.SCOPE_SESSION)
 public class CurrentUserSessionBean implements Serializable{
     
-
+    private static long serialVersionUID = 1113799434508676095L;
     private final static Log log = LogFactory.getLog(CurrentUserSessionBean.class);
 
     @Autowired

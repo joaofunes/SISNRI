@@ -35,6 +35,8 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(WebApplicationContext.SCOPE_SESSION)
 public class PersonaMB implements Serializable{
     
+     private static final long serialVersionUID = 1L;  
+    
     
     private List<Organismo> listadoOrganismo;
     private List<Unidad> listadoUnidad;
