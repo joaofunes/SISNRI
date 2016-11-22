@@ -47,8 +47,8 @@
                                            value="Editar" actionListener="#{consultarConvenioMB.preEditar(pconvenios)}" />
                         </div>
                         <div style="float: left">
-                            <p:commandLink styleClass="ui-icon ui-icon-closethick"
-                                           title="Eliminar" value="Eliminar"
+                            <p:commandLink styleClass="ui-icon ui-icontransferthick-e-w"
+                                           title="Cambiar estado" value="Cambiar estado"
                                            update=":idCambiarEstado"
                                            actionListener="#{consultarConvenioMB.preEliminar(pconvenios)}"
                                            oncomplete="PF('dlgEstado').show();"/>
@@ -116,11 +116,7 @@
              
              
         <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar convenio?" header="Eliminar Convenio"  global="true">
-            <h:form id="idEliminacion"> 
-             
-                
-                 
-                 
+            <h:form id="idEliminacion">              
                  <br/>
                  <br/>
                  <h:outputText value="Estado Propuesta: "  style="font-weight:bold" />
@@ -128,10 +124,8 @@
                  <br/>
                  <br/>
                  <h:outputText value="VIGENCIA: "  style="font-weight:bold" />
-                 <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.VIGENCIA}" />
-             
-            </h:form>    
-            
+                 <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.VIGENCIA}" />             
+            </h:form>                
             <p:separator />
             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarConvenioMB.eliminarConvenio()}" process="@this" update=":formAdmin"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />

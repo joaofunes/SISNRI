@@ -12,8 +12,8 @@
     
     
     <ui:define name="content">
-        <h:form id="formAdmin">
-            <center>
+       <center>  
+        <h:form id="formAdmin">           
             <p:panel style="width: 900px;">
             <p:panelGrid>
                 <p:row >
@@ -38,12 +38,69 @@
 
             </p:panelGrid>
            </p:panel> 
-         </center>   
         </h:form>
-        <p:spacer height="40" /> 
-     
-           <h:form id="formMenu">
-            <center>
+        <h:form id="idDataConevnio">
+              <p:panel style="width: 900px;">
+                  <p:panelGrid  >
+                    <p:row>
+                        <p:column>
+                             <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Finalidad: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Solicitante: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.SOLICITANTE}" />
+                        </p:column>
+                    </p:row>    
+                    <p:row>  
+                        <p:column>
+                            <h:outputText value="Referente Interno: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.INTERNO}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Referente Externo: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.EXTERNO}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
+                        </p:column>
+                    </p:row>   
+                    <p:row>     
+                        <p:column> 
+                            <h:outputText value="Estado:" style="font-weight:bold"/>
+                        </p:column>                      
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.NOMBRE_ESTADO}" />
+                        </p:column>   
+                        <p:column>
+                            <h:outputText value="Vigencia "  style="font-weight:bold" />
+                        </p:column>   
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.VIGENCIA}" />  
+                        </p:column> 
+                    </p:row>       
+                  </p:panelGrid>
+              </p:panel> 
+        </h:form>
+        <p:spacer height="40" />      
+        <h:form id="formMenu">
             <p:panel style="width: 900px">
                 <p:dataTable var="menu" value="#{documentacionMB.listadoDocumentos}" paginator="true" rows="5"                             
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -92,11 +149,10 @@
                     <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
                 </p:tab>  
             </p:tabView>  
-            </p:panel> 
-           </center>     
+            </p:panel>     
         </h:form>
 
-       
+  </center>      
 
         <p:dialog header="Dialog" widgetVar="dlg" id="idPreview" modal="true" appendTo="@(body)" > 
            <h:outputText value="This content is loaded lazy." />

@@ -7,7 +7,6 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Estado;
 import com.sisrni.model.PropuestaConvenio;
-import com.sisrni.model.PropuestaEstado;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.PersonaService;
@@ -20,7 +19,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;

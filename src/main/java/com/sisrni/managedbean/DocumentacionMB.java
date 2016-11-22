@@ -41,6 +41,8 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.service.PropuestaConvenioService;
 import java.io.ByteArrayInputStream;
 import javax.faces.view.ViewScoped;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -66,11 +68,19 @@ public class DocumentacionMB implements Serializable{
     //preguntar si el nombre del convenio sera el mismo que se pone en propuesta de convenio
     
     private String nombreConvenio;
+    private PojoPropuestaConvenio pojoPropuestaConvenio;
     
     
     @Autowired
     @Qualifier(value = "documentoService")
     private DocumentoService documentoService;
+   
+    @Autowired
+    @Qualifier(value = "propuestaConvenioService")
+    private PropuestaConvenioService propuestaConvenioService;
+    
+    
+    
     private StreamedContent content; 
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMMM/yyyy");
     
@@ -326,6 +336,14 @@ public class DocumentacionMB implements Serializable{
         }
     } 
      
+    public void getDataConvenio(int idConvenio){
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(idConvenio);
+            RequestContext.getCurrentInstance().update(":idDataConevnio");          
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+    }
      
    
     
@@ -368,6 +386,14 @@ public class DocumentacionMB implements Serializable{
 
     public void setNombreConvenio(String nombreConvenio) {
         this.nombreConvenio = nombreConvenio;
+    }
+
+    public PojoPropuestaConvenio getPojoPropuestaConvenio() {
+        return pojoPropuestaConvenio;
+    }
+
+    public void setPojoPropuestaConvenio(PojoPropuestaConvenio pojoPropuestaConvenio) {
+        this.pojoPropuestaConvenio = pojoPropuestaConvenio;
     }
     
 }
