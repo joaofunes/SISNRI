@@ -30,7 +30,11 @@ public class PropuestaConvenioService extends GenericService<PropuestaConvenio, 
     public GenericDao<PropuestaConvenio, Integer> getDao() {
         return propuestaConvenioDao;
     }
-        
+    
+    public PropuestaConvenio getByID(int id){
+        return propuestaConvenioDao.findById(id);
+    }    
+    
     public List<PropuestaConvenio> getPropuestaConvenioByTipoPropuesta(TipoPropuestaConvenio tipoPropuestaConvenio) {
          return propuestaConvenioDao.getPropuestaConvenioByTipoPropuesta(tipoPropuestaConvenio);
     }

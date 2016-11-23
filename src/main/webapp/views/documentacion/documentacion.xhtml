@@ -19,6 +19,11 @@
                 <p:row >
                     <p:column >
                         <p:outputLabel for="idsearch" value="Ingrese Convenio" />
+                        
+                          <p:autoComplete id="group" value="#{documentacionMB.propuestaConvenio}" completeMethod="#{documentacionMB.completePropuestaConvenio}"
+                            var="propuesta" itemLabel="#{propuesta.nombrePropuesta}" itemValue="#{propuesta}" converter="#{propuestaConvenioConverter}" scrollHeight="250"/>
+                        
+                        
                     </p:column>
 
                     <p:column>

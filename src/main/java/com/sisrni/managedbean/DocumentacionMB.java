@@ -41,6 +41,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.service.PropuestaConvenioService;
 import java.io.ByteArrayInputStream;
@@ -79,6 +80,9 @@ public class DocumentacionMB implements Serializable{
     @Qualifier(value = "propuestaConvenioService")
     private PropuestaConvenioService propuestaConvenioService;
     
+    private  List<PropuestaConvenio> listPropuestaConvenio;
+    private PropuestaConvenio propuestaConvenio;
+    
     
     
     private StreamedContent content; 
@@ -88,11 +92,22 @@ public class DocumentacionMB implements Serializable{
     @PostConstruct
     public void init() {
         try {
-         
+           iniciliazar();
            //searchConvenio();
         } catch (Exception e) {
         }
     } 
+    
+    public void iniciliazar(){
+        try {
+           listPropuestaConvenio = new ArrayList<PropuestaConvenio>();
+           propuestaConvenio = new PropuestaConvenio();
+           listPropuestaConvenio = propuestaConvenioService.findAll();
+           
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }
     
     public void preView() throws IOException{
          try {
@@ -335,6 +350,18 @@ public class DocumentacionMB implements Serializable{
             e.printStackTrace();
         }
     } 
+    
+     public List<PropuestaConvenio> completePropuestaConvenio(String query) {        
+      List<PropuestaConvenio> filteredThemes = new ArrayList<PropuestaConvenio>();      
+        for(int i=0 ; i<listPropuestaConvenio.size();i++ ){
+            PropuestaConvenio skin=listPropuestaConvenio.get(i);
+            if(skin.getNombrePropuesta().toLowerCase().startsWith(query)){
+               filteredThemes.add(skin);
+            }
+        }        
+        return filteredThemes;
+    }
+    
      
     public void getDataConvenio(int idConvenio){
         try {
@@ -395,5 +422,23 @@ public class DocumentacionMB implements Serializable{
     public void setPojoPropuestaConvenio(PojoPropuestaConvenio pojoPropuestaConvenio) {
         this.pojoPropuestaConvenio = pojoPropuestaConvenio;
     }
+
+    public List<PropuestaConvenio> getListPropuestaConvenio() {
+        return listPropuestaConvenio;
+    }
+
+    public void setListPropuestaConvenio(List<PropuestaConvenio> listPropuestaConvenio) {
+        this.listPropuestaConvenio = listPropuestaConvenio;
+    }
+
+    public PropuestaConvenio getPropuestaConvenio() {
+        return propuestaConvenio;
+    }
+
+    public void setPropuestaConvenio(PropuestaConvenio propuestaConvenio) {
+        this.propuestaConvenio = propuestaConvenio;
+    }
+
+    
     
 }
