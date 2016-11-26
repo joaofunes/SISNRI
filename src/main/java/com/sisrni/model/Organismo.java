@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -56,6 +58,11 @@ public class Organismo implements Serializable {
     private Integer idProvincia;
     @Column(name = "ID_CUIDAD")
     private Integer idCuidad;
+    @JoinTable(name = "PROYECTO_GENERICO_ORGANISMO", joinColumns = {
+        @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
+    @ManyToMany
+    private List<ProyectoGenerico> proyectoGenericoList;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Persona> personaList;
     @JoinColumn(name = "ID_TIPO_ORGANISMO", referencedColumnName = "ID_TIPO_ORGANISMO")
@@ -63,6 +70,8 @@ public class Organismo implements Serializable {
     private TipoOrganismo idTipoOrganismo;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Telefono> telefonoList;
+   // @OneToMany(mappedBy = "idOrganismo")
+    //private List<Propuesta> propuestaList;
 
     public Organismo() {
     }
@@ -143,6 +152,14 @@ public class Organismo implements Serializable {
         this.idCuidad = idCuidad;
     }
 
+    public List<ProyectoGenerico> getProyectoGenericoList() {
+        return proyectoGenericoList;
+    }
+
+    public void setProyectoGenericoList(List<ProyectoGenerico> proyectoGenericoList) {
+        this.proyectoGenericoList = proyectoGenericoList;
+    }
+
     public List<Persona> getPersonaList() {
         return personaList;
     }
@@ -167,6 +184,14 @@ public class Organismo implements Serializable {
         this.telefonoList = telefonoList;
     }
 
+//    public List<Propuesta> getPropuestaList() {
+//        return propuestaList;
+//    }
+//
+//    public void setPropuestaList(List<Propuesta> propuestaList) {
+//        this.propuestaList = propuestaList;
+//    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -189,7 +214,7 @@ public class Organismo implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.Organismo[ idOrganismo=" + idOrganismo + " ]";
+        return "sv.com.Organismo[ idOrganismo=" + idOrganismo + " ]";
     }
     
 }

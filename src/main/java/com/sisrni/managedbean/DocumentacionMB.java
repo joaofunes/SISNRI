@@ -51,6 +51,7 @@ import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.primefaces.model.DefaultStreamedContent;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
@@ -138,12 +139,18 @@ public class DocumentacionMB implements Serializable{
     } 
     
       public void handleFileUpload(FileUploadEvent event) {
+          try {
+                      byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
         FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
         
         UploadedFile file1 = event.getFile();
         byte[] contents = file1.getContents();
         documento.setDocumento(contents);
         FacesContext.getCurrentInstance().addMessage(null, message);
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+
     }
     
     /**
