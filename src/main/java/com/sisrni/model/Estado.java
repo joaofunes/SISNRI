@@ -107,6 +107,7 @@ public class Estado implements Serializable {
         this.propuestaEstadoList = propuestaEstadoList;
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 0;

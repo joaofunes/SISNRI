@@ -41,8 +41,17 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sisrni.model.PropuestaConvenio;
+import com.sisrni.model.TipoDocumento;
+import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.service.PropuestaConvenioService;
+import com.sisrni.service.TipoDocumentoService;
 import java.io.ByteArrayInputStream;
+import java.util.Date;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.primefaces.model.DefaultStreamedContent;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
@@ -50,6 +59,8 @@ import org.apache.poi.xwpf.converter.pdf.PdfConverter;
 import org.artofsolving.jodconverter.OfficeDocumentConverter;
 import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
 import org.artofsolving.jodconverter.office.OfficeManager;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 
 @Named("documentacionMB")
@@ -60,17 +71,35 @@ public class DocumentacionMB implements Serializable{
     private CurrentUserSessionBean user;
     
   
-    private Documento docuemnto;    
+    private Documento documento;    
     private List<Documento> listadoDocumentos;
     
     //preguntar si el nombre del convenio sera el mismo que se pone en propuesta de convenio
     
     private String nombreConvenio;
+    private PojoPropuestaConvenio pojoPropuestaConvenio;
     
     
     @Autowired
     @Qualifier(value = "documentoService")
     private DocumentoService documentoService;
+   
+    @Autowired
+    @Qualifier(value = "propuestaConvenioService")
+    private PropuestaConvenioService propuestaConvenioService;
+ 
+    @Autowired
+    @Qualifier(value = "tipoDocumentoService")
+    private TipoDocumentoService tipoDocumentoService;
+    
+    private  List<PropuestaConvenio> listPropuestaConvenio;
+    private  List<TipoDocumento> listTipoDocumento;
+    private PropuestaConvenio propuestaConvenio;
+    private TipoDocumento tipoDocumento;
+    
+    private UploadedFile file;
+    
+    
     private StreamedContent content; 
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMMM/yyyy");
     
@@ -78,11 +107,110 @@ public class DocumentacionMB implements Serializable{
     @PostConstruct
     public void init() {
         try {
-         
+           iniciliazar();
            //searchConvenio();
         } catch (Exception e) {
         }
     } 
+    
+    public void iniciliazar(){
+        try {
+           listPropuestaConvenio = new ArrayList<PropuestaConvenio>();
+           propuestaConvenio = new PropuestaConvenio();
+           listPropuestaConvenio = propuestaConvenioService.findAll();
+           listTipoDocumento= tipoDocumentoService.findAll();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }
+    
+    
+     
+     /**
+      * metodo para realizar busquedas de documentacion por nombre de convcenio
+      */
+    public void searchDocumentoConvenio(int idPropuestaConvenio){
+        try {
+           listadoDocumentos = new ArrayList<Documento>();
+           listadoDocumentos = documentoService.getDocumentFindCovenio(idPropuestaConvenio);                            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
+      public void handleFileUpload(FileUploadEvent event) {
+          try {
+                      byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
+        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        
+        UploadedFile file1 = event.getFile();
+        byte[] contents = file1.getContents();
+        documento.setDocumento(contents);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+
+    }
+    
+    /**
+      * metodo para realizar busquedas de convenio por nombre
+      */
+     public List<PropuestaConvenio> completePropuestaConvenio(String query) {        
+      List<PropuestaConvenio> filteredThemes = new ArrayList<PropuestaConvenio>();      
+        for(int i=0 ; i<listPropuestaConvenio.size();i++ ){
+            PropuestaConvenio skin=listPropuestaConvenio.get(i);
+            if(skin.getNombrePropuesta().toLowerCase().startsWith(query)){
+               filteredThemes.add(skin);
+            }
+        }        
+        return filteredThemes;
+    }
+    
+    /**
+     * metodo para cagar de convenio
+     */ 
+    public void getDataConvenio(){
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(propuestaConvenio.getIdPropuesta());                    
+            searchDocumentoConvenio(propuestaConvenio.getIdPropuesta());        
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+    }
+    
+    
+    
+    /**
+     * metodo para cagar de convenio desde otros MB
+     * @param idConvenio 
+     */ 
+    public void getDataConvenio(int idConvenio){
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(idConvenio);
+            searchDocumentoConvenio(propuestaConvenio.getIdPropuesta());        
+            RequestContext.getCurrentInstance().update(":idDataConevnio");          
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+    }
+     
+   /**
+    * Metodo para agregar documentos a convenio
+    */
+    public void addDocument(){
+        try {     
+            documento.setIdPropuesta(propuestaConvenio);
+            documento.setFechaRecibido(new Date());
+            documentoService.save(documento);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    /*************************************/
     
     public void preView() throws IOException{
          try {
@@ -312,22 +440,7 @@ public class DocumentacionMB implements Serializable{
     }
     
     
-     
-     /**
-      * metodo para realizar busquedas de documentacion por nombre de convcenio
-      */
-    public void searchConvenio(){
-        try {
-           listadoDocumentos = new ArrayList<Documento>();
-           listadoDocumentos = documentoService.getDocumentFindCovenio(nombreConvenio);            
-           RequestContext.getCurrentInstance().update(":formMenu");            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    } 
-     
-     
-   
+    
     
      public static boolean getRandomBoolean() {
        return Math.random() < 0.5;
@@ -355,11 +468,11 @@ public class DocumentacionMB implements Serializable{
     }
     
     public Documento getDocuemnto() {
-        return docuemnto;
+        return documento;
     }
 
     public void setDocuemnto(Documento docuemnto) {
-        this.docuemnto = docuemnto;
+        this.documento = docuemnto;
     }
 
     public String getNombreConvenio() {
@@ -369,5 +482,63 @@ public class DocumentacionMB implements Serializable{
     public void setNombreConvenio(String nombreConvenio) {
         this.nombreConvenio = nombreConvenio;
     }
+
+    public PojoPropuestaConvenio getPojoPropuestaConvenio() {
+        return pojoPropuestaConvenio;
+    }
+
+    public void setPojoPropuestaConvenio(PojoPropuestaConvenio pojoPropuestaConvenio) {
+        this.pojoPropuestaConvenio = pojoPropuestaConvenio;
+    }
+
+    public List<PropuestaConvenio> getListPropuestaConvenio() {
+        return listPropuestaConvenio;
+    }
+
+    public void setListPropuestaConvenio(List<PropuestaConvenio> listPropuestaConvenio) {
+        this.listPropuestaConvenio = listPropuestaConvenio;
+    }
+
+    public PropuestaConvenio getPropuestaConvenio() {
+        return propuestaConvenio;
+    }
+
+    public void setPropuestaConvenio(PropuestaConvenio propuestaConvenio) {
+        this.propuestaConvenio = propuestaConvenio;
+    }
+
+    public Documento getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(Documento documento) {
+        this.documento = documento;
+    }
+
+    public List<TipoDocumento> getListTipoDocumento() {
+        return listTipoDocumento;
+    }
+
+    public void setListTipoDocumento(List<TipoDocumento> listTipoDocumento) {
+        this.listTipoDocumento = listTipoDocumento;
+    }
+
+    public TipoDocumento getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    
     
 }

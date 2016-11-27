@@ -11,6 +11,7 @@ import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
+import com.sisrni.service.PropuestaEstadoService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -18,7 +19,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -51,6 +51,11 @@ public class ConsultarConvenioMB implements Serializable{
     @Qualifier(value = "estadoService")
     private EstadoService estadoService;
     
+    
+    @Autowired
+    @Qualifier(value = "propuestaEstadoService")
+    private PropuestaEstadoService propuestaEstadoService;
+    
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
     private PojoPropuestaConvenio pojoPropuestaConvenio;
@@ -70,7 +75,8 @@ public class ConsultarConvenioMB implements Serializable{
 
     private void inicializador() {
         try {
-            propuestaConvenio = new PropuestaConvenio();            
+            propuestaConvenio = new PropuestaConvenio();    
+            estado = new Estado();
             listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
         } catch (Exception e) {
@@ -81,9 +87,10 @@ public class ConsultarConvenioMB implements Serializable{
     public void preEliminar(PojoPropuestaConvenio pojo){
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
-            RequestContext context = RequestContext.getCurrentInstance();              
-            context.execute("PF('dataChangeDlg').show();");
-            //RequestContext.getCurrentInstance().update(":formPrincipal");
+            estado=estadoService.findById(pojo.getID_ESTADO());
+           // RequestContext context = RequestContext.getCurrentInstance();              
+           // context.execute("PF('dataChangeDlg').show();");
+           //RequestContext.getCurrentInstance().update(":formPrincipal");
         } catch (Exception e) {
          e.printStackTrace();
         }
@@ -93,11 +100,11 @@ public class ConsultarConvenioMB implements Serializable{
     public void preEditar(PojoPropuestaConvenio pj){
         try {
             propuestaConvenioMB.inicializador();
-            propuestaConvenioMB.setSolicitante(personaService.getByID(Integer.parseInt(pj.getID_SOLICITANTE())));            
-            propuestaConvenioMB.setReferenteInterno(personaService.getByID(Integer.parseInt(pj.getID_REF_INTERNO())));
-            propuestaConvenioMB.setReferenteExterno(personaService.getByID(Integer.parseInt(pj.getID_REF_EXTERNO())));  
+            propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));            
+            propuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
+            propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));  
             propuestaConvenioMB.postInit();
-            propuestaConvenioMB.cargarPropuestaConvenio(Integer.parseInt(pj.getID_PROPUESTA()));   
+            propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());   
             
             
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
@@ -113,8 +120,9 @@ public class ConsultarConvenioMB implements Serializable{
     }
     
     public void eliminarConvenio(){
-        try {
-            
+        try {                    
+            propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(),estado.getIdEstado());                    
+            inicializador();
         } catch (Exception e) {
             e.printStackTrace();
         }
