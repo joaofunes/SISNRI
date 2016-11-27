@@ -143,9 +143,8 @@ public class DocumentacionMB implements Serializable{
                       byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
         FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
         
-        UploadedFile file1 = event.getFile();
-        byte[] contents = file1.getContents();
-        documento.setDocumento(contents);
+       
+        documento.setDocumento(content);
         FacesContext.getCurrentInstance().addMessage(null, message);
           } catch (Exception e) {
               e.printStackTrace();
