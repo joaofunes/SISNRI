@@ -22,6 +22,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -36,8 +37,8 @@ public class ProyectoGenerico implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "ID_PROYECTO", nullable = false)
     private Integer idProyecto;
     @Size(max = 300)
@@ -46,6 +47,8 @@ public class ProyectoGenerico implements Serializable {
     @Size(max = 300)
     @Column(name = "OBJETIVO", length = 300)
     private String objetivo;
+    @ManyToMany(mappedBy = "proyectoGenericoList")
+    private List<Organismo> organismoList;
     @JoinTable(name = "PROYECTO_GENERICO_AREA", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO", nullable = false)})
@@ -72,7 +75,30 @@ public class ProyectoGenerico implements Serializable {
         this.idProyecto = idProyecto;
     }
 
-    
+    public String getLugarProyecto() {
+        return lugarProyecto;
+    }
+
+    public void setLugarProyecto(String lugarProyecto) {
+        this.lugarProyecto = lugarProyecto;
+    }
+
+    public String getObjetivo() {
+        return objetivo;
+    }
+
+    public void setObjetivo(String objetivo) {
+        this.objetivo = objetivo;
+    }
+
+    public List<Organismo> getOrganismoList() {
+        return organismoList;
+    }
+
+    public void setOrganismoList(List<Organismo> organismoList) {
+        this.organismoList = organismoList;
+    }
+
     public List<AreaConocimiento> getAreaConocimientoList() {
         return areaConocimientoList;
     }
@@ -119,23 +145,7 @@ public class ProyectoGenerico implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.ProyectoGenerico[ idProyecto=" + idProyecto + " ]";
-    }
-
-    public String getLugarProyecto() {
-        return lugarProyecto;
-    }
-
-    public void setLugarProyecto(String lugarProyecto) {
-        this.lugarProyecto = lugarProyecto;
-    }
-
-    public String getObjetivo() {
-        return objetivo;
-    }
-
-    public void setObjetivo(String objetivo) {
-        this.objetivo = objetivo;
+        return "sv.com.ProyectoGenerico[ idProyecto=" + idProyecto + " ]";
     }
     
 }

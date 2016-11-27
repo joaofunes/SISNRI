@@ -12,29 +12,18 @@
     
     
     <ui:define name="content">
-<!--        <h:form id="formAdmin">
+     <h:form id="formAdmin">
             <p:panelGrid >
                 <p:row>
-                  
-                        <p:column>
-                            Nombre Proyecto
-                            <p:inputText id="nameproyecto"   value="#{proyectoMB.proyecto.nombreProyecto}" required="true" size="50" />
-                        </p:column>
                     <p:column  >
-                            <p:commandButton rendered="#{!proyectoMB.actualizar}"  styleClass="boton"
-                                             actionListener="#{proyectoMB.guardar()}" update=":formAdmin :formProyecto" process="@this :formAdmin"
-                                             value="Guardar" />
-                            <p:commandButton rendered="#{proyectoMB.actualizar}" styleClass="boton"
-                                             actionListener="#{proyectosMB.editar()}" update=":formAdmin"
-                                             value="Actulizar" />
-                            <p:commandButton rendered="#{proyectoMB.actualizar}" styleClass="boton"
-                                             actionListener="#{proyectoMB.cancelar()}" immediate="true" update=":formAdmin"
-                                             value="Cancelar" />
+                            <p:commandButton styleClass="boton"
+                                             actionListener="#{proyectoMB.preGuardarProyecto}" update=":formAdmin :formProyecto" process="@this :formAdmin"
+                                             value="Nuevo Proyecto" />
                         </p:column>
                 </p:row>
 
             </p:panelGrid>
-        </h:form>-->
+        </h:form>
         <h:outputLabel style="margin-bottom: 20px;"/>
         <h:form id="formProyecto">
             <p:dataTable var="proyecto" value="#{proyectoMB.listProyectos}" paginator="true" rows="15"
@@ -51,26 +40,19 @@
                  <p:column headerText="Monto ($)" sortBy="#{proyecto.montoProyecto}" filterBy="#{proyecto.montoProyecto}">
                     <h:outputText value="#{proyecto.montoProyecto}" />
                 </p:column>
-                <p:column headerText="Fecha de Gestión" sortBy="#{proyecto.fechaGestion}" filterBy="#{proyecto.fechaGestion}">
+                <p:column headerText="Fecha de GestiÃƒÂ³n" sortBy="#{proyecto.fechaGestion}" filterBy="#{proyecto.fechaGestion}">
                     <h:outputText value="#{proyecto.fechaGestion}" />
                 </p:column>
-                
-             
+                             
                 <p:column headerText="Opciones" >
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       value="Editar" actionListener="#{proyectoMB.preEditar(proyecto)}" />
+                                       value="Editar" actionListener="#{proyectoMB.preActualizarProyecto(proyecto)}" />
                     </div>
                     <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-closethick"
-                                       title="Eliminar" value="Eliminar"
-                                       actionListener="#{proyectoMB.preEliminar(proyecto)}" />
-                    </div>
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-document-b"
-                                       title="Opciones" value="Agregar Opciones a Proyectoe"
-                                       onclick="dlg2.show();"
-                                       actionListener="#{proyectoMB.addOpciones(proyecto)}" />
+                        <p:commandLink styleClass="ui-icon ui-icon-search"
+                                       title="Consultar" value="Consultar"
+                                       actionListener="#{proyectoMB.preConsultarProyecto(proyecto)}" />
                     </div>
                 </p:column>
             </p:dataTable>
@@ -87,9 +69,6 @@
                 
                 <h3 style="margin-top: 0">Seleccionar opciones del menu</h3>
               
-               
-   
-
                 <!--<p:commandButton id="citySubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />-->
 
             </h:form>

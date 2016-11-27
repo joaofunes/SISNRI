@@ -50,9 +50,9 @@ public class Proyecto implements Serializable {
     private String nombreProyecto;
     @Column(name = "MONTO_PROYECTO")
     private Integer montoProyecto;
-    @Column(name = "FECHA_GESTION")
+    @Column(name = "ANIO_GESTION")
     @Temporal(TemporalType.DATE)
-    private Date fechaGestion;
+    private Date anioGestion;
     @Column(name = "ID_UNIDAD")
     private Integer idUnidad;
     @Column(name = "ID_FACULTAD")
@@ -109,14 +109,7 @@ public class Proyecto implements Serializable {
         this.montoProyecto = montoProyecto;
     }
 
-    public Date getFechaGestion() {
-        return fechaGestion;
-    }
-
-    public void setFechaGestion(Date fechaGestion) {
-        this.fechaGestion = fechaGestion;
-    }
-
+   
     public Integer getIdUnidad() {
         return idUnidad;
     }
@@ -220,6 +213,14 @@ public class Proyecto implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Proyecto[ idProyecto=" + idProyecto + " ]";
+    }
+
+    public Date getAnioGestion() {
+        return anioGestion;
+    }
+
+    public void setAnioGestion(Date anioGestion) {
+        this.anioGestion = anioGestion;
     }
     
 }

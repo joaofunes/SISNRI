@@ -17,16 +17,17 @@ public class PojoPropuestaConvenio implements Serializable{
     private String NOMBRE_PROPUESTA;
     private String TIPO_CONVENIO;
     private String NOMBRE_ESTADO;
-    private String ID_PROPUESTA;
+    private Integer ID_PROPUESTA;
     private String SOLICITANTE;
     private String INTERNO;
     private String EXTERNO;
-    private String PROPUESTA;
+    private Integer PROPUESTA;
     private String FINALIDAD_PROPUESTA;
     private String VIGENCIA;
-    private String ID_SOLICITANTE;
-    private String ID_REF_INTERNO;
-    private String ID_REF_EXTERNO;
+    private Integer ID_SOLICITANTE;
+    private Integer ID_REF_INTERNO;
+    private Integer ID_REF_EXTERNO;
+    private Integer ID_ESTADO;
 
     public String getNOMBRE_PROPUESTA() {
         return NOMBRE_PROPUESTA;
@@ -52,13 +53,7 @@ public class PojoPropuestaConvenio implements Serializable{
         this.NOMBRE_ESTADO = NOMBRE_ESTADO;
     }
 
-    public String getID_PROPUESTA() {
-        return ID_PROPUESTA;
-    }
-
-    public void setID_PROPUESTA(String ID_PROPUESTA) {
-        this.ID_PROPUESTA = ID_PROPUESTA;
-    }
+   
 
     public String getSOLICITANTE() {
         return SOLICITANTE;
@@ -84,13 +79,15 @@ public class PojoPropuestaConvenio implements Serializable{
         this.EXTERNO = EXTERNO;
     }
 
-    public String getPROPUESTA() {
+    public Integer getPROPUESTA() {
         return PROPUESTA;
     }
 
-    public void setPROPUESTA(String PROPUESTA) {
+    public void setPROPUESTA(Integer PROPUESTA) {
         this.PROPUESTA = PROPUESTA;
     }
+
+    
 
     public String getFINALIDAD_PROPUESTA() {
         return FINALIDAD_PROPUESTA;
@@ -107,30 +104,46 @@ public class PojoPropuestaConvenio implements Serializable{
     public void setVIGENCIA(String VIGENCIA) {
         this.VIGENCIA = VIGENCIA;
     }
+  
+    public Integer getID_ESTADO() {
+        return ID_ESTADO;
+    }
 
-    public String getID_SOLICITANTE() {
+    public void setID_ESTADO(Integer ID_ESTADO) {
+        this.ID_ESTADO = ID_ESTADO;
+    }
+
+    public Integer getID_PROPUESTA() {
+        return ID_PROPUESTA;
+    }
+
+    public void setID_PROPUESTA(Integer ID_PROPUESTA) {
+        this.ID_PROPUESTA = ID_PROPUESTA;
+    }
+
+    public Integer getID_SOLICITANTE() {
         return ID_SOLICITANTE;
     }
 
-    public void setID_SOLICITANTE(String ID_SOLICITANTE) {
+    public void setID_SOLICITANTE(Integer ID_SOLICITANTE) {
         this.ID_SOLICITANTE = ID_SOLICITANTE;
     }
 
-    public String getID_REF_INTERNO() {
+    public Integer getID_REF_INTERNO() {
         return ID_REF_INTERNO;
     }
 
-    public void setID_REF_INTERNO(String ID_REF_INTERNO) {
+    public void setID_REF_INTERNO(Integer ID_REF_INTERNO) {
         this.ID_REF_INTERNO = ID_REF_INTERNO;
     }
 
-    public String getID_REF_EXTERNO() {
+    public Integer getID_REF_EXTERNO() {
         return ID_REF_EXTERNO;
     }
 
-    public void setID_REF_EXTERNO(String ID_REF_EXTERNO) {
+    public void setID_REF_EXTERNO(Integer ID_REF_EXTERNO) {
         this.ID_REF_EXTERNO = ID_REF_EXTERNO;
     }
-
+    
    
 }

@@ -9,6 +9,7 @@ package com.sisrni.service;
 import com.sisrni.dao.DocumentoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Documento;
+import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class DocumentoService extends GenericService<Documento, Integer>{
         return documentoDao;
     }
     
-    public List<Documento> getDocumentFindCovenio(String convenio){
-        return documentoDao.getDocumentFindCovenio(convenio);
+    public List<Documento> getDocumentFindCovenio(int propuestaConvenio){
+        return documentoDao.getDocumentFindCovenio(propuestaConvenio);
     }
+
 }

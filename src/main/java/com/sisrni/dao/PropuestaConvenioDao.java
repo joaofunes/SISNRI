@@ -12,6 +12,7 @@ import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
@@ -40,10 +41,10 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
  public List<PojoPropuestaConvenio> getAllPropuestaConvenioSQL() {
           
           String sql="SELECT * FROM  \n" +
-                "\n" +
                 "(SELECT P_CONVENIO.NOMBRE_PROPUESTA,P_CONVENIO.FINALIDAD_PROPUESTA,\n" +
                 "T_PRO_CONVE.NOMBRE_PROPUESTA_CONVENIO AS TIPO_CONVENIO,STA.NOMBRE_ESTADO,P_CONVENIO.VIGENCIA,\n" +
-                "P_CONVENIO.ID_PROPUESTA\n" +
+                "P_CONVENIO.ID_PROPUESTA,\n" +
+                "P_ESTADO.ID_ESTADO\n" +
                 "FROM PROPUESTA_CONVENIO P_CONVENIO\n" +
                 "INNER JOIN TIPO_PROPUESTA_CONVENIO T_PRO_CONVE\n" +
                 "ON P_CONVENIO.ID_TIPO_PROPUESTA_CONVENIO = T_PRO_CONVE.ID_TIPO_PROPUESTA \n" +
@@ -80,7 +81,6 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                 "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
                 "WHERE TP_PRS.NOMBRE='REFERENTE EXTERNO') TB_EXTERNO\n" +
                 "ON TB_INTERNO.PROPUESTA=TB_EXTERNO.PROPUESTA) TB_PERSONAS\n" +
-                "\n" +
                 "ON TB_CONVENIO.ID_PROPUESTA=TB_PERSONAS.PROPUESTA";
           
           try {
@@ -89,16 +89,16 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                      .addScalar("FINALIDAD_PROPUESTA",new StringType())
                      .addScalar("TIPO_CONVENIO",new StringType())
                      .addScalar("NOMBRE_ESTADO",new StringType())
-                     .addScalar("ID_PROPUESTA",new StringType())
+                     .addScalar("ID_PROPUESTA",new IntegerType())
                      .addScalar("SOLICITANTE",new StringType())
                      .addScalar("INTERNO",new StringType())
                      .addScalar("EXTERNO",new StringType())
-                     .addScalar("PROPUESTA",new StringType())
+                     .addScalar("PROPUESTA",new IntegerType())
                      .addScalar("VIGENCIA",new StringType())
-                     .addScalar("ID_SOLICITANTE",new StringType())
-                     .addScalar("ID_REF_INTERNO",new StringType())
-                     .addScalar("ID_REF_EXTERNO",new StringType())
-                   
+                     .addScalar("ID_SOLICITANTE",new IntegerType())
+                     .addScalar("ID_REF_INTERNO",new IntegerType())
+                     .addScalar("ID_REF_EXTERNO",new IntegerType())
+                     .addScalar("ID_ESTADO",new IntegerType())                   
                      .setResultTransformer(Transformers.aliasToBean(PojoPropuestaConvenio.class));
                
              return q.list();
@@ -113,13 +113,14 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
  
  
  
-  public PojoPropuestaConvenio getAllPropuestaConvenioSQLByID(String id) {
+  public PojoPropuestaConvenio getAllPropuestaConvenioSQLByID(Integer id) {
           
           String sql="SELECT * FROM  \n" +
                     "\n" +
                     "(SELECT P_CONVENIO.NOMBRE_PROPUESTA,P_CONVENIO.FINALIDAD_PROPUESTA,\n" +
                     "T_PRO_CONVE.NOMBRE_PROPUESTA_CONVENIO AS TIPO_CONVENIO,STA.NOMBRE_ESTADO,P_CONVENIO.VIGENCIA,\n" +
-                    "P_CONVENIO.ID_PROPUESTA\n" +
+                    "P_CONVENIO.ID_PROPUESTA,\n" +
+                    "P_ESTADO.ID_ESTADO\n" +
                     "FROM PROPUESTA_CONVENIO P_CONVENIO\n" +
                     "INNER JOIN TIPO_PROPUESTA_CONVENIO T_PRO_CONVE\n" +
                     "ON P_CONVENIO.ID_TIPO_PROPUESTA_CONVENIO = T_PRO_CONVE.ID_TIPO_PROPUESTA \n" +
@@ -165,15 +166,16 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                      .addScalar("FINALIDAD_PROPUESTA",new StringType())
                      .addScalar("TIPO_CONVENIO",new StringType())
                      .addScalar("NOMBRE_ESTADO",new StringType())
-                     .addScalar("ID_PROPUESTA",new StringType())
+                     .addScalar("ID_PROPUESTA",new IntegerType())
                      .addScalar("SOLICITANTE",new StringType())
                      .addScalar("INTERNO",new StringType())
                      .addScalar("EXTERNO",new StringType())
-                     .addScalar("PROPUESTA",new StringType())
+                     .addScalar("PROPUESTA",new IntegerType())
                      .addScalar("VIGENCIA",new StringType())
-                     .addScalar("ID_SOLICITANTE",new StringType())
-                     .addScalar("ID_REF_INTERNO",new StringType())
-                     .addScalar("ID_REF_EXTERNO",new StringType())
+                     .addScalar("ID_SOLICITANTE",new IntegerType())
+                     .addScalar("ID_REF_INTERNO",new IntegerType())
+                     .addScalar("ID_REF_EXTERNO",new IntegerType())
+                     .addScalar("ID_ESTADO",new IntegerType())  
                    
                    
                      .setResultTransformer(Transformers.aliasToBean(PojoPropuestaConvenio.class));
@@ -186,4 +188,18 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         return null;
     }
     
+  /**
+   * Metodo que devuelve la entidad de propuesta de convenio en base al id
+   * @return 
+   */
+    public PropuestaConvenio getPropuestaCovenioByID(int idPropuesta){
+        try {
+            Query q= getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PropuestaConvenio p WHERE p.idPropuesta=:id");
+            q.setParameter("id",idPropuesta);
+            return (PropuestaConvenio) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+   }
 }

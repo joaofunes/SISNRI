@@ -12,38 +12,95 @@
     
     
     <ui:define name="content">
-        <h:form id="formAdmin">
-            <center>
+       <center>  
+        <h:form id="formAdmin">           
             <p:panel style="width: 900px;">
             <p:panelGrid>
                 <p:row >
                     <p:column >
-                        <p:outputLabel for="idsearch" value="Ingrese Convenio" />
+                        <p:outputLabel for="group" value="Ingrese Convenio" />
+                        
+                          <p:autoComplete id="group" value="#{documentacionMB.propuestaConvenio}" completeMethod="#{documentacionMB.completePropuestaConvenio}"
+                            var="propuesta" itemLabel="#{propuesta.nombrePropuesta}" itemValue="#{propuesta}" converter="#{propuestaConvenioConverter}" scrollHeight="250">
+                              <p:ajax event="itemSelect" listener="#{documentacionMB.getDataConvenio()}" process="group" update=":idDataConevnio :formMenu"/>
+                          </p:autoComplete>    
+                        
+                        
                     </p:column>
 
                     <p:column>
-                        <p:inputText id="idsearch" value="#{documentacionMB.nombreConvenio}" required="true" label="Text 1">
-                            <f:validateLength minimum="4" />
-                        </p:inputText>
-                        
-                    </p:column>
-              
-                    <p:column>
-                        <p:commandButton  styleClass="boton"
-                                          actionListener="#{documentacionMB.searchConvenio()}"
-                                          update=":formAdmin :formMenu" process="@this :formAdmin"
-                                          value="Buscar" />                          
+                        <p:commandButton  styleClass="boton"                                         
+                                          update=":formAdmin :formMenu :idDataConevnio" process="@form"
+                                          value="Agregar Documento" 
+                                          oncomplete="PF('AddDocDialog').show();"/>                          
                     </p:column>
                 </p:row>
 
             </p:panelGrid>
            </p:panel> 
-         </center>   
         </h:form>
-        <p:spacer height="40" /> 
-     
-           <h:form id="formMenu">
-            <center>
+        <h:form id="idDataConevnio">
+              <p:panel style="width: 900px;">
+                  <p:panelGrid  >
+                    <p:row>
+                        <p:column>
+                             <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Finalidad: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Solicitante: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.SOLICITANTE}" />
+                        </p:column>
+                    </p:row>    
+                    <p:row>  
+                        <p:column>
+                            <h:outputText value="Referente Interno: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.INTERNO}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Referente Externo: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.EXTERNO}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
+                        </p:column>
+                    </p:row>   
+                    <p:row>     
+                        <p:column> 
+                            <h:outputText value="Estado:" style="font-weight:bold"/>
+                        </p:column>                      
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.NOMBRE_ESTADO}" />
+                        </p:column>   
+                        <p:column>
+                            <h:outputText value="Vigencia "  style="font-weight:bold" />
+                        </p:column>   
+                        <p:column>
+                            <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.VIGENCIA}" />  
+                        </p:column> 
+                    </p:row>       
+                  </p:panelGrid>
+              </p:panel> 
+        </h:form>
+        <p:spacer height="40" />      
+        <h:form id="formMenu">
             <p:panel style="width: 900px">
                 <p:dataTable var="menu" value="#{documentacionMB.listadoDocumentos}" paginator="true" rows="5"                             
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -92,19 +149,49 @@
                     <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
                 </p:tab>  
             </p:tabView>  
-            </p:panel> 
-           </center>     
+            </p:panel>     
         </h:form>
 
-       
+  </center>      
 
         <p:dialog header="Dialog" widgetVar="dlg" id="idPreview" modal="true" appendTo="@(body)" > 
            <h:outputText value="This content is loaded lazy." />
             <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
-            
-            
            
         </p:dialog>
+        
+        
+        
+         <p:dialog id="idAddDocument" widgetVar="AddDocDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Agregar documento" closeOnEscape="true">
+            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
+          
+             <h:form id="formEditPersonas">
+                <center>                  
+                               <h:panelGrid columns="2" >                                   
+                                   <p:column>  
+                                     <p:outputLabel for="idUnidad" value="Unidad" />
+                                   </p:column>                                         
+                                    <p:column>                                         
+                                        <p:selectOneMenu id="idUnidad"  value="#{documentacionMB.tipoDocumento}" effect="fade" converter="#{tipoDocumentoConverter}" required="true">                                           
+                                            <f:selectItem itemLabel="Tipo Documento" itemValue="null" noSelectionOption="true" />  
+                                            <f:selectItems value="#{documentacionMB.listTipoDocumento}" var="tDocumento" itemLabel="#{tDocumento.nombreDocumento}" itemValue="#{tDocumento}"/>  
+                                        </p:selectOneMenu>    
+                                   </p:column>
+                                   <p:column>  
+                                     <p:outputLabel value="Documento" />
+                                   </p:column> 
+                                   <p:column>
+                                      <p:fileUpload fileUploadListener="#{documentacionMB.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                        sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+                                   </p:column>                                                                                         
+                                   <p:column> 
+                                       <p:commandButton value="Agregar" id="idGuardarPersona" actionListener="#{propuestaConvenioMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" />
+                                   </p:column>
+                            </h:panelGrid>
+                    </center>    
+                </h:form>  
+        </p:dialog>        
  
         
     </ui:define>
