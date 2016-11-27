@@ -140,11 +140,16 @@ public class DocumentacionMB implements Serializable{
     
       public void handleFileUpload(FileUploadEvent event) {
           try {
-                      byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
+        byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
         FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-        
+        documento = new Documento();
+        documento.setIdPropuesta(propuestaConvenio);
+        documento.setFechaRecibido(new Date());
+       
        
         documento.setDocumento(content);
+        
+        documentoService.save(documento);
         FacesContext.getCurrentInstance().addMessage(null, message);
           } catch (Exception e) {
               e.printStackTrace();
@@ -199,9 +204,7 @@ public class DocumentacionMB implements Serializable{
     */
     public void addDocument(){
         try {     
-            documento.setIdPropuesta(propuestaConvenio);
-            documento.setFechaRecibido(new Date());
-            documentoService.save(documento);
+           
         } catch (Exception e) {
             e.printStackTrace();
         }
