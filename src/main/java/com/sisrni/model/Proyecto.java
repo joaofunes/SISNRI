@@ -40,9 +40,8 @@ public class Proyecto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_PROYECTO", nullable = false)
     private Integer idProyecto;
     @Size(max = 300)
@@ -50,9 +49,8 @@ public class Proyecto implements Serializable {
     private String nombreProyecto;
     @Column(name = "MONTO_PROYECTO")
     private Integer montoProyecto;
-    @Column(name = "FECHA_GESTION")
-    @Temporal(TemporalType.DATE)
-    private Date fechaGestion;
+    @Column(name = "ANIO_GESTION")
+    private Integer anioGestion;
     @Column(name = "ID_UNIDAD")
     private Integer idUnidad;
     @Column(name = "ID_FACULTAD")
@@ -71,6 +69,9 @@ public class Proyecto implements Serializable {
     private List<Documento> documentoList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "proyecto")
     private Beca beca;
+    @JoinColumn(name = "ID_PAIS_COOPERANTE", referencedColumnName = "ID_PAIS")
+    @ManyToOne
+    private Pais idPaisCooperante;
     @JoinColumn(name = "ID_TIPO_PROYECTO", referencedColumnName = "ID_TIPO_PROYECTO")
     @ManyToOne
     private TipoProyecto idTipoProyecto;
@@ -109,12 +110,12 @@ public class Proyecto implements Serializable {
         this.montoProyecto = montoProyecto;
     }
 
-    public Date getFechaGestion() {
-        return fechaGestion;
+    public Integer getAnioGestion() {
+        return anioGestion;
     }
 
-    public void setFechaGestion(Date fechaGestion) {
-        this.fechaGestion = fechaGestion;
+    public void setAnioGestion(Integer anioGestion) {
+        this.anioGestion = anioGestion;
     }
 
     public Integer getIdUnidad() {
@@ -181,6 +182,14 @@ public class Proyecto implements Serializable {
         this.beca = beca;
     }
 
+    public Pais getIdPaisCooperante() {
+        return idPaisCooperante;
+    }
+
+    public void setIdPaisCooperante(Pais idPaisCooperante) {
+        this.idPaisCooperante = idPaisCooperante;
+    }
+
     public TipoProyecto getIdTipoProyecto() {
         return idTipoProyecto;
     }
@@ -219,7 +228,7 @@ public class Proyecto implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.Proyecto[ idProyecto=" + idProyecto + " ]";
+        return "sv.com.Proyecto[ idProyecto=" + idProyecto + " ]";
     }
     
 }
