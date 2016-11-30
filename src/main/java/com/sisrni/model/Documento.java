@@ -52,7 +52,6 @@ public class Documento implements Serializable {
     @JoinColumn(name = "ID_TIPO_DOCUMENTO", referencedColumnName = "ID_TIPO_DOCUMENTO")
     @ManyToOne
     private TipoDocumento idTipoDocumento;
-
     @Lob
     @Column(name = "DOCUMENTO")
     private byte[] documento;

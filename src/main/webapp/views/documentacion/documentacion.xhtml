@@ -112,14 +112,17 @@
                     </p:column>
                     <p:column headerText="Nombre de Documento" sortBy="#{menu.idPropuesta.nombrePropuesta}" filterBy="#{menu.idPropuesta.nombrePropuesta}">
                         <h:outputText value="#{menu.idPropuesta.nombrePropuesta}" />
-                    </p:column>                   
+                    </p:column>
+                    <p:column headerText="Persona que recibi&oacute;" sortBy="#{menu.usuarioRecibe}" filterBy="#{menu.usuarioRecibe}">
+                         <h:outputText value="#{menu.usuarioRecibe}" />
+                    </p:column>
                     <p:column headerText="Fecha de recibido" sortBy="#{menu.fechaRecibido}" filterBy="#{menu.fechaRecibido}">                       
                         <h:outputText value="#{menu.fechaRecibido}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>  
                     </p:column>
-                    <p:column headerText="Documento" sortBy="#{menu.documento}" filterBy="#{menu.documento}">
-                        <h:outputText value="#{menu.documento}" />
+                    <p:column headerText="Documento" sortBy="#{menu.nombreDocumento}" filterBy="#{menu.nombreDocumento}">
+                        <h:outputText value="#{menu.nombreDocumento}" />
                     </p:column>
                     <p:column headerText="Opciones" >
                         <div style="float: left">
@@ -139,13 +142,13 @@
                     </p:column>
                 </p:dataTable>
                 
-                 <f:event listener="#{documentacionMB.onPrerender}" type="preRenderView" />  
+<!--                 <f:event listener="#{documentacionMB.onPrerender}" type="preRenderView" />  
             <p:tabView>  
               
                 <p:tab title="StreamedContent">  
                     <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
                 </p:tab>  
-            </p:tabView>  
+            </p:tabView>  -->
             </p:panel>     
         </h:form>
 
