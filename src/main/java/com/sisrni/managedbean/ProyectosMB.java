@@ -6,8 +6,10 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.AreaConocimiento;
+import com.sisrni.model.Beca;
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
+import com.sisrni.model.Pais;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaProyecto;
 import com.sisrni.model.PersonaProyectoPK;
@@ -20,8 +22,10 @@ import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.Unidad;
 import com.sisrni.service.AreaConocimientoService;
+import com.sisrni.service.BecaService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PaisService;
 import com.sisrni.service.PersonaProyectoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
@@ -80,8 +84,10 @@ public class ProyectosMB {
     private TipoPersonaService tipoPersonaService;
     @Autowired
     private PersonaProyectoService personaProyectoService;
-    //@Autowired
-    //PENDIENTE
+    @Autowired
+    private BecaService becaService;
+    @Autowired
+    private PaisService paisService;
     
 
 //Definicion de objetos    
@@ -105,6 +111,8 @@ private PersonaProyectoPK personaProyectoExtPK;
 private String numDocumentoSol;
 private String numDocumentoAsis;
 private String numDocumentoRefExt;
+private Beca beca;
+private int otorgada;
 //Definicion de listas
 private List<Facultad> facultadList;
 private List<AreaConocimiento> areaConocimientoList;
@@ -115,6 +123,7 @@ private List<Organismo> organismoList;
 private List<Telefono> listadoTelefonoSol;
 private List<Telefono> listadoTelefonoAsis;
 private List<Telefono> listadoTelefonoRefExt;
+private List<Pais> paisList;
 //Definicion de selected
 private TipoProyecto proyectoSelected;
 private String [] areaConocimientoSelected;
@@ -128,7 +137,7 @@ private Facultad facultadSelectedExt;
 private Unidad unidadSelectedSol;
 private Unidad unidadSelectedAsis;
 private Organismo organismoSelected;
-
+private Pais paisSelected;
 //Telefono
 //private Telefono telefono;
 private Telefono telefonoSolFijo;
@@ -171,6 +180,7 @@ private int existeRefExt;
     unidadSelectedAsis=new Unidad();
     organismoSelected=new Organismo();
     areasConocimiento=new ArrayList<AreaConocimiento>();
+    paisSelected=new Pais();
     //Listas
     tipoproyectolist = tipoProyectoService.findAll();
     areaConocimientoList=areaConocimientoService.findAll();
@@ -181,6 +191,7 @@ private int existeRefExt;
     listadoTelefonoSol=telefonoService.findAll();
     listadoTelefonoAsis=telefonoService.findAll();
     listadoTelefonoRefExt=telefonoService.findAll();
+    paisList=paisService.findAll();
     //unidadList=unidadService.findAll();
     proyecto = new Proyecto();
     proyectoGenerico=new ProyectoGenerico();
@@ -205,6 +216,7 @@ private int existeRefExt;
     personaProyectoPK = new PersonaProyectoPK();
     personaProyectoAsisPK=new PersonaProyectoPK();
     personaProyectoExtPK=new PersonaProyectoPK();
+    beca=new Beca();
   
     // tipos telefonos
        tipoTelefonoFax= tipoTelefonoService.getTipoByDesc("FAX");
@@ -218,6 +230,7 @@ private int existeRefExt;
        existeSol=0;
        existeAsis=0;
        existeRefExt=0;
+       otorgada=0;
     }
     
     
@@ -817,10 +830,40 @@ private int existeRefExt;
         this.listadoTelefonoSol = listadoTelefonoSol;
     }
 
-    
+    public Beca getBeca() {
+        return beca;
+    }
+
+    public void setBeca(Beca beca) {
+        this.beca = beca;
+    }
+
+    public List<Pais> getPaisList() {
+        return paisList;
+    }
+
+    public void setPaisList(List<Pais> paisList) {
+        this.paisList = paisList;
+    }
+
+    public Pais getPaisSelected() {
+        return paisSelected;
+    }
+
+    public void setPaisSelected(Pais paisSelected) {
+        this.paisSelected = paisSelected;
+    }
+
+    public int getOtorgada() {
+        return otorgada;
+    }
+
+    public void setOtorgada(int otorgada) {
+        this.otorgada = otorgada;
+    }
 
     
-
-   
+    
+ 
     
 }
