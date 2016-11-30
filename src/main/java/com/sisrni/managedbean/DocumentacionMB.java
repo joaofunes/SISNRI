@@ -138,24 +138,7 @@ public class DocumentacionMB implements Serializable{
         }
     } 
     
-      public void handleFileUpload(FileUploadEvent event) {
-          try {
-        byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
-        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-        documento = new Documento();
-        documento.setIdPropuesta(propuestaConvenio);
-        documento.setFechaRecibido(new Date());
-       
-       
-        documento.setDocumento(content);
-        
-        documentoService.save(documento);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-          } catch (Exception e) {
-              e.printStackTrace();
-          }
-
-    }
+     
     
     /**
       * metodo para realizar busquedas de convenio por nombre
@@ -199,12 +182,34 @@ public class DocumentacionMB implements Serializable{
         }
     }
      
+    /***
+     * Metodo para cargar documneto
+     * @param event 
+     */
+     public void handleFileUpload(FileUploadEvent event) {
+          try {
+        byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
+        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        documento = new Documento();      
+        documento.setDocumento(content);             
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+
+    }
+    
+    
    /**
     * Metodo para agregar documentos a convenio
     */
     public void addDocument(){
         try {     
-           
+             documento.setIdPropuesta(propuestaConvenio);
+             documento.setFechaRecibido(new Date());
+             documento.setIdTipoDocumento(tipoDocumento); 
+             documentoService.save(documento);
+             getDataConvenio();
+             FacesMessage message = new FacesMessage("Succesful", " Documento agregado exitosamente");
         } catch (Exception e) {
             e.printStackTrace();
         }
