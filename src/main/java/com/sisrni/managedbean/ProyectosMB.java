@@ -358,7 +358,7 @@ public class ProyectosMB {
                     personaProyectoExt.setPersonaProyectoPK(personaProyectoExtPK);
                     personaProyectoService.save(personaProyectoExt);
                 }
-            }
+            }else{
             // guardar becario
             if (existeBecario != 1) {
                 personaBecario.setDuiPersona(numDocumentoBecario);
@@ -371,9 +371,11 @@ public class ProyectosMB {
                 telefonoBecarioFijo.setIdPersona(personaBecario);
                 telefonoService.save(telefonoBecarioFijo);
             }
+            }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
         }
+        
     }
 
     public void onFacultadChange() {
