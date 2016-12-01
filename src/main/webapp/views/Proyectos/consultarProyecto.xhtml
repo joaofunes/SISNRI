@@ -69,15 +69,15 @@
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="desdeDuracionProy" value="Desde&nbsp;"/>
-                                        <p:calendar id="desdeDuracionProy" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10"  value="#{proyectoMB.proyecto.fechaInicio}"/>
+                                        <p:inputText readonly="true" id="desdeDuracionProy"  style=" width: 100px"   value="#{proyectoMB.proyecto.fechaInicio}"/>
                                         <p:outputLabel for="hastaDuracionProy" value="&nbsp;&nbsp;&nbsp;Hasta&nbsp;"/>
-                                        <p:calendar id="hastaDuracionProy" pattern="dd/MM/yyyy" showOn="button" style=" width: 100px" navigator="true" yearRange="c-50:c+10" value="#{proyectoMB.proyecto.fechaFin}"/>
+                                        <p:inputText readonly="true" id="hastaDuracionProy" style=" width: 100px"  value="#{proyectoMB.proyecto.fechaFin}"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="montoProyecto" value="Monto"/>
                                     </p:column>
                                    <p:column>
-                                        <p:inputText id="montoProyecto" label="montoProyecto" value="#{proyectoMB.proyecto.montoProyecto}"/>
+                                        <p:inputText id="montoProyecto" label="montoProyecto" value="#{proyectoMB.proyecto.montoProyecto}" readonly="true"/>
                                     </p:column>
                             <!--         <p:column>
                                         <p:outputLabel for="fechaGestion" value="Fecha de gestion"/>
@@ -94,7 +94,7 @@
                                         <p:outputLabel for="objetivoProyecto" value="Objetivo del proyecto"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputTextarea id="objetivoProyecto" label="objetivoProyecto" rows="5" cols="30" value="#{proyectoMB.proyectoGenerico.objetivo}"/>
+                                        <p:inputTextarea id="objetivoProyecto" label="objetivoProyecto" rows="5" cols="30" value="#{proyectoMB.proyectoGenerico.objetivo}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel  for="areaConocimiento" value="Area de conocimientos"/>
@@ -109,7 +109,7 @@
                                         <p:outputLabel for="lugarEjecucion" value="Lugar de ejecucion"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="lugarEjecucion" label="lugarEjecucion" required="true" value="#{proyectoMB.proyectoGenerico.lugarProyecto}"/>
+                                        <p:inputText id="lugarEjecucion" label="lugarEjecucion" required="true" value="#{proyectoMB.proyectoGenerico.lugarProyecto}" readonly="true"/>
                                     </p:column>
                                 </h:panelGrid>    
                             </p:tab>
@@ -138,27 +138,27 @@
                                         <p:outputLabel for="nombreCoord" value="Nombre(s)"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="nombreCoord" label="nombreCoord" value="#{proyectoMB.personaCoordinador.nombrePersona}"/>
+                                        <p:inputText id="nombreCoord" label="nombreCoord" value="#{proyectoMB.personaCoordinador.nombrePersona}" readonly="true"/>
                                     </p:column>
 
                                     <p:column>
                                         <p:outputLabel for="apellidoCoord" value="Apellido(s)"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="apellidoCoord" label="apellidoCoord" value="#{proyectoMB.personaCoordinador.apellidoPersona}"/>
+                                        <p:inputText id="apellidoCoord" label="apellidoCoord" value="#{proyectoMB.personaCoordinador.apellidoPersona}" readonly="true"/>
                                     </p:column>
 
                                     <p:column>
                                         <p:outputLabel for="duiCoord" value="DUI"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputMask id="duiCoord" label="duiCoord" mask="99999999-9" value="#{proyectoMB.personaCoordinador.duiPersona}" required="true"/>
+                                        <p:inputMask id="duiCoord" label="duiCoord" mask="99999999-9" value="#{proyectoMB.personaCoordinador.duiPersona}" required="true" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="cargoCoord" value="Cargo"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="cargoCoord" label="cargoCoord" value="#{proyectoMB.personaCoordinador.cargoPersona}"/>
+                                        <p:inputText id="cargoCoord" label="cargoCoord" value="#{proyectoMB.personaCoordinador.cargoPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="factCoord" value="Facultad"/>
@@ -185,20 +185,20 @@
                                         <p:outputLabel for="mailCoord" value="Correo Electronico"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="mailCoord" label="mailCoord" value="#{proyectoMB.personaCoordinador.emailPersona}"/>
+                                        <p:inputText id="mailCoord" label="mailCoord" value="#{proyectoMB.personaCoordinador.emailPersona}" readonly="true"/>
                                     </p:column>
 
                                     <p:column>
                                         <p:outputLabel for="telCoord" value="Telefono"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputMask id="telCoord" label="telCoord" mask="(503)-9999-9999" required="true" value="#{proyectoMB.telFijoInterno.numeroTelefono}"/>
+                                        <p:inputMask id="telCoord" label="telCoord" mask="(503)-9999-9999" required="true" value="#{proyectoMB.telFijoInterno.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="faxCoord" value="Fax"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="faxCoord" label="faxCoord" value="#{proyectoMB.faxInterno.numeroTelefono}"/>
+                                        <p:inputText id="faxCoord" label="faxCoord" value="#{proyectoMB.faxInterno.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                 </h:panelGrid>
                             </p:tab>
@@ -218,25 +218,25 @@
                                         <p:outputLabel for="nombreAsistente" value="Nombre(s)"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="nombreAsistente" label="nombreAsistente" value="#{proyectoMB.personaAsistente.nombrePersona}"/>
+                                        <p:inputText id="nombreAsistente" label="nombreAsistente" value="#{proyectoMB.personaAsistente.nombrePersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="apellidoAsistente" value="Apellido(s)"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="apellidoAsistente" label="apellidoAsistente" value="#{proyectoMB.personaAsistente.apellidoPersona}"/>
+                                        <p:inputText id="apellidoAsistente" label="apellidoAsistente" value="#{proyectoMB.personaAsistente.apellidoPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="duiAsistente" value="DUI"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputMask id="duiAsistente" label="duiAsistente" mask="99999999-9" value="#{proyectoMB.personaAsistente.duiPersona}" required="true"/>
+                                        <p:inputMask id="duiAsistente" label="duiAsistente" mask="99999999-9" value="#{proyectoMB.personaAsistente.duiPersona}" required="true" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="cargoAsistente" value="Cargo"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="cargoAsistente" label="cargoAsistente" value="#{proyectoMB.personaAsistente.cargoPersona}"/>
+                                        <p:inputText id="cargoAsistente" label="cargoAsistente" value="#{proyectoMB.personaAsistente.cargoPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="factAsistente" value="Facultad"/>
@@ -261,19 +261,19 @@
                                         <p:outputLabel for="mailAsistente" value="Correo Electronico"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="mailAsistente" label="mailAsistente" value="#{proyectoMB.personaAsistente.emailPersona}"/>
+                                        <p:inputText id="mailAsistente" label="mailAsistente" value="#{proyectoMB.personaAsistente.emailPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="telAsistente" value="Telefono"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputMask id="telAsistente" label="telAsistente" mask="(503)-9999-9999" required="true" value="#{proyectoMB.telFijoAsistente.numeroTelefono}"/>
+                                        <p:inputMask id="telAsistente" label="telAsistente" mask="(503)-9999-9999" required="true" value="#{proyectoMB.telFijoAsistente.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="faxAsistente" value="Fax"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="faxAsistente" label="faxAsistente" value="#{proyectoMB.faxAsistente.numeroTelefono}"/>
+                                        <p:inputText id="faxAsistente" label="faxAsistente" value="#{proyectoMB.faxAsistente.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                 </h:panelGrid>
                             </p:tab>
@@ -292,20 +292,20 @@
                                         <p:outputLabel for="nombreRefExt" value="Nombre"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="nombreRefExt" label="nombreRefExt" required="true" value="#{proyectoMB.personaExterno.nombrePersona}"/>
+                                        <p:inputText id="nombreRefExt" label="nombreRefExt" required="true" value="#{proyectoMB.personaExterno.nombrePersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="apellidoRefExt" value="Apellido(s)"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="apellidoRefExt" label="apellidoRefExt" required="true" value="#{proyectoMB.personaExterno.apellidoPersona}"/>
+                                        <p:inputText id="apellidoRefExt" label="apellidoRefExt" required="true" value="#{proyectoMB.personaExterno.apellidoPersona}" readonly="true"/>
                                     </p:column>
                                     
                                     <p:column>
                                         <p:outputLabel for="CargoRefExt" value="Cargo"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="CargoRefExt" label="CargoRefExt" value="#{proyectoMB.personaExterno.cargoPersona}"/>
+                                        <p:inputText id="CargoRefExt" label="CargoRefExt" value="#{proyectoMB.personaExterno.cargoPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="entidadInst" value="Entidad o institucion"/>
@@ -319,19 +319,19 @@
                                         <p:outputLabel for="correoE" value="Correo Electronico"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="correoE" label="correoE" required="true" value="#{proyectoMB.personaExterno.emailPersona}"/>
+                                        <p:inputText id="correoE" label="correoE" required="true" value="#{proyectoMB.personaExterno.emailPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="telefonoRefExt" value="Telefono"/>                                    
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="telefonoRefExt" label="telefonoRefExt" required="true" value="#{proyectoMB.telFijoExterno.numeroTelefono}"/>
+                                        <p:inputText id="telefonoRefExt" label="telefonoRefExt" required="true" value="#{proyectoMB.telFijoExterno.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="faxRefExt" value="Fax"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="faxRefExt" label="faxRefExt" value="#{proyectoMB.faxExterno.numeroTelefono}"/>
+                                        <p:inputText id="faxRefExt" label="faxRefExt" value="#{proyectoMB.faxExterno.numeroTelefono}" readonly="true"/>
                                     </p:column>
 
                                 </h:panelGrid>
@@ -343,7 +343,7 @@
                                     <h:panelGroup/>
                                 </p:column>
                                 <p:column>
-                                    <p:commandButton styleClass="boton"  actionListener="null" process="" update="" value="Cancelar"  id="btnCancelar" title="Modificar proyecto" />
+                                    <p:commandButton styleClass="boton"  actionListener="#{proyectoMB.regresar}" process="" update="" value="Regresar"  id="btnRegresar" title="Regresar" />
                                 </p:column>
                             </h:panelGrid>
                         </p:panel>
@@ -363,31 +363,31 @@
                              <p:outputLabel for="nombrePersona" value="Nombres"/>
                          </p:column>
                          <p:column>
-                             <p:inputText id="nombrePersona" label="nombrePersona" value="#"/>
+                             <p:inputText id="nombrePersona" label="nombrePersona" value="#" readonly="true"/>
                          </p:column>
                          <p:column>
                              <p:outputLabel for="apellidoPersona" value="Apellidos"/>
                          </p:column>
                          <p:column>
-                             <p:inputText id="apellidoPersona" label="apellidoPersona" value="#"/>
+                             <p:inputText id="apellidoPersona" label="apellidoPersona" value="#" readonly="true"/>
                          </p:column>
                          <p:column>
-                             <p:outputLabel for="duiPersona" value="DUI"/>
+                             <p:outputLabel for="duiPersona" value="DUI" />
                          </p:column>
                          <p:column>
-                             <p:inputMask id="duiPersona" mask="99999999-9" value="#"/>
+                             <p:inputMask id="duiPersona" mask="99999999-9" value="#" readonly="true"/>
                          </p:column>
                          <p:column>
                              <p:outputLabel for="nitPersona" value="NIT"/>
                          </p:column>
                          <p:column>
-                             <p:inputMask id="nitPersona" mask="99999999-9" value="#"/>
+                             <p:inputMask id="nitPersona" mask="9999-999999-999-9" value="#" readonly="true"/>
                          </p:column>
                          <p:column>
                              <p:outputLabel for="cargoPersona" value="Cargo"/>
                          </p:column>
                          <p:column>
-                             <p:inputText id="cargoPersona" value="#"/>
+                             <p:inputText id="cargoPersona" value="#" readonly="true"/>
                          </p:column>
                          <p:column>
                              <p:outputLabel for="facultadPersona" value="Facultad"/>
