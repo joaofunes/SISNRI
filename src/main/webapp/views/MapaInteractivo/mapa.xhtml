@@ -16,21 +16,20 @@
 
             <p:panel header="Parametros de Busqueda" style="margin-bottom:10px;">
                 <h:panelGrid columns="2" cellpadding="5">
-                    <p:outputLabel for="pais" value="Pais " />
-                    <p:selectOneMenu id="pais" value="#{mapaInteractivo.paisSelected.codigoPais}" style="width:150px">
-                        <p:ajax listener="#{mapaInteractivo.onCountryChange()}" update=":city"/>
-                        <c:forEach items="#{mapaInteractivo.paisList}" var="pa">
-                            <f:selectItem itemLabel="#{pa.nombrePais}" itemValue="#{pa.codigoPais}" noSelectionOption="true"/>
+                    <p:outputLabel  value="Pais " />
+                    <p:selectCheckboxMenu id="pais" value="#{mapaInteractivo.paisSelected}" label="Seleccione Pais" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                        <c:forEach var="pa" items="#{mapaInteractivo.paisList}">
+                            <f:selectItem itemLabel="#{pa.nombrePais}" itemValue="#{pa.idPais}"/>
                         </c:forEach>
-                    </p:selectOneMenu>
+                    </p:selectCheckboxMenu>
                     <p:outputLabel value="Tipo de Proyecto" />
-                    <p:selectOneMenu id="tipoProyecto" value="#{mapaInteractivo.tipoProyectoSelected.idTipoProyecto}" style="width:150px">
-                        <c:forEach items="#{mapaInteractivo.tipoProyectosList}" var="pro">
-                            <f:selectItem itemLabel="#{pro.nombreTipoProyecto}" itemValue="#{pro.idTipoProyecto}" noSelectionOption="true"/>
+                    <p:selectCheckboxMenu id="tipoProyecto" value="#{mapaInteractivo.tipoProyectoSelected}" label="Seleccione Tipo de Proyecto" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                        <c:forEach var="ti" items="#{mapaInteractivo.tipoProyectosList}">
+                            <f:selectItem itemValue="#{ti.idTipoProyecto}" itemLabel="#{ti.nombreTipoProyecto}"/>
                         </c:forEach>
-                    </p:selectOneMenu>
+                    </p:selectCheckboxMenu>
                     <p:outputLabel for="desde" value="Desde " />
-                     <p:selectOneMenu id="desde" value="#{mapaInteractivo.yearDesde}" style="width:150px">
+                    <p:selectOneMenu id="desde" value="#{mapaInteractivo.yearDesde}" style="width:150px">
                         <c:forEach begin="0" end="125" varStatus="loop">
                             <c:set var="currentYear" value="${mapaInteractivo.yearActual-loop.index} " />
                             <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
@@ -51,6 +50,7 @@
         </h:form>
         <p:outputPanel id="city">
             <pe:gChart value="#{mapaInteractivo.chartModel}" rendered="#{mapaInteractivo.chartModel!=null}"/>
+            <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.chartModel!=null}" widgetVar="pie"/>
             <p:panel header="Cooperacion Externa">
                 <p:panel header="Mapa">
                     <p:outputLabel value="muestrate" rendered="#{mapaInteractivo.mostrarGraficos}"/>
@@ -89,16 +89,16 @@
                 </p:columnGroup>
 
                 <p:column>
-                    <h:outputText value="#{proyecto.idProyecto}" />
+                    <h:outputText value="#{proyecto.codigoPais}" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{proyecto.nombreProyecto}" />
+                    <h:outputText value="#{proyecto.nombrePais}" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{proyecto.fechaGestion}" />
+                    <h:outputText value="#{proyecto.cantidadProyectos}" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{proyecto.montoProyecto}">
+                    <h:outputText value="#{proyecto.montoCooperacion}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                 </p:column>

@@ -8,6 +8,7 @@ package com.sisrni.service;
 import com.sisrni.dao.ProyectoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Proyecto;
+import com.sisrni.pojo.rpt.PojoMapaInteractivo;
 import com.sisrni.service.generic.GenericService;
 import java.util.Date;
 import java.util.List;
@@ -28,13 +29,9 @@ public class ProyectoService extends GenericService<Proyecto, Integer> {
     public GenericDao<Proyecto, Integer> getDao() {
         return proyectoDao;
     }
-
-    public List<Proyecto> getProjectListToCharts(String codigoPais, int idTipoProyecto, String desde, String hasta) {
-        return proyectoDao.getProjectListToCharts(codigoPais, idTipoProyecto, desde, hasta);
-    }
-
-    public List<Proyecto> getProjectListToChartsByYear(String codigoPais, int idTipoProyecto, Date year) {
-        return proyectoDao.getProjectListToChartsByYear(codigoPais, idTipoProyecto, year);
+    
+    public List<PojoMapaInteractivo> getProjectListToCharts(List<String> paisSelected, List<String> tipoProyectoSelected, String desde, String hasta) {
+        return proyectoDao.getProjectListToCharts(paisSelected, tipoProyectoSelected, desde, hasta);
     }
 
 }

@@ -7,12 +7,13 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Proyecto;
-import java.util.Calendar;
-import java.util.Date;
+import com.sisrni.pojo.rpt.PojoMapaInteractivo;
 import java.util.List;
-import org.hibernate.Hibernate;
-
 import org.hibernate.Query;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,39 +23,38 @@ import org.springframework.stereotype.Repository;
 @Repository(value = "proyectoDao")
 public class ProyectoDao extends GenericDao<Proyecto, Integer> {
 
-    public List<Proyecto> getProjectListToCharts(String codigoPais, int idTipoProyecto, String desde, String hasta) {
-        String query = "SELECT pr FROM Proyecto as pr WHERE 1=1";
-        if (idTipoProyecto > 0) {
-            query = query + " and pr.idTipoProyecto.idTipoProyecto=:idTipoProyecto";
-        }
-        if (desde != null && hasta != null) {
-            query = query + " and to_char(pr.fechaGestion,'YYYY') BETWEEN :desde and :hasta";
-        }
-
-        Query q = getSessionFactory().getCurrentSession().createQuery(query);
-        q.setParameter("idTipoProyecto", idTipoProyecto);
-        q.setParameter("desde", desde);
-        q.setParameter("hasta", hasta);
-        return q.list();
-    }
-
-    public List<Proyecto> getProjectListToChartsByYear(String codigoPais, int idTipoProyecto, Date year) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(year);
-        int yeard = cal.get(Calendar.YEAR);
-        String yearString = "" + yeard;
-
-        String query = "SELECT pr FROM Proyecto as pr WHERE 1=1";
-        if (idTipoProyecto > 0) {
-            query = query + " and pr.idTipoProyecto.idTipoProyecto=:idTipoProyecto";
+    public List<PojoMapaInteractivo> getProjectListToCharts(List<String> paisSelected, List<String> tipoProyectoSelected, String desde, String hasta) {
+        String wherePais = "";
+        String whereTipoProyecto = "";
+        String groupBy = " GROUP BY pr.ID_PAIS_COOPERANTE";
+        String limite = "";
+        
+          if (paisSelected.size() > 0) {
+            wherePais = wherePais + " AND pa.ID_PAIS IN (" + String.join(",", paisSelected) + ")";
+        } else {
+            limite += " LIMIT 3";
         }
 
-        query = query + "to_chart(pr.fechaGestion,'YYYY')= :yearString";
-
-        Query q = getSessionFactory().getCurrentSession().createQuery(query);
-        q.setParameter("idTipoProyecto", idTipoProyecto);
-        q.setParameter("yearString", yearString);
-
-        return q.list();
+        if (tipoProyectoSelected.size() > 0 ) {
+            whereTipoProyecto += " AND pr.ID_TIPO_PROYECTO IN (" + String.join(",", tipoProyectoSelected) + ")";
+        }
+        
+        String query = "SELECT pa.CODIGO_PAIS as codigoPais, pa.NOMBRE_PAIS as nombrePais, SUM(pr.MONTO_PROYECTO) as montoCooperacion,COUNT(pr.ID_PROYECTO) as cantidadProyectos\n"
+                + " FROM PROYECTO pr INNER JOIN PAIS pa ON pr.ID_PAIS_COOPERANTE = pa.ID_PAIS\n"
+                + " WHERE pr.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta)+"\n"
+                +  wherePais + whereTipoProyecto+ groupBy + limite;
+                
+        try {
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                    .addScalar("codigoPais", new StringType())
+                    .addScalar("nombrePais", new StringType())
+                    .addScalar("montoCooperacion", new DoubleType())
+                    .addScalar("cantidadProyectos", new IntegerType())
+                    .setResultTransformer(Transformers.aliasToBean(PojoMapaInteractivo.class));
+            return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
