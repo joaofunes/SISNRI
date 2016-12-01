@@ -15,7 +15,9 @@ import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.Proyecto;
 import com.sisrni.model.ProyectoGenerico;
 import com.sisrni.model.Telefono;
+import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoProyecto;
+import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.Unidad;
 import com.sisrni.service.AreaConocimientoService;
 import com.sisrni.service.FacultadService;
@@ -28,6 +30,7 @@ import com.sisrni.service.ProyectoService;
 import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoProyectoService;
+import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +58,7 @@ public class ProyectoMB {
     private static final String FIJO = "FIJO";
     private static final String FAX = "FAX";
     private List<Integer> areaConocimientoSelected;
+    private Integer idFacultadPersona;
 
     /*Variables*/
     private List<Proyecto> listProyectos;
@@ -64,7 +68,6 @@ public class ProyectoMB {
     private List<Unidad> listUnidad;
 
     private List<Organismo> listOrganismos;
-    private List<SelectItem> listOrganismosItem;
 
     private List<Persona> listInterno;
     private List<Telefono> listTelefonoInterno;
@@ -82,6 +85,7 @@ public class ProyectoMB {
 
     private List<Unidad> listUnidadCoordinador;
     private List<Unidad> listUnidadAsistente;
+    private List<Unidad> listUnidadPersona;
 
     private Proyecto proyecto;
     private ProyectoGenerico proyectoGenerico;
@@ -102,13 +106,25 @@ public class ProyectoMB {
     private Telefono telFijoExterno;
     private Telefono faxExterno;
 
+    private Telefono telFijoPersona;
+    private Telefono telCelPersona;
+    private Telefono faxPersona;
+
     private Facultad facultadCoordinadorSelected;
     private Unidad unidadCoordinadorSelected;
 
+    private Unidad unidadPersonaSelected;
+
     private Facultad facultadAsistenteSelected;
     private Unidad unidadAsistenteSelected;
-    
-    private Facultad facultadCreatePersonaSelected;
+
+    private TipoPersona tipoPersonaCoord;
+    private TipoPersona tipoPersonaAsis;
+    private TipoPersona tipoPersonaRefext;
+
+    private TipoTelefono tipoTelefonoFax;
+    private TipoTelefono tipoTelefonoFijo;
+    private TipoTelefono tipoTelefonoCelular;
 
     @Autowired
     @Qualifier(value = "facultadService")
@@ -156,6 +172,9 @@ public class ProyectoMB {
 
     @Autowired
     private TipoPersonaService tipoPersonaService;
+    
+    @Autowired
+    private TipoTelefonoService tipoTelefonoService;
 
     /**
      * constructor
@@ -173,10 +192,11 @@ public class ProyectoMB {
 
     public void cargarProyecto() {
         proyecto = new Proyecto();
+        persona = new Persona();
         personaCoordinador = new Persona();
         personaAsistente = new Persona();
         personaExterno = new Persona();
-        facultadCreatePersonaSelected = new Facultad();
+        unidadPersonaSelected = new Unidad();
 
         listFacultad = facultadService.findAll();
         //listUnidad = unidadService.findAll();
@@ -201,6 +221,18 @@ public class ProyectoMB {
         listaAreaConocimientoMerge = new ArrayList<AreaConocimiento>();
         personaProyectoCoordinador = new PersonaProyecto();
         personaProyectoCoordinadorPk = new PersonaProyectoPK();
+
+        tipoPersonaCoord = tipoPersonaService.getTipoPersonaByNombre("REFERENTE INTERNO");
+        tipoPersonaAsis = tipoPersonaService.getTipoPersonaByNombre("ASISTENTE DE COORDINADOR");
+        tipoPersonaRefext = tipoPersonaService.getTipoPersonaByNombre("REFERENTE EXTERNO");
+        
+        tipoTelefonoFijo = tipoTelefonoService.getTipoByDesc("FIJO");
+        tipoTelefonoCelular = tipoTelefonoService.getTipoByDesc("CELULAR");
+        tipoTelefonoFax = tipoTelefonoService.getTipoByDesc("FAX");   
+        
+        telFijoPersona = new Telefono();
+        telCelPersona = new Telefono();
+        faxPersona = new Telefono();
     }
 
     public void onchangeCoordinador() {
@@ -258,6 +290,17 @@ public class ProyectoMB {
         try {
             if (proyecto.getIdFacultad() != null && !proyecto.getIdFacultad().equals("")) {
                 listUnidad = unidadService.getUnidadesByFacultadId(proyecto.getIdFacultad());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onchangeFacultadPersona() {
+        try {
+            if (proyecto.getIdFacultad() != null && !proyecto.getIdFacultad().equals("")) {
+                listUnidadPersona = unidadService.getUnidadesByFacultadId(idFacultadPersona);
             }
 
         } catch (Exception e) {
@@ -363,6 +406,16 @@ public class ProyectoMB {
         }
         return null;
     }
+    
+       public String regresar() {
+        try {
+
+            FacesContext.getCurrentInstance().getExternalContext().redirect("proyectoAdm.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * Metodo para modificar los datos de un proyecto
@@ -414,6 +467,48 @@ public class ProyectoMB {
             proyectoGenerico.setAreaConocimientoList(listaAreaConocimientoMerge);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void guardarPersona() {
+        String msg = "Persona creada exitosamente!!";
+        Unidad unidad = unidadService.findById(unidadPersonaSelected.getIdUnidad());
+        try {
+            //Seteando Persona
+            persona.setIdUnidad(unidad);
+            persona.setIdTipoPersona(tipoPersonaCoord.getIdTipoPersona());
+            
+            //seteando telefonos de Persona
+            telFijoPersona.setIdTipoTelefono(tipoTelefonoFijo);
+            telFijoPersona.setIdPersona(persona);
+
+            telCelPersona.setIdTipoTelefono(tipoTelefonoCelular);
+            telCelPersona.setIdPersona(persona);
+
+            faxPersona.setIdTipoTelefono(tipoTelefonoFax);
+            faxPersona.setIdPersona(persona);
+            
+           //Guardando Persona
+            personaService.save(persona);
+
+           //Guardando Telefonos
+            telefonoService.save(telFijoPersona);
+            telefonoService.save(telCelPersona);
+            telefonoService.save(faxPersona);
+            
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            persona = new Persona();
+            telFijoPersona = new Telefono();
+            telCelPersona = new Telefono();
+            faxPersona = new Telefono();
+            unidadPersonaSelected = new Unidad();
+            listUnidadPersona.clear();
+            idFacultadPersona = null;
+            
         }
     }
 
@@ -670,14 +765,52 @@ public class ProyectoMB {
         this.listExterno = listExterno;
     }
 
-    public Facultad getFacultadCreatePersonaSelected() {
-        return facultadCreatePersonaSelected;
+    public Unidad getUnidadPersonaSelected() {
+        return unidadPersonaSelected;
     }
 
-    public void setFacultadCreatePersonaSelected(Facultad facultadCreatePersonaSelected) {
-        this.facultadCreatePersonaSelected = facultadCreatePersonaSelected;
+    public void setUnidadPersonaSelected(Unidad unidadPersonaSelected) {
+        this.unidadPersonaSelected = unidadPersonaSelected;
     }
 
-    
-    
+    public List<Unidad> getListUnidadPersona() {
+        return listUnidadPersona;
+    }
+
+    public void setListUnidadPersona(List<Unidad> listUnidadPersona) {
+        this.listUnidadPersona = listUnidadPersona;
+    }
+
+    public Integer getIdFacultadPersona() {
+        return idFacultadPersona;
+    }
+
+    public void setIdFacultadPersona(Integer idFacultadPersona) {
+        this.idFacultadPersona = idFacultadPersona;
+    }
+
+    public Telefono getTelFijoPersona() {
+        return telFijoPersona;
+    }
+
+    public void setTelFijoPersona(Telefono telFijoPersona) {
+        this.telFijoPersona = telFijoPersona;
+    }
+
+    public Telefono getTelCelPersona() {
+        return telCelPersona;
+    }
+
+    public void setTelCelPersona(Telefono telCelPersona) {
+        this.telCelPersona = telCelPersona;
+    }
+
+    public Telefono getFaxPersona() {
+        return faxPersona;
+    }
+
+    public void setFaxPersona(Telefono faxPersona) {
+        this.faxPersona = faxPersona;
+    }
+
 }

@@ -15,9 +15,8 @@ import com.sisrni.service.DocumentoService;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -26,31 +25,27 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ComponentSystemEvent;
-import javax.inject.Named;
-import javax.xml.crypto.Data;
-import org.apache.poi.xwpf.converter.pdf.PdfConverter;
 import org.apache.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.web.context.WebApplicationContext;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.TipoDocumento;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.TipoDocumentoService;
 import java.io.ByteArrayInputStream;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.primefaces.model.DefaultStreamedContent;
@@ -61,15 +56,18 @@ import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
 import org.artofsolving.jodconverter.office.OfficeManager;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
 
 
 @Named("documentacionMB")
-@ViewScoped
+@Scope(WebApplicationContext.SCOPE_APPLICATION)
+
 public class DocumentacionMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
     private CurrentUserSessionBean user;
-    
+    private AppUserDetails usuario;
   
     private Documento documento;    
     private List<Documento> listadoDocumentos;
@@ -115,10 +113,17 @@ public class DocumentacionMB implements Serializable{
     
     public void iniciliazar(){
         try {
-           listPropuestaConvenio = new ArrayList<PropuestaConvenio>();
-           propuestaConvenio = new PropuestaConvenio();
-           listPropuestaConvenio = propuestaConvenioService.findAll();
-           listTipoDocumento= tipoDocumentoService.findAll();
+            user = new CurrentUserSessionBean();
+                    usuario = user.getSessionUser();
+                    listPropuestaConvenio = new ArrayList<PropuestaConvenio>();
+                    propuestaConvenio = new PropuestaConvenio();
+                    listPropuestaConvenio = propuestaConvenioService.findAll();
+                    listTipoDocumento= tipoDocumentoService.findAll();
+//               FacesContext facesContext = FacesContext.getCurrentInstance();
+//                if (!facesContext.isPostback() && !facesContext.isValidationFailed()) {
+//                   
+//                }
+           
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -138,24 +143,7 @@ public class DocumentacionMB implements Serializable{
         }
     } 
     
-      public void handleFileUpload(FileUploadEvent event) {
-          try {
-        byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
-        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-        documento = new Documento();
-        documento.setIdPropuesta(propuestaConvenio);
-        documento.setFechaRecibido(new Date());
-       
-       
-        documento.setDocumento(content);
-        
-        documentoService.save(documento);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-          } catch (Exception e) {
-              e.printStackTrace();
-          }
-
-    }
+     
     
     /**
       * metodo para realizar busquedas de convenio por nombre
@@ -199,12 +187,81 @@ public class DocumentacionMB implements Serializable{
         }
     }
      
+    /***
+     * Metodo para cargar documneto
+     * @param event 
+     */
+     public void handleFileUpload(FileUploadEvent event) {
+          try {
+        byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
+        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        
+        if(documento == null){
+            documento = new Documento();      
+        }
+        
+        documento.setDocumento(content); 
+        documento.setNombreDocumento(event.getFile().getFileName());
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+
+    }
+    
+    
    /**
     * Metodo para agregar documentos a convenio
     */
     public void addDocument(){
         try {     
-           
+             documento.setIdPropuesta(propuestaConvenio);
+             documento.setFechaRecibido(new Date());
+             documento.setIdTipoDocumento(tipoDocumento); 
+             documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
+             documentoService.save(documento);
+             getDataConvenio();
+             FacesMessage message = new FacesMessage("Succesful", " Documento agregado exitosamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    /**
+     *Metodo para actualizar documentacion
+     */
+    public void preActualizacion(Documento documento){
+        try {
+            this.documento=documento;
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }
+    
+    /**
+    * Metodo para agregar documentos a convenio
+    */
+    public void actualzarDocument(){
+        try {                  
+             documento.setFechaRecibido(new Date());
+             documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
+             documentoService.merge(documento);
+             getDataConvenio();
+             FacesMessage message = new FacesMessage("Succesful", " Documento actualizado exitosamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+     /**
+    * Metodo para elimar  documentos asignado a  convenio
+    */
+    public void eliminarDocument(){
+        try {                  
+             documentoService.delete(documento);
+             getDataConvenio();
+             FacesMessage message = new FacesMessage("Succesful", " Documento eliminado exitosamente");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -541,6 +598,22 @@ public class DocumentacionMB implements Serializable{
         this.file = file;
     }
 
+      public AppUserDetails getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(AppUserDetails usuario) {
+        this.usuario = usuario;
+    }
+
+    public CurrentUserSessionBean getUser() {
+        return user;
+    }
+
+    public void setUser(CurrentUserSessionBean user) {
+        this.user = user;
+    }
+    
     
     
 }
