@@ -195,7 +195,11 @@ public class DocumentacionMB implements Serializable{
           try {
         byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
         FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-        documento = new Documento();      
+        
+        if(documento == null){
+            documento = new Documento();      
+        }
+        
         documento.setDocumento(content); 
         documento.setNombreDocumento(event.getFile().getFileName());
           } catch (Exception e) {
@@ -217,6 +221,47 @@ public class DocumentacionMB implements Serializable{
              documentoService.save(documento);
              getDataConvenio();
              FacesMessage message = new FacesMessage("Succesful", " Documento agregado exitosamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    /**
+     *Metodo para actualizar documentacion
+     */
+    public void preActualizacion(Documento documento){
+        try {
+            this.documento=documento;
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }
+    
+    /**
+    * Metodo para agregar documentos a convenio
+    */
+    public void actualzarDocument(){
+        try {                  
+             documento.setFechaRecibido(new Date());
+             documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
+             documentoService.merge(documento);
+             getDataConvenio();
+             FacesMessage message = new FacesMessage("Succesful", " Documento actualizado exitosamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+     /**
+    * Metodo para elimar  documentos asignado a  convenio
+    */
+    public void eliminarDocument(){
+        try {                  
+             documentoService.delete(documento);
+             getDataConvenio();
+             FacesMessage message = new FacesMessage("Succesful", " Documento eliminado exitosamente");
         } catch (Exception e) {
             e.printStackTrace();
         }
