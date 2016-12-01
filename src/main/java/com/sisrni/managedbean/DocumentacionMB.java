@@ -42,8 +42,10 @@ import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.primefaces.model.DefaultStreamedContent;
@@ -54,10 +56,13 @@ import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
 import org.artofsolving.jodconverter.office.OfficeManager;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
 
 
-@ManagedBean
-@RequestScoped
+@Named("documentacionMB")
+@Scope(WebApplicationContext.SCOPE_APPLICATION)
+
 public class DocumentacionMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
@@ -108,16 +113,16 @@ public class DocumentacionMB implements Serializable{
     
     public void iniciliazar(){
         try {
-            
-               FacesContext facesContext = FacesContext.getCurrentInstance();
-                if (!facesContext.isPostback() && !facesContext.isValidationFailed()) {
-                   user = new CurrentUserSessionBean();
+            user = new CurrentUserSessionBean();
                     usuario = user.getSessionUser();
                     listPropuestaConvenio = new ArrayList<PropuestaConvenio>();
                     propuestaConvenio = new PropuestaConvenio();
                     listPropuestaConvenio = propuestaConvenioService.findAll();
                     listTipoDocumento= tipoDocumentoService.findAll();
-                }
+//               FacesContext facesContext = FacesContext.getCurrentInstance();
+//                if (!facesContext.isPostback() && !facesContext.isValidationFailed()) {
+//                   
+//                }
            
         } catch (Exception e) {
           e.printStackTrace();
