@@ -6,20 +6,23 @@
 package com.sisrni.pojo.rpt;
 
 import com.sisrni.model.Proyecto;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Cortez
  */
-public class PojoMapaInteractivo {
+public class PojoMapaInteractivo implements Serializable {
 
+    public Integer idPais;
     private String codigoPais;
     private String nombrePais;
     private Double montoCooperacion;
     private Integer cantidadProyectos;
     private List<Proyecto> projectList;
-    
+    private List<PojoProyectosByTipo> series;
+
     public String getCodigoPais() {
         return codigoPais;
     }
@@ -59,6 +62,21 @@ public class PojoMapaInteractivo {
     public void setProjectList(List<Proyecto> projectList) {
         this.projectList = projectList;
     }
-    
-    
+
+    public Integer getIdPais() {
+        return idPais;
+    }
+
+    public void setIdPais(Integer idPais) {
+        this.idPais = idPais;
+    }
+
+    public List<PojoProyectosByTipo> getSeries() {
+        return series;
+    }
+
+    public void setSeries(List<PojoProyectosByTipo> series) {
+        this.series = series;
+    }
+
 }
