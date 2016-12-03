@@ -119,10 +119,12 @@ public class MapaInteractivo implements Serializable {
     private void createPieModel() {
         pieModel = new PieChartModel();
         for (PojoMapaInteractivo pj : projectListToChart) {
-            pieModel.set(pj.getNombrePais(), (pj.getMontoCooperacion() * 100) / montoProyectos);
+            pieModel.set(pj.getNombrePais(), pj.getMontoCooperacion());
         }
         pieModel.setTitle("Pais y Porcejaje de cooperacion");
         pieModel.setLegendPosition("w");
+        pieModel.setShowDataLabels(true);
+      
     }
 
     private void createPieTipo() {
@@ -133,6 +135,9 @@ public class MapaInteractivo implements Serializable {
         }
         pieModelType.setTitle("Cantidad y Tipos de Proyecto");
         pieModelType.setLegendPosition("w");
+        pieModelType.setShowDataLabels(true);
+        
+        
     }
 
     private void createBarModel() {
@@ -193,12 +198,12 @@ public class MapaInteractivo implements Serializable {
         try {
 
             Map<String, Object> colorAxis = new HashMap<String, Object>();
-            colorAxis.put("colors", new String[]{"white", "orange"});
+            colorAxis.put("colors", new String[]{"Green", "Red"});
             GChartModelBuilder chartModelBuilder = new GChartModelBuilder();
             chartModelBuilder.setChartType(GChartType.GEO);
-            chartModelBuilder.addColumns("Codigo", "Pais: ", "Cooperacion($): ");
+            chartModelBuilder.addColumns("Codigo", "Pais", "Cooperacion($)");
             for (PojoMapaInteractivo pj : projectListToChart) {
-                chartModelBuilder.addRow(pj.getNombrePais(), pj.getCodigoPais(), pj.getMontoCooperacion());
+                chartModelBuilder.addRow(pj.getCodigoPais(), pj.getNombrePais(), pj.getMontoCooperacion());
             }
             chartModelBuilder.addOption("colorAxis", colorAxis);
             this.chartModel = chartModelBuilder.build();

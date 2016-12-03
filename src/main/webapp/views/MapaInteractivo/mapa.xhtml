@@ -49,7 +49,7 @@
             </p:panel>
         </h:form>
         <p:outputPanel id="city">
-            <pe:gChart value="#{mapaInteractivo.chartModel}" rendered="#{mapaInteractivo.chartModel!=null}"/>
+            <pe:gChart value="#{mapaInteractivo.chartModel}" title="Mapa de Cooperacion" rendered="#{mapaInteractivo.chartModel!=null}" widgetVar="map"/>
             <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModel!=null}" widgetVar="pie"/>
             <p:chart type="pie" model="#{mapaInteractivo.pieModelType}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModelType!=null}" widgetVar="pieType"/>
             <p:panel header="Cooperacion Externa">
@@ -58,7 +58,7 @@
                     <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.mostrarGraficos}" widgetVar="pie"/>
                     <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')"/>
                     <p:chart type="bar" model="#{mapaInteractivo.barModel}" style="width:600px;height:300px"  rendered="#{mapaInteractivo.mostrarGraficos}"  widgetVar="bar"/>
-                    <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('bar')"/>
+                    <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pieType')"/>
 
                 </p:panel>
             </p:panel>
