@@ -509,6 +509,7 @@ public class ProyectoMB {
                 }
             }
             proyectoGenerico.setOrganismoList(listEntidadMerge);
+            
         } catch (Exception e) {
             
             e.printStackTrace();
