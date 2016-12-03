@@ -38,12 +38,15 @@ import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.TipoDocumentoService;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.primefaces.model.DefaultStreamedContent;
@@ -54,10 +57,13 @@ import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
 import org.artofsolving.jodconverter.office.OfficeManager;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
 
 
-@ManagedBean
-@RequestScoped
+@Named("documentacionMB")
+@Scope(WebApplicationContext.SCOPE_APPLICATION)
+
 public class DocumentacionMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
@@ -108,16 +114,16 @@ public class DocumentacionMB implements Serializable{
     
     public void iniciliazar(){
         try {
-            
-               FacesContext facesContext = FacesContext.getCurrentInstance();
-                if (!facesContext.isPostback() && !facesContext.isValidationFailed()) {
-                   user = new CurrentUserSessionBean();
+            user = new CurrentUserSessionBean();
                     usuario = user.getSessionUser();
                     listPropuestaConvenio = new ArrayList<PropuestaConvenio>();
                     propuestaConvenio = new PropuestaConvenio();
                     listPropuestaConvenio = propuestaConvenioService.findAll();
                     listTipoDocumento= tipoDocumentoService.findAll();
-                }
+//               FacesContext facesContext = FacesContext.getCurrentInstance();
+//                if (!facesContext.isPostback() && !facesContext.isValidationFailed()) {
+//                   
+//                }
            
         } catch (Exception e) {
           e.printStackTrace();
@@ -190,8 +196,12 @@ public class DocumentacionMB implements Serializable{
           try {
         byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());  
         FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-        documento = new Documento();      
+       
+        if(documento == null){
+            documento = new Documento();      
+        }        
         documento.setDocumento(content); 
+          
         documento.setNombreDocumento(event.getFile().getFileName());
           } catch (Exception e) {
               e.printStackTrace();
@@ -218,120 +228,73 @@ public class DocumentacionMB implements Serializable{
     }
     
     
+    /**
+     *Metodo para actualizar documentacion
+     */
+    public void preActualizacion(Documento documento){
+        try {
+            this.documento=documento;
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }
     
-    /*************************************/
+    /**
+    * Metodo para agregar documentos a convenio
+    */
+    public void actualzarDocument(){
+        try {                  
+             documento.setFechaRecibido(new Date());
+             documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
+             documentoService.merge(documento);
+             getDataConvenio();
+             FacesMessage message = new FacesMessage("Succesful", " Documento actualizado exitosamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
-    public void preView() throws IOException{
+    
+     /**
+    * Metodo para elimar  documentos asignado a  convenio
+    */
+    public void eliminarDocument(){
+        try {                  
+             documentoService.delete(documento);
+             getDataConvenio();
+             FacesMessage message = new FacesMessage("Succesful", " Documento eliminado exitosamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+          documento=null;
+        }
+    }
+    
+    
+    private static String getFileExtension(String fileName) {
+        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+        return fileName.substring(fileName.lastIndexOf(".")+1);
+        else return "";
+    }
+
+    
+    /***
+     * Metodo para previzualizar
+     * @param event preView
+     */
+    
+    public void preView(Documento documento){
          try {
-            //  File fl= new File("WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.doc");
-//                String filePath="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.doc";
-//
-//          //        ByteArrayOutputStream out = new ByteArrayOutputStream();  
-//                  
-//                 
-//        FileInputStream fInputStream = new FileInputStream(new File(filePath));
-//         XWPFDocument document = new XWPFDocument(Data.class.getResourceAsStream(filePath));
-//       // XWPFDocument document = new XWPFDocument(fInputStream);
-//        
-//
-//        File outFile = new File("C:\\Users\\Joao\\Desktop\\Pera ciclo II\\Doc1.pdf");
-//        outFile.getParentFile().mkdirs();
-//
-//        OutputStream out = new FileOutputStream(outFile);
-//        PdfOptions options = PdfOptions.create().fontEncoding("windows-1250");
-//        PdfConverter.getInstance().convert(document, out, options);
-
-        System.out.println("Sucess");
-  
-//            Document document = new Document();  
-//            PdfWriter.getInstance(document, out);  
-//            document.open();  
-//  
-//            for (int i = 0; i < 50; i++) {  
-//                document.add(new Paragraph("All work and no play makes Jack a dull boy"));  
-//            }  
-//              
-//            document.close();  
-//            content = new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/pdf");
-    
-//    ClassLoader classloader =org.apache.poi.poifs.filesystem.POIFSFileSystem.class.getClassLoader();
-//    URL res = classloader.getResource("org/apache/poi/poifs/filesystem/POIFSFileSystem.class");
-//    String path = res.getPath();
-//   
-//     Document documentPDF = new Document();
-//    
-//        File file = null;
-//        WordExtractor extractor = null;
-
-//
-//            file = new File(ruta);
-//            FileInputStream fis = new FileInputStream(file.getAbsolutePath());
-//            HWPFDocument document = new HWPFDocument(fis);
-//            extractor = new WordExtractor(document);
-//            String[] fileData = extractor.getParagraphText();
-//            
-//            
-//            /***/
-//            
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        PdfWriter writer;
-//     
-//            Document documents = new Document();
-//
-//           
-////                PdfWriter pdfWriter = PdfWriter.getInstance(documents, new FileOutputStream("HelloWorld.pdf"));
-////                documents.open();
-////                 Paragraph paragraph1 = new Paragraph("This is Paragraph 1");
-////                Paragraph paragraph2 = new Paragraph("This is Paragraph 2");
-////                paragraph1.setIndentationLeft(80);
-////                paragraph1.setIndentationRight(80);
-////                paragraph1.setAlignment(Element.ALIGN_CENTER);
-////                paragraph1.setSpacingAfter(15);
-////                paragraph2.setSpacingBefore(15);
-////                paragraph2.setAlignment(Element.ALIGN_LEFT);
-////                Phrase phrase = new Phrase("This is a large sentence.");
-////                for(int count = 0;count<10;count++)
-////                {
-////
-////                        paragraph1.add(phrase);
-////
-////                        paragraph2.add(phrase);
-////
-////                }
-////
-////                documents.add(paragraph1);
-////                documents.add(paragraph2);
-////
-////                documents.close();
-//
-//           
-//       
-//            
-//                
-//            /***/
-//            
-//            
-//            /*pdf*/
-//            ByteArrayOutputStream out = new ByteArrayOutputStream();  
-//            PdfWriter.getInstance(documentPDF, out);  
-//            documentPDF.open();  
-//            
-//            
-//                    for (String fileData1 : fileData) {
-//                        if (fileData1 != null) {
-//                            System.out.println(fileData1);
-//                             documentPDF.add(new Paragraph(fileData1));
-//                        }
-//                       
-//                    }
-//           
-//              
-//            documentPDF.close();  
-//             writer = PdfWriter.getInstance(documents, baos);
-//        
-//        InputStream stream = new ByteArrayInputStream(baos.toByteArray());
-//            content = new DefaultStreamedContent(stream, "application/pdf");
-           RequestContext.getCurrentInstance().execute("PF('dlg').show()");         
+             this.documento=documento;
+            System.out.println("TYPO::::::::::::::::::::::"+getFileExtension(documento.getNombreDocumento()));
+            
+            if(getFileExtension(documento.getNombreDocumento()).equals("pdf")){
+                 content = new DefaultStreamedContent(new ByteArrayInputStream(documento.getDocumento()), "application/pdf");  
+            }else{
+                System.out.println("EN TRABAJO TYPO::::::::::::::::::::::"+getFileExtension(documento.getNombreDocumento()));
+            }
+            
+            RequestContext.getCurrentInstance().execute("PF('previewDialog').show()");         
             RequestContext.getCurrentInstance().update(":idPreview");         
                
          } catch (Exception e) {
@@ -339,45 +302,76 @@ public class DocumentacionMB implements Serializable{
          }                    
      }
      
-
     
-    
-    
-    public void onPrerender(ComponentSystemEvent event) {  
-  
-        try {  
-            /*******prueba eliminar**/
-            String filePath="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.docx";
-             File file = new File(filePath);
-             FileInputStream fis = new FileInputStream(file.getAbsolutePath());
-             XWPFDocument pr = new XWPFDocument(fis);
+    /**
+     * Metodo para realizar las descargar de archivos
+     * @param documento 
+     */
+    public void FileDownloadView(Documento documento) {
+        try {
+            this.documento = documento;
+            String extension;
+            String contentType = null;
+            InputStream stream = new ByteArrayInputStream(this.documento.getDocumento());
+            extension = getFileExtension(this.documento.getNombreDocumento());
 
-             List<XWPFParagraph> paragraphs = pr.getParagraphs();
+            if (extension.equalsIgnoreCase("docx")) {
+                contentType = "application/vnd.ms-word.document";
+            } else if (extension.equalsIgnoreCase("pdf")) {
+                contentType = "Application/pdf";
+            } else if (extension.equalsIgnoreCase("xls")) {
+                contentType = "application/vnd.ms-excel";
+            } else if (extension.equalsIgnoreCase("xlsx")) {
+                contentType = "application/vnd.ms-excel";
+            } else if (extension.equalsIgnoreCase("doc")) {
+                contentType = "application/ms-word";
+            }
 
-                
-            /*******prueba eliminar**/
-                    
             
-            ByteArrayOutputStream out = new ByteArrayOutputStream();  
-  
-            //Document document = new Document();  
-            //PdfWriter.getInstance(document, out); 
-            PdfOptions options = PdfOptions.create().fontEncoding("windows-1250");
-            PdfConverter.getInstance().convert(pr, out, options);
-            //document.open();  
-  
-//             for (XWPFParagraph para : paragraphs) {
-//                    System.out.println(para.getText());
-//                    document.add(new Paragraph(para.getText()));  
-//                }
+            
+            content = new DefaultStreamedContent(stream, contentType, documento.getNombreDocumento());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /************************************/
+    
+//    public void onPrerender(ComponentSystemEvent event) {  
+//  
+//        try {  
+//            /*******prueba eliminar**/
+//            String filePath="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.docx";
+//             File file = new File(filePath);
+//             FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+//             XWPFDocument pr = new XWPFDocument(fis);
+//
+//             List<XWPFParagraph> paragraphs = pr.getParagraphs();
+//
+//                
+//            /*******prueba eliminar**/
+//                    
 //            
-//            fis.close();
-//            document.close();  
-            content = new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/pdf");  
-        } catch (Exception e) {  
-            e.printStackTrace();  
-        }  
-    }  
+//            ByteArrayOutputStream out = new ByteArrayOutputStream();  
+//  
+//            //Document document = new Document();  
+//            //PdfWriter.getInstance(document, out); 
+//            PdfOptions options = PdfOptions.create().fontEncoding("windows-1250");
+//            PdfConverter.getInstance().convert(pr, out, options);
+//            //document.open();  
+//  
+////             for (XWPFParagraph para : paragraphs) {
+////                    System.out.println(para.getText());
+////                    document.add(new Paragraph(para.getText()));  
+////                }
+////            
+////            fis.close();
+////            document.close();  
+//            content = new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/pdf");  
+//        } catch (Exception e) {  
+//            e.printStackTrace();  
+//        }  
+//    }  
     
     
     

@@ -106,13 +106,12 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              rowsPerPageTemplate="5,10,15"                       
                              >
-
-                    <p:column headerText="Tipo de Documento" sortBy="#{menu.idTipoDocumento.nombreDocumento}" filterBy="#{menu.idTipoDocumento.nombreDocumento}">
-                        <h:outputText value="#{menu.idTipoDocumento.nombreDocumento}" />
-                    </p:column>
-                    <p:column headerText="Nombre de Documento" sortBy="#{menu.idPropuesta.nombrePropuesta}" filterBy="#{menu.idPropuesta.nombrePropuesta}">
+                     <p:column headerText="Propuesta" sortBy="#{menu.idPropuesta.nombrePropuesta}" filterBy="#{menu.idPropuesta.nombrePropuesta}">
                         <h:outputText value="#{menu.idPropuesta.nombrePropuesta}" />
                     </p:column>
+                    <p:column headerText="Tipo de Documento" sortBy="#{menu.idTipoDocumento.nombreDocumento}" filterBy="#{menu.idTipoDocumento.nombreDocumento}">
+                        <h:outputText value="#{menu.idTipoDocumento.nombreDocumento}" />
+                    </p:column>                   
                     <p:column headerText="Persona que recibi&oacute;" sortBy="#{menu.usuarioRecibe}" filterBy="#{menu.usuarioRecibe}">
                          <h:outputText value="#{menu.usuarioRecibe}" />
                     </p:column>
@@ -127,45 +126,46 @@
                     <p:column headerText="Opciones" >
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                           value="Editar" actionListener="#{menusOpcionesAdmMB.preEditar(menu)}" />
+                                           value="Editar" actionListener="#{documentacionMB.preActualizacion(menu)}"
+                                           oncomplete="PF('EditDocDialog').show();" process="@this" update=":idEditDocument"/>
                         </div>
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                            title="Eliminar" value="Eliminar"
-                                           actionListener="#{menusOpcionesAdmMB.preEliminar(menu)}" />
+                                           actionListener="#{documentacionMB.preActualizacion(menu)}" 
+                                           oncomplete="PF('eliminarDialog').show();" process="@this" update=":idEliminar"/>
                         </div>
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-document-b"
-                                           title="Opciones" value="Agregar Opciones a Menu" actionListener="#{documentacionMB.preView()}"  
+                                           title="Preview" value="Agregar Opciones a Menu" 
+                                           actionListener="#{documentacionMB.preView(menu)}"  
+                                           oncomplete="PF('previewDialog').show();" process="@this" update=":idPreview"
                                            />
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
+                                           title="Descargar" value="Descargar Archivo" 
+                                           actionListener="#{documentacionMB.FileDownloadView(menu)}"
+                                           process="@this" update="formMenu">
+                                <p:fileDownload value="#{documentacionMB.content}" />
+                            </p:commandLink>    
                         </div>
                     </p:column>
                 </p:dataTable>
-                
-<!--                 <f:event listener="#{documentacionMB.onPrerender}" type="preRenderView" />  
-            <p:tabView>  
-              
-                <p:tab title="StreamedContent">  
-                    <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
-                </p:tab>  
-            </p:tabView>  -->
+
             </p:panel>     
         </h:form>
 
   </center>      
 
-        <p:dialog header="Dialog" widgetVar="dlg" id="idPreview" modal="true" appendTo="@(body)" > 
-           <h:outputText value="This content is loaded lazy." />
-            <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
-           
-        </p:dialog>
+        
         
         
         
          <p:dialog id="idAddDocument" widgetVar="AddDocDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Agregar documento" closeOnEscape="true">
             <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
           
-             <h:form id="formEditPersonas">
+             <h:form id="formAddDocument">
                 <center>                  
                                <h:panelGrid columns="2" >                                   
                                    <p:column>  
@@ -185,7 +185,41 @@
                                         sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" />
                                    </p:column>                                                                                         
                                    <p:column> 
-                                       <p:commandButton value="Agregar" id="idGuardarPersona" actionListener="#{documentacionMB.addDocument()}" process="@form" update="@form :idDataConevnio :formMenu" icon="ui-icon-disk" />
+                                       <p:commandButton value="Agregar" id="idGuardarPersona" actionListener="#{documentacionMB.addDocument()}" process="@form" 
+                                                        update="@form :idDataConevnio :formMenu" icon="ui-icon-disk" oncomplete="PF('AddDocDialog').close();" />
+                                   </p:column>
+                            </h:panelGrid>
+                    </center>    
+                </h:form>  
+        </p:dialog>        
+        
+        <p:dialog id="idEditDocument" widgetVar="EditDocDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Editar documento" closeOnEscape="true">
+            
+             <h:form id="formEditDpcument">
+                <center>                  
+                               <h:panelGrid columns="2" >                                   
+                                   <p:column>  
+                                        <p:outputLabel value="Tipo documento" />
+                                   </p:column>                                         
+                                    <p:column>                                                                                     
+                                        <h:outputText value="#{documentacionMB.documento.idTipoDocumento.nombreDocumento}" />
+                                   </p:column>
+                                   <p:column>  
+                                        <p:outputLabel  value="Propuesta" />
+                                   </p:column>                                         
+                                    <p:column>                                                                                     
+                                        <h:outputText value="#{documentacionMB.propuestaConvenio.nombrePropuesta}" />
+                                   </p:column>
+                                   <p:column>  
+                                     <p:outputLabel value="Documento" />
+                                   </p:column> 
+                                   <p:column>
+                                       <p:fileUpload fileUploadListener="#{documentacionMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
+                                        sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" />
+                                   </p:column>                                                                                         
+                                   <p:column> 
+                                       <p:commandButton value="Actualizar" id="idActualziarDocumento" actionListener="#{documentacionMB.actualzarDocument()}" process="@form" 
+                                                        update="@form :idDataConevnio :formMenu" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').close();" />
                                    </p:column>
                             </h:panelGrid>
                     </center>    
@@ -193,6 +227,55 @@
         </p:dialog>        
  
         
+        
+        <p:dialog id="idEliminar" widgetVar="eliminarDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Eliminar documento" closeOnEscape="true">          
+              
+             <h:form id="formEliminarDpcument">
+                <center>   
+            <h:panelGrid columns="2" >                                   
+                                   <p:column>  
+                                        <p:outputLabel value="Tipo documento" />
+                                   </p:column>                                         
+                                    <p:column>                                                                                     
+                                        <h:outputText value="#{documentacionMB.documento.idTipoDocumento.nombreDocumento}" />
+                                   </p:column>
+                                   <p:column>  
+                                        <p:outputLabel  value="Propuesta" />
+                                   </p:column>                                         
+                                    <p:column>                                                                                     
+                                        <h:outputText value="#{documentacionMB.propuestaConvenio.nombrePropuesta}" />
+                                   </p:column>
+                                   <p:column>  
+                                     <p:outputLabel value="Documento" />
+                                   </p:column> 
+                                   <p:column>
+                                       <h:outputText value="#{documentacionMB.documento.nombreDocumento}" />
+                                   </p:column>                                                                                         
+                                   <p:column> 
+                                       <p:commandButton value="Eliminar"  actionListener="#{documentacionMB.eliminarDocument()}" process="@form" 
+                                                        update="@form :idDataConevnio :formMenu" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').close();" />
+                                       <p:commandButton value="Cancelar" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').close();" />
+                                   </p:column>
+              </h:panelGrid>
+               </center>    
+                </h:form>  
+           
+        </p:dialog>  
+        
+        
+
+        <p:dialog id="idPreview" widgetVar="previewDialog" responsive="true"  resizable="false"  modal="true" appendTo="@(body)" header="Preview documento" closeOnEscape="true">             
+                 
+                    <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
+              
+            </p:dialog>  
+<!--<p:dialog header="Dialog" widgetVar="dlg" id="idPreview" modal="true" appendTo="@(body)" > 
+           <h:outputText value="This content is loaded lazy." />
+            <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
+           
+        </p:dialog>
+        -->
+                
     </ui:define>
     
  </ui:composition> 

@@ -430,6 +430,16 @@ public class ProyectoMB {
         }
         return null;
     }
+    
+       public String regresar() {
+        try {
+
+            FacesContext.getCurrentInstance().getExternalContext().redirect("proyectoAdm.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * Metodo para modificar los datos de un proyecto
