@@ -30,20 +30,25 @@
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="5,10,15"                       
                         >
-                
-                <p:column headerText="Id" sortBy="#{proyecto.idProyecto}" filterBy="#{proyecto.idProyecto}">
+<!--                <p:column headerText="Id" sortBy="#{proyecto.idProyecto}" filterBy="#{proyecto.idProyecto}">
                     <h:outputText value="#{proyecto.idProyecto}" />
-                </p:column>
+                </p:column>-->
                 <p:column headerText="Nombre" sortBy="#{proyecto.nombreProyecto}" filterBy="#{proyecto.nombreProyecto}">
                     <h:outputText value="#{proyecto.nombreProyecto}" />
                 </p:column>
-                 <p:column headerText="Monto ($)" sortBy="#{proyecto.montoProyecto}" filterBy="#{proyecto.montoProyecto}">
-                    <h:outputText value="#{proyecto.montoProyecto}" />
+                 
+                <p:column headerText="Tipo de Proyecto" sortBy="#{proyecto.idTipoProyecto.nombreTipoProyecto}" filterBy="#{proyecto.idTipoProyecto.nombreTipoProyecto}">
+                    <h:outputText value="#{proyecto.idTipoProyecto.nombreTipoProyecto}" />
                 </p:column>
-<!--                <p:column headerText="Fecha de GestiÃƒÆ’Ã‚Â³n" sortBy="#{proyecto.fechaGestion}" filterBy="#{proyecto.fechaGestion}">
-                    <h:outputText value="#{proyecto.fechaGestion}" />
-                </p:column>-->
-                             
+             
+                <p:column headerText="Año de Gestión" sortBy="#{proyecto.anioGestion}" filterBy="#{proyecto.anioGestion}">
+                    <h:outputText value="#{proyecto.anioGestion}" />
+                </p:column>
+                
+                <p:column headerText="Monto ($)" sortBy="#{proyecto.montoProyecto}" filterBy="#{proyecto.montoProyecto}">
+                    <h:outputText value="$#{proyecto.montoProyecto}" />
+                </p:column>
+                
                 <p:column headerText="Opciones" >
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 

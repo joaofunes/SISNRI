@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:pe="http://primefaces.org/ui/extensions" 
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:panel header="Parametros de Busqueda" style="margin-bottom:10px;">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel  value="Pais " />
+                    <p:selectCheckboxMenu id="pais" value="#{mapaInteractivo.paisSelected}" label="Seleccione Pais" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                        <c:forEach var="pa" items="#{mapaInteractivo.paisList}">
+                            <f:selectItem itemLabel="#{pa.nombrePais}" itemValue="#{pa.idPais}"/>
+                        </c:forEach>
+                    </p:selectCheckboxMenu>
+                    <p:outputLabel value="Tipo de Proyecto" />
+                    <p:selectCheckboxMenu id="tipoProyecto" value="#{mapaInteractivo.tipoProyectoSelected}" label="Seleccione Tipo de Proyecto" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                        <c:forEach var="ti" items="#{mapaInteractivo.tipoProyectosList}">
+                            <f:selectItem itemValue="#{ti.idTipoProyecto}" itemLabel="#{ti.nombreTipoProyecto}"/>
+                        </c:forEach>
+                    </p:selectCheckboxMenu>
+                    <p:outputLabel for="desde" value="Desde " />
+                    <p:selectOneMenu id="desde" value="#{mapaInteractivo.yearDesde}" style="width:150px">
+                        <c:forEach begin="0" end="125" varStatus="loop">
+                            <c:set var="currentYear" value="${mapaInteractivo.yearActual-loop.index} " />
+                            <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
+                        </c:forEach>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="hasta" value="Hasta " />
+                    <p:selectOneMenu id="hasta" value="#{mapaInteractivo.yearHasta}" style="width:150px">
+                        <c:forEach begin="0" end="125" varStatus="loop">
+                            <c:set var="currentYear" value="${mapaInteractivo.yearActual-loop.index} " />
+                            <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
+                        </c:forEach>
+                    </p:selectOneMenu>
+                    <p:commandButton value="falso" actionListener="#{mapaInteractivo.graficar()}" update=":city,:tblProyectosSumary"/>
+                </h:panelGrid>
+                <p:separator />
+            </p:panel>
+        </h:form>
+        <p:outputPanel id="city">
+            <pe:gChart value="#{mapaInteractivo.chartModel}" rendered="#{mapaInteractivo.chartModel!=null}"/>
+            <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModel!=null}" widgetVar="pie"/>
+            <p:chart type="pie" model="#{mapaInteractivo.pieModelType}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModelType!=null}" widgetVar="pieType"/>
+            <p:panel header="Cooperacion Externa">
+                <p:panel header="Mapa">
+                    <p:outputLabel value="muestrate" rendered="#{mapaInteractivo.mostrarGraficos}"/>
+                    <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.mostrarGraficos}" widgetVar="pie"/>
+                    <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')"/>
+                    <p:chart type="bar" model="#{mapaInteractivo.barModel}" style="width:600px;height:300px"  rendered="#{mapaInteractivo.mostrarGraficos}"  widgetVar="bar"/>
+                    <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('bar')"/>
+
+                </p:panel>
+            </p:panel>
+            <script type="text/javascript">
+                function exportChart(grafico) {
+                    //export image
+                    $('#output').empty().append(PF(grafico).exportAsImage());
+
+                    //show the dialog
+                    PF('dlg').show();
+                }
+            </script>
+        </p:outputPanel>
+
+
+        <p:outputPanel id="tblProyectosSumary">
+            <p:dataTable  var="proyecto" value="#{mapaInteractivo.projectListToChart}" >
+                <f:facet name="header">
+                    LISTA DE PROYECTO
+                </f:facet>
+
+                <p:columnGroup type="header">
+                    <p:row>
+                        <p:column  headerText="Codigo Proyecto" />
+                        <p:column  headerText="Nombre Proyecto" />
+                        <p:column  headerText="A&ntilde;o Gestion" />
+                        <p:column  headerText="Monto" />
+                    </p:row>
+                </p:columnGroup>
+
+                <p:column>
+                    <h:outputText value="#{proyecto.codigoPais}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{proyecto.nombrePais}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{proyecto.cantidadProyectos}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{proyecto.montoCooperacion}">
+                        <f:convertNumber type="currency" currencySymbol="$" />
+                    </h:outputText>
+                </p:column>
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column colspan="3" style="text-align:right" footerText="Total Cooperacion:" />
+                        <p:column footerText="$#{mapaInteractivo.montoProyectos}" />
+                    </p:row>
+                </p:columnGroup>
+
+                <f:facet name="footer">
+                    Datos Segun Parametros De Busqueda
+                </f:facet>
+            </p:dataTable>
+
+        </p:outputPanel>
+        <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Imagen del grafico" resizable="true" appendTo="@(body)">
+            <center> <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/></center>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

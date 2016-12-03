@@ -352,70 +352,7 @@
             </center>
             
             
-            
-         <!--Dialog para la creacion de una nueva Persona-->
-         <p:dialog id="createDlg" widgetVar="personaCreateDialog" header="Crear Persona" closeOnEscape="true" resizable="false">
-              <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
-             <h:form id="crearPersona">
-                 <center>
-                     <h:panelGrid columns="2">
-                         <p:column>
-                             <p:outputLabel for="nombrePersona" value="Nombres"/>
-                         </p:column>
-                         <p:column>
-                             <p:inputText id="nombrePersona" label="nombrePersona" value="#" readonly="true"/>
-                         </p:column>
-                         <p:column>
-                             <p:outputLabel for="apellidoPersona" value="Apellidos"/>
-                         </p:column>
-                         <p:column>
-                             <p:inputText id="apellidoPersona" label="apellidoPersona" value="#" readonly="true"/>
-                         </p:column>
-                         <p:column>
-                             <p:outputLabel for="duiPersona" value="DUI" />
-                         </p:column>
-                         <p:column>
-                             <p:inputMask id="duiPersona" mask="99999999-9" value="#" readonly="true"/>
-                         </p:column>
-                         <p:column>
-                             <p:outputLabel for="nitPersona" value="NIT"/>
-                         </p:column>
-                         <p:column>
-                             <p:inputMask id="nitPersona" mask="9999-999999-999-9" value="#" readonly="true"/>
-                         </p:column>
-                         <p:column>
-                             <p:outputLabel for="cargoPersona" value="Cargo"/>
-                         </p:column>
-                         <p:column>
-                             <p:inputText id="cargoPersona" value="#" readonly="true"/>
-                         </p:column>
-                         <p:column>
-                             <p:outputLabel for="facultadPersona" value="Facultad"/>
-                         </p:column>
-                         <p:column>
-                             <p:selectOneMenu id="facultadPersona" value="#{proyectoMB.facultadCreatePersonaSelected}" style="width: 120px" required="true" > 
-                                            <f:selectItems value="#{proyectoMB.listFacultad}" var="facultad" itemLabel="#{facultad.nombreFacultad}" itemValue="#{facultad.idFacultad}" itemDisabled="true"/>
-                                            <p:ajax listener="#{proyectoMB.onchangeFacultadCoordinador()}" update="unidadPersona"/>
-                             </p:selectOneMenu>
-                         </p:column>
-                         <p:column>
-                             <p:outputLabel for="unidadPersona" value="Unida"/>
-                         </p:column>   
-                         <p:column>
-                              <p:selectOneMenu id="unidadPersona" value="#{proyectoMB.unidadCoordinadorSelected.idUnidad}" style="width: 120px" required="true">
-                                            <f:selectItems value="#{proyectoMB.listUnidadCoordinador}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad.idUnidad}" itemDisabled="true"/>
-                              </p:selectOneMenu>
-                         </p:column>    
-                          <p:column> 
-                                       <p:commandButton value="Editar Persona" id="idGuardarPersona"/>
-                           </p:column>
-                     </h:panelGrid>
-                         
-                 </center>
-             </h:form>
-         </p:dialog> 
-            
-            
+   
         </ui:define>
 
     </ui:composition>

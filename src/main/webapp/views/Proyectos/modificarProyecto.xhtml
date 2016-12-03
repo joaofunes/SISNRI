@@ -94,6 +94,7 @@
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="anioGestion" value="#{proyectoMB.proyecto.anioGestion}"/>
+
                                     </p:column>
 
                                 </h:panelGrid>
@@ -115,17 +116,34 @@
                                             <f:selectItems value="#{proyectoMB.listAreaConocimiento}" var="area" itemLabel="#{area.nombreArea}" itemValue="#{area.idAreaConocimiento}"/>
                                         </p:selectCheckboxMenu>
                                     </p:column>
-                                    
+
                                     <p:column>
                                         <p:outputLabel for="lugarEjecucion" value="Lugar de ejecucion"/>
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="lugarEjecucion" label="lugarEjecucion" required="true" value="#{proyectoMB.proyectoGenerico.lugarProyecto}"/>
                                     </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="paisCooperante" value="Pais cooperante"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="paisCooperante" value="#{proyectoMB.proyecto.idPaisCooperante.idPais}" style="width: 120px" required="true">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listPaisesCooperantes}" var="pais" itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
                                 </h:panelGrid>    
                             </p:tab>
                             <p:tab title="Entidades o instituciones cooperantes">
-
+                                <p:column>
+                                        <p:outputLabel  for="institucionesCooperantes" value="Entidades o instituciones cooperantes"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectCheckboxMenu id="institucionesCooperantes" value="#{proyectoMB.entidadesCooperantesSelected}"  panelStyle="width: 250px"  filter="true" filterMatchMode="startsWith" label="Entidades o instituciones" required="true">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{proyectoMB.listOrganismos}" var="entidad" itemLabel="#{entidad.nombreOrganismo}" itemValue="#{entidad.idOrganismo}"/>
+                                        </p:selectCheckboxMenu>
+                                    </p:column>
                             </p:tab>
                             <p:tab title="Datos coordinador">
                                 <h:panelGrid columns="2" cellpadding="10">  
@@ -306,7 +324,7 @@
                                         <h:panelGroup/>  
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton id="createButtonAsistente" icon="ui-icon-plus" value="Nueva Persona" process="@this" oncomplete="PF('personaCreateDialog').show();"/>  
+                                        <p:commandButton id="createButtonExterno" icon="ui-icon-plus" value="Nueva Persona" process="@this" oncomplete="PF('personaExternoCreateDialog').show();"/>  
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="listaExterno" value="Referente Externo"/>
@@ -343,7 +361,7 @@
                                     <p:column>
                                         <p:selectOneMenu id="entidadInst" value="#{proyectoMB.personaExterno.idOrganismo.idOrganismo}"  style="width:120px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <f:selectItems value="#{proyectoMB.listOrganismos}" var="organismo" itemLabel="${organismo.nombreOrganismo}" itemValue="${organismo.idOrganismo}"/>
+                                            <f:selectItems value="#{proyectoMB.listOrganismos}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo.idOrganismo}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
@@ -404,7 +422,7 @@
                             </p:column>
                             <p:column>
                                 <p:inputText id="apellidoPersona" label="apellidoPersona" value="#{proyectoMB.persona.apellidoPersona}"/>
-                            </p:column>
+                            </p:column>                        
                             <p:column>
                                 <p:outputLabel for="duiPersona" value="DUI"/>
                             </p:column>
@@ -466,10 +484,84 @@
                             <p:column>
                                 <p:inputMask id="faxPersona" label="faxPersona" mask="(503)-9999-9999" required="true" value="#{proyectoMB.faxPersona.numeroTelefono}"/>
                             </p:column>
-                            
-                            
+
+
                             <p:column> 
                                 <p:commandButton value="Crear Persona" id="idGuardarPersona" actionListener="#{proyectoMB.guardarPersona()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('personaCreateDialog').hide();"/>
+                            </p:column>
+                        </h:panelGrid>
+
+                    </center>
+                </h:form>
+            </p:dialog> 
+
+            <!--Dialog para la creacion de una nueva Persona Externa-->
+            <p:dialog id="createDlgExterno" widgetVar="personaExternoCreateDialog" header="Crear Persona"  resizable="false" closeOnEscape="true" modal="true" appendTo="@(body)">
+                <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
+                <h:form id="crearPersonaExterno">
+                    <center>
+                        <h:panelGrid columns="2">
+                            <p:column>
+                                <p:outputLabel for="nombrePersonaExterno" value="Nombres"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="nombrePersonaExterno" label="nombrePersonaExterno" value="#{proyectoMB.persona.nombrePersona}"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="apellidoPersonaExterno" value="Apellidos"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="apellidoPersonaExterno" label="apellidoPersonaExterno" value="#{proyectoMB.persona.apellidoPersona}"/>
+                            </p:column>                        
+                            <p:column>
+                                <p:outputLabel for="pasaportePersonaExterno" value="Pasaporte"/>
+                            </p:column> 
+                            <p:column>
+                                <p:inputText id="pasaportePersonaExterno" label="pasaportePersonaExterno" value="#{proyectoMB.persona.pasaporte}"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="cargoPersonaExterno" value="Cargo"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="cargoPersonaExterno" value="#{proyectoMB.persona.cargoPersona}"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="entidadPersonaExterno" value="Entidad o institucion"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu id="entidadPersonaExterno" value="#{proyectoMB.organismoPersonaSelected.idOrganismo}"  style="width:120px" required="true">
+                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{proyectoMB.listOrganismos}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo.idOrganismo}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="emailPersonaExterno" value="Correo Electronico"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="emailPersonaExterno" label="emailPersonaExterno" value="#{proyectoMB.persona.emailPersona}"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="telPersonaExterno" value="Telefono"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputMask id="telPersonaExterno" label="telPersonaExterno" mask="(503)-9999-9999" required="true" value="#{proyectoMB.telFijoPersona.numeroTelefono}"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="celPersonaExterno" value="Telefono movil"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputMask id="celPersonaExterno" label="celPersonaExterno" mask="(503)-9999-9999" required="true" value="#{proyectoMB.telCelPersona.numeroTelefono}"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="faxPersonaExterno" value="Fax"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputMask id="faxPersonaExterno" label="faxPersonaExterno" mask="(503)-9999-9999" required="true" value="#{proyectoMB.faxPersona.numeroTelefono}"/>
+                            </p:column>
+
+
+                            <p:column> 
+                                <p:commandButton value="Crear Persona" id="idGuardarPersonaExterno" actionListener="#{proyectoMB.guardarPersonaExterno()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('personaExternoCreateDialog').hide();"/>
                             </p:column>
                         </h:panelGrid>
 

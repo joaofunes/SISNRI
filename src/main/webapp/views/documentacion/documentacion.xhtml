@@ -137,30 +137,28 @@
                         </div>
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-document-b"
-                                           title="Opciones" value="Agregar Opciones a Menu" 
-                                           actionListener="#{documentacionMB.preView()}"  
+                                           title="Preview" value="Agregar Opciones a Menu" 
+                                           actionListener="#{documentacionMB.preView(menu)}"  
+                                           oncomplete="PF('previewDialog').show();" process="@this" update=":idPreview"
                                            />
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
+                                           title="Descargar" value="Descargar Archivo" 
+                                           actionListener="#{documentacionMB.FileDownloadView(menu)}"
+                                           process="@this" update="formMenu">
+                                <p:fileDownload value="#{documentacionMB.content}" />
+                            </p:commandLink>    
                         </div>
                     </p:column>
                 </p:dataTable>
-                
-<!--                 <f:event listener="#{documentacionMB.onPrerender}" type="preRenderView" />  
-            <p:tabView>  
-              
-                <p:tab title="StreamedContent">  
-                    <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
-                </p:tab>  
-            </p:tabView>  -->
+
             </p:panel>     
         </h:form>
 
   </center>      
 
-        <p:dialog header="Dialog" widgetVar="dlg" id="idPreview" modal="true" appendTo="@(body)" > 
-           <h:outputText value="This content is loaded lazy." />
-            <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
-           
-        </p:dialog>
+        
         
         
         
@@ -262,7 +260,21 @@
                </center>    
                 </h:form>  
            
-        </p:dialog>        
+        </p:dialog>  
+        
+        
+
+        <p:dialog id="idPreview" widgetVar="previewDialog" responsive="true"  resizable="false"  modal="true" appendTo="@(body)" header="Preview documento" closeOnEscape="true">             
+                 
+                    <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
+              
+            </p:dialog>  
+<!--<p:dialog header="Dialog" widgetVar="dlg" id="idPreview" modal="true" appendTo="@(body)" > 
+           <h:outputText value="This content is loaded lazy." />
+            <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
+           
+        </p:dialog>
+        -->
                 
     </ui:define>
     
