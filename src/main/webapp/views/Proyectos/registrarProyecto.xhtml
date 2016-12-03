@@ -263,9 +263,21 @@
                                         <p:selectOneMenu id="paisdestino" value="#{proyectosMB.paisSelected.idPais}"  style="width:120px">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" />
                                             <c:forEach var="pais" items="#{proyectosMB.paisList}">
-                                                <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.codigoPais}"/>
+                                                <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
                                             </c:forEach>
                                         </p:selectOneMenu>
+                                    </p:column><p:column>
+                                        <p:outputLabel value="Tipo Modalidad"/>
+                                        <p:selectOneMenu id="modalidadbeca" value="#{proyectosMB.tipoModalidadSelected.idTipoModalidad}"  style="width:120px" >
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <c:forEach var="modalidad" items="#{proyectosMB.tipoModalidadList}">
+                                                <f:selectItem itemLabel="#{modalidad.modalidad}" itemValue="#{modalidad.idTipoModalidad}"/>
+                                            </c:forEach>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Monto"/>
+                                        <p:inputText value="#{proyectosMB.beca.montoBecario}"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Carrera"/>

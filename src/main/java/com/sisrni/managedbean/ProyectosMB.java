@@ -16,7 +16,9 @@ import com.sisrni.model.PersonaProyectoPK;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.Proyecto;
 import com.sisrni.model.ProyectoGenerico;
+import com.sisrni.model.Region;
 import com.sisrni.model.Telefono;
+import com.sisrni.model.TipoModalidaBeca;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.TipoTelefono;
@@ -31,7 +33,9 @@ import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.ProyectoGenericoService;
 import com.sisrni.service.ProyectoService;
+import com.sisrni.service.RegionService;
 import com.sisrni.service.TelefonoService;
+import com.sisrni.service.TipoModalidadBecaService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.TipoTelefonoService;
@@ -89,6 +93,11 @@ public class ProyectosMB {
     private BecaService becaService;
     @Autowired
     private PaisService paisService;
+    @Autowired
+    private RegionService regionService;
+    @Autowired
+    private TipoModalidadBecaService tipoModalidadBecaService;
+
 
 //Definicion de objetos    
     private Proyecto proyecto;
@@ -110,9 +119,11 @@ public class ProyectosMB {
     private String numDocumentoRefExt;
     private String numDocumentoBecario;
     private Beca beca;
+    private Pais pais;
     private int otorgada;
     private int yearActual;
     private String anio;
+    private TipoModalidaBeca tipoModalidad;
 //Definicion de listas
     private List<Facultad> facultadList;
     private List<AreaConocimiento> areaConocimientoList;
@@ -125,6 +136,7 @@ public class ProyectosMB {
     private List<Telefono> listadoTelefonoRefExt;
     private List<Telefono> listadoTelefonoBecario;
     private List<Pais> paisList;
+    private List<TipoModalidaBeca> tipoModalidadList;
 //Definicion de selected
     private TipoProyecto proyectoSelected;
     private String[] areaConocimientoSelected;
@@ -133,8 +145,10 @@ public class ProyectosMB {
     private Unidad unidadSelected;
     private PersonaProyecto personaProyectoAsis;
     private PersonaProyecto personaProyectoExt;
+    private PersonaProyecto personaProyectoBecario;
     private PersonaProyectoPK personaProyectoPK;
     private PersonaProyectoPK personaProyectoAsisPK;
+    private PersonaProyectoPK personaProyectoBecarioPK;
     private PropuestaConvenio propuestaConvenioSelected;
     private Facultad facultadSelectedSol;
     private Facultad facultadSelectedAsis;
@@ -145,6 +159,7 @@ public class ProyectosMB {
     private Unidad unidadSelectedBecario;
     private Organismo organismoSelected;
     private Pais paisSelected;
+    private TipoModalidaBeca tipoModalidadSelected;
 //Telefono
 //private Telefono telefono;
     private Telefono telefonoSolFijo;
@@ -169,6 +184,8 @@ public class ProyectosMB {
     private int existeAsis;
     private int existeRefExt;
     private int existeBecario;
+    Pais regiones;
+    private int reg;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -194,6 +211,7 @@ public class ProyectosMB {
         organismoSelected = new Organismo();
         areasConocimiento = new ArrayList<AreaConocimiento>();
         paisSelected = new Pais();
+        tipoModalidadSelected=new TipoModalidaBeca();
         //Listas
         tipoproyectolist = tipoProyectoService.findAll();
         areaConocimientoList = areaConocimientoService.findAll();
@@ -206,6 +224,7 @@ public class ProyectosMB {
         listadoTelefonoRefExt = telefonoService.findAll();
         listadoTelefonoBecario = telefonoService.findAll();
         paisList = paisService.findAll();
+        tipoModalidadList=tipoModalidadBecaService.findAll();
         //unidadList=unidadService.findAll();
         proyecto = new Proyecto();
         proyectoGenerico = new ProyectoGenerico();
@@ -229,10 +248,15 @@ public class ProyectosMB {
         personaProyecto = new PersonaProyecto();
         personaProyectoAsis = new PersonaProyecto();
         personaProyectoExt = new PersonaProyecto();
+        personaProyectoBecario = new PersonaProyecto();
         personaProyectoPK = new PersonaProyectoPK();
         personaProyectoAsisPK = new PersonaProyectoPK();
+        personaProyectoBecarioPK = new PersonaProyectoPK();
         personaProyectoExtPK = new PersonaProyectoPK();
         beca = new Beca();
+        pais = new Pais();
+        regiones=new Pais();
+        tipoModalidad=new TipoModalidaBeca();
 
         // tipos telefonos
         tipoTelefonoFax = tipoTelefonoService.getTipoByDesc("FAX");
@@ -249,6 +273,7 @@ public class ProyectosMB {
         otorgada = 0;
         yearActual = getYearOfDate(new Date());
         anio="";
+        reg=0;
     }
 
     public void guardarProyecto() {
@@ -321,9 +346,9 @@ public class ProyectosMB {
                     telefonoService.save(telefonoAsisFax);
                     //guardar en tabla intermedia persona_proyecto Asistente
                     //PersonaProyectoPK personaProyectoPK = new PersonaProyectoPK();            
-                    personaProyectoAsisPK.setIdPersona(personaAsistente.getIdPersona());
-                    personaProyectoAsisPK.setIdProyectoGenerico(proyectoGenerico.getIdProyecto());
-                    personaProyectoAsisPK.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
+                    personaProyectoBecarioPK.setIdPersona(personaBecario.getIdPersona());
+                    personaProyectoBecarioPK.setIdProyectoGenerico(proyectoGenerico.getIdProyecto());
+                    personaProyectoBecarioPK.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
                     /////////////        
                     personaProyectoAsis.setProyectoGenerico(proyectoGenerico);
                     personaProyectoAsis.setPersona(personaAsistente);
@@ -361,21 +386,43 @@ public class ProyectosMB {
             }else{
             // guardar becario
             if (existeBecario != 1) {
+                proyecto.setIdTipoProyecto(tipoProyectoService.findById(proyectoSelected.getIdTipoProyecto()));
+                proyecto.setIdFacultad(facultadSelected.getIdFacultad());
+                proyecto.setIdUnidad(unidadSelected.getIdUnidad());
+                PropuestaConvenio propuesta = propuestaConvenioService.findById(propuestaConvenioSelected.getIdPropuesta());
+                proyecto.setIdPropuestaConvenio(propuesta);
+                proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
+                //guardar proyecto
+                proyecto.setIdProyecto(0);
+                proyectoService.save(proyecto);
+                //guardar persona becario
+                personaBecario.setIdTipoPersona(tipoPersonaBecario.getIdTipoPersona());
                 personaBecario.setDuiPersona(numDocumentoBecario);
                 Unidad unidadBecario = unidadService.findById(unidadSelectedBecario.getIdUnidad());
                 personaBecario.setIdUnidad(unidadBecario);
                 personaBecario.setIdTipoPersona(tipoPersonaBecario.getIdTipoPersona());
                 personaService.save(personaBecario);
+                //guardar tabla becas
+                beca.setIdBecas(proyecto.getIdProyecto());
+                beca.setIdPaisDestino(paisSelected.getIdPais());
+                pais=paisService.findById(paisSelected.getIdPais());
+                beca.setIdRegionDestino(pais.getIdRegion().getIdRegion());
+                beca.setIdModalidad(tipoModalidadSelected.getIdTipoModalidad());
+                Persona becario=personaService.findById(personaBecario.getIdPersona());
+                beca.setIdPersona(becario);
+                becaService.save(beca);
                 //Telefono del becario
                 telefonoBecarioFijo.setIdTipoTelefono(tipoTelefonoFijo);
                 telefonoBecarioFijo.setIdPersona(personaBecario);
                 telefonoService.save(telefonoBecarioFijo);
+                
+                        
             }
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
         }
-        
+        inicializador();
     }
 
     public void onFacultadChange() {
@@ -1018,5 +1065,38 @@ public class ProyectosMB {
     public void setAnio(String anio) {
         this.anio = anio;
     }
+
+    public Pais getRegiones() {
+        return regiones;
+    }
+
+    public void setRegiones(Pais regiones) {
+        this.regiones = regiones;
+    }
+
+    public TipoModalidaBeca getTipoModalidad() {
+        return tipoModalidad;
+    }
+
+    public void setTipoModalidad(TipoModalidaBeca tipoModalidad) {
+        this.tipoModalidad = tipoModalidad;
+    }
+
+    public List<TipoModalidaBeca> getTipoModalidadList() {
+        return tipoModalidadList;
+    }
+
+    public void setTipoModalidadList(List<TipoModalidaBeca> tipoModalidadList) {
+        this.tipoModalidadList = tipoModalidadList;
+    }
+
+    public TipoModalidaBeca getTipoModalidadSelected() {
+        return tipoModalidadSelected;
+    }
+
+    public void setTipoModalidadSelected(TipoModalidaBeca tipoModalidadSelected) {
+        this.tipoModalidadSelected = tipoModalidadSelected;
+    }
+    
     
 }
