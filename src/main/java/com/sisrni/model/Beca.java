@@ -18,8 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -30,7 +28,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Beca.findAll", query = "SELECT b FROM Beca b")})
 public class Beca implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,28 +35,22 @@ public class Beca implements Serializable {
     @Column(name = "ID_BECAS", nullable = false)
     private Integer idBecas;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_REGION_DESTINO", nullable = false)
     private int idRegionDestino;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_PAIS_DESTINO", nullable = false)
     private int idPaisDestino;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "CARRERA", nullable = false, length = 100)
     private String carrera;
-    @Column(name = "ID_MODALIDAD")
-    private Integer idModalidad;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "MONTO_BECARIO", precision = 22)
     private Double montoBecario;
     @Column(name = "OTORGADO")
     private Boolean otorgado;
-    @JoinColumn(name = "ID_MODALIDAD", referencedColumnName = "ID_TIPO_MODALIDAD", nullable = false, insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private TipoModalidaBeca tipoModalidaBeca;
+    @JoinColumn(name = "ID_MODALIDAD", referencedColumnName = "ID_TIPO_MODALIDAD")
+    @ManyToOne
+    private TipoModalidaBeca idModalidad;
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
     @ManyToOne
     private Persona idPersona;
@@ -113,14 +104,6 @@ public class Beca implements Serializable {
         this.carrera = carrera;
     }
 
-    public Integer getIdModalidad() {
-        return idModalidad;
-    }
-
-    public void setIdModalidad(Integer idModalidad) {
-        this.idModalidad = idModalidad;
-    }
-
     public Double getMontoBecario() {
         return montoBecario;
     }
@@ -137,12 +120,12 @@ public class Beca implements Serializable {
         this.otorgado = otorgado;
     }
 
-    public TipoModalidaBeca getTipoModalidaBeca() {
-        return tipoModalidaBeca;
+    public TipoModalidaBeca getIdModalidad() {
+        return idModalidad;
     }
 
-    public void setTipoModalidaBeca(TipoModalidaBeca tipoModalidaBeca) {
-        this.tipoModalidaBeca = tipoModalidaBeca;
+    public void setIdModalidad(TipoModalidaBeca idModalidad) {
+        this.idModalidad = idModalidad;
     }
 
     public Persona getIdPersona() {
@@ -183,7 +166,7 @@ public class Beca implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.Beca[ idBecas=" + idBecas + " ]";
+        return "com.model.Beca[ idBecas=" + idBecas + " ]";
     }
     
 }
