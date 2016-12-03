@@ -38,6 +38,7 @@ import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.TipoDocumentoService;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -264,6 +265,8 @@ public class DocumentacionMB implements Serializable{
              FacesMessage message = new FacesMessage("Succesful", " Documento eliminado exitosamente");
         } catch (Exception e) {
             e.printStackTrace();
+        } finally{
+          documento=null;
         }
     }
     
@@ -299,7 +302,38 @@ public class DocumentacionMB implements Serializable{
          }                    
      }
      
+    
+    /**
+     * Metodo para realizar las descargar de archivos
+     * @param documento 
+     */
+    public void FileDownloadView(Documento documento) {
+        try {
+            this.documento = documento;
+            String extension;
+            String contentType = null;
+            InputStream stream = new ByteArrayInputStream(this.documento.getDocumento());
+            extension = getFileExtension(this.documento.getNombreDocumento());
 
+            if (extension.equalsIgnoreCase("docx")) {
+                contentType = "application/vnd.ms-word.document";
+            } else if (extension.equalsIgnoreCase("pdf")) {
+                contentType = "Application/pdf";
+            } else if (extension.equalsIgnoreCase("xls")) {
+                contentType = "application/vnd.ms-excel";
+            } else if (extension.equalsIgnoreCase("xlsx")) {
+                contentType = "application/vnd.ms-excel";
+            } else if (extension.equalsIgnoreCase("doc")) {
+                contentType = "application/ms-word";
+            }
+
+            
+            
+            content = new DefaultStreamedContent(stream, contentType, documento.getNombreDocumento());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     /************************************/
     
