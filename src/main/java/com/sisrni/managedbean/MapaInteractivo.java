@@ -8,6 +8,7 @@ package com.sisrni.managedbean;
 import com.sisrni.model.Pais;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.pojo.rpt.PojoMapaInteractivo;
+import com.sisrni.pojo.rpt.PojoProyectosByTipo;
 import com.sisrni.service.PaisService;
 import com.sisrni.service.ProyectoService;
 import com.sisrni.service.TipoProyectoService;
@@ -60,7 +61,7 @@ public class MapaInteractivo implements Serializable {
     private GChartModel chartModel;
     private BarChartModel barModel;
     private PieChartModel pieModel;
-
+    private PieChartModel pieModelType;
     int numeroProyectos = 0;
     double montoProyectos = 0;
     //services
@@ -104,6 +105,7 @@ public class MapaInteractivo implements Serializable {
         montoProyectos = calcularMonto(projectListToChart);
         crearMapa();
         createPieModel();
+        createPieTipo();
     }
 
     public void onCountryChange() {
@@ -117,10 +119,20 @@ public class MapaInteractivo implements Serializable {
     private void createPieModel() {
         pieModel = new PieChartModel();
         for (PojoMapaInteractivo pj : projectListToChart) {
-            pieModel.set(pj.getNombrePais(), (pj.getMontoCooperacion()*100)/montoProyectos);
+            pieModel.set(pj.getNombrePais(), (pj.getMontoCooperacion() * 100) / montoProyectos);
         }
         pieModel.setTitle("Pais y Porcejaje de cooperacion");
         pieModel.setLegendPosition("w");
+    }
+
+    private void createPieTipo() {
+        pieModelType = new PieChartModel();
+        List<PojoProyectosByTipo> series = projectListToChart.get(0).getSeries();
+        for (PojoProyectosByTipo pj : series) {
+            pieModelType.set(pj.getNombreTipoProyecto(), pj.getCantidadProyectos());
+        }
+        pieModelType.setTitle("Cantidad y Tipos de Proyecto");
+        pieModelType.setLegendPosition("w");
     }
 
     private void createBarModel() {
@@ -184,7 +196,7 @@ public class MapaInteractivo implements Serializable {
             colorAxis.put("colors", new String[]{"white", "orange"});
             GChartModelBuilder chartModelBuilder = new GChartModelBuilder();
             chartModelBuilder.setChartType(GChartType.GEO);
-            chartModelBuilder.addColumns("Codigo", "Pais: ","Cooperacion($): ");
+            chartModelBuilder.addColumns("Codigo", "Pais: ", "Cooperacion($): ");
             for (PojoMapaInteractivo pj : projectListToChart) {
                 chartModelBuilder.addRow(pj.getNombrePais(), pj.getCodigoPais(), pj.getMontoCooperacion());
             }
@@ -270,6 +282,14 @@ public class MapaInteractivo implements Serializable {
 
     public void setPieModel(PieChartModel pieModel) {
         this.pieModel = pieModel;
+    }
+
+    public PieChartModel getPieModelType() {
+        return pieModelType;
+    }
+
+    public void setPieModelType(PieChartModel pieModelType) {
+        this.pieModelType = pieModelType;
     }
 
     public List<TipoProyecto> getTipoProyectosList() {

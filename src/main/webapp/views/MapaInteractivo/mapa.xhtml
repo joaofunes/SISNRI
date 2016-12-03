@@ -43,14 +43,15 @@
                             <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
                         </c:forEach>
                     </p:selectOneMenu>
-                    <p:commandButton value="falso" actionListener="#{mapaInteractivo.verdadero()}" update=":city,:tblProyectosSumary"/>
+                    <p:commandButton value="falso" actionListener="#{mapaInteractivo.graficar()}" update=":city,:tblProyectosSumary"/>
                 </h:panelGrid>
                 <p:separator />
             </p:panel>
         </h:form>
         <p:outputPanel id="city">
             <pe:gChart value="#{mapaInteractivo.chartModel}" rendered="#{mapaInteractivo.chartModel!=null}"/>
-            <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.chartModel!=null}" widgetVar="pie"/>
+            <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModel!=null}" widgetVar="pie"/>
+            <p:chart type="pie" model="#{mapaInteractivo.pieModelType}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModelType!=null}" widgetVar="pieType"/>
             <p:panel header="Cooperacion Externa">
                 <p:panel header="Mapa">
                     <p:outputLabel value="muestrate" rendered="#{mapaInteractivo.mostrarGraficos}"/>
