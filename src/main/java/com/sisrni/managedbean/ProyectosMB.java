@@ -407,7 +407,7 @@ public class ProyectosMB {
                 beca.setIdPaisDestino(paisSelected.getIdPais());
                 pais=paisService.findById(paisSelected.getIdPais());
                 beca.setIdRegionDestino(pais.getIdRegion().getIdRegion());
-                beca.setIdModalidad(tipoModalidadSelected.getIdTipoModalidad());
+              //  beca.setIdModalidad(tipoModalidadSelected.getIdTipoModalidad());
                 Persona becario=personaService.findById(personaBecario.getIdPersona());
                 beca.setIdPersona(becario);
                 becaService.save(beca);

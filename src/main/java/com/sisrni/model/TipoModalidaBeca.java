@@ -6,8 +6,8 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,10 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -29,7 +27,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "TipoModalidaBeca.findAll", query = "SELECT t FROM TipoModalidaBeca t")})
 public class TipoModalidaBeca implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,14 +34,12 @@ public class TipoModalidaBeca implements Serializable {
     @Column(name = "ID_TIPO_MODALIDAD", nullable = false)
     private Integer idTipoModalidad;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "MODALIDAD", nullable = false, length = 50)
     private String modalidad;
     @Column(name = "MONTO")
     private Long monto;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "tipoModalidaBeca")
-    private Beca beca;
+    @OneToMany(mappedBy = "idModalidad")
+    private List<Beca> becaList;
 
     public TipoModalidaBeca() {
     }
@@ -82,12 +77,12 @@ public class TipoModalidaBeca implements Serializable {
         this.monto = monto;
     }
 
-    public Beca getBeca() {
-        return beca;
+    public List<Beca> getBecaList() {
+        return becaList;
     }
 
-    public void setBeca(Beca beca) {
-        this.beca = beca;
+    public void setBecaList(List<Beca> becaList) {
+        this.becaList = becaList;
     }
 
     @Override
@@ -112,7 +107,7 @@ public class TipoModalidaBeca implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.TipoModalidaBeca[ idTipoModalidad=" + idTipoModalidad + " ]";
+        return "com.model.TipoModalidaBeca[ idTipoModalidad=" + idTipoModalidad + " ]";
     }
     
 }

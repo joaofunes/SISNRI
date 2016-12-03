@@ -37,6 +37,7 @@ import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.TipoDocumentoService;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Date;
@@ -46,6 +47,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -307,7 +309,8 @@ public class DocumentacionMB implements Serializable{
      * Metodo para realizar las descargar de archivos
      * @param documento 
      */
-    public void FileDownloadView(Documento documento) {
+    public void FileDownloadView(Documento documento) throws IOException {
+        BufferedOutputStream out = null;   
         try {
             this.documento = documento;
             String extension;
@@ -330,9 +333,38 @@ public class DocumentacionMB implements Serializable{
             
             
             content = new DefaultStreamedContent(stream, contentType, documento.getNombreDocumento());
-        } catch (Exception e) {
+            
+            
+            
+            byte[] bytes = documento.getDocumento();    
+            String fileName = documento.getNombreDocumento();    
+
+    FacesContext faces = FacesContext.getCurrentInstance();    
+    HttpServletResponse response = (HttpServletResponse) faces.getExternalContext().getResponse();    
+    response.reset();    
+    response.setContentType(contentType);    
+    response.setContentLength(bytes.length);    
+    response.setHeader("Content-disposition", "attachment; filename=\"" + fileName + "\"");    
+
+    
+
+            
+        out = new BufferedOutputStream(response.getOutputStream());        
+        out.write(bytes);        
+        out.flush();    
+   
+        
+
+    faces.responseComplete();
+      
+    } catch (Exception e) {
             e.printStackTrace();
-        }
+    }finally {
+            if(out!=null){
+              out.close();
+             }
+        } // Gently close stream.    
+      
     }
     
     /************************************/
