@@ -57,7 +57,7 @@ public class Beca implements Serializable {
     private Double montoBecario;
     @Column(name = "OTORGADO")
     private Boolean otorgado;
-    @JoinColumn(name = "ID_BECAS", referencedColumnName = "ID_TIPO_MODALIDAD", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "ID_MODALIDAD", referencedColumnName = "ID_TIPO_MODALIDAD", nullable = false, insertable = false, updatable = false)
     @OneToOne(optional = false)
     private TipoModalidaBeca tipoModalidaBeca;
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
