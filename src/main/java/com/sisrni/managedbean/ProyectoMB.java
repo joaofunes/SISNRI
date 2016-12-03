@@ -8,6 +8,7 @@ package com.sisrni.managedbean;
 import com.sisrni.model.AreaConocimiento;
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
+import com.sisrni.model.Pais;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaProyecto;
 import com.sisrni.model.PersonaProyectoPK;
@@ -22,6 +23,7 @@ import com.sisrni.model.Unidad;
 import com.sisrni.service.AreaConocimientoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PaisService;
 import com.sisrni.service.PersonaProyectoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
@@ -33,6 +35,7 @@ import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -41,6 +44,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.swing.JOptionPane;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -58,7 +62,11 @@ public class ProyectoMB {
     private static final String FIJO = "FIJO";
     private static final String FAX = "FAX";
     private List<Integer> areaConocimientoSelected;
+    private List<Integer> entidadesCooperantesSelected;
     private Integer idFacultadPersona;
+
+    private int yearActual;
+    private String anio;
 
     /*Variables*/
     private List<Proyecto> listProyectos;
@@ -68,6 +76,7 @@ public class ProyectoMB {
     private List<Unidad> listUnidad;
 
     private List<Organismo> listOrganismos;
+    private List<Pais> listPaisesCooperantes;
 
     private List<Persona> listInterno;
     private List<Telefono> listTelefonoInterno;
@@ -80,6 +89,7 @@ public class ProyectoMB {
 
     private List<AreaConocimiento> listAreaConocimiento;
     private List<AreaConocimiento> listaAreaConocimientoMerge;
+    private List<Organismo> listEntidadMerge;
     private List<TipoProyecto> listTipoProyecto;
     private List<PropuestaConvenio> listPropuestaConvenio;
 
@@ -114,6 +124,7 @@ public class ProyectoMB {
     private Unidad unidadCoordinadorSelected;
 
     private Unidad unidadPersonaSelected;
+    private Organismo organismoPersonaSelected;
 
     private Facultad facultadAsistenteSelected;
     private Unidad unidadAsistenteSelected;
@@ -165,6 +176,10 @@ public class ProyectoMB {
     @Autowired
     @Qualifier(value = "proyectoGenericoService")
     private ProyectoGenericoService proyectoGenericoService;
+    
+    @Autowired
+    @Qualifier(value = "paisService")
+    private PaisService paisService;
 
     @Autowired
     //@Qualifier(value = "personaProyectoService")
@@ -172,7 +187,7 @@ public class ProyectoMB {
 
     @Autowired
     private TipoPersonaService tipoPersonaService;
-    
+
     @Autowired
     private TipoTelefonoService tipoTelefonoService;
 
@@ -197,6 +212,7 @@ public class ProyectoMB {
         personaAsistente = new Persona();
         personaExterno = new Persona();
         unidadPersonaSelected = new Unidad();
+        organismoPersonaSelected = new Organismo();
 
         listFacultad = facultadService.findAll();
         //listUnidad = unidadService.findAll();
@@ -209,7 +225,9 @@ public class ProyectoMB {
         listPropuestaConvenio = propuestaConvenioService.findAll();
         listProyectosPrueba = proyectoService.findAll();
         areaConocimientoSelected = new ArrayList<Integer>();
+        entidadesCooperantesSelected = new ArrayList<Integer>();
         listProyectos = proyectoService.findAll();
+        listPaisesCooperantes = paisService.findAll();
 
         telFijoInterno = new Telefono();
         faxInterno = new Telefono();
@@ -219,20 +237,25 @@ public class ProyectoMB {
         faxExterno = new Telefono();
 
         listaAreaConocimientoMerge = new ArrayList<AreaConocimiento>();
+        listEntidadMerge = new ArrayList<Organismo>();
         personaProyectoCoordinador = new PersonaProyecto();
         personaProyectoCoordinadorPk = new PersonaProyectoPK();
 
         tipoPersonaCoord = tipoPersonaService.getTipoPersonaByNombre("REFERENTE INTERNO");
         tipoPersonaAsis = tipoPersonaService.getTipoPersonaByNombre("ASISTENTE DE COORDINADOR");
         tipoPersonaRefext = tipoPersonaService.getTipoPersonaByNombre("REFERENTE EXTERNO");
-        
+
         tipoTelefonoFijo = tipoTelefonoService.getTipoByDesc("FIJO");
         tipoTelefonoCelular = tipoTelefonoService.getTipoByDesc("CELULAR");
-        tipoTelefonoFax = tipoTelefonoService.getTipoByDesc("FAX");   
-        
+        tipoTelefonoFax = tipoTelefonoService.getTipoByDesc("FAX");
+
         telFijoPersona = new Telefono();
         telCelPersona = new Telefono();
         faxPersona = new Telefono();
+        
+        //las inicializas  
+//yearActual = getYearOfDate(new Date());
+//anio="";
     }
 
     public void onchangeCoordinador() {
@@ -338,7 +361,8 @@ public class ProyectoMB {
             listUnidad = unidadService.getUnidadesByFacultadId(proyecto.getIdFacultad());
 
             proyectoGenerico = proyectoGenericoService.findById(proyecto.getIdProyecto());
-            areaConocimientoSelected = areaConocimientoService.getAreasConocimientoProyecto(proyecto.getIdProyecto());
+            areaConocimientoSelected = areaConocimientoService.getAreasConocimientoProyecto(proyectoGenerico.getIdProyecto());
+            entidadesCooperantesSelected = organismoService.getOrganismosProyecto(proyectoGenerico.getIdProyecto());
 
             personaCoordinador = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoCoord);
             facultadCoordinadorSelected = facultadService.findById(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad());
@@ -424,8 +448,9 @@ public class ProyectoMB {
         String msg = "Proyecto Actualizado Exitosamente!";
         try {
             proyectoService.merge(proyecto);
-
+            modificarEntidades();
             modificarArea();
+            
             proyectoGenericoService.merge(proyectoGenerico);
 
             personaCoordinador.setIdUnidad(unidadCoordinadorSelected);
@@ -469,15 +494,39 @@ public class ProyectoMB {
             e.printStackTrace();
         }
     }
+    
+    public void modificarEntidades() {
+
+        try {
+            listEntidadMerge.clear();
+            String[] organismos = new String[entidadesCooperantesSelected.size()];
+            organismos = entidadesCooperantesSelected.toArray(organismos);
+
+            for (String o : organismos) {
+                Organismo  organismoCoop = organismoService.findById(Integer.parseInt(o));
+                if (organismoCoop != null) {
+                    listEntidadMerge.add(organismoCoop);
+                }
+            }
+            proyectoGenerico.setOrganismoList(listEntidadMerge);
+        } catch (Exception e) {
+            
+            e.printStackTrace();
+        }
+    }
+    
+    
 
     public void guardarPersona() {
         String msg = "Persona creada exitosamente!!";
         Unidad unidad = unidadService.findById(unidadPersonaSelected.getIdUnidad());
+        Organismo organismo = organismoService.findById(organismoPersonaSelected.getIdOrganismo());
         try {
             //Seteando Persona
             persona.setIdUnidad(unidad);
+            persona.setIdOrganismo(organismo);
             persona.setIdTipoPersona(tipoPersonaCoord.getIdTipoPersona());
-            
+
             //seteando telefonos de Persona
             telFijoPersona.setIdTipoTelefono(tipoTelefonoFijo);
             telFijoPersona.setIdPersona(persona);
@@ -487,28 +536,71 @@ public class ProyectoMB {
 
             faxPersona.setIdTipoTelefono(tipoTelefonoFax);
             faxPersona.setIdPersona(persona);
-            
-           //Guardando Persona
+
+            //Guardando Persona
             personaService.save(persona);
 
-           //Guardando Telefonos
+            //Guardando Telefonos
             telefonoService.save(telFijoPersona);
             telefonoService.save(telCelPersona);
             telefonoService.save(faxPersona);
-            
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", msg));
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             persona = new Persona();
             telFijoPersona = new Telefono();
             telCelPersona = new Telefono();
             faxPersona = new Telefono();
             unidadPersonaSelected = new Unidad();
+            organismoPersonaSelected = new Organismo();
             listUnidadPersona.clear();
             idFacultadPersona = null;
-            
+
+        }
+    }
+
+    public void guardarPersonaExterno() {
+        String msg = "Persona creada exitosamente!!";
+
+        try {
+            JOptionPane.showMessageDialog(null, "el id del organismo es: " + organismoPersonaSelected.getIdOrganismo());
+            Organismo organismo = organismoService.findById(organismoPersonaSelected.getIdOrganismo());
+            //Seteando Persona
+            persona.setIdOrganismo(organismo);
+            persona.setIdTipoPersona(tipoPersonaRefext.getIdTipoPersona());
+
+            //seteando telefonos de Persona
+            telFijoPersona.setIdTipoTelefono(tipoTelefonoFijo);
+            telFijoPersona.setIdPersona(persona);
+
+            telCelPersona.setIdTipoTelefono(tipoTelefonoCelular);
+            telCelPersona.setIdPersona(persona);
+
+            faxPersona.setIdTipoTelefono(tipoTelefonoFax);
+            faxPersona.setIdPersona(persona);
+
+            //Guardando Persona
+            personaService.save(persona);
+
+            //Guardando Telefonos
+            telefonoService.save(telFijoPersona);
+            telefonoService.save(telCelPersona);
+            telefonoService.save(faxPersona);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", msg));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            persona = new Persona();
+            telFijoPersona = new Telefono();
+            telCelPersona = new Telefono();
+            faxPersona = new Telefono();
+            organismoPersonaSelected = new Organismo();
+
         }
     }
 
@@ -813,4 +905,42 @@ public class ProyectoMB {
         this.faxPersona = faxPersona;
     }
 
+    public Organismo getOrganismoPersonaSelected() {
+        return organismoPersonaSelected;
+    }
+
+    public void setOrganismoPersonaSelected(Organismo organismoPersonaSelected) {
+        this.organismoPersonaSelected = organismoPersonaSelected;
+    }
+
+    public int getYearActual() {
+        return yearActual;
+    }
+
+    public void setYearActual(int yearActual) {
+        this.yearActual = yearActual;
+    }
+
+    public String getAnio() {
+        return anio;
+    }
+
+    public void setAnio(String anio) {
+        this.anio = anio;
+    }
+
+    public List<Pais> getListPaisesCooperantes() {
+        return listPaisesCooperantes;
+    }
+
+    public List<Integer> getEntidadesCooperantesSelected() {
+        return entidadesCooperantesSelected;
+    }
+
+    public void setEntidadesCooperantesSelected(List<Integer> entidadesCooperantesSelected) {
+        this.entidadesCooperantesSelected = entidadesCooperantesSelected;
+    }
+
+    
+    
 }

@@ -9,6 +9,7 @@ import com.sisrni.dao.OrganismoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Organismo;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,10 @@ public class OrganismoService extends GenericService<Organismo, Integer>  {
     @Override
     public GenericDao<Organismo, Integer> getDao() {
         return organismoDao;
+    }
+    
+    public List<Integer> getOrganismosProyecto(Integer id){
+        return organismoDao.getOrganismosProyecto(id);
     }
     
 }

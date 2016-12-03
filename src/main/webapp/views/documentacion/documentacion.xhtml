@@ -137,10 +137,18 @@
                         </div>
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-document-b"
-                                           title="Opciones" value="Agregar Opciones a Menu" 
+                                           title="Preview" value="Agregar Opciones a Menu" 
                                            actionListener="#{documentacionMB.preView(menu)}"  
                                            oncomplete="PF('previewDialog').show();" process="@this" update=":idPreview"
                                            />
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
+                                           title="Descargar" value="Descargar Archivo" 
+                                           actionListener="#{documentacionMB.FileDownloadView(menu)}"
+                                           process="@this" update="formMenu">
+                                <p:fileDownload value="#{documentacionMB.content}" />
+                            </p:commandLink>    
                         </div>
                     </p:column>
                 </p:dataTable>
@@ -256,10 +264,10 @@
         
         
 
-           <p:dialog id="idPreview" widgetVar="previewDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Preview documento" closeOnEscape="true">             
-                <p:tab title="StreamedContent">  
+        <p:dialog id="idPreview" widgetVar="previewDialog" responsive="true"  resizable="false"  modal="true" appendTo="@(body)" header="Preview documento" closeOnEscape="true">             
+                 
                     <pe:documentViewer height="500" value="#{documentacionMB.content}"/>  
-                </p:tab> 
+              
             </p:dialog>  
 <!--<p:dialog header="Dialog" widgetVar="dlg" id="idPreview" modal="true" appendTo="@(body)" > 
            <h:outputText value="This content is loaded lazy." />

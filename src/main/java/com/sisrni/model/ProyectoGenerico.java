@@ -47,7 +47,7 @@ public class ProyectoGenerico implements Serializable {
     @Size(max = 300)
     @Column(name = "OBJETIVO", length = 300)
     private String objetivo;
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy = "proyectoGenericoList")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "proyectoGenericoList")
     private List<Organismo> organismoList;
     @JoinTable(name = "PROYECTO_GENERICO_AREA", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
