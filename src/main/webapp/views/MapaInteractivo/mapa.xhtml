@@ -120,16 +120,16 @@
         </h:form> 
         <p:dialog header="Detalle de Proyectos" id="listP" widgetVar="projectPopUp" modal="true" appendTo="@(body)">
             <p:dataTable var="p" value="#{mapaInteractivo.projectListToPopUp}" scrollable="true" scrollHeight="150" id="tablelist">
-                <p:column headerText="Proyecto" footerText="Proyecto">
-                    <h:outputText value="#{p.idProyecto}" />
+                <p:column headerText="Proyecto">
+                    <h:outputText value="#{p.nombreProyecto}" />
                 </p:column>
-                <p:column headerText="Tipo" footerText="Tipo">
+                <p:column headerText="Tipo">
                     <h:outputText value="#{p.idTipoProyecto.nombreTipoProyecto}" />
                 </p:column>
-                <p:column headerText="Año Gestion" footerText="Año Gestion">
+                <p:column headerText="A&ntilde;o Gestion">
                     <h:outputText value="#{p.anioGestion}" />
                 </p:column>
-                <p:column headerText="Monto($)" footerText="Monto($)">
+                <p:column headerText="Monto($)">
                     <h:outputText value="#{p.montoProyecto}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
