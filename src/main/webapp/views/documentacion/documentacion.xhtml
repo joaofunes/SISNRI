@@ -146,8 +146,8 @@
                             <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
                                            title="Descargar" value="Descargar Archivo" 
                                            actionListener="#{documentacionMB.FileDownloadView(menu)}"
-                                           process="@this" update="formMenu">
-                                <p:fileDownload value="#{documentacionMB.content}" />
+                                           process="@this" update="formMenu" ajax="false">
+                                <p:fileDownload value="#{documentacionMB.content}" />                                
                             </p:commandLink>    
                         </div>
                     </p:column>
@@ -186,7 +186,7 @@
                                    </p:column>                                                                                         
                                    <p:column> 
                                        <p:commandButton value="Agregar" id="idGuardarPersona" actionListener="#{documentacionMB.addDocument()}" process="@form" 
-                                                        update="@form :idDataConevnio :formMenu" icon="ui-icon-disk" oncomplete="PF('AddDocDialog').close();" />
+                                                        update="@form :idDataConevnio :formMenu" icon="ui-icon-disk" oncomplete="PF('AddDocDialog').hide();" />
                                    </p:column>
                             </h:panelGrid>
                     </center>    
@@ -219,7 +219,7 @@
                                    </p:column>                                                                                         
                                    <p:column> 
                                        <p:commandButton value="Actualizar" id="idActualziarDocumento" actionListener="#{documentacionMB.actualzarDocument()}" process="@form" 
-                                                        update="@form :idDataConevnio :formMenu" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').close();" />
+                                                        update="@form :idDataConevnio :formMenu" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').hide();" />
                                    </p:column>
                             </h:panelGrid>
                     </center>    
@@ -253,8 +253,8 @@
                                    </p:column>                                                                                         
                                    <p:column> 
                                        <p:commandButton value="Eliminar"  actionListener="#{documentacionMB.eliminarDocument()}" process="@form" 
-                                                        update="@form :idDataConevnio :formMenu" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').close();" />
-                                       <p:commandButton value="Cancelar" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').close();" />
+                                                        update="@form :idDataConevnio :formMenu" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').hide();" />
+                                       <p:commandButton value="Cancelar" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').hide();" />
                                    </p:column>
               </h:panelGrid>
                </center>    
