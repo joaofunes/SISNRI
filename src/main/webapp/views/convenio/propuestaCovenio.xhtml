@@ -30,18 +30,24 @@
                                 </tr>
                                 <tr>
                                    <td> <p:outputLabel for="idSolicinateNombreAuto" value="Nombre Solicitante" /></td>                                       
-                                   <td> <p:autoComplete id="idSolicinateNombreAuto" required="true" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeSolicitante}"
+                                   <td> 
+<!--                                       <p:autoComplete id="idSolicinateNombreAuto" required="true" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeSolicitante}"
                                                                  var="solici" itemLabel="#{solici.nombrePersona}" itemValue="#{solici}" converter="#{personaConverter}" forceSelection="true" >                                                                                                                                                                                                                                         
                                                      <p:column>
                                                          <h:outputText value="#{solici.nombrePersona} #{solici.apellidoPersona}" />
                                                      </p:column>
-                                              </p:autoComplete>
+                                        </p:autoComplete>-->
+                                       
+                                       <p:autoComplete id="idSolicinateNombreAuto" value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeSolicitante}"
+                                         var="solicitud" itemLabel="#{solicitud.nombrePersona}" itemValue="#{solicitud}" converter="#{personaConverter}" scrollHeight="250">
+                                          <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameSolicitante()}" process="@this,idSolicinateNombre" update="idFacultad,idUnidad,idCargo"/>
+                                       </p:autoComplete> 
                                               <p:message for="idSolicinateNombreAuto" />                                       
                                    </td>                                       
-                                   <td>
+<!--                                   <td>
                                          <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameSolicitante}" id="idBtnSearchInSol" process="@this,idSolicinateNombre" update="idFacultad,idUnidad,idCargo" icon="ui-icon-search" title="buscar"/>
                                              <p:message for="idBtnSearchInSol" />                                        
-                                   </td>                                       
+                                   </td>                                       -->
                                 </tr>    
                                 <tr>
                                   <td><p:outputLabel for="idFacultad" value="Facultad" /></td>
@@ -79,18 +85,25 @@
                                 <tr>
                                   <td><p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" /></td>
                                   <td>
-                                      <p:autoComplete id="idSolicinateNombreInterno" required="true" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
+<!--                                      <p:autoComplete id="idSolicinateNombreInterno" required="true" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
                                                             var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" forceSelection="true" >                                                                                                                                                                                                                                         
                                                 <p:column>
                                                     <h:outputText value="#{interno.nombrePersona} #{interno.apellidoPersona}" />
                                                 </p:column>
-                                         </p:autoComplete>
+                                      </p:autoComplete>-->
+                                      
+                                      
+                                       <p:autoComplete id="idSolicinateNombreInterno" value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
+                                         var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" scrollHeight="250">
+                                          <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameInterno()}" process="@this,idSolicinateNombreInterno" update="idFacultadInterno,idUnidadInterno,formAdmin"/>
+                                       </p:autoComplete> 
+                                      
                                          <p:message for="idSolicinateNombreInterno" />
                                   </td>                                 
-                                  <td> 
+<!--                                  <td> 
                                       <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameInterno}" id="idBtnSearchIn" process="@this,idSolicinateNombreInterno" update="idFacultadInterno,idUnidadInterno,formAdmin" icon="ui-icon-search" title="Icon Only"/>
                                         <p:message for="idBtnSearchIn" /> 
-                                  </td>                                 
+                                  </td>                                 -->
                                 </tr>
                                 <tr>
                                   <td><p:outputLabel for="idDocumentoInterno" value="N&deg; Documento" /></td>
@@ -165,17 +178,24 @@
                                 <tr>
                                   <td> <p:outputLabel for="idNombreExterno" value="Nombre" /></td>
                                   <td>
-                                      <p:autoComplete id="idNombreExterno" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteExterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteExterno}"
+<!--                                      <p:autoComplete id="idNombreExterno" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteExterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteExterno}"
                                                             var="externo" itemLabel="#{externo.nombrePersona}" itemValue="#{externo}" converter="#{personaConverter}" forceSelection="true">                                                                                           
                                                  <f:selectItem itemLabel="Nombre Referente Interno" itemValue="null" itemDisabled="true" />
                                                 <p:column>
                                                     <h:outputText value="#{externo.nombrePersona} #{externo.apellidoPersona}" />
                                                 </p:column>
-                                         </p:autoComplete>
+                                         </p:autoComplete>-->
+                                      
+                                       <p:autoComplete id="idNombreExterno" value="#{propuestaConvenioMB.referenteExterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteExterno}"
+                                         var="externo" itemLabel="#{externo.nombrePersona}" itemValue="#{externo}" converter="#{personaConverter}" scrollHeight="250">
+                                          <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameExterno()}" process="@this,idNombreExterno" update="formAdmin"/>
+                                       </p:autoComplete> 
+                                      
                                          <p:message for="idNombreExterno" />
                                   </td>                                 
-                                  <td><p:watermark for="idNombreExterno" value="Nombre Externo" id="waterNameEx" />
-                                         <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameExterno}" id="idBtnSearchEx" process="@this,idNombreExterno" update="formAdmin" icon="ui-icon-search" title="Icon Only"/></td>                                 
+<!--                                  <td><p:watermark for="idNombreExterno" value="Nombre Externo" id="waterNameEx" />
+                                         <p:commandButton actionListener="#{propuestaConvenioMB.searchByNameExterno}" id="idBtnSearchEx" process="@this,idNombreExterno" update="formAdmin" icon="ui-icon-search" title="Icon Only"/>
+                                  </td>                                 -->
                                 </tr>
                                 <tr>
                                   <td><p:outputLabel for="idDocumentoExterno" value="N&deg; Documento" /></td>

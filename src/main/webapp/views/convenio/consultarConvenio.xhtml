@@ -106,8 +106,8 @@
                         </p:selectOneMenu>
                     </p:column>                        
                     <p:column>                        
-                        <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarConvenioMB.eliminarConvenio()}" process="idCambiarEstado" update=":formAdmin" onclick="PF('dlgEstado').close();" />
-                         <p:commandButton value="No"  icon="ui-icon-close" onclick="PF('dlgEstado').close();" process="@this" />
+                        <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarConvenioMB.eliminarConvenio()}" process="idCambiarEstado" update=":formAdmin" onclick="PF('dlgEstado').hide();" />
+                         <p:commandButton value="No"  icon="ui-icon-close" onclick="PF('dlgEstado').hide();" process="@this" />
                     </p:column>
                     <p:column></p:column>
                 </p:panelGrid>
