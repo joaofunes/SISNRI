@@ -6,6 +6,7 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Pais;
+import com.sisrni.model.Proyecto;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.pojo.rpt.PojoMapaInteractivo;
 import com.sisrni.pojo.rpt.PojoProyectosByTipo;
@@ -64,6 +65,7 @@ public class MapaInteractivo implements Serializable {
     private PieChartModel pieModelType;
     int numeroProyectos = 0;
     double montoProyectos = 0;
+    private List<Proyecto> projectListToPopUp;
     //services
     @Autowired
     @Qualifier(value = "paisService")
@@ -97,6 +99,7 @@ public class MapaInteractivo implements Serializable {
         paisList = paisService.findAll();
         tipoProyectosList = tipoProyectoService.findAll();
         projectListToChart = new ArrayList<PojoMapaInteractivo>();
+        projectListToPopUp = new ArrayList<Proyecto>();
         graficar();
     }
 
@@ -124,7 +127,7 @@ public class MapaInteractivo implements Serializable {
         pieModel.setTitle("Pais y Porcejaje de cooperacion");
         pieModel.setLegendPosition("w");
         pieModel.setShowDataLabels(true);
-      
+
     }
 
     private void createPieTipo() {
@@ -133,11 +136,20 @@ public class MapaInteractivo implements Serializable {
         for (PojoProyectosByTipo pj : series) {
             pieModelType.set(pj.getNombreTipoProyecto(), pj.getCantidadProyectos());
         }
+
         pieModelType.setTitle("Cantidad y Tipos de Proyecto");
         pieModelType.setLegendPosition("w");
         pieModelType.setShowDataLabels(true);
-        
-        
+
+    }
+
+    public void fillPopUp(Integer pais) {
+        for (PojoMapaInteractivo pj : projectListToChart) {
+            if (pj.getIdPais() == pais) {
+                projectListToPopUp = pj.getProjectList();
+                
+            }
+        }
     }
 
     private void createBarModel() {
@@ -352,5 +364,15 @@ public class MapaInteractivo implements Serializable {
     public void setYearActual(Integer yearActual) {
         this.yearActual = yearActual;
     }
+
+    public List<Proyecto> getProjectListToPopUp() {
+        return projectListToPopUp;
+    }
+
+    public void setProjectListToPopUp(List<Proyecto> projectListToPopUp) {
+        this.projectListToPopUp = projectListToPopUp;
+    }
+
+  
 
 }

@@ -80,8 +80,8 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                             + "AND pr.ID_PAIS_COOPERANTE=" + pj.getIdPais() + whereTipoProyecto;
 
                     //String qp = "from Proyect pr Where pr.idPaisCooperante='" + pj.getCodigoPais() + "' and pr.idTipoProyecto in (" + String.join(",", tipoProyectoSelected) + ") and pr.anioGestion between " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta);
-                    Query r = getSessionFactory().getCurrentSession().createSQLQuery(qp);
-                    pj.setProjectList((List<Proyecto>) r.list());
+                    Query r = getSessionFactory().getCurrentSession().createSQLQuery(qp).addEntity(Proyecto.class);
+                    pj.setProjectList(r.list());
 
                     pj.setSeries(listTipos);
 
