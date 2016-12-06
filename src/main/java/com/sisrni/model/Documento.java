@@ -21,7 +21,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -34,24 +33,15 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Documento.findAll", query = "SELECT d FROM Documento d")})
 public class Documento implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "ID_DOCUMENTO", nullable = false)
     private Integer idDocumento;
     @Column(name = "FECHA_RECIBIDO")
     @Temporal(TemporalType.DATE)
     private Date fechaRecibido;
-    @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")
-    @ManyToOne
-    private Proyecto idProyecto;
-    @JoinColumn(name = "ID_PROPUESTA", referencedColumnName = "ID_PROPUESTA")
-    @ManyToOne
-    private PropuestaConvenio idPropuesta;
-    @JoinColumn(name = "ID_TIPO_DOCUMENTO", referencedColumnName = "ID_TIPO_DOCUMENTO")
-    @ManyToOne
-    private TipoDocumento idTipoDocumento;
     @Lob
     @Column(name = "DOCUMENTO")
     private byte[] documento;
@@ -61,6 +51,15 @@ public class Documento implements Serializable {
     @Size(max = 30)
     @Column(name = "USUARIO_RECIBE", length = 30)
     private String usuarioRecibe;
+    @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")
+    @ManyToOne
+    private Proyecto idProyecto;
+    @JoinColumn(name = "ID_PROPUESTA", referencedColumnName = "ID_PROPUESTA")
+    @ManyToOne
+    private PropuestaConvenio idPropuesta;
+    @JoinColumn(name = "ID_TIPO_DOCUMENTO", referencedColumnName = "ID_TIPO_DOCUMENTO")
+    @ManyToOne
+    private TipoDocumento idTipoDocumento;
 
     public Documento() {
     }
@@ -85,6 +84,29 @@ public class Documento implements Serializable {
         this.fechaRecibido = fechaRecibido;
     }
 
+    public byte[] getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(byte[] documento) {
+        this.documento = documento;
+    }
+
+    public String getNombreDocumento() {
+        return nombreDocumento;
+    }
+
+    public void setNombreDocumento(String nombreDocumento) {
+        this.nombreDocumento = nombreDocumento;
+    }
+
+    public String getUsuarioRecibe() {
+        return usuarioRecibe;
+    }
+
+    public void setUsuarioRecibe(String usuarioRecibe) {
+        this.usuarioRecibe = usuarioRecibe;
+    }
 
     public Proyecto getIdProyecto() {
         return idProyecto;
@@ -133,30 +155,6 @@ public class Documento implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Documento[ idDocumento=" + idDocumento + " ]";
-    }
-
-    public byte[] getDocumento() {
-        return documento;
-    }
-
-    public void setDocumento(byte[] documento) {
-        this.documento = documento;
-    }
-
-    public String getNombreDocumento() {
-        return nombreDocumento;
-    }
-
-    public void setNombreDocumento(String nombreDocumento) {
-        this.nombreDocumento = nombreDocumento;
-    }
-
-    public String getUsuarioRecibe() {
-        return usuarioRecibe;
-    }
-
-    public void setUsuarioRecibe(String usuarioRecibe) {
-        this.usuarioRecibe = usuarioRecibe;
     }
     
 }

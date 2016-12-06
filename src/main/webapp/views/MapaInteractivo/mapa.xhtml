@@ -43,82 +43,101 @@
                             <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
                         </c:forEach>
                     </p:selectOneMenu>
-                    <p:commandButton value="falso" actionListener="#{mapaInteractivo.graficar()}" update=":city,:tblProyectosSumary"/>
+                    <p:commandButton value="falso" actionListener="#{mapaInteractivo.graficar()}" update="city,tblProyectosSumary"/>
                 </h:panelGrid>
                 <p:separator />
             </p:panel>
-        </h:form>
-        <p:outputPanel id="city">
-            <pe:gChart value="#{mapaInteractivo.chartModel}" rendered="#{mapaInteractivo.chartModel!=null}"/>
-            <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModel!=null}" widgetVar="pie"/>
-            <p:chart type="pie" model="#{mapaInteractivo.pieModelType}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModelType!=null}" widgetVar="pieType"/>
-            <p:panel header="Cooperacion Externa">
-                <p:panel header="Mapa">
-                    <p:outputLabel value="muestrate" rendered="#{mapaInteractivo.mostrarGraficos}"/>
-                    <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.mostrarGraficos}" widgetVar="pie"/>
-                    <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')"/>
-                    <p:chart type="bar" model="#{mapaInteractivo.barModel}" style="width:600px;height:300px"  rendered="#{mapaInteractivo.mostrarGraficos}"  widgetVar="bar"/>
-                    <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('bar')"/>
 
+            <p:outputPanel id="city">
+                <pe:gChart value="#{mapaInteractivo.chartModel}" title="Mapa de Cooperacion" rendered="#{mapaInteractivo.chartModel!=null}" widgetVar="map"/>
+                <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModel!=null}" widgetVar="pie"/>
+                <p:chart type="pie" model="#{mapaInteractivo.pieModelType}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModelType!=null}" widgetVar="pieType"/>
+                <p:panel header="Cooperacion Externa">
+                    <p:panel header="Mapa">
+                        <p:outputLabel value="muestrate" rendered="#{mapaInteractivo.mostrarGraficos}"/>
+                        <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.mostrarGraficos}" widgetVar="pie"/>
+                        <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')"/>
+                        <p:chart type="bar" model="#{mapaInteractivo.barModel}" style="width:600px;height:300px"  rendered="#{mapaInteractivo.mostrarGraficos}"  widgetVar="bar"/>
+                        <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pieType')"/>
+
+                    </p:panel>
                 </p:panel>
-            </p:panel>
-            <script type="text/javascript">
-                function exportChart(grafico) {
-                    //export image
-                    $('#output').empty().append(PF(grafico).exportAsImage());
+                <script type="text/javascript">
+                    function exportChart(grafico) {
+                        //export image
+                        $('#output').empty().append(PF(grafico).exportAsImage());
 
-                    //show the dialog
-                    PF('dlg').show();
-                }
-            </script>
-        </p:outputPanel>
+                        //show the dialog
+                        PF('dlg').show();
+                    }
+                </script>
+            </p:outputPanel>
 
 
-        <p:outputPanel id="tblProyectosSumary">
-            <p:dataTable  var="proyecto" value="#{mapaInteractivo.projectListToChart}" >
-                <f:facet name="header">
-                    LISTA DE PROYECTO
-                </f:facet>
+            <p:outputPanel id="tblProyectosSumary">
+                <p:dataTable  var="proyecto" value="#{mapaInteractivo.projectListToChart}" >
+                    <f:facet name="header">
+                        LISTA DE PROYECTO
+                    </f:facet>
 
-                <p:columnGroup type="header">
-                    <p:row>
-                        <p:column  headerText="Codigo Proyecto" />
-                        <p:column  headerText="Nombre Proyecto" />
-                        <p:column  headerText="A&ntilde;o Gestion" />
-                        <p:column  headerText="Monto" />
-                    </p:row>
-                </p:columnGroup>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column  headerText="Pais Cooperante" />
+                            <p:column  headerText="Cantidad de Proyectos" />
+                            <p:column  headerText="Monto Cooperacion" />
+                            <p:column  headerText="Detalle" />
+                        </p:row>
+                    </p:columnGroup>
+                    <p:column>
+                        <h:outputText value="#{proyecto.nombrePais}" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{proyecto.cantidadProyectos}" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{proyecto.montoCooperacion}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Ver" id="btnPopUp" actionListener="#{mapaInteractivo.fillPopUp(proyecto.idPais)}" oncomplete="PF('projectPopUp').show();" update=":listP" icon="ui-icon-search" />
+                    </p:column>
+                    <p:columnGroup type="footer">
+                        <p:row>
+                            <p:column colspan="2" style="text-align:right" footerText="Total Cooperacion:" />
+                            <p:column footerText="$#{mapaInteractivo.montoProyectos}" style="text-align:left">
+                            </p:column>
+                            
+                        </p:row>
+                    </p:columnGroup>
 
-                <p:column>
-                    <h:outputText value="#{proyecto.codigoPais}" />
+                    <f:facet name="footer">
+                        Datos Segun Parametros De Busqueda
+                    </f:facet>
+                </p:dataTable>
+
+            </p:outputPanel>
+        </h:form> 
+        <p:dialog header="Detalle de Proyectos" id="listP" widgetVar="projectPopUp" modal="true" appendTo="@(body)">
+            <p:dataTable var="p" value="#{mapaInteractivo.projectListToPopUp}" scrollable="true" scrollHeight="150" id="tablelist">
+                <p:column headerText="Proyecto">
+                    <h:outputText value="#{p.nombreProyecto}" />
                 </p:column>
-                <p:column>
-                    <h:outputText value="#{proyecto.nombrePais}" />
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{p.idTipoProyecto.nombreTipoProyecto}" />
                 </p:column>
-                <p:column>
-                    <h:outputText value="#{proyecto.cantidadProyectos}" />
+                <p:column headerText="A&ntilde;o Gestion">
+                    <h:outputText value="#{p.anioGestion}" />
                 </p:column>
-                <p:column>
-                    <h:outputText value="#{proyecto.montoCooperacion}">
+                <p:column headerText="Monto($)">
+                    <h:outputText value="#{p.montoProyecto}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                 </p:column>
-                <p:columnGroup type="footer">
-                    <p:row>
-                        <p:column colspan="3" style="text-align:right" footerText="Total Cooperacion:" />
-                        <p:column footerText="$#{mapaInteractivo.montoProyectos}" />
-                    </p:row>
-                </p:columnGroup>
-
-                <f:facet name="footer">
-                    Datos Segun Parametros De Busqueda
-                </f:facet>
             </p:dataTable>
-
-        </p:outputPanel>
+        </p:dialog>
         <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Imagen del grafico" resizable="true" appendTo="@(body)">
             <center> <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/></center>
         </p:dialog>
-
     </ui:define>
 </ui:composition>

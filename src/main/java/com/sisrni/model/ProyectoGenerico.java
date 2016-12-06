@@ -5,7 +5,6 @@
  */
 package com.sisrni.model;
 
-
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -21,6 +20,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -31,13 +32,17 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "ProyectoGenerico.findAll", query = "SELECT p FROM ProyectoGenerico p")})
 public class ProyectoGenerico implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "ID_PROYECTO", nullable = false)
     private Integer idProyecto;
+    @Size(max = 300)
     @Column(name = "LUGAR_PROYECTO", length = 300)
     private String lugarProyecto;
+    @Size(max = 300)
     @Column(name = "OBJETIVO", length = 300)
     private String objetivo;
     @ManyToMany(mappedBy = "proyectoGenericoList")
@@ -138,7 +143,7 @@ public class ProyectoGenerico implements Serializable {
 
     @Override
     public String toString() {
-        return "com.model.ProyectoGenerico[ idProyecto=" + idProyecto + " ]";
+        return "com.sisrni.model.ProyectoGenerico[ idProyecto=" + idProyecto + " ]";
     }
     
 }

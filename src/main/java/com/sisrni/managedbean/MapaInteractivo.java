@@ -6,6 +6,7 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Pais;
+import com.sisrni.model.Proyecto;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.pojo.rpt.PojoMapaInteractivo;
 import com.sisrni.pojo.rpt.PojoProyectosByTipo;
@@ -64,6 +65,7 @@ public class MapaInteractivo implements Serializable {
     private PieChartModel pieModelType;
     int numeroProyectos = 0;
     double montoProyectos = 0;
+    private List<Proyecto> projectListToPopUp;
     //services
     @Autowired
     @Qualifier(value = "paisService")
@@ -97,6 +99,7 @@ public class MapaInteractivo implements Serializable {
         paisList = paisService.findAll();
         tipoProyectosList = tipoProyectoService.findAll();
         projectListToChart = new ArrayList<PojoMapaInteractivo>();
+        projectListToPopUp = new ArrayList<Proyecto>();
         graficar();
     }
 
@@ -119,10 +122,12 @@ public class MapaInteractivo implements Serializable {
     private void createPieModel() {
         pieModel = new PieChartModel();
         for (PojoMapaInteractivo pj : projectListToChart) {
-            pieModel.set(pj.getNombrePais(), (pj.getMontoCooperacion() * 100) / montoProyectos);
+            pieModel.set(pj.getNombrePais(), pj.getMontoCooperacion());
         }
         pieModel.setTitle("Pais y Porcejaje de cooperacion");
         pieModel.setLegendPosition("w");
+        pieModel.setShowDataLabels(true);
+
     }
 
     private void createPieTipo() {
@@ -131,8 +136,20 @@ public class MapaInteractivo implements Serializable {
         for (PojoProyectosByTipo pj : series) {
             pieModelType.set(pj.getNombreTipoProyecto(), pj.getCantidadProyectos());
         }
+
         pieModelType.setTitle("Cantidad y Tipos de Proyecto");
         pieModelType.setLegendPosition("w");
+        pieModelType.setShowDataLabels(true);
+
+    }
+
+    public void fillPopUp(Integer pais) {
+        for (PojoMapaInteractivo pj : projectListToChart) {
+            if (pj.getIdPais() == pais) {
+                projectListToPopUp = pj.getProjectList();
+                
+            }
+        }
     }
 
     private void createBarModel() {
@@ -193,12 +210,12 @@ public class MapaInteractivo implements Serializable {
         try {
 
             Map<String, Object> colorAxis = new HashMap<String, Object>();
-            colorAxis.put("colors", new String[]{"white", "orange"});
+            colorAxis.put("colors", new String[]{"Green", "Red"});
             GChartModelBuilder chartModelBuilder = new GChartModelBuilder();
             chartModelBuilder.setChartType(GChartType.GEO);
-            chartModelBuilder.addColumns("Codigo", "Pais: ", "Cooperacion($): ");
+            chartModelBuilder.addColumns("Codigo", "Pais", "Cooperacion($)");
             for (PojoMapaInteractivo pj : projectListToChart) {
-                chartModelBuilder.addRow(pj.getNombrePais(), pj.getCodigoPais(), pj.getMontoCooperacion());
+                chartModelBuilder.addRow(pj.getCodigoPais(), pj.getNombrePais(), pj.getMontoCooperacion());
             }
             chartModelBuilder.addOption("colorAxis", colorAxis);
             this.chartModel = chartModelBuilder.build();
@@ -347,5 +364,15 @@ public class MapaInteractivo implements Serializable {
     public void setYearActual(Integer yearActual) {
         this.yearActual = yearActual;
     }
+
+    public List<Proyecto> getProjectListToPopUp() {
+        return projectListToPopUp;
+    }
+
+    public void setProjectListToPopUp(List<Proyecto> projectListToPopUp) {
+        this.projectListToPopUp = projectListToPopUp;
+    }
+
+  
 
 }

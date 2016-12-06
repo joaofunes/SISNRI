@@ -155,7 +155,7 @@ public class DocumentacionMB implements Serializable{
       List<PropuestaConvenio> filteredThemes = new ArrayList<PropuestaConvenio>();      
         for(int i=0 ; i<listPropuestaConvenio.size();i++ ){
             PropuestaConvenio skin=listPropuestaConvenio.get(i);
-            if(skin.getNombrePropuesta().toLowerCase().startsWith(query)){
+            if(skin.getNombrePropuesta().toLowerCase().startsWith(query.toLowerCase())){
                filteredThemes.add(skin);
             }
         }        
@@ -335,27 +335,27 @@ public class DocumentacionMB implements Serializable{
             content = new DefaultStreamedContent(stream, contentType, documento.getNombreDocumento());
             
             
-            
-            byte[] bytes = documento.getDocumento();    
-            String fileName = documento.getNombreDocumento();    
-
-    FacesContext faces = FacesContext.getCurrentInstance();    
-    HttpServletResponse response = (HttpServletResponse) faces.getExternalContext().getResponse();    
-    response.reset();    
-    response.setContentType(contentType);    
-    response.setContentLength(bytes.length);    
-    response.setHeader("Content-disposition", "attachment; filename=\"" + fileName + "\"");    
-
-    
-
-            
-        out = new BufferedOutputStream(response.getOutputStream());        
-        out.write(bytes);        
-        out.flush();    
-   
-        
-
-    faces.responseComplete();
+//            
+//            byte[] bytes = documento.getDocumento();    
+//            String fileName = documento.getNombreDocumento();    
+//
+//    FacesContext faces = FacesContext.getCurrentInstance();    
+//    HttpServletResponse response = (HttpServletResponse) faces.getExternalContext().getResponse();    
+//    response.reset();    
+//    response.setContentType(contentType);    
+//    response.setContentLength(bytes.length);    
+//    response.setHeader("Content-disposition", "attachment; filename=\"" + fileName + "\"");    
+//
+//    
+//
+//            
+//        out = new BufferedOutputStream(response.getOutputStream());        
+//        out.write(bytes);        
+//        out.flush();    
+//   
+//        
+//
+//    faces.responseComplete();
       
     } catch (Exception e) {
             e.printStackTrace();
