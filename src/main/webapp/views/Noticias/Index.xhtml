@@ -6,10 +6,8 @@
                  xmlns:f="http://java.sun.com/jsf/core"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
-                 xmlns:p="http://primefaces.org/ui"
-                 xmlns:pe="http://primefaces.org/ui/extensions" 
-
-                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                 xmlns:p="http://primefaces.org/ui" 
+                 >
 
 
     <ui:define name="content">
@@ -18,28 +16,30 @@
                 <f:facet name="header">
                     Noticias
                 </f:facet>
-
                 <f:facet name="loader">
-                    <p:commandButton type="button" value="More" icon="ui-icon-circle-triangle-s"/>
+                    <p:commandButton type="button" value="Ver Mas" icon="ui-icon-circle-triangle-s"/>
                 </f:facet>
-
                 <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                    <p:panel id="custom" header="#{car.tituloNoticia}" style="margin-bottom:20px">
+                    <p:panel id="custom" header="Titulo: #{car.tituloNoticia}" style="margin-bottom:20px">
                         <h:panelGrid columns="2" cellpadding="10">
-                            
                             <h:outputText id="display" value="#{car.descripcionNoticia}" escape="false" />
                         </h:panelGrid>
-
                         <f:facet name="actions">
-                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-pencil" /></h:commandLink>
-                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-search" /></h:commandLink>
+                            <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" actionListener="#{noticiaMB.cargarNoticiaPopUp(car.idNoticia)}" oncomplete="PF('noticiaWV').show();" update=":noticiaPopUpId"><h:outputText styleClass="ui-icon ui-icon-search" /></p:commandLink>
                         </f:facet>
                     </p:panel>
-
-
                 </h:panelGrid>
             </p:dataScroller>
         </h:form>
+        <p:dialog header="Noticia" id="noticiaPopUpId" widgetVar="noticiaWV" modal="true" appendTo="@(body)" width="1100" height="500">
+            <p:panelGrid columns="2">
+                <h:outputText value="Titulo:"/>
+                <h:outputText value="#{noticiaMB.noticiaPopUp.tituloNoticia}" style="text-align: left"/>
+                <h:outputText value="Fecha Creacion:"/>
+                <h:outputText value="#{noticiaMB.noticiaPopUp.fechaNoticia}" style="text-align: left"/>
+                <h:outputText value="#{noticiaMB.noticiaPopUp.contenido}" escape="false" />
+            </p:panelGrid>
+        </p:dialog>
     </ui:define>
 
 </ui:composition> 

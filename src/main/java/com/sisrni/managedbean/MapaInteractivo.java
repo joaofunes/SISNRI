@@ -24,6 +24,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.primefaces.extensions.component.gchart.model.GChartModel;
 import org.primefaces.extensions.component.gchart.model.GChartModelBuilder;
 import org.primefaces.extensions.component.gchart.model.GChartType;
@@ -46,7 +48,7 @@ import org.springframework.web.context.WebApplicationContext;
 public class MapaInteractivo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    private final static Log log = LogFactory.getLog(MapaInteractivo.class);
 //parametros de busqueda
     private List<String> paisSelected;
     private List<String> tipoProyectoSelected;
@@ -100,6 +102,7 @@ public class MapaInteractivo implements Serializable {
         tipoProyectosList = tipoProyectoService.findAll();
         projectListToChart = new ArrayList<PojoMapaInteractivo>();
         projectListToPopUp = new ArrayList<Proyecto>();
+//        inicializarMapa();
         graficar();
     }
 
@@ -147,7 +150,7 @@ public class MapaInteractivo implements Serializable {
         for (PojoMapaInteractivo pj : projectListToChart) {
             if (pj.getIdPais() == pais) {
                 projectListToPopUp = pj.getProjectList();
-                
+
             }
         }
     }
@@ -372,7 +375,5 @@ public class MapaInteractivo implements Serializable {
     public void setProjectListToPopUp(List<Proyecto> projectListToPopUp) {
         this.projectListToPopUp = projectListToPopUp;
     }
-
-  
 
 }
