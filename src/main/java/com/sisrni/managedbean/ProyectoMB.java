@@ -35,6 +35,7 @@ import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -176,7 +177,7 @@ public class ProyectoMB {
     @Autowired
     @Qualifier(value = "proyectoGenericoService")
     private ProyectoGenericoService proyectoGenericoService;
-    
+
     @Autowired
     @Qualifier(value = "paisService")
     private PaisService paisService;
@@ -252,10 +253,9 @@ public class ProyectoMB {
         telFijoPersona = new Telefono();
         telCelPersona = new Telefono();
         faxPersona = new Telefono();
-        
-        //las inicializas  
-//yearActual = getYearOfDate(new Date());
-//anio="";
+
+        yearActual = getYearOfDate(new Date());
+        anio = "";
     }
 
     public void onchangeCoordinador() {
@@ -359,6 +359,8 @@ public class ProyectoMB {
             this.proyecto = proyectoIn;
             proyecto = proyectoService.findById(proyecto.getIdProyecto());
             listUnidad = unidadService.getUnidadesByFacultadId(proyecto.getIdFacultad());
+            anio = Integer.toString(proyecto.getAnioGestion())+" ";
+            
 
             proyectoGenerico = proyectoGenericoService.findById(proyecto.getIdProyecto());
             areaConocimientoSelected = areaConocimientoService.getAreasConocimientoProyecto(proyectoGenerico.getIdProyecto());
@@ -430,8 +432,8 @@ public class ProyectoMB {
         }
         return null;
     }
-    
-       public String regresar() {
+
+    public String regresar() {
         try {
 
             FacesContext.getCurrentInstance().getExternalContext().redirect("proyectoAdm.xhtml");
@@ -447,10 +449,12 @@ public class ProyectoMB {
     public void actualizarProyecto() {
         String msg = "Proyecto Actualizado Exitosamente!";
         try {
+            //Integer anioGest = Integer.parseInt(anio.trim());
+            proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
             proyectoService.merge(proyecto);
             modificarEntidades();
             modificarArea();
-            
+
             proyectoGenericoService.merge(proyectoGenerico);
 
             personaCoordinador.setIdUnidad(unidadCoordinadorSelected);
@@ -494,6 +498,10 @@ public class ProyectoMB {
             e.printStackTrace();
         }
     }
+
+    public void modificarProyectoGenericoOrganismos(){
+        
+    }
     
     public void modificarEntidades() {
 
@@ -503,20 +511,19 @@ public class ProyectoMB {
             organismos = entidadesCooperantesSelected.toArray(organismos);
 
             for (String o : organismos) {
-                Organismo  organismoCoop = organismoService.findById(Integer.parseInt(o));
+                Organismo organismoCoop = organismoService.findById(Integer.parseInt(o));
                 if (organismoCoop != null) {
-                    listEntidadMerge.add(organismoCoop);
+                    //listEntidadMerge.add(organismoCoop);
+                    proyectoGenerico.getOrganismoList().add(organismoCoop);
                 }
             }
-            proyectoGenerico.setOrganismoList(listEntidadMerge);
             
+           // proyectoGenerico.setOrganismoList(listEntidadMerge);
         } catch (Exception e) {
-            
+
             e.printStackTrace();
         }
     }
-    
-    
 
     public void guardarPersona() {
         String msg = "Persona creada exitosamente!!";
@@ -567,7 +574,7 @@ public class ProyectoMB {
         String msg = "Persona creada exitosamente!!";
 
         try {
-            JOptionPane.showMessageDialog(null, "el id del organismo es: " + organismoPersonaSelected.getIdOrganismo());
+            //JOptionPane.showMessageDialog(null, "el id del organismo es: " + organismoPersonaSelected.getIdOrganismo());
             Organismo organismo = organismoService.findById(organismoPersonaSelected.getIdOrganismo());
             //Seteando Persona
             persona.setIdOrganismo(organismo);
@@ -604,9 +611,13 @@ public class ProyectoMB {
 
         }
     }
-
-    public void modificarOrganismos() {
-
+    
+    
+     private Integer getYearOfDate(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        Integer year = cal.get(Calendar.YEAR);
+        return year;
     }
 
     public List<Facultad> getListFacultad() {
@@ -942,6 +953,5 @@ public class ProyectoMB {
         this.entidadesCooperantesSelected = entidadesCooperantesSelected;
     }
 
-    
     
 }
