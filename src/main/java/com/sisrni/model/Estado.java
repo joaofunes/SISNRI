@@ -38,10 +38,10 @@ import javax.validation.constraints.Size;
 public class Estado implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id   
-    @NotNull
-    @Column(name = "ID_ESTADO", nullable = false)
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_ESTADO", nullable = false)
     private Integer idEstado;
     @Size(max = 60)
     @Column(name = "NOMBRE_ESTADO", length = 60)
@@ -49,9 +49,10 @@ public class Estado implements Serializable {
     @Column(name = "FECHA_INGRESO_ESTADO")
     @Temporal(TemporalType.DATE)
     private Date fechaIngresoEstado;
-    @Column(name = "TIPO_ESTADO")
-    private Integer tipoEstado;
-    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "TIPO_ESTADO", nullable = false)
+    private int tipoEstado;
     @JoinTable(name = "PROYECTO_ESTADO", joinColumns = {
         @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
@@ -59,12 +60,17 @@ public class Estado implements Serializable {
     private List<Proyecto> proyectoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado")
     private List<PropuestaEstado> propuestaEstadoList;
-    
+
     public Estado() {
     }
 
     public Estado(Integer idEstado) {
         this.idEstado = idEstado;
+    }
+
+    public Estado(Integer idEstado, int tipoEstado) {
+        this.idEstado = idEstado;
+        this.tipoEstado = tipoEstado;
     }
 
     public Integer getIdEstado() {
@@ -91,6 +97,14 @@ public class Estado implements Serializable {
         this.fechaIngresoEstado = fechaIngresoEstado;
     }
 
+    public int getTipoEstado() {
+        return tipoEstado;
+    }
+
+    public void setTipoEstado(int tipoEstado) {
+        this.tipoEstado = tipoEstado;
+    }
+
     public List<Proyecto> getProyectoList() {
         return proyectoList;
     }
@@ -107,7 +121,6 @@ public class Estado implements Serializable {
         this.propuestaEstadoList = propuestaEstadoList;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -131,14 +144,6 @@ public class Estado implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Estado[ idEstado=" + idEstado + " ]";
-    }
-
-    public Integer getTipoEstado() {
-        return tipoEstado;
-    }
-
-    public void setTipoEstado(Integer tipoEstado) {
-        this.tipoEstado = tipoEstado;
     }
     
 }

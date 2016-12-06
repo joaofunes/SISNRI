@@ -7,8 +7,8 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.AreaConocimiento;
 import com.sisrni.model.Beca;
-import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
+import com.sisrni.model.Facultad;
 import com.sisrni.model.Pais;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaProyecto;
@@ -16,7 +16,6 @@ import com.sisrni.model.PersonaProyectoPK;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.Proyecto;
 import com.sisrni.model.ProyectoGenerico;
-import com.sisrni.model.Region;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoModalidaBeca;
 import com.sisrni.model.TipoPersona;
@@ -40,7 +39,6 @@ import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,7 +47,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
@@ -127,6 +124,7 @@ public class ProyectosMB {
 //Definicion de listas
     private List<Facultad> facultadList;
     private List<AreaConocimiento> areaConocimientoList;
+    private List<Organismo> organismoProyList;
     private List<TipoProyecto> tipoproyectolist;
     private List<Unidad> unidadList;
     private List<PropuestaConvenio> propuestaConvenioList;
@@ -140,7 +138,9 @@ public class ProyectosMB {
 //Definicion de selected
     private TipoProyecto proyectoSelected;
     private String[] areaConocimientoSelected;
+    private String[] organismoProySelected;
     private List<AreaConocimiento> areasConocimiento;
+    private List<Organismo> organismosProyecto;
     private Facultad facultadSelected;
     private Unidad unidadSelected;
     private PersonaProyecto personaProyectoAsis;
@@ -210,11 +210,13 @@ public class ProyectosMB {
         unidadSelectedBecario = new Unidad();
         organismoSelected = new Organismo();
         areasConocimiento = new ArrayList<AreaConocimiento>();
+        organismosProyecto=new ArrayList<Organismo>();
         paisSelected = new Pais();
         tipoModalidadSelected=new TipoModalidaBeca();
         //Listas
         tipoproyectolist = tipoProyectoService.findAll();
         areaConocimientoList = areaConocimientoService.findAll();
+        organismoProyList=organismoService.findAll();
         //facultadList = new ArrayList<Facultad>();
         facultadList = facultadService.findAll();
         propuestaConvenioList = propuestaConvenioService.findAll();
@@ -300,6 +302,15 @@ public class ProyectosMB {
                     }
                 }
                 proyectoGenerico.setAreaConocimientoList(areasConocimiento);
+                
+                // guardar organismo
+                for (int i = 0; i < organismoProySelected.length; i++) {
+                    Organismo organismo = organismoService.findById(Integer.parseInt(organismoProySelected[i]));
+                    if (organismo != null) {
+                        organismosProyecto.add(organismo);
+                    }
+                }
+                proyectoGenerico.setOrganismoList(organismosProyecto);
                 proyectoGenericoService.save(proyectoGenerico);
                 //guardar persona solicitante
                 if (existeSol != 1) {
@@ -407,7 +418,8 @@ public class ProyectosMB {
                 beca.setIdPaisDestino(paisSelected.getIdPais());
                 pais=paisService.findById(paisSelected.getIdPais());
                 beca.setIdRegionDestino(pais.getIdRegion().getIdRegion());
-              //  beca.setIdModalidad(tipoModalidadSelected.getIdTipoModalidad());
+                tipoModalidad=tipoModalidadBecaService.findById(tipoModalidadSelected.getIdTipoModalidad());
+                beca.setIdModalidad(tipoModalidad);
                 Persona becario=personaService.findById(personaBecario.getIdPersona());
                 beca.setIdPersona(becario);
                 becaService.save(beca);
@@ -1097,6 +1109,32 @@ public class ProyectosMB {
     public void setTipoModalidadSelected(TipoModalidaBeca tipoModalidadSelected) {
         this.tipoModalidadSelected = tipoModalidadSelected;
     }
+
+    public List<Organismo> getOrganismoProyList() {
+        return organismoProyList;
+    }
+
+    public void setOrganismoProyList(List<Organismo> organismoProyList) {
+        this.organismoProyList = organismoProyList;
+    }
+
+    public String[] getOrganismoProySelected() {
+        return organismoProySelected;
+    }
+
+    public void setOrganismoProySelected(String[] organismoProySelected) {
+        this.organismoProySelected = organismoProySelected;
+    }
+
+    public List<Organismo> getOrganismosProyecto() {
+        return organismosProyecto;
+    }
+
+    public void setOrganismosProyecto(List<Organismo> organismosProyecto) {
+        this.organismosProyecto = organismosProyecto;
+    }
+    
+    
     
     
 }

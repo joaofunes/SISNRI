@@ -31,9 +31,10 @@ import javax.validation.constraints.Size;
 public class TipoPropuestaConvenio implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id   
-    @Column(name = "ID_TIPO_PROPUESTA", nullable = false)
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_TIPO_PROPUESTA", nullable = false)
     private Integer idTipoPropuesta;
     @Basic(optional = false)
     @NotNull
