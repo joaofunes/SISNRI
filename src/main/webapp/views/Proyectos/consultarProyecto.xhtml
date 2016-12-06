@@ -342,17 +342,14 @@
                                 <p:column>
                                     <h:panelGroup/>
                                 </p:column>
-                                <p:column>
-                                    <p:commandButton styleClass="boton"  actionListener="#{proyectoMB.regresar}" process="" update="" value="Regresar"  id="btnRegresar" title="Regresar" />
-                                </p:column>
                             </h:panelGrid>
                         </p:panel>
                     </h:form>
+                    <p:column>
+                      <p:commandButton styleClass="boton"  onclick="window.history.back();" value="Regresar"  id="btnRegresar" title="Regresar" />
+                    </p:column>
                 </p:panel>
             </center>
-            
-            
-   
         </ui:define>
 
     </ui:composition>

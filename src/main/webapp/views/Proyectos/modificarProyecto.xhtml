@@ -393,7 +393,7 @@
                                     <h:panelGroup/>
                                 </p:column>
                                 <p:column>
-                                    <p:commandButton styleClass="boton"  actionListener="null" process="" update="" value="Cancelar"  id="btnCancelar" title="Modificar proyecto" />
+                                      <p:commandButton styleClass="boton"  onclick="window.history.back();" value="Regresar"  id="btnRegresar" title="Regresar" />
                                 </p:column>
                                 <p:column>
                                     <p:commandButton styleClass="boton"  actionListener="#{proyectoMB.actualizarProyecto()}" process="@this :formModProy" update="formModProy" value="Modificar proyecto"  id="btnModificar"  title="Modificar proyecto" />                                 
