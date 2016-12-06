@@ -6,6 +6,7 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.PropuestaConvenio;
+import com.sisrni.pojo.rpt.PojoConvenioEstado;
 import com.sisrni.service.PropuestaConvenioService;
 import java.io.Serializable;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ConsultarEstadoConvenioMB implements Serializable{
     
     private static final long serialVersionUID = 1113799434508676095L;
     
-    private List<PropuestaConvenio> listadoPropuestaConvenio;
+    private List<PojoConvenioEstado> listadoPropuestaConvenio;
     
     @Autowired
     @Qualifier(value = "propuestaConvenioService")
@@ -44,18 +45,20 @@ public class ConsultarEstadoConvenioMB implements Serializable{
 
     private void iniciliazar() {
         try {
-            
+           listadoPropuestaConvenio=propuestaConvenioService.getConveioWithEstado();
         } catch (Exception e) {
           e.printStackTrace();
         }
     }
 
-    public List<PropuestaConvenio> getListadoPropuestaConvenio() {
+    public List<PojoConvenioEstado> getListadoPropuestaConvenio() {
         return listadoPropuestaConvenio;
     }
 
-    public void setListadoPropuestaConvenio(List<PropuestaConvenio> listadoPropuestaConvenio) {
+    public void setListadoPropuestaConvenio(List<PojoConvenioEstado> listadoPropuestaConvenio) {
         this.listadoPropuestaConvenio = listadoPropuestaConvenio;
     }
+
+   
     
 }
