@@ -8,10 +8,12 @@ package com.sisrni.dao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.TipoPropuestaConvenio;
+import com.sisrni.pojo.rpt.PojoConvenioEstado;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.DateType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
@@ -197,6 +199,54 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
             Query q= getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PropuestaConvenio p WHERE p.idPropuesta=:id");
             q.setParameter("id",idPropuesta);
             return (PropuestaConvenio) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+   }
+    
+    
+    
+  /**
+   * Metodo que devuelve los convenios con sus estados.
+   * @return 
+   */
+    public List<PojoConvenioEstado> getConveioWithEstado(){
+        try {
+            String sql="SELECT \n" +
+                        "P_CONV.ID_PROPUESTA id_propuesta,\n" +
+                        "P_CONV.NOMBRE_PROPUESTA nombre_propuesta,\n" +
+                        "P_CONV.VIGENCIA vigencia,\n" +
+                        "P_ESTAD.FECHA fecha_cambio_estado,\n" +
+                        "EST.ID_ESTADO id_estado,\n" +
+                        "EST.NOMBRE_ESTADO nombre_estado,\n" +
+                        "EST.TIPO_ESTADO tipo_estado\n" +
+                        "FROM PROPUESTA_CONVENIO P_CONV \n" +
+                        "INNER JOIN PROPUESTA_ESTADO P_ESTAD \n" +
+                        "ON P_ESTAD.ID_PROPUESTA=P_CONV.ID_PROPUESTA\n" +
+                        "INNER JOIN ESTADO EST\n" +
+                        "ON P_ESTAD.ID_ESTADO=EST.ID_ESTADO";
+            
+            Query q= getSessionFactory().getCurrentSession().createSQLQuery(sql)
+                        
+                     .addScalar("id_propuesta",new IntegerType())
+                     .addScalar("nombre_propuesta",new StringType())
+                     .addScalar("vigencia",new DateType())
+                     .addScalar("fecha_cambio_estado",new DateType())
+                     .addScalar("id_estado",new IntegerType())                    
+                     .addScalar("nombre_estado",new StringType())                    
+                     .addScalar("tipo_estado",new IntegerType())
+                    
+                   
+                     .setResultTransformer(Transformers.aliasToBean(PojoConvenioEstado.class));
+          
+           
+            if(q.list()!=null){
+                return  q.list();
+            }else{
+                return null;
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

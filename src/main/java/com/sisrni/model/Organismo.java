@@ -70,8 +70,6 @@ public class Organismo implements Serializable {
     private TipoOrganismo idTipoOrganismo;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Telefono> telefonoList;
-   // @OneToMany(mappedBy = "idOrganismo")
-    //private List<Propuesta> propuestaList;
 
     public Organismo() {
     }
@@ -184,14 +182,6 @@ public class Organismo implements Serializable {
         this.telefonoList = telefonoList;
     }
 
-//    public List<Propuesta> getPropuestaList() {
-//        return propuestaList;
-//    }
-//
-//    public void setPropuestaList(List<Propuesta> propuestaList) {
-//        this.propuestaList = propuestaList;
-//    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -214,7 +204,7 @@ public class Organismo implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.Organismo[ idOrganismo=" + idOrganismo + " ]";
+        return "com.sisrni.model.Organismo[ idOrganismo=" + idOrganismo + " ]";
     }
     
 }

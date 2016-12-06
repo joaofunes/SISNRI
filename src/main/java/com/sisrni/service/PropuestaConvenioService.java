@@ -9,6 +9,7 @@ import com.sisrni.dao.PropuestaConvenioDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.TipoPropuestaConvenio;
+import com.sisrni.pojo.rpt.PojoConvenioEstado;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
@@ -50,5 +51,9 @@ public class PropuestaConvenioService extends GenericService<PropuestaConvenio, 
      public PropuestaConvenio getPropuestaCovenioByID(int idPropuesta){
          return propuestaConvenioDao.getPropuestaCovenioByID(idPropuesta);
      } 
+     
+     public List<PojoConvenioEstado> getConveioWithEstado(){
+         return propuestaConvenioDao.getConveioWithEstado();
+     }
     
 }

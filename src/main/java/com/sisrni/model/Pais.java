@@ -48,7 +48,6 @@ public class Pais implements Serializable {
     @JoinColumn(name = "ID_REGION", referencedColumnName = "ID_REGION")
     @ManyToOne
     private Region idRegion;
-    
     @OneToMany(mappedBy = "idPaisCooperante")
     private List<Proyecto> proyectoList;
 
@@ -99,6 +98,14 @@ public class Pais implements Serializable {
         this.idRegion = idRegion;
     }
 
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -122,14 +129,6 @@ public class Pais implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Pais[ idPais=" + idPais + " ]";
-    }
-
-    public List<Proyecto> getProyectoList() {
-        return proyectoList;
-    }
-
-    public void setProyectoList(List<Proyecto> proyectoList) {
-        this.proyectoList = proyectoList;
     }
     
 }
