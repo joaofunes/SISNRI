@@ -18,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -28,6 +30,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Beca.findAll", query = "SELECT b FROM Beca b")})
 public class Beca implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,12 +38,16 @@ public class Beca implements Serializable {
     @Column(name = "ID_BECAS", nullable = false)
     private Integer idBecas;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "ID_REGION_DESTINO", nullable = false)
     private int idRegionDestino;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "ID_PAIS_DESTINO", nullable = false)
     private int idPaisDestino;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "CARRERA", nullable = false, length = 100)
     private String carrera;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -166,7 +173,7 @@ public class Beca implements Serializable {
 
     @Override
     public String toString() {
-        return "com.model.Beca[ idBecas=" + idBecas + " ]";
+        return "com.sisrni.model.Beca[ idBecas=" + idBecas + " ]";
     }
     
 }

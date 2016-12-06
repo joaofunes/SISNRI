@@ -60,7 +60,7 @@ public class Persona implements Serializable {
     private String cargoPersona;
     @Size(max = 60)
     @Column(name = "PASAPORTE", length = 60)
-    private String pasaporte;   
+    private String pasaporte;
     @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
     @ManyToOne
     private Unidad idUnidad;
@@ -154,7 +154,7 @@ public class Persona implements Serializable {
     public void setPasaporte(String pasaporte) {
         this.pasaporte = pasaporte;
     }
-    
+
     public Unidad getIdUnidad() {
         return idUnidad;
     }

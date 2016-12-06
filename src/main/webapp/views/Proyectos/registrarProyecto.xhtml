@@ -97,6 +97,16 @@
                                         </p:selectCheckboxMenu>
                                     </p:column>
                                     <p:column>
+                                        <p:outputLabel value="Organismos cooperantes:"/>
+                                        <p:selectCheckboxMenu id="organismoproy" value="#{proyectosMB.organismoProySelected}" label="Seleccione Organismos"
+                                                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" />
+                                            <c:forEach var="org" items="#{proyectosMB.organismoProyList}">
+                                                <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
+                                            </c:forEach>
+                                        </p:selectCheckboxMenu>
+                                    </p:column>
+                                    <p:column>
                                         <p:outputLabel value="Lugar de Ejecucion"/>
                                         <p:inputText value="#{proyectosMB.proyectoGenerico.lugarProyecto}"/>
                                     </p:column>
@@ -202,11 +212,11 @@
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Telefono:"/>
-                                        <p:inputText id="telefonoasistente" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}"/>
+                                        <p:inputText id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Fax:"/>
-                                        <p:inputText id="faxasistente" value="#{proyectosMB.telefonoSolFax.numeroTelefono}"/>
+                                        <p:inputText id="faxasistente" value="#{proyectosMB.telefonoAsisFax.numeroTelefono}"/>
                                     </p:column>
                                 </p:panelGrid>
                             </p:tab>
@@ -266,26 +276,32 @@
                                                 <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
                                             </c:forEach>
                                         </p:selectOneMenu>
-                                    </p:column><p:column>
+                                    </p:column>
+                                    <p:column>
                                         <p:outputLabel value="Tipo Modalidad"/>
-                                        <p:selectOneMenu id="modalidadbeca" value="#{proyectosMB.tipoModalidadSelected.idTipoModalidad}"  style="width:120px" >
+                                        <p:selectOneMenu  id="modalidadbeca" value="#{proyectosMB.tipoModalidadSelected.idTipoModalidad}"  style="width:120px">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <c:forEach var="modalidad" items="#{proyectosMB.tipoModalidadList}">
                                                 <f:selectItem itemLabel="#{modalidad.modalidad}" itemValue="#{modalidad.idTipoModalidad}"/>
+                                                <f:ajax event="change" execute="modalidadbeca" render="monto"/>
                                             </c:forEach>
                                         </p:selectOneMenu>
                                     </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Monto"/>
-                                        <p:inputText value="#{proyectosMB.beca.montoBecario}"/>
+                                    <p:column id="monto" rendered="#{proyectosMB.tipoModalidadSelected.idTipoModalidad==1}">
+                                        <p:outputLabel  value="Monto del becario"/>
+                                        <p:inputText value="#{proyectosMB.beca.montoBecario}" />
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Carrera"/>
                                         <p:inputText value="#{proyectosMB.beca.carrera}"/>
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="Monto del becario"/>
-                                        <p:inputText value="#{proyectosMB.beca.montoBecario}"/>
+                                        <p:outputLabel value="Otorgada?"/>
+                                        <p:selectOneMenu value="#{proyectosMB.beca.otorgado}">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItem itemValue="true" itemLabel="SI" />
+                                            <f:selectItem itemValue="false" itemLabel="NO" />                   
+                                        </p:selectOneMenu>
                                     </p:column>
                                 </p:panelGrid>
                             </p:tab>

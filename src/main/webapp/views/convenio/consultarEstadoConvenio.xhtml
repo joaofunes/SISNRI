@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" 
+    >
+                    
+    <ui:define name="content">
+            
+        
+            <h:form id="formAdmin">
+
+                <p:dataTable var="convenio" value="#{consultarEstadoConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
+                             >    
+                    <p:column headerText="Nombre Convenio">
+                        <h:outputText value="#{convenio.nombre_propuesta}" />
+                    </p:column>
+                    <p:column headerText="Vigecia">
+                        <h:outputText value="#{convenio.vigencia}" />
+                    </p:column>                    
+                    <p:column headerText="Fecha cambio estado">
+                        <h:outputText value="#{convenio.fecha_cambio_estado}" />
+                    </p:column>                    
+                    <p:column headerText="Activo">
+                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('ACTIVO')?'1':'0'}" />
+                    </p:column>
+                    <p:column headerText="Inactivo">
+                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('INACTIVO')?'1':'0'}" />
+                    </p:column>
+                    <p:column headerText="Fiscalia">
+                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('FISCALIA')?'1':'0'}" />
+                    </p:column>
+                    <p:column headerText="CSU">
+                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('CSU')?'1':'0'}" />
+                    </p:column>
+                    <p:column headerText="AGU">
+                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('AGU')?'1':'0'}" />
+                    </p:column>
+                    <p:column headerText="Proceso de Firma">
+                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('PROCESO DE FIRMA')?'1':'0'}" />
+                    </p:column>
+                    <p:column headerText="Firmado">
+                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('FIRMADO')?'1':'0'}" />
+                    </p:column>
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{consultarConvenioMB.preEditar(convenio)}" />
+                        </div>
+                       
+                    </p:column>
+                </p:dataTable>
+            </h:form> 
+    </ui:define> 
+      
+</ui:composition>

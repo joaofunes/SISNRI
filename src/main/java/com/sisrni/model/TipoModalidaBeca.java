@@ -17,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -27,6 +29,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "TipoModalidaBeca.findAll", query = "SELECT t FROM TipoModalidaBeca t")})
 public class TipoModalidaBeca implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +37,8 @@ public class TipoModalidaBeca implements Serializable {
     @Column(name = "ID_TIPO_MODALIDAD", nullable = false)
     private Integer idTipoModalidad;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "MODALIDAD", nullable = false, length = 50)
     private String modalidad;
     @Column(name = "MONTO")
@@ -107,7 +112,7 @@ public class TipoModalidaBeca implements Serializable {
 
     @Override
     public String toString() {
-        return "com.model.TipoModalidaBeca[ idTipoModalidad=" + idTipoModalidad + " ]";
+        return "com.sisrni.model.TipoModalidaBeca[ idTipoModalidad=" + idTipoModalidad + " ]";
     }
     
 }
