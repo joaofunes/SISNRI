@@ -353,7 +353,8 @@
                             </p:tab>
                         </p:accordionPanel>                                                                         
                     </p:panel>
-                    <p:commandButton actionListener="#{proyectosMB.guardarProyecto()}" process="formAdmin" update="formAdmin" value="guardar" id="btnguardarProyecto" title="Guardar Proyecto"/>
+                       <p:commandButton styleClass="boton"  onclick="window.history.back();" value="Regresar"  id="btnRegresar" title="Regresar" />
+                    <p:commandButton styleClass="boton" actionListener="#{proyectosMB.guardarProyecto()}" process="formAdmin" update="formAdmin" value="guardar" id="btnguardarProyecto" title="Guardar Proyecto"/>
                 </center>
             </h:form>
         </ui:define>
