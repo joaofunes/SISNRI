@@ -357,9 +357,9 @@ public class ProyectosMB {
                     telefonoService.save(telefonoAsisFax);
                     //guardar en tabla intermedia persona_proyecto Asistente
                     //PersonaProyectoPK personaProyectoPK = new PersonaProyectoPK();            
-                    personaProyectoBecarioPK.setIdPersona(personaBecario.getIdPersona());
-                    personaProyectoBecarioPK.setIdProyectoGenerico(proyectoGenerico.getIdProyecto());
-                    personaProyectoBecarioPK.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
+                    personaProyectoAsisPK.setIdPersona(personaAsistente.getIdPersona());
+                    personaProyectoAsisPK.setIdProyectoGenerico(proyectoGenerico.getIdProyecto());
+                    personaProyectoAsisPK.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
                     /////////////        
                     personaProyectoAsis.setProyectoGenerico(proyectoGenerico);
                     personaProyectoAsis.setPersona(personaAsistente);
