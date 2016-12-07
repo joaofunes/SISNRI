@@ -45,8 +45,15 @@ public class ProyectoGenerico implements Serializable {
     @Size(max = 300)
     @Column(name = "OBJETIVO", length = 300)
     private String objetivo;
-    @ManyToMany(mappedBy = "proyectoGenericoList")
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "PROYECTO_GENERICO_ORGANISMO",
+            joinColumns = @JoinColumn(name = "ID_PROYECTO"),
+            inverseJoinColumns = @JoinColumn(name = "ID_ORGANISMO")
+    )
     private List<Organismo> organismoList;
+
     @JoinTable(name = "PROYECTO_GENERICO_AREA", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO", nullable = false)})
@@ -145,5 +152,5 @@ public class ProyectoGenerico implements Serializable {
     public String toString() {
         return "com.sisrni.model.ProyectoGenerico[ idProyecto=" + idProyecto + " ]";
     }
-    
+
 }

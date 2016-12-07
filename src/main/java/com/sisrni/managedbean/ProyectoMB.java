@@ -504,7 +504,6 @@ public class ProyectoMB {
     }
     
     public void modificarEntidades() {
-
         try {
             listEntidadMerge.clear();
             String[] organismos = new String[entidadesCooperantesSelected.size()];
@@ -513,12 +512,11 @@ public class ProyectoMB {
             for (String o : organismos) {
                 Organismo organismoCoop = organismoService.findById(Integer.parseInt(o));
                 if (organismoCoop != null) {
-                    //listEntidadMerge.add(organismoCoop);
-                    proyectoGenerico.getOrganismoList().add(organismoCoop);
+                    listEntidadMerge.add(organismoCoop);
+                    //proyectoGenerico.getOrganismoList().add(organismoCoop);
                 }
             }
-            
-           // proyectoGenerico.setOrganismoList(listEntidadMerge);
+            proyectoGenerico.setOrganismoList(listEntidadMerge);
         } catch (Exception e) {
 
             e.printStackTrace();

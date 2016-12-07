@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -34,41 +33,23 @@ import javax.validation.constraints.Size;
 public class Organismo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ID_ORGANISMO", nullable = false)
     private Integer idOrganismo;
     @Size(max = 100)
-    @Column(name = "NOMBRE_ORGANISMO", length = 100)
     private String nombreOrganismo;
     @Size(max = 60)
-    @Column(name = "CORREO_ORGANISMO", length = 60)
     private String correoOrganismo;
     @Size(max = 100)
-    @Column(name = "DIRECCION_ORGANISMO", length = 100)
     private String direccionOrganismo;
-    @Column(name = "CODIGO_POSTAL")
     private Integer codigoPostal;
-    @Column(name = "ID_REGION")
     private Integer idRegion;
-    @Column(name = "ID_PAIS")
     private Integer idPais;
-    @Column(name = "ID_PROVINCIA")
     private Integer idProvincia;
-    @Column(name = "ID_CUIDAD")
     private Integer idCuidad;
-    @JoinTable(name = "PROYECTO_GENERICO_ORGANISMO", joinColumns = {
-        @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
-    @ManyToMany
+
     private List<ProyectoGenerico> proyectoGenericoList;
-    @OneToMany(mappedBy = "idOrganismo")
+
     private List<Persona> personaList;
-    @JoinColumn(name = "ID_TIPO_ORGANISMO", referencedColumnName = "ID_TIPO_ORGANISMO")
-    @ManyToOne
     private TipoOrganismo idTipoOrganismo;
-    @OneToMany(mappedBy = "idOrganismo")
     private List<Telefono> telefonoList;
 
     public Organismo() {
@@ -78,6 +59,10 @@ public class Organismo implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
+@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID_ORGANISMO", nullable = false)
     public Integer getIdOrganismo() {
         return idOrganismo;
     }
@@ -86,6 +71,7 @@ public class Organismo implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
+@Column(name = "NOMBRE_ORGANISMO", length = 100)
     public String getNombreOrganismo() {
         return nombreOrganismo;
     }
@@ -94,6 +80,7 @@ public class Organismo implements Serializable {
         this.nombreOrganismo = nombreOrganismo;
     }
 
+@Column(name = "CORREO_ORGANISMO", length = 60)
     public String getCorreoOrganismo() {
         return correoOrganismo;
     }
@@ -102,6 +89,7 @@ public class Organismo implements Serializable {
         this.correoOrganismo = correoOrganismo;
     }
 
+@Column(name = "DIRECCION_ORGANISMO", length = 100)
     public String getDireccionOrganismo() {
         return direccionOrganismo;
     }
@@ -110,6 +98,7 @@ public class Organismo implements Serializable {
         this.direccionOrganismo = direccionOrganismo;
     }
 
+@Column(name = "CODIGO_POSTAL")
     public Integer getCodigoPostal() {
         return codigoPostal;
     }
@@ -118,6 +107,7 @@ public class Organismo implements Serializable {
         this.codigoPostal = codigoPostal;
     }
 
+@Column(name = "ID_REGION")
     public Integer getIdRegion() {
         return idRegion;
     }
@@ -126,6 +116,7 @@ public class Organismo implements Serializable {
         this.idRegion = idRegion;
     }
 
+@Column(name = "ID_PAIS")
     public Integer getIdPais() {
         return idPais;
     }
@@ -134,6 +125,7 @@ public class Organismo implements Serializable {
         this.idPais = idPais;
     }
 
+@Column(name = "ID_PROVINCIA")
     public Integer getIdProvincia() {
         return idProvincia;
     }
@@ -142,6 +134,7 @@ public class Organismo implements Serializable {
         this.idProvincia = idProvincia;
     }
 
+@Column(name = "ID_CUIDAD")
     public Integer getIdCuidad() {
         return idCuidad;
     }
@@ -150,6 +143,7 @@ public class Organismo implements Serializable {
         this.idCuidad = idCuidad;
     }
 
+    @ManyToMany(mappedBy = "organismoList")
     public List<ProyectoGenerico> getProyectoGenericoList() {
         return proyectoGenericoList;
     }
@@ -158,6 +152,7 @@ public class Organismo implements Serializable {
         this.proyectoGenericoList = proyectoGenericoList;
     }
 
+@OneToMany(mappedBy = "idOrganismo")
     public List<Persona> getPersonaList() {
         return personaList;
     }
@@ -166,6 +161,8 @@ public class Organismo implements Serializable {
         this.personaList = personaList;
     }
 
+@JoinColumn(name = "ID_TIPO_ORGANISMO", referencedColumnName = "ID_TIPO_ORGANISMO")
+    @ManyToOne
     public TipoOrganismo getIdTipoOrganismo() {
         return idTipoOrganismo;
     }
@@ -174,6 +171,7 @@ public class Organismo implements Serializable {
         this.idTipoOrganismo = idTipoOrganismo;
     }
 
+@OneToMany(mappedBy = "idOrganismo")
     public List<Telefono> getTelefonoList() {
         return telefonoList;
     }
@@ -206,5 +204,5 @@ public class Organismo implements Serializable {
     public String toString() {
         return "com.sisrni.model.Organismo[ idOrganismo=" + idOrganismo + " ]";
     }
-    
+
 }
