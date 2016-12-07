@@ -7,8 +7,6 @@
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
-                 xmlns:pe="http://primefaces.org/ui/extensions" 
-
                  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
@@ -16,18 +14,17 @@
         <center>
             <div style="width: 600">
                 <p:growl autoUpdate="true" id="msj" showDetail="true"/>
-                <h:form id="form">
+                <h:form id="formNoticia">
                     <h:panelGrid columns="2">
-
                         <h:outputLabel value="Titulo:" />
                         <p:inputText value="#{noticiaMB.noticia.tituloNoticia}"/>
+
                         <p:outputLabel for="categoria" value="Categoria:" />
                         <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelected.idCategoria}" style="width:125px">
                             <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
                                 <f:selectItem itemLabel="#{cat.categoriaNoticia}" itemValue="#{cat.idCategoria}" />        
                             </c:forEach>
                         </p:selectOneMenu>
-
 
                         <h:outputLabel value="Descripcion:"/>
                         <p:inputTextarea value="#{noticiaMB.noticia.descripcionNoticia}"  maxlength="3000" />
@@ -42,10 +39,38 @@
                         </p:selectOneMenu>
 
                     </h:panelGrid>
-                    <p:commandButton value="Limpiar" actionListener="#{noticiaMB.cargarNoticia()}" icon="ui-icon-disk" update="form"/>
-                    <p:commandButton value="guardar" actionListener="#{noticiaMB.guardarNoticia}" icon="ui-icon-disk"/>
-                    
+                    <p:commandButton rendered="#{noticiaMB.actualizar}" value="Cancelar" actionListener="#{noticiaMB.inicializador()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+                    <p:commandButton rendered="#{!noticiaMB.actualizar}" value="Guardar" actionListener="#{noticiaMB.guardarNoticia}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+                    <p:commandButton rendered="#{noticiaMB.actualizar}" value="Actualizar" actionListener="#{noticiaMB.updateNoticia()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+
+                   
                 </h:form>
+                <h:panelGroup id="administracion">
+                    <p:dataTable var="n" value="#{noticiaMB.noticiasList}" paginator="true" rows="5"                             
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
+                                 >    
+                        <p:column headerText="Titulo">
+                            <h:outputText value="#{n.tituloNoticia}" />
+                        </p:column>
+                        <p:column headerText="Categoria">
+                            <h:outputText value="#{n.idCategoria.categoriaNoticia}" />
+                        </p:column>
+                        <p:column headerText="Fecha Creacion">
+                            <h:outputText value="#{n.fechaNoticia}" />
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{n.estadoNoticia}" />
+                        </p:column>
+                        <p:column headerText="Opciones" >
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                               value="Editar" actionListener="#{noticiaMB.preEditar(n.idNoticia)}" update=":formNoticia" />
+                            </div>                       
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+
             </div>
         </center>
     </ui:define>

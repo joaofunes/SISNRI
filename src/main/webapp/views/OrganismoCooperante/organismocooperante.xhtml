@@ -23,10 +23,10 @@
                         <f:selectItem itemLabel="#{tipoOrg.nombreTipo}" itemValue="#{tipoOrg.idTipoOrganismo}"/>
                     </c:forEach>
                 </p:selectOneMenu>
-                <h:outputLabel value="Telefono:"/>
+<!--                <h:outputLabel value="Telefono:"/>
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.telefonoOrganismo}"/>
                 <h:outputLabel value="Fax:"/>
-                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.faxOranismo}"/>
+                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.faxOranismo}"/>-->
                 <h:outputLabel value="Correo:"/>
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}"/>
                 <h:outputLabel value="Direccion:"/>
@@ -39,12 +39,7 @@
                        
                         <p:commandButton rendered="#{organismoCooperanteMB.actualizar}" styleClass="boton"
                                          actionListener="#{organismoCooperanteMB.updateorganismo}" update="formAdmin :formPrincipal"
-                                         value="Actualizar" />
-                       
-                      
-                          
-                       
-                   
+                                         value="Actualizar" />                   
         </h:form>
         
         <h:outputLabel style="margin-bottom: 20px;"/>
@@ -67,17 +62,20 @@
                         <h:outputText value="#{organismo.idTipoOrganismo.nombreTipo}" />
                     </p:column>
                     
-                    <p:column headerText="Fax" sortBy="#{organismo.faxOranismo}" filterBy="#{organismo.faxOranismo}">
-                        <h:outputText value="#{organismo.faxOranismo}" />
+                    <p:column headerText="Correo" sortBy="#{organismo.correoOrganismo}" filterBy="#{organismo.correoOrganismo}">
+                        <h:outputText value="#{organismo.correoOrganismo}" />
                     </p:column>
                     
+                    <p:column headerText="Dirección" sortBy="#{organismo.direccionOrganismo}" filterBy="#{organismo.direccionOrganismo}">
+                        <h:outputText value="#{organismo.direccionOrganismo}" />
+                    </p:column>
+                    
+             
                     <p:column headerText="Opciones" >
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
                                            value="Editar" actionListener="#{organismoCooperanteMB.preUpdate(organismo)}" update=":formAdmin" process="@form :formPrincipal"/>
                         </div>
-                        
-                      
                     </p:column>
                 </p:dataTable>
 

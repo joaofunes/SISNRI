@@ -83,17 +83,18 @@
                                     <p:column>
                                         <p:inputText id="montoProyecto" label="montoProyecto" value="#{proyectoMB.proyecto.montoProyecto}"/>
                                     </p:column>
-                                    <!--         <p:column>
-                                                <p:outputLabel for="fechaGestion" value="Fecha de gestion"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:calendar id="fechaGestion" pattern="dd/MM/yyyy" showOn="button" style="width: 100px" navigator="true" yearRange="c-50:c+10" value="#"/>
-                                            </p:column>-->
+                                   
                                     <p:column>
                                         <p:outputLabel for="anioGestion" value="A&ntilde;o de gestion"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="anioGestion" value="#{proyectoMB.proyecto.anioGestion}"/>
+                                        <!--<p:inputText id="anioGestion" value="#{proyectoMB.proyecto.anioGestion}"/>-->
+                                        <p:selectOneMenu id="anioGestion" value="#{proyectoMB.anio}" style="width:150px">
+                                            <c:forEach begin="0" end="125" varStatus="loop">
+                                                <c:set var="currentYear" value="${proyectoMB.yearActual-loop.index} " />
+                                                <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
+                                            </c:forEach>
+                                        </p:selectOneMenu>
 
                                     </p:column>
 
@@ -392,7 +393,7 @@
                                     <h:panelGroup/>
                                 </p:column>
                                 <p:column>
-                                    <p:commandButton styleClass="boton"  actionListener="null" process="" update="" value="Cancelar"  id="btnCancelar" title="Modificar proyecto" />
+                                      <p:commandButton styleClass="boton"  onclick="window.history.back();" value="Regresar"  id="btnRegresar" title="Regresar" />
                                 </p:column>
                                 <p:column>
                                     <p:commandButton styleClass="boton"  actionListener="#{proyectoMB.actualizarProyecto()}" process="@this :formModProy" update="formModProy" value="Modificar proyecto"  id="btnModificar"  title="Modificar proyecto" />                                 

@@ -75,48 +75,59 @@
 
 
             <p:outputPanel id="tblProyectosSumary">
-                <p:dataTable  var="proyecto" value="#{mapaInteractivo.projectListToChart}" >
-                    <f:facet name="header">
-                        LISTA DE PROYECTO
-                    </f:facet>
 
-                    <p:columnGroup type="header">
-                        <p:row>
-                            <p:column  headerText="Pais Cooperante" />
-                            <p:column  headerText="Cantidad de Proyectos" />
-                            <p:column  headerText="Monto Cooperacion" />
-                            <p:column  headerText="Detalle" />
-                        </p:row>
-                    </p:columnGroup>
+                <p:dataTable id="tblr" var="r" value="#{mapaInteractivo.projectListToChart}"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                             paginator="true" rows="10" style="margin-bottom:20px">
                     <p:column>
-                        <h:outputText value="#{proyecto.nombrePais}" />
+                        <f:facet name="header">
+                            <h:outputText value="Pais Cooperante" />
+                        </f:facet>
+                        <h:outputText value="#{r.nombrePais}" />
                     </p:column>
+
                     <p:column>
-                        <h:outputText value="#{proyecto.cantidadProyectos}" />
+                        <f:facet name="header">
+                            <h:outputText value="Cantidad de Proyectos" />
+                        </f:facet>
+                        <h:outputText value="#{r.cantidadProyectos}" />
                     </p:column>
+
                     <p:column>
-                        <h:outputText value="#{proyecto.montoCooperacion}">
+                        <f:facet name="header">
+                            <h:outputText value="Monto Cooperacion" />
+                        </f:facet>
+                        <h:outputText value="#{r.montoCooperacion}">
                             <f:convertNumber type="currency" currencySymbol="$" />
-                        </h:outputText>
+                        </h:outputText> 
                     </p:column>
-                    <p:column>
-                        <p:commandButton value="Ver" id="btnPopUp" actionListener="#{mapaInteractivo.fillPopUp(proyecto.idPais)}" oncomplete="PF('projectPopUp').show();" update=":listP" icon="ui-icon-search" />
+
+                    <p:column exportable="false">
+                        <f:facet name="header">
+                            <h:outputText value="Detalle" />
+                        </f:facet>
+                        <p:commandButton value="Ver" id="btnPopUpr" actionListener="#{mapaInteractivo.fillPopUp(r.idPais)}" oncomplete="PF('projectPopUp').show();" update=":listP" icon="ui-icon-search" />
                     </p:column>
                     <p:columnGroup type="footer">
                         <p:row>
                             <p:column colspan="2" style="text-align:right" footerText="Total Cooperacion:" />
-                            <p:column footerText="$#{mapaInteractivo.montoProyectos}" style="text-align:left">
-                            </p:column>
-                            
+                            <p:column footerText="$#{mapaInteractivo.montoProyectos}" style="text-align:left"/>
                         </p:row>
                     </p:columnGroup>
-
-                    <f:facet name="footer">
-                        Datos Segun Parametros De Busqueda
-                    </f:facet>
                 </p:dataTable>
 
             </p:outputPanel>
+            <h3>Exportar Datos</h3>
+            <h:commandLink>
+                Excel
+                <p:dataExporter type="xls" target="tblr" fileName="tablaResumenCooperacion" pageOnly="true"/>
+            </h:commandLink>
+
+            <h:commandLink>
+                PDF
+                <p:dataExporter type="pdf" target="tblr" fileName="tablaResumenCooperacion" pageOnly="true" />
+            </h:commandLink> 
+
         </h:form> 
         <p:dialog header="Detalle de Proyectos" id="listP" widgetVar="projectPopUp" modal="true" appendTo="@(body)">
             <p:dataTable var="p" value="#{mapaInteractivo.projectListToPopUp}" scrollable="true" scrollHeight="150" id="tablelist">
