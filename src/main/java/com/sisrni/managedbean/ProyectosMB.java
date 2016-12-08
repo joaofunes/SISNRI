@@ -95,7 +95,6 @@ public class ProyectosMB {
     @Autowired
     private TipoModalidadBecaService tipoModalidadBecaService;
 
-
 //Definicion de objetos    
     private Proyecto proyecto;
     private ProyectoGenerico proyectoGenerico;
@@ -117,7 +116,6 @@ public class ProyectosMB {
     private String numDocumentoBecario;
     private Beca beca;
     private Pais pais;
-    private int otorgada;
     private int yearActual;
     private String anio;
     private TipoModalidaBeca tipoModalidad;
@@ -127,6 +125,9 @@ public class ProyectosMB {
     private List<Organismo> organismoProyList;
     private List<TipoProyecto> tipoproyectolist;
     private List<Unidad> unidadList;
+    private List<Unidad> unidadSolList;
+    private List<Unidad> unidadAsisList;
+    private List<Unidad> unidadBecarioList;
     private List<PropuestaConvenio> propuestaConvenioList;
     private List<Organismo> organismoList;
     private List<Telefono> listadoTelefonoSol;
@@ -134,6 +135,7 @@ public class ProyectosMB {
     private List<Telefono> listadoTelefonoRefExt;
     private List<Telefono> listadoTelefonoBecario;
     private List<Pais> paisList;
+    private List<Pais> paisCooperanteList;
     private List<TipoModalidaBeca> tipoModalidadList;
 //Definicion de selected
     private TipoProyecto proyectoSelected;
@@ -159,6 +161,7 @@ public class ProyectosMB {
     private Unidad unidadSelectedBecario;
     private Organismo organismoSelected;
     private Pais paisSelected;
+    private Pais paisCooperanteSelected;
     private TipoModalidaBeca tipoModalidadSelected;
 //Telefono
 //private Telefono telefono;
@@ -186,6 +189,7 @@ public class ProyectosMB {
     private int existeBecario;
     Pais regiones;
     private int reg;
+    public boolean mostrarmonto;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -210,13 +214,14 @@ public class ProyectosMB {
         unidadSelectedBecario = new Unidad();
         organismoSelected = new Organismo();
         areasConocimiento = new ArrayList<AreaConocimiento>();
-        organismosProyecto=new ArrayList<Organismo>();
+        organismosProyecto = new ArrayList<Organismo>();
         paisSelected = new Pais();
-        tipoModalidadSelected=new TipoModalidaBeca();
+        paisCooperanteSelected = new Pais();
+        tipoModalidadSelected = new TipoModalidaBeca();
         //Listas
         tipoproyectolist = tipoProyectoService.findAll();
         areaConocimientoList = areaConocimientoService.findAll();
-        organismoProyList=organismoService.findAll();
+        organismoProyList = organismoService.findAll();
         //facultadList = new ArrayList<Facultad>();
         facultadList = facultadService.findAll();
         propuestaConvenioList = propuestaConvenioService.findAll();
@@ -226,7 +231,8 @@ public class ProyectosMB {
         listadoTelefonoRefExt = telefonoService.findAll();
         listadoTelefonoBecario = telefonoService.findAll();
         paisList = paisService.findAll();
-        tipoModalidadList=tipoModalidadBecaService.findAll();
+        paisCooperanteList = paisService.findAll();
+        tipoModalidadList = tipoModalidadBecaService.findAll();
         //unidadList=unidadService.findAll();
         proyecto = new Proyecto();
         proyectoGenerico = new ProyectoGenerico();
@@ -257,8 +263,12 @@ public class ProyectosMB {
         personaProyectoExtPK = new PersonaProyectoPK();
         beca = new Beca();
         pais = new Pais();
-        regiones=new Pais();
-        tipoModalidad=new TipoModalidaBeca();
+        regiones = new Pais();
+        tipoModalidad = new TipoModalidaBeca();
+        numDocumentoAsis = "";
+        numDocumentoSol = "";
+        numDocumentoRefExt = "";
+        numDocumentoBecario = "";
 
         // tipos telefonos
         tipoTelefonoFax = tipoTelefonoService.getTipoByDesc("FAX");
@@ -272,10 +282,17 @@ public class ProyectosMB {
         existeSol = 0;
         existeAsis = 0;
         existeRefExt = 0;
-        otorgada = 0;
         yearActual = getYearOfDate(new Date());
-        anio="";
-        reg=0;
+        anio = "";
+        reg = 0;
+    }
+
+    public void mostrarCampo() {
+        if (tipoModalidadSelected.getIdTipoModalidad() == 1) {
+            mostrarmonto = true;
+        } else {
+            mostrarmonto = false;
+        }
     }
 
     public void guardarProyecto() {
@@ -289,6 +306,8 @@ public class ProyectosMB {
                 proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
                 //guardar proyecto
                 proyecto.setIdProyecto(0);
+                Pais paiscooperante = paisService.findById(paisCooperanteSelected.getIdPais());
+                proyecto.setIdPaisCooperante(paiscooperante);
                 proyectoService.save(proyecto);
 
                 //guardar proyecto genérico
@@ -302,7 +321,7 @@ public class ProyectosMB {
                     }
                 }
                 proyectoGenerico.setAreaConocimientoList(areasConocimiento);
-                
+
                 // guardar organismo
                 for (int i = 0; i < organismoProySelected.length; i++) {
                     Organismo organismo = organismoService.findById(Integer.parseInt(organismoProySelected[i]));
@@ -394,8 +413,7 @@ public class ProyectosMB {
                     personaProyectoExt.setPersonaProyectoPK(personaProyectoExtPK);
                     personaProyectoService.save(personaProyectoExt);
                 }
-            }else{
-            // guardar becario
+            } else // guardar becario
             if (existeBecario != 1) {
                 proyecto.setIdTipoProyecto(tipoProyectoService.findById(proyectoSelected.getIdTipoProyecto()));
                 proyecto.setIdFacultad(facultadSelected.getIdFacultad());
@@ -416,11 +434,11 @@ public class ProyectosMB {
                 //guardar tabla becas
                 beca.setIdBecas(proyecto.getIdProyecto());
                 beca.setIdPaisDestino(paisSelected.getIdPais());
-                pais=paisService.findById(paisSelected.getIdPais());
+                pais = paisService.findById(paisSelected.getIdPais());
                 beca.setIdRegionDestino(pais.getIdRegion().getIdRegion());
-                tipoModalidad=tipoModalidadBecaService.findById(tipoModalidadSelected.getIdTipoModalidad());
+                tipoModalidad = tipoModalidadBecaService.findById(tipoModalidadSelected.getIdTipoModalidad());
                 beca.setIdModalidad(tipoModalidad);
-                Persona becario=personaService.findById(personaBecario.getIdPersona());
+                Persona becario = personaService.findById(personaBecario.getIdPersona());
                 beca.setIdPersona(becario);
                 becaService.save(beca);
                 //Telefono del becario
@@ -428,8 +446,7 @@ public class ProyectosMB {
                 telefonoBecarioFijo.setIdPersona(personaBecario);
                 telefonoService.save(telefonoBecarioFijo);
                 
-                        
-            }
+
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
@@ -447,25 +464,25 @@ public class ProyectosMB {
 
     public void onFacultadSolicitanteChange() {
         if (facultadSelectedSol.getIdFacultad() != null && !facultadSelectedSol.getIdFacultad().toString().equals("")) {
-            unidadList = unidadService.getUnidadesByFacultadId(facultadSelectedSol.getIdFacultad());
+            unidadSolList = unidadService.getUnidadesByFacultadId(facultadSelectedSol.getIdFacultad());
         } else {
-            unidadList = new ArrayList<Unidad>();
+            unidadSolList = new ArrayList<Unidad>();
         }
     }
 
     public void onFacultadAsistenteChange() {
         if (facultadSelectedAsis.getIdFacultad() != null && !facultadSelectedAsis.getIdFacultad().toString().equals("")) {
-            unidadList = unidadService.getUnidadesByFacultadId(facultadSelectedAsis.getIdFacultad());
+            unidadAsisList = unidadService.getUnidadesByFacultadId(facultadSelectedAsis.getIdFacultad());
         } else {
-            unidadList = new ArrayList<Unidad>();
+            unidadAsisList = new ArrayList<Unidad>();
         }
     }
 
     public void onFacultadBecarioChange() {
         if (facultadSelectedBecario.getIdFacultad() != null && !facultadSelectedBecario.getIdFacultad().toString().equals("")) {
-            unidadList = unidadService.getUnidadesByFacultadId(facultadSelectedBecario.getIdFacultad());
+            unidadBecarioList = unidadService.getUnidadesByFacultadId(facultadSelectedBecario.getIdFacultad());
         } else {
-            unidadList = new ArrayList<Unidad>();
+            unidadBecarioList = new ArrayList<Unidad>();
         }
     }
 //Buscando a persona  Solicitante existente
@@ -590,7 +607,7 @@ public class ProyectosMB {
                 personaBecario = personaService.getReferenteInternoByDocEmail(numDocumentoBecario, personaBecario);
                 if (personaBecario != null) {
                     existeBecario = 1;
-                    unidadSelectedBecario=personaBecario.getIdUnidad();
+                    unidadSelectedBecario = personaBecario.getIdUnidad();
                     onChangeBecario();
                 }
             }
@@ -621,7 +638,7 @@ public class ProyectosMB {
         Integer year = cal.get(Calendar.YEAR);
         return year;
     }
-    
+
     public TipoProyecto getProyectoSelected() {
         return proyectoSelected;
     }
@@ -910,6 +927,30 @@ public class ProyectosMB {
         this.unidadList = unidadList;
     }
 
+    public List<Unidad> getUnidadSolList() {
+        return unidadSolList;
+    }
+
+    public void setUnidadSolList(List<Unidad> unidadSolList) {
+        this.unidadSolList = unidadSolList;
+    }
+
+    public List<Unidad> getUnidadAsisList() {
+        return unidadAsisList;
+    }
+
+    public void setUnidadAsisList(List<Unidad> unidadAsisList) {
+        this.unidadAsisList = unidadAsisList;
+    }
+
+    public List<Unidad> getUnidadBecarioList() {
+        return unidadBecarioList;
+    }
+
+    public void setUnidadBecarioList(List<Unidad> unidadBecarioList) {
+        this.unidadBecarioList = unidadBecarioList;
+    }
+
     public ProyectoGenerico getProyectoGenerico() {
         return proyectoGenerico;
     }
@@ -1004,14 +1045,6 @@ public class ProyectosMB {
 
     public void setPaisSelected(Pais paisSelected) {
         this.paisSelected = paisSelected;
-    }
-
-    public int getOtorgada() {
-        return otorgada;
-    }
-
-    public void setOtorgada(int otorgada) {
-        this.otorgada = otorgada;
     }
 
     public Persona getPersonaBecario() {
@@ -1133,8 +1166,29 @@ public class ProyectosMB {
     public void setOrganismosProyecto(List<Organismo> organismosProyecto) {
         this.organismosProyecto = organismosProyecto;
     }
-    
-    
-    
-    
+
+    public List<Pais> getPaisCooperanteList() {
+        return paisCooperanteList;
+    }
+
+    public void setPaisCooperanteList(List<Pais> paisCooperanteList) {
+        this.paisCooperanteList = paisCooperanteList;
+    }
+
+    public Pais getPaisCooperanteSelected() {
+        return paisCooperanteSelected;
+    }
+
+    public void setPaisCooperanteSelected(Pais paisCooperanteSelected) {
+        this.paisCooperanteSelected = paisCooperanteSelected;
+    }
+
+    public boolean isMostrarmonto() {
+        return mostrarmonto;
+    }
+
+    public void setMostrarmonto(boolean mostrarmonto) {
+        this.mostrarmonto = mostrarmonto;
+    }
+
 }
