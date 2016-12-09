@@ -8,38 +8,109 @@
 
     <body>
         <ui:composition>
+            <script type="text/javascript">
+                    $(document).ready(function(){
+            $(".dropdown").hover(            
+                function() {
+                    $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
+                    $(this).toggleClass('open');        
+                },
+                function() {
+                    $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("0");
+                    $(this).toggleClass('open');       
+                }
+            );
+        });
+                </script> 
+            
+            <div class="cabecera col-xs-12 pd" style="padding-right: 0;">               
+                    <article class="col-xs-4 " style="min-height: 125px !important;">
+                        <div class="logo_1 col-xs-6" style="margin-top:1%;"></div>   
+                        <div class="col-xs-6 label-secre"><label style="color: white; margin-top: 4%;font-size: 24px; font-weight: bold">Secretar&iacute;a de <br/>Relaciones <br/>Nacionales e<br/> Internacionales</label></div>
+              
+                    
+                    </article>
+                    <article class="col-xs-8" style="background:#4e0c21; min-height: 125px !important;">
+                        <div class="right col-xs-12">
+                        <div class="col-xs-12 pd">
+                             <label class="right cls1" >Portal para Registro de Proyectos y Convenios</label>
+                        </div>
+                            <br/>
+                        <div class="col-xs-12 pd">
+                            <label class="right cls2">Bienvenido/a: #{currentUserSessionBean.form.sessionUser.username}</label>                          
+                        </div> 
+                            <!--input login-->
+                       <div class="col-xs-12">
+                           <div class="col-xs-6 right" style="padding-right: 0;">
+                               <div class="input-group col-xs-6 left" style="padding-right:2%;">
+                                <span class="glyphicon glyphicon-user input-group-addon btn-warning" style="background:#222 !important; color:white;  "  id="basic-addon1"></span>
+                                        <input type="text" class="form-control" placeholder="Usuario" aria-describedby="basic-addon1"/>
+                                </div>
+                           <div class="input-group col-xs-6 left">
+                                <span class="glyphicon glyphicon-lock input-group-addon btn-warning" style="background:#222!important; color:white; " id="basic-addon1"></span>
+                                        <input type="password" class="form-control" placeholder="Contraseña" aria-describedby="basic-addon1"/>
+                                </div>
+                           </div>
+                        </div>
+                            <div class="col-xs-12 b1">
+                                <div class="right">
+                                <a class="passforgot">Olvid&oacute; su Contraseña</a>
+                                </div>
+                            </div>
+                        <div class="col-xs-12 b1"> 
+                             <a class="right btn w10 btn-danger" href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Cerrar Sesion</a>
+                             <a class="right btn w10 btn-success" style="margin-right:2%;" href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Ingresar</a>
+                        </div>
+                        </div>
+                    </article>
 
-            <div class="cabecera">               
-                <div class="linea_superior"></div>
-
-                <div class="texto_izquierda">Bienvenido</div>
-                <div class="texto_derecha">#{currentUserSessionBean.form.sessionUser.username}</div>
-                <div class="linea_negra1"></div>
-                <div class="menu_contenedor">
-
-                    <div class="logo_1 "></div>      
-                    <div class="menu">
-                        <ul>
-                            <li><a href="index.html">Inicio</a></li>
-                            <li><a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Cerrar Sesi&oacute;n</a></li>
-                        </ul>
-                    </div>                                		
-                </div>
-                <ul class="list-menu">
-                    <li><a href="#">Inicio</a></li>
-
-                    <c:forEach items="#{currentUserSessionBean.form.menusLst}" var="menu"> 
-                        <li ><a href="#">#{menu.ssMenu.nombreMenu}</a>
-                            <ul>
-                                <c:forEach items="#{menu.ssOpciones}" var="opcion"> 
-                                    <li><a href="#{opcion.url}">#{opcion.nombreOpcion}</a></li>                                          
-                                </c:forEach>
-                            </ul>  
-                        </li>
-                    </c:forEach>  
-
-                </ul>
-            </div>
+                   </div> 
+            <div class="col-xs-12" style="padding: 0;">
+   <nav class="navbar navbar-inverse" style="border-radius: 0px; border: none; ">
+    <div class="navbar-header">
+    	<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".js-navbar-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+        <a class="navbar-brand" href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml" style="background: red; color:white; padding-top: 5px;">
+            <div class="img_t" ></div>
+            <label style="padding-top: 15%;">SRNI</label></a>
+	</div>
+	
+	<div class="collapse navbar-collapse js-navbar-collapse">
+		<ul class="nav navbar-nav">
+                              <c:forEach items="#{currentUserSessionBean.form.menusLst}" var="menu"> 
+			<li class="dropdown mega-dropdown">
+				<a href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml" class="dropdown-toggle" data-toggle="dropdown">#{menu.ssMenu.nombreMenu} <span class="caret"></span></a>				
+				<ul class="dropdown-menu mega-dropdown-menu">
+                                  
+					<li class="col-sm-3">
+                                               
+						<ul>
+							<li class="dropdown-header">#{menu.ssMenu.nombreMenu}</li>
+                                                        <c:forEach items="#{menu.ssOpciones}" var="opcion"> 
+							  <li><a href="#{opcion.url}">#{opcion.nombreOpcion}</a></li>   
+                                                           	 </c:forEach>
+                                                </ul>
+                                                  
+					</li>
+				
+                                </ul>
+                  </li>
+                                     </c:forEach> 
+</ul>
+                                
+                   
+                                
+	</div>
+  </nav>
+            
+            </div>      
+            
+            
+ 
 
         </ui:composition>
     </body>

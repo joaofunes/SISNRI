@@ -8,112 +8,60 @@
 
     <h:head>
         <title>SISRNI</title>
-        <f:facet name="last">
-            <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/bootstrap.css" />
-            <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/style.css" />
+        <f:facet name="last">       
+            <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/login.css" />
+            <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/sb-admin.css" />
+            
         </f:facet> 
         <f:facet name="last">
-            <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/bootstrap.js"></script>
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/jquery.js"></script>
+                        <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/bootstrap.js"></script>
         </f:facet>
     </h:head>
     <h:body>
+<div class="logo2">
 
-<!--        <div class="box_top">
-            <div class="text_upper">Bienvenido(a) a su sistema SISRNI </div>
-            <div class="img_ing"></div>
-            <div class="img_ing2"></div>
-        </div>           
-
-        <div class="box_login">
-            <c:if test="${not empty param.error}">
-                <div class="error_login">
-                    Inicio de Sesi&oacute;n Invalido
-                    <br/>Favor intentarlo de nuevo<br />
-                                Reason: #{sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message} 
+</div>
+   <div class="container">
+    <div class="row">
+        <div class="col-md-12 heightlogin" >
+            <div class="pr-wrap">
+                <div class="pass-reset">
+                    <label>
+                        Favor Ingresa Tu Correo Electr&oacute;nico  </label>
+                    <input type="email" placeholder="Correo ElectrÃ³nico" />
+                    <input type="submit" value="Enviar" class="pass-reset-submit btn btn-success btn-sm" />
                 </div>
-            </c:if>
+            </div>
+            <div class="wrap">
+                <form id="loginform" class="login" action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method='POST'>
+                    <label>Usuario:</label>
+                   <input placeholder="Usuario" type="text" name="j_username" value="${j_username}" />   
+                    
+                 <label>ContraseÃ±a:</label>
+                 <input placeholder="Contrase&ntilde;a" type="password" name="j_password"/>
 
-            <form id="login-form" action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method='POST'>
-
-                <div class="content_login">
-                    <div class="text_login text_login_t"> Iniciar Sesi&oacute;n</div>
-
-                    <div class="l w20 login_l">
-                        <input placeholder="USUARIO" type="text" name="j_username" value="${j_username}" class="w100  form-control"/>
+                <input type="submit" class="btn btn-success btn-sm" value="Ingresar" name="commit" />
+                <div class="remember-forgot">
+                    <div class="row col-lg-12">
+                        <a href="#" class="forgot-pass">Olvid&eacute; la ContraseÃ±a</a>
                     </div>
-                    <div class="r w20 login_r">
-                        <input placeholder="CLAVE" type="password" name="j_password" class="w100 form-control"/>
-                    </div>
-                </div>
-                <div class="button-ingreso w100">
-                    <div class="l w10 buttom_l">
-                        <input type="submit" class="w100 text-center btn btn-success" value="Ingresar" name="commit" />
-                    </div>
-                    <div class="r w10 buttom_r">
-                        <input type="reset" class="w100 text-center btn btn-success" value="Limpiar" name="clean" />
-                    </div>
-                </div>
-                <div class="text_login1">
-                    <a href="#">Olvid&eacute; mi Clave</a>
                 </div>
                 <p class="text-danger">
                     <h:messages />
                 </p>
-            </form>
-        </div>
-        <div class="box_tesis">
-        <div class="text_info_tesis"></div>
-            </div>-->
-<div class="box_top">
-            <div class="text_upper">Bienvenido(a) a su sistema SISRNI </div>
-            <div class="img_ing"></div>
-            <div class="img_ing2"></div>
-        </div>           
-
-        <div class="box_login">
-           
-          <div class="container">
-                <div class="row vertical-offset-100">
-                    <div class="col-md-3 col-md-offset-4">
-            <div align="center"><h2>Iniciar sesión</h2></div>
-             <div class="panel-heading">                                
-                                 <div align="center" class="content_login">
-                                    <img src="http://icons.iconarchive.com/icons/aha-soft/security/128/secrecy-icon.png" class="img-responsive"/>
-                                </div>
-                            </div>
-            <div class="panel-body">
-            <form id="login-form" action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method='POST'>
-                <fieldset>
-                    <label class="panel-login">
-                        <div class="login_result"></div>
-                    </label>
-                    <div class="form-group">
-                         <input placeholder="Usuario" type="text" name="j_username" value="${j_username}" class="w100  form-control"/>
-                    </div>
-                    <div class="form-group">
-                        <input placeholder="Contraseña" type="password" name="j_password" class="w100 form-control"/>
-                    </div>
-
-                    <div class="text_login1" style="   margin-left: 10%;">
-                        <a class="btn" href="#">  ¿Olvidó su contraseña?</a>
-                    </div>
-                    <br></br>
-                    <br></br>
-                <p class="text-danger">
-                    <h:messages />
-                </p>
-                    <div class="form-group" style="   margin: 0; background-color: transparent; text-align: center;">
-                         <input type="submit" class="w100 text-center btn btn-success" value="Ingresar »" name="commit" />
-<!--                        <input class=" btn btn-info"  type="submit" id="login" name="login" value="IngresarÂ»"/>-->
-                    </div>
-                </fieldset>
-            </form>
+                </form>
             </div>
         </div>
-                          </div>
-                </div>
-                    </div>
+    </div>
+    <div class="posted-by">
+        <h5 style="margin-bottom:0 !important">Secretar&iacute;a de Relaciones Nacionales e Internacionales - UES</h5>
+        <p>Ciudad Universitaria, Final de Av.M&aacute;rtires y H&eacute;roes del 30 julio, San Salvador, El Salvador, Am&eacute;rica Central.<br/>
+            Tel&eacute;fonos: +(503) 2511-2000</p>
+</div>
+</div>
+
+
  <c:if test="${not empty param.error}">
                 <div class="error_login">
                     Inicio de Sesi&oacute;n Invalido
@@ -121,19 +69,7 @@
                                 Reason: #{sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message} 
                 </div>
             </c:if>
-<div align="center">
-<footer class="footer-a grid-container">
-	<div class="grid-container">
-		<p class="grid-width-100" id="copy">
-			Copyright &copy; 2016 &ndash; SRNI. Todos los derechos reservados.
-		</p>
-	</div>
-</footer>
-</div>
-        <div class="box_tesis">
-            
-        <div class="text_info_tesis"></div>
-            </div>-->
+
             
     </h:body>
 </html>
