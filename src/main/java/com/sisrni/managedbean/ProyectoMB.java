@@ -39,7 +39,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ViewHandler;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
@@ -203,7 +206,12 @@ public class ProyectoMB {
      */
     @PostConstruct
     public void init() {
-        cargarProyecto();
+        try{
+          cargarProyecto();  
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
     }
 
     public void cargarProyecto() {
@@ -214,6 +222,10 @@ public class ProyectoMB {
         personaExterno = new Persona();
         unidadPersonaSelected = new Unidad();
         organismoPersonaSelected = new Organismo();
+        
+        facultadCoordinadorSelected  = new Facultad();
+        facultadAsistenteSelected = new Facultad();
+                
 
         listFacultad = facultadService.findAll();
         //listUnidad = unidadService.findAll();
@@ -366,28 +378,36 @@ public class ProyectoMB {
             areaConocimientoSelected = areaConocimientoService.getAreasConocimientoProyecto(proyectoGenerico.getIdProyecto());
             entidadesCooperantesSelected = organismoService.getOrganismosProyecto(proyectoGenerico.getIdProyecto());
 
+            
             personaCoordinador = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoCoord);
+           
             facultadCoordinadorSelected = facultadService.findById(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad());
             unidadCoordinadorSelected = unidadService.findById(personaCoordinador.getIdUnidad().getIdUnidad());
             listUnidadCoordinador = unidadService.getUnidadesByFacultadId(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad());
             onchangeCoordinador();
 
+           
+           
+           
             personaAsistente = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoAsist);
+            
             facultadAsistenteSelected = facultadService.findById(personaAsistente.getIdUnidad().getIdFacultad().getIdFacultad());
             unidadAsistenteSelected = unidadService.findById(personaAsistente.getIdUnidad().getIdUnidad());
             listUnidadAsistente = unidadService.getUnidadesByFacultadId(personaAsistente.getIdUnidad().getIdFacultad().getIdFacultad());
             onchangeAsistenteCoordinador();
+            
 
+            
             personaExterno = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoExt);
             onchangeExterno();
+            
 
             FacesContext.getCurrentInstance().getExternalContext().redirect("modificarProyecto.xhtml");
 
-            //return "modificarProyecto.xhtml";
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //return null;
+       
     }
 
     public String preConsultarProyecto(Proyecto proyectoIn) {
@@ -464,9 +484,14 @@ public class ProyectoMB {
             telefonoService.merge(telFijoExterno);
             telefonoService.merge(faxExterno);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualizacion!!", msg));
+            //sleep 3 seconds
+            //Thread.sleep(5000);
+            
+            //FacesContext.getCurrentInstance().getExternalContext().redirect("proyectoAdm.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }
+       // cargarProyecto();
 
     }
 
@@ -516,32 +541,44 @@ public class ProyectoMB {
     public void guardarPersona() {
         String msg = "Persona creada exitosamente!!";
         Unidad unidad = unidadService.findById(unidadPersonaSelected.getIdUnidad());
-        Organismo organismo = organismoService.findById(organismoPersonaSelected.getIdOrganismo());
+        //Organismo organismo = organismoService.findById(organismoPersonaSelected.getIdOrganismo());
         try {
             //Seteando Persona
             persona.setIdUnidad(unidad);
-            persona.setIdOrganismo(organismo);
+            //persona.setIdOrganismo(organismo);
             persona.setIdTipoPersona(tipoPersonaCoord.getIdTipoPersona());
 
+           if(telFijoPersona!=null){
             //seteando telefonos de Persona
             telFijoPersona.setIdTipoTelefono(tipoTelefonoFijo);
             telFijoPersona.setIdPersona(persona);
-
+           }
+           
+            if(telCelPersona!=null){
             telCelPersona.setIdTipoTelefono(tipoTelefonoCelular);
             telCelPersona.setIdPersona(persona);
-
+            }
+            
+            if(faxPersona!=null){
             faxPersona.setIdTipoTelefono(tipoTelefonoFax);
             faxPersona.setIdPersona(persona);
+            }
 
             //Guardando Persona
             personaService.save(persona);
 
             //Guardando Telefonos
-            telefonoService.save(telFijoPersona);
-            telefonoService.save(telCelPersona);
-            telefonoService.save(faxPersona);
-
+            if(telFijoPersona!=null){
+            telefonoService.save(telFijoPersona);}
+            if(telCelPersona!=null){
+            telefonoService.save(telCelPersona);}
+            if(faxPersona!=null){
+            telefonoService.save(faxPersona);}
+            
+            listInterno = personaService.findAll();
+                     
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", msg));
+            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -557,6 +594,7 @@ public class ProyectoMB {
 
         }
     }
+ 
 
     public void guardarPersonaExterno() {
         String msg = "Persona creada exitosamente!!";
@@ -569,22 +607,28 @@ public class ProyectoMB {
             persona.setIdTipoPersona(tipoPersonaRefext.getIdTipoPersona());
 
             //seteando telefonos de Persona
+            if(telFijoPersona!=null){
             telFijoPersona.setIdTipoTelefono(tipoTelefonoFijo);
-            telFijoPersona.setIdPersona(persona);
+            telFijoPersona.setIdPersona(persona);}
 
+            if(telCelPersona!=null){
             telCelPersona.setIdTipoTelefono(tipoTelefonoCelular);
-            telCelPersona.setIdPersona(persona);
+            telCelPersona.setIdPersona(persona);}
 
+            if(faxPersona!=null){
             faxPersona.setIdTipoTelefono(tipoTelefonoFax);
-            faxPersona.setIdPersona(persona);
+            faxPersona.setIdPersona(persona);}
 
             //Guardando Persona
             personaService.save(persona);
 
             //Guardando Telefonos
-            telefonoService.save(telFijoPersona);
-            telefonoService.save(telCelPersona);
-            telefonoService.save(faxPersona);
+            if(telFijoPersona!=null){
+            telefonoService.save(telFijoPersona);}
+            if(telCelPersona!=null){
+            telefonoService.save(telCelPersona);}
+            if(faxPersona!=null){
+            telefonoService.save(faxPersona);}
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", msg));
 
