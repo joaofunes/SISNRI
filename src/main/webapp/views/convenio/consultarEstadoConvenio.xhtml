@@ -19,43 +19,100 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
                              >    
-                    <p:column headerText="Nombre Convenio">
+                    
+                     <f:facet name="header">
+                        Propuestas de Convenios
+                     </f:facet>
+                    
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column rowspan="4" headerText="Nombre Convenio" />
+                            <p:column rowspan="4" headerText="Cambio Estado" />
+                            <p:column colspan="7" headerText="Proceso Actual" />
+                        </p:row>
+                       
+                        <p:row>
+                            <p:column headerText="DISENIO CONVENIO" />
+                            <p:column headerText="DISENIO DE INTERESADOS" />
+                            <p:column headerText="Fiscalia" />
+                            <p:column headerText="CSU" />
+                            <p:column headerText="AGU" />
+                            <p:column headerText="Proceso de Firma" />
+                            <p:column headerText="REVISION" />
+                        </p:row>
+                    </p:columnGroup>
+                    
+                    <p:column>
+                        <h:outputText value="#{convenio.nombre_propuesta}" />
+                    </p:column>                                    
+                    <p:column>
+                        <h:outputText value="#{convenio.fecha_cambio_estado}" />
+                    </p:column>                    
+                    
+                    <p:column headerText="DISENIO CONVENIO">
+                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('DISENIO CONVENIO')?'/img/animation/ajax-loader - verde.gif':'0'}" />
+                    </p:column>
+                    <p:column headerText="DISENIO DE INTERESADOS">                       
+                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('DISENIO DE INTERESADOS')?'/img/animation/ajax-loader - verde.gif':'0'}" />  
+                    </p:column>
+                    <p:column headerText="Fiscalia">
+                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('FISCALIA')?'/img/animation/ajax-loader - verde.gif':'0'}" />  
+                    </p:column>
+                    <p:column headerText="CSU">
+                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('CSU')?'/img/animation/ajax-loader - verde.gif':'0'}" />    
+                    </p:column>
+                    <p:column headerText="AGU">
+                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('AGU')?'/img/animation/ajax-loader - verde.gif':'0'}" />      
+                    </p:column>
+                    <p:column headerText="Proceso de Firma">
+                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('PROCESO DE FIRMA')?'/img/animation/ajax-loader - verde.gif':'0'}" />       
+                    </p:column>
+                    <p:column headerText="REVISION">
+                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('REVISION')?'/img/animation/ajax-loader - verde.gif':'0'}" />        
+                    </p:column>
+                   
+                </p:dataTable>
+                
+                <p:spacer></p:spacer>
+                <p:dataTable var="convenio" value="#{consultarEstadoConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
+                             >    
+                    
+                     <f:facet name="header">
+                        Convenios
+                     </f:facet>                    
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column rowspan="4" headerText="Nombre Convenio" />
+                            <p:column rowspan="4" headerText="Vigencia" />
+                            <p:column rowspan="4" headerText="Cambio Estado" />
+                            <p:column colspan="2" headerText="Estado Actual" />
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="1" headerText="Activo" />
+                            <p:column colspan="1" headerText="Inactivo" />
+                        </p:row>
+                      
+                    </p:columnGroup>
+                    
+                    <p:column>
                         <h:outputText value="#{convenio.nombre_propuesta}" />
                     </p:column>
-                    <p:column headerText="Vigecia">
+                    <p:column>
                         <h:outputText value="#{convenio.vigencia}" />
                     </p:column>                    
-                    <p:column headerText="Fecha cambio estado">
+                    <p:column>
                         <h:outputText value="#{convenio.fecha_cambio_estado}" />
                     </p:column>                    
                     <p:column headerText="Activo">
-                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('ACTIVO')?'1':'0'}" />
+                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('ACTIVO')?'/img/animation/ajax-loader - azul.gif':'0'}" />
                     </p:column>
                     <p:column headerText="Inactivo">
-                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('INACTIVO')?'1':'0'}" />
+                        <p:graphicImage value="#{convenio.nombre_estado.equalsIgnoreCase('INACTIVA')?'/img/animation/ajax-loader - red.gif':'0'}" />
                     </p:column>
-                    <p:column headerText="Fiscalia">
-                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('FISCALIA')?'1':'0'}" />
-                    </p:column>
-                    <p:column headerText="CSU">
-                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('CSU')?'1':'0'}" />
-                    </p:column>
-                    <p:column headerText="AGU">
-                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('AGU')?'1':'0'}" />
-                    </p:column>
-                    <p:column headerText="Proceso de Firma">
-                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('PROCESO DE FIRMA')?'1':'0'}" />
-                    </p:column>
-                    <p:column headerText="Firmado">
-                        <h:outputText value="#{convenio.nombre_estado.equalsIgnoreCase('FIRMADO')?'1':'0'}" />
-                    </p:column>
-                    <p:column headerText="Opciones" >
-                        <div style="float: left">
-                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                           value="Editar" actionListener="#{consultarConvenioMB.preEditar(convenio)}" />
-                        </div>
-                       
-                    </p:column>
+                 
+                   
                 </p:dataTable>
             </h:form> 
     </ui:define> 

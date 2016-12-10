@@ -13,21 +13,23 @@
         <ui:insert name="title">
             <title>SISRNI</title>
         </ui:insert>
+        <script type="text/javascript">
+            var ctx = '#{facesContext.externalContext.requestContextPath}';
+        </script>
         <f:facet name="last">
             <link rel="icon" type="image/x-icon" href="#{facesContext.externalContext.requestContextPath}/img/favicon.ico"/>
             <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/style.css" />
-            <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/style_srni.css" />
         </f:facet> 
         <f:facet name="last">
+           
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/bootstrap.js"></script>
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/reports.js"></script>
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/funciones.js"></script>
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/pfcrud.js"></script>
-            
+              <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+            <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
         </f:facet>
-        <script type="text/javascript">
-            var ctx = '#{facesContext.externalContext.requestContextPath}';
-        </script>
+
 
         <style>
 
@@ -40,66 +42,33 @@
     </h:head>
 
     <h:body>
-        <p:layout fullPage="true" rendered="true">  
+        <div id="page">
 
-            <p:layoutUnit position="center" > 
-                <div class="cabecera">               
-                    <div class="texto_derecha">#{currentUserSessionBean.form.sessionUser.username}</div>
-                    <div class="menu_contenedor">
-
-                        <div class="logo_1 "></div>      
-                        <div class="menu">
-                            <ul>
-                                <li><a href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml">Inicio</a></li>
-                                <li><a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Cerrar Sesion</a></li>
-                            </ul>
-                        </div>                                		
+            <div id="header">
+                <ui:insert name="header" >
+                    <ui:include src="/WEB-INF/templates/commonHeader.xhtml" />
+                </ui:insert>
+            </div>
+            <div id="content">
+                <div class="container" style="background:white;">
+                    <div class="content_info">
+                        <ui:insert name="content" >
+                            <ui:include src="/WEB-INF/templates/commonContent.xhtml" />
+                        </ui:insert>
                     </div>
+
                 </div>
-                        
-                    <ul id="nav">
-<!--                        <li  class='active'><a href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml">Inicio</a></li>-->
+            </div>
 
-                        <c:forEach items="#{currentUserSessionBean.form.menusLst}" var="menu"> 
-                            <li ><a class="hsubs"  href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml">#{menu.ssMenu.nombreMenu}</a>
-                                <ul class="subs">
-                                    <c:forEach items="#{menu.ssOpciones}" var="opcion"> 
-                                        <li><a href="#{opcion.url}">#{opcion.nombreOpcion}</a></li>                                          
-                                    </c:forEach>
-                                </ul>  
-                            </li>
-                        </c:forEach>  
+            <div id="footer">
+                <ui:insert name="footer" >
+                    <ui:include src="/WEB-INF/templates/commonFooter.xhtml" />
+                </ui:insert>
+            </div>
 
-                    </ul>
-
-                
-                <div class="background_1">
-                    <p:growl id="growl" life="3000" showDetail="true" showSummary="true" autoUpdate="true"  />
-                    
-                    <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">  
-                        <f:facet name="start">  
-                            <h:graphicImage value="/img/animation/loadingprimefaces.gif" />  
-                        </f:facet>  
-
-                        <f:facet name="complete">  
-                            <h:outputText value="" />  
-                        </f:facet>  
-                    </p:ajaxStatus> 
-                    <ui:insert name="content">
-                        Default content
-                    </ui:insert>
-
-                    <div class="center_line">
-                        <h5>Direccion SSRNI.
-                            <br/>Telefono: 2354-X9999XXX.</h5>
-                    </div>
-                </div>
-            </p:layoutUnit>  
-
-        </p:layout> 
+        </div>
 
     </h:body>
 
 </html>
-
 
