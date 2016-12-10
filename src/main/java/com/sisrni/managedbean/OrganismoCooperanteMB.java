@@ -6,8 +6,11 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Organismo;
+import com.sisrni.model.Pais;
+import com.sisrni.model.Region;
 import com.sisrni.model.TipoOrganismo;
 import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PaisService;
 import com.sisrni.service.TipoOrganismoService;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -33,8 +36,13 @@ public class OrganismoCooperanteMB {
     private Organismo organismoCooperante ;
     @Autowired
     TipoOrganismoService tipoOrganismoService;
+    PaisService paisService;
     private List<TipoOrganismo> tipoOrganismoList;
     private TipoOrganismo organismoSelected;
+    private List<Pais> paisList;
+    private Pais paisSelected;
+    private List<Region> regionList;
+    private Region regionSelected;
     private List<Organismo> organismosList;
     private boolean actualizar;
     
@@ -95,6 +103,17 @@ public class OrganismoCooperanteMB {
         }
     }
     
+      public void onchangeRegion() {
+        try {
+            if (organismoCooperante.getIdRegion()!= null && !organismoCooperante.getIdRegion().equals("")) {
+                paisList = paisService.getPaisesByRegionId(Integer.SIZE);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+      
     public List<TipoOrganismo> getTipoOrganismoList() {
         return tipoOrganismoList;
     }
@@ -125,7 +144,39 @@ public class OrganismoCooperanteMB {
     public void setOrganismosList(List<Organismo> organismosList) {
         this.organismosList = organismosList;
     }
+    
+     public List<Pais> getPaisList() {
+        return paisList;
+    }
 
+    public void setPaisList(List<Pais> paisList) {
+        this.paisList = paisList;
+    }
+
+    public Pais getPaisSelected() {
+        return paisSelected;
+    }
+
+    public void setPaisSelected(Pais paisSelected) {
+        this.paisSelected = paisSelected;
+    }
+     
+    public List<Region> getRegionList() {
+        return regionList;
+    }
+
+    public void setRegionList(List<Region> regionList) {
+        this.regionList = regionList;
+    }
+
+    public Region getRegionSelected() {
+        return regionSelected;
+    }
+
+    public void setRegionSelected(Region regionSelected) {
+        this.regionSelected = regionSelected;
+    }
+    
     public boolean isActualizar() {
         return actualizar;
     }

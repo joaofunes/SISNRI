@@ -23,6 +23,23 @@
                         <f:selectItem itemLabel="#{tipoOrg.nombreTipo}" itemValue="#{tipoOrg.idTipoOrganismo}"/>
                     </c:forEach>
                 </p:selectOneMenu>
+                
+                <h:outputLabel value="Region"/>
+                <p:selectOneMenu id="region" value="#{organismoCooperanteMB.paisSelected.idPais}">
+                      <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                      <p:ajax listener="#{organismoCooperanteMB.onchangeRegion()}" update="pais" />
+                    <c:forEach var="region" items="#{organismoCooperanteMB.regionList}">
+                        <f:selectItem itemLabel="#{region.nombreRegion}" itemValue="#{region.idRegion}"/>
+                    </c:forEach>
+                </p:selectOneMenu>
+                
+                 <h:outputLabel value="País"/>
+                <p:selectOneMenu id="pais" value="#{organismoCooperanteMB.paisSelected.idPais}">
+                   <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                    <c:forEach var="pais" items="#{organismoCooperanteMB.paisList}">
+                        <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                    </c:forEach>
+                </p:selectOneMenu>
 <!--                <h:outputLabel value="Telefono:"/>
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.telefonoOrganismo}"/>
                 <h:outputLabel value="Fax:"/>
@@ -31,6 +48,8 @@
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}"/>
                 <h:outputLabel value="Direccion:"/>
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}"/>
+                <h:outputLabel value="Código Postal:"/>
+                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}"/>
             </h:panelGrid>
            
                         <p:commandButton rendered="#{!organismoCooperanteMB.actualizar}"  styleClass="boton"
@@ -66,8 +85,12 @@
                         <h:outputText value="#{organismo.correoOrganismo}" />
                     </p:column>
                     
-                    <p:column headerText="Dirección" sortBy="#{organismo.direccionOrganismo}" filterBy="#{organismo.direccionOrganismo}">
+                    <p:column headerText="DirecciÃ³n" sortBy="#{organismo.direccionOrganismo}" filterBy="#{organismo.direccionOrganismo}">
                         <h:outputText value="#{organismo.direccionOrganismo}" />
+                    </p:column>
+                    
+                    <p:column headerText="Código Postal" sortBy="#{organismo.codigoPostal}" filterBy="#{organismo.codigoPostal}">
+                        <h:outputText value="#{organismo.codigoPostal}" />
                     </p:column>
                     
              
