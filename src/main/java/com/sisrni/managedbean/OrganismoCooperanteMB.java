@@ -11,6 +11,7 @@ import com.sisrni.model.Region;
 import com.sisrni.model.TipoOrganismo;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PaisService;
+import com.sisrni.service.RegionService;
 import com.sisrni.service.TipoOrganismoService;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -36,7 +37,11 @@ public class OrganismoCooperanteMB {
     private Organismo organismoCooperante ;
     @Autowired
     TipoOrganismoService tipoOrganismoService;
+    @Autowired
     PaisService paisService;
+    @Autowired
+    RegionService regionService;
+    
     private List<TipoOrganismo> tipoOrganismoList;
     private TipoOrganismo organismoSelected;
     private List<Pais> paisList;
@@ -60,7 +65,12 @@ public class OrganismoCooperanteMB {
     tipoOrganismoList = tipoOrganismoService.findAll();
     organismoSelected=new TipoOrganismo();
     organismosList=organismoService.findAll();
+    //paisList = paisService.findAll();
+    regionSelected = new Region();
+    paisSelected = new Pais();
+    regionList = regionService.findAll();
     actualizar=false;
+    
     }
     public void guardarOrganismo(){
         try {

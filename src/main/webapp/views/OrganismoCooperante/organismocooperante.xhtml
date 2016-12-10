@@ -25,7 +25,7 @@
                 </p:selectOneMenu>
                 
                 <h:outputLabel value="Region"/>
-                <p:selectOneMenu id="region" value="#{organismoCooperanteMB.paisSelected.idPais}">
+                <p:selectOneMenu id="region" value="#{organismoCooperanteMB.regionSelected.idRegion}">
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <p:ajax listener="#{organismoCooperanteMB.onchangeRegion()}" update="pais" />
                     <c:forEach var="region" items="#{organismoCooperanteMB.regionList}">
