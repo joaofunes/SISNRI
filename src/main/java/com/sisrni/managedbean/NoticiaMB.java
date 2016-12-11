@@ -143,7 +143,7 @@ public class NoticiaMB implements Serializable {
     }
 
     public List<Noticia> listar() {
-        return noticiasList;
+        return noticiaService.getActiveNews();
     }
 
     public void setNoticiasList(List<Noticia> noticiasList) {
