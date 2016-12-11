@@ -218,7 +218,6 @@ public class PropuestaConvenioMB implements Serializable{
              listadoPersonasInterno = new ArrayList<Persona>();
              listadoPersonasExterno = new ArrayList<Persona>();
              listadoTipoPrpouestaConvenio = new ArrayList<TipoPropuestaConvenio>();
-             listadoPropuestaConvenio = new ArrayList<PropuestaConvenio>();
              
              listadoPersonasSolicitante= personaService.findAll();
              listadoPersonasInterno= personaService.findAll();
