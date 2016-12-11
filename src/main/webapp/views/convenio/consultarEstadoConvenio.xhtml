@@ -14,66 +14,7 @@
             
         
             <h:form id="formAdmin">
-
-                <p:dataTable var="convenio" value="#{consultarEstadoConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
-                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
-                             >    
-                    
-                     <f:facet name="header">
-                        Propuestas de Convenios
-                     </f:facet>
-                    
-                    <p:columnGroup type="header">
-                        <p:row>
-                            <p:column rowspan="4" headerText="Nombre Convenio" />
-                            <p:column rowspan="4" headerText="Cambio Estado" />
-                            <p:column colspan="7" headerText="Proceso Actual" />
-                        </p:row>
-                       
-                        <p:row>
-                            <p:column headerText="DISENIO CONVENIO" />
-                            <p:column headerText="DISENIO DE INTERESADOS" />
-                            <p:column headerText="Fiscalia" />
-                            <p:column headerText="CSU" />
-                            <p:column headerText="AGU" />
-                            <p:column headerText="Proceso de Firma" />
-                            <p:column headerText="REVISION" />
-                        </p:row>
-                    </p:columnGroup>
-                    
-                    <p:column>
-                        <h:outputText value="#{convenio.nombre_propuesta}" />
-                    </p:column>                                    
-                    <p:column>
-                        <h:outputText value="#{convenio.fecha_cambio_estado}" />
-                    </p:column>                    
-                    
-                    <p:column headerText="DISENIO CONVENIO">
-                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('DISENIO CONVENIO')?'/img/animation/ajax-loader - verde.gif':'0'}" />
-                    </p:column>
-                    <p:column headerText="DISENIO DE INTERESADOS">                       
-                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('DISENIO DE INTERESADOS')?'/img/animation/ajax-loader - verde.gif':'0'}" />  
-                    </p:column>
-                    <p:column headerText="Fiscalia">
-                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('FISCALIA')?'/img/animation/ajax-loader - verde.gif':'0'}" />  
-                    </p:column>
-                    <p:column headerText="CSU">
-                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('CSU')?'/img/animation/ajax-loader - verde.gif':'0'}" />    
-                    </p:column>
-                    <p:column headerText="AGU">
-                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('AGU')?'/img/animation/ajax-loader - verde.gif':'0'}" />      
-                    </p:column>
-                    <p:column headerText="Proceso de Firma">
-                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('PROCESO DE FIRMA')?'/img/animation/ajax-loader - verde.gif':'0'}" />       
-                    </p:column>
-                    <p:column headerText="REVISION">
-                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('REVISION')?'/img/animation/ajax-loader - verde.gif':'0'}" />        
-                    </p:column>
-                   
-                </p:dataTable>
                 
-                <p:spacer></p:spacer>
                 <p:dataTable var="convenio" value="#{consultarEstadoConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       

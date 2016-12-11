@@ -582,7 +582,7 @@ public class PropuestaConvenioMB implements Serializable{
             if(propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_MARCO)){
                 flagConvenioMarco=true;
             }else{
-                listadoPropuestaConvenio = propuestaConvenioService.getPropuestaConvenioByTipoPropuesta(propuestaConvenio.getIdTipoPropuestaConvenio());
+                listadoPropuestaConvenio = propuestaConvenioService.getConvenios();
                 flagConvenioMarco=false;
             }
             
