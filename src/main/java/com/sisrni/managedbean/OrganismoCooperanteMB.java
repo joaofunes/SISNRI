@@ -76,6 +76,8 @@ public class OrganismoCooperanteMB {
         try {
             //seteamos el tipo organismo seleccionado el cual buscamos en la base para ver si existe utilizando el tipoorganismoservice
             organismoCooperante.setIdTipoOrganismo(tipoOrganismoService.findById(organismoSelected.getIdTipoOrganismo()));
+            organismoCooperante.setIdRegion(regionSelected.getIdRegion());
+            organismoCooperante.setIdPais(paisSelected.getIdPais());
             organismoCooperante.setIdOrganismo(Integer.MIN_VALUE);
             organismoService.save(organismoCooperante);
             inicializarVariables();
@@ -90,6 +92,8 @@ public class OrganismoCooperanteMB {
         String msg = " Organismo Actualizado Exitosamente!";       
         try { 
             organismoCooperante.setIdTipoOrganismo(tipoOrganismoService.findById(organismoSelected.getIdTipoOrganismo()));
+            organismoCooperante.setIdRegion(regionSelected.getIdRegion());
+            organismoCooperante.setIdPais(paisSelected.getIdPais());
             organismoService.merge(organismoCooperante);
             actualizar=false;
             //cancelarTipoOrganismo();
@@ -107,6 +111,8 @@ public class OrganismoCooperanteMB {
         try {        
             this.organismoCooperante = organismoCooperante; 
             this.organismoSelected.setIdTipoOrganismo(organismoCooperante.getIdTipoOrganismo().getIdTipoOrganismo());
+            this.regionSelected.setIdRegion(organismoCooperante.getIdRegion());
+            this.paisSelected.setIdPais(organismoCooperante.getIdPais());
             actualizar=true;      
         } catch (Exception e) {
               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Al precargar registro para ser actualizado"));

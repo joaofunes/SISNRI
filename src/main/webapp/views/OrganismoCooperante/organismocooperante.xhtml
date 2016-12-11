@@ -18,6 +18,7 @@
                 <h:outputLabel value="Nombre:"/>
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.nombreOrganismo}"/>
                 <h:outputLabel value="Tipo Organismo"/>
+                
                 <p:selectOneMenu id="tipoorganismo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}">
                     <c:forEach var="tipoOrg" items="#{organismoCooperanteMB.tipoOrganismoList}">
                         <f:selectItem itemLabel="#{tipoOrg.nombreTipo}" itemValue="#{tipoOrg.idTipoOrganismo}"/>
@@ -33,7 +34,7 @@
                     </c:forEach>
                 </p:selectOneMenu>
                 
-                 <h:outputLabel value="País"/>
+                 <h:outputLabel value="PaÃ­s"/>
                 <p:selectOneMenu id="pais" value="#{organismoCooperanteMB.paisSelected.idPais}">
                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                     <c:forEach var="pais" items="#{organismoCooperanteMB.paisList}">
@@ -48,7 +49,7 @@
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}"/>
                 <h:outputLabel value="Direccion:"/>
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}"/>
-                <h:outputLabel value="Código Postal:"/>
+                <h:outputLabel value="CÃ³digo Postal:"/>
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}"/>
             </h:panelGrid>
            
@@ -85,11 +86,11 @@
                         <h:outputText value="#{organismo.correoOrganismo}" />
                     </p:column>
                     
-                    <p:column headerText="DirecciÃ³n" sortBy="#{organismo.direccionOrganismo}" filterBy="#{organismo.direccionOrganismo}">
+                    <p:column headerText="DirecciÃƒÂ³n" sortBy="#{organismo.direccionOrganismo}" filterBy="#{organismo.direccionOrganismo}">
                         <h:outputText value="#{organismo.direccionOrganismo}" />
                     </p:column>
                     
-                    <p:column headerText="Código Postal" sortBy="#{organismo.codigoPostal}" filterBy="#{organismo.codigoPostal}">
+                    <p:column headerText="CÃ³digo Postal" sortBy="#{organismo.codigoPostal}" filterBy="#{organismo.codigoPostal}">
                         <h:outputText value="#{organismo.codigoPostal}" />
                     </p:column>
                     
