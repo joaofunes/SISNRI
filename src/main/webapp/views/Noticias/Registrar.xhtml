@@ -15,61 +15,67 @@
             <div style="width: 600">
                 <p:growl autoUpdate="true" id="msj" showDetail="true"/>
                 <h:form id="formNoticia">
-                    <h:panelGrid columns="2">
-                        <h:outputLabel value="Titulo:" />
-                        <p:inputText value="#{noticiaMB.noticia.tituloNoticia}"/>
+                    <p:panel header="Entrada de Datos">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Titulo:" />
+                            <p:inputText value="#{noticiaMB.noticia.tituloNoticia}" size="75"/>
 
-                        <p:outputLabel for="categoria" value="Categoria:" />
-                        <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelected.idCategoria}" style="width:125px">
-                            <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
-                                <f:selectItem itemLabel="#{cat.categoriaNoticia}" itemValue="#{cat.idCategoria}" />        
-                            </c:forEach>
-                        </p:selectOneMenu>
+                            <p:outputLabel for="categoria" value="Categoria:" style="size: 35"/>
+                            <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelected.idCategoria}" style="width:125px">
+                                <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
+                                    <f:selectItem itemLabel="#{cat.categoriaNoticia}" itemValue="#{cat.idCategoria}" />        
+                                </c:forEach>
+                            </p:selectOneMenu>
 
-                        <h:outputLabel value="Descripcion:"/>
-                        <p:inputTextarea value="#{noticiaMB.noticia.descripcionNoticia}"  maxlength="3000" />
+                            <h:outputLabel value="Descripcion:"/>
+                            <p:editor id="editorDescripcion" widgetVar="descripcionWidget" value="#{noticiaMB.noticia.descripcionNoticia}" height="100" controls="bold font size italic underline strikethrough" maxlength="100000" />
+                           
 
-                        <h:outputLabel value="Contenido"/>
-                        <p:editor id="editor" widgetVar="editorWidget" value="#{noticiaMB.noticia.contenido}" maxlength="10000" />
+                            <h:outputLabel value="Contenido"/>
+                            <p:editor id="editor" widgetVar="editorWidget" value="#{noticiaMB.noticia.contenido}" maxlength="100000" />
 
-                        <p:outputLabel for="estado" value="Estado:" />
-                        <p:selectOneMenu id="estado" value="#{noticiaMB.noticia.estadoNoticia}" style="width:125px">
-                            <f:selectItem itemLabel="Activa" itemValue="true" />
-                            <f:selectItem itemLabel="Inactiva" itemValue="false" />
-                        </p:selectOneMenu>
-
-                    </h:panelGrid>
-                    <p:commandButton rendered="#{noticiaMB.actualizar}" value="Cancelar" actionListener="#{noticiaMB.inicializador()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
-                    <p:commandButton rendered="#{!noticiaMB.actualizar}" value="Guardar" actionListener="#{noticiaMB.guardarNoticia}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
-                    <p:commandButton rendered="#{noticiaMB.actualizar}" value="Actualizar" actionListener="#{noticiaMB.updateNoticia()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
-
-                   
+                            <p:outputLabel for="estado" value="Estado:" />
+                            <p:selectOneMenu id="estado" value="#{noticiaMB.noticia.estadoNoticia}" style="width:125px">
+                                <f:selectItem itemLabel="Activa" itemValue="true" />
+                                <f:selectItem itemLabel="Inactiva" itemValue="false" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <p:commandButton rendered="#{noticiaMB.actualizar}" value="Cancelar" actionListener="#{noticiaMB.inicializador()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+                        <p:commandButton rendered="#{!noticiaMB.actualizar}" value="Guardar" actionListener="#{noticiaMB.guardarNoticia}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+                        <p:commandButton rendered="#{noticiaMB.actualizar}" value="Actualizar" actionListener="#{noticiaMB.updateNoticia()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+                    </p:panel>
                 </h:form>
-                <h:panelGroup id="administracion">
-                    <p:dataTable var="n" value="#{noticiaMB.noticiasList}" paginator="true" rows="5"                             
-                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
-                                 >    
-                        <p:column headerText="Titulo">
-                            <h:outputText value="#{n.tituloNoticia}" />
-                        </p:column>
-                        <p:column headerText="Categoria">
-                            <h:outputText value="#{n.idCategoria.categoriaNoticia}" />
-                        </p:column>
-                        <p:column headerText="Fecha Creacion">
-                            <h:outputText value="#{n.fechaNoticia}" />
-                        </p:column>
-                        <p:column headerText="Estado">
-                            <h:outputText value="#{n.estadoNoticia}" />
-                        </p:column>
-                        <p:column headerText="Opciones" >
-                            <div style="float: left">
-                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                               value="Editar" actionListener="#{noticiaMB.preEditar(n.idNoticia)}" update=":formNoticia" />
-                            </div>                       
-                        </p:column>
-                    </p:dataTable>
-                </h:panelGroup>
+
+                <p:panel header="Historico de Noticias">
+                    <h:panelGroup id="administracion">
+                        <p:dataTable var="n" value="#{noticiaMB.noticiasList}" paginator="true" rows="5"                             
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                     rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
+                                     >    
+                            <p:column headerText="Titulo">
+                                <h:outputText value="#{n.tituloNoticia}" />
+                            </p:column>
+                            <p:column headerText="Categoria">
+                                <h:outputText value="#{n.idCategoria.categoriaNoticia}" />
+                            </p:column>
+                            <p:column headerText="Fecha Creacion">
+                                <h:outputText value="#{n.fechaNoticia}" />
+                            </p:column>
+                            <p:column headerText="Estado">
+                                <h:outputText value="#{n.estadoNoticia}" >
+                                    <f:converter converterId="estadoNoticiaConverter"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Opciones" >
+                                <div style="float: left">
+                                    <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                                   value="Editar" actionListener="#{noticiaMB.preEditar(n.idNoticia)}" update=":formNoticia" />
+                                </div>                       
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGroup>
+                </p:panel>
+
 
             </div>
         </center>

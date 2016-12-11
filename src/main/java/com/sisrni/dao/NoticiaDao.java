@@ -7,6 +7,8 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Noticia;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +16,11 @@ import org.springframework.stereotype.Repository;
  * @author Joao
  */
 @Repository(value = "noticiaDao")
-public class NoticiaDao extends GenericDao<Noticia, Integer>{
-    
+public class NoticiaDao extends GenericDao<Noticia, Integer> {
+
+    public List<Noticia> getActiveNews() {
+        String query = "Select n from Noticia n where n.estadoNoticia=1";
+        Query q = getSessionFactory().getCurrentSession().createQuery(query);
+        return q.list();
+    }
 }
