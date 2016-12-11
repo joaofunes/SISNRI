@@ -31,8 +31,8 @@
                         </p:tab>
                         <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
                             <p:tab title="Datos del Proyecto">
-                                <h:panelGrid columns="4">
-                                        <p:column>
+                                <h:panelGrid columns="4" styleClass="col-lg-12">
+                                    <p:column>
                                             <p:outputLabel value="Nombre Convenio:"/>
                                         </p:column>
                                         <p:column>
@@ -44,7 +44,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                     <p:column>
-                                        <p:outputLabel  value="Anio de Gestion: " />
+                                        <p:outputLabel  value="A&ntilde;o de Gesti&oacute;n: " />
                                         </p:column>
                                         <p:column>
                                         <p:selectOneMenu id="desde" value="#{proyectosMB.anio}" style="width:150px">

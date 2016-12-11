@@ -26,10 +26,10 @@
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/reports.js"></script>
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/funciones.js"></script>
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/pfcrud.js"></script>
+             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/waitingfor.js"></script>
             <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
             <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
         </f:facet>
-
 
         <style>
 
@@ -52,6 +52,36 @@
             <div id="content">
                 <div class="container" style="background:white; border: 1px dotted #f0f0f0">
                     <div class="content_info">
+<!--                        <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">  
+                        <f:facet name="start">  
+                            <script>
+                            $(function () {
+                                  waitingDialog.show('Cargando Datos', { dialogSize: 'sm', progressType: 'danger' });
+                             });
+                            </script>
+                             <h:graphicImage value="/img/animation/loadingprimefaces.gif" />                            
+                        </f:facet>  
+
+                        <f:facet name="complete">  
+                            <script>
+                            $(function () {
+                                  waitingDialog.hide('Cargando Datos', { dialogSize: 'sm', progressType: 'danger' });
+                             });
+                            </script>
+                        </f:facet>  
+                    </p:ajaxStatus> -->
+                    <p:growl id="growl" life="3000" showDetail="true" showSummary="true" autoUpdate="true"  />
+                    <p:ajaxStatus onstart="showStatusDialog();" onsuccess="hideStatusDialog();" onerror="hideStatusDialog();"/>                   
+                    <script>
+                           function showStatusDialog()
+                                 {
+                                  waitingDialog.show('Procesando Datos', { dialogSize: 'sm', progressType: 'danger' });
+                                  }
+                           function hideStatusDialog()
+                                 {
+                                  waitingDialog.hide('Procesando Datos', { dialogSize: 'sm', progressType: 'danger' });
+                                  }
+                    </script>
                         <ui:insert name="content" >
                             <ui:include src="/WEB-INF/templates/commonContent.xhtml" />
                         </ui:insert>
