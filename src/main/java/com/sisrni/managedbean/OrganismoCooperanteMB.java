@@ -115,8 +115,8 @@ public class OrganismoCooperanteMB {
     
       public void onchangeRegion() {
         try {
-            if (organismoCooperante.getIdRegion()!= null && !organismoCooperante.getIdRegion().equals("")) {
-                paisList = paisService.getPaisesByRegionId(Integer.SIZE);
+            if (regionSelected.getIdRegion()!= null && !regionSelected.getIdRegion().equals("")) {
+                paisList = paisService.getPaisesByRegionId(regionSelected.getIdRegion());
             }
 
         } catch (Exception e) {
