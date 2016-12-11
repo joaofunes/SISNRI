@@ -218,7 +218,6 @@ public class PropuestaConvenioMB implements Serializable{
              listadoPersonasInterno = new ArrayList<Persona>();
              listadoPersonasExterno = new ArrayList<Persona>();
              listadoTipoPrpouestaConvenio = new ArrayList<TipoPropuestaConvenio>();
-             listadoPropuestaConvenio = new ArrayList<PropuestaConvenio>();
              
              listadoPersonasSolicitante= personaService.findAll();
              listadoPersonasInterno= personaService.findAll();
@@ -583,7 +582,7 @@ public class PropuestaConvenioMB implements Serializable{
             if(propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_MARCO)){
                 flagConvenioMarco=true;
             }else{
-                listadoPropuestaConvenio = propuestaConvenioService.getPropuestaConvenioByTipoPropuesta(propuestaConvenio.getIdTipoPropuestaConvenio());
+                listadoPropuestaConvenio = propuestaConvenioService.getConvenios();
                 flagConvenioMarco=false;
             }
             

@@ -12,7 +12,7 @@ a, a:hover, .btn{outline:none!important;}
 .btn-search{background: #FD3A13; border-color: #FD3A13; color: #fff; padding: 7px 10px}
 .btn-search:hover{background: #ca1b1b; border-color: #ca1b1b}
 section{padding: 30px 0; float: left; width: 100%}
-.card{float: left; width:100%}
+.card{float: left; width:100%; min-height: 200px !Important;}
 .navbar {border: medium none; float: left; margin-bottom: 0px; width: 100%;  border-radius: 0}
 .title-large {font-size: 20px; margin: 10px 0 5px; line-height: 27px; color: #141517;}
 .title-small { color: #141517; font-size: 16px; font-weight: 400; line-height: 23px; margin: 6px 0 0;}

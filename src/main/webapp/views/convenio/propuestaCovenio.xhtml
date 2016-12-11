@@ -23,7 +23,7 @@
                                 <tr>
                                   <td><p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" /></td>
                                   <td>
-                                      <p:inputText id="idSolicinateNombre"  required="true" label="Nombre" value="#{propuestaConvenioMB.solicitante.nombrePersona}"/>
+                                      <p:inputText id="idSolicinateNombre" styleClass="med" required="true" label="Nombre" value="#{propuestaConvenioMB.solicitante.nombrePersona}"/>
                                             <p:message for="idSolicinateNombre" />   
                                             <p:watermark for="idSolicinateNombre" value="Nombre" id="watermarkNameSol" />
                                   </td>                                 
@@ -258,11 +258,11 @@
                                    
                                     <tr>
                                       <td><p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" /> </td>
-                                      <td>
+                                      <td>                 
                                         <p:selectOneMenu id="idTipoPropuesta"  required="true" value="#{propuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >                                            
+                                             <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="fileUploadGroup"  process="@this" />
                                             <f:selectItem itemValue="#{null}" itemLabel="Seleccione Tipo Propuesta" noSelectionOption="true" />                                            
-                                            <f:selectItems value="#{propuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />  
-                                            <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="fileUploadGroup"  process="@this" />
+                                            <f:selectItems value="#{propuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />       
                                         </p:selectOneMenu>
                                         <p:message for="idTipoPropuesta" />  
                                       </td>
@@ -274,7 +274,6 @@
                                            <p:selectOneMenu rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{tipoPropuestaConvenioConverter}"  style="width:160px" >                                              
                                               <f:selectItem itemValue="#{null}" itemLabel="Seleccione Convenio" noSelectionOption="true" />                                            
                                               <f:selectItems value="#{propuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
-                                              <f:selectItem />
                                            </p:selectOneMenu>
                                        </td> 
                                     </tr> 
