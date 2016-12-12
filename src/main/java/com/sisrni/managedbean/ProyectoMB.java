@@ -379,7 +379,7 @@ public class ProyectoMB {
             entidadesCooperantesSelected = organismoService.getOrganismosProyecto(proyectoGenerico.getIdProyecto());
 
             
-            personaCoordinador = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoCoord);
+            personaCoordinador = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoPersonaCoord.getIdTipoPersona());
            
             facultadCoordinadorSelected = facultadService.findById(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad());
             unidadCoordinadorSelected = unidadService.findById(personaCoordinador.getIdUnidad().getIdUnidad());
@@ -389,7 +389,7 @@ public class ProyectoMB {
            
            
            
-            personaAsistente = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoAsist);
+            personaAsistente = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoPersonaAsis.getIdTipoPersona());
             
             facultadAsistenteSelected = facultadService.findById(personaAsistente.getIdUnidad().getIdFacultad().getIdFacultad());
             unidadAsistenteSelected = unidadService.findById(personaAsistente.getIdUnidad().getIdUnidad());
@@ -398,7 +398,7 @@ public class ProyectoMB {
             
 
             
-            personaExterno = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoExt);
+            personaExterno = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoPersonaRefext.getIdTipoPersona());
             onchangeExterno();
             
 
@@ -419,19 +419,19 @@ public class ProyectoMB {
             proyectoGenerico = proyectoGenericoService.findById(proyecto.getIdProyecto());
             areaConocimientoSelected = areaConocimientoService.getAreasConocimientoProyecto(proyecto.getIdProyecto());
 
-            personaCoordinador = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoCoord);
+            personaCoordinador = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoPersonaCoord.getIdTipoPersona());
             facultadCoordinadorSelected = facultadService.findById(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad());
             unidadCoordinadorSelected = unidadService.findById(personaCoordinador.getIdUnidad().getIdUnidad());
             listUnidadCoordinador = unidadService.getUnidadesByFacultadId(personaCoordinador.getIdUnidad().getIdFacultad().getIdFacultad());
             onchangeCoordinador();
 
-            personaAsistente = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoAsist);
+            personaAsistente = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoPersonaAsis.getIdTipoPersona());
             facultadAsistenteSelected = facultadService.findById(personaAsistente.getIdUnidad().getIdFacultad().getIdFacultad());
             unidadAsistenteSelected = unidadService.findById(personaAsistente.getIdUnidad().getIdUnidad());
             listUnidadAsistente = unidadService.getUnidadesByFacultadId(personaAsistente.getIdUnidad().getIdFacultad().getIdFacultad());
             onchangeAsistenteCoordinador();
 
-            personaExterno = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoExt);
+            personaExterno = personaService.getPersonaByProyectoTipoPersona(proyecto.getIdProyecto(), tipoPersonaRefext.getIdTipoPersona());
             onchangeExterno();
 
             FacesContext.getCurrentInstance().getExternalContext().redirect("consultarProyecto.xhtml");
@@ -468,18 +468,18 @@ public class ProyectoMB {
             proyectoGenericoService.merge(proyectoGenerico);
 
             personaCoordinador.setIdUnidad(unidadCoordinadorSelected);
-            personaProyectoService.updatePersonaProyecto(personaCoordinador.getIdPersona(), proyectoGenerico.getIdProyecto(), tipoCoord);
+            personaProyectoService.updatePersonaProyecto(personaCoordinador.getIdPersona(), proyectoGenerico.getIdProyecto(), tipoPersonaCoord.getIdTipoPersona());
             personaService.merge(personaCoordinador);
             telefonoService.merge(telFijoInterno);
             telefonoService.merge(faxInterno);
 
             personaAsistente.setIdUnidad(unidadAsistenteSelected);
-            personaProyectoService.updatePersonaProyecto(personaAsistente.getIdPersona(), proyectoGenerico.getIdProyecto(), tipoAsist);
+            personaProyectoService.updatePersonaProyecto(personaAsistente.getIdPersona(), proyectoGenerico.getIdProyecto(), tipoPersonaAsis.getIdTipoPersona());
             personaService.merge(personaAsistente);
             telefonoService.merge(telFijoAsistente);
             telefonoService.merge(faxAsistente);
 
-            personaProyectoService.updatePersonaProyecto(personaExterno.getIdPersona(), proyectoGenerico.getIdProyecto(), tipoExt);
+            personaProyectoService.updatePersonaProyecto(personaExterno.getIdPersona(), proyectoGenerico.getIdProyecto(), tipoPersonaRefext.getIdTipoPersona());
             personaService.merge(personaExterno);
             telefonoService.merge(telFijoExterno);
             telefonoService.merge(faxExterno);
