@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class TipoPropuestaConvenioConverter implements Converter{
    
     @Autowired
-    @Qualifier(value = "tipoPropuestaConvenioService")
     private TipoPropuestaConvenioService tipoPropuestaConvenioService;
     
     @Override
@@ -37,12 +36,10 @@ public class TipoPropuestaConvenioConverter implements Converter{
          if(JsfUtil.isDummySelectItem(component, value)){
                      return null;
          }
-          
-        if(value != null && value.trim().length() > 0 && !value.equalsIgnoreCase("null")) {
+        
+         if(value != null && value.trim().length() > 0 && !value.equalsIgnoreCase("null")) {
             try {
-                Integer key = getKey(value);
-                TipoPropuestaConvenio findById = this.tipoPropuestaConvenioService.findById(key);                 
-               return findById;
+                return  this.tipoPropuestaConvenioService.findById(getKey(value));                                
             } catch(NumberFormatException e) {
                 e.printStackTrace();
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
@@ -50,7 +47,7 @@ public class TipoPropuestaConvenioConverter implements Converter{
         }
         else {
             return null;
-        }          
+        }
     }
 
    @Override

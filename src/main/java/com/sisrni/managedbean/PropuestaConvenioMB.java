@@ -128,6 +128,7 @@ public class PropuestaConvenioMB implements Serializable{
     private PropuestaConvenio propuestaConvenio;
     private PropuestaConvenio propuestaConvenioTemp;
     
+    
     private Persona personaEdit;
     private Persona solicitante;
     private Persona referenteInterno;
@@ -197,6 +198,7 @@ public class PropuestaConvenioMB implements Serializable{
             solicitante= new Persona();
             solicitante.setIdUnidad(new Unidad());
             solicitante.getIdUnidad().setIdFacultad(new Facultad());
+            propuestaConvenioTemp = new PropuestaConvenio();
             referenteInterno = new Persona();
             referenteExterno = new Persona();
             telFijoInterno = new Telefono();
@@ -399,7 +401,7 @@ public class PropuestaConvenioMB implements Serializable{
             
             if(numDocumentoInterno!=null && !numDocumentoInterno.equals("")){
              personaEdit = new Persona();
-             personaEdit = personaService.getReferenteInternoByDocumento(numDocumentoInterno);
+             personaEdit = personaService.getPersonaByID(referenteInterno.getIdPersona());
               if(personaEdit != null){  
                 RequestContext context = RequestContext.getCurrentInstance();              
                 context.execute("PF('EditDialog').show();");
@@ -421,7 +423,7 @@ public class PropuestaConvenioMB implements Serializable{
            
             if(numDocumentoExterno!=null && !numDocumentoExterno.equals("")){
              personaEdit = new Persona();   
-             personaEdit  = personaService.getReferenteExternoByDoccumento(numDocumentoExterno);
+             personaEdit = personaService.getPersonaByID(referenteExterno.getIdPersona());
               if(personaEdit != null){  
                 RequestContext context = RequestContext.getCurrentInstance();              
                 context.execute("PF('EditDialog').show();");
@@ -444,6 +446,9 @@ public class PropuestaConvenioMB implements Serializable{
             String msg = "Persona Editada Exitosamente!";    
             personaService.merge(personaEdit);            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
+            RequestContext context = RequestContext.getCurrentInstance();              
+                context.execute("PF('EditDialog').hide();");
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -461,7 +466,7 @@ public class PropuestaConvenioMB implements Serializable{
             PersonaPropuestaPK personaPropuestaPK = new PersonaPropuestaPK();     
             
             // guardar propuesta convenio
-  
+            propuestaConvenio.setIdConvenio(propuestaConvenioTemp.getIdPropuesta());
             propuestaConvenioService.save(propuestaConvenio);
             
             PropuestaEstado estado = new PropuestaEstado();
@@ -530,6 +535,7 @@ public class PropuestaConvenioMB implements Serializable{
         try {
            
             // actualizar propuesta convenio
+            propuestaConvenio.setIdConvenio(propuestaConvenioTemp.getIdPropuesta());
             propuestaConvenioService.merge(propuestaConvenio);
             
             // persona solicitante
@@ -791,14 +797,6 @@ public class PropuestaConvenioMB implements Serializable{
         this.listadoPropuestaConvenio = listadoPropuestaConvenio;
     }
 
-    public PropuestaConvenio getPropuestaConvenioTemp() {
-        return propuestaConvenioTemp;
-    }
-
-    public void setPropuestaConvenioTemp(PropuestaConvenio propuestaConvenioTemp) {
-        this.propuestaConvenioTemp = propuestaConvenioTemp;
-    }
-
     public boolean isFlagConvenioMarco() {
         return flagConvenioMarco;
     }
@@ -813,6 +811,14 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setFlagEdicion(boolean flagEdicion) {
         this.flagEdicion = flagEdicion;
+    }
+
+    public PropuestaConvenio getPropuestaConvenioTemp() {
+        return propuestaConvenioTemp;
+    }
+
+    public void setPropuestaConvenioTemp(PropuestaConvenio propuestaConvenioTemp) {
+        this.propuestaConvenioTemp = propuestaConvenioTemp;
     }
 
    

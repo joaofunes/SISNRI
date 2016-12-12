@@ -108,7 +108,7 @@
                                         </p:selectOneMenu>                                     
                                    </p:column>                        
                                    <p:column> 
-                                       <p:commandButton value="Editar Persona" id="idGuardarPersona" actionListener="#{personaMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" />
+                                       <p:commandButton value="Editar Persona" id="idGuardarPersona" actionListener="#{personaMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaEditDialog').hide();" />
                                    </p:column>
                             </h:panelGrid>
                 </center>    

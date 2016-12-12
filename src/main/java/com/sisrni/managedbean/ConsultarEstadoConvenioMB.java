@@ -30,6 +30,7 @@ public class ConsultarEstadoConvenioMB implements Serializable{
     private static final long serialVersionUID = 1113799434508676095L;
     
     private List<PojoConvenioEstado> listadoPropuestaConvenio;
+    private List<PojoConvenioEstado> listadoConvenio;
     
     @Autowired
     @Qualifier(value = "propuestaConvenioService")
@@ -45,7 +46,8 @@ public class ConsultarEstadoConvenioMB implements Serializable{
 
     private void iniciliazar() {
         try {
-           listadoPropuestaConvenio=propuestaConvenioService.getConveioWithEstado();
+           listadoPropuestaConvenio=propuestaConvenioService.getPropuestasConvenioWithEstado();
+           listadoConvenio=propuestaConvenioService.getConveioWithEstado();
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -57,6 +59,14 @@ public class ConsultarEstadoConvenioMB implements Serializable{
 
     public void setListadoPropuestaConvenio(List<PojoConvenioEstado> listadoPropuestaConvenio) {
         this.listadoPropuestaConvenio = listadoPropuestaConvenio;
+    }
+
+    public List<PojoConvenioEstado> getListadoConvenio() {
+        return listadoConvenio;
+    }
+
+    public void setListadoConvenio(List<PojoConvenioEstado> listadoConvenio) {
+        this.listadoConvenio = listadoConvenio;
     }
 
    
