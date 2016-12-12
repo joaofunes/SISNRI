@@ -593,8 +593,7 @@ public class ProyectoMB {
             idFacultadPersona = null;
 
         }
-    }
- 
+    } 
 
     public void guardarPersonaExterno() {
         String msg = "Persona creada exitosamente!!";

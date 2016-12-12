@@ -18,7 +18,6 @@
                 <h:outputLabel value="Nombre:"/>
                 <p:inputText value="#{organismoCooperanteMB.organismoCooperante.nombreOrganismo}"/>
                 <h:outputLabel value="Tipo Organismo"/>
-                
                 <p:selectOneMenu id="tipoorganismo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}">
                     <c:forEach var="tipoOrg" items="#{organismoCooperanteMB.tipoOrganismoList}">
                         <f:selectItem itemLabel="#{tipoOrg.nombreTipo}" itemValue="#{tipoOrg.idTipoOrganismo}"/>
