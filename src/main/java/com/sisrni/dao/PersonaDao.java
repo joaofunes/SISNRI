@@ -169,5 +169,23 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
     }
     
 
+    
+    /**
+     * Metodo para relaizar busquedas personasa
+     * @param doc
+     * @param persona
+     * @return 
+     */
+    public Persona getPersonaByID(Integer id) {
+        try {
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad JOIN FETCH a.idOrganismo orga WHERE a.idPersona =:id");
+             q.setParameter("id",id);             
+             return (Persona) q.uniqueResult();
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
    
 }

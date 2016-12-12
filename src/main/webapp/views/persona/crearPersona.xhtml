@@ -113,7 +113,7 @@
                                    
                                                                         
                                    <p:column> 
-                                       <p:commandButton value="Guardar Persona" id="idGuardarPersona" actionListener="#{personaMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" />
+                                       <p:commandButton value="Guardar Persona" id="idGuardarPersona" actionListener="#{personaMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaCreateDialog').hide();" />
                                    </p:column>
 
                                      

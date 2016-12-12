@@ -180,7 +180,7 @@
                            </p:panel> 
                             <p:panel  id="idpanelRefEx" header="Datos Referente Externo" style="margin-bottom:20px"> 
 
-                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
+                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('').show();"/>
                                 <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoExterno" update=":formEditPersonas"  actionListener="#{propuestaConvenioMB.preEditarPropuestaExterno}"  />
                               
 
@@ -441,7 +441,7 @@
                                         </p:selectOneMenu>                                                                               
                                    </p:column>
                                    
-                                   <p:column>  
+<!--                                   <p:column>  
                                      <p:outputLabel for="idTipoPersona" value="Tipo persona" />
                                       </p:column>                                         
                                    <p:column>                                                                       
@@ -449,9 +449,9 @@
                                          <f:selectItem itemLabel="Tipo Persona" itemValue="null" noSelectionOption="true" />  
                                          <f:selectItems value="#{propuestaConvenioMB.listadoTipoPersona}" var="tipoPrs" itemLabel="#{tipoPrs.nombre}" itemValue="#{tipoPrs}"/>  
                                         </p:selectOneMenu>                                     
-                                   </p:column>                        
+                                   </p:column>                        -->
                                    <p:column> 
-                                       <p:commandButton value="Editar Persona" id="idGuardarPersona" actionListener="#{propuestaConvenioMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" />
+                                       <p:commandButton value="Editar Persona" id="idGuardarPersona" actionListener="#{propuestaConvenioMB.editar()}" process="@form" update="@form" icon="ui-icon-disk"  />
                                    </p:column>
                             </h:panelGrid>
                 </center>    

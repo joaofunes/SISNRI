@@ -67,4 +67,9 @@ public class PersonaService extends GenericService<Persona, Integer> {
           return personaDao.getPersonaByProyectoTipoPersona(idProy, idTipoPer);
       }
       
+      
+       public Persona getPersonaByID(Integer id){
+          return personaDao.getPersonaByID(id);
+       }
+      
 }

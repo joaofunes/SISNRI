@@ -401,7 +401,7 @@ public class PropuestaConvenioMB implements Serializable{
             
             if(numDocumentoInterno!=null && !numDocumentoInterno.equals("")){
              personaEdit = new Persona();
-             personaEdit = personaService.getReferenteInternoByDocumento(numDocumentoInterno);
+             personaEdit = personaService.getPersonaByID(referenteInterno.getIdPersona());
               if(personaEdit != null){  
                 RequestContext context = RequestContext.getCurrentInstance();              
                 context.execute("PF('EditDialog').show();");
@@ -423,7 +423,7 @@ public class PropuestaConvenioMB implements Serializable{
            
             if(numDocumentoExterno!=null && !numDocumentoExterno.equals("")){
              personaEdit = new Persona();   
-             personaEdit  = personaService.getReferenteExternoByDoccumento(numDocumentoExterno);
+             personaEdit = personaService.getPersonaByID(referenteExterno.getIdPersona());
               if(personaEdit != null){  
                 RequestContext context = RequestContext.getCurrentInstance();              
                 context.execute("PF('EditDialog').show();");
@@ -446,6 +446,9 @@ public class PropuestaConvenioMB implements Serializable{
             String msg = "Persona Editada Exitosamente!";    
             personaService.merge(personaEdit);            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
+            RequestContext context = RequestContext.getCurrentInstance();              
+                context.execute("PF('EditDialog').hide();");
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
