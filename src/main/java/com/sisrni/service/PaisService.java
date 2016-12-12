@@ -10,6 +10,7 @@ import com.sisrni.dao.PaisDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Pais;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,4 +29,7 @@ public class PaisService extends GenericService<Pais, Integer>{
       return paisDao;
     }
     
+    public List<Pais> getPaisesByRegionId(Integer id){
+    return paisDao.getPaisesByRegionId(id);
+    }
 }

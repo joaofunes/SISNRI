@@ -46,7 +46,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
@@ -60,6 +62,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 public class ProyectosMB {
 
+    @Inject
+    ProyectoMB proyectoMB;
     @Autowired
     private AreaConocimientoService areaConocimientoService;
     @Autowired
@@ -638,6 +642,17 @@ public class ProyectosMB {
         Integer year = cal.get(Calendar.YEAR);
         return year;
     }
+    public void regresar(){
+        try {
+            proyectoMB.cargarProyecto();
+            
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
+           
+            String outcome = "proyectoAdm.xhtml";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("proyectoAdm.xhtml");
+        } catch (Exception e) {
+        }
+    }
 
     public TipoProyecto getProyectoSelected() {
         return proyectoSelected;
@@ -1191,4 +1206,12 @@ public class ProyectosMB {
         this.mostrarmonto = mostrarmonto;
     }
 
+    public ProyectoMB getProyectoMB() {
+        return proyectoMB;
+    }
+
+    public void setProyectoMB(ProyectoMB proyectoMB) {
+        this.proyectoMB = proyectoMB;
+    }
+    
 }

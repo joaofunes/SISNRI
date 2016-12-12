@@ -6,8 +6,12 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Organismo;
+import com.sisrni.model.Pais;
+import com.sisrni.model.Region;
 import com.sisrni.model.TipoOrganismo;
 import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PaisService;
+import com.sisrni.service.RegionService;
 import com.sisrni.service.TipoOrganismoService;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -33,8 +37,17 @@ public class OrganismoCooperanteMB {
     private Organismo organismoCooperante ;
     @Autowired
     TipoOrganismoService tipoOrganismoService;
+    @Autowired
+    PaisService paisService;
+    @Autowired
+    RegionService regionService;
+    
     private List<TipoOrganismo> tipoOrganismoList;
     private TipoOrganismo organismoSelected;
+    private List<Pais> paisList;
+    private Pais paisSelected;
+    private List<Region> regionList;
+    private Region regionSelected;
     private List<Organismo> organismosList;
     private boolean actualizar;
     
@@ -52,12 +65,19 @@ public class OrganismoCooperanteMB {
     tipoOrganismoList = tipoOrganismoService.findAll();
     organismoSelected=new TipoOrganismo();
     organismosList=organismoService.findAll();
+    //paisList = paisService.findAll();
+    regionSelected = new Region();
+    paisSelected = new Pais();
+    regionList = regionService.findAll();
     actualizar=false;
+    
     }
     public void guardarOrganismo(){
         try {
             //seteamos el tipo organismo seleccionado el cual buscamos en la base para ver si existe utilizando el tipoorganismoservice
             organismoCooperante.setIdTipoOrganismo(tipoOrganismoService.findById(organismoSelected.getIdTipoOrganismo()));
+            organismoCooperante.setIdRegion(regionSelected.getIdRegion());
+            organismoCooperante.setIdPais(paisSelected.getIdPais());
             organismoCooperante.setIdOrganismo(Integer.MIN_VALUE);
             organismoService.save(organismoCooperante);
             inicializarVariables();
@@ -72,6 +92,8 @@ public class OrganismoCooperanteMB {
         String msg = " Organismo Actualizado Exitosamente!";       
         try { 
             organismoCooperante.setIdTipoOrganismo(tipoOrganismoService.findById(organismoSelected.getIdTipoOrganismo()));
+            organismoCooperante.setIdRegion(regionSelected.getIdRegion());
+            organismoCooperante.setIdPais(paisSelected.getIdPais());
             organismoService.merge(organismoCooperante);
             actualizar=false;
             //cancelarTipoOrganismo();
@@ -89,12 +111,25 @@ public class OrganismoCooperanteMB {
         try {        
             this.organismoCooperante = organismoCooperante; 
             this.organismoSelected.setIdTipoOrganismo(organismoCooperante.getIdTipoOrganismo().getIdTipoOrganismo());
+            this.regionSelected.setIdRegion(organismoCooperante.getIdRegion());
+            this.paisSelected.setIdPais(organismoCooperante.getIdPais());
             actualizar=true;      
         } catch (Exception e) {
               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Al precargar registro para ser actualizado"));
         }
     }
     
+      public void onchangeRegion() {
+        try {
+            if (regionSelected.getIdRegion()!= null && !regionSelected.getIdRegion().equals("")) {
+                paisList = paisService.getPaisesByRegionId(regionSelected.getIdRegion());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+      
     public List<TipoOrganismo> getTipoOrganismoList() {
         return tipoOrganismoList;
     }
@@ -125,7 +160,39 @@ public class OrganismoCooperanteMB {
     public void setOrganismosList(List<Organismo> organismosList) {
         this.organismosList = organismosList;
     }
+    
+     public List<Pais> getPaisList() {
+        return paisList;
+    }
 
+    public void setPaisList(List<Pais> paisList) {
+        this.paisList = paisList;
+    }
+
+    public Pais getPaisSelected() {
+        return paisSelected;
+    }
+
+    public void setPaisSelected(Pais paisSelected) {
+        this.paisSelected = paisSelected;
+    }
+     
+    public List<Region> getRegionList() {
+        return regionList;
+    }
+
+    public void setRegionList(List<Region> regionList) {
+        this.regionList = regionList;
+    }
+
+    public Region getRegionSelected() {
+        return regionSelected;
+    }
+
+    public void setRegionSelected(Region regionSelected) {
+        this.regionSelected = regionSelected;
+    }
+    
     public boolean isActualizar() {
         return actualizar;
     }
