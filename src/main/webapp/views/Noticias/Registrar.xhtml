@@ -20,7 +20,7 @@
                             <h:outputLabel value="Titulo:" />
                             <p:inputText value="#{noticiaMB.noticia.tituloNoticia}" size="75"/>
 
-                            <p:outputLabel for="categoria" value="Categoria:" style="size: 35"/>
+                            <p:outputLabel for="categoria" value="Categoria:" style="size: 30"/>
                             <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelected.idCategoria}" style="width:125px">
                                 <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
                                     <f:selectItem itemLabel="#{cat.categoriaNoticia}" itemValue="#{cat.idCategoria}" />        
@@ -28,8 +28,8 @@
                             </p:selectOneMenu>
 
                             <h:outputLabel value="Descripcion:"/>
-                            <p:editor id="editorDescripcion" widgetVar="descripcionWidget" value="#{noticiaMB.noticia.descripcionNoticia}" height="100" controls="bold font size italic underline strikethrough" maxlength="100000" />
-                           
+                            <p:editor id="editorDescripcion" widgetVar="descripcionWidget" value="#{noticiaMB.noticia.descripcionNoticia}" height="100" controls="bold font size italic underline strikethrough" maxlength="1000000" />
+
 
                             <h:outputLabel value="Contenido"/>
                             <p:editor id="editor" widgetVar="editorWidget" value="#{noticiaMB.noticia.contenido}" maxlength="100000" />
@@ -68,8 +68,7 @@
                             </p:column>
                             <p:column headerText="Opciones" >
                                 <div style="float: left">
-                                    <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                                   value="Editar" actionListener="#{noticiaMB.preEditar(n.idNoticia)}" update=":formNoticia" />
+                                    <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar" actionListener="#{noticiaMB.preEditar(n.idNoticia)}" update=":formNoticia" />
                                 </div>                       
                             </p:column>
                         </p:dataTable>

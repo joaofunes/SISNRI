@@ -66,7 +66,9 @@ public class PropuestaConvenio implements Serializable {
     private List<PropuestaEstado> propuestaEstadoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPropuestaConvenio")
     private List<Proyecto> proyectoList;
-
+    @Column(name = "ID_CONVENIO")
+    private Integer idConvenio;
+           
     public PropuestaConvenio() {
     }
 
@@ -174,6 +176,14 @@ public class PropuestaConvenio implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.PropuestaConvenio[ idPropuesta=" + idPropuesta + " ]";
+    }
+
+    public Integer getIdConvenio() {
+        return idConvenio;
+    }
+
+    public void setIdConvenio(Integer idConvenio) {
+        this.idConvenio = idConvenio;
     }
     
 }
