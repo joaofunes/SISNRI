@@ -643,7 +643,14 @@ public class ProyectoMB {
         }
     }
     
-    
+     public void back() {
+        try {
+            cargarProyecto();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("proyectoAdm.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
      private Integer getYearOfDate(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
