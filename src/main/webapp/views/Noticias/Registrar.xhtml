@@ -59,7 +59,9 @@
                                 <h:outputText value="#{n.idCategoria.categoriaNoticia}" />
                             </p:column>
                             <p:column headerText="Fecha Creacion">
-                                <h:outputText value="#{n.fechaNoticia}" />
+                                <h:outputText value="#{n.fechaNoticia}">
+                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                </h:outputText>    
                             </p:column>
                             <p:column headerText="Estado">
                                 <h:outputText value="#{n.estadoNoticia}" >

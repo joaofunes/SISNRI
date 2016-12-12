@@ -35,7 +35,7 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         if (paisSelected.size() > 0) {
             wherePais = wherePais + " AND pa.ID_PAIS IN (" + String.join(",", paisSelected) + ")";
         } else {
-            limite += " LIMIT 3";
+            limite += " LIMIT 5";
         }
 
         if (tipoProyectoSelected.size() > 0) {

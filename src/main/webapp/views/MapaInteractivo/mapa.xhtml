@@ -56,13 +56,13 @@
                     <p:panelGrid columns="2">
                         <p:column>
                             <p:panelGrid columns="2">
-                                <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModel!=null}" widgetVar="pie"/>
-                                <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')"/>
+                                <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:350px;height:300px"  rendered="#{mapaInteractivo.pieModel!=null}" widgetVar="pie" />
+                                <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')" style="padding-left: 5px"/>
                             </p:panelGrid>
                         </p:column>
                         <p:column>
                             <p:panelGrid columns="2">
-                                <p:chart type="pie" model="#{mapaInteractivo.pieModelType}" style="width:400px;height:300px"  rendered="#{mapaInteractivo.pieModelType!=null}" widgetVar="pieType"/>
+                                <p:chart type="pie" model="#{mapaInteractivo.pieModelType}" style="width:350px;height:300px"  rendered="#{mapaInteractivo.pieModelType!=null}" widgetVar="pieType"/>
                                 <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pieType')"/>
                             </p:panelGrid>
                         </p:column>
@@ -143,7 +143,7 @@
 
         </h:form> 
         <p:dialog header="Detalle de Proyectos" id="listP" widgetVar="projectPopUp" modal="true" appendTo="@(body)">
-            <p:dataTable var="p" value="#{mapaInteractivo.projectListToPopUp}" scrollable="true" scrollHeight="150" id="tablelist">
+            <p:dataTable var="p" value="#{mapaInteractivo.projectListToPopUp}" scrollable="true" scrollHeight="150" id="tablelist" style="width: 1000px">
                 <p:column headerText="Proyecto">
                     <h:outputText value="#{p.nombreProyecto}" />
                 </p:column>
