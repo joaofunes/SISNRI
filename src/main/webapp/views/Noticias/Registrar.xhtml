@@ -33,7 +33,14 @@
 
                             <h:outputLabel value="Contenido"/>
                             <p:editor id="editor" widgetVar="editorWidget" value="#{noticiaMB.noticia.contenido}" maxlength="100000" />
-
+                            <p:outputLabel value="Carga de Imagenes/Archivos:"/>
+                            <p:fileUpload id="upload" 
+                                          fileUploadListener="#{noticiaMB.uploadListener}"
+                                          label="Insert image"
+                                          mode="advanced"
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc)$/"
+                                          update="editor, growl">
+                            </p:fileUpload>
                             <p:outputLabel for="estado" value="Estado:" />
                             <p:selectOneMenu id="estado" value="#{noticiaMB.noticia.estadoNoticia}" style="width:125px">
                                 <f:selectItem itemLabel="Activa" itemValue="true" />
@@ -60,7 +67,7 @@
                             </p:column>
                             <p:column headerText="Fecha Creacion">
                                 <h:outputText value="#{n.fechaNoticia}">
-                                 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                                 </h:outputText>    
                             </p:column>
                             <p:column headerText="Estado">

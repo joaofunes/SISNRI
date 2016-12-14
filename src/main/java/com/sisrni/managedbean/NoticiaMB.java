@@ -9,16 +9,25 @@ import com.sisrni.model.CategoriaNoticia;
 import com.sisrni.model.Noticia;
 import com.sisrni.service.CategoriaNoticiaService;
 import com.sisrni.service.NoticiaService;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.CloseEvent;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.ToggleEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -113,6 +122,64 @@ public class NoticiaMB implements Serializable {
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al obtener la informacion."));
         }
+    }
+
+    public void uploadListener(FileUploadEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+
+        String fileName = FilenameUtils.getName(event.getFile().getFileName());
+        String fileNamePrefix = FilenameUtils.getBaseName(fileName) + "_";
+        String fileNameSuffix = "." + FilenameUtils.getExtension(fileName);
+
+        File uploadFolder = new File("/var/webapp/uploads");
+
+        try {
+            File result = File.createTempFile(fileNamePrefix, fileNameSuffix, uploadFolder);
+
+            FileOutputStream fileOutputStream = new FileOutputStream(result);
+            byte[] buffer = new byte[1024];
+            int bulk;
+
+            InputStream inputStream = event.getFile().getInputstream();
+            while (true) {
+                bulk = inputStream.read(buffer);
+                if (bulk < 0) {
+                    break;
+                }
+
+                fileOutputStream.write(buffer, 0, bulk);
+                fileOutputStream.flush();
+            }
+
+            fileOutputStream.close();
+            inputStream.close();
+
+            String value = FacesContext.getCurrentInstance().
+                    getExternalContext().getRequestParameterMap().get("formNoticia:editor_input");
+            if (".pdf".equals(fileNameSuffix) || ".doc".equals(fileNameSuffix)) {
+                if (".pdf".equals(fileNameSuffix)) {
+                    noticia.setContenido(value + "<a data-toggle=\"tooltip\" title=\"" + fileName + "\" href=\"/project/images/" + result.getName() + "\">" + "<img style=\"width:50px;height:60px\" src=\"/project/images/pdf.png" + "\" />" + "</a>");
+                } else {
+                    noticia.setContenido(value + "<a data-toggle=\"tooltip\" title=\"" + fileName + "\" href=\"/project/images/" + result.getName() + "\">" + "<img style=\"width:50px;height:60px\" src=\"/project/images/doc.png" + "\" />" + "</a>");
+                }
+            } else {
+                noticia.setContenido(value + "<img style=\"width:100%;max-width:1000px\" src=\"/project/images/" + result.getName() + "\" />");
+
+            }
+
+            RequestContext.getCurrentInstance().update("formNoticia:editor_input");
+
+            FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " ha sido cargada.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            FacesMessage error = new FacesMessage("La imagen no ha sido cargada exitosamente");
+            FacesContext.getCurrentInstance().addMessage(null, error);
+        }
+
     }
 
     public void onClose(CloseEvent event) {
