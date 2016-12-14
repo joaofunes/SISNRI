@@ -8,6 +8,7 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
+import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.Unidad;
 import com.sisrni.service.OrganismoService;
@@ -44,7 +45,8 @@ public class PersonaMB implements Serializable{
     
     public Persona persona;
     private TipoPersona tipoPersona;
-    
+    private Telefono telefonoFijo;
+    private Telefono telefonoCell;
     public String nDocumento;
     
     @Autowired
@@ -73,7 +75,8 @@ public class PersonaMB implements Serializable{
     private void inicializador() {
         try {
             persona = new Persona();
-            
+            telefonoFijo = new Telefono();
+            telefonoCell = new Telefono();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,6 +211,22 @@ public class PersonaMB implements Serializable{
 
     public void setnDocumento(String nDocumento) {
         this.nDocumento = nDocumento;
+    }
+
+    public Telefono getTelefonoFijo() {
+        return telefonoFijo;
+    }
+
+    public void setTelefonoFijo(Telefono telefonoFijo) {
+        this.telefonoFijo = telefonoFijo;
+    }
+
+    public Telefono getTelefonoCell() {
+        return telefonoCell;
+    }
+
+    public void setTelefonoCell(Telefono telefonoCell) {
+        this.telefonoCell = telefonoCell;
     }
 
     
