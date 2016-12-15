@@ -10,10 +10,13 @@ import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
+import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.Unidad;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
+import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
+import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.io.Serializable;
 import java.util.List;
@@ -36,8 +39,10 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(WebApplicationContext.SCOPE_SESSION)
 public class PersonaMB implements Serializable{
     
-     private static final long serialVersionUID = 1L;  
+    private static final long serialVersionUID = 1L;  
     
+    private static final String FIJO="FIJO";
+    private static final String CELULAR="CELULAR";
     
     private List<Organismo> listadoOrganismo;
     private List<Unidad> listadoUnidad;
@@ -47,11 +52,16 @@ public class PersonaMB implements Serializable{
     private TipoPersona tipoPersona;
     private Telefono telefonoFijo;
     private Telefono telefonoCell;
+    private TipoTelefono tipoTelefono;
     public String nDocumento;
     
     @Autowired
     @Qualifier(value = "organismoService")
     private OrganismoService organismoService;
+    
+    @Autowired
+    @Qualifier(value = "telefonoService")
+    private TelefonoService telefonoService;
     
     @Autowired
     @Qualifier(value = "unidadService")
@@ -64,6 +74,10 @@ public class PersonaMB implements Serializable{
     @Autowired
     @Qualifier(value = "tipoPersonaService")
     private TipoPersonaService tipoPersonaService;
+    
+    @Autowired
+    @Qualifier(value = "tipoTelefonoService")
+    private TipoTelefonoService tipoTelefonoService;
     
     //declaracion de listas
     @PostConstruct
@@ -97,8 +111,16 @@ public class PersonaMB implements Serializable{
      */ 
     public void guardar(){
         try {
-            String msg = "Persona Almacenado Exitosamente!";    
-           
+            String msg = "Persona Almacenado Exitosamente!";   
+            
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoFijo);
+                    
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
+            telefonoCell.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoCell);
+            
             personaService.save(persona);
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
@@ -227,6 +249,14 @@ public class PersonaMB implements Serializable{
 
     public void setTelefonoCell(Telefono telefonoCell) {
         this.telefonoCell = telefonoCell;
+    }
+
+    public TipoTelefono getTipoTelefono() {
+        return tipoTelefono;
+    }
+
+    public void setTipoTelefono(TipoTelefono tipoTelefono) {
+        this.tipoTelefono = tipoTelefono;
     }
 
     
