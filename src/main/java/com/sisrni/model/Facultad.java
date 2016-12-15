@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -40,6 +42,11 @@ public class Facultad implements Serializable {
     @Size(max = 60)
     @Column(name = "NOMBRE_FACULTAD", length = 60)
     private String nombreFacultad;
+    @JoinTable(name = "FACULTAD_PROYECTO", joinColumns = {
+        @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
+    @ManyToMany
+    private List<Proyecto> proyectoList;
     @OneToMany(mappedBy = "idFacultad")
     private List<Unidad> unidadList;
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_UNIVERSIDAD")
@@ -67,6 +74,14 @@ public class Facultad implements Serializable {
 
     public void setNombreFacultad(String nombreFacultad) {
         this.nombreFacultad = nombreFacultad;
+    }
+
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
     }
 
     public List<Unidad> getUnidadList() {

@@ -22,7 +22,7 @@
                 <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
                     <p:panel id="custom" header="Titulo: #{car.tituloNoticia}" style="margin-bottom:20px">
                         <h:panelGrid columns="2" cellpadding="10">
-                            <h:outputText id="display" value="#{car.descripcionNoticia}" escape="false" style="font-size: 7px;font-family: sans-serif"/>
+                            <h:outputText id="display" value="#{car.descripcionNoticia}" escape="false"/>
                         </h:panelGrid>
                         <f:facet name="actions">
                             <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" actionListener="#{noticiaMB.cargarNoticiaPopUp(car.idNoticia)}" oncomplete="PF('noticiaWV').show();" update=":noticiaPopUpId"><h:outputText styleClass="ui-icon ui-icon-search" /></p:commandLink>

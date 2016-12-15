@@ -8,11 +8,15 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
+import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
+import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.Unidad;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
+import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
+import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.io.Serializable;
 import java.util.List;
@@ -35,8 +39,10 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(WebApplicationContext.SCOPE_SESSION)
 public class PersonaMB implements Serializable{
     
-     private static final long serialVersionUID = 1L;  
+    private static final long serialVersionUID = 1L;  
     
+    private static final String FIJO="FIJO";
+    private static final String CELULAR="CELULAR";
     
     private List<Organismo> listadoOrganismo;
     private List<Unidad> listadoUnidad;
@@ -44,12 +50,18 @@ public class PersonaMB implements Serializable{
     
     public Persona persona;
     private TipoPersona tipoPersona;
-    
+    private Telefono telefonoFijo;
+    private Telefono telefonoCell;
+    private TipoTelefono tipoTelefono;
     public String nDocumento;
     
     @Autowired
     @Qualifier(value = "organismoService")
     private OrganismoService organismoService;
+    
+    @Autowired
+    @Qualifier(value = "telefonoService")
+    private TelefonoService telefonoService;
     
     @Autowired
     @Qualifier(value = "unidadService")
@@ -63,6 +75,10 @@ public class PersonaMB implements Serializable{
     @Qualifier(value = "tipoPersonaService")
     private TipoPersonaService tipoPersonaService;
     
+    @Autowired
+    @Qualifier(value = "tipoTelefonoService")
+    private TipoTelefonoService tipoTelefonoService;
+    
     //declaracion de listas
     @PostConstruct
     public void init() {
@@ -73,7 +89,8 @@ public class PersonaMB implements Serializable{
     private void inicializador() {
         try {
             persona = new Persona();
-            
+            telefonoFijo = new Telefono();
+            telefonoCell = new Telefono();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,8 +111,16 @@ public class PersonaMB implements Serializable{
      */ 
     public void guardar(){
         try {
-            String msg = "Persona Almacenado Exitosamente!";    
-           
+            String msg = "Persona Almacenado Exitosamente!";   
+            
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoFijo);
+                    
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
+            telefonoCell.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoCell);
+            
             personaService.save(persona);
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
@@ -208,6 +233,30 @@ public class PersonaMB implements Serializable{
 
     public void setnDocumento(String nDocumento) {
         this.nDocumento = nDocumento;
+    }
+
+    public Telefono getTelefonoFijo() {
+        return telefonoFijo;
+    }
+
+    public void setTelefonoFijo(Telefono telefonoFijo) {
+        this.telefonoFijo = telefonoFijo;
+    }
+
+    public Telefono getTelefonoCell() {
+        return telefonoCell;
+    }
+
+    public void setTelefonoCell(Telefono telefonoCell) {
+        this.telefonoCell = telefonoCell;
+    }
+
+    public TipoTelefono getTipoTelefono() {
+        return tipoTelefono;
+    }
+
+    public void setTipoTelefono(TipoTelefono tipoTelefono) {
+        this.tipoTelefono = tipoTelefono;
     }
 
     

@@ -443,7 +443,7 @@ public class ProyectosMB {
                 tipoModalidad = tipoModalidadBecaService.findById(tipoModalidadSelected.getIdTipoModalidad());
                 beca.setIdModalidad(tipoModalidad);
                 Persona becario = personaService.findById(personaBecario.getIdPersona());
-                beca.setIdPersona(becario);
+              //  beca.setIdPersona(becario); cometariado despues de remapear 
                 becaService.save(beca);
                 //Telefono del becario
                 telefonoBecarioFijo.setIdTipoTelefono(tipoTelefonoFijo);
