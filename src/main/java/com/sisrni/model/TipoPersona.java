@@ -42,10 +42,14 @@ public class TipoPersona implements Serializable {
     @Size(max = 100)
     @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoPersona")
+    private List<PersonaBeca> personaBecaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoPersona")
     private List<PersonaProyecto> personaProyectoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoPersona")
     private List<PersonaPropuesta> personaPropuestaList;
+    @OneToMany(mappedBy = "idTipoPersona")
+    private List<PersonaMovilidad> personaMovilidadList;
 
     public TipoPersona() {
     }
@@ -78,6 +82,14 @@ public class TipoPersona implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public List<PersonaBeca> getPersonaBecaList() {
+        return personaBecaList;
+    }
+
+    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
+        this.personaBecaList = personaBecaList;
+    }
+
     public List<PersonaProyecto> getPersonaProyectoList() {
         return personaProyectoList;
     }
@@ -92,6 +104,14 @@ public class TipoPersona implements Serializable {
 
     public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
         this.personaPropuestaList = personaPropuestaList;
+    }
+
+    public List<PersonaMovilidad> getPersonaMovilidadList() {
+        return personaMovilidadList;
+    }
+
+    public void setPersonaMovilidadList(List<PersonaMovilidad> personaMovilidadList) {
+        this.personaMovilidadList = personaMovilidadList;
     }
 
     @Override

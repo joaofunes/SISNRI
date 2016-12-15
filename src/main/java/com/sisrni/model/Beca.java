@@ -6,7 +6,10 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -50,17 +54,26 @@ public class Beca implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "CARRERA", nullable = false, length = 100)
     private String carrera;
+    @Column(name = "ID_PERSONA")
+    private Integer idPersona;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "MONTO_BECARIO", precision = 22)
-    private Double montoBecario;
+    @Column(name = "MONTO_INTERNO", precision = 13, scale = 2)
+    private BigDecimal montoInterno;
     @Column(name = "OTORGADO")
     private Boolean otorgado;
+    @Column(name = "MONTO_EXTERNO", precision = 13, scale = 2)
+    private BigDecimal montoExterno;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
+    private List<PersonaBeca> personaBecaList;
     @JoinColumn(name = "ID_MODALIDAD", referencedColumnName = "ID_TIPO_MODALIDAD")
     @ManyToOne
     private TipoModalidaBeca idModalidad;
-    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
+    @JoinColumn(name = "ID_PROGRAMA_BECA", referencedColumnName = "ID_PROGRAMA")
     @ManyToOne
-    private Persona idPersona;
+    private ProgramaBeca idProgramaBeca;
+    @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
+    @ManyToOne
+    private Organismo idOrganismo;
     @JoinColumn(name = "ID_BECAS", referencedColumnName = "ID_PROYECTO", nullable = false, insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Proyecto proyecto;
@@ -111,12 +124,20 @@ public class Beca implements Serializable {
         this.carrera = carrera;
     }
 
-    public Double getMontoBecario() {
-        return montoBecario;
+    public Integer getIdPersona() {
+        return idPersona;
     }
 
-    public void setMontoBecario(Double montoBecario) {
-        this.montoBecario = montoBecario;
+    public void setIdPersona(Integer idPersona) {
+        this.idPersona = idPersona;
+    }
+
+    public BigDecimal getMontoInterno() {
+        return montoInterno;
+    }
+
+    public void setMontoInterno(BigDecimal montoInterno) {
+        this.montoInterno = montoInterno;
     }
 
     public Boolean getOtorgado() {
@@ -127,6 +148,22 @@ public class Beca implements Serializable {
         this.otorgado = otorgado;
     }
 
+    public BigDecimal getMontoExterno() {
+        return montoExterno;
+    }
+
+    public void setMontoExterno(BigDecimal montoExterno) {
+        this.montoExterno = montoExterno;
+    }
+
+    public List<PersonaBeca> getPersonaBecaList() {
+        return personaBecaList;
+    }
+
+    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
+        this.personaBecaList = personaBecaList;
+    }
+
     public TipoModalidaBeca getIdModalidad() {
         return idModalidad;
     }
@@ -135,12 +172,20 @@ public class Beca implements Serializable {
         this.idModalidad = idModalidad;
     }
 
-    public Persona getIdPersona() {
-        return idPersona;
+    public ProgramaBeca getIdProgramaBeca() {
+        return idProgramaBeca;
     }
 
-    public void setIdPersona(Persona idPersona) {
-        this.idPersona = idPersona;
+    public void setIdProgramaBeca(ProgramaBeca idProgramaBeca) {
+        this.idProgramaBeca = idProgramaBeca;
+    }
+
+    public Organismo getIdOrganismo() {
+        return idOrganismo;
+    }
+
+    public void setIdOrganismo(Organismo idOrganismo) {
+        this.idOrganismo = idOrganismo;
     }
 
     public Proyecto getProyecto() {

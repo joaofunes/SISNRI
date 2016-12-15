@@ -62,6 +62,8 @@ public class Proyecto implements Serializable {
     private Date fechaFin;
     @ManyToMany(mappedBy = "proyectoList")
     private List<Estado> estadoList;
+    @ManyToMany(mappedBy = "proyectoList")
+    private List<Facultad> facultadList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "proyecto")
     private ProyectoGenerico proyectoGenerico;
     @OneToMany(mappedBy = "idProyecto")
@@ -155,6 +157,14 @@ public class Proyecto implements Serializable {
 
     public void setEstadoList(List<Estado> estadoList) {
         this.estadoList = estadoList;
+    }
+
+    public List<Facultad> getFacultadList() {
+        return facultadList;
+    }
+
+    public void setFacultadList(List<Facultad> facultadList) {
+        this.facultadList = facultadList;
     }
 
     public ProyectoGenerico getProyectoGenerico() {

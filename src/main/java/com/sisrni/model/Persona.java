@@ -67,14 +67,16 @@ public class Persona implements Serializable {
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
-    @OneToMany(mappedBy = "idPersona")
-    private List<Beca> becaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private List<PersonaBeca> personaBecaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaProyecto> personaProyectoList;
     @OneToMany(mappedBy = "idPersona")
     private List<Telefono> telefonoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaPropuesta> personaPropuestaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private List<PersonaMovilidad> personaMovilidadList;
 
     public Persona() {
     }
@@ -171,12 +173,12 @@ public class Persona implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
-    public List<Beca> getBecaList() {
-        return becaList;
+    public List<PersonaBeca> getPersonaBecaList() {
+        return personaBecaList;
     }
 
-    public void setBecaList(List<Beca> becaList) {
-        this.becaList = becaList;
+    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
+        this.personaBecaList = personaBecaList;
     }
 
     public List<PersonaProyecto> getPersonaProyectoList() {
@@ -201,6 +203,14 @@ public class Persona implements Serializable {
 
     public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
         this.personaPropuestaList = personaPropuestaList;
+    }
+
+    public List<PersonaMovilidad> getPersonaMovilidadList() {
+        return personaMovilidadList;
+    }
+
+    public void setPersonaMovilidadList(List<PersonaMovilidad> personaMovilidadList) {
+        this.personaMovilidadList = personaMovilidadList;
     }
 
     @Override
