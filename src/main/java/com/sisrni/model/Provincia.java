@@ -61,13 +61,7 @@ public class Provincia implements Serializable {
         this.idProvincia = idProvincia;
     }
 
-    public Character getNombreProvincia() {
-        return nombreProvincia;
-    }
-
-    public void setNombreProvincia(Character nombreProvincia) {
-        this.nombreProvincia = nombreProvincia;
-    }
+  
 
     public Pais getIdPais() {
         return idPais;
@@ -108,6 +102,14 @@ public class Provincia implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Provincia[ idProvincia=" + idProvincia + " ]";
+    }
+
+    public String getNombreProvincia() {
+        return nombreProvincia;
+    }
+
+    public void setNombreProvincia(String nombreProvincia) {
+        this.nombreProvincia = nombreProvincia;
     }
     
 }
