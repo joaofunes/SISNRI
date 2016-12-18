@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -35,9 +36,10 @@ public class Provincia implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_PROVINCIA", nullable = false)
-    private Integer idProvincia;
-    @Column(name = "NOMBRE_PROVINCIA")
-    private Character nombreProvincia;
+    private Integer idProvincia;    
+    @Size(max = 300)
+    @Column(name = "NOMBRE_PROVINCIA", length = 300)
+    private String nombreProvincia;    
     @JoinColumn(name = "ID_PAIS", referencedColumnName = "ID_PAIS")
     @ManyToOne
     private Pais idPais;
