@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RegistrogarantiarealListForm">
+
+        <p:panel header="Administracion de Personas">
+            <p:dataTable id="datalist" value="#{PersonaMB.listaPersona}" var="item"
+                         selectionMode="single" selection="#{PersonaMB.selected}"
+                         rowKey="#{item.rgrId}"
+                         paginator="true"
+                         rows="5"
+                         rowsPerPageTemplate="5,10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.rgrId}" filterBy="#{item.rgrId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_rgrId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rgrId}"/>
+                </p:column>
+                <p:column sortBy="#{item.rgrTipo}" filterBy="#{item.rgrTipo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_rgrTipo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rgrTipo}"/>
+                </p:column>
+                <p:column sortBy="#{item.rgrNumerocuenta}" filterBy="#{item.rgrNumerocuenta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_rgrNumerocuenta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rgrNumerocuenta}"/>
+                </p:column>
+                <p:column sortBy="#{item.rgrNumerodeposito}" filterBy="#{item.rgrNumerodeposito}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_rgrNumerodeposito}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rgrNumerodeposito}"/>
+                </p:column>
+                <p:column sortBy="#{item.rgrPorcentajepignorado}" filterBy="#{item.rgrPorcentajepignorado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_rgrPorcentajepignorado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rgrPorcentajepignorado}"/>
+                </p:column>
+                <p:column sortBy="#{item.rgrMontopignorado}" filterBy="#{item.rgrMontopignorado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_rgrMontopignorado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rgrMontopignorado}"/>
+                </p:column>
+                <p:column sortBy="#{item.activo}" filterBy="#{item.activo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_activo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.activo}"/>
+                </p:column>
+                <p:column sortBy="#{item.usuarioRegistro}" filterBy="#{item.usuarioRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_usuarioRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioRegistro}"/>
+                </p:column>
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column sortBy="#{item.usuarioUltimamodificacion}" filterBy="#{item.usuarioUltimamodificacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_usuarioUltimamodificacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioUltimamodificacion}"/>
+                </p:column>
+                <p:column sortBy="#{item.fechaUltimamodificacion}" filterBy="#{item.fechaUltimamodificacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_fechaUltimamodificacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaUltimamodificacion}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column sortBy="#{item.rgrValidar}" filterBy="#{item.rgrValidar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_rgrValidar}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="rgrValidar" value="#{item.rgrValidar}" title="#{myBundle.EditRegistrogarantiarealTitle_rgrValidar}"  disabled="true"/>
+                </p:column>
+                <p:column sortBy="#{item.analisisId.analisisId}" filterBy="#{item.analisisId.analisisId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistrogarantiarealTitle_analisisId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.analisisId.analisisId}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{registrogarantiarealController.prepareCreate}" update=":RegistrogarantiarealCreateForm" oncomplete="RegistrogarantiarealCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":RegistrogarantiarealViewForm" oncomplete="RegistrogarantiarealViewDialog.show()" disabled="#{empty registrogarantiarealController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RegistrogarantiarealEditForm" oncomplete="RegistrogarantiarealEditDialog.show()" disabled="#{empty registrogarantiarealController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{registrogarantiarealController.delete}" update=":growl,datalist" disabled="#{empty registrogarantiarealController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>
