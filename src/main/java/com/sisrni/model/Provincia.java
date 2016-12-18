@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -35,9 +36,10 @@ public class Provincia implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_PROVINCIA", nullable = false)
-    private Integer idProvincia;
-    @Column(name = "NOMBRE_PROVINCIA")
-    private Character nombreProvincia;
+    private Integer idProvincia;    
+    @Size(max = 300)
+    @Column(name = "NOMBRE_PROVINCIA", length = 300)
+    private String nombreProvincia;    
     @JoinColumn(name = "ID_PAIS", referencedColumnName = "ID_PAIS")
     @ManyToOne
     private Pais idPais;
@@ -59,13 +61,7 @@ public class Provincia implements Serializable {
         this.idProvincia = idProvincia;
     }
 
-    public Character getNombreProvincia() {
-        return nombreProvincia;
-    }
-
-    public void setNombreProvincia(Character nombreProvincia) {
-        this.nombreProvincia = nombreProvincia;
-    }
+  
 
     public Pais getIdPais() {
         return idPais;
@@ -106,6 +102,14 @@ public class Provincia implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Provincia[ idProvincia=" + idProvincia + " ]";
+    }
+
+    public String getNombreProvincia() {
+        return nombreProvincia;
+    }
+
+    public void setNombreProvincia(String nombreProvincia) {
+        this.nombreProvincia = nombreProvincia;
     }
     
 }

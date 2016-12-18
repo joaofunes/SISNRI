@@ -48,6 +48,11 @@ public class PersonaMB implements Serializable{
     private List<Unidad> listadoUnidad;
     private List<TipoPersona> listadoTipoPersona;
     
+    private List<Persona> listaPersona;
+    private List<Persona> listaPersonaExtrajera;
+    private List<Persona> listaPersonaUsuario;
+    private Persona selected;
+    
     public Persona persona;
     private TipoPersona tipoPersona;
     private Telefono telefonoFijo;
@@ -101,6 +106,8 @@ public class PersonaMB implements Serializable{
              listadoOrganismo = organismoService.findAll();
              listadoUnidad = unidadService.findAll();
              listadoTipoPersona = tipoPersonaService.findAll();
+             listaPersona=personaService.getPersonaList(false);
+             listaPersonaExtrajera=personaService.getPersonaList(true);
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -257,6 +264,38 @@ public class PersonaMB implements Serializable{
 
     public void setTipoTelefono(TipoTelefono tipoTelefono) {
         this.tipoTelefono = tipoTelefono;
+    }
+
+    public List<Persona> getListaPersona() {
+        return listaPersona;
+    }
+
+    public void setListaPersona(List<Persona> listaPersona) {
+        this.listaPersona = listaPersona;
+    }
+
+    public List<Persona> getListaPersonaExtrajera() {
+        return listaPersonaExtrajera;
+    }
+
+    public void setListaPersonaExtrajera(List<Persona> listaPersonaExtrajera) {
+        this.listaPersonaExtrajera = listaPersonaExtrajera;
+    }
+
+    public List<Persona> getListaPersonaUsuario() {
+        return listaPersonaUsuario;
+    }
+
+    public void setListaPersonaUsuario(List<Persona> listaPersonaUsuario) {
+        this.listaPersonaUsuario = listaPersonaUsuario;
+    }
+
+    public Persona getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Persona selected) {
+        this.selected = selected;
     }
 
     

@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -34,8 +35,9 @@ public class Ciudad implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_CIUDAD", nullable = false)
     private Integer idCiudad;
-    @Column(name = "NOMBRE")
-    private Character nombre;
+    @Size(max = 300)
+    @Column(name = "NOMBRE_CIUDAD", length = 300)
+    private String nombreCiudad;    
     @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_PROVINCIA")
     @ManyToOne
     private Provincia idProvincia;
@@ -53,14 +55,6 @@ public class Ciudad implements Serializable {
 
     public void setIdCiudad(Integer idCiudad) {
         this.idCiudad = idCiudad;
-    }
-
-    public Character getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(Character nombre) {
-        this.nombre = nombre;
     }
 
     public Provincia getIdProvincia() {
@@ -94,6 +88,14 @@ public class Ciudad implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Ciudad[ idCiudad=" + idCiudad + " ]";
+    }
+
+    public String getNombreCiudad() {
+        return nombreCiudad;
+    }
+
+    public void setNombreCiudad(String nombreCiudad) {
+        this.nombreCiudad = nombreCiudad;
     }
     
 }

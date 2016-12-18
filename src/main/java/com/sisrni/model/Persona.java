@@ -61,6 +61,9 @@ public class Persona implements Serializable {
     @Size(max = 60)
     @Column(name = "PASAPORTE", length = 60)
     private String pasaporte;
+    @Basic(optional = false)
+    @Column(name = "EXTRANJERO", nullable = false)
+    private boolean extranjero;
     @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
     @ManyToOne
     private Unidad idUnidad;
@@ -233,6 +236,14 @@ public class Persona implements Serializable {
         return true;
     }
 
+     public boolean getExtranjero() {
+        return extranjero;
+    }
+
+    public void setExtranjero(boolean extranjero) {
+        this.extranjero = extranjero;
+    }
+    
     @Override
     public String toString() {
         return "com.sisrni.model.Persona[ idPersona=" + idPersona + " ]";

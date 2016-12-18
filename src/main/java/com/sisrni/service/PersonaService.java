@@ -72,4 +72,8 @@ public class PersonaService extends GenericService<Persona, Integer> {
           return personaDao.getPersonaByID(id);
        }
       
+      public List<Persona> getPersonaList(boolean extranjero) {
+          return personaDao.getPersonaList(extranjero);
+      }
+
 }
