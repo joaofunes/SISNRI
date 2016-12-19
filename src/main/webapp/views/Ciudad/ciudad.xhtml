@@ -20,7 +20,7 @@
                             <h:outputLabel for="nombreCiudad" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombreCiudad" value="#{ciudadMB.ciudad.nombre}" required="true" size="60" />
+                            <p:inputText id="nombreCiudad" value="#{ciudadMB.ciudad.nombreCiudad}" required="true" size="60" />
                             <p:watermark for="nombreCiudad" value="Nombre ciudad" id="watermarkNombreCiudad"/>
                         </p:column>
                         <p:column>
@@ -55,8 +55,8 @@
                     <p:dataTable var="ciudad" value="#{ciudadMB.listCiudad}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen ciudades registrados actualmente" >
-                        <p:column headerText="Ciudad"  filterBy="#{ciudad.nombre}">
-                            <h:outputText value="#{ciudad.nombre}"/>
+                        <p:column headerText="Ciudad"  filterBy="#{ciudad.nombreCiudad}">
+                            <h:outputText value="#{ciudad.nombreCiudad}"/>
                         </p:column>
                         <p:column headerText="Provincia" filterBy="#{ciudad.idProvincia.nombreProvincia}">
                             <h:outputText value="#{ciudad.idProvincia.nombreProvincia}"/>
@@ -89,7 +89,7 @@
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
                     <h:outputLabel value="Nombre Ciudad:"/>
-                    <h:outputText value="#{ciudadMB.ciudad.nombre}"/>
+                    <h:outputText value="#{ciudadMB.ciudad.nombreCiudad}"/>
                     <h:outputLabel value="Provincia:"/>
                     <h:outputText value="#{ciudadMB.ciudad.idProvincia.nombreProvincia}"/>
                 </p:panelGrid>

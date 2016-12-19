@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <center>
+            
+            <p:panel style="width: 70%" header="Gestion de Unidades">  
+                
+                <h:form id="formUnidad">
+                    <p:panelGrid columns="2">            
+                        <p:column>
+                            <h:outputLabel for="nombre" value="Nombre:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nombre" value="#{unidadMB.unidad.nombre}" required="true" size="20" />
+                            <p:watermark for="nombre" value="Nombre unidad" id="watermarkNombreUnidad"/>
+                        </p:column>
+                         <p:column>
+                            <h:outputLabel for="descripcion" value="Descripcion unidad:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputTextarea id="descripcion" value="#{unidadMB.unidad.descripcion}" maxlength="300" style="width:180px"/>
+                            <p:watermark for="descripcion" value="Descripcion" id="watermarkDescripcionUnidad"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel for="facultadUnidad" value="Facultad:"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="facultadUnidad" value="#{unidadMB.facultad.idFacultad}"  style="width:180px" required="true">
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                <c:forEach var="reg" items="#{unidadMB.listFacultad}">
+                                    <f:selectItem itemLabel="#{reg.nombreFacultad}" itemValue="#{reg.idFacultad}"/>
+                                </c:forEach>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton styleClass="boton" rendered="#{!unidadMB.actualizar}"
+                                             actionListener="#{unidadMB.guardarUnidad}" value="Guardar"  update="formUnidad :formTablaUnidades" process="@this :formUnidad"/>
+
+                            <p:commandButton styleClass="boton" rendered="#{unidadMB.actualizar}"
+                                             actionListener="#{unidadMB.actualizarUnidad()}" update="formUnidad :formTablaUnidades "
+                                             value="Actualizar" />
+
+                            <p:commandButton styleClass="boton" rendered="#{unidadMB.actualizar}"
+                                             actionListener="#{unidadMB.cancelarUnidad()}" immediate="true" value="Cancelar" update="formUnidad"  process="@this" />
+
+
+                        </p:column>
+                    </p:panelGrid>
+
+                </h:form>
+                <br></br>
+                <h:form id="formTablaUnidades">
+                    <p:dataTable var="unidad" value="#{unidadMB.listUnidad}" rows="10" 
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen unidades registrados actualmente" >                       
+                        <p:column headerText="Unidad"  filterBy="#{unidad.nombre}">
+                            <h:outputText value="#{unidad.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Descripcion"  style="width: 15%">
+                            <h:outputText value="#{unidad.descripcion}"/>
+                        </p:column>
+                        <p:column headerText="Facultad" filterBy="#{unidad.idFacultad.nombreFacultad}">
+                            <h:outputText value="#{unidad.idFacultad.nombreFacultad}"/>
+                        </p:column> 
+                        <p:column headerText="Opciones" style="width: 15%">
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
+                                               actionListener="#{unidadMB.preActualizarUnidad(unidad)}" update=":formUnidad" process="@form:formTablaUnidades">
+                                </p:commandLink>
+                            </div>
+                            
+                            
+                            
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                               title="Eliminar" value="Eliminar"
+                                               actionListener="#{unidadMB.preBorradoUnidad(unidad)}" update=":idEliminacion" />
+                            </div> 
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </p:panel>     
+        </center> 
+        
+        
+        <!--'Dialog de confirmacion de la operacion de Borrado'-->
+        <p:confirmDialog widgetVar="confirmDeleteUnidadDlg" header="Borrar Unidad" message="Confirma la eliminacion de la Unidad?" 
+                         global="true" showEffect="fade" hideEffect="fade">
+            <h:form id="idEliminacion">
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="Nombre Unidad:"/>
+                    <h:outputText value="#{unidadMB.unidad.nombre}"/>
+                    <h:outputLabel  value="Descripcion de Unidad:"/>
+                    <h:outputText value="#{unidadMB.unidad.descripcion}"/>
+                    <h:outputLabel value="Facultad:"/>
+                    <h:outputText value="#{unidadMB.unidad.idFacultad.nombreFacultad}"/>
+                </p:panelGrid>
+                <br/>
+                <br/>
+            </h:form>
+             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+                              actionListener="#{unidadMB.borrarUnidad()}" update=":formTablaUnidades"/>
+             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>
