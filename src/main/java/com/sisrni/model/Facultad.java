@@ -8,6 +8,7 @@ package com.sisrni.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,14 +26,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "FACULTAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Facultad.findAll", query = "SELECT f FROM Facultad f")})
 public class Facultad implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +42,13 @@ public class Facultad implements Serializable {
     @Size(max = 60)
     @Column(name = "NOMBRE_FACULTAD", length = 60)
     private String nombreFacultad;
-    @JoinTable(name = "FACULTAD_PROYECTO", joinColumns = {
-        @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
+    @JoinTable(name = "MOVILIDAD_FACULTAD", joinColumns = {
+        @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD")})
     @ManyToMany
-    private List<Proyecto> proyectoList;
+    private List<Movilidad> movilidadList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facultad")
+    private List<FacultadProyecto> facultadProyectoList;
     @OneToMany(mappedBy = "idFacultad")
     private List<Unidad> unidadList;
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_UNIVERSIDAD")
@@ -76,12 +78,20 @@ public class Facultad implements Serializable {
         this.nombreFacultad = nombreFacultad;
     }
 
-    public List<Proyecto> getProyectoList() {
-        return proyectoList;
+    public List<Movilidad> getMovilidadList() {
+        return movilidadList;
     }
 
-    public void setProyectoList(List<Proyecto> proyectoList) {
-        this.proyectoList = proyectoList;
+    public void setMovilidadList(List<Movilidad> movilidadList) {
+        this.movilidadList = movilidadList;
+    }
+
+    public List<FacultadProyecto> getFacultadProyectoList() {
+        return facultadProyectoList;
+    }
+
+    public void setFacultadProyectoList(List<FacultadProyecto> facultadProyectoList) {
+        this.facultadProyectoList = facultadProyectoList;
     }
 
     public List<Unidad> getUnidadList() {

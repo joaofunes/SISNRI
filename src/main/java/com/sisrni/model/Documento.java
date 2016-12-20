@@ -25,14 +25,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "DOCUMENTO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Documento.findAll", query = "SELECT d FROM Documento d")})
 public class Documento implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,15 +50,15 @@ public class Documento implements Serializable {
     @Size(max = 30)
     @Column(name = "USUARIO_RECIBE", length = 30)
     private String usuarioRecibe;
-    @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")
-    @ManyToOne
-    private Proyecto idProyecto;
-    @JoinColumn(name = "ID_PROPUESTA", referencedColumnName = "ID_PROPUESTA")
-    @ManyToOne
-    private PropuestaConvenio idPropuesta;
     @JoinColumn(name = "ID_TIPO_DOCUMENTO", referencedColumnName = "ID_TIPO_DOCUMENTO")
     @ManyToOne
     private TipoDocumento idTipoDocumento;
+    @JoinColumn(name = "ID_PROPUESTA", referencedColumnName = "ID_PROPUESTA")
+    @ManyToOne
+    private PropuestaConvenio idPropuesta;
+    @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")
+    @ManyToOne
+    private Proyecto idProyecto;
 
     public Documento() {
     }
@@ -108,12 +107,12 @@ public class Documento implements Serializable {
         this.usuarioRecibe = usuarioRecibe;
     }
 
-    public Proyecto getIdProyecto() {
-        return idProyecto;
+    public TipoDocumento getIdTipoDocumento() {
+        return idTipoDocumento;
     }
 
-    public void setIdProyecto(Proyecto idProyecto) {
-        this.idProyecto = idProyecto;
+    public void setIdTipoDocumento(TipoDocumento idTipoDocumento) {
+        this.idTipoDocumento = idTipoDocumento;
     }
 
     public PropuestaConvenio getIdPropuesta() {
@@ -124,12 +123,12 @@ public class Documento implements Serializable {
         this.idPropuesta = idPropuesta;
     }
 
-    public TipoDocumento getIdTipoDocumento() {
-        return idTipoDocumento;
+    public Proyecto getIdProyecto() {
+        return idProyecto;
     }
 
-    public void setIdTipoDocumento(TipoDocumento idTipoDocumento) {
-        this.idTipoDocumento = idTipoDocumento;
+    public void setIdProyecto(Proyecto idProyecto) {
+        this.idProyecto = idProyecto;
     }
 
     @Override

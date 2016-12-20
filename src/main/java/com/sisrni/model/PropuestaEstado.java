@@ -22,14 +22,13 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "PROPUESTA_ESTADO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PropuestaEstado.findAll", query = "SELECT p FROM PropuestaEstado p")})
 public class PropuestaEstado implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PropuestaEstadoPK propuestaEstadoPK;
@@ -38,12 +37,12 @@ public class PropuestaEstado implements Serializable {
     @Column(name = "FECHA", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Estado estado;
     @JoinColumn(name = "ID_PROPUESTA", referencedColumnName = "ID_PROPUESTA", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PropuestaConvenio propuestaConvenio;
+    @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO", nullable = false, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Estado estado;
 
     public PropuestaEstado() {
     }
@@ -77,20 +76,20 @@ public class PropuestaEstado implements Serializable {
         this.fecha = fecha;
     }
 
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-
     public PropuestaConvenio getPropuestaConvenio() {
         return propuestaConvenio;
     }
 
     public void setPropuestaConvenio(PropuestaConvenio propuestaConvenio) {
         this.propuestaConvenio = propuestaConvenio;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     @Override

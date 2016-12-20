@@ -16,26 +16,25 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "PERSONA_BECA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PersonaBeca.findAll", query = "SELECT p FROM PersonaBeca p")})
 public class PersonaBeca implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PersonaBecaPK personaBecaPK;
-    @JoinColumn(name = "ID_TIPO_PERSONA", referencedColumnName = "ID_TIPO_PERSONA", nullable = false)
+    @JoinColumn(name = "ID_BECA", referencedColumnName = "ID_BECA", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private TipoPersona idTipoPersona;
+    private Beca beca;
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Persona persona;
-    @JoinColumn(name = "ID_BECA", referencedColumnName = "ID_BECAS", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "ID_TIPO_PERSONA", referencedColumnName = "ID_TIPO_PERSONA", nullable = false)
     @ManyToOne(optional = false)
-    private Beca beca;
+    private TipoPersona idTipoPersona;
 
     public PersonaBeca() {
     }
@@ -56,12 +55,12 @@ public class PersonaBeca implements Serializable {
         this.personaBecaPK = personaBecaPK;
     }
 
-    public TipoPersona getIdTipoPersona() {
-        return idTipoPersona;
+    public Beca getBeca() {
+        return beca;
     }
 
-    public void setIdTipoPersona(TipoPersona idTipoPersona) {
-        this.idTipoPersona = idTipoPersona;
+    public void setBeca(Beca beca) {
+        this.beca = beca;
     }
 
     public Persona getPersona() {
@@ -72,12 +71,12 @@ public class PersonaBeca implements Serializable {
         this.persona = persona;
     }
 
-    public Beca getBeca() {
-        return beca;
+    public TipoPersona getIdTipoPersona() {
+        return idTipoPersona;
     }
 
-    public void setBeca(Beca beca) {
-        this.beca = beca;
+    public void setIdTipoPersona(TipoPersona idTipoPersona) {
+        this.idTipoPersona = idTipoPersona;
     }
 
     @Override

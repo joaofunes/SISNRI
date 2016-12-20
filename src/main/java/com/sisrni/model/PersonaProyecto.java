@@ -16,26 +16,25 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "PERSONA_PROYECTO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PersonaProyecto.findAll", query = "SELECT p FROM PersonaProyecto p")})
 public class PersonaProyecto implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PersonaProyectoPK personaProyectoPK;
-    @JoinColumn(name = "ID_PROYECTO_GENERICO", referencedColumnName = "ID_PROYECTO", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private ProyectoGenerico proyectoGenerico;
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Persona persona;
-    @JoinColumn(name = "ID_TIPO_PERSONA", referencedColumnName = "ID_TIPO_PERSONA", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private TipoPersona tipoPersona;
+    private Proyecto proyecto;
+    @JoinColumn(name = "ID_TIPO_PERSONA", referencedColumnName = "ID_TIPO_PERSONA", nullable = false)
+    @ManyToOne(optional = false)
+    private TipoPersona idTipoPersona;
 
     public PersonaProyecto() {
     }
@@ -44,8 +43,8 @@ public class PersonaProyecto implements Serializable {
         this.personaProyectoPK = personaProyectoPK;
     }
 
-    public PersonaProyecto(int idPersona, int idTipoPersona, int idProyectoGenerico) {
-        this.personaProyectoPK = new PersonaProyectoPK(idPersona, idTipoPersona, idProyectoGenerico);
+    public PersonaProyecto(int idPersona, int idProyecto) {
+        this.personaProyectoPK = new PersonaProyectoPK(idPersona, idProyecto);
     }
 
     public PersonaProyectoPK getPersonaProyectoPK() {
@@ -56,14 +55,6 @@ public class PersonaProyecto implements Serializable {
         this.personaProyectoPK = personaProyectoPK;
     }
 
-    public ProyectoGenerico getProyectoGenerico() {
-        return proyectoGenerico;
-    }
-
-    public void setProyectoGenerico(ProyectoGenerico proyectoGenerico) {
-        this.proyectoGenerico = proyectoGenerico;
-    }
-
     public Persona getPersona() {
         return persona;
     }
@@ -72,12 +63,20 @@ public class PersonaProyecto implements Serializable {
         this.persona = persona;
     }
 
-    public TipoPersona getTipoPersona() {
-        return tipoPersona;
+    public Proyecto getProyecto() {
+        return proyecto;
     }
 
-    public void setTipoPersona(TipoPersona tipoPersona) {
-        this.tipoPersona = tipoPersona;
+    public void setProyecto(Proyecto proyecto) {
+        this.proyecto = proyecto;
+    }
+
+    public TipoPersona getIdTipoPersona() {
+        return idTipoPersona;
+    }
+
+    public void setIdTipoPersona(TipoPersona idTipoPersona) {
+        this.idTipoPersona = idTipoPersona;
     }
 
     @Override

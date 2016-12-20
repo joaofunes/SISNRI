@@ -21,14 +21,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "TELEFONO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Telefono.findAll", query = "SELECT t FROM Telefono t")})
 public class Telefono implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,15 +37,15 @@ public class Telefono implements Serializable {
     @Size(max = 20)
     @Column(name = "NUMERO_TELEFONO", length = 20)
     private String numeroTelefono;
-    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
-    @ManyToOne
-    private Persona idPersona;
-    @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
-    @ManyToOne
-    private Organismo idOrganismo;
     @JoinColumn(name = "ID_TIPO_TELEFONO", referencedColumnName = "ID_TIPO_TELEFONO")
     @ManyToOne
     private TipoTelefono idTipoTelefono;
+    @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
+    @ManyToOne
+    private Organismo idOrganismo;
+    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
+    @ManyToOne
+    private Persona idPersona;
 
     public Telefono() {
     }
@@ -71,12 +70,12 @@ public class Telefono implements Serializable {
         this.numeroTelefono = numeroTelefono;
     }
 
-    public Persona getIdPersona() {
-        return idPersona;
+    public TipoTelefono getIdTipoTelefono() {
+        return idTipoTelefono;
     }
 
-    public void setIdPersona(Persona idPersona) {
-        this.idPersona = idPersona;
+    public void setIdTipoTelefono(TipoTelefono idTipoTelefono) {
+        this.idTipoTelefono = idTipoTelefono;
     }
 
     public Organismo getIdOrganismo() {
@@ -87,12 +86,12 @@ public class Telefono implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
-    public TipoTelefono getIdTipoTelefono() {
-        return idTipoTelefono;
+    public Persona getIdPersona() {
+        return idPersona;
     }
 
-    public void setIdTipoTelefono(TipoTelefono idTipoTelefono) {
-        this.idTipoTelefono = idTipoTelefono;
+    public void setIdPersona(Persona idPersona) {
+        this.idPersona = idPersona;
     }
 
     @Override

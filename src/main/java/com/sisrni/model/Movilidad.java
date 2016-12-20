@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,30 +25,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "MOVILIDAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Movilidad.findAll", query = "SELECT m FROM Movilidad m")})
 public class Movilidad implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_MOVILIDAD", nullable = false)
     private Integer idMovilidad;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "NOMBRE_MOVILIDAD", nullable = false, length = 100)
-    private String nombreMovilidad;
     @Column(name = "FECHA_INICIO")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
@@ -62,26 +56,28 @@ public class Movilidad implements Serializable {
     private Integer idPaisDestino;
     @Column(name = "ID_UNIVERSIDAD_DESTINO")
     private Integer idUniversidadDestino;
-    @Size(max = 300)
-    @Column(name = "DESCRIPCION_MOVILIDAD", length = 300)
-    private String descripcionMovilidad;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "VIATICOS", precision = 13, scale = 2)
     private BigDecimal viaticos;
     @Size(max = 100)
     @Column(name = "OTROS_BENEFICIADOS", length = 100)
     private String otrosBeneficiados;
-    @Size(max = 50)
-    @Column(name = "ETAPA_MOVILIDAD", length = 50)
-    private String etapaMovilidad;
     @Column(name = "ENTREGA_DE_INFORME")
     private Boolean entregaDeInforme;
-    @JoinColumn(name = "ID_TIPO_MOVILIDAD", referencedColumnName = "ID_TIPO_MOVILIDAD")
-    @ManyToOne
-    private TipoMovilidad idTipoMovilidad;
+    @ManyToMany(mappedBy = "movilidadList")
+    private List<Facultad> facultadList;
     @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID_CATEGORIA_MOVILIDAD")
     @ManyToOne
     private CategoriaMovilidad idCategoria;
+    @JoinColumn(name = "ID_ETAPA_MOVILIDAD", referencedColumnName = "ID_ETAPA")
+    @ManyToOne
+    private EtapaMovilidad idEtapaMovilidad;
+    @JoinColumn(name = "ID_PROGRAMA_MOVILIDAD", referencedColumnName = "ID_PROGRAMA_MOVILIDAD")
+    @ManyToOne
+    private ProgramaMovilidad idProgramaMovilidad;
+    @JoinColumn(name = "ID_TIPO_MOVILIDAD", referencedColumnName = "ID_TIPO_MOVILIDAD")
+    @ManyToOne
+    private TipoMovilidad idTipoMovilidad;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movilidad")
     private List<PersonaMovilidad> personaMovilidadList;
 
@@ -92,25 +88,12 @@ public class Movilidad implements Serializable {
         this.idMovilidad = idMovilidad;
     }
 
-    public Movilidad(Integer idMovilidad, String nombreMovilidad) {
-        this.idMovilidad = idMovilidad;
-        this.nombreMovilidad = nombreMovilidad;
-    }
-
     public Integer getIdMovilidad() {
         return idMovilidad;
     }
 
     public void setIdMovilidad(Integer idMovilidad) {
         this.idMovilidad = idMovilidad;
-    }
-
-    public String getNombreMovilidad() {
-        return nombreMovilidad;
-    }
-
-    public void setNombreMovilidad(String nombreMovilidad) {
-        this.nombreMovilidad = nombreMovilidad;
     }
 
     public Date getFechaInicio() {
@@ -161,14 +144,6 @@ public class Movilidad implements Serializable {
         this.idUniversidadDestino = idUniversidadDestino;
     }
 
-    public String getDescripcionMovilidad() {
-        return descripcionMovilidad;
-    }
-
-    public void setDescripcionMovilidad(String descripcionMovilidad) {
-        this.descripcionMovilidad = descripcionMovilidad;
-    }
-
     public BigDecimal getViaticos() {
         return viaticos;
     }
@@ -185,14 +160,6 @@ public class Movilidad implements Serializable {
         this.otrosBeneficiados = otrosBeneficiados;
     }
 
-    public String getEtapaMovilidad() {
-        return etapaMovilidad;
-    }
-
-    public void setEtapaMovilidad(String etapaMovilidad) {
-        this.etapaMovilidad = etapaMovilidad;
-    }
-
     public Boolean getEntregaDeInforme() {
         return entregaDeInforme;
     }
@@ -201,12 +168,12 @@ public class Movilidad implements Serializable {
         this.entregaDeInforme = entregaDeInforme;
     }
 
-    public TipoMovilidad getIdTipoMovilidad() {
-        return idTipoMovilidad;
+    public List<Facultad> getFacultadList() {
+        return facultadList;
     }
 
-    public void setIdTipoMovilidad(TipoMovilidad idTipoMovilidad) {
-        this.idTipoMovilidad = idTipoMovilidad;
+    public void setFacultadList(List<Facultad> facultadList) {
+        this.facultadList = facultadList;
     }
 
     public CategoriaMovilidad getIdCategoria() {
@@ -215,6 +182,30 @@ public class Movilidad implements Serializable {
 
     public void setIdCategoria(CategoriaMovilidad idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public EtapaMovilidad getIdEtapaMovilidad() {
+        return idEtapaMovilidad;
+    }
+
+    public void setIdEtapaMovilidad(EtapaMovilidad idEtapaMovilidad) {
+        this.idEtapaMovilidad = idEtapaMovilidad;
+    }
+
+    public ProgramaMovilidad getIdProgramaMovilidad() {
+        return idProgramaMovilidad;
+    }
+
+    public void setIdProgramaMovilidad(ProgramaMovilidad idProgramaMovilidad) {
+        this.idProgramaMovilidad = idProgramaMovilidad;
+    }
+
+    public TipoMovilidad getIdTipoMovilidad() {
+        return idTipoMovilidad;
+    }
+
+    public void setIdTipoMovilidad(TipoMovilidad idTipoMovilidad) {
+        this.idTipoMovilidad = idTipoMovilidad;
     }
 
     public List<PersonaMovilidad> getPersonaMovilidadList() {

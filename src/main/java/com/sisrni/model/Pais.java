@@ -23,14 +23,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "PAIS", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Pais.findAll", query = "SELECT p FROM Pais p")})
 public class Pais implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,11 +44,11 @@ public class Pais implements Serializable {
     private String nombrePais;
     @OneToMany(mappedBy = "idPais")
     private List<Provincia> provinciaList;
+    @OneToMany(mappedBy = "idPaisCooperante")
+    private List<Proyecto> proyectoList;
     @JoinColumn(name = "ID_REGION", referencedColumnName = "ID_REGION")
     @ManyToOne
     private Region idRegion;
-    @OneToMany(mappedBy = "idPaisCooperante")
-    private List<Proyecto> proyectoList;
 
     public Pais() {
     }
@@ -90,20 +89,20 @@ public class Pais implements Serializable {
         this.provinciaList = provinciaList;
     }
 
-    public Region getIdRegion() {
-        return idRegion;
-    }
-
-    public void setIdRegion(Region idRegion) {
-        this.idRegion = idRegion;
-    }
-
     public List<Proyecto> getProyectoList() {
         return proyectoList;
     }
 
     public void setProyectoList(List<Proyecto> proyectoList) {
         this.proyectoList = proyectoList;
+    }
+
+    public Region getIdRegion() {
+        return idRegion;
+    }
+
+    public void setIdRegion(Region idRegion) {
+        this.idRegion = idRegion;
     }
 
     @Override

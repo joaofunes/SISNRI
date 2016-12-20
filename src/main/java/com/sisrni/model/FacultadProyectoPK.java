@@ -16,30 +16,30 @@ import javax.validation.constraints.NotNull;
  * @author Cortez
  */
 @Embeddable
-public class PersonaProyectoPK implements Serializable {
+public class FacultadProyectoPK implements Serializable {
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_PERSONA", nullable = false)
-    private int idPersona;
+    @Column(name = "ID_FACULTAD", nullable = false)
+    private int idFacultad;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_PROYECTO", nullable = false)
     private int idProyecto;
 
-    public PersonaProyectoPK() {
+    public FacultadProyectoPK() {
     }
 
-    public PersonaProyectoPK(int idPersona, int idProyecto) {
-        this.idPersona = idPersona;
+    public FacultadProyectoPK(int idFacultad, int idProyecto) {
+        this.idFacultad = idFacultad;
         this.idProyecto = idProyecto;
     }
 
-    public int getIdPersona() {
-        return idPersona;
+    public int getIdFacultad() {
+        return idFacultad;
     }
 
-    public void setIdPersona(int idPersona) {
-        this.idPersona = idPersona;
+    public void setIdFacultad(int idFacultad) {
+        this.idFacultad = idFacultad;
     }
 
     public int getIdProyecto() {
@@ -53,7 +53,7 @@ public class PersonaProyectoPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) idPersona;
+        hash += (int) idFacultad;
         hash += (int) idProyecto;
         return hash;
     }
@@ -61,11 +61,11 @@ public class PersonaProyectoPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PersonaProyectoPK)) {
+        if (!(object instanceof FacultadProyectoPK)) {
             return false;
         }
-        PersonaProyectoPK other = (PersonaProyectoPK) object;
-        if (this.idPersona != other.idPersona) {
+        FacultadProyectoPK other = (FacultadProyectoPK) object;
+        if (this.idFacultad != other.idFacultad) {
             return false;
         }
         if (this.idProyecto != other.idProyecto) {
@@ -76,7 +76,7 @@ public class PersonaProyectoPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.PersonaProyectoPK[ idPersona=" + idPersona + ", idProyecto=" + idProyecto + " ]";
+        return "com.sisrni.model.FacultadProyectoPK[ idFacultad=" + idFacultad + ", idProyecto=" + idProyecto + " ]";
     }
     
 }

@@ -20,29 +20,33 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "PERSONA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")})
 public class Persona implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_PERSONA", nullable = false)
     private Integer idPersona;
-    @Size(max = 60)
-    @Column(name = "NOMBRE_PERSONA", length = 60)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 60)
+    @Column(name = "NOMBRE_PERSONA", nullable = false, length = 60)
     private String nombrePersona;
-    @Size(max = 60)
-    @Column(name = "APELLIDO_PERSONA", length = 60)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 60)
+    @Column(name = "APELLIDO_PERSONA", nullable = false, length = 60)
     private String apellidoPersona;
     @Size(max = 30)
     @Column(name = "EMAIL_PERSONA", length = 30)
@@ -50,8 +54,6 @@ public class Persona implements Serializable {
     @Size(max = 10)
     @Column(name = "DUI_PERSONA", length = 10)
     private String duiPersona;
-    @Column(name = "ID_TIPO_PERSONA")
-    private Integer idTipoPersona;
     @Size(max = 17)
     @Column(name = "NIT_PERSONA", length = 17)
     private String nitPersona;
@@ -62,30 +64,42 @@ public class Persona implements Serializable {
     @Column(name = "PASAPORTE", length = 60)
     private String pasaporte;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "EXTRANJERO", nullable = false)
     private boolean extranjero;
-    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
-    @ManyToOne
-    private Unidad idUnidad;
+    @Column(name = "ID_CARRERA")
+    private Integer idCarrera;
+    @Column(name = "ID_FACULTAD")
+    private Integer idFacultad;
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<PersonaBeca> personaBecaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<PersonaProyecto> personaProyectoList;
-    @OneToMany(mappedBy = "idPersona")
-    private List<Telefono> telefonoList;
+    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
+    @ManyToOne
+    private Unidad idUnidad;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaPropuesta> personaPropuestaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private List<PersonaProyecto> personaProyectoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaMovilidad> personaMovilidadList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private List<PersonaBeca> personaBecaList;
+    @OneToMany(mappedBy = "idPersona")
+    private List<Telefono> telefonoList;
 
     public Persona() {
     }
 
     public Persona(Integer idPersona) {
         this.idPersona = idPersona;
+    }
+
+    public Persona(Integer idPersona, String nombrePersona, String apellidoPersona, boolean extranjero) {
+        this.idPersona = idPersona;
+        this.nombrePersona = nombrePersona;
+        this.apellidoPersona = apellidoPersona;
+        this.extranjero = extranjero;
     }
 
     public Integer getIdPersona() {
@@ -128,14 +142,6 @@ public class Persona implements Serializable {
         this.duiPersona = duiPersona;
     }
 
-    public Integer getIdTipoPersona() {
-        return idTipoPersona;
-    }
-
-    public void setIdTipoPersona(Integer idTipoPersona) {
-        this.idTipoPersona = idTipoPersona;
-    }
-
     public String getNitPersona() {
         return nitPersona;
     }
@@ -160,12 +166,28 @@ public class Persona implements Serializable {
         this.pasaporte = pasaporte;
     }
 
-    public Unidad getIdUnidad() {
-        return idUnidad;
+    public boolean getExtranjero() {
+        return extranjero;
     }
 
-    public void setIdUnidad(Unidad idUnidad) {
-        this.idUnidad = idUnidad;
+    public void setExtranjero(boolean extranjero) {
+        this.extranjero = extranjero;
+    }
+
+    public Integer getIdCarrera() {
+        return idCarrera;
+    }
+
+    public void setIdCarrera(Integer idCarrera) {
+        this.idCarrera = idCarrera;
+    }
+
+    public Integer getIdFacultad() {
+        return idFacultad;
+    }
+
+    public void setIdFacultad(Integer idFacultad) {
+        this.idFacultad = idFacultad;
     }
 
     public Organismo getIdOrganismo() {
@@ -176,28 +198,12 @@ public class Persona implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
-    public List<PersonaBeca> getPersonaBecaList() {
-        return personaBecaList;
+    public Unidad getIdUnidad() {
+        return idUnidad;
     }
 
-    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
-        this.personaBecaList = personaBecaList;
-    }
-
-    public List<PersonaProyecto> getPersonaProyectoList() {
-        return personaProyectoList;
-    }
-
-    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
-        this.personaProyectoList = personaProyectoList;
-    }
-
-    public List<Telefono> getTelefonoList() {
-        return telefonoList;
-    }
-
-    public void setTelefonoList(List<Telefono> telefonoList) {
-        this.telefonoList = telefonoList;
+    public void setIdUnidad(Unidad idUnidad) {
+        this.idUnidad = idUnidad;
     }
 
     public List<PersonaPropuesta> getPersonaPropuestaList() {
@@ -208,12 +214,36 @@ public class Persona implements Serializable {
         this.personaPropuestaList = personaPropuestaList;
     }
 
+    public List<PersonaProyecto> getPersonaProyectoList() {
+        return personaProyectoList;
+    }
+
+    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
+        this.personaProyectoList = personaProyectoList;
+    }
+
     public List<PersonaMovilidad> getPersonaMovilidadList() {
         return personaMovilidadList;
     }
 
     public void setPersonaMovilidadList(List<PersonaMovilidad> personaMovilidadList) {
         this.personaMovilidadList = personaMovilidadList;
+    }
+
+    public List<PersonaBeca> getPersonaBecaList() {
+        return personaBecaList;
+    }
+
+    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
+        this.personaBecaList = personaBecaList;
+    }
+
+    public List<Telefono> getTelefonoList() {
+        return telefonoList;
+    }
+
+    public void setTelefonoList(List<Telefono> telefonoList) {
+        this.telefonoList = telefonoList;
     }
 
     @Override
@@ -236,14 +266,6 @@ public class Persona implements Serializable {
         return true;
     }
 
-     public boolean getExtranjero() {
-        return extranjero;
-    }
-
-    public void setExtranjero(boolean extranjero) {
-        this.extranjero = extranjero;
-    }
-    
     @Override
     public String toString() {
         return "com.sisrni.model.Persona[ idPersona=" + idPersona + " ]";

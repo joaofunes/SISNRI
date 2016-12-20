@@ -25,14 +25,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "ORGANISMO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Organismo.findAll", query = "SELECT o FROM Organismo o")})
 public class Organismo implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,20 +57,20 @@ public class Organismo implements Serializable {
     private Integer idProvincia;
     @Column(name = "ID_CUIDAD")
     private Integer idCuidad;
-    @JoinTable(name = "PROYECTO_GENERICO_ORGANISMO", joinColumns = {
-        @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
+    @JoinTable(name = "PROYECTO_ORGANISMO", joinColumns = {
+        @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")})
     @ManyToMany
-    private List<ProyectoGenerico> proyectoGenericoList;
-    @OneToMany(mappedBy = "idOrganismo")
-    private List<Persona> personaList;
+    private List<Proyecto> proyectoList;
     @JoinColumn(name = "ID_TIPO_ORGANISMO", referencedColumnName = "ID_TIPO_ORGANISMO")
     @ManyToOne
     private TipoOrganismo idTipoOrganismo;
     @OneToMany(mappedBy = "idOrganismo")
-    private List<Beca> becaList;
+    private List<Persona> personaList;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Telefono> telefonoList;
+    @OneToMany(mappedBy = "idUniversidad")
+    private List<Beca> becaList;
 
     public Organismo() {
     }
@@ -152,20 +151,12 @@ public class Organismo implements Serializable {
         this.idCuidad = idCuidad;
     }
 
-    public List<ProyectoGenerico> getProyectoGenericoList() {
-        return proyectoGenericoList;
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
     }
 
-    public void setProyectoGenericoList(List<ProyectoGenerico> proyectoGenericoList) {
-        this.proyectoGenericoList = proyectoGenericoList;
-    }
-
-    public List<Persona> getPersonaList() {
-        return personaList;
-    }
-
-    public void setPersonaList(List<Persona> personaList) {
-        this.personaList = personaList;
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
     }
 
     public TipoOrganismo getIdTipoOrganismo() {
@@ -176,12 +167,12 @@ public class Organismo implements Serializable {
         this.idTipoOrganismo = idTipoOrganismo;
     }
 
-    public List<Beca> getBecaList() {
-        return becaList;
+    public List<Persona> getPersonaList() {
+        return personaList;
     }
 
-    public void setBecaList(List<Beca> becaList) {
-        this.becaList = becaList;
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
     }
 
     public List<Telefono> getTelefonoList() {
@@ -190,6 +181,14 @@ public class Organismo implements Serializable {
 
     public void setTelefonoList(List<Telefono> telefonoList) {
         this.telefonoList = telefonoList;
+    }
+
+    public List<Beca> getBecaList() {
+        return becaList;
+    }
+
+    public void setBecaList(List<Beca> becaList) {
+        this.becaList = becaList;
     }
 
     @Override

@@ -16,26 +16,25 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "PERSONA_PROPUESTA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PersonaPropuesta.findAll", query = "SELECT p FROM PersonaPropuesta p")})
 public class PersonaPropuesta implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PersonaPropuestaPK personaPropuestaPK;
-    @JoinColumn(name = "ID_PROPUESTA", referencedColumnName = "ID_PROPUESTA", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private PropuestaConvenio propuestaConvenio;
-    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Persona persona;
     @JoinColumn(name = "ID_TIPO_PERSONA", referencedColumnName = "ID_TIPO_PERSONA", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private TipoPersona tipoPersona;
+    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA", nullable = false, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Persona persona;
+    @JoinColumn(name = "ID_PROPUESTA", referencedColumnName = "ID_PROPUESTA", nullable = false, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private PropuestaConvenio propuestaConvenio;
 
     public PersonaPropuesta() {
     }
@@ -56,12 +55,12 @@ public class PersonaPropuesta implements Serializable {
         this.personaPropuestaPK = personaPropuestaPK;
     }
 
-    public PropuestaConvenio getPropuestaConvenio() {
-        return propuestaConvenio;
+    public TipoPersona getTipoPersona() {
+        return tipoPersona;
     }
 
-    public void setPropuestaConvenio(PropuestaConvenio propuestaConvenio) {
-        this.propuestaConvenio = propuestaConvenio;
+    public void setTipoPersona(TipoPersona tipoPersona) {
+        this.tipoPersona = tipoPersona;
     }
 
     public Persona getPersona() {
@@ -72,12 +71,12 @@ public class PersonaPropuesta implements Serializable {
         this.persona = persona;
     }
 
-    public TipoPersona getTipoPersona() {
-        return tipoPersona;
+    public PropuestaConvenio getPropuestaConvenio() {
+        return propuestaConvenio;
     }
 
-    public void setTipoPersona(TipoPersona tipoPersona) {
-        this.tipoPersona = tipoPersona;
+    public void setPropuestaConvenio(PropuestaConvenio propuestaConvenio) {
+        this.propuestaConvenio = propuestaConvenio;
     }
 
     @Override
