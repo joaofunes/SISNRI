@@ -26,6 +26,10 @@ public abstract class GenericService<T, ID extends Serializable> {
         return getDao().save(entity);
     }
 
+    public void saveOrUpdate(T entity) {
+         getDao().saveOrUpdate(entity);
+    }
+    
     public T merge(T entity) {
         return getDao().merge(entity);
     }
