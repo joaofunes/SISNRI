@@ -13,10 +13,10 @@
     <ui:define name="content">
     <h:form id="RegistrogarantiarealListForm">
 
-        <p:panel header="Administracion de Personas">
+        <p:panel header="Administracion de Personas Extranjeras">
             
 
-             <p:dataTable  value="#{personaMB.listaPersona}" var="item" paginator="true" rows="15"
+             <p:dataTable  value="#{personaMB.listaPersonaExtrajera}" var="item" paginator="true" rows="15"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="5,10,15"                       
                         >    
@@ -52,12 +52,11 @@
                     </f:facet>
                     <h:outputText value="#{item.cargoPersona}"/>
                 </p:column>
-               
-                <p:column sortBy="#{item.idOrganismo.nombreOrganismo}" filterBy="#{item.idOrganismo.nombreOrganismo}">
+                <p:column sortBy="#{item.pasaporte}" filterBy="#{item.pasaporte}">
                     <f:facet name="header">
-                        <h:outputText value="Organismo"/>
+                        <h:outputText value="Pasaporte"/>
                     </f:facet>
-                    <h:outputText value="#{item.idOrganismo.nombreOrganismo}"/>
+                    <h:outputText value="#{item.pasaporte}"/>
                 </p:column>
              
                 <p:column headerText="Opciones" >
@@ -81,7 +80,7 @@
                  
                 <f:facet name="footer">
                     <div class="footer-section">
-                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="Agregar" actionListener="#{personaMB.crearPersona}" />
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{registrogarantiarealController.prepareCreate}" />
 <!--                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":RegistrogarantiarealViewForm" oncomplete="RegistrogarantiarealViewDialog.show()" disabled="#{empty registrogarantiarealController.selected}"/>
                         <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RegistrogarantiarealEditForm" oncomplete="RegistrogarantiarealEditDialog.show()" disabled="#{empty registrogarantiarealController.selected}"/>
                         <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{registrogarantiarealController.delete}" update=":growl,datalist" disabled="#{empty registrogarantiarealController.selected}"/>-->
