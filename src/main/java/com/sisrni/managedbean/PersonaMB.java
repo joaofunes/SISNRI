@@ -113,6 +113,15 @@ public class PersonaMB implements Serializable{
          }
     }
 
+     
+     public void crearPersona(){
+         try {
+              persona = new Persona();
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+     }
+     
     /**
      * Metodo para almacenar una nueva persona
      */ 
@@ -127,7 +136,30 @@ public class PersonaMB implements Serializable{
             tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
             telefonoCell.setIdTipoTelefono(tipoTelefono);
             telefonoService.save(telefonoCell);
+            persona.setExtranjero(false);
+            personaService.save(persona);
             
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    /**
+     * Metodo para almacenar una nueva persona extranjera
+     */ 
+    public void guardarExtranjero(){
+        try {
+            String msg = "Persona Almacenado Exitosamente!";   
+            
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoFijo);
+                    
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
+            telefonoCell.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoCell);
+            
+            persona.setExtranjero(true);
             personaService.save(persona);
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
@@ -138,15 +170,71 @@ public class PersonaMB implements Serializable{
     
     
     /**
+     * Metodo para setear persona a ser editada
+     * @param persona 
+     */
+    public void preEditar(Persona persona){
+        try {
+            this.persona=persona;
+            telefonoFijo = new Telefono();
+            telefonoCell = new Telefono();
+            List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(persona);
+            
+            for(Telefono tel: telefonosByPersona){
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)){
+                     telefonoFijo=tel;
+                }
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)){
+                     telefonoCell=tel;
+                }
+            }
+           
+        } catch (Exception e) {
+        }
+    }
+    
+    
+    /**
      * Metodo para almacenar una nueva persona
      */ 
     public void editar(){
         try {
-            String msg = "Persona Editada Exitosamente!";    
+            String msg = "Persona Editada Exitosamente!";  
+            telefonoService.saveOrUpdate(telefonoFijo);
+            telefonoService.saveOrUpdate(telefonoCell);
             personaService.merge(persona);            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    } 
+    
+    
+    /**
+     * Metodo para eliminar una persona
+     */ 
+    public void eliminar(){
+        try {
+            String msg = "Persona Eliminada Exitosamente!";  
+            if(telefonoFijo != null && telefonoFijo.getIdOrganismo()!= null){
+                telefonoService.delete(telefonoFijo);
+            }
+            if(telefonoCell != null && telefonoCell.getIdOrganismo()!= null){
+                telefonoService.delete(telefonoCell);
+            }      
+            
+            if(persona.getIdOrganismo() != null && persona.getIdOrganismo().getIdOrganismo() != null){
+             organismoService.delete(persona.getIdOrganismo());
+            }
+                       
+            personaService.delete(persona);            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            telefonoFijo = null;
+            telefonoCell = null;
+            persona= new Persona();
         }
     } 
     

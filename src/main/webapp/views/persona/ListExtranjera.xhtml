@@ -11,20 +11,17 @@
                 >
     
     <ui:define name="content">
-        <ui:include src="../persona/crearPersona.xhtml"/>
-        <ui:include src="../persona/editPersona.xhtml"/>
-        <ui:include src="../persona/eliminarPersona.xhtml"/>
     <h:form id="RegistrogarantiarealListForm">
 
-        <p:panel header="Administracion de Personas">
+        <p:panel header="Administracion de Personas Extranjeras">
             
 
-             <p:dataTable  value="#{personaMB.listaPersona}" var="item" paginator="true" rows="15"
+             <p:dataTable  value="#{personaMB.listaPersonaExtrajera}" var="item" paginator="true" rows="15"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="5,10,15"   paginatorPosition="bottom" 
-                         
+                         rowsPerPageTemplate="5,10,15"                       
                         >    
                 
+              
                 <p:column sortBy="#{item.nombrePersona}" filterBy="#{item.nombrePersona}">
                     <f:facet name="header">
                         <h:outputText value="Nombre"/>
@@ -55,35 +52,38 @@
                     </f:facet>
                     <h:outputText value="#{item.cargoPersona}"/>
                 </p:column>
-               
-                <p:column sortBy="#{item.idOrganismo.nombreOrganismo}" filterBy="#{item.idOrganismo.nombreOrganismo}">
+                <p:column sortBy="#{item.pasaporte}" filterBy="#{item.pasaporte}">
                     <f:facet name="header">
-                        <h:outputText value="Organismo"/>
+                        <h:outputText value="Pasaporte"/>
                     </f:facet>
-                    <h:outputText value="#{item.idOrganismo.nombreOrganismo}"/>
+                    <h:outputText value="#{item.pasaporte}"/>
                 </p:column>
              
                 <p:column headerText="Opciones" >
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       value="Editar" actionListener="#{personaMB.preEditar(item)}"
-                                       oncomplete="PF('PersonaEditDialog').show();"
-                                       update=":PersonaEditDlg"/>
+                                       value="Editar" actionListener="#{menusOpcionesAdmMB.preEditar(menu)}" />
                     </div>
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                        title="Eliminar" value="Eliminar"
-                                       actionListener="#{personaMB.preEditar(item)}"
-                                        oncomplete="PF('PersonaDeleteDialog').show();"
-                                       update=":PersonaDeleteDlg"/>
+                                       actionListener="#{menusOpcionesAdmMB.preEliminar(menu)}" />
                     </div>
-                   
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-document-b"
+                                       title="Opciones" value="Agregar Opciones a Menu"
+                                       onclick="dlg2.show();"
+                                       actionListener="#{menusOpcionesAdmMB.addOpciones(menu)}" />
+                    </div>
                 </p:column> 
                  
                  
                 <f:facet name="footer">
                     <div class="footer-section">
-                        <p:commandButton id="createButton" icon="ui-icon-plus" value="Agregar" actionListener="#{personaMB.crearPersona}" process="@this" oncomplete="PF('PersonaCreateDialog').show();" />
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{registrogarantiarealController.prepareCreate}" />
+<!--                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":RegistrogarantiarealViewForm" oncomplete="RegistrogarantiarealViewDialog.show()" disabled="#{empty registrogarantiarealController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RegistrogarantiarealEditForm" oncomplete="RegistrogarantiarealEditDialog.show()" disabled="#{empty registrogarantiarealController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{registrogarantiarealController.delete}" update=":growl,datalist" disabled="#{empty registrogarantiarealController.selected}"/>-->
                     </div>
                 </f:facet>
 

@@ -2,141 +2,130 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html  template="/WEB-INF/templates/layout.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:pe="http://primefaces.org/ui/extensions">
-  
-   
-     <ui:composition>
-  <p:dialog id="PersonaEditDlg" widgetVar="PersonaEditDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Edicion Persona" closeOnEscape="true">
-            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
-          
-    <h:form id="formEditPersona">
-                <center>                  
-                               <h:panelGrid columns="2" >
-                                   <p:column>  
-                                     <p:outputLabel for="idNombrePersona" value="Nombre Persona" />
-                                   </p:column>                                         
-                                   <p:column>                                                                                                                                                                                             
-                                       <p:inputText id="idNombrePersona"  required="true" label="Nombre" value="#{personaMB.persona.nombrePersona}"/>
-                                       <p:watermark for="idNombrePersona" value="Nombre de la Persona" id="watermarkNombre" />
-                                       <p:message for="idNombrePersona" />                                       
-                                   </p:column>
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:pe="http://primefaces.org/ui/extensions">
 
-                                   <p:column>  
-                                     <p:outputLabel for="idApellido" value="Apellido Persona" />
-                                   </p:column>                                         
-                                  <p:column> 
-                                      <p:inputText id="idApellido"  required="true" label="Apellido" value="#{personaMB.persona.apellidoPersona}"/>
-                                       <p:watermark for="idApellido" value="Apellido de la Persona" id="watermarkApeliido" />
-                                      <p:message for="idApellido" />
-                                   </p:column>
-                                   
-                                    <p:column> 
-                                         <p:outputLabel for="dui" value="DUI" />
-                                    </p:column> 
-                                    <p:column> 
-                                        <p:inputMask id="dui" value="#{personaMB.persona.duiPersona}" mask="99999999-9"/>
-                                         <p:watermark for="dui" value="99999999-9" id="watermarkDui" />
-                                    </p:column> 
-                                  
-                                    <p:column> 
-                                         <p:outputLabel for="nit" value="NIT" />
-                                    </p:column> 
-                                    <p:column> 
-                                        <p:inputMask id="nit" value="#{personaMB.persona.nitPersona}" mask="9999-999999-999-9"/>
-                                         <p:watermark for="nit" value="9999-999999-999-9" id="watermarkNit" />
-                                    </p:column> 
-                                   
-                                    <p:column> 
-                                         <p:outputLabel for="passaporte" value="Pasaporte" />
-                                    </p:column> 
-                                    <p:column> 
-                                        <p:inputText id="passaporte"  required="true" label="pasaporte" value="#{personaMB.persona.pasaporte}"/>
-                                         <p:watermark for="passaporte" value="pasaporte" id="watermarkPass" />
-                                    </p:column> 
-                                   
-                                    <p:column>
-                                     <p:outputLabel for="idCargo" value="Cargo" />
-                                      </p:column>                                         
-                                    <p:column> 
-                                       <p:inputText id="idCargo"  required="true" label="cargo" value="#{personaMB.persona.cargoPersona}"/>
-                                       <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
-                                       <p:message for="idCargo" />
-                                   </p:column> 
-                                   
-                                    <p:column>  
-                                     <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
-                                   </p:column>      
-                                   <p:column> 
-                                       <p:inputText id="email" required="true" value="#{personaMB.persona.emailPersona}">
-                                           <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                                      </p:inputText>
-                                       <p:watermark for="email" value="email@email.com" id="watermarkEmail" />
-                                       <p:message for="email" display="tooltip" />                                         
-                                    </p:column>    
-                                   
-                                   <p:column>  
-                                     <p:outputLabel for="idUnidad" value="Unidad" />
-                                      </p:column>                                         
-                                    <p:column>                                         
-                                        <p:selectOneMenu id="idUnidad"  value="#{personaMB.persona.idUnidad}" effect="fade" converter="#{unidadConverter}" required="true">                                           
-                                            <f:selectItem itemLabel="Unidad" itemValue="null" noSelectionOption="true" />  
-                                            <f:selectItems value="#{personaMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad}"/>  
-                                        </p:selectOneMenu>    
-                                   </p:column>
-                                   <p:column>  
-                                     <p:outputLabel for="idOrganismo" value="Organismo" />
-                                   </p:column>                                         
-                                   <p:column>                                         
-                                       <p:selectOneMenu id="idOrganismo" value="#{personaMB.persona.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
-                                         <f:selectItem itemLabel="Organismo" itemValue="null" noSelectionOption="true" />  
-                                         <f:selectItems value="#{personaMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
-                                        </p:selectOneMenu>                                                                               
-                                   </p:column>
-                                   
-                                   <p:column>  
-                                     <p:outputLabel for="idTipoPersona" value="Tipo persona" />
-                                      </p:column>                                         
-                                   <p:column>                                                                       
-                                       <p:selectOneMenu id="idTipoPersona" value="#{personaMB.persona.idTipoPersona}"  effect="fade" converter="#{tipoPersonaConverter}" required="true">                                           
-                                         <f:selectItem itemLabel="Tipo Persona" itemValue="null" noSelectionOption="true" />  
-                                         <f:selectItems value="#{personaMB.listadoTipoPersona}" var="tipoPrs" itemLabel="#{tipoPrs.nombre}" itemValue="#{tipoPrs}"/>  
-                                        </p:selectOneMenu>                                     
-                                   </p:column>                        
-                                   <p:column> 
-                                       <p:commandButton value="Editar Persona" id="idGuardarPersona" actionListener="#{personaMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaEditDialog').hide();" />
-                                   </p:column>
-                            </h:panelGrid>
+
+    <ui:composition>
+        <p:dialog id="PersonaEditDlg" widgetVar="PersonaEditDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Edicion Persona" closeOnEscape="true">
+            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
+
+            <h:form id="formEditPersona">
+                <center>                  
+                    <h:panelGrid columns="2" >
+                        <p:column>  
+                            <p:outputLabel for="idNombrePersona" value="Nombre Persona" />
+                        </p:column>                                         
+                        <p:column>                                                                                                                                                                                             
+                            <p:inputText id="idNombrePersona"  required="true" label="Nombre" value="#{personaMB.persona.nombrePersona}"/>
+                            <p:watermark for="idNombrePersona" value="Nombre de la Persona" id="watermarkNombre" />
+                            <p:message for="idNombrePersona" />                                       
+                        </p:column>
+
+                        <p:column>  
+                            <p:outputLabel for="idApellido" value="Apellido Persona" />
+                        </p:column>                                         
+                        <p:column> 
+                            <p:inputText id="idApellido"  required="true" label="Apellido" value="#{personaMB.persona.apellidoPersona}"/>
+                            <p:watermark for="idApellido" value="Apellido de la Persona" id="watermarkApeliido" />
+                            <p:message for="idApellido" />
+                        </p:column>
+
+                        <p:column> 
+                            <p:outputLabel for="dui" value="DUI" />
+                        </p:column> 
+                        <p:column> 
+                            <p:inputMask id="dui"  required="true" value="#{personaMB.persona.duiPersona}" mask="99999999-9"/>
+                            <p:watermark for="dui" value="99999999-9" id="watermarkDui" />
+                        </p:column>                                                                      
+
+                        <p:column>  
+                            <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
+                        </p:column>      
+                        <p:column> 
+                            <p:inputText id="email" required="true" value="#{personaMB.persona.emailPersona}">
+                                <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                            </p:inputText>
+                            <p:watermark for="email" value="email@email.com" id="watermarkEmail" />
+                            <p:message for="email" display="tooltip" />                                         
+                        </p:column>    
+
+                        <p:column>  
+                            <p:outputLabel for="idTelefonoCellEx" value="Tel&eacute;no Celular" />
+                        </p:column>                                         
+                        <p:column> 
+                            <p:inputMask id="idTelefonoCellEx"  required="true" value="#{personaMB.telefonoFijo.numeroTelefono}" mask="9999-9999"/>
+                            <p:watermark for="idTelefonoCellEx" value="9999-9999"  />                                                       
+                        </p:column>                               
+                        <p:column>  
+                            <p:outputLabel for="idTelefonoFijoEx" value="Tel&eacute;no Fijo" />
+                        </p:column>                                         
+                        <p:column> 
+                            <p:inputMask id="idTelefonoFijoEx"  required="true" value="#{personaMB.telefonoCell.numeroTelefono}" mask="9999-9999"/>
+                            <p:watermark for="idTelefonoFijoEx" value="9999-9999"  />                                                       
+                        </p:column>     
+
+                        <p:column>
+                            <p:outputLabel for="idCargo" value="Cargo" />
+                        </p:column>                                         
+                        <p:column> 
+                            <p:inputText id="idCargo"  required="true" label="cargo" value="#{personaMB.persona.cargoPersona}"/>
+                            <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
+                            <p:message for="idCargo" />
+                        </p:column> 
+                        <p:column>  
+                            <p:outputLabel for="idUnidad" value="Unidad" />
+                        </p:column>                                         
+                        <p:column>                                         
+                            <p:selectOneMenu id="idUnidad"  value="#{personaMB.persona.idUnidad}" effect="fade" converter="#{unidadConverter}" required="false" style="width:200px">                                           
+                                <f:selectItem itemLabel="Unidad" itemValue="null" noSelectionOption="true" />  
+                                <f:selectItems value="#{personaMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombreUnidad}" itemValue="#{unidad}"/>  
+                            </p:selectOneMenu>    
+                        </p:column>
+                        <p:column>  
+                            <p:outputLabel for="idOrganismo" value="Organismo" />
+                        </p:column>                                         
+                        <p:column>                                         
+                            <p:selectOneMenu id="idOrganismo" value="#{personaMB.persona.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="false" style="width:200px">                                           
+                                <f:selectItem itemLabel="Organismo" itemValue="null" noSelectionOption="true" />  
+                                <f:selectItems value="#{personaMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
+                            </p:selectOneMenu>                                                                               
+                        </p:column>
+
+                                               
+                        <p:column> 
+                            <p:commandButton value="Editar" id="idGuardarPersona" actionListener="#{personaMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaEditDialog').hide();" />
+                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('PersonaEditDialog').close();" />
+                        </p:column>
+                    </h:panelGrid>
                 </center>    
             </h:form>  
         </p:dialog>
-        
-          <script type="text/javascript">
+
+        <script type="text/javascript">
             /**
              * Faces Validator
              */
             PrimeFaces.validator['custom.emailValidator'] = {
-
                 pattern: /\S+@\S+/,
-
-                validate: function(element, value) {
+                validate: function (element, value) {
                     //use element.data() to access validation metadata, in this case there is none.
-                    if(!this.pattern.test(value)) {
+                    if (!this.pattern.test(value)) {
                         throw {
                             summary: 'Validation Error',
                             detail: value + ' is not a valid email.'
                         }
                     }
                 }
-            };    
+            };
         </script>
-        
 
-    
-    
-</ui:composition>
+
+
+
+    </ui:composition>
 </html>

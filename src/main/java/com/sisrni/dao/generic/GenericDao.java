@@ -73,6 +73,10 @@ public class GenericDao<T, ID extends Serializable> {
     public Serializable save(T entity) {
         return sessionFactory.getCurrentSession().save(entity);
     }
+    
+    public void saveOrUpdate(T entity) {
+        sessionFactory.getCurrentSession().saveOrUpdate(entity);
+    }
 
     public T merge(T entity) {
         return (T) sessionFactory.getCurrentSession().merge(entity);

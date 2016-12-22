@@ -6,6 +6,7 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -71,7 +72,7 @@ public class Proyecto implements Serializable {
     @OneToMany(mappedBy = "idProyecto")
     private List<Documento> documentoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
-    private List<FacultadProyecto> facultadProyectoList;
+    private List<FacultadProyecto> facultadProyectoList=new ArrayList<FacultadProyecto>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
     private List<PersonaProyecto> personaProyectoList;
     @JoinColumn(name = "ID_PROPUESTA_CONVENIO", referencedColumnName = "ID_PROPUESTA", nullable = false)
