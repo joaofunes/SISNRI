@@ -176,6 +176,8 @@ public class PersonaMB implements Serializable{
     public void preEditar(Persona persona){
         try {
             this.persona=persona;
+            telefonoFijo = new Telefono();
+            telefonoCell = new Telefono();
             List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(persona);
             
             for(Telefono tel: telefonosByPersona){
@@ -214,12 +216,25 @@ public class PersonaMB implements Serializable{
     public void eliminar(){
         try {
             String msg = "Persona Eliminada Exitosamente!";  
-            telefonoService.delete(telefonoFijo);
-            telefonoService.delete(telefonoCell);
+            if(telefonoFijo != null && telefonoFijo.getIdOrganismo()!= null){
+                telefonoService.delete(telefonoFijo);
+            }
+            if(telefonoCell != null && telefonoCell.getIdOrganismo()!= null){
+                telefonoService.delete(telefonoCell);
+            }      
+            
+            if(persona.getIdOrganismo() != null && persona.getIdOrganismo().getIdOrganismo() != null){
+             organismoService.delete(persona.getIdOrganismo());
+            }
+                       
             personaService.delete(persona);            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
         } catch (Exception e) {
             e.printStackTrace();
+        } finally{
+            telefonoFijo = null;
+            telefonoCell = null;
+            persona= new Persona();
         }
     } 
     

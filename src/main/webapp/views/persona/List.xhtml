@@ -74,6 +74,7 @@
                         <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                        title="Eliminar" value="Eliminar"
                                        actionListener="#{personaMB.preEditar(item)}"
+                                        oncomplete="PF('PersonaDeleteDialog').show();"
                                        update=":PersonaDeleteDlg"/>
                     </div>
                    
