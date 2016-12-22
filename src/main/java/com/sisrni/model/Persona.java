@@ -32,6 +32,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")})
 public class Persona implements Serializable {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,7 +88,12 @@ public class Persona implements Serializable {
     private List<PersonaBeca> personaBecaList;
     @OneToMany(mappedBy = "idPersona")
     private List<Telefono> telefonoList;
-
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ACTIVO", nullable = false)
+    private boolean activo;
+    
     public Persona() {
     }
 
@@ -269,6 +275,14 @@ public class Persona implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Persona[ idPersona=" + idPersona + " ]";
+    }
+
+    public boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     
 }

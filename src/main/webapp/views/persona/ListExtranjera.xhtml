@@ -16,65 +16,77 @@
         <p:panel header="Administracion de Personas Extranjeras">
             
 
-             <p:dataTable  value="#{personaMB.listaPersonaExtrajera}" var="item" paginator="true" rows="15"
+             <p:dataTable  value="#{personaMB.listPojoPersonaExtranjera}" var="item" paginator="true" rows="15"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="5,10,15"                       
                         >    
                 
               
-                <p:column sortBy="#{item.nombrePersona}" filterBy="#{item.nombrePersona}">
+                 <p:column sortBy="#{item.persona.nombrePersona}" filterBy="#{item.persona.nombrePersona}">
                     <f:facet name="header">
                         <h:outputText value="Nombre"/>
                     </f:facet>
-                    <h:outputText value="#{item.nombrePersona}"/>
+                    <h:outputText value="#{item.persona.nombrePersona}"/>
                 </p:column>
-                <p:column sortBy="#{item.apellidoPersona}" filterBy="#{item.apellidoPersona}">
+                <p:column sortBy="#{item.persona.apellidoPersona}" filterBy="#{item.persona.apellidoPersona}">
                     <f:facet name="header">
                         <h:outputText value="Apellido"/>
                     </f:facet>
-                    <h:outputText value="#{item.apellidoPersona}"/>
+                    <h:outputText value="#{item.persona.apellidoPersona}"/>
                 </p:column>
-                <p:column sortBy="#{item.emailPersona}" filterBy="#{item.emailPersona}">
+                <p:column sortBy="#{item.persona.emailPersona}" filterBy="#{item.persona.emailPersona}">
                     <f:facet name="header">
                         <h:outputText value="Email"/>
                     </f:facet>
-                    <h:outputText value="#{item.emailPersona}"/>
+                    <h:outputText value="#{item.persona.emailPersona}"/>
                 </p:column>
-                <p:column sortBy="#{item.duiPersona}" filterBy="#{item.duiPersona}">
+                <p:column sortBy="#{item.persona.duiPersona}" filterBy="#{item.persona.duiPersona}">
                     <f:facet name="header">
                         <h:outputText value="DUI"/>
                     </f:facet>
-                    <h:outputText value="#{item.duiPersona}"/>
+                    <h:outputText value="#{item.persona.duiPersona}"/>
                 </p:column>
-                <p:column sortBy="#{item.cargoPersona}" filterBy="#{item.cargoPersona}">
+                <p:column sortBy="#{item.persona.cargoPersona}" filterBy="#{item.persona.cargoPersona}">
                     <f:facet name="header">
                         <h:outputText value="Cargo"/>
                     </f:facet>
-                    <h:outputText value="#{item.cargoPersona}"/>
+                    <h:outputText value="#{item.persona.cargoPersona}"/>
                 </p:column>
-                <p:column sortBy="#{item.pasaporte}" filterBy="#{item.pasaporte}">
+                <p:column sortBy="#{item.persona.pasaporte}" filterBy="#{item.persona.pasaporte}">
                     <f:facet name="header">
                         <h:outputText value="Pasaporte"/>
                     </f:facet>
-                    <h:outputText value="#{item.pasaporte}"/>
+                    <h:outputText value="#{item.persona.pasaporte}"/>
+                </p:column>
+             
+                 <p:column sortBy="#{item.telefonoFijo.numeroTelefono}" filterBy="#{item.telefonoFijo.numeroTelefono}">
+                    <f:facet name="header">
+                        <h:outputText value="Telefono Fijo"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefonoFijo.numeroTelefono}"/>
+                </p:column>
+                <p:column sortBy="#{item.telefonoCelular.numeroTelefono}" filterBy="#{item.telefonoCelular.numeroTelefono}">
+                    <f:facet name="header">
+                        <h:outputText value="Telefono Celular"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefonoCelular.numeroTelefono}"/>
                 </p:column>
              
                 <p:column headerText="Opciones" >
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       value="Editar" actionListener="#{menusOpcionesAdmMB.preEditar(menu)}" />
+                                       value="Editar" actionListener="#{personaMB.preEditar(item.persona)}"
+                                       oncomplete="PF('PersonaEditDialog').show();"
+                                       update=":PersonaEditDlg"/>
                     </div>
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                        title="Eliminar" value="Eliminar"
-                                       actionListener="#{menusOpcionesAdmMB.preEliminar(menu)}" />
+                                       actionListener="#{personaMB.preEditar(item.persona)}"
+                                        oncomplete="PF('PersonaDeleteDialog').show();"
+                                       update=":PersonaDeleteDlg"/>
                     </div>
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-document-b"
-                                       title="Opciones" value="Agregar Opciones a Menu"
-                                       onclick="dlg2.show();"
-                                       actionListener="#{menusOpcionesAdmMB.addOpciones(menu)}" />
-                    </div>
+                   
                 </p:column> 
                  
                  
