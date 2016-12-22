@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+   
+
+        <ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+            
+            <ui:define name="content">
+                <h:form id="formCrearMovilidad">
+                    <p:panelGrid>
+                        <p:column>
+                            <p:row>
+                                <p:commandButton styleClass="botton" actionListener="#" update="" process="@this :formCrearMovilidad" value="Nueva Movilidad"/>
+                            </p:row>
+                        </p:column>
+                    </p:panelGrid>
+                </h:form>
+                <h:form id="formAdmMovilidad">
+                    <p:dataTable var="movilidades" rows="15"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                        rowsPerPageTemplate="5,10,15,20" paginator="true" >
+                        <p:column headerText="Nombre movilidad" filterBy="#">
+                            <h:outputText value="#"/>
+                        </p:column>
+                        <p:column headerText="Tipo movilidad" filterBy="#">
+                            <h:outputText value="#"/>
+                        </p:column>
+                        <p:column headerText="Docente en movilidad" filterBy="#">
+                            <h:outputText value="#"/>
+                        </p:column>
+                        <p:column headerText="Facultad/Unidad beneficiada" filterBy="#">
+                            <h:outputText value="#"/>
+                        </p:column>
+                        <p:column headerText="Fecha entrada" filterBy="#">
+                            <h:outputText value="#"/>
+                        </p:column>
+                         <p:column headerText="Pais origen" filterBy="#">
+                            <h:outputText value="#"/>
+                        </p:column>
+                         <p:column headerText="Pais destino" filterBy="#">
+                            <h:outputText value="#"/>
+                        </p:column>
+                        <p:column headerText="Opciones" style="width: 15%">
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
+                                               actionListener="#">
+                                </p:commandLink>
+                            </div>
+                            
+                            <div style="float: left">
+                                 <p:commandLink styleClass="ui-icon ui-icon-search"
+                                       title="Consultar" value="Consultar"
+                                       actionListener="#" />
+                            </div> 
+                        </p:column>
+                                     
+                    </p:dataTable>
+                </h:form>
+                
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </html>

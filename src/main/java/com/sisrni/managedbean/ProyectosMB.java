@@ -278,7 +278,7 @@ public class ProyectosMB {
         tipoPersonaAsis = tipoPersonaService.getTipoPersonaByNombre("ASISTENTE DE COORDINADOR");
         tipoPersonaRefext = tipoPersonaService.getTipoPersonaByNombre("REFERENTE EXTERNO");
         //tipo facultad
-        tipoFacultad = tipoFacultadService.getTipoFacultadByNombre("INICIATICA");
+        tipoFacultad = tipoFacultadService.getTipoFacultadByNombre("INICIATIVA");
         tipoFacultadB = tipoFacultadService.getTipoFacultadByNombre("BENEFICIADA");
         //bandera
         existeSol = 0;
@@ -288,13 +288,6 @@ public class ProyectosMB {
         anio = "";
     }
 
-//    public void mostrarCampo() {
-//        if (tipoModalidadSelected.getIdTipoModalidad() == 1) {
-//            mostrarmonto = true;
-//        } else {
-//            mostrarmonto = false;
-//        }
-//    }
     public void guardarProyecto() {
         try {
             proyecto.setIdTipoProyecto(tipoProyectoService.findById(proyectoSelected.getIdTipoProyecto()));
@@ -353,6 +346,12 @@ public class ProyectosMB {
                 }
             }
             //guardar persona solicitante
+            if (numDocumentoSol != null && persona != null && !numDocumentoSol.equals("") && !persona.getEmailPersona().equals("")) {
+                persona = personaService.getReferenteInternoByDocEmail(numDocumentoSol, persona);
+                if (persona != null) {
+                    existeSol = 1;
+                }
+            }
             if (existeSol != 1) {
                 Unidad unidadSolicitante = unidadService.findById(unidadSelectedSol.getIdUnidad());
                 persona.setIdUnidad(unidadSolicitante);
@@ -376,17 +375,18 @@ public class ProyectosMB {
                 personaProyectoPK.setIdProyecto(proyecto.getIdProyecto());
 //                    personaProyectoPK.setIdTipoPersona(tipoPersonaSol.getIdTipoPersona());
 
+
                 /////////////        
                 personaProyecto.setProyecto(proyecto);
                 personaProyecto.setPersona(persona);
-//                    personaProyecto.setTipoPersona(tipoPersonaSol);
+                personaProyecto.setIdTipoPersona(tipoPersonaSol);
                 personaProyecto.setPersonaProyectoPK(personaProyectoPK);
-                personaProyectoService.save(personaProyecto);
+                proyecto.getPersonaProyectoList().add(personaProyecto);
+                proyectoService.merge(proyecto);
+                //personaProyectoService.save(personaProyecto);
             }
             //guardar persona Asistente
             if (existeAsis != 1) {
-                if (personaAsistente.getIdPersona() == null) {
-                } else {
                     Unidad unidadAsistente = unidadService.findById(unidadSelectedAsis.getIdUnidad());
                     personaAsistente.setIdUnidad(unidadAsistente);
 //                    personaAsistente.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
@@ -414,8 +414,10 @@ public class ProyectosMB {
                     personaProyectoAsis.setPersona(personaAsistente);
                     personaProyectoAsis.setIdTipoPersona(tipoPersonaAsis);
                     personaProyectoAsis.setPersonaProyectoPK(personaProyectoAsisPK);
-                    personaProyectoService.save(personaProyectoAsis);
-                }
+                    proyecto.getPersonaProyectoList().add(personaProyectoAsis);
+                    proyectoService.merge(proyecto);
+                    //personaProyectoService.save(personaProyectoAsis);
+                
             }
             //Guardar informacion de referente externo
             if (existeRefExt != 1) {
@@ -445,7 +447,9 @@ public class ProyectosMB {
                 personaProyectoExt.setPersona(personaExterna);
                 personaProyectoExt.setIdTipoPersona(tipoPersonaRefext);
                 personaProyectoExt.setPersonaProyectoPK(personaProyectoExtPK);
-                personaProyectoService.save(personaProyectoExt);
+                proyecto.getPersonaProyectoList().add(personaProyectoExt);
+                proyectoService.merge(proyecto);
+                //personaProyectoService.save(personaProyectoExt);
             }
         } catch (Exception  e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));

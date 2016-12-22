@@ -74,7 +74,7 @@ public class Proyecto implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
     private List<FacultadProyecto> facultadProyectoList=new ArrayList<FacultadProyecto>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
-    private List<PersonaProyecto> personaProyectoList;
+    private List<PersonaProyecto> personaProyectoList=new ArrayList<PersonaProyecto>();
     @JoinColumn(name = "ID_PROPUESTA_CONVENIO", referencedColumnName = "ID_PROPUESTA", nullable = false)
     @ManyToOne(optional = false)
     private PropuestaConvenio idPropuestaConvenio;
