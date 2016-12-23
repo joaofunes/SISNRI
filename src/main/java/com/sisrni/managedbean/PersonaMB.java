@@ -12,6 +12,7 @@ import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.Unidad;
+import com.sisrni.pojo.rpt.PojoPersonaTelefono;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.TelefonoService;
@@ -19,6 +20,7 @@ import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -52,6 +54,15 @@ public class PersonaMB implements Serializable{
     private List<Persona> listaPersonaExtrajera;
     private List<Persona> listaPersonaUsuario;
     private Persona selected;
+    
+    private PojoPersonaTelefono pojoPersona;
+    private List<PojoPersonaTelefono> listPojoPersona;
+    
+    private PojoPersonaTelefono pojoPersonaExtranjera;
+    private List<PojoPersonaTelefono> listPojoPersonaExtranjera;
+    
+    
+    private List<Telefono> listadoTelefono;
     
     public Persona persona;
     private TipoPersona tipoPersona;
@@ -105,14 +116,80 @@ public class PersonaMB implements Serializable{
          try {
              listadoOrganismo = organismoService.findAll();
              listadoUnidad = unidadService.findAll();
-             listadoTipoPersona = tipoPersonaService.findAll();
-             listaPersona=personaService.getPersonaList(false);
-             listaPersonaExtrajera=personaService.getPersonaList(true);
+             listadoTipoPersona = tipoPersonaService.findAll();            
+             listadoTelefono = telefonoService.findAll();
+             llenarPojoPersona(); 
+             llenarPojoPersonaExtranjera(); 
          } catch (Exception e) {
              e.printStackTrace();
          }
     }
 
+    /**
+     * Metodo para llenar pojo para personas
+     */ 
+    private void llenarPojoPersona() {
+        try {
+            listPojoPersona = new ArrayList<PojoPersonaTelefono>();
+            listaPersona=personaService.getPersonaList(false);
+            for (Persona prs : listaPersona) {
+                pojoPersona = new PojoPersonaTelefono();
+                pojoPersona.setPersona(prs);
+
+                listadoTelefono = telefonoService.getTelefonosByPersona(prs);
+
+                for (Telefono tel : listadoTelefono) {
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
+                        pojoPersona.setTelefonoFijo(tel);                      
+                    }
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
+                        pojoPersona.setTelefonoCelular(tel); 
+                    }
+                }
+
+                listPojoPersona.add(pojoPersona);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Metodo para llenar pojo para personas
+     */ 
+    private void llenarPojoPersonaExtranjera() {
+        try {
+            listPojoPersonaExtranjera = new ArrayList<PojoPersonaTelefono>();
+            listaPersonaExtrajera=personaService.getPersonaList(true);
+            for (Persona prs : listaPersonaExtrajera) {
+                pojoPersona = new PojoPersonaTelefono();
+                pojoPersona.setPersona(prs);
+
+                listadoTelefono = telefonoService.getTelefonosByPersona(prs);
+
+                for (Telefono tel : listadoTelefono) {
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
+                        pojoPersona.setTelefonoFijo(tel);                      
+                    }
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
+                        pojoPersona.setTelefonoCelular(tel); 
+                    }
+                }
+
+                listPojoPersonaExtranjera.add(pojoPersona);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     
+     public void crearPersona(){
+         try {
+              persona = new Persona();
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+     }
+     
     /**
      * Metodo para almacenar una nueva persona
      */ 
@@ -127,9 +204,34 @@ public class PersonaMB implements Serializable{
             tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
             telefonoCell.setIdTipoTelefono(tipoTelefono);
             telefonoService.save(telefonoCell);
-            
+            persona.setExtranjero(false);
             personaService.save(persona);
             
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    /**
+     * Metodo para almacenar una nueva persona extranjera
+     */ 
+    public void guardarExtranjero(){
+        try {
+            String msg = "Persona Almacenado Exitosamente!";   
+            
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoFijo);
+                    
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
+            telefonoCell.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoCell);
+            
+            persona.setExtranjero(true);
+            personaService.save(persona);
+            
+            llenarPojoPersona(); 
+             llenarPojoPersonaExtranjera(); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,15 +240,69 @@ public class PersonaMB implements Serializable{
     
     
     /**
+     * Metodo para setear persona a ser editada
+     * @param persona 
+     */
+    public void preEditar(Persona persona){
+        try {
+            this.persona=persona;
+            telefonoFijo = new Telefono();
+            telefonoCell = new Telefono();
+            List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(persona);
+            
+            for(Telefono tel: telefonosByPersona){
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)){
+                     telefonoFijo=tel;
+                }
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)){
+                     telefonoCell=tel;
+                }
+            }
+           
+        } catch (Exception e) {
+        }
+    }
+    
+    
+    /**
      * Metodo para almacenar una nueva persona
      */ 
     public void editar(){
         try {
-            String msg = "Persona Editada Exitosamente!";    
-            personaService.merge(persona);            
+            String msg = "Persona Editada Exitosamente!";  
+            telefonoService.saveOrUpdate(telefonoFijo);
+            telefonoService.saveOrUpdate(telefonoCell);
+            personaService.merge(persona);   
+            llenarPojoPersona(); 
+            llenarPojoPersonaExtranjera(); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    } 
+    
+    
+    /**
+     * Metodo para eliminar una persona
+     */ 
+    public void eliminar(){
+        try {
+            String msg = "Persona Eliminada Exitosamente!";  
+            
+            if(persona != null){
+               persona.setActivo(false);
+               personaService.merge(persona);            
+            }
+            llenarPojoPersona(); 
+            llenarPojoPersonaExtranjera(); 
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            telefonoFijo = null;
+            telefonoCell = null;
+            persona= new Persona();
         }
     } 
     
@@ -297,6 +453,49 @@ public class PersonaMB implements Serializable{
     public void setSelected(Persona selected) {
         this.selected = selected;
     }
+
+    
+    public PojoPersonaTelefono getPojoPersona() {
+        return pojoPersona;
+    }
+
+    public void setPojoPersona(PojoPersonaTelefono pojoPersona) {
+        this.pojoPersona = pojoPersona;
+    }
+
+    public PojoPersonaTelefono getPojoPersonaExtranjera() {
+        return pojoPersonaExtranjera;
+    }
+
+    public void setPojoPersonaExtranjera(PojoPersonaTelefono pojoPersonaExtranjera) {
+        this.pojoPersonaExtranjera = pojoPersonaExtranjera;
+    }
+
+    public List<Telefono> getListadoTelefono() {
+        return listadoTelefono;
+    }
+
+    public void setListadoTelefono(List<Telefono> listadoTelefono) {
+        this.listadoTelefono = listadoTelefono;
+    }
+
+    public List<PojoPersonaTelefono> getListPojoPersona() {
+        return listPojoPersona;
+    }
+
+    public void setListPojoPersona(List<PojoPersonaTelefono> listPojoPersona) {
+        this.listPojoPersona = listPojoPersona;
+    }
+
+    public List<PojoPersonaTelefono> getListPojoPersonaExtranjera() {
+        return listPojoPersonaExtranjera;
+    }
+
+    public void setListPojoPersonaExtranjera(List<PojoPersonaTelefono> listPojoPersonaExtranjera) {
+        this.listPojoPersonaExtranjera = listPojoPersonaExtranjera;
+    }
+
+    
 
     
 }

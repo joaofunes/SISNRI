@@ -6,6 +6,7 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -21,7 +22,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,14 +29,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "PROYECTO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Proyecto.findAll", query = "SELECT p FROM Proyecto p")})
 public class Proyecto implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,14 +45,18 @@ public class Proyecto implements Serializable {
     @Size(max = 300)
     @Column(name = "NOMBRE_PROYECTO", length = 300)
     private String nombreProyecto;
+    @Size(max = 300)
+    @Column(name = "OBJETIVO", length = 300)
+    private String objetivo;
+    @Size(max = 300)
+    @Column(name = "LUGAR_PROYECTO", length = 300)
+    private String lugarProyecto;
     @Column(name = "MONTO_PROYECTO")
     private Integer montoProyecto;
     @Column(name = "ANIO_GESTION")
     private Integer anioGestion;
     @Column(name = "ID_UNIDAD")
     private Integer idUnidad;
-    @Column(name = "ID_FACULTAD")
-    private Integer idFacultad;
     @Column(name = "FECHA_INICIO")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
@@ -61,24 +64,26 @@ public class Proyecto implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
     @ManyToMany(mappedBy = "proyectoList")
+    private List<AreaConocimiento> areaConocimientoList;
+    @ManyToMany(mappedBy = "proyectoList")
     private List<Estado> estadoList;
     @ManyToMany(mappedBy = "proyectoList")
-    private List<Facultad> facultadList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "proyecto")
-    private ProyectoGenerico proyectoGenerico;
+    private List<Organismo> organismoList;
     @OneToMany(mappedBy = "idProyecto")
     private List<Documento> documentoList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "proyecto")
-    private Beca beca;
-    @JoinColumn(name = "ID_PAIS_COOPERANTE", referencedColumnName = "ID_PAIS")
-    @ManyToOne
-    private Pais idPaisCooperante;
-    @JoinColumn(name = "ID_TIPO_PROYECTO", referencedColumnName = "ID_TIPO_PROYECTO")
-    @ManyToOne
-    private TipoProyecto idTipoProyecto;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
+    private List<FacultadProyecto> facultadProyectoList=new ArrayList<FacultadProyecto>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
+    private List<PersonaProyecto> personaProyectoList=new ArrayList<PersonaProyecto>();
     @JoinColumn(name = "ID_PROPUESTA_CONVENIO", referencedColumnName = "ID_PROPUESTA", nullable = false)
     @ManyToOne(optional = false)
     private PropuestaConvenio idPropuestaConvenio;
+    @JoinColumn(name = "ID_TIPO_PROYECTO", referencedColumnName = "ID_TIPO_PROYECTO")
+    @ManyToOne
+    private TipoProyecto idTipoProyecto;
+    @JoinColumn(name = "ID_PAIS_COOPERANTE", referencedColumnName = "ID_PAIS")
+    @ManyToOne
+    private Pais idPaisCooperante;
 
     public Proyecto() {
     }
@@ -101,6 +106,22 @@ public class Proyecto implements Serializable {
 
     public void setNombreProyecto(String nombreProyecto) {
         this.nombreProyecto = nombreProyecto;
+    }
+
+    public String getObjetivo() {
+        return objetivo;
+    }
+
+    public void setObjetivo(String objetivo) {
+        this.objetivo = objetivo;
+    }
+
+    public String getLugarProyecto() {
+        return lugarProyecto;
+    }
+
+    public void setLugarProyecto(String lugarProyecto) {
+        this.lugarProyecto = lugarProyecto;
     }
 
     public Integer getMontoProyecto() {
@@ -127,14 +148,6 @@ public class Proyecto implements Serializable {
         this.idUnidad = idUnidad;
     }
 
-    public Integer getIdFacultad() {
-        return idFacultad;
-    }
-
-    public void setIdFacultad(Integer idFacultad) {
-        this.idFacultad = idFacultad;
-    }
-
     public Date getFechaInicio() {
         return fechaInicio;
     }
@@ -151,6 +164,14 @@ public class Proyecto implements Serializable {
         this.fechaFin = fechaFin;
     }
 
+    public List<AreaConocimiento> getAreaConocimientoList() {
+        return areaConocimientoList;
+    }
+
+    public void setAreaConocimientoList(List<AreaConocimiento> areaConocimientoList) {
+        this.areaConocimientoList = areaConocimientoList;
+    }
+
     public List<Estado> getEstadoList() {
         return estadoList;
     }
@@ -159,20 +180,12 @@ public class Proyecto implements Serializable {
         this.estadoList = estadoList;
     }
 
-    public List<Facultad> getFacultadList() {
-        return facultadList;
+    public List<Organismo> getOrganismoList() {
+        return organismoList;
     }
 
-    public void setFacultadList(List<Facultad> facultadList) {
-        this.facultadList = facultadList;
-    }
-
-    public ProyectoGenerico getProyectoGenerico() {
-        return proyectoGenerico;
-    }
-
-    public void setProyectoGenerico(ProyectoGenerico proyectoGenerico) {
-        this.proyectoGenerico = proyectoGenerico;
+    public void setOrganismoList(List<Organismo> organismoList) {
+        this.organismoList = organismoList;
     }
 
     public List<Documento> getDocumentoList() {
@@ -183,20 +196,28 @@ public class Proyecto implements Serializable {
         this.documentoList = documentoList;
     }
 
-    public Beca getBeca() {
-        return beca;
+    public List<FacultadProyecto> getFacultadProyectoList() {
+        return facultadProyectoList;
     }
 
-    public void setBeca(Beca beca) {
-        this.beca = beca;
+    public void setFacultadProyectoList(List<FacultadProyecto> facultadProyectoList) {
+        this.facultadProyectoList = facultadProyectoList;
     }
 
-    public Pais getIdPaisCooperante() {
-        return idPaisCooperante;
+    public List<PersonaProyecto> getPersonaProyectoList() {
+        return personaProyectoList;
     }
 
-    public void setIdPaisCooperante(Pais idPaisCooperante) {
-        this.idPaisCooperante = idPaisCooperante;
+    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
+        this.personaProyectoList = personaProyectoList;
+    }
+
+    public PropuestaConvenio getIdPropuestaConvenio() {
+        return idPropuestaConvenio;
+    }
+
+    public void setIdPropuestaConvenio(PropuestaConvenio idPropuestaConvenio) {
+        this.idPropuestaConvenio = idPropuestaConvenio;
     }
 
     public TipoProyecto getIdTipoProyecto() {
@@ -207,12 +228,12 @@ public class Proyecto implements Serializable {
         this.idTipoProyecto = idTipoProyecto;
     }
 
-    public PropuestaConvenio getIdPropuestaConvenio() {
-        return idPropuestaConvenio;
+    public Pais getIdPaisCooperante() {
+        return idPaisCooperante;
     }
 
-    public void setIdPropuestaConvenio(PropuestaConvenio idPropuestaConvenio) {
-        this.idPropuestaConvenio = idPropuestaConvenio;
+    public void setIdPaisCooperante(Pais idPaisCooperante) {
+        this.idPaisCooperante = idPaisCooperante;
     }
 
     @Override

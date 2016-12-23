@@ -13,31 +13,25 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Embeddable
 public class PersonaProyectoPK implements Serializable {
-
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_PERSONA", nullable = false)
     private int idPersona;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_TIPO_PERSONA", nullable = false)
-    private int idTipoPersona;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID_PROYECTO_GENERICO", nullable = false)
-    private int idProyectoGenerico;
+    @Column(name = "ID_PROYECTO", nullable = false)
+    private int idProyecto;
 
     public PersonaProyectoPK() {
     }
 
-    public PersonaProyectoPK(int idPersona, int idTipoPersona, int idProyectoGenerico) {
+    public PersonaProyectoPK(int idPersona, int idProyecto) {
         this.idPersona = idPersona;
-        this.idTipoPersona = idTipoPersona;
-        this.idProyectoGenerico = idProyectoGenerico;
+        this.idProyecto = idProyecto;
     }
 
     public int getIdPersona() {
@@ -48,28 +42,19 @@ public class PersonaProyectoPK implements Serializable {
         this.idPersona = idPersona;
     }
 
-    public int getIdTipoPersona() {
-        return idTipoPersona;
+    public int getIdProyecto() {
+        return idProyecto;
     }
 
-    public void setIdTipoPersona(int idTipoPersona) {
-        this.idTipoPersona = idTipoPersona;
-    }
-
-    public int getIdProyectoGenerico() {
-        return idProyectoGenerico;
-    }
-
-    public void setIdProyectoGenerico(int idProyectoGenerico) {
-        this.idProyectoGenerico = idProyectoGenerico;
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) idPersona;
-        hash += (int) idTipoPersona;
-        hash += (int) idProyectoGenerico;
+        hash += (int) idProyecto;
         return hash;
     }
 
@@ -83,10 +68,7 @@ public class PersonaProyectoPK implements Serializable {
         if (this.idPersona != other.idPersona) {
             return false;
         }
-        if (this.idTipoPersona != other.idTipoPersona) {
-            return false;
-        }
-        if (this.idProyectoGenerico != other.idProyectoGenerico) {
+        if (this.idProyecto != other.idProyecto) {
             return false;
         }
         return true;
@@ -94,7 +76,7 @@ public class PersonaProyectoPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.PersonaProyectoPK[ idPersona=" + idPersona + ", idTipoPersona=" + idTipoPersona + ", idProyectoGenerico=" + idProyectoGenerico + " ]";
+        return "com.sisrni.model.PersonaProyectoPK[ idPersona=" + idPersona + ", idProyecto=" + idProyecto + " ]";
     }
     
 }

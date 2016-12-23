@@ -19,38 +19,45 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "PROVINCIA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Provincia.findAll", query = "SELECT p FROM Provincia p")})
 public class Provincia implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_PROVINCIA", nullable = false)
-    private Integer idProvincia;    
-    @Size(max = 300)
-    @Column(name = "NOMBRE_PROVINCIA", length = 300)
-    private String nombreProvincia;    
+    private Integer idProvincia;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
+    @Column(name = "NOMBRE_PROVINCIA", nullable = false, length = 300)
+    private String nombreProvincia;
+    @OneToMany(mappedBy = "idProvincia")
+    private List<Ciudad> ciudadList;
     @JoinColumn(name = "ID_PAIS", referencedColumnName = "ID_PAIS")
     @ManyToOne
     private Pais idPais;
-    @OneToMany(mappedBy = "idProvincia")
-    private List<Ciudad> ciudadList;
 
     public Provincia() {
     }
 
     public Provincia(Integer idProvincia) {
         this.idProvincia = idProvincia;
+    }
+
+    public Provincia(Integer idProvincia, String nombreProvincia) {
+        this.idProvincia = idProvincia;
+        this.nombreProvincia = nombreProvincia;
     }
 
     public Integer getIdProvincia() {
@@ -61,14 +68,12 @@ public class Provincia implements Serializable {
         this.idProvincia = idProvincia;
     }
 
-  
-
-    public Pais getIdPais() {
-        return idPais;
+    public String getNombreProvincia() {
+        return nombreProvincia;
     }
 
-    public void setIdPais(Pais idPais) {
-        this.idPais = idPais;
+    public void setNombreProvincia(String nombreProvincia) {
+        this.nombreProvincia = nombreProvincia;
     }
 
     public List<Ciudad> getCiudadList() {
@@ -77,6 +82,14 @@ public class Provincia implements Serializable {
 
     public void setCiudadList(List<Ciudad> ciudadList) {
         this.ciudadList = ciudadList;
+    }
+
+    public Pais getIdPais() {
+        return idPais;
+    }
+
+    public void setIdPais(Pais idPais) {
+        this.idPais = idPais;
     }
 
     @Override
@@ -102,14 +115,6 @@ public class Provincia implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Provincia[ idProvincia=" + idProvincia + " ]";
-    }
-
-    public String getNombreProvincia() {
-        return nombreProvincia;
-    }
-
-    public void setNombreProvincia(String nombreProvincia) {
-        this.nombreProvincia = nombreProvincia;
     }
     
 }

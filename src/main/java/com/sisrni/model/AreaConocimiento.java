@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,14 +24,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "AREA_CONOCIMIENTO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "AreaConocimiento.findAll", query = "SELECT a FROM AreaConocimiento a")})
 public class AreaConocimiento implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +42,11 @@ public class AreaConocimiento implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "NOMBRE_AREA", nullable = false, length = 100)
     private String nombreArea;
-    @ManyToMany(mappedBy = "areaConocimientoList")
-    private List<ProyectoGenerico> proyectoGenericoList;
+    @JoinTable(name = "PROYECTO_AREA", joinColumns = {
+        @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")})
+    @ManyToMany
+    private List<Proyecto> proyectoList;
 
     public AreaConocimiento() {
     }
@@ -72,12 +76,12 @@ public class AreaConocimiento implements Serializable {
         this.nombreArea = nombreArea;
     }
 
-    public List<ProyectoGenerico> getProyectoGenericoList() {
-        return proyectoGenericoList;
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
     }
 
-    public void setProyectoGenericoList(List<ProyectoGenerico> proyectoGenericoList) {
-        this.proyectoGenericoList = proyectoGenericoList;
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
     }
 
     @Override

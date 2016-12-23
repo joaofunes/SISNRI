@@ -16,26 +16,25 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "PERSONA_MOVILIDAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PersonaMovilidad.findAll", query = "SELECT p FROM PersonaMovilidad p")})
 public class PersonaMovilidad implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PersonaMovilidadPK personaMovilidadPK;
-    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Persona persona;
-    @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Movilidad movilidad;
     @JoinColumn(name = "ID_TIPO_PERSONA", referencedColumnName = "ID_TIPO_PERSONA")
     @ManyToOne
     private TipoPersona idTipoPersona;
+    @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD", nullable = false, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Movilidad movilidad;
+    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA", nullable = false, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Persona persona;
 
     public PersonaMovilidad() {
     }
@@ -56,12 +55,12 @@ public class PersonaMovilidad implements Serializable {
         this.personaMovilidadPK = personaMovilidadPK;
     }
 
-    public Persona getPersona() {
-        return persona;
+    public TipoPersona getIdTipoPersona() {
+        return idTipoPersona;
     }
 
-    public void setPersona(Persona persona) {
-        this.persona = persona;
+    public void setIdTipoPersona(TipoPersona idTipoPersona) {
+        this.idTipoPersona = idTipoPersona;
     }
 
     public Movilidad getMovilidad() {
@@ -72,12 +71,12 @@ public class PersonaMovilidad implements Serializable {
         this.movilidad = movilidad;
     }
 
-    public TipoPersona getIdTipoPersona() {
-        return idTipoPersona;
+    public Persona getPersona() {
+        return persona;
     }
 
-    public void setIdTipoPersona(TipoPersona idTipoPersona) {
-        this.idTipoPersona = idTipoPersona;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     @Override

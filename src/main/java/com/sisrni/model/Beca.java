@@ -7,6 +7,7 @@ package com.sisrni.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,116 +21,111 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "BECA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Beca.findAll", query = "SELECT b FROM Beca b")})
 public class Beca implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID_BECAS", nullable = false)
-    private Integer idBecas;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID_REGION_DESTINO", nullable = false)
-    private int idRegionDestino;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID_PAIS_DESTINO", nullable = false)
-    private int idPaisDestino;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "CARRERA", nullable = false, length = 100)
-    private String carrera;
-    @Column(name = "ID_PERSONA")
-    private Integer idPersona;
+    @Column(name = "ID_BECA", nullable = false)
+    private Integer idBeca;
+    @Column(name = "ID_PAIS_COOPERANTE")
+    private Integer idPaisCooperante;
+    @Column(name = "ID_PAIS_DESTINO")
+    private Integer idPaisDestino;
+    @Column(name = "ANIO_GESTION")
+    private Integer anioGestion;
+    @Column(name = "FECHA_INICIO")
+    @Temporal(TemporalType.DATE)
+    private Date fechaInicio;
+    @Column(name = "FECHA_FIN")
+    @Temporal(TemporalType.DATE)
+    private Date fechaFin;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "MONTO_INTERNO", precision = 13, scale = 2)
     private BigDecimal montoInterno;
-    @Column(name = "OTORGADO")
-    private Boolean otorgado;
     @Column(name = "MONTO_EXTERNO", precision = 13, scale = 2)
     private BigDecimal montoExterno;
+    @Column(name = "MONTO_TOTAL", precision = 13, scale = 2)
+    private BigDecimal montoTotal;
+    @Column(name = "OTORGADA")
+    private Short otorgada;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
     private List<PersonaBeca> personaBecaList;
-    @JoinColumn(name = "ID_MODALIDAD", referencedColumnName = "ID_TIPO_MODALIDAD")
+    @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
-    private TipoModalidaBeca idModalidad;
+    private Organismo idUniversidad;
     @JoinColumn(name = "ID_PROGRAMA_BECA", referencedColumnName = "ID_PROGRAMA")
     @ManyToOne
     private ProgramaBeca idProgramaBeca;
-    @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
+    @JoinColumn(name = "ID_TIPO_MODALIDAD", referencedColumnName = "ID_TIPO_MODALIDAD")
     @ManyToOne
-    private Organismo idOrganismo;
-    @JoinColumn(name = "ID_BECAS", referencedColumnName = "ID_PROYECTO", nullable = false, insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Proyecto proyecto;
+    private TipoModalidaBeca idTipoModalidad;
 
     public Beca() {
     }
 
-    public Beca(Integer idBecas) {
-        this.idBecas = idBecas;
+    public Beca(Integer idBeca) {
+        this.idBeca = idBeca;
     }
 
-    public Beca(Integer idBecas, int idRegionDestino, int idPaisDestino, String carrera) {
-        this.idBecas = idBecas;
-        this.idRegionDestino = idRegionDestino;
-        this.idPaisDestino = idPaisDestino;
-        this.carrera = carrera;
+    public Integer getIdBeca() {
+        return idBeca;
     }
 
-    public Integer getIdBecas() {
-        return idBecas;
+    public void setIdBeca(Integer idBeca) {
+        this.idBeca = idBeca;
     }
 
-    public void setIdBecas(Integer idBecas) {
-        this.idBecas = idBecas;
+    public Integer getIdPaisCooperante() {
+        return idPaisCooperante;
     }
 
-    public int getIdRegionDestino() {
-        return idRegionDestino;
+    public void setIdPaisCooperante(Integer idPaisCooperante) {
+        this.idPaisCooperante = idPaisCooperante;
     }
 
-    public void setIdRegionDestino(int idRegionDestino) {
-        this.idRegionDestino = idRegionDestino;
-    }
-
-    public int getIdPaisDestino() {
+    public Integer getIdPaisDestino() {
         return idPaisDestino;
     }
 
-    public void setIdPaisDestino(int idPaisDestino) {
+    public void setIdPaisDestino(Integer idPaisDestino) {
         this.idPaisDestino = idPaisDestino;
     }
 
-    public String getCarrera() {
-        return carrera;
+    public Integer getAnioGestion() {
+        return anioGestion;
     }
 
-    public void setCarrera(String carrera) {
-        this.carrera = carrera;
+    public void setAnioGestion(Integer anioGestion) {
+        this.anioGestion = anioGestion;
     }
 
-    public Integer getIdPersona() {
-        return idPersona;
+    public Date getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setIdPersona(Integer idPersona) {
-        this.idPersona = idPersona;
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     public BigDecimal getMontoInterno() {
@@ -140,20 +136,28 @@ public class Beca implements Serializable {
         this.montoInterno = montoInterno;
     }
 
-    public Boolean getOtorgado() {
-        return otorgado;
-    }
-
-    public void setOtorgado(Boolean otorgado) {
-        this.otorgado = otorgado;
-    }
-
     public BigDecimal getMontoExterno() {
         return montoExterno;
     }
 
     public void setMontoExterno(BigDecimal montoExterno) {
         this.montoExterno = montoExterno;
+    }
+
+    public BigDecimal getMontoTotal() {
+        return montoTotal;
+    }
+
+    public void setMontoTotal(BigDecimal montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+
+    public Short getOtorgada() {
+        return otorgada;
+    }
+
+    public void setOtorgada(Short otorgada) {
+        this.otorgada = otorgada;
     }
 
     public List<PersonaBeca> getPersonaBecaList() {
@@ -164,12 +168,12 @@ public class Beca implements Serializable {
         this.personaBecaList = personaBecaList;
     }
 
-    public TipoModalidaBeca getIdModalidad() {
-        return idModalidad;
+    public Organismo getIdUniversidad() {
+        return idUniversidad;
     }
 
-    public void setIdModalidad(TipoModalidaBeca idModalidad) {
-        this.idModalidad = idModalidad;
+    public void setIdUniversidad(Organismo idUniversidad) {
+        this.idUniversidad = idUniversidad;
     }
 
     public ProgramaBeca getIdProgramaBeca() {
@@ -180,26 +184,18 @@ public class Beca implements Serializable {
         this.idProgramaBeca = idProgramaBeca;
     }
 
-    public Organismo getIdOrganismo() {
-        return idOrganismo;
+    public TipoModalidaBeca getIdTipoModalidad() {
+        return idTipoModalidad;
     }
 
-    public void setIdOrganismo(Organismo idOrganismo) {
-        this.idOrganismo = idOrganismo;
-    }
-
-    public Proyecto getProyecto() {
-        return proyecto;
-    }
-
-    public void setProyecto(Proyecto proyecto) {
-        this.proyecto = proyecto;
+    public void setIdTipoModalidad(TipoModalidaBeca idTipoModalidad) {
+        this.idTipoModalidad = idTipoModalidad;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idBecas != null ? idBecas.hashCode() : 0);
+        hash += (idBeca != null ? idBeca.hashCode() : 0);
         return hash;
     }
 
@@ -210,7 +206,7 @@ public class Beca implements Serializable {
             return false;
         }
         Beca other = (Beca) object;
-        if ((this.idBecas == null && other.idBecas != null) || (this.idBecas != null && !this.idBecas.equals(other.idBecas))) {
+        if ((this.idBeca == null && other.idBeca != null) || (this.idBeca != null && !this.idBeca.equals(other.idBeca))) {
             return false;
         }
         return true;
@@ -218,7 +214,7 @@ public class Beca implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.Beca[ idBecas=" + idBecas + " ]";
+        return "com.sisrni.model.Beca[ idBeca=" + idBeca + " ]";
     }
     
 }

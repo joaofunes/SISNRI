@@ -17,27 +17,29 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
 @Entity
 @Table(name = "CIUDAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Ciudad.findAll", query = "SELECT c FROM Ciudad c")})
 public class Ciudad implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_CIUDAD", nullable = false)
     private Integer idCiudad;
-    @Size(max = 300)
-    @Column(name = "NOMBRE_CIUDAD", length = 300)
-    private String nombreCiudad;    
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
+    @Column(name = "NOMBRE_CIUDAD", nullable = false, length = 300)
+    private String nombreCiudad;
     @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_PROVINCIA")
     @ManyToOne
     private Provincia idProvincia;
@@ -49,12 +51,25 @@ public class Ciudad implements Serializable {
         this.idCiudad = idCiudad;
     }
 
+    public Ciudad(Integer idCiudad, String nombreCiudad) {
+        this.idCiudad = idCiudad;
+        this.nombreCiudad = nombreCiudad;
+    }
+
     public Integer getIdCiudad() {
         return idCiudad;
     }
 
     public void setIdCiudad(Integer idCiudad) {
         this.idCiudad = idCiudad;
+    }
+
+    public String getNombreCiudad() {
+        return nombreCiudad;
+    }
+
+    public void setNombreCiudad(String nombreCiudad) {
+        this.nombreCiudad = nombreCiudad;
     }
 
     public Provincia getIdProvincia() {
@@ -88,14 +103,6 @@ public class Ciudad implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Ciudad[ idCiudad=" + idCiudad + " ]";
-    }
-
-    public String getNombreCiudad() {
-        return nombreCiudad;
-    }
-
-    public void setNombreCiudad(String nombreCiudad) {
-        this.nombreCiudad = nombreCiudad;
     }
     
 }

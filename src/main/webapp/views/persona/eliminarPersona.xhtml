@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html  template="/WEB-INF/templates/layout.xhtml"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+    <ui:composition>
+        <p:dialog id="PersonaDeleteDlg" widgetVar="PersonaDeleteDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creacion Persona" closeOnEscape="true">
+            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
+
+            <h:form id="formDeletePersona">
+                <center> 
+                    <h:panelGrid columns="2" >
+                        <p:column>  
+                            <p:outputLabel for="idNombrePersona" value="Nombre Persona" />
+                        </p:column>                                         
+                        <p:column>                                                                                                                                                                                             
+                            <p:outputLabel id="idNombrePersona"  value="#{personaMB.persona.nombrePersona}"/>                                                                  
+                        </p:column>
+
+                        <p:column>  
+                            <p:outputLabel for="idApellido" value="Apellido Persona" />
+                        </p:column>                                         
+                        <p:column> 
+                            <p:outputLabel id="idApellido" value="#{personaMB.persona.apellidoPersona}"/>                          
+                        </p:column>
+
+                        <p:column> 
+                            <p:outputLabel for="dui" value="DUI" />
+                        </p:column> 
+                        <p:column> 
+                            <p:outputLabel id="dui" value="#{personaMB.persona.duiPersona}"/>                           
+                        </p:column> 
+
+                        <p:column>  
+                            <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
+                        </p:column>      
+                        <p:column> 
+                            <p:outputLabel id="email" value="#{personaMB.persona.emailPersona}"/>                                                           
+                        </p:column>    
+
+                        <p:column>  
+                            <p:outputLabel for="idTelefonoCellEx" value="Tel&eacute;no Celular" />
+                        </p:column>                                         
+                        <p:column> 
+                            <p:outputLabel id="idTelefonoCellEx" value="#{personaMB.telefonoFijo.numeroTelefono}" />                                                                               
+                        </p:column>                               
+                        <p:column>  
+                            <p:outputLabel for="idTelefonoFijoEx" value="Tel&eacute;no Fijo" />
+                        </p:column>                                         
+                        <p:column> 
+                            <p:outputLabel id="idTelefonoFijoEx" value="#{personaMB.telefonoCell.numeroTelefono}" />                                               
+                        </p:column>                               
+                        
+                         <p:column>
+                            <p:outputLabel for="idCargo" value="Cargo" />
+                        </p:column>                                         
+                        <p:column> 
+                            <p:outputLabel id="idCargo" value="#{personaMB.persona.cargoPersona}"/>
+                        </p:column> 
+                        
+                        <p:column>  
+                            <p:outputLabel for="idUnidads" value="Unidad" />
+                        </p:column>                                         
+                        <p:column>   
+                            <p:outputLabel id="idUnidads" value="#{personaMB.persona.idUnidad.nombreUnidad}"/>                            
+                        </p:column>
+                        <p:column>  
+                            <p:outputLabel for="idOrganismo" value="Organismo" />
+                        </p:column>                                         
+                        <p:column>
+                            <p:outputLabel id="idOrganismo" value="#{personaMB.persona.idOrganismo.nombreOrganismo}"/>                                                                                                          
+                        </p:column>
+
+                        <p:column> 
+                            <p:commandButton value="Eliminar" id="idGuardarPersona" actionListener="#{personaMB.eliminar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaDeleteDialog').close();" />
+                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('PersonaDeleteDialog').close();" />
+                        </p:column>
+
+
+                    </h:panelGrid>
+
+                </center>    
+            </h:form>  
+
+        </p:dialog>
+
+        <script type="text/javascript">
+            /**
+             * Faces Validator
+             */
+            PrimeFaces.validator['custom.emailValidator'] = {
+                pattern: /\S+@\S+/,
+                validate: function (element, value) {
+                    //use element.data() to access validation metadata, in this case there is none.
+                    if (!this.pattern.test(value)) {
+                        throw {
+                            summary: 'Validation Error',
+                            detail: value + ' is not a valid email.'
+                        }
+                    }
+                }
+            };
+        </script>
+
+
+
+
+    </ui:composition>
+</html>
