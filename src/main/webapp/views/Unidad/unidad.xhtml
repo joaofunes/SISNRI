@@ -62,10 +62,10 @@
                     <p:dataTable var="unidad" value="#{unidadMB.listUnidad}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen unidades registrados actualmente" >                       
-                        <p:column headerText="Unidad"  filterBy="#{unidad.nombre}">
+                        <p:column headerText="Nombre Unidad"  filterBy="#{unidad.nombre}"  style="width: 20%">
                             <h:outputText value="#{unidad.nombre}"/>
                         </p:column>
-                        <p:column headerText="Descripcion"  style="width: 15%">
+                        <p:column headerText="Descripcion"  filterBy="#{unidad.descripcion}">
                             <h:outputText value="#{unidad.descripcion}"/>
                         </p:column>
                         <p:column headerText="Facultad" filterBy="#{unidad.idFacultad.nombreFacultad}">
