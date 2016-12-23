@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.sisrni.model;
 
 import java.io.Serializable;
@@ -16,25 +17,26 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "FACULTAD_PROYECTO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "FacultadProyecto.findAll", query = "SELECT f FROM FacultadProyecto f")})
 public class FacultadProyecto implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected FacultadProyectoPK facultadProyectoPK;
-    @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "ID_FACULTAD_UNIDAD", referencedColumnName = "ID_FACULTAD_UNIDAD", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Facultad facultad;
+    private FacultadUnidad facultadUnidad;
     @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Proyecto proyecto;
-    @JoinColumn(name = "ID_TIPO_FACULTAD", referencedColumnName = "ID_TIPO_FACULTAD")
-    @ManyToOne
-    private TipoFacultad idTipoFacultad;
+    @JoinColumn(name = "ID_TIPO_FACULTAD", referencedColumnName = "ID_TIPO_FACULTAD", nullable = false, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private TipoFacultad tipoFacultad;
 
     public FacultadProyecto() {
     }
@@ -43,8 +45,8 @@ public class FacultadProyecto implements Serializable {
         this.facultadProyectoPK = facultadProyectoPK;
     }
 
-    public FacultadProyecto(int idFacultad, int idProyecto) {
-        this.facultadProyectoPK = new FacultadProyectoPK(idFacultad, idProyecto);
+    public FacultadProyecto(int idFacultadUnidad, int idProyecto, int idTipoFacultad) {
+        this.facultadProyectoPK = new FacultadProyectoPK(idFacultadUnidad, idProyecto, idTipoFacultad);
     }
 
     public FacultadProyectoPK getFacultadProyectoPK() {
@@ -55,12 +57,12 @@ public class FacultadProyecto implements Serializable {
         this.facultadProyectoPK = facultadProyectoPK;
     }
 
-    public Facultad getFacultad() {
-        return facultad;
+    public FacultadUnidad getFacultadUnidad() {
+        return facultadUnidad;
     }
 
-    public void setFacultad(Facultad facultad) {
-        this.facultad = facultad;
+    public void setFacultadUnidad(FacultadUnidad facultadUnidad) {
+        this.facultadUnidad = facultadUnidad;
     }
 
     public Proyecto getProyecto() {
@@ -71,12 +73,12 @@ public class FacultadProyecto implements Serializable {
         this.proyecto = proyecto;
     }
 
-    public TipoFacultad getIdTipoFacultad() {
-        return idTipoFacultad;
+    public TipoFacultad getTipoFacultad() {
+        return tipoFacultad;
     }
 
-    public void setIdTipoFacultad(TipoFacultad idTipoFacultad) {
-        this.idTipoFacultad = idTipoFacultad;
+    public void setTipoFacultad(TipoFacultad tipoFacultad) {
+        this.tipoFacultad = tipoFacultad;
     }
 
     @Override
@@ -103,5 +105,5 @@ public class FacultadProyecto implements Serializable {
     public String toString() {
         return "com.sisrni.model.FacultadProyecto[ facultadProyectoPK=" + facultadProyectoPK + " ]";
     }
-    
+
 }

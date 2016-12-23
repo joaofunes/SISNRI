@@ -13,33 +13,39 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Embeddable
 public class FacultadProyectoPK implements Serializable {
+
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_FACULTAD", nullable = false)
-    private int idFacultad;
+    @Column(name = "ID_FACULTAD_UNIDAD", nullable = false)
+    private int idFacultadUnidad;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_PROYECTO", nullable = false)
     private int idProyecto;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID_TIPO_FACULTAD", nullable = false)
+    private int idTipoFacultad;
 
     public FacultadProyectoPK() {
     }
 
-    public FacultadProyectoPK(int idFacultad, int idProyecto) {
-        this.idFacultad = idFacultad;
+    public FacultadProyectoPK(int idFacultadUnidad, int idProyecto, int idTipoFacultad) {
+        this.idFacultadUnidad = idFacultadUnidad;
         this.idProyecto = idProyecto;
+        this.idTipoFacultad = idTipoFacultad;
     }
 
-    public int getIdFacultad() {
-        return idFacultad;
+    public int getIdFacultadUnidad() {
+        return idFacultadUnidad;
     }
 
-    public void setIdFacultad(int idFacultad) {
-        this.idFacultad = idFacultad;
+    public void setIdFacultadUnidad(int idFacultadUnidad) {
+        this.idFacultadUnidad = idFacultadUnidad;
     }
 
     public int getIdProyecto() {
@@ -50,11 +56,20 @@ public class FacultadProyectoPK implements Serializable {
         this.idProyecto = idProyecto;
     }
 
+    public int getIdTipoFacultad() {
+        return idTipoFacultad;
+    }
+
+    public void setIdTipoFacultad(int idTipoFacultad) {
+        this.idTipoFacultad = idTipoFacultad;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) idFacultad;
+        hash += (int) idFacultadUnidad;
         hash += (int) idProyecto;
+        hash += (int) idTipoFacultad;
         return hash;
     }
 
@@ -65,10 +80,13 @@ public class FacultadProyectoPK implements Serializable {
             return false;
         }
         FacultadProyectoPK other = (FacultadProyectoPK) object;
-        if (this.idFacultad != other.idFacultad) {
+        if (this.idFacultadUnidad != other.idFacultadUnidad) {
             return false;
         }
         if (this.idProyecto != other.idProyecto) {
+            return false;
+        }
+        if (this.idTipoFacultad != other.idTipoFacultad) {
             return false;
         }
         return true;
@@ -76,7 +94,7 @@ public class FacultadProyectoPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.FacultadProyectoPK[ idFacultad=" + idFacultad + ", idProyecto=" + idProyecto + " ]";
+        return "com.sisrni.model.FacultadProyectoPK[ idFacultadUnidad=" + idFacultadUnidad + ", idProyecto=" + idProyecto + ", idTipoFacultad=" + idTipoFacultad + " ]";
     }
     
 }

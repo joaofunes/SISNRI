@@ -25,14 +25,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "PERSONA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")})
 public class Persona implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,20 +49,26 @@ public class Persona implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "APELLIDO_PERSONA", nullable = false, length = 60)
     private String apellidoPersona;
-    @Size(max = 30)
-    @Column(name = "EMAIL_PERSONA", length = 30)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
+    @Column(name = "EMAIL_PERSONA", nullable = false, length = 30)
     private String emailPersona;
-    @Size(max = 10)
-    @Column(name = "DUI_PERSONA", length = 10)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = "DUI_PERSONA", nullable = false, length = 10)
     private String duiPersona;
     @Size(max = 17)
     @Column(name = "NIT_PERSONA", length = 17)
     private String nitPersona;
-    @Size(max = 60)
-    @Column(name = "CARGO_PERSONA", length = 60)
+    @Size(max = 100)
+    @Column(name = "CARGO_PERSONA", length = 100)
     private String cargoPersona;
-    @Size(max = 60)
-    @Column(name = "PASAPORTE", length = 60)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
+    @Column(name = "PASAPORTE", nullable = false, length = 30)
     private String pasaporte;
     @Basic(optional = false)
     @NotNull
@@ -70,14 +76,19 @@ public class Persona implements Serializable {
     private boolean extranjero;
     @Column(name = "ID_CARRERA")
     private Integer idCarrera;
-    @Column(name = "ID_FACULTAD")
-    private Integer idFacultad;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ACTIVO", nullable = false)
+    private boolean activo;
+    @JoinColumn(name = "ID_ESCUELA_DEPTO", referencedColumnName = "ID_ESCUELA_DEPTO")
+    @ManyToOne
+    private EscuelaDepartamento idEscuelaDepto;
+    @JoinColumn(name = "ID_FACULTAD_UNIDAD", referencedColumnName = "ID_FACULTAD_UNIDAD")
+    @ManyToOne
+    private FacultadUnidad idFacultadUnidad;
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
-    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
-    @ManyToOne
-    private Unidad idUnidad;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaPropuesta> personaPropuestaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
@@ -88,12 +99,7 @@ public class Persona implements Serializable {
     private List<PersonaBeca> personaBecaList;
     @OneToMany(mappedBy = "idPersona")
     private List<Telefono> telefonoList;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ACTIVO", nullable = false)
-    private boolean activo;
-    
+
     public Persona() {
     }
 
@@ -101,11 +107,15 @@ public class Persona implements Serializable {
         this.idPersona = idPersona;
     }
 
-    public Persona(Integer idPersona, String nombrePersona, String apellidoPersona, boolean extranjero) {
+    public Persona(Integer idPersona, String nombrePersona, String apellidoPersona, String emailPersona, String duiPersona, String pasaporte, boolean extranjero, boolean activo) {
         this.idPersona = idPersona;
         this.nombrePersona = nombrePersona;
         this.apellidoPersona = apellidoPersona;
+        this.emailPersona = emailPersona;
+        this.duiPersona = duiPersona;
+        this.pasaporte = pasaporte;
         this.extranjero = extranjero;
+        this.activo = activo;
     }
 
     public Integer getIdPersona() {
@@ -188,12 +198,28 @@ public class Persona implements Serializable {
         this.idCarrera = idCarrera;
     }
 
-    public Integer getIdFacultad() {
-        return idFacultad;
+    public boolean getActivo() {
+        return activo;
     }
 
-    public void setIdFacultad(Integer idFacultad) {
-        this.idFacultad = idFacultad;
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public EscuelaDepartamento getIdEscuelaDepto() {
+        return idEscuelaDepto;
+    }
+
+    public void setIdEscuelaDepto(EscuelaDepartamento idEscuelaDepto) {
+        this.idEscuelaDepto = idEscuelaDepto;
+    }
+
+    public FacultadUnidad getIdFacultadUnidad() {
+        return idFacultadUnidad;
+    }
+
+    public void setIdFacultadUnidad(FacultadUnidad idFacultadUnidad) {
+        this.idFacultadUnidad = idFacultadUnidad;
     }
 
     public Organismo getIdOrganismo() {
@@ -202,14 +228,6 @@ public class Persona implements Serializable {
 
     public void setIdOrganismo(Organismo idOrganismo) {
         this.idOrganismo = idOrganismo;
-    }
-
-    public Unidad getIdUnidad() {
-        return idUnidad;
-    }
-
-    public void setIdUnidad(Unidad idUnidad) {
-        this.idUnidad = idUnidad;
     }
 
     public List<PersonaPropuesta> getPersonaPropuestaList() {
@@ -275,14 +293,6 @@ public class Persona implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Persona[ idPersona=" + idPersona + " ]";
-    }
-
-    public boolean getActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
     }
     
 }

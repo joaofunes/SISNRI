@@ -16,13 +16,14 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "PERSONA_PROYECTO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PersonaProyecto.findAll", query = "SELECT p FROM PersonaProyecto p")})
 public class PersonaProyecto implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PersonaProyectoPK personaProyectoPK;

@@ -8,7 +8,7 @@ package com.sisrni.service;
 import com.sisrni.dao.FacultadDao;
 import com.sisrni.dao.generic.GenericDao;
 
-import com.sisrni.model.Facultad;
+import com.sisrni.model.FacultadUnidad;
 import com.sisrni.service.generic.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,13 @@ import org.springframework.stereotype.Service;
  * @author Joao
  */
 @Service(value = "facultadService")
-public class FacultadService extends GenericService<Facultad, Integer> {
+public class FacultadService extends GenericService<FacultadUnidad, Integer> {
     
     @Autowired
     private FacultadDao facultadDao;
 
     @Override
-    public GenericDao<Facultad, Integer> getDao() {
+    public GenericDao<FacultadUnidad, Integer> getDao() {
        return facultadDao;
     }
     

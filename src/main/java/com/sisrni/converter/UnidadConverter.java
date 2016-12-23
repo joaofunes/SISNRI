@@ -5,7 +5,7 @@
  */
 package com.sisrni.converter;
 
-import com.sisrni.model.Unidad;
+import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.service.UnidadService;
 import com.sisrni.utils.JsfUtil;
 import java.util.logging.Level;
@@ -42,12 +42,12 @@ public class UnidadConverter implements Converter {
         if(value != null && value.trim().length() > 0 && !value.equalsIgnoreCase("null")) {
             try {
                 Integer key = getKey(value);
-                Unidad findById = this.unidadService.findById(key);                 
+                EscuelaDepartamento findById = this.unidadService.findById(key);                 
                return findById;
             } catch(NumberFormatException e) {
                 e.printStackTrace();
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
-            }
+            } 
         }
         else {
             return null;
@@ -63,11 +63,11 @@ public class UnidadConverter implements Converter {
                 || (object instanceof String && ((String) object).length() == 0)) {
             return null;
         }
-        if (object instanceof Unidad) {
-            Unidad o = (Unidad) object;
-            return getStringKey(o.getIdUnidad());
+        if (object instanceof EscuelaDepartamento) {
+            EscuelaDepartamento o = (EscuelaDepartamento) object;
+            return getStringKey(o.getIdEscuelaDepto());
         } else {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Unidad.class.getName()});
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), EscuelaDepartamento.class.getName()});
             return null;
         }
     }
