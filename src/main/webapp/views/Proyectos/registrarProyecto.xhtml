@@ -186,8 +186,7 @@
                                             <p:outputLabel value="Correo Electronico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}"/>
-                                            <p:commandButton actionListener="#{proyectosMB.searchByDocEmailInterno()}" id="idBtnSearchInSol" process="@this,duisolicitante,correosolicitante" update="nombresolicitante,apellidosolicitante,cargosolicitante,facultadsolicitante,unidadsolicitante,telefonosolicitante,faxsolicitante" icon="ui-icon-search" title="Buscar"/>                                       
+                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}"/>                                       
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -237,13 +236,19 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Telefono:"/>
+                                            <p:outputLabel value="Telefono Fijo:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999"/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Telefono Celuluar:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="celuluarsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}"/>
+                                        </p:column>
                                         <p:column>
                                             <p:outputLabel value="Fax:"/>
                                         </p:column>
@@ -253,7 +258,7 @@
                                     </p:row>
                                 </p:panelGrid> 
                             </p:tab>
-                            <p:tab title="Datos de Asistente t&oacute;cnico del proyecto" >
+                            <p:tab title="Datos de Asistente t&eacute;cnico del proyecto" >
                                 <p:panelGrid columns="4">
                                     <p:column>
                                         <p:outputLabel value="Dui:"/>
@@ -265,20 +270,19 @@
                                         <p:outputLabel value="Correo Electronico:"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}"/>
-                                        <p:commandButton actionListener="#{proyectosMB.searchByDocEmailAsistente()}" id="idBtnSearchInAsis" process="@this,duiasistente,correoasistente" update="nombreasistente,apellidoasistente,cargoasistente,facultadasistente,unidadasis,telefonoasistente,faxasistente" icon="ui-icon-search" title="Buscar Persona"/>                                       
+                                        <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}"/>                                       
                                     </p:column> 
                                     <p:column>
                                         <p:outputLabel value="Nombre:"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}"/>
+                                        <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" required="false"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Apellido:"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}"/>
+                                        <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" required="false"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Cargo:"/>
@@ -310,11 +314,17 @@
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="Telefono:"/>
+                                        <p:outputLabel value="Telefono Fijo:"/>
                                     </p:column>
                                     <p:column>
                                         <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-9999-9999"/>
                                     </p:column>
+                                    <p:column>
+                                            <p:outputLabel value="Telefono Celuluar:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="celuluarasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}"/>
+                                        </p:column>
                                     <p:column>
                                         <p:outputLabel value="Fax:"/>
                                     </p:column>
@@ -335,8 +345,7 @@
                                         <p:outputLabel value="Correo Electronico:"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}"/>
-                                        <p:commandButton actionListener="#{proyectosMB.searchByDocEmailReferenteExterno()}" id="idBtnSearchInRefExt" process="@this,pasaporteexterna,correoexterna" update="nombreexterna,apellidoexterna,cargoexterna,unidadext,telefonoexterna,faxexterna" icon="ui-icon-search" title="Buscar Persona"/>                                       
+                                        <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}"/>                                       
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Nombre:"/>
@@ -368,11 +377,17 @@
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="Telefono:"/>
+                                        <p:outputLabel value="Telefono Fijo:"/>
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="telefonoexterna" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" />
                                     </p:column>
+                                    <p:column>
+                                            <p:outputLabel value="Telefono Celuluar:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="celuluarexterno" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}"/>
+                                        </p:column>
                                     <p:column>
                                         <p:outputLabel value="Fax:"/>
                                     </p:column>

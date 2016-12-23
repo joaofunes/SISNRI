@@ -350,6 +350,12 @@ public class ProyectosMB {
                 persona = personaService.getReferenteInternoByDocEmail(numDocumentoSol, persona);
                 if (persona != null) {
                     existeSol = 1;
+                    persona.setIdUnidad(unidadSelectedSol);
+                    personaProyectoService.updatePersonaProyecto(persona.getIdPersona(), proyecto.getIdProyecto(), tipoPersonaSol.getIdTipoPersona());
+                    personaService.merge(persona);
+                    telefonoService.merge(telefonoSolFijo);
+                    telefonoService.merge(telefonoSolCel);
+                    telefonoService.merge(telefonoSolFax);
                 }
             }
             if (existeSol != 1) {
