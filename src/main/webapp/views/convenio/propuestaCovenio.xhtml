@@ -63,7 +63,7 @@
                                            <p:outputLabel for="idUnidad" value="Unidad" />
                                        </p:column>
                                        <p:column>
-                                           <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombre}"/>
+                                           <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombreUnidad}"/>
                                            <p:message for="idUnidad" />
                                            <p:watermark for="idUnidad" value="Unidad" id="watermarkUnion" />
                                        </p:column>
@@ -143,7 +143,7 @@
                                             <p:outputLabel for="idUnidadInterno" value="Unidad" />
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="idUnidadInterno"  required="true" readonly="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombre}"/>
+                                            <p:inputText id="idUnidadInterno"  required="true" readonly="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombreUnidad}"/>
                                             <p:watermark for="idUnidadInterno" value="Unidad" id="watermarkuni" />
                                             <p:message for="idUnidadInterno" />
                                         </p:column>
@@ -425,7 +425,7 @@
                                     <p:column>                                         
                                         <p:selectOneMenu id="idUnidad"  value="#{propuestaConvenioMB.personaEdit.idUnidad}" effect="fade" converter="#{unidadConverter}" required="true">                                           
                                             <f:selectItem itemLabel="Unidad" itemValue="null" noSelectionOption="true" />  
-                                            <f:selectItems value="#{propuestaConvenioMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad}"/>  
+                                            <f:selectItems value="#{propuestaConvenioMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombreUnidad}" itemValue="#{unidad}"/>  
                                         </p:selectOneMenu>    
                                    </p:column>
                                    <p:column>  
