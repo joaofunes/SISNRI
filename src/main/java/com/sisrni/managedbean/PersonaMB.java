@@ -270,11 +270,19 @@ public class PersonaMB implements Serializable{
     public void editar(){
         try {
             String msg = "Persona Editada Exitosamente!";  
+            
+            telefonoFijo.setIdPersona(persona);            
+            telefonoFijo.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));           
             telefonoService.saveOrUpdate(telefonoFijo);
+            
+            telefonoCell.setIdPersona(persona);            
+            telefonoCell.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));           
             telefonoService.saveOrUpdate(telefonoCell);
+            
             personaService.merge(persona);   
             llenarPojoPersona(); 
             llenarPojoPersonaExtranjera(); 
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
         } catch (Exception e) {
             e.printStackTrace();
@@ -290,7 +298,7 @@ public class PersonaMB implements Serializable{
             String msg = "Persona Eliminada Exitosamente!";  
             
             if(persona != null){
-               persona.setActivo(false);
+               persona.setActivo(Boolean.FALSE);
                personaService.merge(persona);            
             }
             llenarPojoPersona(); 
