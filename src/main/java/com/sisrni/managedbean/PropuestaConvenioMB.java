@@ -135,10 +135,10 @@ public class PropuestaConvenioMB implements Serializable{
     private Persona referenteExterno;
     
     private Telefono telFijoInterno;
-    private Telefono faxInterno;
+    private Telefono telCelularInterno;
     
     private Telefono telFijoExterno;
-    private Telefono faxExterno;
+    private Telefono telCelularExterno;
       
     private CurrentUserSessionBean user;
     private AppUserDetails usuario;
@@ -202,9 +202,9 @@ public class PropuestaConvenioMB implements Serializable{
             referenteInterno = new Persona();
             referenteExterno = new Persona();
             telFijoInterno = new Telefono();
-            faxInterno = new Telefono();
+            telCelularInterno = new Telefono();
             telFijoExterno = new Telefono(); 
-            faxExterno = new Telefono(); 
+            telCelularExterno = new Telefono(); 
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
             personaEdit = new Persona();
@@ -276,6 +276,16 @@ public class PropuestaConvenioMB implements Serializable{
          
         return filteredThemes;
     }
+     
+     
+     public void completeBusquedaDui(String query) {
+        
+         try {
+             System.err.println("test"+numDocumentoInterno);
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    }
     
      
      
@@ -318,7 +328,7 @@ public class PropuestaConvenioMB implements Serializable{
                     telFijoInterno= us;
                 }
                 if(us.getIdTipoTelefono().getNombre().equals(FAX)){
-                    faxInterno= us;
+                    telCelularInterno= us;
                 }                
             }             
         } catch (Exception e) {
@@ -383,7 +393,7 @@ public class PropuestaConvenioMB implements Serializable{
                     telFijoExterno= us;
                 }
                 if(us.getIdTipoTelefono().getNombre().equals(FAX)){
-                    faxExterno= us;
+                    telCelularExterno= us;
                 }                
             }             
         } catch (Exception e) {
@@ -661,12 +671,12 @@ public class PropuestaConvenioMB implements Serializable{
         this.telFijoInterno = telFijoInterno;
     }
 
-    public Telefono getFaxInterno() {
-        return faxInterno;
+    public Telefono getTelCelularInterno() {
+        return telCelularInterno;
     }
 
-    public void setFaxInterno(Telefono faxInterno) {
-        this.faxInterno = faxInterno;
+    public void setTelCelularInterno(Telefono telCelularInterno) {
+        this.telCelularInterno = telCelularInterno;
     }
 
     public Telefono getTelFijoExterno() {
@@ -677,12 +687,12 @@ public class PropuestaConvenioMB implements Serializable{
         this.telFijoExterno = telFijoExterno;
     }
 
-    public Telefono getFaxExterno() {
-        return faxExterno;
+    public Telefono getTelCelularExterno() {
+        return telCelularExterno;
     }
 
-    public void setFaxExterno(Telefono faxExterno) {
-        this.faxExterno = faxExterno;
+    public void setTelCelularExterno(Telefono telCelularExterno) {
+        this.telCelularExterno = telCelularExterno;
     }
 
     public List<Persona> getListadoPersonasExterno() {
