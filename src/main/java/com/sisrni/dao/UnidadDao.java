@@ -6,7 +6,7 @@
 package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
-import com.sisrni.model.Unidad;
+import com.sisrni.model.EscuelaDepartamento;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,14 +18,14 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository(value = "unidadDao")
-public class UnidadDao extends GenericDao<Unidad, Integer>  {
+public class UnidadDao extends GenericDao<EscuelaDepartamento, Integer>  {
     
     
     //retorna la lista de unidades perteneciente a una facultad
-    public List<Unidad> getUnidadesByFacultadId(Integer id){
-        Query q =getSessionFactory().getCurrentSession().createQuery("FROM Unidad u WHERE u.idFacultad.idFacultad = :id");
+    public List<EscuelaDepartamento> getUnidadesByFacultadId(Integer id){
+        Query q =getSessionFactory().getCurrentSession().createQuery("FROM EscuelaDepartamento u WHERE u.idFacultadUnidad.idFacultadUnidad = :id");
         q.setParameter("id",id);
-        List<Unidad> lista= q.list();
+        List<EscuelaDepartamento> lista= q.list();
         return q.list();        
    }
 }

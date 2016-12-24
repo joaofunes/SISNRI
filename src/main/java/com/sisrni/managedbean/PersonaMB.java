@@ -11,7 +11,7 @@ import com.sisrni.model.Persona;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoTelefono;
-import com.sisrni.model.Unidad;
+import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.pojo.rpt.PojoPersonaTelefono;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
@@ -47,7 +47,7 @@ public class PersonaMB implements Serializable{
     private static final String CELULAR="CELULAR";
     
     private List<Organismo> listadoOrganismo;
-    private List<Unidad> listadoUnidad;
+    private List<EscuelaDepartamento> listadoUnidad;
     private List<TipoPersona> listadoTipoPersona;
     
     private List<Persona> listaPersona;
@@ -366,11 +366,11 @@ public class PersonaMB implements Serializable{
         this.persona = persona;
     }
 
-    public List<Unidad> getListadoUnidad() {
+    public List<EscuelaDepartamento> getListadoUnidad() {
         return listadoUnidad;
     }
 
-    public void setListadoUnidad(List<Unidad> listadoUnidad) {
+    public void setListadoUnidad(List<EscuelaDepartamento> listadoUnidad) {
         this.listadoUnidad = listadoUnidad;
     }
 

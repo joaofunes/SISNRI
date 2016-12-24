@@ -22,13 +22,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "TIPO_MODALIDA_BECA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "TipoModalidaBeca.findAll", query = "SELECT t FROM TipoModalidaBeca t")})
 public class TipoModalidaBeca implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +41,6 @@ public class TipoModalidaBeca implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "MODALIDAD", nullable = false, length = 50)
     private String modalidad;
-    @Column(name = "MONTO")
-    private Long monto;
     @OneToMany(mappedBy = "idTipoModalidad")
     private List<Beca> becaList;
 
@@ -71,14 +70,6 @@ public class TipoModalidaBeca implements Serializable {
 
     public void setModalidad(String modalidad) {
         this.modalidad = modalidad;
-    }
-
-    public Long getMonto() {
-        return monto;
-    }
-
-    public void setMonto(Long monto) {
-        this.monto = monto;
     }
 
     public List<Beca> getBecaList() {

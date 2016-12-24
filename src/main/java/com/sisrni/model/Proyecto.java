@@ -6,7 +6,6 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -29,13 +28,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "PROYECTO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Proyecto.findAll", query = "SELECT p FROM Proyecto p")})
 public class Proyecto implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,14 +45,14 @@ public class Proyecto implements Serializable {
     @Size(max = 300)
     @Column(name = "NOMBRE_PROYECTO", length = 300)
     private String nombreProyecto;
-    @Size(max = 300)
-    @Column(name = "OBJETIVO", length = 300)
+    @Size(max = 500)
+    @Column(name = "OBJETIVO", length = 500)
     private String objetivo;
-    @Size(max = 300)
-    @Column(name = "LUGAR_PROYECTO", length = 300)
+    @Size(max = 100)
+    @Column(name = "LUGAR_PROYECTO", length = 100)
     private String lugarProyecto;
     @Column(name = "MONTO_PROYECTO")
-    private Integer montoProyecto;
+    private Long montoProyecto;
     @Column(name = "ANIO_GESTION")
     private Integer anioGestion;
     @Column(name = "ID_UNIDAD")
@@ -72,11 +72,11 @@ public class Proyecto implements Serializable {
     @OneToMany(mappedBy = "idProyecto")
     private List<Documento> documentoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
-    private List<FacultadProyecto> facultadProyectoList=new ArrayList<FacultadProyecto>();
+    private List<FacultadProyecto> facultadProyectoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
-    private List<PersonaProyecto> personaProyectoList=new ArrayList<PersonaProyecto>();
-    @JoinColumn(name = "ID_PROPUESTA_CONVENIO", referencedColumnName = "ID_PROPUESTA", nullable = false)
-    @ManyToOne(optional = false)
+    private List<PersonaProyecto> personaProyectoList;
+    @JoinColumn(name = "ID_PROPUESTA_CONVENIO", referencedColumnName = "ID_PROPUESTA")
+    @ManyToOne
     private PropuestaConvenio idPropuestaConvenio;
     @JoinColumn(name = "ID_TIPO_PROYECTO", referencedColumnName = "ID_TIPO_PROYECTO")
     @ManyToOne
@@ -124,11 +124,11 @@ public class Proyecto implements Serializable {
         this.lugarProyecto = lugarProyecto;
     }
 
-    public Integer getMontoProyecto() {
+    public Long getMontoProyecto() {
         return montoProyecto;
     }
 
-    public void setMontoProyecto(Integer montoProyecto) {
+    public void setMontoProyecto(Long montoProyecto) {
         this.montoProyecto = montoProyecto;
     }
 

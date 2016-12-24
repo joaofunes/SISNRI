@@ -29,13 +29,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "MOVILIDAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Movilidad.findAll", query = "SELECT m FROM Movilidad m")})
 public class Movilidad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,13 +60,22 @@ public class Movilidad implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "VIATICOS", precision = 13, scale = 2)
     private BigDecimal viaticos;
-    @Size(max = 100)
-    @Column(name = "OTROS_BENEFICIADOS", length = 100)
+    @Size(max = 300)
+    @Column(name = "OTROS_BENEFICIADOS", length = 300)
     private String otrosBeneficiados;
     @Column(name = "ENTREGA_DE_INFORME")
     private Boolean entregaDeInforme;
+    @Column(name = "PAGO_DE_CURSO", precision = 13, scale = 2)
+    private BigDecimal pagoDeCurso;
+    @Column(name = "VOLETO_AEREO", precision = 13, scale = 2)
+    private BigDecimal voletoAereo;
+    @Column(name = "FECHA_ENTREGA_MINED")
+    @Temporal(TemporalType.DATE)
+    private Date fechaEntregaMined;
+    @Column(name = "OBSEQUIO")
+    private Boolean obsequio;
     @ManyToMany(mappedBy = "movilidadList")
-    private List<Facultad> facultadList;
+    private List<FacultadUnidad> facultadUnidadList;
     @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID_CATEGORIA_MOVILIDAD")
     @ManyToOne
     private CategoriaMovilidad idCategoria;
@@ -168,12 +178,44 @@ public class Movilidad implements Serializable {
         this.entregaDeInforme = entregaDeInforme;
     }
 
-    public List<Facultad> getFacultadList() {
-        return facultadList;
+    public BigDecimal getPagoDeCurso() {
+        return pagoDeCurso;
     }
 
-    public void setFacultadList(List<Facultad> facultadList) {
-        this.facultadList = facultadList;
+    public void setPagoDeCurso(BigDecimal pagoDeCurso) {
+        this.pagoDeCurso = pagoDeCurso;
+    }
+
+    public BigDecimal getVoletoAereo() {
+        return voletoAereo;
+    }
+
+    public void setVoletoAereo(BigDecimal voletoAereo) {
+        this.voletoAereo = voletoAereo;
+    }
+
+    public Date getFechaEntregaMined() {
+        return fechaEntregaMined;
+    }
+
+    public void setFechaEntregaMined(Date fechaEntregaMined) {
+        this.fechaEntregaMined = fechaEntregaMined;
+    }
+
+    public Boolean getObsequio() {
+        return obsequio;
+    }
+
+    public void setObsequio(Boolean obsequio) {
+        this.obsequio = obsequio;
+    }
+
+    public List<FacultadUnidad> getFacultadUnidadList() {
+        return facultadUnidadList;
+    }
+
+    public void setFacultadUnidadList(List<FacultadUnidad> facultadUnidadList) {
+        this.facultadUnidadList = facultadUnidadList;
     }
 
     public CategoriaMovilidad getIdCategoria() {

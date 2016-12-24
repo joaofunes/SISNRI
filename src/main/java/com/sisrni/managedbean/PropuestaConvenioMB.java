@@ -6,14 +6,14 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Estado;
-import com.sisrni.model.Facultad;
+import com.sisrni.model.FacultadUnidad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.PersonaPropuestaPK;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
-import com.sisrni.model.Unidad;
+import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.PropuestaEstado;
 import com.sisrni.model.PropuestaEstadoPK;
@@ -116,7 +116,7 @@ public class PropuestaConvenioMB implements Serializable{
     private List<Persona> listadoPersonasExterno;
     
     private List<Organismo> listadoOrganismo;
-    private List<Unidad> listadoUnidad;
+    private List<EscuelaDepartamento> listadoUnidad;
     private List<TipoPersona> listadoTipoPersona;
     
     private List<Telefono> listadoTelefonoReferenteInterno;
@@ -196,8 +196,8 @@ public class PropuestaConvenioMB implements Serializable{
     public void inicializador() {
          try {  
             solicitante= new Persona();
-            solicitante.setIdUnidad(new Unidad());
-            solicitante.getIdUnidad().setIdFacultad(new Facultad());
+            solicitante.setIdEscuelaDepto(new EscuelaDepartamento());
+            solicitante.getIdEscuelaDepto().setIdFacultadUnidad(new FacultadUnidad());
             propuestaConvenioTemp = new PropuestaConvenio();
             referenteInterno = new Persona();
             referenteExterno = new Persona();
@@ -767,11 +767,11 @@ public class PropuestaConvenioMB implements Serializable{
         this.listadoOrganismo = listadoOrganismo;
     }
 
-    public List<Unidad> getListadoUnidad() {
+    public List<EscuelaDepartamento> getListadoUnidad() {
         return listadoUnidad;
     }
 
-    public void setListadoUnidad(List<Unidad> listadoUnidad) {
+    public void setListadoUnidad(List<EscuelaDepartamento> listadoUnidad) {
         this.listadoUnidad = listadoUnidad;
     }
 

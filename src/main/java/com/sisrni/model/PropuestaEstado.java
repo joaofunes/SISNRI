@@ -22,13 +22,14 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "PROPUESTA_ESTADO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PropuestaEstado.findAll", query = "SELECT p FROM PropuestaEstado p")})
 public class PropuestaEstado implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PropuestaEstadoPK propuestaEstadoPK;

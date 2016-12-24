@@ -8,6 +8,7 @@ package com.sisrni.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,13 +21,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "TIPO_FACULTAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "TipoFacultad.findAll", query = "SELECT t FROM TipoFacultad t")})
 public class TipoFacultad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -35,13 +37,13 @@ public class TipoFacultad implements Serializable {
     private Integer idTipoFacultad;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "NOMBRE_TIPO_FACULTAD", nullable = false, length = 50)
+    @Size(min = 1, max = 25)
+    @Column(name = "NOMBRE_TIPO_FACULTAD", nullable = false, length = 25)
     private String nombreTipoFacultad;
     @Size(max = 100)
     @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
-    @OneToMany(mappedBy = "idTipoFacultad")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoFacultad")
     private List<FacultadProyecto> facultadProyectoList;
 
     public TipoFacultad() {

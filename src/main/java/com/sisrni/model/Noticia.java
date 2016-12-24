@@ -24,21 +24,22 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "NOTICIA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Noticia.findAll", query = "SELECT n FROM Noticia n")})
 public class Noticia implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_NOTICIA", nullable = false)
     private Integer idNoticia;
-    @Size(max = 100)
-    @Column(name = "TITULO_NOTICIA", length = 100)
+    @Size(max = 200)
+    @Column(name = "TITULO_NOTICIA", length = 200)
     private String tituloNoticia;
     @Column(name = "FECHA_NOTICIA")
     @Temporal(TemporalType.DATE)

@@ -24,13 +24,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "AREA_CONOCIMIENTO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "AreaConocimiento.findAll", query = "SELECT a FROM AreaConocimiento a")})
 public class AreaConocimiento implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,8 +44,8 @@ public class AreaConocimiento implements Serializable {
     @Column(name = "NOMBRE_AREA", nullable = false, length = 100)
     private String nombreArea;
     @JoinTable(name = "PROYECTO_AREA", joinColumns = {
-        @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO")}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")})
+        @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
     @ManyToMany
     private List<Proyecto> proyectoList;
 
