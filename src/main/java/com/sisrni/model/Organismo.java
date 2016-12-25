@@ -25,27 +25,28 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "ORGANISMO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Organismo.findAll", query = "SELECT o FROM Organismo o")})
 public class Organismo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_ORGANISMO", nullable = false)
     private Integer idOrganismo;
-    @Size(max = 100)
-    @Column(name = "NOMBRE_ORGANISMO", length = 100)
+    @Size(max = 200)
+    @Column(name = "NOMBRE_ORGANISMO", length = 200)
     private String nombreOrganismo;
     @Size(max = 60)
     @Column(name = "CORREO_ORGANISMO", length = 60)
     private String correoOrganismo;
-    @Size(max = 100)
-    @Column(name = "DIRECCION_ORGANISMO", length = 100)
+    @Size(max = 150)
+    @Column(name = "DIRECCION_ORGANISMO", length = 150)
     private String direccionOrganismo;
     @Column(name = "CODIGO_POSTAL")
     private Integer codigoPostal;
@@ -58,8 +59,8 @@ public class Organismo implements Serializable {
     @Column(name = "ID_CUIDAD")
     private Integer idCuidad;
     @JoinTable(name = "PROYECTO_ORGANISMO", joinColumns = {
-        @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")})
+        @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
     @ManyToMany
     private List<Proyecto> proyectoList;
     @JoinColumn(name = "ID_TIPO_ORGANISMO", referencedColumnName = "ID_TIPO_ORGANISMO")

@@ -24,13 +24,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "PROVINCIA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Provincia.findAll", query = "SELECT p FROM Provincia p")})
 public class Provincia implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,8 +40,8 @@ public class Provincia implements Serializable {
     private Integer idProvincia;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
-    @Column(name = "NOMBRE_PROVINCIA", nullable = false, length = 300)
+    @Size(min = 1, max = 100)
+    @Column(name = "NOMBRE_PROVINCIA", nullable = false, length = 100)
     private String nombreProvincia;
     @OneToMany(mappedBy = "idProvincia")
     private List<Ciudad> ciudadList;

@@ -2,460 +2,506 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition  template="/WEB-INF/templates/layout.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:pe="http://primefaces.org/ui/extensions" 
-    >
-                    
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:pe="http://primefaces.org/ui/extensions" 
+                 >
+
     <ui:define name="content">
-             <ui:include src="../persona/crearPersona.xhtml" />
-             <ui:include src="../persona/editPersona.xhtml" />
-        
-            <h:form id="formAdmin">
-                <center> 
-                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('').show();"/>
-                    <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoExterno" update=":formEditPersonas"  actionListener="#{propuestaConvenioMB.preEditarPropuestaExterno}"  />
-                    <p:commandButton id="createButtonInterno" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
-                    <p:commandButton id="editButtonInterno" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoInterno" update=":formEditPersonas"  action="#{propuestaConvenioMB.preEditarPropuestaInterno}"/>
-                                
-       
-                           <p:panel style="width: 100%" id="idpanelSolcitante" header="Datos del Solicitante" >  
-                               <p:panelGrid >                           
-                                   <p:row>
-                                       <p:column>
-                                          <p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" />
-                                       </p:column>
-                                  
-                                        <p:column  colspan="3">
-                                            <p:inputText id="idSolicinateNombre"  required="true" label="Nombre" value="#{propuestaConvenioMB.solicitante.nombrePersona}" style="width:450px"/>
-                                            <p:message for="idSolicinateNombre" />   
-                                            <p:watermark for="idSolicinateNombre" value="Nombre Solicitante" id="watermarkNameSol" />                                           
-                                        </p:column>
-                                   </p:row>                                                                       
-                                   <p:row>
-                                       <p:column>
-                                           <p:outputLabel for="idSolicinateNombreAuto" value="Nombre Solicitante" />                                       
-                                       </p:column>
+        <ui:include src="../persona/crearPersona.xhtml" />
+        <ui:include src="../persona/editPersona.xhtml" />
 
-                                       <p:column colspan="3">
-                                           <p:autoComplete id="idSolicinateNombreAuto" value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeSolicitante}" style="width:450px"
-                                                           var="solicitud" itemLabel="#{solicitud.nombrePersona}" itemValue="#{solicitud}" converter="#{personaConverter}" scrollHeight="250">
-                                               <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameSolicitante()}" process="@this,idSolicinateNombre" update="idFacultad,idUnidad,idCargo"/>
-                                           </p:autoComplete> 
-                                           <p:message for="idSolicinateNombreAuto" />  
-                                           <p:watermark for="idSolicinateNombreAuto" value="Digite Nombre Solicitante" id="watermarkNameSol2" /> 
-                                       </p:column>
+        <h:form id="formAdmin">
+            <center> 
+                <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('').show();"/>
+                <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoExterno" update=":formEditPersonas"  actionListener="#{propuestaConvenioMB.preEditarPropuestaExterno}"  />
+                <p:commandButton id="createButtonInterno" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
+                <p:commandButton id="editButtonInterno" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoInterno" update=":formEditPersonas"  action="#{propuestaConvenioMB.preEditarPropuestaInterno}"/>
 
-                                   </p:row>                                                                      
-                                   <p:row>
-                                       <p:column>
-                                           <p:outputLabel for="idFacultad" value="Facultad" />
-                                       </p:column>
-                                       <p:column>
-                                           <p:inputText id="idFacultad"  required="true" label="Facultad" value="#{propuestaConvenioMB.solicitante.idUnidad.idFacultad.nombreFacultad}"/>
-                                           <p:message for="idFacultad" />
-                                           <p:watermark for="idFacultad" value="Facultad" id="watermarkFacultad" />
-                                       </p:column>
-                                       <p:column>
-                                           <p:outputLabel for="idUnidad" value="Unidad" />
-                                       </p:column>
-                                       <p:column>
-                                           <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombre}"/>
-                                           <p:message for="idUnidad" />
-                                           <p:watermark for="idUnidad" value="Unidad" id="watermarkUnion" />
-                                       </p:column>
-                                   </p:row>
 
-                                   <p:row>
-                                       <p:column>
-                                           <p:outputLabel for="idCargo" value="Cargo Solicitante" />
-                                       </p:column>
-                                       <p:column>
-                                            <p:inputText id="idCargo"  required="true" label="cargo" value="#{propuestaConvenioMB.solicitante.cargoPersona}"/>
-                                            <p:message for="idCargo" />
-                                            <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
-                                       </p:column>
-                                       <p:column>
-                                           
-                                       </p:column>
-                                       <p:column>
-                                           
-                                       </p:column>
-                                   </p:row>   
+                <p:panel  id="idpanelSolcitante" header="Datos del Solicitante" style="margin-bottom:20px">  
+                    <p:panelGrid >                           
 
-                               </p:panelGrid>                               
-                           </p:panel> 
-                           
-                    <p:panel id="idpanelRefInter" header="Datos Solicitante Interno" style="margin-bottom:20px">                          
-                                
-                                <p:panelGrid>                           
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:autoComplete id="idSolicinateNombreInterno" value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
-                                                            var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" scrollHeight="250">
-                                                <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameInterno()}" process="@this,idSolicinateNombreInterno" update="idFacultadInterno,idUnidadInterno,formAdmin"/>
-                                            </p:autoComplete> 
-                                            <p:watermark for="idSolicinateNombreInterno" value="Ingrese Nombre Solicitante" id="solNomb2" />
-                                            <p:message for="idSolicinateNombreInterno" />
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idDocumentoInterno" value="N&deg; Documento" />     
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="idDocumentoInterno"  required="true"  value="#{propuestaConvenioMB.numDocumentoInterno}"/>
-                                            <p:message for="idDocumentoInterno" />
-                                            <p:watermark for="idDocumentoInterno" value="N&deg; Documento" id="watermarkNDocumento" />  
-                                        </p:column>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idSolicinateNombreAuto" value="Buscar por Nombre Solicitante" />                                       
+                            </p:column>
 
-                                        <p:column>
-                                            <p:outputLabel for="email" value="Correo Electr&oacute;nico" />     
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="email"  required="true" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
-                                                <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                                            </p:inputText>
-                                            <p:message for="email" display="tooltip" />  
-                                            <p:watermark for="email" value="correo@email.com" id="watermarkEmail" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" process="@this idDocumentoInterno email" id="idBtnSearchInByEmail" icon="ui-icon-search" title="Buscar referente interno" />
-                                        </p:column>
+                            <p:column colspan="3">
+                                <p:autoComplete id="idSolicinateNombreAuto" value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeSolicitante}" style="width:450px"
+                                                var="solicitud" itemLabel="#{solicitud.nombrePersona}" itemValue="#{solicitud}" converter="#{personaConverter}" scrollHeight="250">
+                                    <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameSolicitante()}" process="@this,idSolicinateNombre" update="idFacultad,idUnidad,idCargo"/>
+                                </p:autoComplete> 
+                                <p:message for="idSolicinateNombreAuto" />  
+                                <p:watermark for="idSolicinateNombreAuto" value="Digite Nombre Solicitante" id="watermarkNameSol2" /> 
+                            </p:column>
 
-                                    </p:row>   
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idFacultadInterno" value="Facultad" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="idFacultadInterno"  required="true" readonly="true" label="Facultad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.idFacultad.nombreFacultad}"/>
-                                            <p:watermark for="idFacultadInterno" value="Facultad" id="watermarkFac" />
-                                            <p:message for="idFacultadInterno" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel for="idUnidadInterno" value="Unidad" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="idUnidadInterno"  required="true" readonly="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombre}"/>
-                                            <p:watermark for="idUnidadInterno" value="Unidad" id="watermarkuni" />
-                                            <p:message for="idUnidadInterno" />
-                                        </p:column>
-                                    </p:row>   
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="idCargoInterno"  required="true" label="cargo" readonly="true" value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
-                                            <p:watermark for="idCargoInterno" value="Cargo" id="waterCargo" />
-                                            <p:message for="idCargoInterno" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel for="idTelefonoInterno" value="Tel&eacute;fono " />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="idTelefonoInterno" required="true" readonly="true" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}"/>
-                                            <p:watermark for="idTelefonoInterno" value="xxxx-xxxx" id="waterTelef" /> 
-                                            <p:message for="idTelefonoInterno" />
-                                        </p:column>
-                                    </p:row>   
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idFaxInterno" value="Fax" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="idFaxInterno" required="true"  readonly="true" value="#{propuestaConvenioMB.faxInterno.numeroTelefono}"/> 
-                                            <p:watermark for="idFaxInterno" value="xxxx-xxxx" id="waterfax" /> 
-                                            <p:message for="idFaxInterno" />
-                                        </p:column>
-                                    </p:row>
-                                </p:panelGrid>        
+                        </p:row>  
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" />
+                            </p:column>
+
+                            <p:column  >
+                                <p:inputText id="idSolicinateNombre"  required="true" label="Nombre" value="#{propuestaConvenioMB.solicitante.nombrePersona}" />
+                                <p:message for="idSolicinateNombre" />   
+                                <p:watermark for="idSolicinateNombre" value="Nombre Solicitante" id="watermarkNameSol" />                                           
+                            </p:column>
+
+                            <p:column>
+                                <p:outputLabel for="idSolicinateApellido" value="Apellido Solicitante" />
+                            </p:column>
+
+                            <p:column >
+                                <p:inputText id="idSolicinateApellido"  required="true" label="Apellido" value="#{propuestaConvenioMB.solicitante.apellidoPersona}" />
+                                <p:message for="idSolicinateApellido" />   
+                                <p:watermark for="idSolicinateApellido" value="Apellido Solicitante"  />                                           
+                            </p:column>
+                        </p:row>                                                                       
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idFacultad" value="Facultad" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idFacultad"  required="true" label="Facultad" value="#{propuestaConvenioMB.solicitante.idUnidad.idFacultad.nombreFacultad}"/>
+                                <p:message for="idFacultad" />
+                                <p:watermark for="idFacultad" value="Facultad" id="watermarkFacultad" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="idUnidad" value="Unidad" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombreUnidad}"/>
+                                <p:message for="idUnidad" />
+                                <p:watermark for="idUnidad" value="Unidad" id="watermarkUnion" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idCargo" value="Cargo Solicitante" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idCargo"  required="true" label="cargo" value="#{propuestaConvenioMB.solicitante.cargoPersona}"/>
+                                <p:message for="idCargo" />
+                                <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
+                            </p:column>
+                            <p:column>
+
+                            </p:column>
+                            <p:column>
+
+                            </p:column>
+                        </p:row>   
+
+                    </p:panelGrid>                               
+                </p:panel> 
+
+                <p:panel id="idpanelRefInter" header="Datos Solicitante Interno" style="margin-bottom:20px">                          
+
+                    <p:panelGrid>                           
+                        <p:row>
+                            
+                            <p:column>
+                                <p:outputLabel for="idDocumentoInterno" value="N&deg; DUI" />     
+                            </p:column>
+                            <p:column>
                                
-                         </p:panel> 
-                        <p:panel  id="idpanelRefEx" header="Datos Solicitante Externo" style="margin-bottom:20px"> 
-
-                                <p:panelGrid>                           
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idNombreExterno" value="Nombre" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:autoComplete id="idNombreExterno" value="#{propuestaConvenioMB.referenteExterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteExterno}"
-                                                            var="externo" itemLabel="#{externo.nombrePersona}" itemValue="#{externo}" converter="#{personaConverter}" scrollHeight="250">
-                                                <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameExterno()}" process="@this,idNombreExterno" update="formAdmin"/>
-                                            </p:autoComplete>                                       
-                                            <p:message for="idNombreExterno" />
-                                            <p:watermark for="idNombreExterno" value="Ingrese Nombre Solicitante" id="idNombreExterno2" /> 
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idDocumentoExterno" value="N&deg; Documento" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="idDocumentoExterno"  required="true" label="c" value="#{propuestaConvenioMB.numDocumentoExterno}"/>
-                                            <p:message for="idDocumentoExterno" />
-                                            <p:watermark for="idDocumentoExterno" value="N&deg; Documento" id="waterNDoc" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="emailExterno" required="true" value="#{propuestaConvenioMB.referenteExterno.emailPersona}">
-                                                <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                                            </p:inputText>
-                                            <p:message for="emailExterno" display="tooltip" />  
-                                            <p:watermark for="emailExterno" value="correo@email.com" id="waterCorreo" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailExterno}" process="@this idDocumentoExterno emailExterno" id="idBtnSearchExByEmail" icon="ui-icon-search" title="Buscar referente interno" />
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idCargoExterno" value="Cargo" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="idCargoExterno" readonly="true" label="cargo" value="#{propuestaConvenioMB.referenteExterno.cargoPersona}"/>
-                                            <p:watermark for="idCargoExterno" value="Cargo" id="waterCargoEx" />
-                                            <p:message for="idCargoExterno" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel for="idEntidadInstitucion" value="Entidad o Instituci&oacute;n" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="idEntidadInstitucion"  readonly="true" label="Entidad o institucion" value="#{propuestaConvenioMB.referenteExterno.idOrganismo.nombreOrganismo}"/>
-                                            <p:watermark for="idEntidadInstitucion" value="Entidad o Institucion" id="waterentidad_inst" />
-                                            <p:message for="idEntidadInstitucion" />
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idTelefonoExterno" value="Tel&eacute;fono " />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputMask id="idTelefonoExterno" readonly="true" mask="9999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" required="true"/>
-                                            <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
-                                            <p:message for="idTelefonoExterno" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel for="idFaxExterno" value="Fax" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputMask id="idFaxExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.faxExterno.numeroTelefono}" required="true"/>
-                                            <p:watermark for="idFaxExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
-                                            <p:message for="idFaxExterno" />
-                                        </p:column>
-                                    </p:row>
-
-                                </p:panelGrid>   
+                                <p:autoComplete id="idSolicinateNombreInternostets" minQueryLength="8" value="#{propuestaConvenioMB.numDocumentoInterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"/>
+                                  
+                                
+                                    <p:inputMask id="idDocumentoInterno"   autocomplete="" value="#{propuestaConvenioMB.numDocumentoInterno}" mask="99999999-9">
+                                       <p:ajax event="keyup" listener="#{propuestaConvenioMB.completeBusquedaDui()}" process="@this,idDocumentoInterno" update="idFacultadInterno,idUnidadInterno,formAdmin"/>
+                                    </p:inputMask>    
+                                    <p:watermark for="idDocumentoInterno" value="99999999-9" id="watermarkDui" />
+                                    <p:message for="idDocumentoInterno" /> 
+                                                               
+                            </p:column>
+                            
+                            <p:column>
+                                <p:outputLabel for="idSolicinateNombreInternos" value="Busqueda Nombre Solicitante" />
+                            </p:column>
+                            <p:column>
+                                <p:autoComplete id="idSolicinateNombreInternos"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
+                                                var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" scrollHeight="250">
+                                    <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameInterno()}" process="@this,idSolicinateNombreInterno" update="idFacultadInterno,idUnidadInterno,formAdmin"/>
+                                </p:autoComplete> 
+                                <p:watermark for="idSolicinateNombreInternos" value="Ingrese Nombre Solicitante" id="solNomb2" />
+                                <p:message for="idSolicinateNombreInternos" />
+                            </p:column>
 
 
-                            </p:panel>
-                 <h:panelGroup id="fileUploadGroup" >    
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
+                            </p:column>
+                            <p:column>                                            
 
-                             <p:panel  id="idPanelProp" header="Datos de Propuesta" style="margin-bottom:20px"> 
-                                 
-                                 
-                                  <p:panelGrid>                           
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" />
-                                        </p:column>
-                                        <p:column>
-                                             <p:selectOneMenu id="idTipoPropuesta"  required="true" value="#{propuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >                                            
-                                             <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="fileUploadGroup"  process="@this" />
-                                            <f:selectItem itemValue="#{null}" itemLabel="Seleccione Tipo Propuesta" noSelectionOption="true" />                                            
-                                            <f:selectItems value="#{propuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />       
-                                        </p:selectOneMenu>
-                                        <p:message for="idTipoPropuesta" />  
-                                        </p:column>
-                                         <p:column>
-                                             <p:outputLabel rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idNamePropuesta" value="Convenio"  />
-                                        </p:column>
-                                         <p:column>
-                                            <p:selectOneMenu rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{propuestaConvenioConverter}"  style="width:160px" >                                              
-                                              <f:selectItem itemValue="#{null}" itemLabel="Seleccione Convenio" noSelectionOption="true" />                                            
-                                              <f:selectItems value="#{propuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
-                                           </p:selectOneMenu>
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idNombrePropuesta" value="Nombre de Propuesta" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{propuestaConvenioMB.propuestaConvenio.nombrePropuesta}"/>
-                                            <p:message for="idNombrePropuesta" />
-                                            <p:watermark for="idNombrePropuesta" value="Nombre Propuesta" id="nameProp" />
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel for="idDescripcionPropuesta" value="Descripci&oacute;n" />
-                                        </p:column>
-                                        <p:column>
-                                             <p:inputText id="idDescripcionPropuesta"  required="true" label="descripcion" value="#{propuestaConvenioMB.propuestaConvenio.finalidadPropuesta}"/>
-                                            <p:message for="idDescripcionPropuesta" /> 
-                                            <p:watermark for="idDescripcionPropuesta" value="Descripcion" id="descripcionProp" />
-                                        </p:column>
-                                    </p:row>
-                                 </p:panelGrid> 
-                                 
-                                 <table style="width:80%" > 
-                                   
-                                    <tfoot>                                        
-                                        <tr align="right"> 
-                                            <td></td>
-                                            <td></td>
-                                            <td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.guardarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Guardar"  id="btnGuardar" icon="ui-icon-disk" title="Guardar Propuesta Convenio" /></td>                                 
-                                            <td colspan="3"><p:commandButton rendered="#{propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.actualizarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Actualizar"  id="btnActualizar" icon="ui-icon-diskbtnGuardar" title="Actualizar Propuesta Convenio" /></td>                                 
-                                            <td colspan="3"><p:commandButton  rendered="#{propuestaConvenioMB.flagEdicion}"  actionListener="#{propuestaConvenioMB.volver()}" process="formAdmin" update="formAdmin" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
-                                        </tr>
-                                    </tfoot>
-                                </table>    
-                              
-                             </p:panel>
-                   </h:panelGroup>
-               
-                </center>    
-            </h:form>   
-        
+                                <p:inputText id="idSolicinateNombreInterno"  required="true" label="Nombre" value="#{propuestaConvenioMB.referenteInterno.nombrePersona}" />
+                                <p:message for="idSolicinateNombreInterno" />   
+                                <p:watermark for="idSolicinateNombreInterno" value="Nombre Solicitante"/>                                           
+
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="idSolicinateApellidoInterno" value="Apellido Solicitante" />
+                            </p:column>
+                            <p:column>
+
+                                <p:inputText id="idSolicinateApellidoInterno"  required="true" label="Apellido" value="#{propuestaConvenioMB.referenteInterno.apellidoPersona}" />
+                                <p:message for="idSolicinateApellidoInterno" />   
+                                <p:watermark for="idSolicinateApellidoInterno" value="Apellido Solicitante"/>                                           
+
+                            </p:column>
+                        </p:row>                            
+                       
+                        <p:row>
+
+                            <p:column>
+                                <p:outputLabel for="email" value="Correo Electr&oacute;nico" />     
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="email"  required="true" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
+                                    <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                </p:inputText>
+                                <p:message for="email" display="tooltip" />  
+                                <p:watermark for="email" value="correo@email.com" id="watermarkEmail" />
+                            </p:column>
+                            <p:column>
+                                <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" process="@this idDocumentoInterno email" id="idBtnSearchInByEmail" icon="ui-icon-search" title="Buscar referente interno" />
+                            </p:column>
+
+                        </p:row>   
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idTelFijoInterno" value="Tel:" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idTelFijoInterno" required="true"  readonly="true" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}"/> 
+                                <p:watermark for="idTelFijoInterno" value="xxxx-xxxx"  /> 
+                                <p:message for="idTelFijoInterno" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="idFaxInterno" value="Cel:" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idFaxInterno" required="true"  readonly="true" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}"/> 
+                                <p:watermark for="idFaxInterno" value="xxxx-xxxx" id="waterfax" /> 
+                                <p:message for="idFaxInterno" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idFacultadInterno" value="Facultad" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idFacultadInterno"  required="true" readonly="true" label="Facultad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.idFacultad.nombreFacultad}"/>
+                                <p:watermark for="idFacultadInterno" value="Facultad" id="watermarkFac" />
+                                <p:message for="idFacultadInterno" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="idUnidadInterno" value="Unidad" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idUnidadInterno"  required="true" readonly="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombreUnidad}"/>
+                                <p:watermark for="idUnidadInterno" value="Unidad" id="watermarkuni" />
+                                <p:message for="idUnidadInterno" />
+                            </p:column>
+                        </p:row>   
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idCargoInterno"  required="true" label="cargo" readonly="true" value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
+                                <p:watermark for="idCargoInterno" value="Cargo" id="waterCargo" />
+                                <p:message for="idCargoInterno" />
+                            </p:column>
+                           
+                        </p:row>   
+                        
+                    </p:panelGrid>        
+
+                </p:panel> 
+                <p:panel  id="idpanelRefEx" header="Datos Solicitante Externo" style="margin-bottom:20px"> 
+
+                    <p:panelGrid>                           
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idNombreExterno" value="Nombre" />
+                            </p:column>
+                            <p:column>
+                                <p:autoComplete id="idNombreExterno" value="#{propuestaConvenioMB.referenteExterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteExterno}"
+                                                var="externo" itemLabel="#{externo.nombrePersona}" itemValue="#{externo}" converter="#{personaConverter}" scrollHeight="250">
+                                    <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameExterno()}" process="@this,idNombreExterno" update="formAdmin"/>
+                                </p:autoComplete>                                       
+                                <p:message for="idNombreExterno" />
+                                <p:watermark for="idNombreExterno" value="Ingrese Nombre Solicitante" id="idNombreExterno2" /> 
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idDocumentoExterno" value="N&deg; Documento" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idDocumentoExterno"  required="true" label="c" value="#{propuestaConvenioMB.numDocumentoExterno}"/>
+                                <p:message for="idDocumentoExterno" />
+                                <p:watermark for="idDocumentoExterno" value="N&deg; Documento" id="waterNDoc" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="emailExterno" required="true" value="#{propuestaConvenioMB.referenteExterno.emailPersona}">
+                                    <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                </p:inputText>
+                                <p:message for="emailExterno" display="tooltip" />  
+                                <p:watermark for="emailExterno" value="correo@email.com" id="waterCorreo" />
+                            </p:column>
+                            <p:column>
+                                <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailExterno}" process="@this idDocumentoExterno emailExterno" id="idBtnSearchExByEmail" icon="ui-icon-search" title="Buscar referente interno" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idCargoExterno" value="Cargo" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idCargoExterno" readonly="true" label="cargo" value="#{propuestaConvenioMB.referenteExterno.cargoPersona}"/>
+                                <p:watermark for="idCargoExterno" value="Cargo" id="waterCargoEx" />
+                                <p:message for="idCargoExterno" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="idEntidadInstitucion" value="Entidad o Instituci&oacute;n" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="idEntidadInstitucion"  readonly="true" label="Entidad o institucion" value="#{propuestaConvenioMB.referenteExterno.idOrganismo.nombreOrganismo}"/>
+                                <p:watermark for="idEntidadInstitucion" value="Entidad o Institucion" id="waterentidad_inst" />
+                                <p:message for="idEntidadInstitucion" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idTelefonoExterno" value="Tel&eacute;fono " />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask id="idTelefonoExterno" readonly="true" mask="9999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" required="true"/>
+                                <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
+                                <p:message for="idTelefonoExterno" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="idFaxExterno" value="Fax" />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask id="idFaxExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.telCelularExterno.numeroTelefono}" required="true"/>
+                                <p:watermark for="idFaxExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
+                                <p:message for="idFaxExterno" />
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>   
+
+
+                </p:panel>
+                <h:panelGroup id="fileUploadGroup" >    
+
+                    <p:panel  id="idPanelProp" header="Datos de Propuesta" style="margin-bottom:20px"> 
+
+
+                        <p:panelGrid>                           
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="idTipoPropuesta"  required="true" value="#{propuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >                                            
+                                        <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="fileUploadGroup"  process="@this" />
+                                        <f:selectItem itemValue="#{null}" itemLabel="Seleccione Tipo Propuesta" noSelectionOption="true" />                                            
+                                        <f:selectItems value="#{propuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />       
+                                    </p:selectOneMenu>
+                                    <p:message for="idTipoPropuesta" />  
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idNamePropuesta" value="Convenio"  />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{propuestaConvenioConverter}"  style="width:160px" >                                              
+                                        <f:selectItem itemValue="#{null}" itemLabel="Seleccione Convenio" noSelectionOption="true" />                                            
+                                        <f:selectItems value="#{propuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="idNombrePropuesta" value="Nombre de Propuesta" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{propuestaConvenioMB.propuestaConvenio.nombrePropuesta}"/>
+                                    <p:message for="idNombrePropuesta" />
+                                    <p:watermark for="idNombrePropuesta" value="Nombre Propuesta" id="nameProp" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="idDescripcionPropuesta" value="Descripci&oacute;n" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="idDescripcionPropuesta"  required="true" label="descripcion" value="#{propuestaConvenioMB.propuestaConvenio.finalidadPropuesta}"/>
+                                    <p:message for="idDescripcionPropuesta" /> 
+                                    <p:watermark for="idDescripcionPropuesta" value="Descripcion" id="descripcionProp" />
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid> 
+
+                        <table style="width:80%" > 
+
+                            <tfoot>                                        
+                                <tr align="right"> 
+                                    <td></td>
+                                    <td></td>
+                                    <td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.guardarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Guardar"  id="btnGuardar" icon="ui-icon-disk" title="Guardar Propuesta Convenio" /></td>                                 
+                                    <td colspan="3"><p:commandButton rendered="#{propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.actualizarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Actualizar"  id="btnActualizar" icon="ui-icon-diskbtnGuardar" title="Actualizar Propuesta Convenio" /></td>                                 
+                                    <td colspan="3"><p:commandButton  rendered="#{propuestaConvenioMB.flagEdicion}"  actionListener="#{propuestaConvenioMB.volver()}" process="formAdmin" update="formAdmin" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
+                                </tr>
+                            </tfoot>
+                        </table>    
+
+                    </p:panel>
+                </h:panelGroup>
+
+            </center>    
+        </h:form>   
+
         <script type="text/javascript">
             /**
              * Faces Validator
              */
             PrimeFaces.validator['custom.emailValidator'] = {
-
                 pattern: /\S+@\S+/,
-
-                validate: function(element, value) {
+                validate: function (element, value) {
                     //use element.data() to access validation metadata, in this case there is none.
-                    if(!this.pattern.test(value)) {
+                    if (!this.pattern.test(value)) {
                         throw {
                             summary: 'Validation Error',
                             detail: value + ' is not a valid email.'
                         }
                     }
                 }
-            };    
+            };
         </script>
-        
-             
-       
-             
-    <p:dialog id="EditDlg" widgetVar="EditDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Edicion Persona" closeOnEscape="true">
-            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
-          
-    <h:form id="formEditPersonas">
-                <center>                  
-                               <h:panelGrid columns="2" >
-                                   <p:column>  
-                                     <p:outputLabel for="idNombrePersona" value="Nombre Persona" />
-                                   </p:column>                                         
-                                   <p:column>                                                                                                                                                                                             
-                                       <p:inputText id="idNombrePersona"  required="true" label="Nombre" value="#{propuestaConvenioMB.personaEdit.nombrePersona}"/>
-                                       <p:watermark for="idNombrePersona" value="Nombre de la Persona" id="watermarkNombre" />
-                                       <p:message for="idNombrePersona" />                                       
-                                   </p:column>
 
-                                   <p:column>  
-                                     <p:outputLabel for="idApellido" value="Apellido Persona" />
-                                   </p:column>                                         
-                                  <p:column> 
-                                      <p:inputText id="idApellido"  required="true" label="Apellido" value="#{propuestaConvenioMB.personaEdit.apellidoPersona}"/>
-                                       <p:watermark for="idApellido" value="Apellido de la Persona" id="watermarkApeliido" />
-                                      <p:message for="idApellido" />
-                                   </p:column>
-                                   
-                                    <p:column> 
-                                         <p:outputLabel for="dui" value="DUI" />
-                                    </p:column> 
-                                    <p:column> 
-                                        <p:inputMask id="dui" value="#{propuestaConvenioMB.personaEdit.duiPersona}" mask="99999999-9"/>
-                                         <p:watermark for="dui" value="99999999-9" id="watermarkDui" />
-                                    </p:column> 
-                                  
-                                    <p:column> 
-                                         <p:outputLabel for="nit" value="NIT" />
-                                    </p:column> 
-                                    <p:column> 
-                                        <p:inputMask id="nit" value="#{propuestaConvenioMB.personaEdit.nitPersona}" mask="9999-999999-999-9"/>
-                                         <p:watermark for="nit" value="9999-999999-999-9" id="watermarkNit" />
-                                    </p:column> 
-                                   
-                                    <p:column> 
-                                         <p:outputLabel for="passaporte" value="Pasaporte" />
-                                    </p:column> 
-                                    <p:column> 
-                                        <p:inputText id="passaporte"  required="true" label="pasaporte" value="#{propuestaConvenioMB.personaEdit.pasaporte}"/>
-                                         <p:watermark for="passaporte" value="pasaporte" id="watermarkPass" />
-                                    </p:column> 
-                                   
-                                    <p:column>
-                                     <p:outputLabel for="idCargo" value="Cargo" />
-                                    </p:column>                                         
-                                    <p:column> 
-                                       <p:inputText id="idCargo"  required="true" label="cargo" value="#{propuestaConvenioMB.personaEdit.cargoPersona}"/>
-                                       <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
-                                       <p:message for="idCargo" />
-                                   </p:column> 
-                                   
-                                    <p:column>  
-                                     <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
-                                   </p:column>      
-                                   <p:column> 
-                                       <p:inputText id="email" required="true" value="#{propuestaConvenioMB.personaEdit.emailPersona}">
-                                           <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                                      </p:inputText>
-                                       <p:watermark for="email" value="email@email.com" id="watermarkEmail" />
-                                       <p:message for="email" display="tooltip" />                                         
-                                    </p:column>    
-                                   
-                                   <p:column>  
-                                     <p:outputLabel for="idUnidad" value="Unidad" />
-                                      </p:column>                                         
-                                    <p:column>                                         
-                                        <p:selectOneMenu id="idUnidad"  value="#{propuestaConvenioMB.personaEdit.idUnidad}" effect="fade" converter="#{unidadConverter}" required="true">                                           
-                                            <f:selectItem itemLabel="Unidad" itemValue="null" noSelectionOption="true" />  
-                                            <f:selectItems value="#{propuestaConvenioMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad}"/>  
-                                        </p:selectOneMenu>    
-                                   </p:column>
-                                   <p:column>  
-                                     <p:outputLabel for="idOrganismo" value="Organismo" />
-                                   </p:column>                                         
-                                   <p:column>                                         
-                                       <p:selectOneMenu id="idOrganismo" value="#{propuestaConvenioMB.personaEdit.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
-                                         <f:selectItem itemLabel="Organismo" itemValue="null" noSelectionOption="true" />  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
-                                        </p:selectOneMenu>                                                                               
-                                   </p:column>
-                                   
-<!--                                   <p:column>  
-                                     <p:outputLabel for="idTipoPersona" value="Tipo persona" />
-                                      </p:column>                                         
-                                   <p:column>                                                                       
-                                       <p:selectOneMenu id="idTipoPersona" value="#{propuestaConvenioMB.personaEdit.idTipoPersona}"  effect="fade" converter="#{tipoPersonaConverter}" required="true">                                           
-                                         <f:selectItem itemLabel="Tipo Persona" itemValue="null" noSelectionOption="true" />  
-                                         <f:selectItems value="#{propuestaConvenioMB.listadoTipoPersona}" var="tipoPrs" itemLabel="#{tipoPrs.nombre}" itemValue="#{tipoPrs}"/>  
-                                        </p:selectOneMenu>                                     
-                                   </p:column>                        -->
-                                   <p:column> 
-                                       <p:commandButton value="Editar Persona" id="idGuardarPersona" actionListener="#{propuestaConvenioMB.editar()}" process="@form" update="@form" icon="ui-icon-disk"  />
-                                   </p:column>
-                            </h:panelGrid>
+
+
+
+        <p:dialog id="EditDlg" widgetVar="EditDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Edicion Persona" closeOnEscape="true">
+            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
+
+            <h:form id="formEditPersonas">
+                <center>                  
+                    <h:panelGrid columns="2" >
+                        <p:column>  
+                            <p:outputLabel for="idNombrePersona" value="Nombre Persona" />
+                        </p:column>                                         
+                        <p:column>                                                                                                                                                                                             
+                            <p:inputText id="idNombrePersona"  required="true" label="Nombre" value="#{propuestaConvenioMB.personaEdit.nombrePersona}"/>
+                            <p:watermark for="idNombrePersona" value="Nombre de la Persona" id="watermarkNombre" />
+                            <p:message for="idNombrePersona" />                                       
+                        </p:column>
+
+                        <p:column>  
+                            <p:outputLabel for="idApellido" value="Apellido Persona" />
+                        </p:column>                                         
+                        <p:column> 
+                            <p:inputText id="idApellido"  required="true" label="Apellido" value="#{propuestaConvenioMB.personaEdit.apellidoPersona}"/>
+                            <p:watermark for="idApellido" value="Apellido de la Persona" id="watermarkApeliido" />
+                            <p:message for="idApellido" />
+                        </p:column>
+
+                        <p:column> 
+                            <p:outputLabel for="dui" value="DUI" />
+                        </p:column> 
+                        <p:column> 
+                            <p:inputMask id="dui" value="#{propuestaConvenioMB.personaEdit.duiPersona}" mask="99999999-9"/>
+                            <p:watermark for="dui" value="99999999-9" id="watermarkDui" />
+                        </p:column> 
+
+                        <p:column> 
+                            <p:outputLabel for="nit" value="NIT" />
+                        </p:column> 
+                        <p:column> 
+                            <p:inputMask id="nit" value="#{propuestaConvenioMB.personaEdit.nitPersona}" mask="9999-999999-999-9"/>
+                            <p:watermark for="nit" value="9999-999999-999-9" id="watermarkNit" />
+                        </p:column> 
+
+                        <p:column> 
+                            <p:outputLabel for="passaporte" value="Pasaporte" />
+                        </p:column> 
+                        <p:column> 
+                            <p:inputText id="passaporte"  required="true" label="pasaporte" value="#{propuestaConvenioMB.personaEdit.pasaporte}"/>
+                            <p:watermark for="passaporte" value="pasaporte" id="watermarkPass" />
+                        </p:column> 
+
+                        <p:column>
+                            <p:outputLabel for="idCargo" value="Cargo" />
+                        </p:column>                                         
+                        <p:column> 
+                            <p:inputText id="idCargo"  required="true" label="cargo" value="#{propuestaConvenioMB.personaEdit.cargoPersona}"/>
+                            <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
+                            <p:message for="idCargo" />
+                        </p:column> 
+
+                        <p:column>  
+                            <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
+                        </p:column>      
+                        <p:column> 
+                            <p:inputText id="email" required="true" value="#{propuestaConvenioMB.personaEdit.emailPersona}">
+                                <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                            </p:inputText>
+                            <p:watermark for="email" value="email@email.com" id="watermarkEmail" />
+                            <p:message for="email" display="tooltip" />                                         
+                        </p:column>    
+
+                        <p:column>  
+                            <p:outputLabel for="idUnidad" value="Unidad" />
+                        </p:column>                                         
+                        <p:column>                                         
+                            <p:selectOneMenu id="idUnidad"  value="#{propuestaConvenioMB.personaEdit.idUnidad}" effect="fade" converter="#{unidadConverter}" required="true">                                           
+                                <f:selectItem itemLabel="Unidad" itemValue="null" noSelectionOption="true" />  
+                                <f:selectItems value="#{propuestaConvenioMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombreUnidad}" itemValue="#{unidad}"/>  
+                            </p:selectOneMenu>    
+                        </p:column>
+                        <p:column>  
+                            <p:outputLabel for="idOrganismo" value="Organismo" />
+                        </p:column>                                         
+                        <p:column>                                         
+                            <p:selectOneMenu id="idOrganismo" value="#{propuestaConvenioMB.personaEdit.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
+                                <f:selectItem itemLabel="Organismo" itemValue="null" noSelectionOption="true" />  
+                                <f:selectItems value="#{propuestaConvenioMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
+                            </p:selectOneMenu>                                                                               
+                        </p:column>
+
+                        <!--                                   <p:column>  
+                                                             <p:outputLabel for="idTipoPersona" value="Tipo persona" />
+                                                              </p:column>                                         
+                                                           <p:column>                                                                       
+                                                               <p:selectOneMenu id="idTipoPersona" value="#{propuestaConvenioMB.personaEdit.idTipoPersona}"  effect="fade" converter="#{tipoPersonaConverter}" required="true">                                           
+                                                                 <f:selectItem itemLabel="Tipo Persona" itemValue="null" noSelectionOption="true" />  
+                                                                 <f:selectItems value="#{propuestaConvenioMB.listadoTipoPersona}" var="tipoPrs" itemLabel="#{tipoPrs.nombre}" itemValue="#{tipoPrs}"/>  
+                                                                </p:selectOneMenu>                                     
+                                                           </p:column>                        -->
+                        <p:column> 
+                            <p:commandButton value="Editar Persona" id="idGuardarPersona" actionListener="#{propuestaConvenioMB.editar()}" process="@form" update="@form" icon="ui-icon-disk"  />
+                        </p:column>
+                    </h:panelGrid>
                 </center>    
             </h:form>  
         </p:dialog>        
-         
+
     </ui:define>
-    
-    
+
+
 </ui:composition>

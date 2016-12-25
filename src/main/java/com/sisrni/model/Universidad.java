@@ -21,13 +21,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "UNIVERSIDAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Universidad.findAll", query = "SELECT u FROM Universidad u")})
 public class Universidad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +39,7 @@ public class Universidad implements Serializable {
     @Column(name = "NOMBRE_UNIVERSIDAD", length = 60)
     private String nombreUniversidad;
     @OneToMany(mappedBy = "idUniversidad")
-    private List<Facultad> facultadList;
+    private List<FacultadUnidad> facultadUnidadList;
 
     public Universidad() {
     }
@@ -63,12 +64,12 @@ public class Universidad implements Serializable {
         this.nombreUniversidad = nombreUniversidad;
     }
 
-    public List<Facultad> getFacultadList() {
-        return facultadList;
+    public List<FacultadUnidad> getFacultadUnidadList() {
+        return facultadUnidadList;
     }
 
-    public void setFacultadList(List<Facultad> facultadList) {
-        this.facultadList = facultadList;
+    public void setFacultadUnidadList(List<FacultadUnidad> facultadUnidadList) {
+        this.facultadUnidadList = facultadUnidadList;
     }
 
     @Override

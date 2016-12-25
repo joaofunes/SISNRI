@@ -22,13 +22,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "TIPO_MOVILIDAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "TipoMovilidad.findAll", query = "SELECT t FROM TipoMovilidad t")})
 public class TipoMovilidad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +38,8 @@ public class TipoMovilidad implements Serializable {
     private Integer idTipoMovilidad;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "NOMBRE_TIPO_MOVILIDAD", nullable = false, length = 100)
+    @Size(min = 1, max = 25)
+    @Column(name = "NOMBRE_TIPO_MOVILIDAD", nullable = false, length = 25)
     private String nombreTipoMovilidad;
     @OneToMany(mappedBy = "idTipoMovilidad")
     private List<Movilidad> movilidadList;

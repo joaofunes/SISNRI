@@ -23,21 +23,22 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "PAIS", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Pais.findAll", query = "SELECT p FROM Pais p")})
 public class Pais implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_PAIS", nullable = false)
     private Integer idPais;
-    @Size(max = 10)
-    @Column(name = "CODIGO_PAIS", length = 10)
+    @Size(max = 4)
+    @Column(name = "CODIGO_PAIS", length = 4)
     private String codigoPais;
     @Size(max = 60)
     @Column(name = "NOMBRE_PAIS", length = 60)

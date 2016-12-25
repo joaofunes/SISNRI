@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author Lillian
  */
 @Entity
 @Table(name = "PROPUESTA_CONVENIO", catalog = "sisrni", schema = "", uniqueConstraints = {
@@ -37,6 +37,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "PropuestaConvenio.findAll", query = "SELECT p FROM PropuestaConvenio p")})
 public class PropuestaConvenio implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +46,8 @@ public class PropuestaConvenio implements Serializable {
     private Integer idPropuesta;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "NOMBRE_PROPUESTA", nullable = false, length = 100)
+    @Size(min = 1, max = 300)
+    @Column(name = "NOMBRE_PROPUESTA", nullable = false, length = 300)
     private String nombrePropuesta;
     @Size(max = 300)
     @Column(name = "FINALIDAD_PROPUESTA", length = 300)
@@ -62,7 +63,7 @@ public class PropuestaConvenio implements Serializable {
     private List<Documento> documentoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
     private List<PersonaPropuesta> personaPropuestaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPropuestaConvenio")
+    @OneToMany(mappedBy = "idPropuestaConvenio")
     private List<Proyecto> proyectoList;
     @JoinColumn(name = "ID_TIPO_PROPUESTA_CONVENIO", referencedColumnName = "ID_TIPO_PROPUESTA")
     @ManyToOne
