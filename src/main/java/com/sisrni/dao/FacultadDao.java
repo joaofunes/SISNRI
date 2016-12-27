@@ -6,7 +6,7 @@
 package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
-import com.sisrni.model.FacultadUnidad;
+import com.sisrni.model.Facultad;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author Joao
  */
 @Repository(value = "facultadDao")
-public class FacultadDao extends GenericDao<FacultadUnidad, Integer>{
+public class FacultadDao extends GenericDao<Facultad, Integer>{
     
 }

@@ -25,14 +25,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Lillian
+ * @author Cortez
  */
 @Entity
 @Table(name = "PERSONA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")})
 public class Persona implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,18 +73,19 @@ public class Persona implements Serializable {
     @NotNull
     @Column(name = "EXTRANJERO", nullable = false)
     private boolean extranjero;
-    @Column(name = "ID_CARRERA")
-    private Integer idCarrera;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ACTIVO", nullable = false)
     private boolean activo;
+    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
+    @ManyToOne
+    private Unidad idUnidad;
+    @JoinColumn(name = "ID_CARRERA", referencedColumnName = "ID_CARRERA")
+    @ManyToOne
+    private Carrera idCarrera;
     @JoinColumn(name = "ID_ESCUELA_DEPTO", referencedColumnName = "ID_ESCUELA_DEPTO")
     @ManyToOne
     private EscuelaDepartamento idEscuelaDepto;
-    @JoinColumn(name = "ID_FACULTAD_UNIDAD", referencedColumnName = "ID_FACULTAD_UNIDAD")
-    @ManyToOne
-    private FacultadUnidad idFacultadUnidad;
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
@@ -190,14 +190,6 @@ public class Persona implements Serializable {
         this.extranjero = extranjero;
     }
 
-    public Integer getIdCarrera() {
-        return idCarrera;
-    }
-
-    public void setIdCarrera(Integer idCarrera) {
-        this.idCarrera = idCarrera;
-    }
-
     public boolean getActivo() {
         return activo;
     }
@@ -206,20 +198,28 @@ public class Persona implements Serializable {
         this.activo = activo;
     }
 
+    public Unidad getIdUnidad() {
+        return idUnidad;
+    }
+
+    public void setIdUnidad(Unidad idUnidad) {
+        this.idUnidad = idUnidad;
+    }
+
+    public Carrera getIdCarrera() {
+        return idCarrera;
+    }
+
+    public void setIdCarrera(Carrera idCarrera) {
+        this.idCarrera = idCarrera;
+    }
+
     public EscuelaDepartamento getIdEscuelaDepto() {
         return idEscuelaDepto;
     }
 
     public void setIdEscuelaDepto(EscuelaDepartamento idEscuelaDepto) {
         this.idEscuelaDepto = idEscuelaDepto;
-    }
-
-    public FacultadUnidad getIdFacultadUnidad() {
-        return idFacultadUnidad;
-    }
-
-    public void setIdFacultadUnidad(FacultadUnidad idFacultadUnidad) {
-        this.idFacultadUnidad = idFacultadUnidad;
     }
 
     public Organismo getIdOrganismo() {

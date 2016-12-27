@@ -6,7 +6,7 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Estado;
-import com.sisrni.model.FacultadUnidad;
+//import com.sisrni.model.FacultadUnidad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaPropuesta;
@@ -197,7 +197,7 @@ public class PropuestaConvenioMB implements Serializable{
          try {  
             solicitante= new Persona();
             solicitante.setIdEscuelaDepto(new EscuelaDepartamento());
-            solicitante.getIdEscuelaDepto().setIdFacultadUnidad(new FacultadUnidad());
+//            solicitante.getIdEscuelaDepto().setIdFacultadUnidad(new FacultadUnidad());
             propuestaConvenioTemp = new PropuestaConvenio();
             referenteInterno = new Persona();
             referenteExterno = new Persona();

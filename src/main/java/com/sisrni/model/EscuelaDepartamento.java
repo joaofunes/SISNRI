@@ -14,23 +14,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Lillian
+ * @author Cortez
  */
 @Entity
 @Table(name = "ESCUELA_DEPARTAMENTO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "EscuelaDepartamento.findAll", query = "SELECT e FROM EscuelaDepartamento e")})
 public class EscuelaDepartamento implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,13 +42,15 @@ public class EscuelaDepartamento implements Serializable {
     @Size(max = 100)
     @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
+    @Column(name = "ID_FACULTAD_UNIDAD")
+    private Integer idFacultadUnidad;
     @Column(name = "IDENTIFICADOR")
     private Boolean identificador;
     @OneToMany(mappedBy = "idEscuelaDepto")
     private List<Persona> personaList;
-    @JoinColumn(name = "ID_FACULTAD_UNIDAD", referencedColumnName = "ID_FACULTAD_UNIDAD")
-    @ManyToOne
-    private FacultadUnidad idFacultadUnidad;
+    @JoinColumn(name = "ID_ESCUELA_DEPTO", referencedColumnName = "ID_FACULTAD", nullable = false, insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private Facultad facultad;
 
     public EscuelaDepartamento() {
     }
@@ -82,6 +83,14 @@ public class EscuelaDepartamento implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public Integer getIdFacultadUnidad() {
+        return idFacultadUnidad;
+    }
+
+    public void setIdFacultadUnidad(Integer idFacultadUnidad) {
+        this.idFacultadUnidad = idFacultadUnidad;
+    }
+
     public Boolean getIdentificador() {
         return identificador;
     }
@@ -98,12 +107,12 @@ public class EscuelaDepartamento implements Serializable {
         this.personaList = personaList;
     }
 
-    public FacultadUnidad getIdFacultadUnidad() {
-        return idFacultadUnidad;
+    public Facultad getFacultad() {
+        return facultad;
     }
 
-    public void setIdFacultadUnidad(FacultadUnidad idFacultadUnidad) {
-        this.idFacultadUnidad = idFacultadUnidad;
+    public void setFacultad(Facultad facultad) {
+        this.facultad = facultad;
     }
 
     @Override

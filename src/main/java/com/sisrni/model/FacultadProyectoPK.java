@@ -13,15 +13,14 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Lillian
+ * @author Cortez
  */
 @Embeddable
 public class FacultadProyectoPK implements Serializable {
-
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_FACULTAD_UNIDAD", nullable = false)
-    private int idFacultadUnidad;
+    @Column(name = "ID_FACULTAD", nullable = false)
+    private int idFacultad;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_PROYECTO", nullable = false)
@@ -34,18 +33,18 @@ public class FacultadProyectoPK implements Serializable {
     public FacultadProyectoPK() {
     }
 
-    public FacultadProyectoPK(int idFacultadUnidad, int idProyecto, int idTipoFacultad) {
-        this.idFacultadUnidad = idFacultadUnidad;
+    public FacultadProyectoPK(int idFacultad, int idProyecto, int idTipoFacultad) {
+        this.idFacultad = idFacultad;
         this.idProyecto = idProyecto;
         this.idTipoFacultad = idTipoFacultad;
     }
 
-    public int getIdFacultadUnidad() {
-        return idFacultadUnidad;
+    public int getIdFacultad() {
+        return idFacultad;
     }
 
-    public void setIdFacultadUnidad(int idFacultadUnidad) {
-        this.idFacultadUnidad = idFacultadUnidad;
+    public void setIdFacultad(int idFacultad) {
+        this.idFacultad = idFacultad;
     }
 
     public int getIdProyecto() {
@@ -67,7 +66,7 @@ public class FacultadProyectoPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) idFacultadUnidad;
+        hash += (int) idFacultad;
         hash += (int) idProyecto;
         hash += (int) idTipoFacultad;
         return hash;
@@ -80,7 +79,7 @@ public class FacultadProyectoPK implements Serializable {
             return false;
         }
         FacultadProyectoPK other = (FacultadProyectoPK) object;
-        if (this.idFacultadUnidad != other.idFacultadUnidad) {
+        if (this.idFacultad != other.idFacultad) {
             return false;
         }
         if (this.idProyecto != other.idProyecto) {
@@ -94,7 +93,7 @@ public class FacultadProyectoPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.FacultadProyectoPK[ idFacultadUnidad=" + idFacultadUnidad + ", idProyecto=" + idProyecto + ", idTipoFacultad=" + idTipoFacultad + " ]";
+        return "com.sisrni.model.FacultadProyectoPK[ idFacultad=" + idFacultad + ", idProyecto=" + idProyecto + ", idTipoFacultad=" + idTipoFacultad + " ]";
     }
     
 }
