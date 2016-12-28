@@ -50,6 +50,7 @@
                                         <p:column>
                                             <p:selectOneMenu id="facultadproyecto" value="#{proyectosMB.facultadSelectedPojoP}" style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <p:ajax listener="#{proyectosMB.onFacultadChange()}" update="unidadasis" process="@this"/>
                                                 <c:forEach var="fac" items="#{proyectosMB.facultadesUnidadesList}">
                                                     <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
                                                 </c:forEach>
