@@ -25,6 +25,7 @@ import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.service.AreaConocimientoService;
+import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.FacultadProyectoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
@@ -43,9 +44,7 @@ import com.sisrni.service.UnidadService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -228,7 +227,7 @@ public class ProyectosMB {
         areaConocimientoList = areaConocimientoService.findAll();
         organismoProyList = organismoService.findAll();
         //facultadList = new ArrayList<Facultad>();
-        facultadList = facultadService.findAll();
+        facultadList = facultadService.getFacultadesByUniversidad(1);
         propuestaConvenioList = propuestaConvenioService.findAll();
         organismoList = organismoService.findAll();
         listadoTelefonoSol = telefonoService.findAll();
@@ -488,13 +487,17 @@ public class ProyectosMB {
         return lista;
     }
 
-//    public void onFacultadChange() {
-//        if (facultadSelected.getIdFacultad()!= null && !facultadSelected.getIdFacultad().toString().equals("")) {
-//            unidadList = unidadService.getUnidadesByFacultadId(facultadSelected.getIdFacultad());
-//        } else {
-//            unidadList = new ArrayList<EscuelaDepartamento>();
-//        }
-//    }
+    public void onFacultadChange() {
+        facultadSelectedPojoP.trim();
+        for(int i=0; i<facultadSelectedPojoP.length();i++){
+        String facultadArreglo[]=facultadSelectedPojoP.split(",");
+        }
+        if (facultadSelectedPojoP!= null && !facultadSelectedPojoP.equals("")) {
+            facultadesUnidadesList = EscuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(facultadSelectedPojoP);
+        } else {
+          //  unidadList = new ArrayList<EscuelaDepartamento>();
+        }
+    }
 //
 //    public void onFacultadSolicitanteChange() {
 //        if (facultadSelectedSol.getIdFacultad()!= null && !facultadSelectedSol.getIdFacultad().toString().equals("")) {
