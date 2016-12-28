@@ -21,7 +21,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -55,8 +54,8 @@ public class Facultad implements Serializable {
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "facultad")
-    private EscuelaDepartamento escuelaDepartamento;
+    @OneToMany(mappedBy = "idFacultad")
+    private List<EscuelaDepartamento> escuelaDepartamentoList;
 
     public Facultad() {
     }
@@ -113,12 +112,12 @@ public class Facultad implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
-    public EscuelaDepartamento getEscuelaDepartamento() {
-        return escuelaDepartamento;
+    public List<EscuelaDepartamento> getEscuelaDepartamentoList() {
+        return escuelaDepartamentoList;
     }
 
-    public void setEscuelaDepartamento(EscuelaDepartamento escuelaDepartamento) {
-        this.escuelaDepartamento = escuelaDepartamento;
+    public void setEscuelaDepartamentoList(List<EscuelaDepartamento> escuelaDepartamentoList) {
+        this.escuelaDepartamentoList = escuelaDepartamentoList;
     }
 
     @Override
