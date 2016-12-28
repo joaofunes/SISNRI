@@ -5,7 +5,6 @@
  */
 package com.sisrni.managedbean;
 
-import com.sisrni.managedbean.ProyectoMB;
 import com.sisrni.model.AreaConocimiento;
 import com.sisrni.model.Facultad;
 import com.sisrni.model.FacultadProyecto;
@@ -24,6 +23,7 @@ import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.Unidad;
+import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.service.AreaConocimientoService;
 import com.sisrni.service.FacultadProyectoService;
 import com.sisrni.service.FacultadService;
@@ -43,7 +43,7 @@ import com.sisrni.service.UnidadService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -149,7 +149,7 @@ public class ProyectosMB {
     private List<Organismo> organismosProyecto;
     private Facultad facultadSelected;
     private String[] facultadBeneficiadaSelected;
-    private EscuelaDepartamento unidadSelected;
+    private EscuelaDepartamento escuelaDeptoSelected;
     private PersonaProyecto personaProyectoAsis;
     private PersonaProyecto personaProyectoExt;
     private PersonaProyectoPK personaProyectoPK;
@@ -194,7 +194,8 @@ public class ProyectosMB {
     private int existeRefExt;
     Pais regiones;
     public boolean mostrarmonto;
-    private Map<String, String> facultadesUnidadesList;
+    private List<PojoFacultadesUnidades> facultadesUnidadesList;
+    private String facultadSelectedPojoP;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -208,7 +209,7 @@ public class ProyectosMB {
         //selected
         proyectoSelected = new TipoProyecto();
         facultadSelected = new Facultad();
-        unidadSelected = new EscuelaDepartamento();
+        escuelaDeptoSelected = new EscuelaDepartamento();
         propuestaConvenioSelected = new PropuestaConvenio();
         facultadSelectedSol = new Facultad();
         facultadSelectedAsis = new Facultad();
@@ -292,13 +293,14 @@ public class ProyectosMB {
         existeRefExt = 0;
         yearActual = getYearOfDate(new Date());
         anio = "";
+        facultadSelectedPojoP="";
     }
 
     public void guardarProyecto() {
         try {
             proyecto.setIdTipoProyecto(tipoProyectoService.findById(proyectoSelected.getIdTipoProyecto()));
 //                proyecto.setIdFacultad(facultadSelected.getIdFacultad());
-            proyecto.setIdUnidad(unidadSelected.getIdEscuelaDepto());
+            proyecto.setIdUnidad(escuelaDeptoSelected.getIdEscuelaDepto());
             PropuestaConvenio propuesta = propuestaConvenioService.findById(propuestaConvenioSelected.getIdPropuesta());
             if (propuesta == null) {
             } else {
@@ -468,15 +470,22 @@ public class ProyectosMB {
         }
         inicializador();
     }
-    private Map<String, String> getListFacultadesUnidades(List<Facultad> facs, List<Unidad> unidades) {
-        Map<String, String> map = new HashMap<String, String>();
+    private List<PojoFacultadesUnidades> getListFacultadesUnidades(List<Facultad> facs, List<Unidad> unidades) {
+        
+        List<PojoFacultadesUnidades> lista =new ArrayList<PojoFacultadesUnidades>();
         for (Facultad fac : facs) {
-            map.put(fac.getIdFacultad() + ",1", fac.getNombreFacultad());
+            PojoFacultadesUnidades pojo=new PojoFacultadesUnidades();
+            pojo.setValue(fac.getIdFacultad() + ",1");
+            pojo.setLabel(fac.getNombreFacultad());
+            lista.add(pojo);
         }
         for (Unidad uni : unidades) {
-            map.put(uni.getIdUnidad() + ",2", uni.getNombreUnidad());
+            PojoFacultadesUnidades pojo=new PojoFacultadesUnidades();
+            pojo.setValue(uni.getIdUnidad() + ",2");
+            pojo.setLabel(uni.getNombreUnidad());
+            lista.add(pojo);
         }
-        return map;
+        return lista;
     }
 
 //    public void onFacultadChange() {
@@ -898,12 +907,12 @@ public class ProyectosMB {
         this.unidadProyecto = unidadProyecto;
     }
 
-    public EscuelaDepartamento getUnidadSelected() {
-        return unidadSelected;
+    public EscuelaDepartamento getEscuelaDeptoSelected() {
+        return escuelaDeptoSelected;
     }
 
-    public void setUnidadSelected(EscuelaDepartamento unidadSelected) {
-        this.unidadSelected = unidadSelected;
+    public void setEscuelaDeptoSelected(EscuelaDepartamento escuelaDeptoSelected) {
+        this.escuelaDeptoSelected = escuelaDeptoSelected;
     }
 
     public List<Unidad> getUnidadList() {
@@ -1186,12 +1195,20 @@ public class ProyectosMB {
         this.facultadCoordinador = facultadCoordinador;
     }
 
-    public Map<String, String> getFacultadesUnidadesList() {
+    public List<PojoFacultadesUnidades> getFacultadesUnidadesList() {
         return facultadesUnidadesList;
     }
 
-    public void setFacultadesUnidadesList(Map<String, String> facultadesUnidadesList) {
+    public void setFacultadesUnidadesList(List<PojoFacultadesUnidades> facultadesUnidadesList) {
         this.facultadesUnidadesList = facultadesUnidadesList;
+    }
+
+    public String getFacultadSelectedPojoP() {
+        return facultadSelectedPojoP;
+    }
+
+    public void setFacultadSelectedPojoP(String facultadSelectedPojoP) {
+        this.facultadSelectedPojoP = facultadSelectedPojoP;
     }
     
 }
