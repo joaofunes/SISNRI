@@ -20,7 +20,7 @@ public class CarreraDao extends GenericDao<Carrera, Integer> {
 
     public List<Carrera> getCarrerasByFacultad(int idFacultad){
     
-        String query= "Select c FROM Carrera c Where c.idFacultad=:idFacultad";
+        String query= "Select c FROM Carrera c Where c.idFacultad.idFacultad=:idFacultad";
         Query q= getSessionFactory().getCurrentSession().createQuery(query);
         q.setParameter("idFacultad", idFacultad);
         return q.list();
