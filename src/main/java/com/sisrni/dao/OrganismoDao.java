@@ -29,7 +29,7 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
         return null;
     }
 
-    public List<Organismo> getOrganismosPorPaisYTipo(int idPais, int idTipo) {
+    public List<Organismo> getOrganismosPorPaisYTipo(Integer idPais, Integer idTipo) {
         String query = "Select o FROM Organismo o Where o.idPais=:idPais and o.idTipoOrganismo.idTipoOrganismo=:idTipo";
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
         q.setParameter("idPais", idPais);

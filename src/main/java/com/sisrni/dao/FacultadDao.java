@@ -20,7 +20,7 @@ public class FacultadDao extends GenericDao<Facultad, Integer> {
 
     //recibe un idOrganismo perteneciente a un organismo que tienen un tipo organismo universidad y retorna las facultades de esa universidad
     public List<Facultad> getFacultadesByUniversidad(Integer idOrganismo) {
-        String query = "SELECT o FROM FACULTAD o WHERE o.idOrganismo.idOrganismo=:idOrganismo";
+        String query = "SELECT o FROM Facultad o WHERE o.idOrganismo.idOrganismo=:idOrganismo";
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
         q.setParameter("idOrganismo", idOrganismo);
         return q.list();

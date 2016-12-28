@@ -32,7 +32,7 @@ public class OrganismoService extends GenericService<Organismo, Integer> {
         return organismoDao.getOrganismosProyecto(id);
     }
 
-    public List<Organismo> getOrganismosPorPaisYTipo(int idPais, int idTipo) {
+    public List<Organismo> getOrganismosPorPaisYTipo(Integer idPais, Integer idTipo) {
         return organismoDao.getOrganismosPorPaisYTipo(idPais, idTipo);
     }
 }

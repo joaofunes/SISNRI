@@ -15,7 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -42,10 +41,7 @@ public class Facultad implements Serializable {
     @Size(max = 100)
     @Column(name = "NOMBRE_FACULTAD", length = 100)
     private String nombreFacultad;
-    @JoinTable(name = "MOVILIDAD_FACULTAD", joinColumns = {
-        @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD", nullable = false)})
-    @ManyToMany
+    @ManyToMany(mappedBy = "facultadList")
     private List<Movilidad> movilidadList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFacultad")
     private List<Carrera> carreraList;
