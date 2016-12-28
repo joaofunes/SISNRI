@@ -129,7 +129,7 @@ public class ProyectosMB {
     private List<AreaConocimiento> areaConocimientoList;
     private List<Organismo> organismoProyList;
     private List<TipoProyecto> tipoproyectolist;
-    private List<EscuelaDepartamento> unidadList;
+    private List<Unidad> unidadList;
     private List<EscuelaDepartamento> unidadSolList;
     private List<EscuelaDepartamento> unidadAsisList;
     private List<PropuestaConvenio> propuestaConvenioList;
@@ -194,7 +194,7 @@ public class ProyectosMB {
     private int existeRefExt;
     Pais regiones;
     public boolean mostrarmonto;
-    Map<String, String> FacultadesUnidadesList;
+    private Map<String, String> facultadesUnidadesList;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -237,7 +237,7 @@ public class ProyectosMB {
         paisCooperanteList = paisService.findAll();
         facultadBeneficiadaList = facultadService.findAll();
         facultadBeneficiada = new ArrayList<Facultad>();
-        //unidadList=unidadService.findAll();
+        unidadList=unidadService.findAll();
         proyecto = new Proyecto();
         propuestaConvenio = new PropuestaConvenio();
         facultad = new Facultad();
@@ -365,8 +365,8 @@ public class ProyectosMB {
                 }
             }
             if (existeSol != 1) {
-                EscuelaDepartamento unidadSolicitante = unidadService.findById(unidadSelectedSol.getIdEscuelaDepto());
-                persona.setIdEscuelaDepto(unidadSolicitante);
+                //EscuelaDepartamento unidadSolicitante = unidadService.findById(unidadSelectedSol.getIdEscuelaDepto());
+                //persona.setIdEscuelaDepto(unidadSolicitante);
 //                    persona.setIdTipoPersona(tipoPersonaSol.getIdTipoPersona());
                 persona.setDuiPersona(numDocumentoSol);
                 personaService.save(persona);
@@ -399,8 +399,8 @@ public class ProyectosMB {
             }
             //guardar persona Asistente
             if (existeAsis != 1) {
-                    EscuelaDepartamento unidadAsistente = unidadService.findById(unidadSelectedAsis.getIdEscuelaDepto());
-                    personaAsistente.setIdEscuelaDepto(unidadAsistente);
+                    //EscuelaDepartamento unidadAsistente = unidadService.findById(unidadSelectedAsis.getIdEscuelaDepto());
+                    //personaAsistente.setIdEscuelaDepto(unidadAsistente);
 //                    personaAsistente.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
                     personaAsistente.setDuiPersona(numDocumentoAsis);
                     personaService.save(personaAsistente);
@@ -479,29 +479,29 @@ public class ProyectosMB {
         return map;
     }
 
-    public void onFacultadChange() {
-        if (facultadSelected.getIdFacultad()!= null && !facultadSelected.getIdFacultad().toString().equals("")) {
-            unidadList = unidadService.getUnidadesByFacultadId(facultadSelected.getIdFacultad());
-        } else {
-            unidadList = new ArrayList<EscuelaDepartamento>();
-        }
-    }
-
-    public void onFacultadSolicitanteChange() {
-        if (facultadSelectedSol.getIdFacultad()!= null && !facultadSelectedSol.getIdFacultad().toString().equals("")) {
-            unidadSolList = unidadService.getUnidadesByFacultadId(facultadSelectedSol.getIdFacultad());
-        } else {
-            unidadSolList = new ArrayList<EscuelaDepartamento>();
-        }
-    }
-
-    public void onFacultadAsistenteChange() {
-        if (facultadSelectedAsis.getIdFacultad()!= null && !facultadSelectedAsis.getIdFacultad().toString().equals("")) {
-            unidadAsisList = unidadService.getUnidadesByFacultadId(facultadSelectedAsis.getIdFacultad());
-        } else {
-            unidadAsisList = new ArrayList<EscuelaDepartamento>();
-        }
-    }
+//    public void onFacultadChange() {
+//        if (facultadSelected.getIdFacultad()!= null && !facultadSelected.getIdFacultad().toString().equals("")) {
+//            unidadList = unidadService.getUnidadesByFacultadId(facultadSelected.getIdFacultad());
+//        } else {
+//            unidadList = new ArrayList<EscuelaDepartamento>();
+//        }
+//    }
+//
+//    public void onFacultadSolicitanteChange() {
+//        if (facultadSelectedSol.getIdFacultad()!= null && !facultadSelectedSol.getIdFacultad().toString().equals("")) {
+//            unidadSolList = unidadService.getUnidadesByFacultadId(facultadSelectedSol.getIdFacultad());
+//        } else {
+//            unidadSolList = new ArrayList<EscuelaDepartamento>();
+//        }
+//    }
+//
+//    public void onFacultadAsistenteChange() {
+//        if (facultadSelectedAsis.getIdFacultad()!= null && !facultadSelectedAsis.getIdFacultad().toString().equals("")) {
+//            unidadAsisList = unidadService.getUnidadesByFacultadId(facultadSelectedAsis.getIdFacultad());
+//        } else {
+//            unidadAsisList = new ArrayList<EscuelaDepartamento>();
+//        }
+//    }
 
 //Buscando a persona  Solicitante existente
     public void searchByDocEmailInterno() {
@@ -906,11 +906,11 @@ public class ProyectosMB {
         this.unidadSelected = unidadSelected;
     }
 
-    public List<EscuelaDepartamento> getUnidadList() {
+    public List<Unidad> getUnidadList() {
         return unidadList;
     }
 
-    public void setUnidadList(List<EscuelaDepartamento> unidadList) {
+    public void setUnidadList(List<Unidad> unidadList) {
         this.unidadList = unidadList;
     }
 
@@ -1186,4 +1186,12 @@ public class ProyectosMB {
         this.facultadCoordinador = facultadCoordinador;
     }
 
+    public Map<String, String> getFacultadesUnidadesList() {
+        return facultadesUnidadesList;
+    }
+
+    public void setFacultadesUnidadesList(Map<String, String> facultadesUnidadesList) {
+        this.facultadesUnidadesList = facultadesUnidadesList;
+    }
+    
 }
