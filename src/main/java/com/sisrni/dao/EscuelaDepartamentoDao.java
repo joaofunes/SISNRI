@@ -7,7 +7,6 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.EscuelaDepartamento;
-import com.sisrni.model.Facultad;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -20,9 +19,9 @@ import org.springframework.stereotype.Repository;
 public class EscuelaDepartamentoDao extends GenericDao<EscuelaDepartamento, Integer> {
 
     public List<EscuelaDepartamento> getEscuelasOrDeptoByFacultadId(Integer id) {
-        String query = "SELECT o FROM ESCUELA_DEPARTAMENTO o WHERE o.idFacultad.idFacultad=:idFacultad";
+        String query = "SELECT o FROM EscuelaDepartamento o WHERE o.idFacultad.idFacultad=:id";
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
-        q.setParameter("idFacultad", id);
+        q.setParameter("id", id);
         return q.list();
     }
 }

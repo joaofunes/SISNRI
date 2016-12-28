@@ -253,6 +253,7 @@
                                         <p:column>
                                             <p:selectOneMenu id="facultadAsesorInterno" value="#{becaMB.facuniSelectded}"  style="width:180px" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <p:ajax event="change" listener="#{becaMB.onFacUniChange}" update="escuelaDep" process="@this"/>
                                                 <c:forEach var="fac" items="#{becaMB.facultadesUnidadesList}">
                                                     <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
                                                 </c:forEach>
@@ -264,10 +265,10 @@
                                             <p:outputLabel value="Escuela/Departamento"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="departamentoAsesorInterno" value="#{becaMB.unidadSelectedAsesorInterno.idUnidad}"  style="width:180px" >
+                                            <p:selectOneMenu id="escuelaDep" value="#{becaMB.unidadSelectedAsesorInterno.idUnidad}"  style="width:180px" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <c:forEach var="unidad" items="#{becaMB.unidadListAsesorInterno}">
-                                                    <f:selectItem itemLabel="#{unidad.nombreUnidad}" itemValue="#{unidad.idUnidad}"/>
+                                                <c:forEach var="escDep" items="#{becaMB.escuelaDepartamentoList}">
+                                                    <f:selectItem itemLabel="#{escDep.idEscuelaDepto}" itemValue="#{escDep.nombreEscuelaDepto}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>

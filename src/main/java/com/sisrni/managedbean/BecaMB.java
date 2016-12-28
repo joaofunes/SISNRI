@@ -7,6 +7,7 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Beca;
 import com.sisrni.model.Carrera;
+import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Pais;
@@ -18,6 +19,7 @@ import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.service.BecaService;
 import com.sisrni.service.CarreraService;
+import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PaisService;
@@ -96,6 +98,7 @@ public class BecaMB implements Serializable {
     private List<Unidad> unidadListAsesorInterno;
     private List<Organismo> organismoList;
     private List<PojoFacultadesUnidades> facultadesUnidadesList;
+    private List<EscuelaDepartamento> escuelaDepartamentoList;
     private String facuniSelectded;
 
     private boolean mostrarmonto;
@@ -141,6 +144,9 @@ public class BecaMB implements Serializable {
 
     @Autowired
     BecaService becaService;
+
+    @Autowired
+    EscuelaDepartamentoService escuelaDepartamentoService;
 
     public BecaMB() {
     }
@@ -190,9 +196,9 @@ public class BecaMB implements Serializable {
         tipoModalidadBecaList = tipoModalidadBecaService.findAll();
         unidadListAsesorInterno = unidadService.findAll();
         organismoList = organismoService.findAll();
-        facultadService.findAll();
-        unidadService.findAll();
         facultadesUnidadesList = getListFacultadesUnidades(facultadList, unidadListAsesorInterno);
+        escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
+
         mostrarmonto = true;
     }
 
@@ -365,6 +371,20 @@ public class BecaMB implements Serializable {
             lista.add(pojo);
         }
         return lista;
+    }
+
+    public void onFacUniChange() {
+        if (facuniSelectded != "") {
+            String[] partes = facuniSelectded.split(",");
+            if ("1".equals(partes[1])) {
+                escuelaDepartamentoList = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(partes[0]));
+            } else {
+                escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
+            }
+        } else {
+            escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
+        }
+
     }
 
     public Persona getBecario() {
@@ -629,6 +649,14 @@ public class BecaMB implements Serializable {
 
     public void setFacuniSelectded(String facuniSelectded) {
         this.facuniSelectded = facuniSelectded;
+    }
+
+    public List<EscuelaDepartamento> getEscuelaDepartamentoList() {
+        return escuelaDepartamentoList;
+    }
+
+    public void setEscuelaDepartamentoList(List<EscuelaDepartamento> escuelaDepartamentoList) {
+        this.escuelaDepartamentoList = escuelaDepartamentoList;
     }
 
 }
