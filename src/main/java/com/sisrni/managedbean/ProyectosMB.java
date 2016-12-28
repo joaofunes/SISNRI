@@ -512,7 +512,7 @@ public class ProyectosMB {
                 if (persona != null) {
                     existeSol = 1;
                 }
-                facultadSelectedSol = persona.getIdEscuelaDepto().getFacultad();
+                facultadSelectedSol = persona.getIdEscuelaDepto().getIdFacultad();
                 unidadSelectedSol = persona.getIdEscuelaDepto();
                 onChangeInterno();
 
@@ -549,7 +549,7 @@ public class ProyectosMB {
                 if (personaAsistente != null) {
                     existeAsis = 1;
                 }
-                facultadSelectedAsis = personaAsistente.getIdEscuelaDepto().getFacultad();
+                facultadSelectedAsis = personaAsistente.getIdEscuelaDepto().getIdFacultad();
                 unidadSelectedAsis = personaAsistente.getIdEscuelaDepto();
                 onChangeAsistente();
 
@@ -587,7 +587,7 @@ public class ProyectosMB {
                 if (personaExterna != null) {
                     existeRefExt = 1;
                 }
-                facultadSelectedExt = personaExterna.getIdEscuelaDepto().getFacultad();
+                facultadSelectedExt = personaExterna.getIdEscuelaDepto().getIdFacultad();
                 organismoSelected = personaExterna.getIdOrganismo();
                 onChangeReferenteExterno();
 
