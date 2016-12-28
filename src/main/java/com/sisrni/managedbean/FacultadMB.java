@@ -7,9 +7,9 @@ package com.sisrni.managedbean;
 
 
 import com.sisrni.model.Facultad;
-import com.sisrni.model.Universidad;
+import com.sisrni.model.Organismo;
 import com.sisrni.service.FacultadService;
-import com.sisrni.service.UniversidadService;
+import com.sisrni.service.OrganismoService;
 import com.sisrni.utils.JsfUtil;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -37,8 +37,8 @@ public class FacultadMB{
     
     /*Variables */
     private Facultad facultad;
-    private Universidad universidad;
-    private List<Universidad> listUniversidad;
+    private Organismo organismo;
+    private List<Organismo> listOrganismo;
     private List<Facultad> listFacultad;
     private boolean actualizar;
     
@@ -50,8 +50,8 @@ public class FacultadMB{
     
     
     @Autowired
-    @Qualifier(value = "universidadService")
-    private UniversidadService universidadService;
+    @Qualifier(value = "organismoService")
+    private OrganismoService organismoService;
     
     
     /*Constructor*/
@@ -67,15 +67,15 @@ public class FacultadMB{
     }
     
     /** 
-     * Metodo que crea instancias de 'Facultad' y 'Universidad' y almacena
-     * en una Lista todas las instancias de 'Universidad' que se encuentra en la
+     * Metodo que crea instancias de 'Facultad' y 'Organismo' y almacena
+     * en una Lista todas las instancias de 'Organismo' que se encuentra en la
      * tabla respectiva
      */
     
     public void cargarFacultad(){
         facultad = new Facultad();
-        universidad = new Universidad();
-        listUniversidad = universidadService.findAll();
+        organismo = new Organismo();
+        listOrganismo = organismoService.findAll();
         listFacultad = facultadService.findAll();
         actualizar = false;
     }
@@ -89,7 +89,7 @@ public class FacultadMB{
         String msg ="Facultad Almacenado Exitosamente!";
         try{
            facultad.setIdFacultad(Integer.MIN_VALUE);
-           facultad.setIdUniversidad(universidadService.findById(universidad.getIdUniversidad()));
+           facultad.setIdOrganismo(organismoService.findById(organismo.getIdOrganismo()));
            facultadService.save(facultad);
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
            
@@ -108,7 +108,7 @@ public class FacultadMB{
        try{ 
         actualizar = true;
         this.facultad = facultad;
-        this.universidad.setIdUniversidad(facultad.getIdUniversidad().getIdUniversidad());
+        this.organismo.setIdOrganismo(facultad.getIdOrganismo().getIdOrganismo());
        }catch(Exception e){
            System.out.println(e.getMessage());
        }
@@ -121,7 +121,7 @@ public class FacultadMB{
     public void actualizarFacultad(){
         String msg ="Facultad Actualizado Exitosamente!";
         try{
-            facultad.setIdUniversidad(universidadService.findById(universidad.getIdUniversidad()));
+            facultad.setIdOrganismo(organismoService.findById(organismo.getIdOrganismo()));
             //actualizando la instancia
             facultadService.merge(facultad);
             actualizar = false;
@@ -181,8 +181,8 @@ public class FacultadMB{
         try{
         facultad = null;
         facultad = new Facultad();
-        universidad=null;
-        universidad = new Universidad();
+        organismo=null;
+        organismo = new Organismo();
         RequestContext.getCurrentInstance().reset(":formFacultad");
         JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
@@ -206,21 +206,21 @@ public class FacultadMB{
     }
 
     
-    public Universidad getUniversidad() {
-        return universidad;
+    public Organismo getOrganismo() {
+        return organismo;
     }
 
-    public void setUniversidad(Universidad universidad) {
-        this.universidad = universidad;
+    public void setOrganismo(Organismo organismo) {
+        this.organismo = organismo;
     }
 
     
-    public List<Universidad> getListUniversidad() {
-        return listUniversidad;
+    public List<Organismo> getListOrganismo() {
+        return listOrganismo;
     }
 
-    public void setListUniversidad(List<Universidad> listUniversidad) {
-        this.listUniversidad = listUniversidad;
+    public void setListOrganismo(List<Organismo> listOrganismo) {
+        this.listOrganismo = listOrganismo;
     }
 
     public List<Facultad> getListFacultad() {

@@ -7,9 +7,9 @@ package com.sisrni.managedbean;
 
 
 import com.sisrni.model.Unidad;
-import com.sisrni.model.Facultad;
+import com.sisrni.model.Organismo;
 import com.sisrni.service.UnidadService;
-import com.sisrni.service.FacultadService;
+import com.sisrni.service.OrganismoService;
 import com.sisrni.utils.JsfUtil;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -37,8 +37,8 @@ public class UnidadMB{
     
     /*Variables */
     private Unidad unidad;
-    private Facultad facultad;
-    private List<Facultad> listFacultad;
+    private Organismo organismo;
+    private List<Organismo> listOrganismo;
     private List<Unidad> listUnidad;
     private boolean actualizar;
     
@@ -50,8 +50,8 @@ public class UnidadMB{
     
     
     @Autowired
-    @Qualifier(value = "facultadService")
-    private FacultadService facultadService;
+    @Qualifier(value = "organismoService")
+    private OrganismoService organismoService;
     
     
     /*Constructor*/
@@ -67,15 +67,15 @@ public class UnidadMB{
     }
     
     /** 
-     * Metodo que crea instancias de 'Unidad' y 'Facultad' y almacena
-     * en una Lista todas las instancias de 'Facultad' que se encuentra en la
+     * Metodo que crea instancias de 'Unidad' y 'Organismo' y almacena
+     * en una Lista todas las instancias de 'Organismo' que se encuentra en la
      * tabla respectiva
      */
     
     public void cargarUnidad(){
         unidad = new Unidad();
-        facultad = new Facultad();
-        listFacultad = facultadService.findAll();
+        organismo = new Organismo();
+        listOrganismo = organismoService.findAll();
         listUnidad = unidadService.findAll();
         actualizar = false;
     }
@@ -89,7 +89,7 @@ public class UnidadMB{
         String msg ="Unidad Almacenado Exitosamente!";
         try{
            unidad.setIdUnidad(Integer.MIN_VALUE);
-           unidad.setIdFacultad(facultadService.findById(facultad.getIdFacultad()));
+           unidad.setIdOrganismo(organismoService.findById(organismo.getIdOrganismo()));
            unidadService.save(unidad);
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
            
@@ -108,7 +108,7 @@ public class UnidadMB{
        try{ 
         actualizar = true;
         this.unidad = unidad;
-        this.facultad.setIdFacultad(unidad.getIdFacultad().getIdFacultad());
+        this.organismo.setIdOrganismo(unidad.getIdOrganismo().getIdOrganismo());
        }catch(Exception e){
            System.out.println(e.getMessage());
        }
@@ -121,7 +121,7 @@ public class UnidadMB{
     public void actualizarUnidad(){
         String msg ="Unidad Actualizado Exitosamente!";
         try{
-            unidad.setIdFacultad(facultadService.findById(facultad.getIdFacultad()));
+            unidad.setIdOrganismo(organismoService.findById(organismo.getIdOrganismo()));
             //actualizando la instancia
             unidadService.merge(unidad);
             actualizar = false;
@@ -181,8 +181,8 @@ public class UnidadMB{
         try{
         unidad = null;
         unidad = new Unidad();
-        facultad=null;
-        facultad = new Facultad();
+        organismo=null;
+        organismo = new Organismo();
         RequestContext.getCurrentInstance().reset(":formUnidad");
         JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
@@ -206,21 +206,21 @@ public class UnidadMB{
     }
 
     
-    public Facultad getFacultad() {
-        return facultad;
+    public Organismo getOrganismo() {
+        return organismo;
     }
 
-    public void setFacultad(Facultad facultad) {
-        this.facultad = facultad;
+    public void setOrganismo(Organismo organismo) {
+        this.organismo = organismo;
     }
 
     
-    public List<Facultad> getListFacultad() {
-        return listFacultad;
+    public List<Organismo> getListOrganismo() {
+        return listOrganismo;
     }
 
-    public void setListFacultad(List<Facultad> listFacultad) {
-        this.listFacultad = listFacultad;
+    public void setListOrganismo(List<Organismo> listOrganismo) {
+        this.listOrganismo = listOrganismo;
     }
 
     public List<Unidad> getListUnidad() {
