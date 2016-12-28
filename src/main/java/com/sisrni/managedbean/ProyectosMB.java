@@ -97,6 +97,8 @@ public class ProyectosMB {
     private TipoFacultadService tipoFacultadService;
     @Autowired
     private FacultadProyectoService facultadProyectoService;
+    @Autowired
+    private EscuelaDepartamentoService escuelaDepartamentoService;
 
 //Definicion de objetos    
     private Proyecto proyecto;
@@ -195,6 +197,7 @@ public class ProyectosMB {
     public boolean mostrarmonto;
     private List<PojoFacultadesUnidades> facultadesUnidadesList;
     private String facultadSelectedPojoP;
+    private List<EscuelaDepartamento> escuelaDeptoList;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -293,6 +296,7 @@ public class ProyectosMB {
         yearActual = getYearOfDate(new Date());
         anio = "";
         facultadSelectedPojoP="";
+      
     }
 
     public void guardarProyecto() {
@@ -489,13 +493,12 @@ public class ProyectosMB {
 
     public void onFacultadChange() {
         facultadSelectedPojoP.trim();
-        for(int i=0; i<facultadSelectedPojoP.length();i++){
         String facultadArreglo[]=facultadSelectedPojoP.split(",");
-        }
-        if (facultadSelectedPojoP!= null && !facultadSelectedPojoP.equals("")) {
-            facultadesUnidadesList = EscuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(facultadSelectedPojoP);
+        if(facultadArreglo[1]=="1"){
+//            escuelaDeptoList = EscuelaDepartamentoService.getEscuelasOrDeptoByFacultadId();
+        
         } else {
-          //  unidadList = new ArrayList<EscuelaDepartamento>();
+            escuelaDeptoList = new ArrayList<EscuelaDepartamento>();
         }
     }
 //
@@ -1212,6 +1215,14 @@ public class ProyectosMB {
 
     public void setFacultadSelectedPojoP(String facultadSelectedPojoP) {
         this.facultadSelectedPojoP = facultadSelectedPojoP;
+    }
+
+    public List<EscuelaDepartamento> getEscuelaDeptoList() {
+        return escuelaDeptoList;
+    }
+
+    public void setEscuelaDeptoList(List<EscuelaDepartamento> escuelaDeptoList) {
+        this.escuelaDeptoList = escuelaDeptoList;
     }
     
 }
