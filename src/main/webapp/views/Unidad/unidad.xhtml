@@ -20,24 +20,17 @@
                             <h:outputLabel for="nombre" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombre" value="#{unidadMB.unidad.nombre}" required="true" size="20" />
+                            <p:inputText id="nombre" value="#{unidadMB.unidad.nombreUnidad}" required="true" size="20" />
                             <p:watermark for="nombre" value="Nombre unidad" id="watermarkNombreUnidad"/>
                         </p:column>
-                         <p:column>
-                            <h:outputLabel for="descripcion" value="Descripcion unidad:"/>
+                        <p:column>
+                            <h:outputLabel for="organismo" value="Organismo:"/>
                         </p:column>
                         <p:column>
-                            <p:inputTextarea id="descripcion" value="#{unidadMB.unidad.descripcion}" maxlength="300" style="width:180px"/>
-                            <p:watermark for="descripcion" value="Descripcion" id="watermarkDescripcionUnidad"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputLabel for="facultadUnidad" value="Facultad:"/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="facultadUnidad" value="#{unidadMB.facultad.idFacultad}"  style="width:180px" required="true">
+                            <p:selectOneMenu id="organismo" value="#{unidadMB.organismo.idOrganismo}"  style="width:180px" required="true">
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                <c:forEach var="reg" items="#{unidadMB.listFacultad}">
-                                    <f:selectItem itemLabel="#{reg.nombreFacultad}" itemValue="#{reg.idFacultad}"/>
+                                <c:forEach var="reg" items="#{unidadMB.listOrganismo}">
+                                    <f:selectItem itemLabel="#{reg.nombreOrganismo}" itemValue="#{reg.idOrganismo}"/>
                                 </c:forEach>
                             </p:selectOneMenu>
                         </p:column>
@@ -62,14 +55,11 @@
                     <p:dataTable var="unidad" value="#{unidadMB.listUnidad}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen unidades registrados actualmente" >                       
-                        <p:column headerText="Nombre Unidad"  filterBy="#{unidad.nombre}"  style="width: 20%">
-                            <h:outputText value="#{unidad.nombre}"/>
+                        <p:column headerText="Nombre Unidad"  filterBy="#{unidad.nombreUnidad}"  style="width: 20%">
+                            <h:outputText value="#{unidad.nombreUnidad}"/>
                         </p:column>
-                        <p:column headerText="Descripcion"  filterBy="#{unidad.descripcion}">
-                            <h:outputText value="#{unidad.descripcion}"/>
-                        </p:column>
-                        <p:column headerText="Facultad" filterBy="#{unidad.idFacultad.nombreFacultad}">
-                            <h:outputText value="#{unidad.idFacultad.nombreFacultad}"/>
+                        <p:column headerText="Organismo" filterBy="#{unidad.idOrganismo.nombreOrganismo}">
+                            <h:outputText value="#{unidad.idOrganismo.nombreOrganismo}"/>
                         </p:column> 
                         <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
@@ -99,11 +89,9 @@
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
                     <h:outputLabel value="Nombre Unidad:"/>
-                    <h:outputText value="#{unidadMB.unidad.nombre}"/>
-                    <h:outputLabel  value="Descripcion de Unidad:"/>
-                    <h:outputText value="#{unidadMB.unidad.descripcion}"/>
-                    <h:outputLabel value="Facultad:"/>
-                    <h:outputText value="#{unidadMB.unidad.idFacultad.nombreFacultad}"/>
+                    <h:outputText value="#{unidadMB.unidad.nombreUnidad}"/>
+                    <h:outputLabel value="Organismo:"/>
+                    <h:outputText value="#{unidadMB.unidad.idOrganismo.nombreOrganismo}"/>
                 </p:panelGrid>
                 <br/>
                 <br/>

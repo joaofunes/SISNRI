@@ -24,13 +24,13 @@
                             <p:watermark for="nombreFacultad" value="Nombre facultad" id="watermarkNombreFacultad"/>
                         </p:column>
                         <p:column>
-                            <h:outputLabel for="universidadFacultad" value="Universidad:"/>
+                            <h:outputLabel for="organismoFacultad" value="Organismo:"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="universidadFacultad" value="#{facultadMB.universidad.idUniversidad}"  style="width:120px" required="true">
+                            <p:selectOneMenu id="organismoFacultad" value="#{facultadMB.organismo.idOrganismo}"  style="width:120px" required="true">
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                <c:forEach var="reg" items="#{facultadMB.listUniversidad}">
-                                    <f:selectItem itemLabel="#{reg.nombreUniversidad}" itemValue="#{reg.idUniversidad}"/>
+                                <c:forEach var="reg" items="#{facultadMB.listOrganismo}">
+                                    <f:selectItem itemLabel="#{reg.nombreOrganismo}" itemValue="#{reg.idOrganismo}"/>
                                 </c:forEach>
                             </p:selectOneMenu>
                         </p:column>
@@ -58,8 +58,8 @@
                         <p:column headerText="Facultad"  filterBy="#{facultad.nombreFacultad}">
                             <h:outputText value="#{facultad.nombreFacultad}"/>
                         </p:column>
-                        <p:column headerText="Universidad" filterBy="#{facultad.idUniversidad.nombreUniversidad}">
-                            <h:outputText value="#{facultad.idUniversidad.nombreUniversidad}"/>
+                        <p:column headerText="Organismo" filterBy="#{facultad.idOrganismo.nombreOrganismo}">
+                            <h:outputText value="#{facultad.idOrganismo.nombreOrganismo}"/>
                         </p:column> 
                         <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
@@ -90,8 +90,8 @@
                 <p:panelGrid columns="2">
                     <h:outputLabel value="Nombre Facultad:"/>
                     <h:outputText value="#{facultadMB.facultad.nombreFacultad}"/>
-                    <h:outputLabel value="Universidad:"/>
-                    <h:outputText value="#{facultadMB.facultad.idUniversidad.nombreUniversidad}"/>
+                    <h:outputLabel value="Organismo:"/>
+                    <h:outputText value="#{facultadMB.facultad.idOrganismo.nombreOrganismo}"/>
                 </p:panelGrid>
                 <br/>
                 <br/>
