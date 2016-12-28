@@ -24,14 +24,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Lillian
+ * @author Cortez
  */
 @Entity
 @Table(name = "PROVINCIA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Provincia.findAll", query = "SELECT p FROM Provincia p")})
 public class Provincia implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

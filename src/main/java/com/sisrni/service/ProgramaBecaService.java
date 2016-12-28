@@ -5,25 +5,26 @@
  */
 package com.sisrni.service;
 
-import com.sisrni.dao.UniversidadDao;
+import com.sisrni.dao.ProgramaBecaDao;
 import com.sisrni.dao.generic.GenericDao;
-import com.sisrni.model.Universidad;
+import com.sisrni.model.ProgramaBeca;
 import com.sisrni.service.generic.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Joao
+ * @author Cortez
  */
-@Service(value = "universidadService")
-public class UniversidadService extends GenericService<Universidad, Integer>{
-    
+@Service(value = "programaBecaService")
+public class ProgramaBecaService extends GenericService<ProgramaBeca, Integer> {
+
     @Autowired
-    private UniversidadDao universidadDao;
+    ProgramaBecaDao programaBecaDoa;
+
     @Override
-    public GenericDao<Universidad, Integer> getDao() {
-       return universidadDao;
+    public GenericDao<ProgramaBeca, Integer> getDao() {
+        return programaBecaDoa;
     }
-    
+
 }

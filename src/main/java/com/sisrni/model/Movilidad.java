@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -29,14 +30,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Lillian
+ * @author Cortez
  */
 @Entity
 @Table(name = "MOVILIDAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Movilidad.findAll", query = "SELECT m FROM Movilidad m")})
 public class Movilidad implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,8 +74,13 @@ public class Movilidad implements Serializable {
     private Date fechaEntregaMined;
     @Column(name = "OBSEQUIO")
     private Boolean obsequio;
+    @JoinTable(name = "MOVILIDAD_UNIDAD", joinColumns = {
+        @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD", nullable = false)})
+    @ManyToMany
+    private List<Unidad> unidadList;
     @ManyToMany(mappedBy = "movilidadList")
-    private List<FacultadUnidad> facultadUnidadList;
+    private List<Facultad> facultadList;
     @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID_CATEGORIA_MOVILIDAD")
     @ManyToOne
     private CategoriaMovilidad idCategoria;
@@ -210,12 +215,20 @@ public class Movilidad implements Serializable {
         this.obsequio = obsequio;
     }
 
-    public List<FacultadUnidad> getFacultadUnidadList() {
-        return facultadUnidadList;
+    public List<Unidad> getUnidadList() {
+        return unidadList;
     }
 
-    public void setFacultadUnidadList(List<FacultadUnidad> facultadUnidadList) {
-        this.facultadUnidadList = facultadUnidadList;
+    public void setUnidadList(List<Unidad> unidadList) {
+        this.unidadList = unidadList;
+    }
+
+    public List<Facultad> getFacultadList() {
+        return facultadList;
+    }
+
+    public void setFacultadList(List<Facultad> facultadList) {
+        this.facultadList = facultadList;
     }
 
     public CategoriaMovilidad getIdCategoria() {

@@ -25,14 +25,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Lillian
+ * @author Cortez
  */
 @Entity
 @Table(name = "ORGANISMO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Organismo.findAll", query = "SELECT o FROM Organismo o")})
 public class Organismo implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,6 +67,10 @@ public class Organismo implements Serializable {
     private TipoOrganismo idTipoOrganismo;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Persona> personaList;
+    @OneToMany(mappedBy = "idOrganismo")
+    private List<Unidad> unidadList;
+    @OneToMany(mappedBy = "idOrganismo")
+    private List<Facultad> facultadList;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Telefono> telefonoList;
     @OneToMany(mappedBy = "idUniversidad")
@@ -174,6 +177,22 @@ public class Organismo implements Serializable {
 
     public void setPersonaList(List<Persona> personaList) {
         this.personaList = personaList;
+    }
+
+    public List<Unidad> getUnidadList() {
+        return unidadList;
+    }
+
+    public void setUnidadList(List<Unidad> unidadList) {
+        this.unidadList = unidadList;
+    }
+
+    public List<Facultad> getFacultadList() {
+        return facultadList;
+    }
+
+    public void setFacultadList(List<Facultad> facultadList) {
+        this.facultadList = facultadList;
     }
 
     public List<Telefono> getTelefonoList() {

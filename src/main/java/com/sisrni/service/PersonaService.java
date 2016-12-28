@@ -22,58 +22,57 @@ public class PersonaService extends GenericService<Persona, Integer> {
 
     @Autowired
     private PersonaDao personaDao;
-    
+
     @Override
     public GenericDao<Persona, Integer> getDao() {
         return personaDao;
     }
-    
-    public Persona getByID(int id){
+
+    public Persona getByID(int id) {
         return personaDao.findById(id);
     }
-    
-    public List<Persona> getReferenteInternoByName(String query){
+
+    public List<Persona> getReferenteInternoByName(String query) {
         return personaDao.getReferenteInternoByName(query);
     }
-    
-    public Persona getReferenteInternoByDocEmail(String doc, Persona persona){
-        return personaDao.getReferenteInternoByDocEmail(doc,persona);
+
+    public Persona getReferenteInternoByDocEmail(String doc, Persona persona) {
+        return personaDao.getReferenteInternoByDocEmail(doc, persona);
     }
-    
-    public List<Persona> getReferenteExternoByName(String query){
+
+    public List<Persona> getReferenteExternoByName(String query) {
         return personaDao.getReferenteExternoByName(query);
     }
-    
-     public Persona getReferenteExternoByDocEmail(String doc, Persona persona){
-        return personaDao.getReferenteExternoByDocEmail(doc,persona);
+
+    public Persona getReferenteExternoByDocEmail(String doc, Persona persona) {
+        return personaDao.getReferenteExternoByDocEmail(doc, persona);
     }
-     
-     
-      public Persona getReferenteInternoByDocumento(String doc){
+
+    public Persona getReferenteInternoByDocumento(String doc) {
         return personaDao.getReferenteInternoByDocumento(doc);
     }
-      
-      public Persona getReferenteExternoByDoccumento(String doc){
+
+    public Persona getReferenteExternoByDoccumento(String doc) {
         return personaDao.getReferenteExternoByDoccumento(doc);
     }
-      
-      
-      public List<Persona> getSolicitanteByName(String doc){
+
+    public List<Persona> getSolicitanteByName(String doc) {
         return personaDao.getSolicitanteByName(doc);
     }
-      
-      
-      public Persona getPersonaByProyectoTipoPersona(Integer idProy,Integer idTipoPer){
-          return personaDao.getPersonaByProyectoTipoPersona(idProy, idTipoPer);
-      }
-      
-      
-       public Persona getPersonaByID(Integer id){
-          return personaDao.getPersonaByID(id);
-       }
-      
-      public List<Persona> getPersonaList(boolean extranjero) {
-          return personaDao.getPersonaList(extranjero);
-      }
 
+    public Persona getPersonaByProyectoTipoPersona(Integer idProy, Integer idTipoPer) {
+        return personaDao.getPersonaByProyectoTipoPersona(idProy, idTipoPer);
+    }
+
+    public Persona getPersonaByID(Integer id) {
+        return personaDao.getPersonaByID(id);
+    }
+
+    public List<Persona> getPersonaList(boolean extranjero) {
+        return personaDao.getPersonaList(extranjero);
+    }
+
+    public Persona getBecarioByDoc(String doc) {
+        return personaDao.getBecarioByDoc(doc);
+    }
 }

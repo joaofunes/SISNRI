@@ -6,6 +6,7 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,20 +15,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Lillian
+ * @author Cortez
  */
 @Entity
 @Table(name = "CARRERA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Carrera.findAll", query = "SELECT c FROM Carrera c")})
 public class Carrera implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -39,9 +40,11 @@ public class Carrera implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "NOMBRE_CARRERA", nullable = false, length = 100)
     private String nombreCarrera;
-    @JoinColumn(name = "ID_FACULTAD_UNIDAD", referencedColumnName = "ID_FACULTAD_UNIDAD", nullable = false)
+    @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)
     @ManyToOne(optional = false)
-    private FacultadUnidad idFacultadUnidad;
+    private Facultad idFacultad;
+    @OneToMany(mappedBy = "idCarrera")
+    private List<Persona> personaList;
 
     public Carrera() {
     }
@@ -71,12 +74,20 @@ public class Carrera implements Serializable {
         this.nombreCarrera = nombreCarrera;
     }
 
-    public FacultadUnidad getIdFacultadUnidad() {
-        return idFacultadUnidad;
+    public Facultad getIdFacultad() {
+        return idFacultad;
     }
 
-    public void setIdFacultadUnidad(FacultadUnidad idFacultadUnidad) {
-        this.idFacultadUnidad = idFacultadUnidad;
+    public void setIdFacultad(Facultad idFacultad) {
+        this.idFacultad = idFacultad;
+    }
+
+    public List<Persona> getPersonaList() {
+        return personaList;
+    }
+
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
     }
 
     @Override

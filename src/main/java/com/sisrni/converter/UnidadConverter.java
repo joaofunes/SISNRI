@@ -6,6 +6,7 @@
 package com.sisrni.converter;
 
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.Unidad;
 import com.sisrni.service.UnidadService;
 import com.sisrni.utils.JsfUtil;
 import java.util.logging.Level;
@@ -42,7 +43,7 @@ public class UnidadConverter implements Converter {
         if(value != null && value.trim().length() > 0 && !value.equalsIgnoreCase("null")) {
             try {
                 Integer key = getKey(value);
-                EscuelaDepartamento findById = this.unidadService.findById(key);                 
+                Unidad findById = this.unidadService.findById(key);                 
                return findById;
             } catch(NumberFormatException e) {
                 e.printStackTrace();
