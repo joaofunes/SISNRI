@@ -11,6 +11,7 @@ import com.sisrni.model.ProgramaMovilidad;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoMovilidad;
 import com.sisrni.model.Unidad;
+import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.service.CategoriaMovilidadService;
 import com.sisrni.service.EtapaMovilidadService;
 import com.sisrni.service.FacultadService;
@@ -49,6 +50,7 @@ public class registrarMovilidadMB {
     private Boolean entregaInformeSelected;
     private Boolean obsequioSelected;
     private Integer etapaMovilidadSelected;
+    private String[] facultadesUnidadesBeneficiadasSelected; 
     private String[] facultadesBeneficiadasSelected;
     private String[] unidadesBeneficiadasSelected;
 
@@ -79,11 +81,14 @@ public class registrarMovilidadMB {
     private List<Organismo> listOrganismosOrigen;
     private List<Organismo> listOrganismosDestino;
     private List<EtapaMovilidad> listEtapaMovilidad;
-    private List<Facultad> listFacultad;
+    private List<PojoFacultadesUnidades> listFacultadUnidad;
     //private List<Integer> listFacultadSelected;
     private List<Facultad> listFacultadAdd;
     private List<Unidad> listUnidad;
     private List<Unidad> listUnidadAdd;
+    
+    private List<Facultad> listFacultadBnfUes;
+    private List<Unidad> listUnidadBnfUes;
 
     //Services
     @Autowired
@@ -177,7 +182,11 @@ public class registrarMovilidadMB {
         listPaisDestinoMovilidad = paisService.findAll();
         listPersonaMovilidad = personaService.findAll();
         listEtapaMovilidad = etapamovilidadService.findAll();
-        listFacultad = facultadService.findAll();
+        
+        listFacultadBnfUes =facultadService.findAll(); //revisar esto
+        listUnidadBnfUes = unidadService.findAll();     //revisar esto
+        
+        listFacultadUnidad = getListFacultadesUnidades(listFacultadBnfUes,listUnidadBnfUes);
         listFacultadAdd = new ArrayList<Facultad>();
 
         listUnidad = unidadService.findAll();
@@ -261,6 +270,26 @@ public class registrarMovilidadMB {
         }
     }
 
+   
+    
+    /**
+     * Metodo para  guardar en arreglos las facultades y unidades beneficiadas
+     */
+    public void getArreglosFacultadesUnidadesBeneficiadas(){
+        int result;
+        for(int i = 0 ; i< facultadesUnidadesBeneficiadasSelected.length;i++){
+            if((result = facultadesUnidadesBeneficiadasSelected[i].indexOf(",1"))>-1){
+                
+            }else if((result = facultadesUnidadesBeneficiadasSelected[i].indexOf(",2"))>-1){
+                
+            }else{
+                
+            }
+        }
+        
+    }
+    
+    
     /**
      * Metodo para agregar las facultades beneficiadas a la instancia de
      * Movilidad
@@ -299,6 +328,29 @@ public class registrarMovilidadMB {
         }
     }
 
+    
+    /**
+     * Metodo para unir en una lista las Sub listas de facultad y unidad
+     */
+    private List<PojoFacultadesUnidades> getListFacultadesUnidades(List<Facultad> facs, List<Unidad> unidades) {
+        
+        List<PojoFacultadesUnidades> lista =new ArrayList<PojoFacultadesUnidades>();
+        for (Facultad fac : facs) {
+            PojoFacultadesUnidades pojo=new PojoFacultadesUnidades();
+            pojo.setValue(fac.getIdFacultad() + ",1");
+            pojo.setLabel(fac.getNombreFacultad());
+            lista.add(pojo);
+        }
+        for (Unidad uni : unidades) {
+            PojoFacultadesUnidades pojo=new PojoFacultadesUnidades();
+            pojo.setValue(uni.getIdUnidad() + ",2");
+            pojo.setLabel(uni.getNombreUnidad());
+            lista.add(pojo);
+        }
+        return lista;
+    }
+    
+    
     public void crearMovilidad() {
         try {
             movilidad.setIdProgramaMovilidad(programaMovilidad);
@@ -574,13 +626,13 @@ public class registrarMovilidadMB {
         this.obsequioSelected = obsequioSelected;
     }
 
-    public List<Facultad> getListFacultad() {
-        return listFacultad;
+    public List<PojoFacultadesUnidades> getListFacultadUnidad() {
+        return listFacultadUnidad;
     }
 
-    public void setListFacultad(List<Facultad> listFacultad) {
-        this.listFacultad = listFacultad;
-    }
+    public void setListFacultadUnidad(List<PojoFacultadesUnidades> listFacultadUnidad) {
+        this.listFacultadUnidad = listFacultadUnidad;
+    }    
 
     public Integer getEtapaMovilidadSelected() {
         return etapaMovilidadSelected;
@@ -613,5 +665,15 @@ public class registrarMovilidadMB {
     public void setUnidadesBeneficiadasSelected(String[] unidadesBeneficiadasSelected) {
         this.unidadesBeneficiadasSelected = unidadesBeneficiadasSelected;
     }
+
+    public String[] getFacultadesUnidadesBeneficiadasSelected() {
+        return facultadesUnidadesBeneficiadasSelected;
+    }
+
+    public void setFacultadesUnidadesBeneficiadasSelected(String[] facultadesUnidadesBeneficiadasSelected) {
+        this.facultadesUnidadesBeneficiadasSelected = facultadesUnidadesBeneficiadasSelected;
+    }
+    
+    
 
 }
