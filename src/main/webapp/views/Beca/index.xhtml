@@ -251,10 +251,10 @@
                                             <p:outputLabel value="Facultad/Unidad:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadAsesorInterno" value="#{becaMB.facultadSelectedAsesorInterno.idFacultad}"  style="width:180px" >
+                                            <p:selectOneMenu id="facultadAsesorInterno" value="#{becaMB.facuniSelectded}"  style="width:180px" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <c:forEach var="fac" items="#{becaMB.facultadList}">
-                                                    <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
+                                                <c:forEach var="fac" items="#{becaMB.facultadesUnidadesList}">
+                                                    <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>

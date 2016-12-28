@@ -11,12 +11,11 @@ import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Pais;
 import com.sisrni.model.Persona;
-import com.sisrni.model.PersonaBeca;
-import com.sisrni.model.PersonaBecaPK;
 import com.sisrni.model.ProgramaBeca;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoModalidaBeca;
 import com.sisrni.model.Unidad;
+import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.service.BecaService;
 import com.sisrni.service.CarreraService;
 import com.sisrni.service.FacultadService;
@@ -36,9 +35,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -98,7 +95,8 @@ public class BecaMB implements Serializable {
     private List<TipoModalidaBeca> tipoModalidadBecaList;
     private List<Unidad> unidadListAsesorInterno;
     private List<Organismo> organismoList;
-    Map<String, String> facultadesUnidadesList;
+    private List<PojoFacultadesUnidades> facultadesUnidadesList;
+    private String facuniSelectded;
 
     private boolean mostrarmonto;
 
@@ -351,15 +349,22 @@ public class BecaMB implements Serializable {
         return year;
     }
 
-    private Map<String, String> getListFacultadesUnidades(List<Facultad> facs, List<Unidad> unidades) {
-        Map<String, String> map = new HashMap<String, String>();
+    private List<PojoFacultadesUnidades> getListFacultadesUnidades(List<Facultad> facs, List<Unidad> unidades) {
+
+        List<PojoFacultadesUnidades> lista = new ArrayList<PojoFacultadesUnidades>();
         for (Facultad fac : facs) {
-            map.put(fac.getIdFacultad() + ",1", fac.getNombreFacultad());
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
+            pojo.setValue(fac.getIdFacultad() + ",1");
+            pojo.setLabel(fac.getNombreFacultad());
+            lista.add(pojo);
         }
         for (Unidad uni : unidades) {
-            map.put(uni.getIdUnidad() + ",2", uni.getNombreUnidad());
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
+            pojo.setValue(uni.getIdUnidad() + ",2");
+            pojo.setLabel(uni.getNombreUnidad());
+            lista.add(pojo);
         }
-        return map;
+        return lista;
     }
 
     public Persona getBecario() {
@@ -608,6 +613,22 @@ public class BecaMB implements Serializable {
 
     public void setCarreraSelected(Carrera carreraSelected) {
         this.carreraSelected = carreraSelected;
+    }
+
+    public List<PojoFacultadesUnidades> getFacultadesUnidadesList() {
+        return facultadesUnidadesList;
+    }
+
+    public void setFacultadesUnidadesList(List<PojoFacultadesUnidades> facultadesUnidadesList) {
+        this.facultadesUnidadesList = facultadesUnidadesList;
+    }
+
+    public String getFacuniSelectded() {
+        return facuniSelectded;
+    }
+
+    public void setFacuniSelectded(String facuniSelectded) {
+        this.facuniSelectded = facuniSelectded;
     }
 
 }
