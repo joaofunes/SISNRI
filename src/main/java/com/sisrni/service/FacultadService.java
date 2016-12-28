@@ -10,6 +10,7 @@ import com.sisrni.dao.generic.GenericDao;
 
 import com.sisrni.model.Facultad;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +20,17 @@ import org.springframework.stereotype.Service;
  */
 @Service(value = "facultadService")
 public class FacultadService extends GenericService<Facultad, Integer> {
-    
+
     @Autowired
     private FacultadDao facultadDao;
 
     @Override
     public GenericDao<Facultad, Integer> getDao() {
-       return facultadDao;
+        return facultadDao;
     }
-    
-    
+
+    public List<Facultad> getFacultadesByUniversidad(Integer idOrganismo) {
+        return facultadDao.getFacultadesByUniversidad(idOrganismo);
+    }
+
 }
