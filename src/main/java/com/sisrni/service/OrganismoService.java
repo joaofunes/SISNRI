@@ -18,18 +18,21 @@ import org.springframework.stereotype.Service;
  * @author Joao
  */
 @Service(value = "organismoService")
-public class OrganismoService extends GenericService<Organismo, Integer>  {
-    
+public class OrganismoService extends GenericService<Organismo, Integer> {
+
     @Autowired
     private OrganismoDao organismoDao;
-    
+
     @Override
     public GenericDao<Organismo, Integer> getDao() {
         return organismoDao;
     }
-    
-    public List<Integer> getOrganismosProyecto(Integer id){
+
+    public List<Integer> getOrganismosProyecto(Integer id) {
         return organismoDao.getOrganismosProyecto(id);
     }
-    
+
+    public List<Organismo> getOrganismosPorPaisYTipo(int idPais, int idTipo) {
+        return organismoDao.getOrganismosPorPaisYTipo(idPais, idTipo);
+    }
 }

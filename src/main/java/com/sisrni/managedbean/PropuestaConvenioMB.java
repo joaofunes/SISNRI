@@ -228,7 +228,7 @@ public class PropuestaConvenioMB implements Serializable{
              
              //***Editar Persona***
              listadoOrganismo = organismoService.findAll();
-             listadoUnidad = unidadService.findAll();
+            // listadoUnidad = unidadService.findAll();
              listadoTipoPersona = tipoPersonaService.findAll();
              
          } catch (Exception e) {
