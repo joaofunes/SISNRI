@@ -78,7 +78,7 @@ public class BecaMB implements Serializable {
     //para el referente interno
     private Persona asesorInterno;
     private Facultad facultadSelectedAsesorInterno;
-    private Unidad unidadSelectedAsesorInterno;
+    private EscuelaDepartamento escuelaDeptoInterno;
     private Telefono telefonoFijoAsesorInterno;
     private Telefono telefonoCelularAsesorInterno;
 
@@ -177,7 +177,7 @@ public class BecaMB implements Serializable {
         //para el referente interno
         asesorInterno = new Persona();
         facultadSelectedAsesorInterno = new Facultad();
-        unidadSelectedAsesorInterno = new Unidad();
+        escuelaDeptoInterno = new EscuelaDepartamento();
         telefonoFijoAsesorInterno = new Telefono();
         telefonoCelularAsesorInterno = new Telefono();
 
@@ -563,14 +563,15 @@ public class BecaMB implements Serializable {
         this.facultadSelectedAsesorInterno = facultadSelectedAsesorInterno;
     }
 
-    public Unidad getUnidadSelectedAsesorInterno() {
-        return unidadSelectedAsesorInterno;
+    public EscuelaDepartamento getEscuelaDeptoInterno() {
+        return escuelaDeptoInterno;
     }
 
-    public void setUnidadSelectedAsesorInterno(Unidad unidadSelectedAsesorInterno) {
-        this.unidadSelectedAsesorInterno = unidadSelectedAsesorInterno;
+    public void setEscuelaDeptoInterno(EscuelaDepartamento escuelaDeptoInterno) {
+        this.escuelaDeptoInterno = escuelaDeptoInterno;
     }
 
+  
     public List<Unidad> getUnidadListAsesorInterno() {
         return unidadListAsesorInterno;
     }

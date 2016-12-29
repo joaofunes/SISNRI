@@ -265,10 +265,10 @@
                                             <p:outputLabel value="Escuela/Departamento"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="escuelaDep" value="#{becaMB.unidadSelectedAsesorInterno.idUnidad}"  style="width:180px" >
+                                            <p:selectOneMenu id="escuelaDep" value="#{becaMB.escuelaDeptoInterno.idEscuelaDepto}"  style="width:180px" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="escDep" items="#{becaMB.escuelaDepartamentoList}">
-                                                    <f:selectItem itemLabel="#{escDep.idEscuelaDepto}" itemValue="#{escDep.nombreEscuelaDepto}"/>
+                                                    <f:selectItem itemLabel="#{escDep.descripcion}" itemValue="#{escDep.idEscuelaDepto}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
