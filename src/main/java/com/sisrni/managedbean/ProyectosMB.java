@@ -494,11 +494,11 @@ public class ProyectosMB {
     public void onFacultadChange() {
         facultadSelectedPojoP.trim();
         String facultadArreglo[]=facultadSelectedPojoP.split(",");
-        if(facultadArreglo[1]=="1"){
-//            escuelaDeptoList = EscuelaDepartamentoService.getEscuelasOrDeptoByFacultadId();
+        if(facultadArreglo[1].equals("1")){
+            escuelaDeptoList = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadArreglo[0]));
         
         } else {
-            escuelaDeptoList = new ArrayList<EscuelaDepartamento>();
+            int band=1;
         }
     }
 //
