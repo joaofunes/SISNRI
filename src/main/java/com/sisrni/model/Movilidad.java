@@ -79,7 +79,10 @@ public class Movilidad implements Serializable {
         @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD", nullable = false)})
     @ManyToMany
     private List<Unidad> unidadList;
-    @ManyToMany(mappedBy = "movilidadList")
+    @JoinTable(name = "MOVILIDAD_FACULTAD", joinColumns = {
+        @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)})
+    @ManyToMany
     private List<Facultad> facultadList;
     @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID_CATEGORIA_MOVILIDAD")
     @ManyToOne

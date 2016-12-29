@@ -15,13 +15,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -43,10 +41,7 @@ public class Facultad implements Serializable {
     @Size(max = 100)
     @Column(name = "NOMBRE_FACULTAD", length = 100)
     private String nombreFacultad;
-    @JoinTable(name = "MOVILIDAD_FACULTAD", joinColumns = {
-        @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD", nullable = false)})
-    @ManyToMany
+    @ManyToMany(mappedBy = "facultadList")
     private List<Movilidad> movilidadList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFacultad")
     private List<Carrera> carreraList;
@@ -55,8 +50,8 @@ public class Facultad implements Serializable {
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "facultad")
-    private EscuelaDepartamento escuelaDepartamento;
+    @OneToMany(mappedBy = "idFacultad")
+    private List<EscuelaDepartamento> escuelaDepartamentoList;
 
     public Facultad() {
     }
@@ -113,12 +108,12 @@ public class Facultad implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
-    public EscuelaDepartamento getEscuelaDepartamento() {
-        return escuelaDepartamento;
+    public List<EscuelaDepartamento> getEscuelaDepartamentoList() {
+        return escuelaDepartamentoList;
     }
 
-    public void setEscuelaDepartamento(EscuelaDepartamento escuelaDepartamento) {
-        this.escuelaDepartamento = escuelaDepartamento;
+    public void setEscuelaDepartamentoList(List<EscuelaDepartamento> escuelaDepartamentoList) {
+        this.escuelaDepartamentoList = escuelaDepartamentoList;
     }
 
     @Override

@@ -48,11 +48,11 @@
                                             <p:outputLabel value="Facultad/Unidad:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadproyecto" value="#{proyectosMB.facultadSelected.idFacultad}" style="width:180px" required="true">
+                                            <p:selectOneMenu id="facultadproyecto" value="#{proyectosMB.facultadSelectedPojoP}" style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <p:ajax listener="#{proyectosMB.onFacultadChange()}" update="unidadproyecto" />
-                                                <c:forEach var="fac" items="#{proyectosMB.facultadList}">
-                                                    <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
+                                            <p:ajax listener="#{proyectosMB.onFacultadChange()}" update="unidadasis" process="@this"/>
+                                                <c:forEach var="fac" items="#{proyectosMB.facultadesUnidadesList}">
+                                                    <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
@@ -60,10 +60,10 @@
                                             <p:outputLabel value="Escuela/Departamento:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="unidadproyecto" value="#{proyectosMB.unidadSelected.idUnidad}" style="width:180px" required="true">
+                                            <p:selectOneMenu id="unidadproyecto" value="#{proyectosMB.escuelaDeptoSelected.idEscuelaDepto}" style="width:180px" required="true">
                                                 <f:selectItem itemLabel="-- Seleccione --" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="uni" items="#{proyectosMB.unidadList}">
-                                                    <f:selectItem itemLabel="#{uni.nombreUnidad}" itemValue="#{uni.idUnidad}"/>
+                                                    <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
@@ -228,10 +228,10 @@
                                             <p:outputLabel value="Escuela/Departamento:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="unidadsolicitante" value="#{proyectosMB.unidadSelectedSol.idUnidad}"  style="width:180px" required="true">
+                                            <p:selectOneMenu id="unidadsolicitante" value="#{proyectosMB.unidadSelectedSol.idEscuelaDepto}"  style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="fac" items="#{proyectosMB.unidadSolList}">
-                                                    <f:selectItem itemLabel="#{fac.nombreUnidad}" itemValue="#{fac.idUnidad}"/>
+                                                    <f:selectItem itemLabel="#{fac.nombreEscuelaDepto}" itemValue="#{fac.idEscuelaDepto}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
@@ -306,10 +306,10 @@
                                         <p:outputLabel value="Escuela/Departamento"/>
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="unidadasis" value="#{proyectosMB.unidadSelectedAsis.idUnidad}"  style="width:180px" >
+                                        <p:selectOneMenu id="unidadasis" value="#{proyectosMB.unidadSelectedAsis.idEscuelaDepto}"  style="width:180px" >
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <c:forEach var="uni" items="#{proyectosMB.unidadAsisList}">
-                                                <f:selectItem itemLabel="#{uni.nombreUnidad}" itemValue="#{uni.idUnidad}"/>
+                                                <f:selectItem itemLabel="#{uni.nombreEscuelaDepto}" itemValue="#{uni.idEscuelaDepto}"/>
                                             </c:forEach>
                                         </p:selectOneMenu>
                                     </p:column>

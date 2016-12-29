@@ -14,47 +14,43 @@
                 <center>
                     <p:panel style="width: 80%">
                         <h:form id="formRegistrarMovilidad">
-
-
                             <p:tab>
                                 <p:column>
                                     <p:row>
-
-
-                                        <p:outputLabel for="nombreMovilidad" value="Programa de movilidad"/>
-
+                                        <p:outputLabel for="tipoMovilidad" value="Tipo de movilidad"/>
                                     </p:row>
                                     <p:row>
-
-                                        <!--<p:inputTextarea id="nombreMovilidad" label="nombreMovilidad" value="#" style="width:180px"/>-->
-                                        <p:selectOneMenu id="nombreMovilidad" value="#{registrarMovilidadMB.programaMovilidadSelected.idProgramaMovilidad}" style="width: 180px"  required="true">
+                                        <p:selectOneMenu id="tipoMovilidad" value="#{registrarMovilidadMB.tipoMovilidadSelected}" style="width: 180px"  required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <f:selectItems value="#{registrarMovilidadMB.listProgramaMovilidad}" var="nombMovilidad" itemLabel="#{nombMovilidad.nombreProgramaMovilidad}" itemValue="#{nombMovilidad.idProgramaMovilidad}"/>
-                                            <p:ajax listener="#{registrarMovilidadMB.onchangeProgramaMovilidadList()}" update="acordion:descripcionMovilidad"/>
+                                            <f:selectItems value="#{registrarMovilidadMB.listTipoMovilidad}" var="tipoMov" itemLabel="#{tipoMov.nombreTipoMovilidad}" itemValue="#{tipoMov.idTipoMovilidad}"/>
+                                            <p:ajax listener="#{registrarMovilidadMB.onchangeTipoMovilidadList()}" update="formRegistrarMovilidad"/>
                                         </p:selectOneMenu>
                                     </p:row>
                                 </p:column>
                             </p:tab>
-                            <p:accordionPanel multiple="true" activeIndex="0,1,2,3,4" id="acordion">
+
+                            <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
                                 <p:tab title="Informacion academica">
                                     <p:panelGrid columns="4">
+                                        <p:column>
+                                            <p:outputLabel for="nombreMovilidad" value="Programa de movilidad"/>
+                                        </p:column>
+                                        <p:column>
+                                            <!--<p:inputTextarea id="nombreMovilidad" label="nombreMovilidad" value="#" style="width:180px"/>-->
+                                            <p:selectOneMenu id="nombreMovilidad" value="#{registrarMovilidadMB.programaMovilidadSelected.idProgramaMovilidad}" style="width: 180px"  required="true">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItems value="#{registrarMovilidadMB.listProgramaMovilidad}" var="nombMovilidad" itemLabel="#{nombMovilidad.nombreProgramaMovilidad}" itemValue="#{nombMovilidad.idProgramaMovilidad}"/>
+                                                <p:ajax listener="#{registrarMovilidadMB.onchangeProgramaMovilidadList()}" update="acordion:descripcionMovilidad"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+
                                         <p:column>
                                             <p:outputLabel for="descripcionMovilidad" value="Descripcion"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputTextarea id="descripcionMovilidad" value="#{registrarMovilidadMB.programaMovilidad.descripcion}" style="width:180px"/>
                                         </p:column>
-                                        <p:column>
-                                            <p:outputLabel for="tipoMovilidad" value="Tipo de movilidad"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:selectOneMenu id="tipoMovilidad" value="#{registrarMovilidadMB.tipoMovilidadSelected}" style="width: 180px"  required="true">
-                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listTipoMovilidad}" var="tipoMov" itemLabel="#{tipoMov.nombreTipoMovilidad}" itemValue="#{tipoMov.idTipoMovilidad}"/>
-                                                <p:ajax listener="#{registrarMovilidadMB.onchangeTipoMovilidadList()}" update="formRegistrarMovilidad"/>
-                                            </p:selectOneMenu>
-                                        </p:column>
-
+                                       
                                         <p:column>
                                             <p:outputLabel for="categoriaMovilidad" value="Categoria movilidad"/>
                                         </p:column>
@@ -180,6 +176,7 @@
                                             <p:selectOneMenu id="paisOrigen" value="#{registrarMovilidadMB.paisOrigenSelected}" style="width: 180px"  required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listPaisOrigenMovilidad}" var="paisOrig" itemLabel="#{paisOrig.nombrePais}" itemValue="#{paisOrig.idPais}"/>
+                                                <p:ajax listener="#{registrarMovilidadMB.onchangeListPaisOrigen()}"  update="institucionOrigen"/>
                                             </p:selectOneMenu>
                                         </p:column>
 
@@ -189,7 +186,7 @@
                                         <p:column>
                                             <p:selectOneMenu id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenSelected}" style="width: 180px"  >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listUniversidad}" var="institucionOrig" itemLabel="#{institucionOrig.nombreUniversidad}" itemValue="#{institucionOrig.idUniversidad}"/>
+                                                <f:selectItems value="#{registrarMovilidadMB.listOrganismosOrigen}" var="institucionOrig" itemLabel="#{institucionOrig.nombreOrganismo}" itemValue="#{institucionOrig.idOrganismo}"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
@@ -199,15 +196,16 @@
                                             <p:selectOneMenu id="paisDestino" value="#{registrarMovilidadMB.paisDestinoSelected}" style="width: 180px" required="true" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listPaisDestinoMovilidad}" var="paisDest" itemLabel="#{paisDest.nombrePais}" itemValue="#{paisDest.idPais}"/>
+                                                <p:ajax listener="#{registrarMovilidadMB.onchangeListPaisDestino()}"  update="institucionDestino"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="institucionDestino" value="Institucion destino"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="institucionDestino" value="#" style="width: 180px" required="true" >
+                                            <p:selectOneMenu id="institucionDestino" value="#{registrarMovilidadMB.institucionDestinoSelected}" style="width: 180px" required="true" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listUniversidadDestino}" var="institucionDest" itemLabel="#{institucionDest.nombreUniversidad}" itemValue="#{institucionDest.idUniversidad}"/>
+                                                <f:selectItems value="#{registrarMovilidadMB.listOrganismosDestino}" var="institucionDest" itemLabel="#{institucionDest.nombreOrganismo}" itemValue="#{institucionDest.idOrganismo}"/>
                                             </p:selectOneMenu>
                                         </p:column>
 
@@ -230,28 +228,31 @@
                                             <p:inputText id="viaticos" label="viaticos" value="#{registrarMovilidadMB.movilidad.viaticos}" />
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="pagoCurso" value="Pago de curso"/>   <!--Pendiente-->
+                                            <p:outputLabel for="pagoCurso" value="Pago de curso"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="pagoCurso" label="pagoCurso" value="#" />  <!--Pendiente-->
+                                            <p:inputText id="pagoCurso" label="pagoCurso" value="#{registrarMovilidadMB.movilidad.pagoDeCurso}" />
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="boletoAereo" value="Boleto aereo"/>  <!--Pendiente-->
+                                            <p:outputLabel for="boletoAereo" value="Boleto aereo"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="boletoAereo" label="boletoAereo" value="#" /> <!--Pendiente-->
+                                            <p:inputText id="boletoAereo" label="boletoAereo" value="#{registrarMovilidadMB.movilidad.voletoAereo}" />
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="fechaEntregaMined" value="Fecha de entrega al MINED"/>  <!--Pendiente-->
+                                            <p:outputLabel for="fechaEntregaMined" value="Fecha de entrega al MINED"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="fechaEntregaMined" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10"/><!--Pendiente-->
+                                            <p:calendar id="fechaEntregaMined" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10" value="#{registrarMovilidadMB.fechaEntregaMinedSelected}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="etapa" value="Etapa"/> <!--Pendiente-->
+                                            <p:outputLabel for="etapa" value="Etapa"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="etapa" label="Etapa" value="#" /><!--Pendiente-->
+                                            <p:selectOneMenu id="etapa" value="#{registrarMovilidadMB.etapaMovilidadSelected}" style="width: 180px">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItems value="#{registrarMovilidadMB.listEtapaMovilidad}" var="etapaMov" itemLabel="#{etapaMov.nombreEtapa}" itemValue="#{etapaMov.idEtapa}"/>
+                                            </p:selectOneMenu>
                                         </p:column> 
 
                                         <p:column>
@@ -265,37 +266,35 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="obsequio" value="Obsequio"/>    <!--Pendiente-->
+                                            <p:outputLabel for="obsequio" value="Obsequio"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="obsequio" value="#" style="width: 180px" >                         <!--Pendiente-->
+                                            <p:selectOneMenu id="obsequio" value="#{registrarMovilidadMB.obsequioSelected}" style="width: 180px"> 
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItem itemLabel="SI" itemValue="true"/>
                                                 <f:selectItem itemLabel="NO" itemValue="false"/>
                                             </p:selectOneMenu>
                                         </p:column>
-                                    </p:panelGrid>
-                                </p:tab>
-                                <p:tab title="Facultad/Unidad Beneficiada">
-                                    <p:panelGrid columns="4">
                                         <p:column>
-                                            <p:outputLabel for="facultadBeneficiada" value="Facultad/Unidad beneficiada"/>
+                                            <p:outputLabel for="facultadBeneficiada" value="Facultades/Unidades beneficiadas"/>  
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadBeneficiada" value="#" style="width: 180px" >
+                                            <p:selectCheckboxMenu id="facultadBeneficiada" value="#{registrarMovilidadMB.facultadesUnidadesBeneficiadasSelected}"  label="Facultades Beneficiadas" panelStyle="width: 180px" filter="true" filterMatchMode="startsWith">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#" var="facultadBenef" itemLabel="#" itemValue="#"/>
-                                            </p:selectOneMenu>
-                                        </p:column>
-                                        <p:column>
+                                                <f:selectItems value="#{registrarMovilidadMB.listFacultadUnidad}" var="facultadBenef" itemLabel="#{facultadBenef.label}" itemValue="#{facultadBenef.value}"/>
+                                            </p:selectCheckboxMenu>
+                                        </p:column>   
+                                       
+                                         <p:column>
                                             <p:outputLabel for="otroBeneficiado" value="Otro beneficiado"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="otroBeneficiado" label="otroBeneficiado" value="#"/>
+                                            <p:inputText id="otroBeneficiado" label="otroBeneficiado" value="#{registrarMovilidadMB.movilidad.otrosBeneficiados}"/>
                                         </p:column>
 
                                     </p:panelGrid>
                                 </p:tab>
+
                                 <p:tab title="Datos Referente de la facultad">
                                     <p:panelGrid columns="4">
                                         <p:column>

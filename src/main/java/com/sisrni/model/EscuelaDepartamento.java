@@ -14,10 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -46,9 +46,9 @@ public class EscuelaDepartamento implements Serializable {
     private Boolean identificador;
     @OneToMany(mappedBy = "idEscuelaDepto")
     private List<Persona> personaList;
-    @JoinColumn(name = "ID_ESCUELA_DEPTO", referencedColumnName = "ID_FACULTAD", nullable = false, insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Facultad facultad;
+    @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
+    @ManyToOne
+    private Facultad idFacultad;
 
     public EscuelaDepartamento() {
     }
@@ -97,12 +97,12 @@ public class EscuelaDepartamento implements Serializable {
         this.personaList = personaList;
     }
 
-    public Facultad getFacultad() {
-        return facultad;
+    public Facultad getIdFacultad() {
+        return idFacultad;
     }
 
-    public void setFacultad(Facultad facultad) {
-        this.facultad = facultad;
+    public void setIdFacultad(Facultad idFacultad) {
+        this.idFacultad = idFacultad;
     }
 
     @Override

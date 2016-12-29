@@ -8,6 +8,7 @@ package com.sisrni.service;
 import com.sisrni.dao.UnidadDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.Unidad;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +19,19 @@ import org.springframework.stereotype.Service;
  * @author Joao
  */
 @Service(value = "unidadService")
-public class UnidadService extends GenericService<EscuelaDepartamento, Integer>{
+public class UnidadService extends GenericService<Unidad, Integer>{
     
     @Autowired
     private UnidadDao unidadDao;
     
     @Override
-    public GenericDao<EscuelaDepartamento, Integer> getDao() {
+    public GenericDao<Unidad, Integer> getDao() {
      return unidadDao;
    }
-    public List<EscuelaDepartamento> getUnidadesByFacultadId(Integer id){
-    return unidadDao.getUnidadesByFacultadId(id);
-    }
+    
+    //lo comente por si lo utilizamos despues aunque las unidades ya no estan por facultad
+//    public List<EscuelaDepartamento> getUnidadesByFacultadId(Integer id) {
+//        return unidadDao.getUnidadesByFacultadId(id);
+//    }
     
 }

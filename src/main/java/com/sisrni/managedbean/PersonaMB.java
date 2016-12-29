@@ -115,7 +115,7 @@ public class PersonaMB implements Serializable{
      private void inicializarListas() {
          try {
              listadoOrganismo = organismoService.findAll();
-             listadoUnidad = unidadService.findAll();
+             //listadoUnidad = unidadService.findAll();
              listadoTipoPersona = tipoPersonaService.findAll();            
              listadoTelefono = telefonoService.findAll();
              llenarPojoPersona(); 
