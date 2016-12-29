@@ -65,8 +65,8 @@ public class PropuestaConvenioMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
      
-    private static final String FIJO ="FIJO";  
-    private static final String FAX ="FAX";  
+    private static final String FIJO="FIJO";
+    private static final String CELULAR="CELULAR";  
     private static final String SOLICITANTE ="SOLICITANTE";  
     private static final String REFERENTE_INTERNO ="REFERENTE INTERNO";  
     private static final String REFERENTE_EXTERNO ="REFERENTE EXTERNO";  
@@ -301,6 +301,18 @@ public class PropuestaConvenioMB implements Serializable{
              
              referenteInterno=personaService.getPersonaByDui(query);
              
+             
+             List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteInterno);
+
+                for (Telefono tel : telefonosByPersona) {
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
+                        telFijoInterno=tel;                      
+                    }
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
+                        telCelularInterno=tel; 
+                    }
+                }
+             
              RequestContext context=RequestContext.getCurrentInstance();
              context.update("formAdmin:idSolicinateNombreInterno");
              context.update("formAdmin:idSolicinateApellidoInterno");
@@ -327,17 +339,29 @@ public class PropuestaConvenioMB implements Serializable{
         
          try {
              
-             referenteInterno=personaService.getPersonaByPasaporte(query);
+             referenteExterno=personaService.getPersonaByPasaporte(query);
+             
+               List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteExterno);
+
+                for (Telefono tel : telefonosByPersona) {
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
+                        telFijoExterno=tel;                      
+                    }
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
+                        telCelularExterno=tel; 
+                    }
+                }
+             
              
              RequestContext context=RequestContext.getCurrentInstance();
-             context.update("formAdmin:idSolicinateNombreInterno");
-             context.update("formAdmin:idSolicinateApellidoInterno");
-             context.update("formAdmin:email");
-             context.update("formAdmin:idTelFijoInterno");
-             context.update("formAdmin:idCelInterno");
-             context.update("formAdmin:idFacultadInterno");
-             context.update("formAdmin:idUnidadInterno");
-             context.update("formAdmin:idCargoInterno");
+             context.update("formAdmin:idSolicinateNombreExterno");
+             context.update("formAdmin:idSolicinateApellidoExterno");
+             context.update("formAdmin:emailExterno");
+             context.update("formAdmin:idTelefonoExterno");
+             context.update("formAdmin:idCelExterno");
+             context.update("formAdmin:idCargoExterno");
+             context.update("formAdmin:idEntidadInstitucion");
+
              
          } catch (Exception e) {
              e.printStackTrace();
@@ -384,7 +408,7 @@ public class PropuestaConvenioMB implements Serializable{
                 if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
                     telFijoInterno= us;
                 }
-                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
+                if(us.getIdTipoTelefono().getNombre().equals(CELULAR)){
                     telCelularInterno= us;
                 }                
             }             
@@ -449,7 +473,7 @@ public class PropuestaConvenioMB implements Serializable{
                 if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
                     telFijoExterno= us;
                 }
-                if(us.getIdTipoTelefono().getNombre().equals(FAX)){
+                if(us.getIdTipoTelefono().getNombre().equals(CELULAR)){
                     telCelularExterno= us;
                 }                
             }             
