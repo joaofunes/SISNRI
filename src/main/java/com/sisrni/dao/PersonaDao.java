@@ -249,12 +249,6 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         return null;
     }
     
-    
-    
-    
-    
-}
-
 
     public Persona getBecarioByDoc(String doc) {
         String query = "Select b FROM Persona b where b.duiPersona=:doc";

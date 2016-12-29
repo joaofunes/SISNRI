@@ -83,19 +83,6 @@ public class PersonaService extends GenericService<Persona, Integer> {
          return personaDao.getPersonaByPasaporte(pasaporte);
      }
 
-
-    public Persona getPersonaByProyectoTipoPersona(Integer idProy, Integer idTipoPer) {
-        return personaDao.getPersonaByProyectoTipoPersona(idProy, idTipoPer);
-    }
-
-    public Persona getPersonaByID(Integer id) {
-        return personaDao.getPersonaByID(id);
-    }
-
-    public List<Persona> getPersonaList(boolean extranjero) {
-        return personaDao.getPersonaList(extranjero);
-    }
-
     public Persona getBecarioByDoc(String doc) {
         return personaDao.getBecarioByDoc(doc);
     }
