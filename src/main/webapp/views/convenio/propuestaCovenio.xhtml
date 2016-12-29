@@ -11,8 +11,8 @@
                  >
 
     <ui:define name="content">
-        <ui:include src="../persona/crearPersona.xhtml" />
-        <ui:include src="../persona/editPersona.xhtml" />
+<!--        <ui:include src="../persona/crearPersona.xhtml" />
+        <ui:include src="../persona/editPersona.xhtml" />-->
 
         <h:form id="formAdmin">
             <center> 
@@ -67,7 +67,7 @@
                                 <p:outputLabel for="idFacultad" value="Facultad" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idFacultad"  required="true" label="Facultad" value="#{propuestaConvenioMB.solicitante.idUnidad.idFacultad.nombreFacultad}"/>
+                                <p:inputText id="idFacultad"  required="true" label="Facultad" value="#{propuestaConvenioMB.solicitante.idCarrera.idFacultad.nombreFacultad}"/>
                                 <p:message for="idFacultad" />
                                 <p:watermark for="idFacultad" value="Facultad" id="watermarkFacultad" />
                             </p:column>
@@ -75,7 +75,8 @@
                                 <p:outputLabel for="idUnidad" value="Unidad" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombreUnidad}"/>
+                                <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombreUnidad}" /> 
+
                                 <p:message for="idUnidad" />
                                 <p:watermark for="idUnidad" value="Unidad" id="watermarkUnion" />
                             </p:column>
@@ -111,18 +112,19 @@
                             </p:column>
                             <p:column>
                                
-                                <p:autoComplete id="idSolicinateNombreInternostets" minQueryLength="8" value="#{propuestaConvenioMB.numDocumentoInterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"/>
-                                  
+                                <p:autoComplete id="idDocumentoInterno" minQueryLength="8" size="8" maxlength="8" value="#{propuestaConvenioMB.numDocumentoInterno}" 
+                                                completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"  />
+                                  <p:watermark for="idDocumentoInterno" value="99999999-9" />
                                 
-                                    <p:inputMask id="idDocumentoInterno"   autocomplete="" value="#{propuestaConvenioMB.numDocumentoInterno}" mask="99999999-9">
+<!--                                    <p:inputMask id="idDocumentoInterno"   autocomplete="" value="#{propuestaConvenioMB.numDocumentoInterno}" mask="99999999-9">
                                        <p:ajax event="keyup" listener="#{propuestaConvenioMB.completeBusquedaDui()}" process="@this,idDocumentoInterno" update="idFacultadInterno,idUnidadInterno,formAdmin"/>
                                     </p:inputMask>    
                                     <p:watermark for="idDocumentoInterno" value="99999999-9" id="watermarkDui" />
-                                    <p:message for="idDocumentoInterno" /> 
+                                    <p:message for="idDocumentoInterno" /> -->
                                                                
                             </p:column>
                             
-                            <p:column>
+<!--                            <p:column>
                                 <p:outputLabel for="idSolicinateNombreInternos" value="Busqueda Nombre Solicitante" />
                             </p:column>
                             <p:column>
@@ -132,7 +134,7 @@
                                 </p:autoComplete> 
                                 <p:watermark for="idSolicinateNombreInternos" value="Ingrese Nombre Solicitante" id="solNomb2" />
                                 <p:message for="idSolicinateNombreInternos" />
-                            </p:column>
+                            </p:column>-->
 
 
                         </p:row>
@@ -172,7 +174,7 @@
                                 <p:watermark for="email" value="correo@email.com" id="watermarkEmail" />
                             </p:column>
                             <p:column>
-                                <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailInterno}" process="@this idDocumentoInterno email" id="idBtnSearchInByEmail" icon="ui-icon-search" title="Buscar referente interno" />
+                                <p:commandButton actionListener="#{propuestaConvenioMB.FileRead()}" process="@this email" id="idBtnSearchInByEmail" icon="ui-icon-search" title="Buscar referente interno" />
                             </p:column>
 
                         </p:row>   
@@ -186,12 +188,12 @@
                                 <p:message for="idTelFijoInterno" />
                             </p:column>
                             <p:column>
-                                <p:outputLabel for="idFaxInterno" value="Cel:" />
+                                <p:outputLabel for="idCelInterno" value="Cel:" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idFaxInterno" required="true"  readonly="true" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}"/> 
-                                <p:watermark for="idFaxInterno" value="xxxx-xxxx" id="waterfax" /> 
-                                <p:message for="idFaxInterno" />
+                                <p:inputText id="idCelInterno" required="true"  readonly="true" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}"/> 
+                                <p:watermark for="idCelInterno" value="xxxx-xxxx" id="waterfax" /> 
+                                <p:message for="idCelInterno" />
                             </p:column>
                         </p:row>
                         <p:row>
@@ -199,7 +201,7 @@
                                 <p:outputLabel for="idFacultadInterno" value="Facultad" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idFacultadInterno"  required="true" readonly="true" label="Facultad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.idFacultad.nombreFacultad}"/>
+                                <p:inputText id="idFacultadInterno"  required="true" readonly="true" label="Facultad" value="#{propuestaConvenioMB.referenteInterno.idCarrera.idFacultad.nombreFacultad}"/>
                                 <p:watermark for="idFacultadInterno" value="Facultad" id="watermarkFac" />
                                 <p:message for="idFacultadInterno" />
                             </p:column>
@@ -207,7 +209,7 @@
                                 <p:outputLabel for="idUnidadInterno" value="Unidad" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idUnidadInterno"  required="true" readonly="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombreUnidad}"/>
+                                <p:inputText id="idUnidadInterno"  required="true" readonly="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombreUnidad}"/>  
                                 <p:watermark for="idUnidadInterno" value="Unidad" id="watermarkuni" />
                                 <p:message for="idUnidadInterno" />
                             </p:column>
@@ -232,6 +234,17 @@
                     <p:panelGrid>                           
                         <p:row>
                             <p:column>
+                                <p:outputLabel for="idDocumentoExterno" value="N&deg; Pasaporte" />
+                            </p:column>
+                            <p:column>
+                                
+                                <p:autoComplete id="idDocumentoExterno" minQueryLength="7" size="15" maxlength="15" value="#{propuestaConvenioMB.numDocumentoExterno}" 
+                                                completeMethod="#{propuestaConvenioMB.completeBusquedaPassaporte}"  />
+                                <p:watermark for="idDocumentoExterno" value="N&deg; Pasaporte" />
+                                
+                                
+                            </p:column>
+<!--                            <p:column>
                                 <p:outputLabel for="idNombreExterno" value="Nombre" />
                             </p:column>
                             <p:column>
@@ -241,17 +254,32 @@
                                 </p:autoComplete>                                       
                                 <p:message for="idNombreExterno" />
                                 <p:watermark for="idNombreExterno" value="Ingrese Nombre Solicitante" id="idNombreExterno2" /> 
-                            </p:column>
+                            </p:column>-->
                         </p:row>
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="idDocumentoExterno" value="N&deg; Documento" />
+                                <p:outputLabel for="idSolicinateNombreExterno" value="Nombre Solicitante" />
+                            </p:column>
+                            <p:column>                                            
+
+                                <p:inputText id="idSolicinateNombreExterno"  required="true" label="Nombre" value="#{propuestaConvenioMB.referenteExterno.nombrePersona}" />
+                                <p:message for="idSolicinateNombreExterno" />   
+                                <p:watermark for="idSolicinateNombreExterno" value="Nombre Solicitante"/>                                           
+
                             </p:column>
                             <p:column>
-                                <p:inputText id="idDocumentoExterno"  required="true" label="c" value="#{propuestaConvenioMB.numDocumentoExterno}"/>
-                                <p:message for="idDocumentoExterno" />
-                                <p:watermark for="idDocumentoExterno" value="N&deg; Documento" id="waterNDoc" />
+                                <p:outputLabel for="idSolicinateApellidoExterno" value="Apellido Solicitante" />
                             </p:column>
+                            <p:column>
+
+                                <p:inputText id="idSolicinateApellidoExterno"  required="true" label="Apellido" value="#{propuestaConvenioMB.referenteExterno.apellidoPersona}" />
+                                <p:message for="idSolicinateApellidoExterno" />   
+                                <p:watermark for="idSolicinateApellidoExterno" value="Apellido Solicitante"/>                                           
+
+                            </p:column>
+                        </p:row>   
+                        <p:row>
+                            
                             <p:column>
                                 <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
                             </p:column>
@@ -264,6 +292,24 @@
                             </p:column>
                             <p:column>
                                 <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailExterno}" process="@this idDocumentoExterno emailExterno" id="idBtnSearchExByEmail" icon="ui-icon-search" title="Buscar referente interno" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="idTelefonoExterno" value="Tel: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask id="idTelefonoExterno" readonly="true" mask="9999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" required="true"/>
+                                <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
+                                <p:message for="idTelefonoExterno" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="idCelExterno" value="Cel" />
+                            </p:column>
+                            <p:column>
+                                <p:inputMask id="idCelExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.telCelularExterno.numeroTelefono}" required="true"/>
+                                <p:watermark for="idCelExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
+                                <p:message for="idCelExterno" />
                             </p:column>
                         </p:row>
                         <p:row>
@@ -284,24 +330,7 @@
                                 <p:message for="idEntidadInstitucion" />
                             </p:column>
                         </p:row>
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="idTelefonoExterno" value="Tel&eacute;fono " />
-                            </p:column>
-                            <p:column>
-                                <p:inputMask id="idTelefonoExterno" readonly="true" mask="9999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" required="true"/>
-                                <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
-                                <p:message for="idTelefonoExterno" />
-                            </p:column>
-                            <p:column>
-                                <p:outputLabel for="idFaxExterno" value="Fax" />
-                            </p:column>
-                            <p:column>
-                                <p:inputMask id="idFaxExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.telCelularExterno.numeroTelefono}" required="true"/>
-                                <p:watermark for="idFaxExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
-                                <p:message for="idFaxExterno" />
-                            </p:column>
-                        </p:row>
+                       
 
                     </p:panelGrid>   
 
@@ -372,7 +401,7 @@
 
                     </p:panel>
                 </h:panelGroup>
-
+                <pe:keyFilter  for="idDocumentoInterno" mask="num"/>
             </center>    
         </h:form>   
 
@@ -383,7 +412,6 @@
             PrimeFaces.validator['custom.emailValidator'] = {
                 pattern: /\S+@\S+/,
                 validate: function (element, value) {
-                    //use element.data() to access validation metadata, in this case there is none.
                     if (!this.pattern.test(value)) {
                         throw {
                             summary: 'Validation Error',
@@ -392,6 +420,11 @@
                     }
                 }
             };
+            
+          
+             $(document).ready(function() {
+                $("[id='formAdmin:idDocumentoInterno']").mask("999-99-99");
+            });
         </script>
 
 
@@ -471,7 +504,7 @@
                         <p:column>                                         
                             <p:selectOneMenu id="idUnidad"  value="#{propuestaConvenioMB.personaEdit.idUnidad}" effect="fade" converter="#{unidadConverter}" required="true">                                           
                                 <f:selectItem itemLabel="Unidad" itemValue="null" noSelectionOption="true" />  
-                                <f:selectItems value="#{propuestaConvenioMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombreUnidad}" itemValue="#{unidad}"/>  
+                                <f:selectItems value="#{propuestaConvenioMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombreEscuelaDepto}" itemValue="#{unidad}"/>  
                             </p:selectOneMenu>    
                         </p:column>
                         <p:column>  
@@ -500,7 +533,7 @@
                 </center>    
             </h:form>  
         </p:dialog>        
-
+        
     </ui:define>
 
 

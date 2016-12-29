@@ -5,6 +5,8 @@
  */
 package com.sisrni.managedbean;
 
+import com.sisrni.mail.JCMail;
+import com.sisrni.model.Carrera;
 import com.sisrni.model.Estado;
 //import com.sisrni.model.FacultadUnidad;
 import com.sisrni.model.Organismo;
@@ -14,10 +16,12 @@ import com.sisrni.model.PersonaPropuestaPK;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.Facultad;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.PropuestaEstado;
 import com.sisrni.model.PropuestaEstadoPK;
 import com.sisrni.model.TipoPropuestaConvenio;
+import com.sisrni.model.Unidad;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.OrganismoService;
@@ -29,6 +33,9 @@ import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoPropuestaConvenioService;
 import com.sisrni.service.UnidadService;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -147,7 +154,7 @@ public class PropuestaConvenioMB implements Serializable{
     private boolean flagEdicion = false;
     
     
- 
+   private JCMail mail;
     
     
     
@@ -197,7 +204,10 @@ public class PropuestaConvenioMB implements Serializable{
          try {  
             solicitante= new Persona();
             solicitante.setIdEscuelaDepto(new EscuelaDepartamento());
-//            solicitante.getIdEscuelaDepto().setIdFacultadUnidad(new FacultadUnidad());
+            solicitante.setIdCarrera(new Carrera());
+            solicitante.getIdCarrera().setIdFacultad(new Facultad());            
+            solicitante.setIdUnidad(new Unidad());
+            
             propuestaConvenioTemp = new PropuestaConvenio();
             referenteInterno = new Persona();
             referenteExterno = new Persona();
@@ -272,16 +282,63 @@ public class PropuestaConvenioMB implements Serializable{
         
         if(query!=null && !query.equals("")){
             filteredThemes = personaService.getReferenteExternoByName(query);
-        }
-         
+        }         
         return filteredThemes;
     }
      
-     
+     /***
+      * Metodo para realizar busquedas por medio del DUI agrega guion al final del 7 digito
+      * para compara con el alamcenado
+      * @param query 
+      */
      public void completeBusquedaDui(String query) {
         
          try {
-             System.err.println("test"+numDocumentoInterno);
+             
+             System.err.println("query"+query);       
+             
+             query=query.substring(0,7)+"-"+query.substring(7);
+             
+             referenteInterno=personaService.getPersonaByDui(query);
+             
+             RequestContext context=RequestContext.getCurrentInstance();
+             context.update("formAdmin:idSolicinateNombreInterno");
+             context.update("formAdmin:idSolicinateApellidoInterno");
+             context.update("formAdmin:email");
+             context.update("formAdmin:idTelFijoInterno");
+             context.update("formAdmin:idCelInterno");
+             context.update("formAdmin:idFacultadInterno");
+             context.update("formAdmin:idUnidadInterno");
+             context.update("formAdmin:idCargoInterno");
+             
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    }
+     
+     
+     /***
+      * Metodo para realizar busquedas por medio de pasaporte
+      * utilizado por personas extranjeras.
+      * @param query 
+      */
+     
+     public void completeBusquedaPassaporte(String query) {
+        
+         try {
+             
+             referenteInterno=personaService.getPersonaByPasaporte(query);
+             
+             RequestContext context=RequestContext.getCurrentInstance();
+             context.update("formAdmin:idSolicinateNombreInterno");
+             context.update("formAdmin:idSolicinateApellidoInterno");
+             context.update("formAdmin:email");
+             context.update("formAdmin:idTelFijoInterno");
+             context.update("formAdmin:idCelInterno");
+             context.update("formAdmin:idFacultadInterno");
+             context.update("formAdmin:idUnidadInterno");
+             context.update("formAdmin:idCargoInterno");
+             
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -622,6 +679,59 @@ public class PropuestaConvenioMB implements Serializable{
          }
     }    
     
+    
+    
+    
+    /// test de email
+   
+public void FileRead(){
+    File archivo = null;
+    FileReader fr = null;
+    BufferedReader br = null;
+    String to = "";
+    String subject = "Test Send Email";
+    String messages = "Henrry Culeu";
+    ArrayList<String> listado = new ArrayList<String>();
+    
+//    SAXBuilder sax;
+//    Document dconfig1=null;
+    String MailAccount="tgraduacion01@gmail.com";
+    String PassMailAccount="";
+    String rootFileContent = "";
+   
+    
+      try {
+               // mail = new JCMail();
+          
+                mail.setFrom( MailAccount );
+                mail.setPassword("tragra01" );        
+                mail.setTo(referenteInterno.getEmailPersona());
+                mail.setSubject( "Test GAMIL" );
+                mail.setMessage( messages );
+                mail.SEND();      
+  
+                 
+      }
+
+      
+      catch(Exception e){
+         e.printStackTrace();
+      }finally{
+         // En el finally cerramos el fichero, para asegurarnos
+         // que se cierra tanto si todo va bien como si salta 
+         // una excepcion.
+         try{                    
+            if( null != fr ){   
+               fr.close();     
+            }                  
+         }catch (Exception e2){ 
+            e2.printStackTrace();
+         }
+     }
+      }    
+
+/// test de email
+    
     public Persona getReferenteInterno() {
         return referenteInterno;
     }
@@ -829,6 +939,14 @@ public class PropuestaConvenioMB implements Serializable{
 
     public void setPropuestaConvenioTemp(PropuestaConvenio propuestaConvenioTemp) {
         this.propuestaConvenioTemp = propuestaConvenioTemp;
+    }
+
+    public JCMail getMail() {
+        return mail;
+    }
+
+    public void setMail(JCMail mail) {
+        this.mail = mail;
     }
 
    

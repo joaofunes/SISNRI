@@ -42,8 +42,6 @@ public class EscuelaDepartamento implements Serializable {
     @Size(max = 100)
     @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
-    @Column(name = "ID_FACULTAD_UNIDAD")
-    private Integer idFacultadUnidad;
     @Column(name = "IDENTIFICADOR")
     private Boolean identificador;
     @OneToMany(mappedBy = "idEscuelaDepto")
@@ -81,14 +79,6 @@ public class EscuelaDepartamento implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public Integer getIdFacultadUnidad() {
-        return idFacultadUnidad;
-    }
-
-    public void setIdFacultadUnidad(Integer idFacultadUnidad) {
-        this.idFacultadUnidad = idFacultadUnidad;
     }
 
     public Boolean getIdentificador() {

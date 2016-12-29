@@ -208,6 +208,44 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
     }
     
     
+     /**
+     * Metodo para relaizar por DUI de personas
+     * @param dui
+     * @param persona
+     * @return 
+     */
+    public Persona getPersonaByDui(String dui) {
+        try {
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE a.duiPersona =:num  AND a.activo is true");
+             q.setParameter("num",dui);                    
+             return (Persona) q.uniqueResult();
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    
+     /**
+     * Metodo para relaizar por Pasaporte de personas
+     * @param pasaporte
+     * @param persona
+     * @return 
+     */
+    public Persona getPersonaByPasaporte(String pasaporte) {
+        try {
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE a.pasaporte =:num  AND a.activo is true");
+             q.setParameter("num",pasaporte);                    
+             return (Persona) q.uniqueResult();
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    
     
     
     
