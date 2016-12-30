@@ -51,6 +51,8 @@ public class Facultad implements Serializable {
     @ManyToOne
     private Organismo idOrganismo;
     @OneToMany(mappedBy = "idFacultad")
+    private List<Proyecto> proyectoList;
+    @OneToMany(mappedBy = "idFacultad")
     private List<EscuelaDepartamento> escuelaDepartamentoList;
 
     public Facultad() {
@@ -106,6 +108,14 @@ public class Facultad implements Serializable {
 
     public void setIdOrganismo(Organismo idOrganismo) {
         this.idOrganismo = idOrganismo;
+    }
+
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
     }
 
     public List<EscuelaDepartamento> getEscuelaDepartamentoList() {

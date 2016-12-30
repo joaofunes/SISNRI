@@ -62,7 +62,7 @@ public class PersistenceHibernateConfig {
       
 
        // DB Local
-//        ds.setUrl("jdbc:mysql://localhost:3306/sisrni");
+//        ds.setUrl("jdbc:mysql://localhost:3307/sisrni");
 //        ds.setUsername("root");
 //        ds.setPassword("");
 
