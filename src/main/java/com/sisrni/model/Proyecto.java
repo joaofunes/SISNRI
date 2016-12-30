@@ -77,6 +77,9 @@ public class Proyecto implements Serializable {
     @JoinColumn(name = "ID_PROPUESTA_CONVENIO", referencedColumnName = "ID_PROPUESTA")
     @ManyToOne
     private PropuestaConvenio idPropuestaConvenio;
+    @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
+    @ManyToOne
+    private Facultad idFacultad;
     @JoinColumn(name = "ID_TIPO_PROYECTO", referencedColumnName = "ID_TIPO_PROYECTO")
     @ManyToOne
     private TipoProyecto idTipoProyecto;
@@ -217,6 +220,14 @@ public class Proyecto implements Serializable {
 
     public void setIdPropuestaConvenio(PropuestaConvenio idPropuestaConvenio) {
         this.idPropuestaConvenio = idPropuestaConvenio;
+    }
+
+    public Facultad getIdFacultad() {
+        return idFacultad;
+    }
+
+    public void setIdFacultad(Facultad idFacultad) {
+        this.idFacultad = idFacultad;
     }
 
     public TipoProyecto getIdTipoProyecto() {
