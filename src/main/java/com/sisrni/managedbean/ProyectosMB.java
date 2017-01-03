@@ -151,15 +151,16 @@ public class ProyectosMB {
     private Facultad facultadSelected;
     private String[] facultadBeneficiadaSelected;
     private EscuelaDepartamento escuelaDeptoSelected;
+    private EscuelaDepartamento escuelaDeptoSelectedSol;
+    private EscuelaDepartamento escuelaDeptoSelectedAsis;
     private PersonaProyecto personaProyectoAsis;
     private PersonaProyecto personaProyectoExt;
     private PersonaProyectoPK personaProyectoPK;
     private PersonaProyectoPK personaProyectoAsisPK;
     private PropuestaConvenio propuestaConvenioSelected;
-    private Facultad facultadSelectedSol;
-    private Facultad facultadSelectedAsis;
-    private Facultad facultadSelectedExt;
-    private Facultad facultadSelectedBecario;
+    private String facultadSelectedSol;
+    private String facultadSelectedAsis;
+    private String facultadSelectedExt;
     private EscuelaDepartamento unidadSelectedSol;
     private EscuelaDepartamento unidadSelectedAsis;
     private EscuelaDepartamento unidadSelectedBecario;
@@ -197,7 +198,11 @@ public class ProyectosMB {
     public boolean mostrarmonto;
     private List<PojoFacultadesUnidades> facultadesUnidadesList;
     private String facultadSelectedPojoP;
+    private String facultadSelectedPojoSol;
+    private String facultadSelectedPojoAsis;
     private List<EscuelaDepartamento> escuelaDeptoList;
+    private List<EscuelaDepartamento> escuelaDeptoListSol;
+    private List<EscuelaDepartamento> escuelaDeptoListAsis;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -212,11 +217,12 @@ public class ProyectosMB {
         proyectoSelected = new TipoProyecto();
         facultadSelected = new Facultad();
         escuelaDeptoSelected = new EscuelaDepartamento();
+        escuelaDeptoSelectedSol = new EscuelaDepartamento();
+        escuelaDeptoSelectedAsis = new EscuelaDepartamento();
         propuestaConvenioSelected = new PropuestaConvenio();
-        facultadSelectedSol = new Facultad();
-        facultadSelectedAsis = new Facultad();
-        facultadSelectedExt = new Facultad();
-        facultadSelectedBecario = new Facultad();
+        facultadSelectedSol = "";
+        facultadSelectedAsis = "";
+        facultadSelectedExt = "";
         unidadSelectedSol = new EscuelaDepartamento();
         unidadSelectedAsis = new EscuelaDepartamento();
         unidadSelectedBecario = new EscuelaDepartamento();
@@ -240,7 +246,11 @@ public class ProyectosMB {
         paisCooperanteList = paisService.findAll();
         facultadBeneficiadaList = facultadService.findAll();
         facultadBeneficiada = new ArrayList<Facultad>();
-        unidadList=unidadService.findAll();
+        unidadList = unidadService.findAll();
+        escuelaDeptoList = new ArrayList<EscuelaDepartamento>();
+        escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
+        escuelaDeptoListAsis = new ArrayList<EscuelaDepartamento>();
+        //Objetos
         proyecto = new Proyecto();
         propuestaConvenio = new PropuestaConvenio();
         facultad = new Facultad();
@@ -295,26 +305,42 @@ public class ProyectosMB {
         existeRefExt = 0;
         yearActual = getYearOfDate(new Date());
         anio = "";
-        facultadSelectedPojoP="";
-      
+        facultadSelectedPojoP = "";
+        facultadSelectedPojoSol = "";
+        facultadSelectedPojoAsis = "";
     }
 
     public void guardarProyecto() {
         try {
             proyecto.setIdTipoProyecto(tipoProyectoService.findById(proyectoSelected.getIdTipoProyecto()));
-//                proyecto.setIdFacultad(facultadSelected.getIdFacultad());
-            proyecto.setIdUnidad(escuelaDeptoSelected.getIdEscuelaDepto());
             PropuestaConvenio propuesta = propuestaConvenioService.findById(propuestaConvenioSelected.getIdPropuesta());
             if (propuesta == null) {
             } else {
                 proyecto.setIdPropuestaConvenio(propuesta);
             }
+//                proyecto.setIdFacultad(facultadSelected.getIdFacultad());
+            //si selecciona facultad o unidad
+            String facultadArreglo[] = facultadSelectedPojoP.split(",");
+            if (facultadArreglo[1].equals("1")) {
+                //guardar en tabla intermedia Facultad_Proyecto
+                facultadProyectoPK.setIdFacultad(Integer.parseInt(facultadArreglo[0]));
+                facultadProyectoPK.setIdProyecto(proyecto.getIdProyecto());
+                //////
+                facultadProyecto.setProyecto(proyecto);
+                Facultad facultadSelectedProyecto=facultadService.findById(Integer.parseInt(facultadArreglo[0]));
+                facultadProyecto.setFacultad(facultadSelectedProyecto);
+                facultadProyecto.setTipoFacultad(tipoFacultad);
+                facultadProyecto.setFacultadProyectoPK(facultadProyectoPK);
+                facultadProyectoService.save(facultadProyecto);
+                //pendiente de guardar escuela_departamento
+            } else {
+                proyecto.setIdUnidad(Integer.parseInt(facultadArreglo[0]));
+            }
+            Pais paiscooperante = paisService.findById(paisCooperanteSelected.getIdPais());
+            proyecto.setIdPaisCooperante(paiscooperante);
             proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
             //guardar proyecto
             proyecto.setIdProyecto(0);
-            Pais paiscooperante = paisService.findById(paisCooperanteSelected.getIdPais());
-            proyecto.setIdPaisCooperante(paiscooperante);
-            
             //Intermedia de proyecto y area de conocimiento
             for (int i = 0; i < areaConocimientoSelected.length; i++) {
                 AreaConocimiento area = areaConocimientoService.findById(Integer.parseInt(areaConocimientoSelected[i]));
@@ -323,7 +349,6 @@ public class ProyectosMB {
                 }
             }
             proyecto.setAreaConocimientoList(areasConocimiento);
-
             // guardar organismo
             for (int i = 0; i < organismoProySelected.length; i++) {
                 Organismo organismo = organismoService.findById(Integer.parseInt(organismoProySelected[i]));
@@ -333,15 +358,6 @@ public class ProyectosMB {
             }
             proyecto.setOrganismoList(organismosProyecto);
             proyectoService.save(proyecto);
-            //guardar en tabla intermedia Facultad_Proyecto
-            facultadProyectoPK.setIdFacultad(facultadSelected.getIdFacultad());
-            facultadProyectoPK.setIdProyecto(proyecto.getIdProyecto());
-            //////
-            facultadProyecto.setProyecto(proyecto);
-            facultadProyecto.setFacultad(facultadSelected);
-            facultadProyecto.setTipoFacultad(tipoFacultad);
-            facultadProyecto.setFacultadProyectoPK(facultadProyectoPK);
-            facultadProyectoService.save(facultadProyecto);
             //guardar en tabla intermedia Facultad_Proyecto facultad beneficiada
             for (int i = 0; i < facultadBeneficiadaSelected.length; i++) {
                 FacultadProyectoPK facultadBenPK = new FacultadProyectoPK();
@@ -361,6 +377,10 @@ public class ProyectosMB {
                 persona = personaService.getReferenteInternoByDocEmail(numDocumentoSol, persona);
                 if (persona != null) {
                     existeSol = 1;
+                    String facultadArregloSol[] = facultadSelectedPojoSol.split(",");
+                    if (facultadArregloSol[1].equals("1")) {
+                    
+                    }
                     persona.setIdEscuelaDepto(unidadSelectedSol);
                     personaProyectoService.updatePersonaProyecto(persona.getIdPersona(), proyecto.getIdProyecto(), tipoPersonaSol.getIdTipoPersona());
                     personaService.merge(persona);
@@ -392,7 +412,6 @@ public class ProyectosMB {
                 personaProyectoPK.setIdProyecto(proyecto.getIdProyecto());
 //                    personaProyectoPK.setIdTipoPersona(tipoPersonaSol.getIdTipoPersona());
 
-
                 /////////////        
                 personaProyecto.setProyecto(proyecto);
                 personaProyecto.setPersona(persona);
@@ -404,37 +423,37 @@ public class ProyectosMB {
             }
             //guardar persona Asistente
             if (existeAsis != 1) {
-                    //EscuelaDepartamento unidadAsistente = unidadService.findById(unidadSelectedAsis.getIdEscuelaDepto());
-                    //personaAsistente.setIdEscuelaDepto(unidadAsistente);
+                //EscuelaDepartamento unidadAsistente = unidadService.findById(unidadSelectedAsis.getIdEscuelaDepto());
+                //personaAsistente.setIdEscuelaDepto(unidadAsistente);
 //                    personaAsistente.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
-                    personaAsistente.setDuiPersona(numDocumentoAsis);
-                    personaService.save(personaAsistente);
-                    //guardar telefono fijo asistente
-                    telefonoAsisFijo.setIdPersona(personaAsistente);
-                    telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoFijo);
-                    telefonoService.save(telefonoAsisFijo);
-                    //guardar telefono celular asistente
-                    telefonoAsisCel.setIdPersona(personaAsistente);
-                    telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
-                    telefonoService.save(telefonoAsisCel);
-                    // guardar fax Asistente
-                    telefonoAsisFax.setIdPersona(personaAsistente);
-                    telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
-                    telefonoService.save(telefonoAsisFax);
-                    //guardar en tabla intermedia persona_proyecto Asistente
-                    //PersonaProyectoPK personaProyectoPK = new PersonaProyectoPK();            
-                    personaProyectoAsisPK.setIdPersona(personaAsistente.getIdPersona());
-                    personaProyectoAsisPK.setIdProyecto(proyecto.getIdProyecto());
+                personaAsistente.setDuiPersona(numDocumentoAsis);
+                personaService.save(personaAsistente);
+                //guardar telefono fijo asistente
+                telefonoAsisFijo.setIdPersona(personaAsistente);
+                telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoFijo);
+                telefonoService.save(telefonoAsisFijo);
+                //guardar telefono celular asistente
+                telefonoAsisCel.setIdPersona(personaAsistente);
+                telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
+                telefonoService.save(telefonoAsisCel);
+                // guardar fax Asistente
+                telefonoAsisFax.setIdPersona(personaAsistente);
+                telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
+                telefonoService.save(telefonoAsisFax);
+                //guardar en tabla intermedia persona_proyecto Asistente
+                //PersonaProyectoPK personaProyectoPK = new PersonaProyectoPK();            
+                personaProyectoAsisPK.setIdPersona(personaAsistente.getIdPersona());
+                personaProyectoAsisPK.setIdProyecto(proyecto.getIdProyecto());
 //                    personaProyectoAsisPK.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
-                    /////////////        
-                    personaProyectoAsis.setProyecto(proyecto);
-                    personaProyectoAsis.setPersona(personaAsistente);
-                    personaProyectoAsis.setIdTipoPersona(tipoPersonaAsis);
-                    personaProyectoAsis.setPersonaProyectoPK(personaProyectoAsisPK);
-                    proyecto.getPersonaProyectoList().add(personaProyectoAsis);
-                    proyectoService.merge(proyecto);
-                    //personaProyectoService.save(personaProyectoAsis);
-                
+                /////////////        
+                personaProyectoAsis.setProyecto(proyecto);
+                personaProyectoAsis.setPersona(personaAsistente);
+                personaProyectoAsis.setIdTipoPersona(tipoPersonaAsis);
+                personaProyectoAsis.setPersonaProyectoPK(personaProyectoAsisPK);
+                proyecto.getPersonaProyectoList().add(personaProyectoAsis);
+                proyectoService.merge(proyecto);
+                //personaProyectoService.save(personaProyectoAsis);
+
             }
             //Guardar informacion de referente externo
             if (existeRefExt != 1) {
@@ -468,22 +487,23 @@ public class ProyectosMB {
                 proyectoService.merge(proyecto);
                 //personaProyectoService.save(personaProyectoExt);
             }
-        } catch (Exception  e) {
+        } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
         }
         inicializador();
     }
+
     private List<PojoFacultadesUnidades> getListFacultadesUnidades(List<Facultad> facs, List<Unidad> unidades) {
-        
-        List<PojoFacultadesUnidades> lista =new ArrayList<PojoFacultadesUnidades>();
+
+        List<PojoFacultadesUnidades> lista = new ArrayList<PojoFacultadesUnidades>();
         for (Facultad fac : facs) {
-            PojoFacultadesUnidades pojo=new PojoFacultadesUnidades();
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
             pojo.setValue(fac.getIdFacultad() + ",1");
             pojo.setLabel(fac.getNombreFacultad());
             lista.add(pojo);
         }
         for (Unidad uni : unidades) {
-            PojoFacultadesUnidades pojo=new PojoFacultadesUnidades();
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
             pojo.setValue(uni.getIdUnidad() + ",2");
             pojo.setLabel(uni.getNombreUnidad());
             lista.add(pojo);
@@ -493,30 +513,37 @@ public class ProyectosMB {
 
     public void onFacultadChange() {
         facultadSelectedPojoP.trim();
-        String facultadArreglo[]=facultadSelectedPojoP.split(",");
-        if(facultadArreglo[1].equals("1")){
+        String facultadArreglo[] = facultadSelectedPojoP.split(",");
+        if (facultadArreglo[1].equals("1")) {
             escuelaDeptoList = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadArreglo[0]));
-        
+
         } else {
-            int band=1;
+            int band = 1;
         }
     }
 //
-//    public void onFacultadSolicitanteChange() {
-//        if (facultadSelectedSol.getIdFacultad()!= null && !facultadSelectedSol.getIdFacultad().toString().equals("")) {
-//            unidadSolList = unidadService.getUnidadesByFacultadId(facultadSelectedSol.getIdFacultad());
-//        } else {
-//            unidadSolList = new ArrayList<EscuelaDepartamento>();
-//        }
-//    }
-//
-//    public void onFacultadAsistenteChange() {
-//        if (facultadSelectedAsis.getIdFacultad()!= null && !facultadSelectedAsis.getIdFacultad().toString().equals("")) {
-//            unidadAsisList = unidadService.getUnidadesByFacultadId(facultadSelectedAsis.getIdFacultad());
-//        } else {
-//            unidadAsisList = new ArrayList<EscuelaDepartamento>();
-//        }
-//    }
+
+    public void onFacultadSolicitanteChange() {
+        facultadSelectedPojoSol.trim();
+        String facultadArreglo[] = facultadSelectedPojoSol.split(",");
+        if (facultadArreglo[1].equals("1")) {
+            escuelaDeptoListSol = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadArreglo[0]));
+
+        } else {
+            int bandSol = 1;
+        }
+    }
+
+    public void onFacultadAsistenteChange() {
+        facultadSelectedPojoAsis.trim();
+        String facultadArreglo[] = facultadSelectedPojoAsis.split(",");
+        if (facultadArreglo[1].equals("1")) {
+            escuelaDeptoListAsis = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadArreglo[0]));
+
+        } else {
+            int bandAsis = 1;
+        }
+    }
 
 //Buscando a persona  Solicitante existente
     public void searchByDocEmailInterno() {
@@ -527,7 +554,7 @@ public class ProyectosMB {
                 if (persona != null) {
                     existeSol = 1;
                 }
-                facultadSelectedSol = persona.getIdEscuelaDepto().getIdFacultad();
+                //facultadSelectedSol = persona.getIdEscuelaDepto().getIdFacultad();
                 unidadSelectedSol = persona.getIdEscuelaDepto();
                 onChangeInterno();
 
@@ -564,7 +591,7 @@ public class ProyectosMB {
                 if (personaAsistente != null) {
                     existeAsis = 1;
                 }
-                facultadSelectedAsis = personaAsistente.getIdEscuelaDepto().getIdFacultad();
+                //facultadSelectedAsis = personaAsistente.getIdEscuelaDepto().getIdFacultad();
                 unidadSelectedAsis = personaAsistente.getIdEscuelaDepto();
                 onChangeAsistente();
 
@@ -602,7 +629,7 @@ public class ProyectosMB {
                 if (personaExterna != null) {
                     existeRefExt = 1;
                 }
-                facultadSelectedExt = personaExterna.getIdEscuelaDepto().getIdFacultad();
+                // facultadSelectedExt = personaExterna.getIdEscuelaDepto().getIdFacultad();
                 organismoSelected = personaExterna.getIdOrganismo();
                 onChangeReferenteExterno();
 
@@ -761,19 +788,19 @@ public class ProyectosMB {
         this.facultadAsistente = facultadAsistente;
     }
 
-    public Facultad getFacultadSelectedAsis() {
+    public String getFacultadSelectedAsis() {
         return facultadSelectedAsis;
     }
 
-    public void setFacultadSelectedAsis(Facultad facultadSelectedAsis) {
+    public void setFacultadSelectedAsis(String facultadSelectedAsis) {
         this.facultadSelectedAsis = facultadSelectedAsis;
     }
 
-    public Facultad getFacultadSelectedExt() {
+    public String getFacultadSelectedExt() {
         return facultadSelectedExt;
     }
 
-    public void setFacultadSelectedExt(Facultad facultadSelectedExt) {
+    public void setFacultadSelectedExt(String facultadSelectedExt) {
         this.facultadSelectedExt = facultadSelectedExt;
     }
 
@@ -897,11 +924,11 @@ public class ProyectosMB {
         this.facultadList = facultadList;
     }
 
-    public Facultad getFacultadSelectedSol() {
+    public String getFacultadSelectedSol() {
         return facultadSelectedSol;
     }
 
-    public void setFacultadSelectedSol(Facultad facultadSelectedSol) {
+    public void setFacultadSelectedSol(String facultadSelectedSol) {
         this.facultadSelectedSol = facultadSelectedSol;
     }
 
@@ -1031,14 +1058,6 @@ public class ProyectosMB {
 
     public void setPersonaBecario(Persona personaBecario) {
         this.personaBecario = personaBecario;
-    }
-
-    public Facultad getFacultadSelectedBecario() {
-        return facultadSelectedBecario;
-    }
-
-    public void setFacultadSelectedBecario(Facultad facultadSelectedBecario) {
-        this.facultadSelectedBecario = facultadSelectedBecario;
     }
 
     public String getNumDocumentoBecario() {
@@ -1224,5 +1243,53 @@ public class ProyectosMB {
     public void setEscuelaDeptoList(List<EscuelaDepartamento> escuelaDeptoList) {
         this.escuelaDeptoList = escuelaDeptoList;
     }
-    
+
+    public List<EscuelaDepartamento> getEscuelaDeptoListSol() {
+        return escuelaDeptoListSol;
+    }
+
+    public void setEscuelaDeptoListSol(List<EscuelaDepartamento> escuelaDeptoListSol) {
+        this.escuelaDeptoListSol = escuelaDeptoListSol;
+    }
+
+    public List<EscuelaDepartamento> getEscuelaDeptoListAsis() {
+        return escuelaDeptoListAsis;
+    }
+
+    public void setEscuelaDeptoListAsis(List<EscuelaDepartamento> escuelaDeptoListAsis) {
+        this.escuelaDeptoListAsis = escuelaDeptoListAsis;
+    }
+
+    public String getFacultadSelectedPojoSol() {
+        return facultadSelectedPojoSol;
+    }
+
+    public void setFacultadSelectedPojoSol(String facultadSelectedPojoSol) {
+        this.facultadSelectedPojoSol = facultadSelectedPojoSol;
+    }
+
+    public String getFacultadSelectedPojoAsis() {
+        return facultadSelectedPojoAsis;
+    }
+
+    public void setFacultadSelectedPojoAsis(String facultadSelectedPojoAsis) {
+        this.facultadSelectedPojoAsis = facultadSelectedPojoAsis;
+    }
+
+    public EscuelaDepartamento getEscuelaDeptoSelectedSol() {
+        return escuelaDeptoSelectedSol;
+    }
+
+    public void setEscuelaDeptoSelectedSol(EscuelaDepartamento escuelaDeptoSelectedSol) {
+        this.escuelaDeptoSelectedSol = escuelaDeptoSelectedSol;
+    }
+
+    public EscuelaDepartamento getEscuelaDeptoSelectedAsis() {
+        return escuelaDeptoSelectedAsis;
+    }
+
+    public void setEscuelaDeptoSelectedAsis(EscuelaDepartamento escuelaDeptoSelectedAsis) {
+        this.escuelaDeptoSelectedAsis = escuelaDeptoSelectedAsis;
+    }
+
 }
