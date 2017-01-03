@@ -14,8 +14,13 @@
                 <center>
                     <p:panel style="width: 80%">
                         <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
+
                             <p:tab title="Datos del Becario">
-                                <p:panelGrid>
+                                <p:outputLabel value="Documento" />
+                                <p:inputText value="#{becaMB.docBecarioSearch}" id="idDocBecario"/>
+                                <p:commandButton value="Buscar" actionListener="#{becaMB.buscarBecario}" process="idDocBecario @this" icon="ui-icon-search" update="panelBecario"/>
+                                <p:separator/>
+                                <p:panelGrid id="panelBecario">
                                     <p:row>
                                         <p:column>
                                             <p:outputLabel value="Nombre de Becario:"/>
@@ -93,7 +98,7 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="paiscooperantebeca" value="#{becaMB.paisCooperanteSelected.idPais}"  style="width:180px">
-                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" />                                           
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" />
                                                 <c:forEach var="pais" items="#{becaMB.paisList}">
                                                     <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
                                                 </c:forEach>
@@ -251,7 +256,7 @@
                                             <p:outputLabel value="Facultad/Unidad:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadAsesorInterno" value="#{becaMB.facuniSelectded}"  style="width:180px" >
+                                            <p:selectOneMenu id="facultadUnidadAI" value="#{becaMB.facuniSelectded}"  style="width:180px" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <p:ajax event="change" listener="#{becaMB.onFacUniChange}" update="escuelaDep" process="@this"/>
                                                 <c:forEach var="fac" items="#{becaMB.facultadesUnidadesList}">
@@ -284,7 +289,7 @@
                                             <p:outputLabel value="Telefono Celular :  "/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonoCelularAsesorInterno" value="#{becaMB.telefonoFijoAsesorInterno.numeroTelefono}" mask="(503)-9999-9999"/>
+                                            <p:inputMask id="telefonoCelularAsesorInterno" value="#{becaMB.telefonoCelularAsesorInterno.numeroTelefono}" mask="(503)-9999-9999"/>
                                         </p:column>
                                     </p:row>
                                 </p:panelGrid>

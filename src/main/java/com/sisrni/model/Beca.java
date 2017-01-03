@@ -7,6 +7,7 @@ package com.sisrni.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -62,7 +63,7 @@ public class Beca implements Serializable {
     @Column(name = "OTORGADA")
     private Short otorgada;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
-    private List<PersonaBeca> personaBecaList;
+    private List<PersonaBeca> personaBecaList =new ArrayList<PersonaBeca>();
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idUniversidad;
