@@ -12,6 +12,8 @@ import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Pais;
 import com.sisrni.model.Persona;
+import com.sisrni.model.PersonaBeca;
+import com.sisrni.model.PersonaBecaPK;
 import com.sisrni.model.ProgramaBeca;
 import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoModalidaBeca;
@@ -39,8 +41,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
@@ -103,6 +109,15 @@ public class BecaMB implements Serializable {
 
     private boolean mostrarmonto;
 
+    //para buscar personas
+    private String docBecarioSearch;
+    private String docInternoSearch;
+    private String docExternoSearch;
+
+    private boolean existeBecario;
+    private boolean existeInterno;
+    private boolean existeExterno;
+
     @Autowired
     FacultadService facultadService;
 
@@ -147,6 +162,9 @@ public class BecaMB implements Serializable {
 
     @Autowired
     EscuelaDepartamentoService escuelaDepartamentoService;
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     public BecaMB() {
     }
@@ -200,126 +218,132 @@ public class BecaMB implements Serializable {
         escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
 
         mostrarmonto = true;
+        //para buscar personas
+        docBecarioSearch = "";
+        docInternoSearch = "";
+        docExternoSearch = "";
+        existeBecario = false;
+        existeInterno = false;
+        existeExterno = false;
+
     }
 
-    //registra la informacion conserniente a una beca
-    public void guardarBeca() {
-//        try {
-//
-//            Persona p = personaService.getBecarioByDoc(becario.getDuiPersona());
-//            if (p == null) {
-//                becario.setIdFacultad(facultadSelectedBecario.getIdFacultad());
-//                becario.setIdCarrera(carreraSelected.getIdCarrera());
-//                personaService.save(becario);
-//
-//                telefonoFijoBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
-//                telefonoFijoBecario.setIdPersona(becario);
-//                telefonoService.save(telefonoFijoBecario);
-//
-//                telefonoCelularBecario.setIdPersona(becario);
-//                telefonoCelularBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
-//                telefonoService.save(telefonoCelularBecario);
-//            } else {
-//                becario.setIdPersona(p.getIdPersona());
-//                becario.setIdCarrera(carreraSelected.getIdCarrera());
-//                becario.setIdFacultad(facultadSelectedBecario.getIdFacultad());
-//                personaService.merge(becario);
-//
-//                Telefono telFijo = telefonoService.getTelefonoByPersonaAndTipo(becario.getIdPersona(), 1);//fijo
-//                if (telFijo != null) {
-//                    telFijo.setNumeroTelefono(telefonoFijoBecario.getNumeroTelefono());
-//                    telefonoService.merge(telFijo);
-//                } else {
-//                    telefonoFijoBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
-//                    telefonoFijoBecario.setIdPersona(becario);
-//                    telefonoService.save(telefonoFijoBecario);
-//                }
-//
-//                Telefono telCel = telefonoService.getTelefonoByPersonaAndTipo(becario.getIdPersona(), 2);//fijo
-//                if (telCel != null) {
-//                    telCel.setNumeroTelefono(telefonoCelularBecario.getNumeroTelefono());
-//                    telefonoService.merge(telCel);
-//                } else {
-//                    telefonoCelularBecario.setIdPersona(becario);
-//                    telefonoCelularBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
-//                    telefonoService.save(telefonoCelularBecario);
-//                }
-//            }
-//
-//            asesorInterno.setIdFacultad(facultadSelectedAsesorInterno.getIdFacultad());
-//            asesorInterno.setIdUnidad(unidadService.findById(unidadSelectedAsesorInterno.getIdUnidad()));
-//            personaService.save(asesorInterno);
-//
-//            telefonoFijoAsesorInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
-//            telefonoFijoAsesorInterno.setIdPersona(asesorInterno);
-//            telefonoService.save(telefonoFijoAsesorInterno);
-//
-//            telefonoCelularAsesorInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
-//            telefonoCelularAsesorInterno.setIdPersona(asesorInterno);
-//            telefonoService.save(telefonoCelularAsesorInterno);
-//
-//            asesorExterno.setIdOrganismo(organismoService.findById(entidadInstitucionSelected.getIdOrganismo()));
-//            personaService.save(asesorExterno);
-//
-//            telefonoFijoAsesorExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
-//            telefonoFijoAsesorInterno.setIdPersona(asesorExterno);
-//            telefonoService.save(telefonoFijoAsesorExterno);
-//
-//            telefonoCelularAsesorExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
-//            telefonoCelularAsesorExterno.setIdPersona(asesorExterno);
-//            telefonoService.save(telefonoCelularAsesorExterno);
-//
-//            beca.setIdPaisCooperante(paisCooperanteSelected.getIdPais());
-//            beca.setIdProgramaBeca(programaBecaService.findById(programaBecaSelected.getIdPrograma()));
-//            beca.setIdPaisDestino(paisDestinoSelected.getIdPais());
-//            beca.setIdUniversidad(organismoService.findById(universidadSelected.getIdOrganismo()));
-//            beca.setIdTipoModalidad(tipoModalidadBecaService.findById(tipoModalidaBecaSelected.getIdTipoModalidad()));
-//            beca.setAnioGestion(Integer.parseInt(anio.trim()));
-//            becaService.save(beca);
-//
-//            PersonaBecaPK personaBecaPKbecario = new PersonaBecaPK();
-//            personaBecaPKbecario.setIdBeca(beca.getIdBeca());
-//            personaBecaPKbecario.setIdPersona(becario.getIdPersona());
-//
-//            PersonaBeca personaBecaBecario = new PersonaBeca();
-//            personaBecaBecario.setPersona(becario);
-//            personaBecaBecario.setBeca(beca);
-//            personaBecaBecario.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("BECARIO"));
-//            personaBecaBecario.setPersonaBecaPK(personaBecaPKbecario);
-//            beca.getPersonaBecaList().add(personaBecaBecario);
-//
-//            PersonaBecaPK personaBecaPKAsistenteI = new PersonaBecaPK();
-//            personaBecaPKAsistenteI.setIdBeca(beca.getIdBeca());
-//            personaBecaPKAsistenteI.setIdPersona(asesorInterno.getIdPersona());
-//
-//            PersonaBeca personaBecaAsistenteI = new PersonaBeca();
-//            personaBecaAsistenteI.setPersona(asesorInterno);
-//            personaBecaAsistenteI.setBeca(beca);
-//            personaBecaAsistenteI.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("ASESOR INTERNO"));
-//            personaBecaAsistenteI.setPersonaBecaPK(personaBecaPKAsistenteI);
-//            beca.getPersonaBecaList().add(personaBecaAsistenteI);
-//
-//            PersonaBecaPK personaBecaPKAsistenteE = new PersonaBecaPK();
-//            personaBecaPKAsistenteE.setIdBeca(beca.getIdBeca());
-//            personaBecaPKAsistenteE.setIdPersona(asesorExterno.getIdPersona());
-//
-//            PersonaBeca personaBecaAsistenteE = new PersonaBeca();
-//            personaBecaAsistenteE.setPersona(asesorExterno);
-//            personaBecaAsistenteE.setBeca(beca);
-//            personaBecaAsistenteE.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("ASESOR EXTERNO"));
-//            personaBecaAsistenteE.setPersonaBecaPK(personaBecaPKAsistenteE);
-//            beca.getPersonaBecaList().add(personaBecaAsistenteE);
-//
-//            becaService.merge(beca);
-//
-//            int becaid = beca.getIdBeca();
-//
-//            Beca becah = becaService.findById(becaid);
-//            becah.getIdBeca();
-//
-//        } catch (Exception e) {
-//            // FacesContext.getCurrentInstance().addMessage(, null);
-//        }
+//registra la informacion conserniente a una beca
+    public void guardarBeca() throws Exception {
+
+        try {
+
+            //guardando becario
+            Carrera carrera = carreraService.findById(carreraSelected.getIdCarrera());
+            becario.setIdCarrera(carrera);
+            becario.setActivo(Boolean.TRUE);
+            becario.setExtranjero(Boolean.FALSE);
+            becario.setPasaporte("-");
+            //agregando telefono fijo
+            telefonoFijoBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+            telefonoFijoBecario.setIdPersona(becario);
+            becario.getTelefonoList().add(telefonoFijoBecario);
+            //agregando telefono celular
+            telefonoCelularBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+            telefonoCelularBecario.setIdPersona(becario);
+            becario.getTelefonoList().add(telefonoCelularBecario);
+            becario.setIdOrganismo(organismoService.findById(1));
+            personaService.save(becario);
+
+            //guardando datos del asesor interno
+            String partes[] = facuniSelectded.split(",");
+            if (partes[1].equals("1")) {
+                //asesorInterno.setIdUnidad(new Unidad());
+                //asesorInterno.setIdCarrera(new Carrera());
+                asesorInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDeptoInterno.getIdEscuelaDepto()));
+                asesorInterno.setIdOrganismo(organismoService.findById(1));
+            } else {
+
+                asesorInterno.setIdUnidad(unidadService.findById(Integer.parseInt(partes[0])));
+                //asesorInterno.setIdCarrera(new Carrera());
+                //asesorInterno.setIdEscuelaDepto(new EscuelaDepartamento());
+                asesorInterno.setIdOrganismo(organismoService.findById(1));
+            }
+            asesorInterno.setPasaporte("-");
+            asesorInterno.setActivo(Boolean.TRUE);
+            asesorInterno.setExtranjero(Boolean.FALSE);
+            //agregando telefono fijo
+            telefonoFijoAsesorInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+            telefonoFijoAsesorInterno.setIdPersona(asesorInterno);
+            asesorInterno.getTelefonoList().add(telefonoFijoAsesorInterno);
+            //agregando telefono celular
+            telefonoCelularAsesorInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+            telefonoCelularAsesorInterno.setIdPersona(asesorInterno);
+            asesorInterno.getTelefonoList().add(telefonoCelularAsesorInterno);
+            personaService.save(asesorInterno);
+
+            //guardando asesor externo
+            asesorExterno.setIdOrganismo(organismoService.findById(entidadInstitucionSelected.getIdOrganismo()));
+            asesorExterno.setDuiPersona("-");
+            asesorExterno.setActivo(Boolean.TRUE);
+            asesorExterno.setExtranjero(Boolean.TRUE);
+            //guardando telefono fijo
+            telefonoFijoAsesorExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+            telefonoFijoAsesorExterno.setIdPersona(asesorExterno);
+            asesorExterno.getTelefonoList().add(telefonoFijoAsesorExterno);
+            //guardando telefono celular
+            telefonoCelularAsesorExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+            telefonoCelularAsesorExterno.setIdPersona(asesorExterno);
+            asesorExterno.getTelefonoList().add(telefonoCelularAsesorExterno);
+            personaService.save(asesorExterno);
+
+            //guardando datos de la beca
+            beca.setIdPaisCooperante(paisCooperanteSelected.getIdPais());
+            beca.setIdProgramaBeca(programaBecaService.findById(programaBecaSelected.getIdPrograma()));
+            beca.setIdPaisDestino(paisDestinoSelected.getIdPais());
+            beca.setIdUniversidad(organismoService.findById(universidadSelected.getIdOrganismo()));
+            beca.setIdTipoModalidad(tipoModalidadBecaService.findById(tipoModalidaBecaSelected.getIdTipoModalidad()));
+            beca.setAnioGestion(Integer.parseInt(anio.trim()));
+            becaService.save(beca);
+
+            //vinculando becario a beca
+            PersonaBecaPK personaBecaPKbecario = new PersonaBecaPK();
+            personaBecaPKbecario.setIdBeca(beca.getIdBeca());
+            personaBecaPKbecario.setIdPersona(becario.getIdPersona());
+
+            PersonaBeca personaBecaBecario = new PersonaBeca();
+            personaBecaBecario.setPersona(becario);
+            personaBecaBecario.setBeca(beca);
+            personaBecaBecario.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("BECARIO"));
+            personaBecaBecario.setPersonaBecaPK(personaBecaPKbecario);
+            beca.getPersonaBecaList().add(personaBecaBecario);
+
+            //vinculando asesor interno a beca
+            PersonaBecaPK personaBecaPKAsistenteI = new PersonaBecaPK();
+            personaBecaPKAsistenteI.setIdBeca(beca.getIdBeca());
+            personaBecaPKAsistenteI.setIdPersona(asesorInterno.getIdPersona());
+
+            PersonaBeca personaBecaAsistenteI = new PersonaBeca();
+            personaBecaAsistenteI.setPersona(asesorInterno);
+            personaBecaAsistenteI.setBeca(beca);
+            personaBecaAsistenteI.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("ASESOR INTERNO"));
+            personaBecaAsistenteI.setPersonaBecaPK(personaBecaPKAsistenteI);
+            beca.getPersonaBecaList().add(personaBecaAsistenteI);
+
+            //vinculando el asesor externo a la beca
+            PersonaBecaPK personaBecaPKAsistenteE = new PersonaBecaPK();
+            personaBecaPKAsistenteE.setIdBeca(beca.getIdBeca());
+            personaBecaPKAsistenteE.setIdPersona(asesorExterno.getIdPersona());
+
+            PersonaBeca personaBecaAsistenteE = new PersonaBeca();
+            personaBecaAsistenteE.setPersona(asesorExterno);
+            personaBecaAsistenteE.setBeca(beca);
+            personaBecaAsistenteE.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("ASESOR EXTERNO"));
+            personaBecaAsistenteE.setPersonaBecaPK(personaBecaPKAsistenteE);
+            beca.getPersonaBecaList().add(personaBecaAsistenteE);
+
+            //actualizando beca
+            becaService.merge(beca);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Los datos han sido registrados con exito."));
+            inicializador();
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "error."));
+        }
     }
 
     public void mostrarCampo() {
@@ -385,6 +409,74 @@ public class BecaMB implements Serializable {
             escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
         }
 
+    }
+
+    public void buscarBecario() {
+        try {
+            if (!docBecarioSearch.equalsIgnoreCase("")) {
+                Persona aux = personaService.getBecarioByDoc(docBecarioSearch);
+                if (aux != null) {
+                    becario = aux;
+                    telefonoFijoBecario = getTelefono(becario.getTelefonoList(), FIJO);
+                    telefonoCelularBecario = getTelefono(becario.getTelefonoList(), CELULAR);
+                    facultadSelectedBecario = becario.getIdCarrera().getIdFacultad();
+                    carreraList = carreraService.getCarrerasByFacultad(facultadSelectedBecario.getIdFacultad());
+                    carreraSelected = becario.getIdCarrera();
+                    this.existeBecario=Boolean.TRUE;
+                }
+            } else {
+                becario = new Persona();
+                telefonoFijoBecario = new Telefono();
+                telefonoCelularBecario = new Telefono();
+                facultadSelectedBecario = new Facultad();
+                carreraList = new ArrayList<Carrera>();
+                carreraSelected = new Carrera();
+                this.existeBecario=Boolean.FALSE;
+            }
+        } catch (Exception e) {
+        }
+    }
+
+//    public void buscarInterno() {
+//        try {
+//            if (!docInternoSearch.equalsIgnoreCase("")) {
+//                Persona aux = personaService.getBecarioByDoc(docInternoSearch);
+//                if (aux != null) {
+//                    asesorInterno = aux;
+//                    telefonoFijoAsesorInterno = getTelefono(asesorInterno.getTelefonoList(), FIJO);
+//                    telefonoCelularAsesorInterno = getTelefono(asesorInterno.getTelefonoList(), CELULAR);
+//                    facultadSelectedBecario = becario.getIdCarrera().getIdFacultad();
+//                    carreraList = carreraService.getCarrerasByFacultad(facultadSelectedBecario.getIdFacultad());
+//                    carreraSelected = becario.getIdCarrera();
+//                    this.existeBecario=Boolean.TRUE;
+//                }
+//            } else {
+//                becario = new Persona();
+//                telefonoFijoBecario = new Telefono();
+//                telefonoCelularBecario = new Telefono();
+//                facultadSelectedBecario = new Facultad();
+//                carreraList = new ArrayList<Carrera>();
+//                carreraSelected = new Carrera();
+//                this.existeBecario=Boolean.FALSE;
+//            }
+//        } catch (Exception e) {
+//        }
+//    }
+//    
+    
+    
+    
+    
+    
+    
+    public Telefono getTelefono(List<Telefono> lista, String tipo) {
+        Telefono r = new Telefono();
+        for (Telefono tel : lista) {
+            if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(tipo)) {
+                return tel;
+            }
+        }
+        return r;
     }
 
     public Persona getBecario() {
@@ -571,7 +663,6 @@ public class BecaMB implements Serializable {
         this.escuelaDeptoInterno = escuelaDeptoInterno;
     }
 
-  
     public List<Unidad> getUnidadListAsesorInterno() {
         return unidadListAsesorInterno;
     }
@@ -658,6 +749,54 @@ public class BecaMB implements Serializable {
 
     public void setEscuelaDepartamentoList(List<EscuelaDepartamento> escuelaDepartamentoList) {
         this.escuelaDepartamentoList = escuelaDepartamentoList;
+    }
+
+    public String getDocBecarioSearch() {
+        return docBecarioSearch;
+    }
+
+    public void setDocBecarioSearch(String docBecarioSearch) {
+        this.docBecarioSearch = docBecarioSearch;
+    }
+
+    public String getDocInternoSearch() {
+        return docInternoSearch;
+    }
+
+    public void setDocInternoSearch(String docInternoSearch) {
+        this.docInternoSearch = docInternoSearch;
+    }
+
+    public String getDocExternoSearch() {
+        return docExternoSearch;
+    }
+
+    public void setDocExternoSearch(String docExternoSearch) {
+        this.docExternoSearch = docExternoSearch;
+    }
+
+    public boolean isExisteBecario() {
+        return existeBecario;
+    }
+
+    public void setExisteBecario(boolean existeBecario) {
+        this.existeBecario = existeBecario;
+    }
+
+    public boolean isExisteInterno() {
+        return existeInterno;
+    }
+
+    public void setExisteInterno(boolean existeInterno) {
+        this.existeInterno = existeInterno;
+    }
+
+    public boolean isExisteExterno() {
+        return existeExterno;
+    }
+
+    public void setExisteExterno(boolean existeExterno) {
+        this.existeExterno = existeExterno;
     }
 
 }

@@ -22,6 +22,7 @@ import com.sisrni.model.PropuestaEstado;
 import com.sisrni.model.PropuestaEstadoPK;
 import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.model.Unidad;
+import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.OrganismoService;
@@ -134,7 +135,9 @@ public class PropuestaConvenioMB implements Serializable{
     
     private PropuestaConvenio propuestaConvenio;
     private PropuestaConvenio propuestaConvenioTemp;
-    
+    private List<PojoFacultadesUnidades> listaFacultadUnidad;
+    private List<Facultad> listaFacultad;
+    private List<Unidad> listaUnidad;
     
     private Persona personaEdit;
     private Persona solicitante;
@@ -165,6 +168,7 @@ public class PropuestaConvenioMB implements Serializable{
            inicializador();
            inicializadorListados();
            cargarUsuario();
+           getListFacultadesUnidades();
         
         } catch (Exception e) {
             e.printStackTrace();
@@ -754,6 +758,33 @@ public void FileRead(){
      }
       }    
 
+/**
+ * Metodo para obtener arreglo de facultades y unidades
+ * @param facs
+ * @param unidades
+ * @return 
+ */
+    private List<PojoFacultadesUnidades> getListFacultadesUnidades() {
+
+        listaFacultadUnidad = new ArrayList<PojoFacultadesUnidades>();
+        for (Facultad fac : listaFacultad) {
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
+            pojo.setValue(fac.getIdFacultad() + ",1");
+            pojo.setLabel(fac.getNombreFacultad());
+            listaFacultadUnidad.add(pojo);
+        }
+        for (Unidad uni : listaUnidad) {
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
+            pojo.setValue(uni.getIdUnidad() + ",2");
+            pojo.setLabel(uni.getNombreUnidad());
+            listaFacultadUnidad.add(pojo);
+        }
+        return listaFacultadUnidad;
+    }
+
+
+
+
 /// test de email
     
     public Persona getReferenteInterno() {
@@ -971,6 +1002,30 @@ public void FileRead(){
 
     public void setMail(JCMail mail) {
         this.mail = mail;
+    }
+
+    public List<PojoFacultadesUnidades> getListaFacultadUnidad() {
+        return listaFacultadUnidad;
+    }
+
+    public void setListaFacultadUnidad(List<PojoFacultadesUnidades> listaFacultadUnidad) {
+        this.listaFacultadUnidad = listaFacultadUnidad;
+    }
+
+    public List<Facultad> getListaFacultad() {
+        return listaFacultad;
+    }
+
+    public void setListaFacultad(List<Facultad> listaFacultad) {
+        this.listaFacultad = listaFacultad;
+    }
+
+    public List<Unidad> getListaUnidad() {
+        return listaUnidad;
+    }
+
+    public void setListaUnidad(List<Unidad> listaUnidad) {
+        this.listaUnidad = listaUnidad;
     }
 
    
