@@ -6,6 +6,7 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -51,9 +52,9 @@ public class Facultad implements Serializable {
     @ManyToOne
     private Organismo idOrganismo;
     @OneToMany(mappedBy = "idFacultad")
-    private List<Proyecto> proyectoList;
+    private List<Proyecto> proyectoList=new ArrayList<Proyecto>();
     @OneToMany(mappedBy = "idFacultad")
-    private List<EscuelaDepartamento> escuelaDepartamentoList;
+    private List<EscuelaDepartamento> escuelaDepartamentoList=new ArrayList<EscuelaDepartamento>();
 
     public Facultad() {
     }
