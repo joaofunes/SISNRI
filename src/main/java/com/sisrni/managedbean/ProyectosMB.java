@@ -191,6 +191,7 @@ public class ProyectosMB {
 
     private static final String FIJO = "FIJO";
     private static final String FAX = "FAX";
+    private static final String CELULAR="CELULAR";
     private int existeSol;
     private int existeAsis;
     private int existeRefExt;
@@ -318,24 +319,7 @@ public class ProyectosMB {
             } else {
                 proyecto.setIdPropuestaConvenio(propuesta);
             }
-//                proyecto.setIdFacultad(facultadSelected.getIdFacultad());
-            //si selecciona facultad o unidad
-            String facultadArreglo[] = facultadSelectedPojoP.split(",");
-            if (facultadArreglo[1].equals("1")) {
-                //guardar en tabla intermedia Facultad_Proyecto
-                facultadProyectoPK.setIdFacultad(Integer.parseInt(facultadArreglo[0]));
-                facultadProyectoPK.setIdProyecto(proyecto.getIdProyecto());
-                //////
-                facultadProyecto.setProyecto(proyecto);
-                Facultad facultadSelectedProyecto=facultadService.findById(Integer.parseInt(facultadArreglo[0]));
-                facultadProyecto.setFacultad(facultadSelectedProyecto);
-                facultadProyecto.setTipoFacultad(tipoFacultad);
-                facultadProyecto.setFacultadProyectoPK(facultadProyectoPK);
-                facultadProyectoService.save(facultadProyecto);
-                //pendiente de guardar escuela_departamento
-            } else {
-                proyecto.setIdUnidad(Integer.parseInt(facultadArreglo[0]));
-            }
+            
             Pais paiscooperante = paisService.findById(paisCooperanteSelected.getIdPais());
             proyecto.setIdPaisCooperante(paiscooperante);
             proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
@@ -357,7 +341,16 @@ public class ProyectosMB {
                 }
             }
             proyecto.setOrganismoList(organismosProyecto);
+            //si selecciona facultad o unidad
+            String facultadArreglo[] = facultadSelectedPojoP.split(",");
+            if (facultadArreglo[1].equals("1")) {
+                Facultad facSelected=facultadService.findById(Integer.parseInt(facultadArreglo[0]));
+                proyecto.setIdFacultad(facSelected);
+            } else {
+                proyecto.setIdUnidad(Integer.parseInt(facultadArreglo[0]));
+            }
             proyectoService.save(proyecto);
+            
             //guardar en tabla intermedia Facultad_Proyecto facultad beneficiada
             for (int i = 0; i < facultadBeneficiadaSelected.length; i++) {
                 FacultadProyectoPK facultadBenPK = new FacultadProyectoPK();
@@ -366,34 +359,38 @@ public class ProyectosMB {
                 if (fac != null) {
                     facultadBenPK.setIdFacultad(fac.getIdFacultad());
                     facultadBenPK.setIdProyecto(proyecto.getIdProyecto());
+                    facultadBenPK.setIdTipoFacultad(tipoFacultadB.getIdTipoFacultad());
                     facultadBen.setFacultadProyectoPK(facultadBenPK);
                     facultadBen.setTipoFacultad(tipoFacultadB);
+                    facultadBen.setFacultad(fac);
+                    facultadBen.setProyecto(proyecto);
                     proyecto.getFacultadProyectoList().add(facultadBen);
                     facultadProyectoService.save(facultadBen);
                 }
             }
             //guardar persona solicitante
-            if (numDocumentoSol != null && persona != null && !numDocumentoSol.equals("") && !persona.getEmailPersona().equals("")) {
-                persona = personaService.getReferenteInternoByDocEmail(numDocumentoSol, persona);
                 if (persona != null) {
                     existeSol = 1;
-                    String facultadArregloSol[] = facultadSelectedPojoSol.split(",");
-                    if (facultadArregloSol[1].equals("1")) {
-                    
-                    }
-                    persona.setIdEscuelaDepto(unidadSelectedSol);
-                    personaProyectoService.updatePersonaProyecto(persona.getIdPersona(), proyecto.getIdProyecto(), tipoPersonaSol.getIdTipoPersona());
-                    personaService.merge(persona);
-                    telefonoService.merge(telefonoSolFijo);
-                    telefonoService.merge(telefonoSolCel);
-                    telefonoService.merge(telefonoSolFax);
+//                    persona.setIdEscuelaDepto(unidadSelectedSol);
+//                    personaProyectoService.updatePersonaProyecto(persona.getIdPersona(), proyecto.getIdProyecto(), tipoPersonaSol.getIdTipoPersona());
+//                    personaService.merge(persona);
+//                    telefonoService.merge(telefonoSolFijo);
+//                    telefonoService.merge(telefonoSolCel);
+//                    telefonoService.merge(telefonoSolFax);
                 }
-            }
             if (existeSol != 1) {
-                //EscuelaDepartamento unidadSolicitante = unidadService.findById(unidadSelectedSol.getIdEscuelaDepto());
-                //persona.setIdEscuelaDepto(unidadSolicitante);
-//                    persona.setIdTipoPersona(tipoPersonaSol.getIdTipoPersona());
+                String facultadArregloSol[] = facultadSelectedPojoSol.split(",");
+                if (facultadArregloSol[1].equals("1")) {
+                    EscuelaDepartamento escuelaselec=escuelaDepartamentoService.findById(escuelaDeptoSelectedSol.getIdEscuelaDepto());
+                    persona.setIdEscuelaDepto(escuelaselec);
+                }else{
+                    Unidad unidadSelectedSoli=unidadService.findById(Integer.parseInt(facultadArregloSol[0]));
+                    persona.setIdUnidad(unidadSelectedSoli);
+                }
                 persona.setDuiPersona(numDocumentoSol);
+                persona.setPasaporte("-");
+                persona.setExtranjero(Boolean.FALSE);
+                persona.setActivo(Boolean.TRUE);
                 personaService.save(persona);
                 //guardar telefono fijo solicitante
                 telefonoSolFijo.setIdPersona(persona);
@@ -423,10 +420,18 @@ public class ProyectosMB {
             }
             //guardar persona Asistente
             if (existeAsis != 1) {
-                //EscuelaDepartamento unidadAsistente = unidadService.findById(unidadSelectedAsis.getIdEscuelaDepto());
-                //personaAsistente.setIdEscuelaDepto(unidadAsistente);
-//                    personaAsistente.setIdTipoPersona(tipoPersonaAsis.getIdTipoPersona());
+                String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
+                if (facultadArregloAsis[1].equals("1")) {
+                    EscuelaDepartamento escuelaselecAsis=escuelaDepartamentoService.findById(escuelaDeptoSelectedAsis.getIdEscuelaDepto());
+                    personaAsistente.setIdEscuelaDepto(escuelaselecAsis);
+                }else{
+                    Unidad unidadSelectedAsist=unidadService.findById(Integer.parseInt(facultadArregloAsis[0]));
+                    persona.setIdUnidad(unidadSelectedAsist);
+                }
                 personaAsistente.setDuiPersona(numDocumentoAsis);
+                personaAsistente.setPasaporte("-");
+                personaAsistente.setExtranjero(Boolean.FALSE);
+                personaAsistente.setActivo(Boolean.TRUE);
                 personaService.save(personaAsistente);
                 //guardar telefono fijo asistente
                 telefonoAsisFijo.setIdPersona(personaAsistente);
@@ -461,6 +466,9 @@ public class ProyectosMB {
                 Organismo organismoExt = organismoService.findById(organismoSelected.getIdOrganismo());
                 personaExterna.setIdOrganismo(organismoExt);
                 personaExterna.setPasaporte(numDocumentoRefExt);
+                persona.setDuiPersona("-");
+                persona.setExtranjero(Boolean.TRUE);
+                persona.setActivo(Boolean.TRUE);
                 personaService.save(personaExterna);
                 //guardar telefono fijo persona externa
                 telefonoRefextFijo.setIdPersona(personaExterna);
@@ -511,16 +519,16 @@ public class ProyectosMB {
         return lista;
     }
 
-    public void onFacultadChange() {
-        facultadSelectedPojoP.trim();
-        String facultadArreglo[] = facultadSelectedPojoP.split(",");
-        if (facultadArreglo[1].equals("1")) {
-            escuelaDeptoList = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadArreglo[0]));
-
-        } else {
-            int band = 1;
-        }
-    }
+//    public void onFacultadChange() {
+//        facultadSelectedPojoP.trim();
+//        String facultadArreglo[] = facultadSelectedPojoP.split(",");
+//        if (facultadArreglo[1].equals("1")) {
+//            escuelaDeptoList = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadArreglo[0]));
+//
+//        } else {
+//            int band = 1;
+//        }
+//    }
 //
 
     public void onFacultadSolicitanteChange() {
@@ -549,8 +557,8 @@ public class ProyectosMB {
     public void searchByDocEmailInterno() {
         try {
 
-            if (numDocumentoSol != null && persona != null && !numDocumentoSol.equals("") && !persona.getEmailPersona().equals("")) {
-                persona = personaService.getReferenteInternoByDocEmail(numDocumentoSol, persona);
+            if (numDocumentoSol != null) {
+                persona = personaService.getPersonaByDui(numDocumentoSol);
                 if (persona != null) {
                     existeSol = 1;
                 }
@@ -573,6 +581,9 @@ public class ProyectosMB {
 
                 if (us.getIdTipoTelefono().getNombre().equals(FIJO)) {
                     telefonoSolFijo = us;
+                }
+                if (us.getIdTipoTelefono().getNombre().equals(CELULAR)) {
+                    telefonoSolCel = us;
                 }
                 if (us.getIdTipoTelefono().getNombre().equals(FAX)) {
                     telefonoSolFax = us;
