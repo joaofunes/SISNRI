@@ -50,6 +50,12 @@ public class Documento implements Serializable {
     @Size(max = 30)
     @Column(name = "USUARIO_RECIBE", length = 30)
     private String usuarioRecibe;
+    @JoinColumn(name = "ID_BECA", referencedColumnName = "ID_BECA")
+    @ManyToOne
+    private Beca idBeca;
+    @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD")
+    @ManyToOne
+    private Movilidad idMovilidad;
     @JoinColumn(name = "ID_TIPO_DOCUMENTO", referencedColumnName = "ID_TIPO_DOCUMENTO")
     @ManyToOne
     private TipoDocumento idTipoDocumento;
@@ -105,6 +111,22 @@ public class Documento implements Serializable {
 
     public void setUsuarioRecibe(String usuarioRecibe) {
         this.usuarioRecibe = usuarioRecibe;
+    }
+
+    public Beca getIdBeca() {
+        return idBeca;
+    }
+
+    public void setIdBeca(Beca idBeca) {
+        this.idBeca = idBeca;
+    }
+
+    public Movilidad getIdMovilidad() {
+        return idMovilidad;
+    }
+
+    public void setIdMovilidad(Movilidad idMovilidad) {
+        this.idMovilidad = idMovilidad;
     }
 
     public TipoDocumento getIdTipoDocumento() {

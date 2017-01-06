@@ -6,7 +6,6 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -33,7 +32,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")})
 public class Persona implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,7 +98,7 @@ public class Persona implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaBeca> personaBecaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
-    private List<Telefono> telefonoList = new ArrayList<Telefono>();
+    private List<Telefono> telefonoList;
 
     public Persona() {
     }
@@ -296,5 +294,5 @@ public class Persona implements Serializable {
     public String toString() {
         return "com.sisrni.model.Persona[ idPersona=" + idPersona + " ]";
     }
-
+    
 }

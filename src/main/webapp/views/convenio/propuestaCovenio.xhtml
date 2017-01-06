@@ -33,7 +33,7 @@
                             <p:column colspan="3">
                                 <p:autoComplete id="idSolicinateNombreAuto" value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeSolicitante}" style="width:450px"
                                                 var="solicitud" itemLabel="#{solicitud.nombrePersona}" itemValue="#{solicitud}" converter="#{personaConverter}" scrollHeight="250">
-                                    <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameSolicitante()}" process="@this,idSolicinateNombre" update="idFacultad,idUnidad,idCargo"/>
+                                    <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameSolicitante()}" process="@this,idSolicinateNombre" update="idFacultadUnidad,idCargo"/>
                                 </p:autoComplete> 
                                 <p:message for="idSolicinateNombreAuto" />  
                                 <p:watermark for="idSolicinateNombreAuto" value="Digite Nombre Solicitante" id="watermarkNameSol2" /> 
@@ -63,26 +63,18 @@
                         </p:row>                                                                       
 
                         <p:row>
-                            <p:column>
-                                <p:outputLabel for="idFacultad" value="Facultad" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="idFacultad"  required="true" label="Facultad" value="#{propuestaConvenioMB.solicitante.idCarrera.idFacultad.nombreFacultad}"/>
-                                <p:message for="idFacultad" />
-                                <p:watermark for="idFacultad" value="Facultad" id="watermarkFacultad" />
-                            </p:column>
-                            <p:column>
-                                <p:outputLabel for="idUnidad" value="Unidad" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="idUnidad"  required="true" label="unidad" value="#{propuestaConvenioMB.solicitante.idUnidad.nombreUnidad}" /> 
+                            
 
-                                <p:message for="idUnidad" />
-                                <p:watermark for="idUnidad" value="Unidad" id="watermarkUnion" />
-                            </p:column>
-                        </p:row>
-
-                        <p:row>
+                            <p:column>
+                                    <p:outputLabel  for="idFacultadUnidad" value="Facultad/Unidad"  />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu  id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}"  style="width:160px" >                                              
+                                        <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" />                                            
+                                        <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            
                             <p:column>
                                 <p:outputLabel for="idCargo" value="Cargo Solicitante" />
                             </p:column>
@@ -90,21 +82,18 @@
                                 <p:inputText id="idCargo"  required="true" label="cargo" value="#{propuestaConvenioMB.solicitante.cargoPersona}"/>
                                 <p:message for="idCargo" />
                                 <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
-                            </p:column>
-                            <p:column>
+                            </p:column>                            
+                        </p:row>
 
-                            </p:column>
-                            <p:column>
-
-                            </p:column>
-                        </p:row>   
+                        
 
                     </p:panelGrid>                               
                 </p:panel> 
 
                 <p:panel id="idpanelRefInter" header="Datos Solicitante Interno" style="margin-bottom:20px">                          
 
-                    <p:panelGrid>                           
+                    <p:panelGrid>     
+                        <p:growl id="msg" />
                         <p:row>
                             
                             <p:column>
@@ -123,6 +112,16 @@
                                     <p:message for="idDocumentoInterno" /> -->
                                                                
                             </p:column>
+                            <p:column>
+                                <h:outputText value="Mismo Solicitante: " />
+                            </p:column>
+                            <p:column>
+                                <p:selectBooleanCheckbox value="#{propuestaConvenioMB.mismoSolicitante}">
+                                    <p:ajax update="msg" listener="#{propuestaConvenioMB.mismoSolicitante()}" />
+                                </p:selectBooleanCheckbox>
+                            </p:column>
+
+        
                             
 <!--                            <p:column>
                                 <p:outputLabel for="idSolicinateNombreInternos" value="Busqueda Nombre Solicitante" />
@@ -196,25 +195,17 @@
                                 <p:message for="idCelInterno" />
                             </p:column>
                         </p:row>
-                        <p:row>
+                        <p:row>                           
                             <p:column>
-                                <p:outputLabel for="idFacultadInterno" value="Facultad" />
+                                <p:outputLabel  for="idFacultadUnidadInterno" value="Facultad/Unidad"  />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idFacultadInterno"  required="true" readonly="true" label="Facultad" value="#{propuestaConvenioMB.referenteInterno.idCarrera.idFacultad.nombreFacultad}"/>
-                                <p:watermark for="idFacultadInterno" value="Facultad" id="watermarkFac" />
-                                <p:message for="idFacultadInterno" />
-                            </p:column>
-                            <p:column>
-                                <p:outputLabel for="idUnidadInterno" value="Unidad" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="idUnidadInterno"  required="true" readonly="true" label="unidad" value="#{propuestaConvenioMB.referenteInterno.idUnidad.nombreUnidad}"/>  
-                                <p:watermark for="idUnidadInterno" value="Unidad" id="watermarkuni" />
-                                <p:message for="idUnidadInterno" />
-                            </p:column>
-                        </p:row>   
-                        <p:row>
+                                <p:selectOneMenu  id="idFacultadUnidadInterno" required="true" value="#{propuestaConvenioMB.facultadesUnidadesInterno}"  style="width:160px" >                                              
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
+                                    <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
+                                </p:selectOneMenu>
+                            </p:column>                        
+                        
                             <p:column>
                                 <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
                             </p:column>
@@ -321,14 +312,16 @@
                                 <p:watermark for="idCargoExterno" value="Cargo" id="waterCargoEx" />
                                 <p:message for="idCargoExterno" />
                             </p:column>
+
                             <p:column>
-                                <p:outputLabel for="idEntidadInstitucion" value="Entidad o Instituci&oacute;n" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="idEntidadInstitucion"  readonly="true" label="Entidad o institucion" value="#{propuestaConvenioMB.referenteExterno.idOrganismo.nombreOrganismo}"/>
-                                <p:watermark for="idEntidadInstitucion" value="Entidad o Institucion" id="waterentidad_inst" />
-                                <p:message for="idEntidadInstitucion" />
-                            </p:column>
+                                    <p:outputLabel for="idEntidadInstitucion" value="Entidad o Instituci&oacute;n"  />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu  id="idEntidadInstitucion" required="true" value="#{propuestaConvenioMB.referenteExterno.idOrganismo}" converter="#{organismoConverter}" style="width:160px" >                                              
+                                        <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
+                                        <f:selectItems value="#{propuestaConvenioMB.listadoOrganismo}" var="organi" itemLabel="#{organi.nombreOrganismo}" itemValue="#{organi}" />
+                                    </p:selectOneMenu>
+                                </p:column>
                         </p:row>
                        
 
@@ -504,7 +497,7 @@
                         <p:column>                                         
                             <p:selectOneMenu id="idUnidad"  value="#{propuestaConvenioMB.personaEdit.idUnidad}" effect="fade" converter="#{unidadConverter}" required="true">                                           
                                 <f:selectItem itemLabel="Unidad" itemValue="null" noSelectionOption="true" />  
-                                <f:selectItems value="#{propuestaConvenioMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombreEscuelaDepto}" itemValue="#{unidad}"/>  
+                                <f:selectItems value="#{propuestaConvenioMB.listaUnidad}" var="unidad" itemLabel="#{unidad.nombreUnidad}" itemValue="#{unidad}"/>  
                             </p:selectOneMenu>    
                         </p:column>
                         <p:column>  

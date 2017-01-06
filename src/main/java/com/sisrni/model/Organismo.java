@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -57,10 +56,7 @@ public class Organismo implements Serializable {
     private Integer idProvincia;
     @Column(name = "ID_CUIDAD")
     private Integer idCuidad;
-    @JoinTable(name = "PROYECTO_ORGANISMO", joinColumns = {
-        @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
-    @ManyToMany
+    @ManyToMany(mappedBy = "organismoList")
     private List<Proyecto> proyectoList;
     @JoinColumn(name = "ID_TIPO_ORGANISMO", referencedColumnName = "ID_TIPO_ORGANISMO")
     @ManyToOne

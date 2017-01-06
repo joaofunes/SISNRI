@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -42,10 +40,7 @@ public class AreaConocimiento implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "NOMBRE_AREA", nullable = false, length = 100)
     private String nombreArea;
-    @JoinTable(name = "PROYECTO_AREA", joinColumns = {
-        @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
-    @ManyToMany
+    @ManyToMany(mappedBy = "areaConocimientoList")
     private List<Proyecto> proyectoList;
 
     public AreaConocimiento() {
