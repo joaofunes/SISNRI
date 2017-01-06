@@ -51,7 +51,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 
 
-@Named("documentacionMB")
+@Named("documentacionBecaMB")
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
 
 public class DocumentacionBecaMB implements Serializable{

@@ -97,7 +97,7 @@ public class Persona implements Serializable {
     private List<PersonaMovilidad> personaMovilidadList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaBeca> personaBecaList;
-    @OneToMany(mappedBy = "idPersona")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
     private List<Telefono> telefonoList;
 
     public Persona() {

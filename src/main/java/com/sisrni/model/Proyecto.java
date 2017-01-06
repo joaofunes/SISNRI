@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -62,11 +63,17 @@ public class Proyecto implements Serializable {
     @Column(name = "FECHA_FIN")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
-    @ManyToMany(mappedBy = "proyectoList")
+    @JoinTable(name = "PROYECTO_AREA", joinColumns = {
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO", nullable = false)})
+    @ManyToMany
     private List<AreaConocimiento> areaConocimientoList;
     @ManyToMany(mappedBy = "proyectoList")
     private List<Estado> estadoList;
-    @ManyToMany(mappedBy = "proyectoList")
+    @JoinTable(name = "PROYECTO_ORGANISMO", joinColumns = {
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO", nullable = false)})
+    @ManyToMany
     private List<Organismo> organismoList;
     @OneToMany(mappedBy = "idProyecto")
     private List<Documento> documentoList;
