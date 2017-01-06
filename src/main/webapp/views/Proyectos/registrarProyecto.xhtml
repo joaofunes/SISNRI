@@ -50,7 +50,7 @@
                                         <p:column>
                                             <p:selectOneMenu id="facultadproyecto" value="#{proyectosMB.facultadSelectedPojoP}" style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <p:ajax listener="#{proyectosMB.onFacultadChange()}"  process="@this"/>
+                                                <p:ajax listener="#{proyectosMB.onFacultadChange()}"  process="@this"/>
                                                 <c:forEach var="fac" items="#{proyectosMB.facultadesUnidadesList}">
                                                     <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
                                                 </c:forEach>
@@ -133,7 +133,7 @@
                                                 </c:forEach>
                                             </p:selectCheckboxMenu>
                                         </p:column>
-                                        
+
                                     </p:row>
                                     <p:row>
                                         <p:column>
@@ -162,13 +162,15 @@
                                 </p:panelGrid>
                             </p:tab>
                             <p:tab title="Datos del Coordinador del proyecto">
-                                <p:column>
-                                            <p:outputLabel value="Dui:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputMask id="duisol" mask="99999999-9" value="#{proyectosMB.numDocumentoSol}" required="true"/>
-                                            <p:commandButton actionListener="#{proyectosMB.searchByDocEmailInterno()}" id="idBtnSearchInSol" process="@this,duisol" update="duisolicitante,correosolicitante,nombresolicitante,apellidosolicitante,cargosolicitante,facultadsolicitante,unidadsolicitante,telefonosolicitante,celularsolicitante,faxsolicitante" icon="ui-icon-search" value="Buscar"/>
-                                        </p:column>
+                                <p:panelGrid>
+                                    <p:column>
+                                        <p:outputLabel value="Dui:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="duisol" mask="99999999-9" value="#{proyectosMB.numDocumentoSol}"/>
+                                        <p:commandButton actionListener="#{proyectosMB.searchByDocInterno(proyectosMB.numDocumentoSol)}" id="idBtnSearchInSol" process="@this,duisol" update="duisolicitante,correosolicitante,nombresolicitante,apellidosolicitante,cargosolicitante,facultadsolicitante,unidadsolicitante,telefonosolicitante,celularsolicitante,faxsolicitante" icon="ui-icon-search" value="Buscar"/>
+                                    </p:column>
+                                </p:panelGrid>
                                 <p:panelGrid>
                                     <p:row>
                                         <p:column>
@@ -254,6 +256,15 @@
                                 </p:panelGrid> 
                             </p:tab>
                             <p:tab title="Datos de Asistente t&eacute;cnico del proyecto" >
+                                <p:panelGrid>
+                                    <p:column>
+                                        <p:outputLabel value="Dui:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="duiasis" mask="99999999-9" value="#{proyectosMB.numDocumentoAsis}"/>
+                                        <p:commandButton actionListener="#{proyectosMB.searchByDocAsistente(proyectosMB.numDocumentoAsis)}" id="idBtnSearchInAsis" process="@this,duiasis" update="duiasistente,correoasistente,nombreasistente,apellidoasistente,cargoasistente,facultadasistente,unidadasis,telefonoasistente,celularasistente,faxasistente" icon="ui-icon-search" value="Buscar"/>
+                                    </p:column>
+                                </p:panelGrid>
                                 <p:panelGrid columns="4">
                                     <p:column>
                                         <p:outputLabel value="Dui:"/>
@@ -315,11 +326,11 @@
                                         <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-9999-9999"/>
                                     </p:column>
                                     <p:column>
-                                            <p:outputLabel value="Telefono Celuluar:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="celuluarasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}"/>
-                                        </p:column>
+                                        <p:outputLabel value="Telefono Celuluar:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}"/>
+                                    </p:column>
                                     <p:column>
                                         <p:outputLabel value="Fax:"/>
                                     </p:column>
@@ -329,6 +340,15 @@
                                 </p:panelGrid>
                             </p:tab>
                             <p:tab title="Datos del Coordinador Externo" rendered="#{proyectosMB.proyectoSelected.idTipoProyecto!=1}">
+                                <p:panelGrid>
+                                    <p:column>
+                                        <p:outputLabel value="Pasaporte:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="pasaporteext" mask="99999999-9" value="#{proyectosMB.numDocumentoRefExt}"/>
+                                        <p:commandButton actionListener="#{proyectosMB.searchByDocReferenteExterno(proyectosMB.numDocumentoRefExt)}" id="idBtnSearchInExt" process="@this,pasaporteext" update="pasaporteexterna,correoexterna,nombreexterna,apellidoexterna,cargoexterna,unidadasis,telefonoexterna,celularexterno,faxexterna" icon="ui-icon-search" value="Buscar"/>
+                                    </p:column>
+                                </p:panelGrid>
                                 <p:panelGrid columns="4">
                                     <p:column>
                                         <p:outputLabel value="Pasaporte de coordinador:"/>
@@ -378,11 +398,11 @@
                                         <p:inputText id="telefonoexterna" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" />
                                     </p:column>
                                     <p:column>
-                                            <p:outputLabel value="Telefono Celuluar:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="celuluarexterno" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}"/>
-                                        </p:column>
+                                        <p:outputLabel value="Telefono Celuluar:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="celularexterno" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}"/>
+                                    </p:column>
                                     <p:column>
                                         <p:outputLabel value="Fax:"/>
                                     </p:column>
@@ -393,7 +413,7 @@
                             </p:tab>
                         </p:accordionPanel>                                                                         
                     </p:panel>
-                    <p:commandButton styleClass="boton" value="Regresar"  id="btnRegresar" title="Regresar" actionListener="#{proyectosMB.regresar()}"/>
+                    <p:commandButton styleClass="boton" value="Regresar"  id="btnRegresar" title="Regresar" actionListener="#{proyectosMB.regresar()}" process="@this"/>
                     <p:commandButton styleClass="boton" actionListener="#{proyectosMB.guardarProyecto()}" process="formAdmin" update="formAdmin" value="guardar" id="btnguardarProyecto" title="Guardar Proyecto"/>
                 </center>
             </h:form>
