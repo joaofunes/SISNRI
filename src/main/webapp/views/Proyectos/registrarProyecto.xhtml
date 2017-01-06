@@ -162,6 +162,13 @@
                                 </p:panelGrid>
                             </p:tab>
                             <p:tab title="Datos del Coordinador del proyecto">
+                                <p:column>
+                                            <p:outputLabel value="Dui:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="duisol" mask="99999999-9" value="#{proyectosMB.numDocumentoSol}" required="true"/>
+                                            <p:commandButton actionListener="#{proyectosMB.searchByDocEmailInterno()}" id="idBtnSearchInSol" process="@this,duisol" update="duisolicitante,correosolicitante,nombresolicitante,apellidosolicitante,cargosolicitante,facultadsolicitante,unidadsolicitante,telefonosolicitante,celularsolicitante,faxsolicitante" icon="ui-icon-search" value="Buscar"/>
+                                        </p:column>
                                 <p:panelGrid>
                                     <p:row>
                                         <p:column>
@@ -235,7 +242,7 @@
                                             <p:outputLabel value="Telefono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="celuluarsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}"/>
+                                            <p:inputText id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Fax:"/>
