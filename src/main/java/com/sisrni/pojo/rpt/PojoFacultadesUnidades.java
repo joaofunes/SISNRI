@@ -15,6 +15,9 @@ public class PojoFacultadesUnidades implements Serializable {
 
     private String value;
     private String label;
+    private Integer id;
+    private char unidadFacultad;
+    
 
     public String getValue() {
         return value;
@@ -31,5 +34,23 @@ public class PojoFacultadesUnidades implements Serializable {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public char getUnidadFacultad() {
+        return unidadFacultad;
+    }
+
+    public void setUnidadFacultad(char unidadFacultad) {
+        this.unidadFacultad = unidadFacultad;
+    }
+
+    
 
 }

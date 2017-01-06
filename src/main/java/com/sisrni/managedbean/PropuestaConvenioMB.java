@@ -25,6 +25,7 @@ import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.EstadoService;
+import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaPropuestaService;
 import com.sisrni.service.PersonaService;
@@ -114,6 +115,11 @@ public class PropuestaConvenioMB implements Serializable{
     @Qualifier(value = "estadoService")
     private EstadoService estadoService;
     
+    @Autowired
+    @Qualifier(value = "facultadService")
+    private FacultadService facultadService;
+    
+    
     
     
     private String numDocumentoInterno;
@@ -124,7 +130,8 @@ public class PropuestaConvenioMB implements Serializable{
     private List<Persona> listadoPersonasExterno;
     
     private List<Organismo> listadoOrganismo;
-    private List<EscuelaDepartamento> listadoUnidad;
+    private Organismo organismo;  
+   
     private List<TipoPersona> listadoTipoPersona;
     
     private List<Telefono> listadoTelefonoReferenteInterno;
@@ -136,8 +143,10 @@ public class PropuestaConvenioMB implements Serializable{
     private PropuestaConvenio propuestaConvenio;
     private PropuestaConvenio propuestaConvenioTemp;
     private List<PojoFacultadesUnidades> listaFacultadUnidad;
+    private PojoFacultadesUnidades facultadesUnidades;
     private List<Facultad> listaFacultad;
     private List<Unidad> listaUnidad;
+    
     
     private Persona personaEdit;
     private Persona solicitante;
@@ -166,9 +175,9 @@ public class PropuestaConvenioMB implements Serializable{
         try {          
           // RequestContext.getCurrentInstance().reset(":formAdmin"); 
            inicializador();
-           inicializadorListados();
-           cargarUsuario();
+           inicializadorListados();           
            getListFacultadesUnidades();
+           cargarUsuario();
         
         } catch (Exception e) {
             e.printStackTrace();
@@ -196,7 +205,29 @@ public class PropuestaConvenioMB implements Serializable{
         try {
          
           solicitante=personaService.findById( usuario.getUsuario().getIdPersona());
-            
+          
+          
+          
+          
+          if(solicitante.getIdUnidad()!= null){
+             facultadesUnidades.setId(solicitante.getIdUnidad().getIdUnidad());
+             facultadesUnidades.setLabel(solicitante.getIdUnidad().getNombreUnidad());
+             facultadesUnidades.setUnidadFacultad('U');
+          }
+          if(solicitante.getIdCarrera()!= null){
+              
+             for(PojoFacultadesUnidades us: listaFacultadUnidad){
+                 if(us.getId()==solicitante.getIdCarrera().getIdFacultad().getIdFacultad() && us.getUnidadFacultad()=='F'){
+                     facultadesUnidades=us;
+                 }
+             }
+                 
+              
+//             facultadesUnidades.setId(solicitante.getIdCarrera().getIdFacultad().getIdFacultad());
+//             facultadesUnidades.setLabel(solicitante.getIdCarrera().getIdFacultad().getNombreFacultad());
+//             facultadesUnidades.setUnidadFacultad('F');
+          }
+                      
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -211,6 +242,7 @@ public class PropuestaConvenioMB implements Serializable{
             solicitante.setIdCarrera(new Carrera());
             solicitante.getIdCarrera().setIdFacultad(new Facultad());            
             solicitante.setIdUnidad(new Unidad());
+            facultadesUnidades = new PojoFacultadesUnidades();
             
             propuestaConvenioTemp = new PropuestaConvenio();
             referenteInterno = new Persona();
@@ -242,8 +274,10 @@ public class PropuestaConvenioMB implements Serializable{
              
              //***Editar Persona***
              listadoOrganismo = organismoService.findAll();
-            // listadoUnidad = unidadService.findAll();
              listadoTipoPersona = tipoPersonaService.findAll();
+           
+             listaFacultad = facultadService.findAll();
+             listaUnidad = unidadService.findAll();
              
          } catch (Exception e) {
            e.printStackTrace();
@@ -251,44 +285,44 @@ public class PropuestaConvenioMB implements Serializable{
     }
      
      
-   public void  onChangeSolicitante(){
-        try {             
-             listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(solicitante);             
-        } catch (Exception e) {
-        }
-    }
-    
-    
-    public List<Persona> completeSolicitante(String query) {
-        
-        List<Persona> filteredThemes = new ArrayList<Persona>();
-        
-        if(query!=null && !query.equals("")){
-            filteredThemes = personaService.getSolicitanteByName(query);
-        }
-        return filteredThemes;
-    }
-    
-    public List<Persona> completeSolicitanteInterno(String query) {
-        
-        List<Persona> filteredThemes = new ArrayList<Persona>();
-        
-        if(query!=null && !query.equals("")){
-            filteredThemes = personaService.getReferenteInternoByName(query);
-        }
-        return filteredThemes;
-    }
-    
-        
-     public List<Persona> completeSolicitanteExterno(String query) {
-        
-        List<Persona> filteredThemes = new ArrayList<Persona>();
-        
-        if(query!=null && !query.equals("")){
-            filteredThemes = personaService.getReferenteExternoByName(query);
-        }         
-        return filteredThemes;
-    }
+//   public void  onChangeSolicitante(){
+//        try {             
+//             listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(solicitante);             
+//        } catch (Exception e) {
+//        }
+//    }
+//    
+//    
+//    public List<Persona> completeSolicitante(String query) {
+//        
+//        List<Persona> filteredThemes = new ArrayList<Persona>();
+//        
+//        if(query!=null && !query.equals("")){
+//            filteredThemes = personaService.getSolicitanteByName(query);
+//        }
+//        return filteredThemes;
+//    }
+//    
+//    public List<Persona> completeSolicitanteInterno(String query) {
+//        
+//        List<Persona> filteredThemes = new ArrayList<Persona>();
+//        
+//        if(query!=null && !query.equals("")){
+//            filteredThemes = personaService.getReferenteInternoByName(query);
+//        }
+//        return filteredThemes;
+//    }
+//    
+//        
+//     public List<Persona> completeSolicitanteExterno(String query) {
+//        
+//        List<Persona> filteredThemes = new ArrayList<Persona>();
+//        
+//        if(query!=null && !query.equals("")){
+//            filteredThemes = personaService.getReferenteExternoByName(query);
+//        }         
+//        return filteredThemes;
+//    }
      
      /***
       * Metodo para realizar busquedas por medio del DUI agrega guion al final del 7 digito
@@ -769,16 +803,18 @@ public void FileRead(){
         listaFacultadUnidad = new ArrayList<PojoFacultadesUnidades>();
         for (Facultad fac : listaFacultad) {
             PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
-            pojo.setValue(fac.getIdFacultad() + ",1");
+            pojo.setId(fac.getIdFacultad());
             pojo.setLabel(fac.getNombreFacultad());
+            pojo.setUnidadFacultad('F');
             listaFacultadUnidad.add(pojo);
         }
         for (Unidad uni : listaUnidad) {
             PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
-            pojo.setValue(uni.getIdUnidad() + ",2");
+            pojo.setId(uni.getIdUnidad());
             pojo.setLabel(uni.getNombreUnidad());
+            pojo.setUnidadFacultad('U');
             listaFacultadUnidad.add(pojo);
-        }
+        }        
         return listaFacultadUnidad;
     }
 
@@ -932,13 +968,7 @@ public void FileRead(){
         this.listadoOrganismo = listadoOrganismo;
     }
 
-    public List<EscuelaDepartamento> getListadoUnidad() {
-        return listadoUnidad;
-    }
-
-    public void setListadoUnidad(List<EscuelaDepartamento> listadoUnidad) {
-        this.listadoUnidad = listadoUnidad;
-    }
+   
 
     public List<TipoPersona> getListadoTipoPersona() {
         return listadoTipoPersona;
@@ -1026,6 +1056,22 @@ public void FileRead(){
 
     public void setListaUnidad(List<Unidad> listaUnidad) {
         this.listaUnidad = listaUnidad;
+    }
+
+    public PojoFacultadesUnidades getFacultadesUnidades() {
+        return facultadesUnidades;
+    }
+
+    public void setFacultadesUnidades(PojoFacultadesUnidades facultadesUnidades) {
+        this.facultadesUnidades = facultadesUnidades;
+    }
+
+    public Organismo getOrganismo() {
+        return organismo;
+    }
+
+    public void setOrganismo(Organismo organismo) {
+        this.organismo = organismo;
     }
 
    
