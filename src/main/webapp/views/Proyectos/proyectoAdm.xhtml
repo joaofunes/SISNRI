@@ -2,57 +2,57 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition 
-                template="/WEB-INF/templates/layout.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                >
-    
-    
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    >
+
+
     <ui:define name="content">
-     <h:form id="formAdmin">
+        <h:form id="formAdmin">
             <p:panelGrid >
                 <p:row>
                     <p:column  >
-                            <p:commandButton styleClass="boton"
-                                             actionListener="#{proyectoMB.preGuardarProyecto}" update=":formAdmin :formProyecto" process="@this :formAdmin"
-                                             value="Nuevo Proyecto" />
-                        </p:column>
+                        <p:commandButton styleClass="boton"
+                                         actionListener="#{proyectosMB.preUpdateProyecto()}" update=":formAdmin :formProyecto" process="@this :formAdmin"
+                                         value="Nuevo Proyecto" />
+                    </p:column>
                 </p:row>
 
             </p:panelGrid>
         </h:form>
         <h:outputLabel style="margin-bottom: 20px;"/>
         <h:form id="formProyecto">
-            <p:dataTable var="proyecto" value="#{proyectoMB.listProyectos}" paginator="true" rows="15"
+            <p:dataTable var="proyecto" value="#{proyectosMB.proyectoList}" paginator="true" rows="15"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="5,10,15"                       
-                        >
-<!--                <p:column headerText="Id" sortBy="#{proyecto.idProyecto}" filterBy="#{proyecto.idProyecto}">
-                    <h:outputText value="#{proyecto.idProyecto}" />
-                </p:column>-->
+                         >
+ <!--                <p:column headerText="Id" sortBy="#{proyecto.idProyecto}" filterBy="#{proyecto.idProyecto}">
+                     <h:outputText value="#{proyecto.idProyecto}" />
+                 </p:column>-->
                 <p:column headerText="Nombre" sortBy="#{proyecto.nombreProyecto}" filterBy="#{proyecto.nombreProyecto}">
                     <h:outputText value="#{proyecto.nombreProyecto}" />
                 </p:column>
-                 
+
                 <p:column headerText="Tipo de Proyecto" sortBy="#{proyecto.idTipoProyecto.nombreTipoProyecto}" filterBy="#{proyecto.idTipoProyecto.nombreTipoProyecto}">
                     <h:outputText value="#{proyecto.idTipoProyecto.nombreTipoProyecto}" />
                 </p:column>
-             
-                <p:column headerText="Año de Gestión" sortBy="#{proyecto.anioGestion}" filterBy="#{proyecto.anioGestion}">
+
+                <p:column headerText="AÃƒÂ±o de GestiÃƒÂ³n" sortBy="#{proyecto.anioGestion}" filterBy="#{proyecto.anioGestion}">
                     <h:outputText value="#{proyecto.anioGestion}" />
                 </p:column>
-                
+
                 <p:column headerText="Monto ($)" sortBy="#{proyecto.montoProyecto}" filterBy="#{proyecto.montoProyecto}">
                     <h:outputText value="$#{proyecto.montoProyecto}" />
                 </p:column>
-                
+
                 <p:column headerText="Opciones" >
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       value="Editar" actionListener="#{proyectoMB.preActualizarProyecto(proyecto)}" />
+                                       value="Editar" actionListener="#{proyectosMB.preUpdateProyecto(proyecto.idProyecto)}" update=":formAdmin :formProyecto" process="@this :formAdmin"/>
                     </div>
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-search"
@@ -61,7 +61,7 @@
                     </div>
                 </p:column>
             </p:dataTable>
- 
+
 
         </h:form>
 
@@ -70,17 +70,17 @@
             <h:outputText value="This is a Modal Dialog." />
 
             <h:form>
-              
-                
+
+
                 <h3 style="margin-top: 0">Seleccionar opciones del menu</h3>
-              
+
                 <!--<p:commandButton id="citySubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />-->
 
             </h:form>
-                    
-                    
+
+
         </p:dialog> 
-        
+
     </ui:define>
-    
- </ui:composition> 
+
+</ui:composition> 

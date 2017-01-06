@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+     <center>  
+        
+         <p:panel style="width: 70%" header="Ciudades">  
+         
+             <h:form id="formAdmin">
+               
+                <p:panelGrid id="idGrilPrincipal" columns="2" >
+               
+                    <p:column>
+                        <h:outputText value="Nombre Persona:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombrePersona" value="#{tipoPersonaMB.tipoPersona.nombre}" required="true" size="50" />
+                    </p:column>
+               
+                    <p:column>
+                        <h:outputText value="Descripcion Persona:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="descri" value="#{tipoPersonaMB.tipoPersona.descripcion}" required="true" size="50" />
+                    </p:column>
+                    
+                    <p:column  >
+                        <p:commandButton rendered="#{!tipoPersonaMB.actualizar}"  styleClass="boton"
+                                         actionListener="#{tipoPersonaMB.guardarTipoPersona()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
+                                         value="Guardar" />
+                       
+                        <p:commandButton rendered="#{tipoPersonaMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoPersonaMB.updateTipoPersona()}" update="formAdmin :formPrincipal"
+                                         value="Actulizar" />
+                       
+                        <p:commandButton rendered="#{tipoPersonaMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoPersonaMB.cancelarTipoPersona()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
+                        
+                          
+                       
+                    </p:column>
+                 
+                </p:panelGrid>
+        </h:form>    
+        <br></br>
+        <h:form id="formPrincipal">  
+                <p:dataTable var="persona" value="#{tipoPersonaMB.listadoTipoPersona}"  rows="10"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"
+                             paginator="true">
+
+
+                    <p:column headerText="Nombre Menu" sortBy="#{persona.nombre}" filterBy="#{persona.nombre}">
+                        <h:outputText value="#{persona.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="Descripcion" sortBy="#{persona.descripcion}" filterBy="#{persona.descripcion}">
+                        <h:outputText value="#{persona.descripcion}" />
+                    </p:column>
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{tipoPersonaMB.preUpdate(persona)}" update=":formAdmin" process="@form :formPrincipal"/>
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                           title="Eliminar" value="Eliminar"
+                                           actionListener="#{tipoPersonaMB.preDeleteTipoPersona(persona)}" update=":idEliminacion" />
+                        </div>
+                      
+                    </p:column>
+                </p:dataTable>  
+        </h:form>
+        </p:panel>
+          </center> 
+     
+        
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar tipo persona?" header="Eliminar Tipo Persona"  global="true">
+            <h:form id="idEliminacion"> 
+             
+                 <h:outputText value="Nombre de Persona : "  style="font-weight:bold"/>
+                 <h:outputText value="#{tipoPersonaMB.delTipoPersona.nombre}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Descripcion de Persona : "  style="font-weight:bold" />
+                 <h:outputText value="#{tipoPersonaMB.delTipoPersona.descripcion}" />
+             
+            </h:form>    
+            
+            <p:separator />
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoPersonaMB.deleteTipoPersona()}" process="@this" update=":formPrincipal"/>
+               <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+
+    </ui:define>
+</ui:composition>

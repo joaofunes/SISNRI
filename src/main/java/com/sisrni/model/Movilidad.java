@@ -84,6 +84,8 @@ public class Movilidad implements Serializable {
         @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)})
     @ManyToMany
     private List<Facultad> facultadList;
+    @OneToMany(mappedBy = "idMovilidad")
+    private List<Documento> documentoList;
     @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID_CATEGORIA_MOVILIDAD")
     @ManyToOne
     private CategoriaMovilidad idCategoria;
@@ -232,6 +234,14 @@ public class Movilidad implements Serializable {
 
     public void setFacultadList(List<Facultad> facultadList) {
         this.facultadList = facultadList;
+    }
+
+    public List<Documento> getDocumentoList() {
+        return documentoList;
+    }
+
+    public void setDocumentoList(List<Documento> documentoList) {
+        this.documentoList = documentoList;
     }
 
     public CategoriaMovilidad getIdCategoria() {
