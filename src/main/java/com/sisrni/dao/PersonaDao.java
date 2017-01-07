@@ -257,4 +257,26 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         return (Persona) q.uniqueResult();
     }
 
+    public Persona getRfteFacultadBeneficiadaByDoc(String doc){
+        Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM Persona p WHERE p.duiPersona=:dui AND p.activo is true");
+        q.setParameter("dui", doc);
+        return (Persona) q.uniqueResult();
+}
+
+    /**
+     * Metodo para obtener personas que pertenecen a un organismo especificado
+     * @param idOrg
+     * @return 
+     */
+    public List<Persona> getPersonasByIdOrganismo(Integer idOrg) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE a.idOrganismo.idOrganismo =:org");
+            q.setParameter("org", idOrg);
+            return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
