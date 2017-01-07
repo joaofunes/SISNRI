@@ -737,11 +737,14 @@ public void FileRead(){
     private List<PojoFacultadesUnidades> getListFacultadesUnidades() {
 
         listaFacultadUnidad = new ArrayList<PojoFacultadesUnidades>();
+        int i=0;
+        
         for (Facultad fac : listaFacultad) {
             PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
             pojo.setId(fac.getIdFacultad());
             pojo.setLabel(fac.getNombreFacultad());
             pojo.setUnidadFacultad('F');
+            pojo.setValue(""+ i++);
             listaFacultadUnidad.add(pojo);
         }
         for (Unidad uni : listaUnidad) {
@@ -749,6 +752,7 @@ public void FileRead(){
             pojo.setId(uni.getIdUnidad());
             pojo.setLabel(uni.getNombreUnidad());
             pojo.setUnidadFacultad('U');
+            pojo.setValue(""+ i++);
             listaFacultadUnidad.add(pojo);
         }        
         return listaFacultadUnidad;
