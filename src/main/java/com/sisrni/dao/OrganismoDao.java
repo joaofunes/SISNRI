@@ -36,4 +36,6 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
         q.setParameter("idTipo", idTipo);
         return q.list();
     }
+    
+   
 }

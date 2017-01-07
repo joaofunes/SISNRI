@@ -45,6 +45,15 @@ public class UnidadDao extends GenericDao<Unidad, Integer>  {
        
     }
      
-    
+    public List<Integer> getUnidadesMovilidad(Integer idMov){
+        try{
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT u.idUnidad FROM Unidad u JOIN u.movilidadList m WHERE m.idMovilidad=:idmov");
+            q.setParameter("idmov", idMov);
+            return q.list();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+       return null;
+    }
     
 }
