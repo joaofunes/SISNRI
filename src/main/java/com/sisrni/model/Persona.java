@@ -40,14 +40,12 @@ public class Persona implements Serializable {
     @Column(name = "ID_PERSONA", nullable = false)
     private Integer idPersona;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "NOMBRE_PERSONA", nullable = false, length = 60)
+    @Column(name = "NOMBRE_PERSONA", nullable = true, length = 60)
     private String nombrePersona;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "APELLIDO_PERSONA", nullable = false, length = 60)
+    @Column(name = "APELLIDO_PERSONA", nullable = true, length = 60)
     private String apellidoPersona;
     @Basic(optional = false)
     @NotNull
