@@ -8,6 +8,7 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:pe="http://primefaces.org/ui/extensions" 
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                  >
 
     <ui:define name="content">
@@ -63,18 +64,24 @@
                         </p:row>                                                                       
 
                         <p:row>
-                            
 
                             <p:column>
-                                    <p:outputLabel  for="idFacultadUnidad" value="Facultad/Unidad"  />
-                                </p:column>
-                                <p:column>
-                                    <p:selectOneMenu  id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}"  style="width:160px" >                                              
-                                        <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" />                                            
-                                        <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
-                                    </p:selectOneMenu>
-                                </p:column>
-                            
+                                <p:outputLabel  for="idFacultadUnidad" value="Facultad/Unidad"  />
+                            </p:column>
+                            <p:column>
+<!--                                <p:selectOneMenu  id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{facultadUnidadConverter}" style="width:160px" >                                              
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" />                                            
+                                    <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />                                        
+                                </p:selectOneMenu>-->
+
+                                <p:selectOneMenu id="idFacultadUnidad" value="#{propuestaConvenioMB.facultadesUnidades.id}"  style="width:160px">                                   
+                                    <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}"/>
+                                    <c:forEach var="c" items="#{propuestaConvenioMB.listaFacultadUnidad}">
+                                        <f:selectItem itemLabel="#{c.label}" itemValue="#{c.id}"/>
+                                    </c:forEach>
+                                </p:selectOneMenu>
+                            </p:column>
+
                             <p:column>
                                 <p:outputLabel for="idCargo" value="Cargo Solicitante" />
                             </p:column>
@@ -84,9 +91,6 @@
                                 <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
                             </p:column>                            
                         </p:row>
-
-                        
-
                     </p:panelGrid>                               
                 </p:panel> 
 
@@ -143,8 +147,8 @@
                             </p:column>
                             <p:column>                                            
 
-                                <p:inputText id="idSolicinateNombreInterno"  required="true" label="Nombre" value="#{propuestaConvenioMB.referenteInterno.nombrePersona}" />
-                                <p:message for="idSolicinateNombreInterno" />   
+                                <p:inputText id="idSolicinateNombreInterno"   label="Nombre" value="#{propuestaConvenioMB.referenteInterno.nombrePersona}" />
+                                
                                 <p:watermark for="idSolicinateNombreInterno" value="Nombre Solicitante"/>                                           
 
                             </p:column>
@@ -153,7 +157,7 @@
                             </p:column>
                             <p:column>
 
-                                <p:inputText id="idSolicinateApellidoInterno"  required="true" label="Apellido" value="#{propuestaConvenioMB.referenteInterno.apellidoPersona}" />
+                                <p:inputText id="idSolicinateApellidoInterno"   label="Apellido" value="#{propuestaConvenioMB.referenteInterno.apellidoPersona}" />
                                 <p:message for="idSolicinateApellidoInterno" />   
                                 <p:watermark for="idSolicinateApellidoInterno" value="Apellido Solicitante"/>                                           
 
@@ -166,15 +170,13 @@
                                 <p:outputLabel for="email" value="Correo Electr&oacute;nico" />     
                             </p:column>
                             <p:column>
-                                <p:inputText id="email"  required="true" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
+                                <p:inputText id="email"   value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
                                     <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                 </p:inputText>
                                 <p:message for="email" display="tooltip" />  
                                 <p:watermark for="email" value="correo@email.com" id="watermarkEmail" />
                             </p:column>
-                            <p:column>
-                                <p:commandButton actionListener="#{propuestaConvenioMB.FileRead()}" process="@this email" id="idBtnSearchInByEmail" icon="ui-icon-search" title="Buscar referente interno" />
-                            </p:column>
+                           
 
                         </p:row>   
                         <p:row>
@@ -182,7 +184,7 @@
                                 <p:outputLabel for="idTelFijoInterno" value="Tel:" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idTelFijoInterno" required="true"  readonly="true" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}"/> 
+                                <p:inputText id="idTelFijoInterno"   readonly="true" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}"/> 
                                 <p:watermark for="idTelFijoInterno" value="xxxx-xxxx"  /> 
                                 <p:message for="idTelFijoInterno" />
                             </p:column>
@@ -190,7 +192,7 @@
                                 <p:outputLabel for="idCelInterno" value="Cel:" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idCelInterno" required="true"  readonly="true" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}"/> 
+                                <p:inputText id="idCelInterno"   readonly="true" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}"/> 
                                 <p:watermark for="idCelInterno" value="xxxx-xxxx" id="waterfax" /> 
                                 <p:message for="idCelInterno" />
                             </p:column>
@@ -200,7 +202,7 @@
                                 <p:outputLabel  for="idFacultadUnidadInterno" value="Facultad/Unidad"  />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu  id="idFacultadUnidadInterno" required="true" value="#{propuestaConvenioMB.facultadesUnidadesInterno}"  style="width:160px" >                                              
+                                <p:selectOneMenu  id="idFacultadUnidadInterno"  value="#{propuestaConvenioMB.facultadesUnidadesInterno}"  style="width:160px" >                                              
                                     <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
                                     <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
                                 </p:selectOneMenu>
@@ -210,7 +212,7 @@
                                 <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idCargoInterno"  required="true" label="cargo" readonly="true" value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
+                                <p:inputText id="idCargoInterno"   label="cargo" readonly="true" value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
                                 <p:watermark for="idCargoInterno" value="Cargo" id="waterCargo" />
                                 <p:message for="idCargoInterno" />
                             </p:column>
@@ -253,7 +255,7 @@
                             </p:column>
                             <p:column>                                            
 
-                                <p:inputText id="idSolicinateNombreExterno"  required="true" label="Nombre" value="#{propuestaConvenioMB.referenteExterno.nombrePersona}" />
+                                <p:inputText id="idSolicinateNombreExterno"   label="Nombre" value="#{propuestaConvenioMB.referenteExterno.nombrePersona}" />
                                 <p:message for="idSolicinateNombreExterno" />   
                                 <p:watermark for="idSolicinateNombreExterno" value="Nombre Solicitante"/>                                           
 
@@ -263,7 +265,7 @@
                             </p:column>
                             <p:column>
 
-                                <p:inputText id="idSolicinateApellidoExterno"  required="true" label="Apellido" value="#{propuestaConvenioMB.referenteExterno.apellidoPersona}" />
+                                <p:inputText id="idSolicinateApellidoExterno"   label="Apellido" value="#{propuestaConvenioMB.referenteExterno.apellidoPersona}" />
                                 <p:message for="idSolicinateApellidoExterno" />   
                                 <p:watermark for="idSolicinateApellidoExterno" value="Apellido Solicitante"/>                                           
 
@@ -275,22 +277,19 @@
                                 <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="emailExterno" required="true" value="#{propuestaConvenioMB.referenteExterno.emailPersona}">
+                                <p:inputText id="emailExterno"  value="#{propuestaConvenioMB.referenteExterno.emailPersona}">
                                     <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                 </p:inputText>
                                 <p:message for="emailExterno" display="tooltip" />  
                                 <p:watermark for="emailExterno" value="correo@email.com" id="waterCorreo" />
-                            </p:column>
-                            <p:column>
-                                <p:commandButton actionListener="#{propuestaConvenioMB.searchByDocEmailExterno}" process="@this idDocumentoExterno emailExterno" id="idBtnSearchExByEmail" icon="ui-icon-search" title="Buscar referente interno" />
-                            </p:column>
+                            </p:column>                            
                         </p:row>
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="idTelefonoExterno" value="Tel: " />
                             </p:column>
                             <p:column>
-                                <p:inputMask id="idTelefonoExterno" readonly="true" mask="9999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" required="true"/>
+                                <p:inputMask id="idTelefonoExterno" readonly="true" mask="9999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" />
                                 <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
                                 <p:message for="idTelefonoExterno" />
                             </p:column>
@@ -298,7 +297,7 @@
                                 <p:outputLabel for="idCelExterno" value="Cel" />
                             </p:column>
                             <p:column>
-                                <p:inputMask id="idCelExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.telCelularExterno.numeroTelefono}" required="true"/>
+                                <p:inputMask id="idCelExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.telCelularExterno.numeroTelefono}" />
                                 <p:watermark for="idCelExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
                                 <p:message for="idCelExterno" />
                             </p:column>
@@ -317,7 +316,7 @@
                                     <p:outputLabel for="idEntidadInstitucion" value="Entidad o Instituci&oacute;n"  />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu  id="idEntidadInstitucion" required="true" value="#{propuestaConvenioMB.referenteExterno.idOrganismo}" converter="#{organismoConverter}" style="width:160px" >                                              
+                                    <p:selectOneMenu  id="idEntidadInstitucion"  value="#{propuestaConvenioMB.referenteExterno.idOrganismo}" converter="#{organismoConverter}" style="width:160px" >                                              
                                         <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
                                         <f:selectItems value="#{propuestaConvenioMB.listadoOrganismo}" var="organi" itemLabel="#{organi.nombreOrganismo}" itemValue="#{organi}" />
                                     </p:selectOneMenu>
@@ -340,7 +339,7 @@
                                     <p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="idTipoPropuesta"  required="true" value="#{propuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >                                            
+                                    <p:selectOneMenu id="idTipoPropuesta" required="true"  value="#{propuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >                                            
                                         <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="fileUploadGroup"  process="@this" />
                                         <f:selectItem itemValue="#{null}" itemLabel="Seleccione Tipo Propuesta" noSelectionOption="true" />                                            
                                         <f:selectItems value="#{propuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />       

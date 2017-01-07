@@ -60,30 +60,35 @@ public class PersonaService extends GenericService<Persona, Integer> {
         return personaDao.getSolicitanteByName(doc);
     }
 
-      
-      public Persona getPersonaByProyectoTipoPersona(Integer idProy,Integer idTipoPer){
-          return personaDao.getPersonaByProyectoTipoPersona(idProy, idTipoPer);
-      }
-      
-      
-       public Persona getPersonaByID(Integer id){
-          return personaDao.getPersonaByID(id);
-       }
-      
-      public List<Persona> getPersonaList(boolean extranjero) {
-          return personaDao.getPersonaList(extranjero);
-      }
-      
-      
-     public Persona getPersonaByDui(String dui){
+    public Persona getPersonaByProyectoTipoPersona(Integer idProy, Integer idTipoPer) {
+        return personaDao.getPersonaByProyectoTipoPersona(idProy, idTipoPer);
+    }
+
+    public Persona getPersonaByID(Integer id) {
+        return personaDao.getPersonaByID(id);
+    }
+
+    public List<Persona> getPersonaList(boolean extranjero) {
+        return personaDao.getPersonaList(extranjero);
+    }
+
+    public Persona getPersonaByDui(String dui) {
         return personaDao.getPersonaByDui(dui);
-     } 
-      
-     public Persona getPersonaByPasaporte(String pasaporte){
-         return personaDao.getPersonaByPasaporte(pasaporte);
-     }
+    }
+
+    public Persona getPersonaByPasaporte(String pasaporte) {
+        return personaDao.getPersonaByPasaporte(pasaporte);
+    }
 
     public Persona getBecarioByDoc(String doc) {
         return personaDao.getBecarioByDoc(doc);
     }
+
+    public List<Persona> getPersonasByIdOrganismo(Integer idOrg) {
+        return personaDao.getPersonasByIdOrganismo(idOrg);
+    }
+    
+     public Persona getRfteFacultadBeneficiadaByDoc(String doc){
+         return personaDao.getRfteFacultadBeneficiadaByDoc(doc);
+     }
 }
