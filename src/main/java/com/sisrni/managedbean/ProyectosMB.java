@@ -430,7 +430,7 @@ public class ProyectosMB {
                 personaAsistente.setIdEscuelaDepto(escuelaselecAsis);
             } else {
                 Unidad unidadSelectedAsist = unidadService.findById(Integer.parseInt(facultadArregloAsis[0]));
-                persona.setIdUnidad(unidadSelectedAsist);
+                personaAsistente.setIdUnidad(unidadSelectedAsist);
             }
             personaAsistente.setDuiPersona(numDocumentoAsis);
             personaAsistente.setPasaporte("-");
@@ -566,9 +566,12 @@ public class ProyectosMB {
     public void searchByDocInterno(String numDocumentoSol) {
         try {
             if (numDocumentoSol != null) {
-                persona = personaService.getPersonaByDui(numDocumentoSol);
-                if (persona != null) {
+                Persona auxSol=new Persona();
+                //auxSol=persona;
+                auxSol = personaService.getPersonaByDui(numDocumentoSol);
+                if (auxSol != null) {
                     existeSol = 1;
+                    persona=auxSol;
                     if (persona.getIdUnidad() == null || persona.getIdEscuelaDepto() == null) {
                         facultadSelected = new Facultad();
                         escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
@@ -619,16 +622,28 @@ public class ProyectosMB {
         try {
 
             if (numDocumentoAsis != null) {
-                personaAsistente = personaService.getPersonaByDui(numDocumentoAsis);
-                if (personaAsistente != null) {
+                Persona auxAsis=new Persona();
+                //auxAsis=personaAsistente;
+                auxAsis = personaService.getPersonaByDui(numDocumentoAsis);
+                if (auxAsis != null) {
                     existeAsis = 1;
+                    personaAsistente=auxAsis;
+                    if (personaAsistente.getIdUnidad() == null || personaAsistente.getIdEscuelaDepto() == null) {
+                        facultadSelected = new Facultad();
+                        escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
+                    }
+                    if (personaAsistente.getIdEscuelaDepto() != null) {
+                        facultadSelectedPojoSol = personaAsistente.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
+                        escuelaDeptoListSol = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(personaAsistente.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
+                        escuelaDeptoSelectedSol = personaAsistente.getIdEscuelaDepto();
+                    }
+                    if (personaAsistente.getIdUnidad() != null) {
+                        facultadSelectedPojoSol = personaAsistente.getIdUnidad().getIdUnidad() + ",2";
+                        escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
+                    }
+                    onChangeAsistente();
                 }
-                //facultadSelectedAsis = personaAsistente.getIdEscuelaDepto().getIdFacultad();
-                unidadSelectedAsis = personaAsistente.getIdEscuelaDepto();
-                onChangeAsistente();
-
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -660,14 +675,27 @@ public class ProyectosMB {
         try {
 
             if (numDocumentoRefExt != null) {
-                personaExterna = personaService.getPersonaByDui(numDocumentoRefExt);
-                if (personaExterna != null) {
+                Persona auxExt=new Persona();
+                //auxExt=personaExterna;
+                auxExt = personaService.getPersonaByDui(numDocumentoRefExt);
+                if (auxExt != null) {
                     existeRefExt = 1;
+                    personaExterna=auxExt;
+                    if (personaExterna.getIdUnidad() == null || personaExterna.getIdEscuelaDepto() == null) {
+                        facultadSelected = new Facultad();
+                        escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
+                    }
+                    if (personaExterna.getIdEscuelaDepto() != null) {
+                        facultadSelectedPojoSol = personaExterna.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
+                        escuelaDeptoListSol = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(personaExterna.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
+                        escuelaDeptoSelectedSol = personaExterna.getIdEscuelaDepto();
+                    }
+                    if (personaExterna.getIdUnidad() != null) {
+                        facultadSelectedPojoSol = personaExterna.getIdUnidad().getIdUnidad() + ",2";
+                        escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
+                    }
+                    onChangeReferenteExterno();
                 }
-                // facultadSelectedExt = personaExterna.getIdEscuelaDepto().getIdFacultad();
-                organismoSelected = personaExterna.getIdOrganismo();
-                onChangeReferenteExterno();
-
             }
 
         } catch (Exception e) {
@@ -750,13 +778,14 @@ public class ProyectosMB {
                 actualizar = Boolean.TRUE;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     //metodo para cargar facultades beneficiadas
 
     public void cargarFacultadesBeneficiadas(List<FacultadProyecto> facultadProyectoList) {
         FacultadProyecto fac = new FacultadProyecto();
-        for (int i = 0; i <= facultadProyectoList.size(); i++) {
+        for (int i = 0; i < facultadProyectoList.size(); i++) {
             fac = facultadProyectoList.get(i);
             facultadBeneficiadaSelected[i] = fac.getFacultad().getIdFacultad().toString();
         }
@@ -765,7 +794,7 @@ public class ProyectosMB {
     //metodo para cargar areas de conocimiento
     public void cargarAreas(List<AreaConocimiento> areaConocimientos) {
         AreaConocimiento areaCono = new AreaConocimiento();
-        for (int i = 0; i <= areaConocimientos.size(); i++) {
+        for (int i = 0; i < areaConocimientos.size(); i++) {
             areaCono = areaConocimientos.get(i);
             areaConocimientoSelected[i] = areaCono.getIdAreaConocimiento().toString();
         }
@@ -773,8 +802,12 @@ public class ProyectosMB {
 
     //metodo para cargar organismos
     public void cargarOrganismos(List<Organismo> organismosProyecto) {
-        for (int i = 1; i <= organismosProyecto.size(); i++) {
-            Organismo org = new Organismo();
+        Organismo org = new Organismo();
+        List<String> listaOrganismos;
+        listaOrganismos=new ArrayList<String>();
+        organismoProySelected = new String[organismosProyecto.size()];
+                
+        for (int i = 0; i < organismosProyecto.size(); i++) {
             org = organismosProyecto.get(i);
             organismoProySelected[i] = org.getIdOrganismo().toString();
         }
@@ -1415,5 +1448,5 @@ public class ProyectosMB {
     public void setProyectoList(List<Proyecto> proyectoList) {
         this.proyectoList = proyectoList;
     }
-
+    
 }
