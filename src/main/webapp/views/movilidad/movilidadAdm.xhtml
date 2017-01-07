@@ -16,36 +16,34 @@
                     <p:panelGrid>
                         <p:column>
                             <p:row>
-                                <p:commandButton styleClass="botton" actionListener="#" update="" process="@this :formCrearMovilidad" value="Nueva Movilidad"/>
+                                <p:commandButton styleClass="botton" actionListener="#{registrarMovilidadMB.irnuevaMovilidad()}" update="" process="@this :formCrearMovilidad" value="Nueva Movilidad"/>
                             </p:row>
                         </p:column>
                     </p:panelGrid>
                 </h:form>
                 <h:form id="formAdmMovilidad">
-                    <p:dataTable var="movilidades" rows="15"
+                    <p:dataTable var="movilidades" value="#{registrarMovilidadMB.listPojoMovilidadAdm}" rows="15"
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                         rowsPerPageTemplate="5,10,15,20" paginator="true" >
-                        <p:column headerText="Nombre movilidad" filterBy="#">
-                            <h:outputText value="#"/>
-                        </p:column>
-                        <p:column headerText="Tipo movilidad" filterBy="#">
-                            <h:outputText value="#"/>
+                        <p:column headerText="Programa Movilidad" filterBy="#">
+                            <h:outputText value="#{movilidades.nombrePrograma}"/>
                         </p:column>
                         <p:column headerText="Docente en movilidad" filterBy="#">
-                            <h:outputText value="#"/>
+                            <h:outputText value="#{movilidades.nombrePersona} #{movilidades.apellidoPersona}"/>
                         </p:column>
-                        <p:column headerText="Facultad/Unidad beneficiada" filterBy="#">
-                            <h:outputText value="#"/>
-                        </p:column>
-                        <p:column headerText="Fecha entrada" filterBy="#">
-                            <h:outputText value="#"/>
+                        <p:column headerText="Tipo movilidad" filterBy="#">
+                            <h:outputText value="#{movilidades.nombreTipoMovilidad}"/>
                         </p:column>
                          <p:column headerText="Pais origen" filterBy="#">
-                            <h:outputText value="#"/>
+                             <h:outputText value="#{movilidades.paisOrigen}"/>
                         </p:column>
                          <p:column headerText="Pais destino" filterBy="#">
-                            <h:outputText value="#"/>
+                             <h:outputText value="#{movilidades.paisDestino}"/>
                         </p:column>
+                        <p:column headerText="Fecha entrada" filterBy="#">
+                            <h:outputText value="#{movilidades.fechaEntrada}"/>
+                        </p:column>
+                       
                         <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
