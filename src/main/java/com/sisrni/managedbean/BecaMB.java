@@ -232,7 +232,7 @@ public class BecaMB implements Serializable {
         existeExterno = false;
 
         //para listar becas
-        becaTableList = becaService.getBecas();
+        becaTableList = becaService.getBecas(0);
 
         //inicializar bandera para actualizar
         actualizar = Boolean.FALSE;
