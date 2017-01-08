@@ -530,6 +530,14 @@ public class PropuestaConvenioMB implements Serializable{
             // persona solicitante
            System.out.println(facultadesUnidades);
             
+            solicitante.setIdUnidad(null);
+            solicitante.setIdCarrera(null);
+           
+            if (facultadesUnidades.getUnidadFacultad() == 'U') {
+                solicitante.setIdUnidad(unidadService.findById(facultadesUnidades.getId()));
+            } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
+            }
+
             
             prsSolicitante.setPropuestaConvenio(propuestaConvenio);
                               
