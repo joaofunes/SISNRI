@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
 @Repository(value = "becaDao")
 public class BecaDao extends GenericDao<Beca, Integer> {
 
-    public List<PojoBeca> getBecas() {
+    public List<PojoBeca> getBecas(Integer idBecaSearch) {
         String query = "SELECT bec.ID_BECA idBeca, bec.ANIO_GESTION anioGestion,  prb.NOMBRE_PROGRAMA as programaBeca, per.NOMBRE_PERSONA nombreBecario, per.APELLIDO_PERSONA apellidoBecario,\n"
                 + "pai.NOMBRE_PAIS paisDestino, org.NOMBRE_ORGANISMO universidadDestino, bec.MONTO_TOTAL montoBeca,IF(bec.OTORGADA = 1, 'SI','NO') as  otorgada\n"
                 + "FROM beca bec\n"
@@ -38,11 +38,14 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 + "INNER JOIN pais pai\n"
                 + "ON bec.ID_PAIS_DESTINO = pai.ID_PAIS\n"
                 + "WHERE peb.ID_TIPO_PERSONA=6";
+        if (idBecaSearch > 0) {
+            query = query + " AND bec.ID_BECA="+ idBecaSearch;
+        }
 
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                     .addScalar("idBeca", new IntegerType())
-                    .addScalar("anioGestion",new IntegerType())
+                    .addScalar("anioGestion", new IntegerType())
                     .addScalar("programaBeca", new StringType())
                     .addScalar("nombreBecario", new StringType())
                     .addScalar("apellidoBecario", new StringType())
