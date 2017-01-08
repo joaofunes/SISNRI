@@ -5,6 +5,7 @@
  */
 package com.sisrni.managedbean;
 
+import com.sisrni.converter.FacultadUnidadConverter;
 import com.sisrni.mail.JCMail;
 import com.sisrni.model.Carrera;
 import com.sisrni.model.Estado;
@@ -169,7 +170,7 @@ public class PropuestaConvenioMB implements Serializable{
     
    private JCMail mail;
     
-    
+     
     
     @PostConstruct
     public void init() {
@@ -527,7 +528,9 @@ public class PropuestaConvenioMB implements Serializable{
             propuestaEstadoService.save(estado);
             
             // persona solicitante
-           
+           System.out.println(facultadesUnidades);
+            
+            
             prsSolicitante.setPropuestaConvenio(propuestaConvenio);
                               
             prsSolicitante.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(SOLICITANTE));            
@@ -677,6 +680,41 @@ public class PropuestaConvenioMB implements Serializable{
          }
     }    
     
+
+    
+    /**
+ * Metodo para obtener arreglo de facultades y unidades
+ * @param facs
+ * @param unidades
+ * @return 
+ */
+    private List<PojoFacultadesUnidades> getListFacultadesUnidades() {
+
+         
+         
+        listaFacultadUnidad = new ArrayList<PojoFacultadesUnidades>();
+        int i=1;
+        
+        for (Facultad fac : listaFacultad) {
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
+            pojo.setId(fac.getIdFacultad());
+            pojo.setLabel(fac.getNombreFacultad());
+            pojo.setUnidadFacultad('F');
+            pojo.setValue(""+ i++);
+            listaFacultadUnidad.add(pojo);
+        }
+        for (Unidad uni : listaUnidad) {
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
+            pojo.setId(uni.getIdUnidad());
+            pojo.setLabel(uni.getNombreUnidad());
+            pojo.setUnidadFacultad('U');
+            pojo.setValue(""+ i++);
+            listaFacultadUnidad.add(pojo);
+        }        
+        return listaFacultadUnidad;
+    }
+
+
     
     
     
@@ -727,36 +765,6 @@ public void FileRead(){
          }
      }
       }    
-
-/**
- * Metodo para obtener arreglo de facultades y unidades
- * @param facs
- * @param unidades
- * @return 
- */
-    private List<PojoFacultadesUnidades> getListFacultadesUnidades() {
-
-        listaFacultadUnidad = new ArrayList<PojoFacultadesUnidades>();
-        int i=0;
-        
-        for (Facultad fac : listaFacultad) {
-            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
-            pojo.setId(fac.getIdFacultad());
-            pojo.setLabel(fac.getNombreFacultad());
-            pojo.setUnidadFacultad('F');
-            pojo.setValue(""+ i++);
-            listaFacultadUnidad.add(pojo);
-        }
-        for (Unidad uni : listaUnidad) {
-            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
-            pojo.setId(uni.getIdUnidad());
-            pojo.setLabel(uni.getNombreUnidad());
-            pojo.setUnidadFacultad('U');
-            pojo.setValue(""+ i++);
-            listaFacultadUnidad.add(pojo);
-        }        
-        return listaFacultadUnidad;
-    }
 
 
 

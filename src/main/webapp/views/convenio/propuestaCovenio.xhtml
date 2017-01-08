@@ -74,10 +74,10 @@
                                     <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />                                        
                                 </p:selectOneMenu>-->
 
-                                <p:selectOneMenu id="idFacultadUnidad" value="#{propuestaConvenioMB.facultadesUnidades.id}"  style="width:160px">                                   
-                                    <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}"/>
+                                <p:selectOneMenu id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{facultadUnidadConverter}" style="width:190px">                                   
+                                    <f:selectItem itemLabel="--Seleccione Facultad/Unidad--" itemValue="#{null}"/>
                                     <c:forEach var="c" items="#{propuestaConvenioMB.listaFacultadUnidad}">
-                                        <f:selectItem itemLabel="#{c.label}" itemValue="#{c.id}"/>
+                                        <f:selectItem itemLabel="#{c.label}" itemValue="#{c}"/>
                                     </c:forEach>
                                 </p:selectOneMenu>
                             </p:column>
@@ -156,11 +156,9 @@
                                 <p:outputLabel for="idSolicinateApellidoInterno" value="Apellido Solicitante" />
                             </p:column>
                             <p:column>
-
                                 <p:inputText id="idSolicinateApellidoInterno"   label="Apellido" value="#{propuestaConvenioMB.referenteInterno.apellidoPersona}" />
                                 <p:message for="idSolicinateApellidoInterno" />   
                                 <p:watermark for="idSolicinateApellidoInterno" value="Apellido Solicitante"/>                                           
-
                             </p:column>
                         </p:row>                            
                        
@@ -170,11 +168,11 @@
                                 <p:outputLabel for="email" value="Correo Electr&oacute;nico" />     
                             </p:column>
                             <p:column>
-                                <p:inputText id="email"   value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
+                                <p:inputText id="email" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
                                     <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                 </p:inputText>
                                 <p:message for="email" display="tooltip" />  
-                                <p:watermark for="email" value="correo@email.com" id="watermarkEmail" />
+                                <p:watermark for="email" value="correo@email.com"/>
                             </p:column>
                            
 
