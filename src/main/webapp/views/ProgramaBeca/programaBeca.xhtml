@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+     <center>  
+        
+         <p:panel style="width: 70%" header="Programa Beca">  
+         
+             <h:form id="formAdmin">
+               
+                <p:panelGrid id="idGrilPrincipal" columns="2" >
+               
+                    <p:column>
+                        <h:outputText value="Nombre ProgramaBeca:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombreProgramaBeca" value="#{programaBecaMB.programaBeca.nombrePrograma}" required="true" size="50" />
+                    </p:column>
+               
+                    <p:column>
+                        <h:outputText value="Descripcion ProgramaBeca:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="descri" value="#{programaBecaMB.programaBeca.descripcion}" required="true" size="50" />
+                    </p:column>
+                    
+                    <p:column  >
+                        <p:commandButton rendered="#{!programaBecaMB.actualizar}"  styleClass="boton"
+                                         actionListener="#{programaBecaMB.guardarProgramaBeca()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
+                                         value="Guardar" />
+                       
+                        <p:commandButton rendered="#{programaBecaMB.actualizar}" styleClass="boton"
+                                         actionListener="#{programaBecaMB.updateProgramaBeca()}" update="formAdmin :formPrincipal"
+                                         value="Actulizar" />
+                       
+                        <p:commandButton rendered="#{programaBecaMB.actualizar}" styleClass="boton"
+                                         actionListener="#{programaBecaMB.cancelarProgramaBeca()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
+                        
+                          
+                       
+                    </p:column>
+                 
+                </p:panelGrid>
+        </h:form>    
+        <br></br>
+        <h:form id="formPrincipal">  
+                <p:dataTable var="programaBeca" value="#{programaBecaMB.listadoProgramaBeca}"  rows="10"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"
+                             paginator="true">
+
+
+                    <p:column headerText="Nombre Menu" sortBy="#{programaBeca.nombrePrograma}" filterBy="#{programaBeca.nombrePrograma}">
+                        <h:outputText value="#{programaBeca.nombrePrograma}" />
+                    </p:column>
+
+                    <p:column headerText="Descripcion" sortBy="#{programaBeca.descripcion}" filterBy="#{programaBeca.descripcion}">
+                        <h:outputText value="#{programaBeca.descripcion}" />
+                    </p:column>
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{programaBecaMB.preUpdate(programaBeca)}" update=":formAdmin" process="@form :formPrincipal"/>
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                           title="Eliminar" value="Eliminar"
+                                           actionListener="#{programaBecaMB.preDeleteProgramaBeca(programaBeca)}" update=":idEliminacion" />
+                        </div>
+                      
+                    </p:column>
+                </p:dataTable>  
+        </h:form>
+        </p:panel>
+          </center> 
+     
+        
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar tipo programaBeca?" header="Eliminar Tipo ProgramaBeca"  global="true">
+            <h:form id="idEliminacion"> 
+             
+                 <h:outputText value="Nombre de ProgramaBeca : "  style="font-weight:bold"/>
+                 <h:outputText value="#{programaBecaMB.delProgramaBeca.nombrePrograma}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Descripcion de ProgramaBeca : "  style="font-weight:bold" />
+                 <h:outputText value="#{programaBecaMB.delProgramaBeca.descripcion}" />
+             
+            </h:form>    
+            
+            <p:separator />
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{programaBecaMB.deleteProgramaBeca()}" process="@this" update=":formPrincipal"/>
+               <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+
+    </ui:define>
+</ui:composition>

@@ -32,5 +32,9 @@ public class FacultadService extends GenericService<Facultad, Integer> {
     public List<Facultad> getFacultadesByUniversidad(Integer idOrganismo) {
         return facultadDao.getFacultadesByUniversidad(idOrganismo);
     }
+    
+    public List<Integer> getFacultadesMovilidad(Integer idmov){
+        return facultadDao.getFacultadesMovilidad(idmov);
+    }
 
 }

@@ -25,29 +25,29 @@
                     <p:dataTable var="movilidades" value="#{registrarMovilidadMB.listPojoMovilidadAdm}" rows="15"
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                         rowsPerPageTemplate="5,10,15,20" paginator="true" >
-                        <p:column headerText="Programa Movilidad" filterBy="#">
+                        <p:column headerText="Programa Movilidad" filterBy="#{movilidades.nombrePrograma}">
                             <h:outputText value="#{movilidades.nombrePrograma}"/>
                         </p:column>
-                        <p:column headerText="Docente en movilidad" filterBy="#">
+                        <p:column headerText="Docente en movilidad" filterBy="#{movilidades.apellidoPersona}">
                             <h:outputText value="#{movilidades.nombrePersona} #{movilidades.apellidoPersona}"/>
                         </p:column>
-                        <p:column headerText="Tipo movilidad" filterBy="#">
+                        <p:column headerText="Tipo movilidad" filterBy="#{movilidades.nombreTipoMovilidad}">
                             <h:outputText value="#{movilidades.nombreTipoMovilidad}"/>
                         </p:column>
-                         <p:column headerText="Pais origen" filterBy="#">
+                         <p:column headerText="Pais origen" filterBy="#{movilidades.paisOrigen}">
                              <h:outputText value="#{movilidades.paisOrigen}"/>
                         </p:column>
-                         <p:column headerText="Pais destino" filterBy="#">
+                         <p:column headerText="Pais destino" filterBy="#{movilidades.paisDestino}">
                              <h:outputText value="#{movilidades.paisDestino}"/>
                         </p:column>
-                        <p:column headerText="Fecha entrada" filterBy="#">
+                        <p:column headerText="Fecha entrada" filterBy="#{movilidades.fechaEntrada}">
                             <h:outputText value="#{movilidades.fechaEntrada}"/>
                         </p:column>
                        
                         <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
-                                               actionListener="#">
+                                               actionListener="#{registrarMovilidadMB.preActualizar(movilidades.idMovilidad)}">
                                 </p:commandLink>
                             </div>
                             

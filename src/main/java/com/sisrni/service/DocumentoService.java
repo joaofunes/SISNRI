@@ -33,5 +33,7 @@ public class DocumentoService extends GenericService<Documento, Integer>{
     public List<Documento> getDocumentFindCovenio(int propuestaConvenio){
         return documentoDao.getDocumentFindCovenio(propuestaConvenio);
     }
-
+public List<Documento> getDocumentFindBeca(Integer idBeca){
+        return documentoDao.getDocumentFindBeca(idBeca);
+    }
 }

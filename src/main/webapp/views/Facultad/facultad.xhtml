@@ -17,17 +17,17 @@
                 <h:form id="formFacultad">
                     <p:panelGrid columns="2">
                         <p:column>
-                            <h:outputLabel for="nombreFacultad" value="Nombre:"/>
+                            <h:outputLabel for="nombreFacultad" value="Nombre de la Facultad:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombreFacultad" value="#{facultadMB.facultad.nombreFacultad}" required="true" size="60" />
+                            <p:inputText id="nombreFacultad" value="#{facultadMB.facultad.nombreFacultad}" required="true" size="40" />
                             <p:watermark for="nombreFacultad" value="Nombre facultad" id="watermarkNombreFacultad"/>
                         </p:column>
                         <p:column>
-                            <h:outputLabel for="organismoFacultad" value="Organismo:"/>
+                            <h:outputLabel for="organismoFacultad" value="Universidad:"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="organismoFacultad" value="#{facultadMB.organismo.idOrganismo}"  style="width:120px" required="true">
+                            <p:selectOneMenu id="organismoFacultad" value="#{facultadMB.organismo.idOrganismo}"  style="width:200px" required="true" >
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                 <c:forEach var="reg" items="#{facultadMB.listOrganismo}">
                                     <f:selectItem itemLabel="#{reg.nombreOrganismo}" itemValue="#{reg.idOrganismo}"/>
@@ -58,7 +58,7 @@
                         <p:column headerText="Facultad"  filterBy="#{facultad.nombreFacultad}">
                             <h:outputText value="#{facultad.nombreFacultad}"/>
                         </p:column>
-                        <p:column headerText="Organismo" filterBy="#{facultad.idOrganismo.nombreOrganismo}">
+                        <p:column headerText="Universidad" filterBy="#{facultad.idOrganismo.nombreOrganismo}">
                             <h:outputText value="#{facultad.idOrganismo.nombreOrganismo}"/>
                         </p:column> 
                         <p:column headerText="Opciones" style="width: 15%">

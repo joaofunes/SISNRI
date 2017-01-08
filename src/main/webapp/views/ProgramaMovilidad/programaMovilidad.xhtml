@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+     <center>  
+        
+         <p:panel style="width: 70%" header="Programa Movilidad">  
+         
+             <h:form id="formAdmin">
+               
+                <p:panelGrid id="idGrilPrincipal" columns="2" >
+               
+                    <p:column>
+                        <h:outputText value="Nombre ProgramaMovilidad:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombreProgramaMovilidad" value="#{programaMovilidadMB.programaMovilidad.nombreProgramaMovilidad}" required="true" size="50" />
+                    </p:column>
+               
+                    <p:column>
+                        <h:outputText value="Descripcion ProgramaMovilidad:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="descri" value="#{programaMovilidadMB.programaMovilidad.descripcion}" required="true" size="50" />
+                    </p:column>
+                    
+                    <p:column  >
+                        <p:commandButton rendered="#{!programaMovilidadMB.actualizar}"  styleClass="boton"
+                                         actionListener="#{programaMovilidadMB.guardarProgramaMovilidad()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
+                                         value="Guardar" />
+                       
+                        <p:commandButton rendered="#{programaMovilidadMB.actualizar}" styleClass="boton"
+                                         actionListener="#{programaMovilidadMB.updateProgramaMovilidad()}" update="formAdmin :formPrincipal"
+                                         value="Actulizar" />
+                       
+                        <p:commandButton rendered="#{programaMovilidadMB.actualizar}" styleClass="boton"
+                                         actionListener="#{programaMovilidadMB.cancelarProgramaMovilidad()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
+                        
+                          
+                       
+                    </p:column>
+                 
+                </p:panelGrid>
+        </h:form>    
+        <br></br>
+        <h:form id="formPrincipal">  
+                <p:dataTable var="programaMovilidad" value="#{programaMovilidadMB.listadoProgramaMovilidad}"  rows="10"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"
+                             paginator="true">
+
+
+                    <p:column headerText="Nombre Menu" sortBy="#{programaMovilidad.nombreProgramaMovilidad}" filterBy="#{programaMovilidad.nombreProgramaMovilidad}">
+                        <h:outputText value="#{programaMovilidad.nombreProgramaMovilidad}" />
+                    </p:column>
+
+                    <p:column headerText="Descripcion" sortBy="#{programaMovilidad.descripcion}" filterBy="#{programaMovilidad.descripcion}">
+                        <h:outputText value="#{programaMovilidad.descripcion}" />
+                    </p:column>
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{programaMovilidadMB.preUpdate(programaMovilidad)}" update=":formAdmin" process="@form :formPrincipal"/>
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                           title="Eliminar" value="Eliminar"
+                                           actionListener="#{programaMovilidadMB.preDeleteProgramaMovilidad(programaMovilidad)}" update=":idEliminacion" />
+                        </div>
+                      
+                    </p:column>
+                </p:dataTable>  
+        </h:form>
+        </p:panel>
+          </center> 
+     
+        
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar tipo programaMovilidad?" header="Eliminar Tipo ProgramaMovilidad"  global="true">
+            <h:form id="idEliminacion"> 
+             
+                 <h:outputText value="Nombre de ProgramaMovilidad : "  style="font-weight:bold"/>
+                 <h:outputText value="#{programaMovilidadMB.delProgramaMovilidad.nombreProgramaMovilidad}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Descripcion de ProgramaMovilidad : "  style="font-weight:bold" />
+                 <h:outputText value="#{programaMovilidadMB.delProgramaMovilidad.descripcion}" />
+             
+            </h:form>    
+            
+            <p:separator />
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{programaMovilidadMB.deleteProgramaMovilidad()}" process="@this" update=":formPrincipal"/>
+               <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+
+    </ui:define>
+</ui:composition>

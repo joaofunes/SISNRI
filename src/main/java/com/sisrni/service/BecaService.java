@@ -29,7 +29,7 @@ public class BecaService extends GenericService<Beca, Integer> {
         return becaDao;
     }
 
-    public List<PojoBeca> getBecas() {
-        return becaDao.getBecas();
+    public List<PojoBeca> getBecas(Integer idBecaSearch) {
+        return becaDao.getBecas(idBecaSearch);
     }
 }
