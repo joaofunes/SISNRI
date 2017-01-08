@@ -353,17 +353,18 @@ public class PropuestaConvenioMB implements Serializable{
              
              referenteExterno=personaService.getPersonaByPasaporte(query);
              
-               List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteExterno);
+             if (referenteExterno.getIdPersona() != null) {
+                 List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteExterno);
 
-                for (Telefono tel : telefonosByPersona) {
-                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
-                        telFijoExterno=tel;                      
-                    }
-                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
-                        telCelularExterno=tel; 
-                    }
-                }
-             
+                 for (Telefono tel : telefonosByPersona) {
+                     if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
+                         telFijoExterno = tel;
+                     }
+                     if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
+                         telCelularExterno = tel;
+                     }
+                 }
+             }
              
              RequestContext context=RequestContext.getCurrentInstance();
              context.update("formAdmin:idSolicinateNombreExterno");
@@ -386,34 +387,40 @@ public class PropuestaConvenioMB implements Serializable{
       */
     public void mismoSolicitante() {
         try {
-            referenteInterno = solicitante;
-
-            if (referenteInterno.getIdUnidad() != null) {
-                for (PojoFacultadesUnidades us : listaFacultadUnidad) {
-                    if (us.getId() == solicitante.getIdUnidad().getIdUnidad() && us.getUnidadFacultad() == 'U') {
-                        facultadesUnidadesInterno = us;
+           
+            if (mismoSolicitante) {
+                    referenteInterno = solicitante;
+                if (referenteInterno.getIdUnidad() != null) {
+                    for (PojoFacultadesUnidades us : listaFacultadUnidad) {
+                        if (us.getId() == solicitante.getIdUnidad().getIdUnidad() && us.getUnidadFacultad() == 'U') {
+                            facultadesUnidadesInterno = us;
+                        }
                     }
                 }
-            }
-            if (referenteInterno.getIdCarrera() != null) {
-                for (PojoFacultadesUnidades us : listaFacultadUnidad) {
-                    if (us.getId() == referenteInterno.getIdCarrera().getIdFacultad().getIdFacultad() && us.getUnidadFacultad() == 'F') {
-                        facultadesUnidadesInterno = us;
+                if (referenteInterno.getIdCarrera() != null) {
+                    for (PojoFacultadesUnidades us : listaFacultadUnidad) {
+                        if (us.getId() == referenteInterno.getIdCarrera().getIdFacultad().getIdFacultad() && us.getUnidadFacultad() == 'F') {
+                            facultadesUnidadesInterno = us;
+                        }
                     }
                 }
-            }
 
-            List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteInterno);
+                List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteInterno);
 
-            for (Telefono tel : telefonosByPersona) {
-                if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
-                    telFijoInterno = tel;
+                for (Telefono tel : telefonosByPersona) {
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
+                        telFijoInterno = tel;
+                    }
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
+                        telCelularInterno = tel;
+                    }
                 }
-                if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
-                    telCelularInterno = tel;
-                }
+            }else{
+               referenteInterno = new Persona();
+               telFijoInterno = new Telefono();
+               telCelularInterno= new Telefono();
+               facultadesUnidadesInterno = new PojoFacultadesUnidades();
             }
-
             RequestContext context = RequestContext.getCurrentInstance();
             context.update("formAdmin:idSolicinateNombreInterno");
             context.update("formAdmin:idSolicinateApellidoInterno");
@@ -428,81 +435,6 @@ public class PropuestaConvenioMB implements Serializable{
             e.printStackTrace();
         }
     }
-     
-     
-     public void searchByNameSolicitante(){
-        try {            
-             RequestContext.getCurrentInstance().update(":formAdmin");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-     
-     
-     
-//   public void searchByNameInterno(){
-//        try {
-//            if(referenteInterno != null){
-//                onChangeInterno();
-//
-//                if(referenteInterno.getDuiPersona()!= null){
-//                     setNumDocumentoInterno(referenteInterno.getDuiPersona());
-//                }else if(referenteInterno.getNitPersona() != null){
-//                    setNumDocumentoInterno(referenteInterno.getNitPersona());
-//                }else if(referenteInterno.getPasaporte() != null){
-//                     setNumDocumentoInterno(referenteInterno.getPasaporte());
-//                }else{
-//                    setNumDocumentoInterno("");
-//                }
-//           }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//   
-//   public void  onChangeInterno(){
-//        try {
-//           listadoTelefonoReferenteInterno = telefonoService.getTelefonosByPersona(referenteInterno);             
-//            for( Telefono us: listadoTelefonoReferenteInterno){
-//               
-//                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
-//                    telFijoInterno= us;
-//                }
-//                if(us.getIdTipoTelefono().getNombre().equals(CELULAR)){
-//                    telCelularInterno= us;
-//                }                
-//            }             
-//        } catch (Exception e) {
-//        }
-//    }
-     
-  
-     
-  
-     
-    
-     
-     
-     
-//    public void  onChangeExterno(){
-//        try {
-//            listadoTelefonoReferenteExterno = telefonoService.getTelefonosByPersona(referenteExterno);
-//             
-//            for( Telefono us: listadoTelefonoReferenteExterno){
-//               
-//                if(us.getIdTipoTelefono().getNombre().equals(FIJO)){
-//                    telFijoExterno= us;
-//                }
-//                if(us.getIdTipoTelefono().getNombre().equals(CELULAR)){
-//                    telCelularExterno= us;
-//                }                
-//            }             
-//        } catch (Exception e) {
-//        }
-//    } 
-     
-     
-     
      
       /**
      * Metodo para almacenar una nueva persona
@@ -580,14 +512,13 @@ public class PropuestaConvenioMB implements Serializable{
             propuestaConvenio.setIdConvenio(propuestaConvenioTemp.getIdPropuesta());
             propuestaConvenioService.save(propuestaConvenio);
             
+            
+            //Estado de propuesta de convenio
             PropuestaEstado estado = new PropuestaEstado();
             PropuestaEstadoPK estadoPK= new PropuestaEstadoPK();
-            Estado stado = estadoService.getEstadoByName(ESTADO);
-            
-            
+            Estado stado = estadoService.getEstadoByName(ESTADO);          
             estadoPK.setIdEstado(stado.getIdEstado());
-            estadoPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());
-            
+            estadoPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());            
             estado.setFecha(new Date());
             estado.setPropuestaConvenio(propuestaConvenio);
             estado.setEstado(stado);
@@ -608,28 +539,51 @@ public class PropuestaConvenioMB implements Serializable{
             prsSolicitante.setPersonaPropuestaPK(personaPropuestaPK);             
             personaPropuestaService.save(prsSolicitante);
             
-             // persona REFERENTE_INTERNO
-
-            prsRefInterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_INTERNO));        
-            prsRefInterno.setPersona(referenteInterno);
-            personaPropuestaPK = new PersonaPropuestaPK();            
-            personaPropuestaPK.setIdPersona(referenteInterno.getIdPersona());
-            personaPropuestaPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());
-            personaPropuestaPK.setIdTipoPersona(prsRefInterno.getTipoPersona().getIdTipoPersona());            
-            prsRefInterno.setPersonaPropuestaPK(personaPropuestaPK);       
-            personaPropuestaService.save(prsRefInterno);
+            // persona REFERENTE_INTERNO
+            if (referenteInterno.getDuiPersona() != null && referenteInterno.getNombrePersona() != null && referenteInterno.getApellidoPersona() != null && referenteInterno.getEmailPersona() != null) {
+                if (!mismoSolicitante) {//verfico que la persona exista, si true entonces 
+                    //crear persona y luego almacenar
+                    referenteInterno.setExtranjero(Boolean.FALSE);//no es extrajero
+                    referenteInterno.setActivo(Boolean.TRUE);//esta activo
+                    referenteInterno.setPasaporte("");
+                    personaService.saveOrUpdate(referenteInterno);
+                }
+                
+                telefonoService.saveOrUpdate(telFijoInterno);
+                telefonoService.saveOrUpdate(telCelularInterno);
+                
+                prsRefInterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_INTERNO));
+                prsRefInterno.setPersona(referenteInterno);
+                personaPropuestaPK = new PersonaPropuestaPK();
+                personaPropuestaPK.setIdPersona(referenteInterno.getIdPersona());
+                personaPropuestaPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());
+                personaPropuestaPK.setIdTipoPersona(prsRefInterno.getTipoPersona().getIdTipoPersona());
+                prsRefInterno.setPersonaPropuestaPK(personaPropuestaPK);
+                personaPropuestaService.save(prsRefInterno);
+            }
+           
             
                // persona REFERENTE_EXTERNO
+            if (referenteExterno.getPasaporte() != null && referenteExterno.getNombrePersona() != null && referenteExterno.getApellidoPersona() != null && referenteExterno.getEmailPersona() != null) {
 
-            prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));        
-            prsRefExterno.setPersona(referenteExterno);
-            personaPropuestaPK = new PersonaPropuestaPK();            
-            personaPropuestaPK.setIdPersona(referenteExterno.getIdPersona());
-            personaPropuestaPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());
-            personaPropuestaPK.setIdTipoPersona(prsRefExterno.getTipoPersona().getIdTipoPersona());            
-            prsRefExterno.setPersonaPropuestaPK(personaPropuestaPK);    
-            personaPropuestaService.save(prsRefExterno);
-            
+                //crear persona y luego almacenar
+                referenteExterno.setExtranjero(Boolean.TRUE);//no es extrajero
+                referenteExterno.setActivo(Boolean.TRUE);//esta activo
+                referenteExterno.setDuiPersona("");
+                personaService.saveOrUpdate(referenteExterno);
+                
+                telefonoService.saveOrUpdate(telCelularExterno);
+                telefonoService.saveOrUpdate(telFijoExterno);
+                
+                prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
+                prsRefExterno.setPersona(referenteExterno);
+                personaPropuestaPK = new PersonaPropuestaPK();
+                personaPropuestaPK.setIdPersona(referenteExterno.getIdPersona());
+                personaPropuestaPK.setIdPropuesta(propuestaConvenio.getIdPropuesta());
+                personaPropuestaPK.setIdTipoPersona(prsRefExterno.getTipoPersona().getIdTipoPersona());
+                prsRefExterno.setPersonaPropuestaPK(personaPropuestaPK);
+                personaPropuestaService.save(prsRefExterno);
+            }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", "Propuesta Convenio almacenada"));
             
         } catch (Exception e) {
@@ -783,11 +737,14 @@ public void FileRead(){
     private List<PojoFacultadesUnidades> getListFacultadesUnidades() {
 
         listaFacultadUnidad = new ArrayList<PojoFacultadesUnidades>();
+        int i=0;
+        
         for (Facultad fac : listaFacultad) {
             PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
             pojo.setId(fac.getIdFacultad());
             pojo.setLabel(fac.getNombreFacultad());
             pojo.setUnidadFacultad('F');
+            pojo.setValue(""+ i++);
             listaFacultadUnidad.add(pojo);
         }
         for (Unidad uni : listaUnidad) {
@@ -795,6 +752,7 @@ public void FileRead(){
             pojo.setId(uni.getIdUnidad());
             pojo.setLabel(uni.getNombreUnidad());
             pojo.setUnidadFacultad('U');
+            pojo.setValue(""+ i++);
             listaFacultadUnidad.add(pojo);
         }        
         return listaFacultadUnidad;

@@ -93,13 +93,13 @@ public class Persona implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaPropuesta> personaPropuestaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<PersonaProyecto> personaProyectoList;
+    private List<PersonaProyecto> personaProyectoList=new ArrayList<PersonaProyecto>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaMovilidad> personaMovilidadList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaBeca> personaBecaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
-    private List<Telefono> telefonoList = new ArrayList<Telefono>();
+    private List<Telefono> telefonoList=new ArrayList<Telefono>();
 
     public Persona() {
     }
