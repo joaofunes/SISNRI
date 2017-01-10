@@ -1,22 +1,19 @@
 package com.sisrni.mail;
+
 import java.io.IOException;
 import java.util.Date;
-import javax.mail.Message;
-import javax.mail.Session;
 import java.util.Properties;
-import javax.mail.Multipart;
-import javax.mail.Transport;
-import javax.swing.JOptionPane;
+import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.InternetAddress;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.AddressException;
-//import org.jdom.Document;
-//import org.jdom.Element;
-//import org.jdom.JDOMException;
-//import org.jdom.input.SAXBuilder;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
 /**
  * 
  * @author Arturo Machuca
@@ -38,7 +35,7 @@ public class JCMail {
     public JCMail(){
     }
 
-    public void SEND() throws  IOException
+    public void SEND() throws  IOException, AddressException, MessagingException
     {
         try {
             

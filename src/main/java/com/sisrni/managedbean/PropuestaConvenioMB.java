@@ -9,7 +9,6 @@ import com.sisrni.converter.FacultadUnidadConverter;
 import com.sisrni.mail.JCMail;
 import com.sisrni.model.Carrera;
 import com.sisrni.model.Estado;
-//import com.sisrni.model.FacultadUnidad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaPropuesta;
@@ -25,6 +24,7 @@ import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.security.AppUserDetails;
+import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
@@ -120,7 +120,9 @@ public class PropuestaConvenioMB implements Serializable{
     @Qualifier(value = "facultadService")
     private FacultadService facultadService;
     
-    
+    @Autowired
+    @Qualifier(value = "escuelaDepartamentoService")
+    private EscuelaDepartamentoService escuelaDepartamentoService;
     
     
     private String numDocumentoInterno;
@@ -148,7 +150,9 @@ public class PropuestaConvenioMB implements Serializable{
     private PojoFacultadesUnidades facultadesUnidadesInterno;
     private List<Facultad> listaFacultad;
     private List<Unidad> listaUnidad;
-    
+    private List<EscuelaDepartamento> listadoEscuelaDepartamento;
+    private EscuelaDepartamento escuelaDepartamento;
+    private EscuelaDepartamento escuelaDepartamentoInterno;
     
     private Persona personaEdit;
     private Persona solicitante;
@@ -168,7 +172,7 @@ public class PropuestaConvenioMB implements Serializable{
     private boolean flagEdicion = false;
     private boolean mismoSolicitante;
     
-   private JCMail mail;
+    private JCMail mail;
     
      
     
@@ -250,7 +254,8 @@ public class PropuestaConvenioMB implements Serializable{
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
             personaEdit = new Persona();
-            propuestaConvenio = new PropuestaConvenio();             
+            propuestaConvenio = new PropuestaConvenio();   
+            escuelaDepartamento = new EscuelaDepartamento();
          } catch (Exception e) {
            e.printStackTrace();
          }
@@ -274,6 +279,8 @@ public class PropuestaConvenioMB implements Serializable{
            
              listaFacultad = facultadService.findAll();
              listaUnidad = unidadService.findAll();
+             
+             listadoEscuelaDepartamento = escuelaDepartamentoService.findAll();
              
          } catch (Exception e) {
            e.printStackTrace();
@@ -532,12 +539,15 @@ public class PropuestaConvenioMB implements Serializable{
             
             solicitante.setIdUnidad(null);
             solicitante.setIdCarrera(null);
+            solicitante.setIdEscuelaDepto(null);
            
             if (facultadesUnidades.getUnidadFacultad() == 'U') {
                 solicitante.setIdUnidad(unidadService.findById(facultadesUnidades.getId()));
             } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
+                solicitante.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamento.getIdEscuelaDepto()));
             }
-
+            
+            personaService.merge(solicitante);
             
             prsSolicitante.setPropuestaConvenio(propuestaConvenio);
                               
@@ -554,6 +564,16 @@ public class PropuestaConvenioMB implements Serializable{
             if (referenteInterno.getDuiPersona() != null && referenteInterno.getNombrePersona() != null && referenteInterno.getApellidoPersona() != null && referenteInterno.getEmailPersona() != null) {
                 if (!mismoSolicitante) {//verfico que la persona exista, si true entonces 
                     //crear persona y luego almacenar
+                    referenteInterno.setIdUnidad(null);
+                    referenteInterno.setIdCarrera(null);
+                    referenteInterno.setIdEscuelaDepto(null);
+                    
+                    if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
+                        referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getId()));
+                    } else if (facultadesUnidadesInterno.getUnidadFacultad() == 'F') {
+                        referenteInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoInterno.getIdEscuelaDepto()));
+                    }
+                    
                     referenteInterno.setExtranjero(Boolean.FALSE);//no es extrajero
                     referenteInterno.setActivo(Boolean.TRUE);//esta activo
                     referenteInterno.setPasaporte("");
@@ -745,11 +765,11 @@ public void FileRead(){
    
     
       try {
-               // mail = new JCMail();
+                mail = new JCMail();
           
                 mail.setFrom( MailAccount );
                 mail.setPassword("tragra01" );        
-                mail.setTo(referenteInterno.getEmailPersona());
+                mail.setTo(solicitante.getEmailPersona());
                 mail.setSubject( "Test GAMIL" );
                 mail.setMessage( messages );
                 mail.SEND();      
@@ -1044,6 +1064,38 @@ public void FileRead(){
 
     public void setMismoSolicitante(boolean mismoSolicitante) {
         this.mismoSolicitante = mismoSolicitante;
+    }
+
+    public FacultadService getFacultadService() {
+        return facultadService;
+    }
+
+    public void setFacultadService(FacultadService facultadService) {
+        this.facultadService = facultadService;
+    }
+
+    public EscuelaDepartamento getEscuelaDepartamento() {
+        return escuelaDepartamento;
+    }
+
+    public void setEscuelaDepartamento(EscuelaDepartamento escuelaDepartamento) {
+        this.escuelaDepartamento = escuelaDepartamento;
+    }
+
+    public List<EscuelaDepartamento> getListadoEscuelaDepartamento() {
+        return listadoEscuelaDepartamento;
+    }
+
+    public void setListadoEscuelaDepartamento(List<EscuelaDepartamento> listadoEscuelaDepartamento) {
+        this.listadoEscuelaDepartamento = listadoEscuelaDepartamento;
+    }
+
+    public EscuelaDepartamento getEscuelaDepartamentoInterno() {
+        return escuelaDepartamentoInterno;
+    }
+
+    public void setEscuelaDepartamentoInterno(EscuelaDepartamento escuelaDepartamentoInterno) {
+        this.escuelaDepartamentoInterno = escuelaDepartamentoInterno;
     }
 
    

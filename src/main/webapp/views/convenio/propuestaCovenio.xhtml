@@ -17,10 +17,10 @@
 
         <h:form id="formAdmin">
             <center> 
-                <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('').show();"/>
+<!--                <p:commandButton id="createButton" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('').show();"/>
                 <p:commandButton id="editButton" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoExterno" update=":formEditPersonas"  actionListener="#{propuestaConvenioMB.preEditarPropuestaExterno}"  />
                 <p:commandButton id="createButtonInterno" icon="ui-icon-plus"   value="Nueva Persona" process="@this"  oncomplete="PF('PersonaCreateDialog').show();"/>
-                <p:commandButton id="editButtonInterno" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoInterno" update=":formEditPersonas"  action="#{propuestaConvenioMB.preEditarPropuestaInterno}"/>
+                <p:commandButton id="editButtonInterno" icon="ui-icon-plus"   value="Editar Persona" process="@this idDocumentoInterno" update=":formEditPersonas"  action="#{propuestaConvenioMB.preEditarPropuestaInterno}"/>-->
 
 
                 <p:panel  id="idpanelSolcitante" header="Datos del Solicitante" style="margin-bottom:20px">  
@@ -69,13 +69,9 @@
                                 <p:outputLabel  for="idFacultadUnidad" value="Facultad/Unidad"  />
                             </p:column>
                             <p:column>
-<!--                                <p:selectOneMenu  id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{facultadUnidadConverter}" style="width:160px" >                                              
-                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" />                                            
-                                    <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />                                        
-                                </p:selectOneMenu>-->
-
                                 <p:selectOneMenu id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{facultadUnidadConverter}" style="width:190px">                                   
-                                    <f:selectItem itemLabel="--Seleccione Facultad/Unidad--" itemValue="#{null}"/>
+                                    <p:ajax update="idEscuelaDept"/>
+                                    <f:selectItem itemLabel="--Seleccione Facultad/Unidad--" itemValue="#{null}"  itemDisabled="true" />
                                     <c:forEach var="c" items="#{propuestaConvenioMB.listaFacultadUnidad}">
                                         <f:selectItem itemLabel="#{c.label}" itemValue="#{c}"/>
                                     </c:forEach>
@@ -90,6 +86,17 @@
                                 <p:message for="idCargo" />
                                 <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
                             </p:column>                            
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                 <p:outputLabel rendered="#{propuestaConvenioMB.facultadesUnidades.unidadFacultad eq 'F'.charAt(0)}" for="idEscuelaDept" value="Escuela/Departamento" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu  id="idEscuelaDept" rendered="#{propuestaConvenioMB.facultadesUnidades.unidadFacultad eq 'F'.charAt(0)}" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
+                                    <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
+                                </p:selectOneMenu>
+                            </p:column>
                         </p:row>
                     </p:panelGrid>                               
                 </p:panel> 
@@ -200,10 +207,18 @@
                                 <p:outputLabel  for="idFacultadUnidadInterno" value="Facultad/Unidad"  />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu  id="idFacultadUnidadInterno"  value="#{propuestaConvenioMB.facultadesUnidadesInterno}"  style="width:160px" >                                              
+                                <p:selectOneMenu  id="idFacultadUnidadInterno"  value="#{propuestaConvenioMB.facultadesUnidadesInterno}" converter="#{facultadUnidadConverter}" style="width:160px" >                                              
+                                    <p:ajax update="idEscuelaDeptInter"/>
                                     <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
                                     <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
                                 </p:selectOneMenu>
+<!--                                 <p:selectOneMenu id="idFacultadUnidadInterno" required="true" value="#{propuestaConvenioMB.facultadesUnidadesInterno}" converter="#{facultadUnidadConverter}" style="width:190px">                                   
+                                    <p:ajax update="idEscuelaDeptInter"/>
+                                    <f:selectItem itemLabel="Seleccione Facultad/Unidad" itemValue="#{null}"  itemDisabled="true" />
+                                    <c:forEach var="c" items="#{propuestaConvenioMB.listaFacultadUnidad}">
+                                        <f:selectItem itemLabel="#{c.label}" itemValue="#{c}"/>
+                                    </c:forEach>
+                                </p:selectOneMenu>-->
                             </p:column>                        
                         
                             <p:column>
@@ -216,6 +231,17 @@
                             </p:column>
                            
                         </p:row>   
+                        <p:row>
+                            <p:column>
+                                 <p:outputLabel rendered="#{propuestaConvenioMB.facultadesUnidadesInterno.unidadFacultad eq 'F'.charAt(0)}" for="idEscuelaDeptInter" value="Escuela/Departamento" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu  id="idEscuelaDeptInter" rendered="#{propuestaConvenioMB.facultadesUnidadesInterno.unidadFacultad eq 'F'.charAt(0)}"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
+                                    <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
                         
                     </p:panelGrid>        
 
@@ -383,6 +409,7 @@
                                     <td></td>
                                     <td></td>
                                     <td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.guardarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Guardar"  id="btnGuardar" icon="ui-icon-disk" title="Guardar Propuesta Convenio" /></td>                                 
+                                    <!--<td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.FileRead()}" process="@this"  value="Test Mail"  id="ema" icon="ui-icon-disk" title="envio email" /></td>-->                                 
                                     <td colspan="3"><p:commandButton rendered="#{propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.actualizarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Actualizar"  id="btnActualizar" icon="ui-icon-diskbtnGuardar" title="Actualizar Propuesta Convenio" /></td>                                 
                                     <td colspan="3"><p:commandButton  rendered="#{propuestaConvenioMB.flagEdicion}"  actionListener="#{propuestaConvenioMB.volver()}" process="formAdmin" update="formAdmin" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
                                 </tr>
