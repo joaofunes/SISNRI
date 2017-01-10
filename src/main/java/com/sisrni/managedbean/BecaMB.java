@@ -35,8 +35,10 @@ import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
+import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -189,6 +191,9 @@ public class BecaMB implements Serializable {
 
         //para la beca
         beca = new Beca();
+        beca.setMontoInterno(BigDecimal.ZERO);
+        beca.setMontoInterno(BigDecimal.ZERO);
+        beca.setMontoTotal(BigDecimal.ZERO);
         paisCooperanteSelected = new Pais();
         programaBecaSelected = new ProgramaBeca();
         paisDestinoSelected = new Pais();
@@ -368,9 +373,20 @@ public class BecaMB implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Los datos han sido registrados con exito."));
             inicializador();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("becaAdm.xhtml");
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "error."));
         }
+    }
+
+    public void cancelar() throws IOException {
+        inicializador();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("becaAdm.xhtml");
+    }
+
+    public void crearNuevo() throws IOException {
+        inicializador();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("registrarBeca.xhtml");
     }
 
     public void preUpdate(Integer id) {
@@ -397,6 +413,7 @@ public class BecaMB implements Serializable {
                 }
 
                 actualizar = Boolean.TRUE;
+                FacesContext.getCurrentInstance().getExternalContext().redirect("registrarBeca.xhtml");
             }
         } catch (Exception e) {
         }
@@ -419,6 +436,7 @@ public class BecaMB implements Serializable {
             mostrarmonto = false;
         } else {
             mostrarmonto = true;
+            this.beca.setMontoInterno(BigDecimal.ZERO);
         }
     }
 
@@ -476,6 +494,13 @@ public class BecaMB implements Serializable {
         } else {
             escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
         }
+
+    }
+
+    public void cambiarMontoBeca() {
+        BigDecimal montoInterno = this.beca.getMontoInterno();
+        BigDecimal montoExterno = this.beca.getMontoExterno();
+        this.beca.setMontoTotal(montoInterno.add(montoExterno));
 
     }
 
