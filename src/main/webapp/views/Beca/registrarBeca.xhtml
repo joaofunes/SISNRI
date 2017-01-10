@@ -188,13 +188,17 @@
                                             <p:outputLabel  value="Monto externo"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText value="#{becaMB.beca.montoExterno}"  disabled="#{becaMB.mostrarmonto}" id="montoexterno"/>
+                                            <p:inputText value="#{becaMB.beca.montoExterno}" id="montoexterno">
+                                                <p:ajax event="blur" listener="#{becaMB.cambiarMontoBeca}" update="montototal" />
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel  value="Monto interno"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText value="#{becaMB.beca.montoInterno}" disabled="#{becaMB.mostrarmonto}" id="montointerno"/>
+                                            <p:inputText value="#{becaMB.beca.montoInterno}" disabled="#{becaMB.mostrarmonto}" id="montointerno">
+                                                <p:ajax event="blur" listener="#{becaMB.cambiarMontoBeca}" update="montototal" />
+                                            </p:inputText>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -202,7 +206,7 @@
                                             <p:outputLabel value="Monto Total:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText value="#{becaMB.beca.montoTotal}" id="montototal"/>
+                                            <p:inputText value="#{becaMB.beca.montoTotal}" id="montototal" disabled="true" />
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Otorgada?"/>
@@ -307,10 +311,10 @@
                             <p:tab title="Datos del Asesor Externo">
                                 <h:panelGroup rendered="#{!becaMB.actualizar}">
                                     <p:outputLabel value="Pasaporte: " />
-                                <p:inputText value="#{becaMB.docExternoSearch}" id="idDocExt"/>
-                                <p:commandButton value="Buscar" actionListener="#{becaMB.buscarExterno(becaMB.docExternoSearch)}" process="idDocExt @this" icon="ui-icon-search" update="panelExt"/>
+                                    <p:inputText value="#{becaMB.docExternoSearch}" id="idDocExt"/>
+                                    <p:commandButton value="Buscar" actionListener="#{becaMB.buscarExterno(becaMB.docExternoSearch)}" process="idDocExt @this" icon="ui-icon-search" update="panelExt"/>
                                 </h:panelGroup>
-                                
+
                                 <p:separator/>
                                 <p:panelGrid id="panelExt">
                                     <p:row>
@@ -380,51 +384,13 @@
                             </p:tab>
                         </p:accordionPanel>
                     </p:panel>
-                    <p:commandButton rendered="#{becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.inicializador()}" process="@this" update="formAdmin" value="Cancelar" id="btnCancelar" title="Cancelar"/>
-                    <p:commandButton rendered="#{becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.guardarBeca()}" process="formAdmin " update="formAdmin formTable" value="Actualizar" id="btnActualizar" title="Actualizar Beca"/>
-                    <p:commandButton rendered="#{!becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.guardarBeca()}" process="formAdmin" update="formAdmin formTable" value="Guardar" id="btnGuardarBeca" title="Guardar Beca"/>
+                    <p:commandButton rendered="#{becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.cancelar()}" process="@this" value="Cancelar" id="btnCancelar" title="Cancelar"/>
+                    <p:commandButton rendered="#{becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.guardarBeca()}" process="formAdmin " update="formAdmin" value="Actualizar" id="btnActualizar" title="Actualizar Beca"/>
+                    <p:commandButton rendered="#{!becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.cancelar()}" process="@this" update="formAdmin" value="Cancelar" id="btnregresar" title="volver"/>
+                    <p:commandButton rendered="#{!becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.guardarBeca()}" process="formAdmin" update="formAdmin" value="Guardar" id="btnGuardarBeca" title="Guardar Beca"/>
                 </center>
             </h:form>
             <p:separator/>
-            <h:form id="formTable">
-                <p:dataTable var="beca" value="#{becaMB.becaTableList}" paginator="true" rows="5"                          
-                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
-                             >   
-                    <p:column  headerText="No. Beca"  style="width: 9%">
-                        <h:outputText value="#{beca.idBeca}" />
-                    </p:column>
-                    <p:column  headerText="Programa Beca"  style="width: 25%">
-                        <h:outputText value="#{beca.programaBeca}" />
-                    </p:column>
-                    <p:column headerText="Becario"  style="width: 25%">
-                        <h:outputText value="#{beca.nombreBecario} #{beca.apellidoBecario}" />
-                    </p:column>
-
-                    <p:column headerText="Pais destino"  style="width: 10%">
-                        <h:outputText value="#{beca.paisDestino}" />
-                    </p:column>
-
-                    <p:column headerText="Monto" style="width: 10%">
-                        <h:outputText value="#{beca.montoBeca}" />
-                    </p:column>
-                    <p:column headerText="A&ntilde;o"  style="width: 10%">
-                        <h:outputText value="#{beca.anioGestion}"/>
-                    </p:column>
-                    <p:column headerText="Otorgada" style="width: 10%">
-                        <h:outputText value="#{beca.otorgada}" />
-                    </p:column>
-                    <p:column headerText="Opciones" style="width: 10%">
-                        <div style="float: left">
-                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                           value="Editar" actionListener="#{becaMB.preUpdate(beca.idBeca)}" update=":formAdmin"/>
-                        </div>
-                    </p:column>
-                </p:dataTable>
-            </h:form>
-
-
-
         </ui:define>
     </ui:composition>
 </html>
