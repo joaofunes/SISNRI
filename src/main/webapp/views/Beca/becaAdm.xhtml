@@ -24,32 +24,32 @@
 
             </h:form>
             <p:separator/>
-            <h:form id="formTable">
-                <p:dataTable var="beca" value="#{becaMB.becaTableList}" paginator="true" rows="5"                          
+            <h:form id="formTable">            
+                <p:dataTable var="beca" value="#{becaMB.becaTableList}" paginator="true" rows="15"                          
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
-                             >   
-                    <p:column  headerText="No. Beca"  style="width: 9%">
+                             rowsPerPageTemplate="5,10,15"                       
+                             >
+                    <p:column  headerText="No." sortBy="#{beca.idBeca}" filterBy="#{beca.idBeca}" style="width: 7%" filterStyle="width:100%">
                         <h:outputText value="#{beca.idBeca}" />
                     </p:column>
-                    <p:column  headerText="Programa Beca"  style="width: 25%">
+                    <p:column  headerText="Programa Beca" sortBy="#{beca.programaBeca}" filterBy="#{beca.programaBeca}"  style="width: 25%">
                         <h:outputText value="#{beca.programaBeca}" />
                     </p:column>
-                    <p:column headerText="Becario"  style="width: 25%">
+                    <p:column headerText="Becario" sortBy="#{beca.nombreBecario}" filterBy="#{beca.nombreBecario}" style="width: 25%">
                         <h:outputText value="#{beca.nombreBecario} #{beca.apellidoBecario}" />
                     </p:column>
 
-                    <p:column headerText="Pais destino"  style="width: 10%">
+                    <p:column headerText="Pais destino" sortBy="#{beca.paisDestino}" filterBy="#{beca.paisDestino}" style="width: 15%" filterStyle="width:100%">
                         <h:outputText value="#{beca.paisDestino}" />
                     </p:column>
 
-                    <p:column headerText="Monto" style="width: 10%">
+                    <p:column headerText="Monto" sortBy="#{beca.montoBeca}" filterBy="#{beca.montoBeca}" style="width: 9%" filterStyle="width:100%">
                         <h:outputText value="#{beca.montoBeca}" />
                     </p:column>
-                    <p:column headerText="A&ntilde;o"  style="width: 10%">
+                    <p:column headerText="A&ntilde;o" sortBy="#{beca.anioGestion}" filterBy="#{beca.anioGestion}" style="width: 9%" filterStyle="width:100%">
                         <h:outputText value="#{beca.anioGestion}"/>
                     </p:column>
-                    <p:column headerText="Otorgada" style="width: 10%">
+                    <p:column headerText="Otorgada" sortBy="#{beca.otorgada}" filterBy="#{beca.otorgada}" style="width: 12%" filterStyle="width:100%">
                         <h:outputText value="#{beca.otorgada}" />
                     </p:column>
                     <p:column headerText="Opciones" style="width: 10%">
