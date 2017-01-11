@@ -1019,7 +1019,7 @@ public class registrarMovilidadMB {
     public Persona getPersonaMovilidad(List<PersonaMovilidad> lista, String tipo) {
         Persona p = new Persona();
         for (PersonaMovilidad per : lista) {
-            if (per.getIdTipoPersona().getNombre().equalsIgnoreCase(tipo)) {
+            if (per.getIdTipoPersona().getNombreTipoPersona().equalsIgnoreCase(tipo)) {
                 return personaService.getByID(per.getPersona().getIdPersona());
 
             }

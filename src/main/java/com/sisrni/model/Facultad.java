@@ -42,16 +42,16 @@ public class Facultad implements Serializable {
     @Column(name = "NOMBRE_FACULTAD", length = 100)
     private String nombreFacultad;
     @ManyToMany(mappedBy = "facultadList")
+    private List<Proyecto> proyectoList;
+    @ManyToMany(mappedBy = "facultadList")
     private List<Movilidad> movilidadList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFacultad")
     private List<Carrera> carreraList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facultad")
-    private List<FacultadProyecto> facultadProyectoList;
     @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idOrganismo;
     @OneToMany(mappedBy = "idFacultad")
-    private List<Proyecto> proyectoList;
+    private List<Proyecto> proyectoList1;
     @OneToMany(mappedBy = "idFacultad")
     private List<EscuelaDepartamento> escuelaDepartamentoList;
 
@@ -78,6 +78,14 @@ public class Facultad implements Serializable {
         this.nombreFacultad = nombreFacultad;
     }
 
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
+    }
+
     public List<Movilidad> getMovilidadList() {
         return movilidadList;
     }
@@ -94,14 +102,6 @@ public class Facultad implements Serializable {
         this.carreraList = carreraList;
     }
 
-    public List<FacultadProyecto> getFacultadProyectoList() {
-        return facultadProyectoList;
-    }
-
-    public void setFacultadProyectoList(List<FacultadProyecto> facultadProyectoList) {
-        this.facultadProyectoList = facultadProyectoList;
-    }
-
     public Organismo getIdOrganismo() {
         return idOrganismo;
     }
@@ -110,12 +110,12 @@ public class Facultad implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
-    public List<Proyecto> getProyectoList() {
-        return proyectoList;
+    public List<Proyecto> getProyectoList1() {
+        return proyectoList1;
     }
 
-    public void setProyectoList(List<Proyecto> proyectoList) {
-        this.proyectoList = proyectoList;
+    public void setProyectoList1(List<Proyecto> proyectoList1) {
+        this.proyectoList1 = proyectoList1;
     }
 
     public List<EscuelaDepartamento> getEscuelaDepartamentoList() {
