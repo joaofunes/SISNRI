@@ -6,10 +6,11 @@ var updateresize = function() {
 };
 var print = function(xhr, status, args) {
 //    console.log('ctx:' + ctx);
-    if(typeof args.reportName!='undefined'){
+    if(typeof args.reportName!=='undefined'){
     jQuery('#PrintDlgFrame').attr('src', ctx + '/report?reportName=' + args.reportName);
     jQuery('#PrintDlgFrame').show();
-    PrintDialog.show();
+   // PrintDialog.show();
+    PF('PrintDialog').show();
     return false;    
     }    
 };

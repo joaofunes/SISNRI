@@ -7,8 +7,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                >
+                xmlns:p="http://primefaces.org/ui">
     
     <ui:define name="content">
        <ui:include src="../common/Print.xhtml"/>
@@ -27,15 +26,13 @@
                     </p:column>
                 </p:panelGrid>
 
-                <p:growl id="msgs" showDetail="true" />
                
-
                 <h:panelGrid columns="2"  cellpadding="5">
                     <f:facet name="footer">
                         <div class="footer-section">
-                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" update="msgs" actionListener="#{personaReportMB.llenarReporte}"  oncomplete="print(xhr, status, args)" />                   
-                            <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
-                            <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />                      
+                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="sss"  actionListener="#{personaReportMB.llenarReporte}" oncomplete="print(xhr, status, args)"/>                   
+                            <p:commandButton value="Cancelar"   icon="ui-icon-trash"    />
+                           
                         </div>
                     </f:facet>
                 </h:panelGrid>
