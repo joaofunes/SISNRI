@@ -35,9 +35,9 @@ public class TipoPersona implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_TIPO_PERSONA", nullable = false)
     private Integer idTipoPersona;
-    @Size(max = 50)
-    @Column(name = "NOMBRE", length = 50)
-    private String nombre;
+    @Size(max = 100)
+    @Column(name = "NOMBRE_TIPO_PERSONA", length = 100)
+    private String nombreTipoPersona;
     @Size(max = 100)
     @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
@@ -65,12 +65,12 @@ public class TipoPersona implements Serializable {
         this.idTipoPersona = idTipoPersona;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreTipoPersona() {
+        return nombreTipoPersona;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreTipoPersona(String nombreTipoPersona) {
+        this.nombreTipoPersona = nombreTipoPersona;
     }
 
     public String getDescripcion() {

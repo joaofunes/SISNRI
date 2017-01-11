@@ -6,15 +6,14 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,20 +29,18 @@ import javax.validation.constraints.Size;
 public class TipoFacultad implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_TIPO_FACULTAD", nullable = false)
     private Integer idTipoFacultad;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "NOMBRE_TIPO_FACULTAD", nullable = false, length = 25)
+    @Size(min = 1, max = 100)
+    @Column(name = "NOMBRE_TIPO_FACULTAD", nullable = false, length = 100)
     private String nombreTipoFacultad;
     @Size(max = 100)
     @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoFacultad")
-    private List<FacultadProyecto> facultadProyectoList;
 
     public TipoFacultad() {
     }
@@ -79,14 +76,6 @@ public class TipoFacultad implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public List<FacultadProyecto> getFacultadProyectoList() {
-        return facultadProyectoList;
-    }
-
-    public void setFacultadProyectoList(List<FacultadProyecto> facultadProyectoList) {
-        this.facultadProyectoList = facultadProyectoList;
     }
 
     @Override

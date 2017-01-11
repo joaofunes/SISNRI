@@ -7,7 +7,6 @@ package com.sisrni.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -25,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -41,6 +41,9 @@ public class Beca implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_BECA", nullable = false)
     private Integer idBeca;
+    @Size(max = 200)
+    @Column(name = "NOMBRE_BECA", length = 200)
+    private String nombreBeca;
     @Column(name = "ID_PAIS_COOPERANTE")
     private Integer idPaisCooperante;
     @Column(name = "ID_PAIS_DESTINO")
@@ -65,7 +68,7 @@ public class Beca implements Serializable {
     @OneToMany(mappedBy = "idBeca")
     private List<Documento> documentoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
-    private List<PersonaBeca> personaBecaList = new ArrayList<PersonaBeca>();
+    private List<PersonaBeca> personaBecaList;
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idUniversidad;
@@ -89,6 +92,14 @@ public class Beca implements Serializable {
 
     public void setIdBeca(Integer idBeca) {
         this.idBeca = idBeca;
+    }
+
+    public String getNombreBeca() {
+        return nombreBeca;
+    }
+
+    public void setNombreBeca(String nombreBeca) {
+        this.nombreBeca = nombreBeca;
     }
 
     public Integer getIdPaisCooperante() {

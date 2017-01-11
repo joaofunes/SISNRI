@@ -423,7 +423,7 @@ public class BecaMB implements Serializable {
     public Persona getPersonaBeca(List<PersonaBeca> lista, String tipo) {
         Persona p = new Persona();
         for (PersonaBeca per : lista) {
-            if (per.getIdTipoPersona().getNombre().equalsIgnoreCase(tipo)) {
+            if (per.getIdTipoPersona().getNombreTipoPersona().equalsIgnoreCase(tipo)) {
                 return personaService.getByID(per.getPersona().getIdPersona());
 
             }
