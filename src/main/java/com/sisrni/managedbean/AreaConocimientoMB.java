@@ -7,7 +7,6 @@ package com.sisrni.managedbean;
 
 
 import com.sisrni.model.AreaConocimiento;
-import com.sisrni.model.Organismo;
 import com.sisrni.service.AreaConocimientoService;
 import com.sisrni.utils.JsfUtil;
 import java.util.List;
@@ -25,7 +24,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  *
- * @author Usuario
+ * @author Luis
  */
 @Named(value = "areaConocimientoMB")
 @RequestScoped
