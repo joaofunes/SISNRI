@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <center>
+            
+            <p:panel style="width: 70%" header="Gestion de Categorias de Movilidad">  
+                
+                <h:form id="formCategoriaMovilidad">
+                    <p:panelGrid columns="2">            
+                        <p:column>
+                            <h:outputLabel for="nombre" value="Nombre:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nombre" value="#{categoriaMovilidadMB.categoriaMovilidad.nombreCategoria}" required="true" size="20" />
+                            <p:watermark for="nombre" value="Nombre categoriaMovilidad" id="watermarkNombreCategoriaMovilidad"/>
+                        </p:column>
+                        
+                        <p:column>
+                            <p:commandButton styleClass="boton" rendered="#{!categoriaMovilidadMB.actualizar}"
+                                             actionListener="#{categoriaMovilidadMB.guardarCategoriaMovilidad}" value="Guardar"  update="formCategoriaMovilidad :formTablaCategoriaMovilidades" process="@this :formCategoriaMovilidad"/>
+
+                            <p:commandButton styleClass="boton" rendered="#{categoriaMovilidadMB.actualizar}"
+                                             actionListener="#{categoriaMovilidadMB.actualizarCategoriaMovilidad()}" update="formCategoriaMovilidad :formTablaCategoriaMovilidades "
+                                             value="Actualizar" />
+
+                            <p:commandButton styleClass="boton" rendered="#{categoriaMovilidadMB.actualizar}"
+                                             actionListener="#{categoriaMovilidadMB.cancelarCategoriaMovilidad()}" immediate="true" value="Cancelar" update="formCategoriaMovilidad"  process="@this" />
+
+
+                        </p:column>
+                    </p:panelGrid>
+
+                </h:form>
+                <br></br>
+                <h:form id="formTablaCategoriaMovilidades">
+                    <p:dataTable var="categoriaMovilidad" value="#{categoriaMovilidadMB.listCategoriaMovilidad}" rows="10" 
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen categoriaMovilidades registrados actualmente" >                       
+                        <p:column headerText="Nombre CategoriaMovilidad"  filterBy="#{categoriaMovilidad.nombreCategoria}"  style="width: 20%">
+                            <h:outputText value="#{categoriaMovilidad.nombreCategoria}"/>
+                        </p:column>
+                        <p:column headerText="Opciones" style="width: 15%">
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
+                                               actionListener="#{categoriaMovilidadMB.preActualizarCategoriaMovilidad(categoriaMovilidad)}" update=":formCategoriaMovilidad" process="@form:formTablaCategoriaMovilidades">
+                                </p:commandLink>
+                            </div>
+                            
+                            
+                            
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                               title="Eliminar" value="Eliminar"
+                                               actionListener="#{categoriaMovilidadMB.preBorradoCategoriaMovilidad(categoriaMovilidad)}" update=":idEliminacion" />
+                            </div> 
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </p:panel>     
+        </center> 
+        
+        
+        <!--'Dialog de confirmacion de la operacion de Borrado'-->
+        <p:confirmDialog widgetVar="confirmDeleteCategoriaMovilidadDlg" header="Borrar CategoriaMovilidad" message="Confirma la eliminacion de la CategoriaMovilidad?" 
+                         global="true" showEffect="fade" hideEffect="fade">
+            <h:form id="idEliminacion">
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="Nombre CategoriaMovilidad:"/>
+                    <h:outputText value="#{categoriaMovilidadMB.categoriaMovilidad.nombreCategoria}"/>
+                </p:panelGrid>
+                <br/>
+                <br/>
+            </h:form>
+             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+                              actionListener="#{categoriaMovilidadMB.borrarCategoriaMovilidad()}" update=":formTablaCategoriaMovilidades"/>
+             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>
