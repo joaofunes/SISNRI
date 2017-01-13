@@ -29,18 +29,18 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <h:outputLink id="fade" value="#">
-                                                <p:outputLabel value="Nombre de convenio:" />
-                                            </h:outputLink>
-                                            <p:tooltip id="toolTipFade" for="fade" value="Este campo es unicamente para proyectos que se relacionen a un convenio"/>
+                                            <p:outputLabel value="Nombre de convenio:" />
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="propuesta" value="#{proyectosMB.propuestaConvenioSelected.idPropuesta}" style="width:180px">
-                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <c:forEach var="propuesta" items="#{proyectosMB.propuestaConvenioList}">
-                                                    <f:selectItem itemLabel="#{propuesta.nombrePropuesta}" itemValue="#{propuesta.idPropuesta}" />
-                                                </c:forEach>
-                                            </p:selectOneMenu>
+                                            <h:outputLink id="fade" value="#">
+                                                <p:selectOneMenu id="propuesta" value="#{proyectosMB.propuestaConvenioSelected.idPropuesta}" style="width:180px">
+                                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                    <c:forEach var="propuesta" items="#{proyectosMB.propuestaConvenioList}">
+                                                        <f:selectItem itemLabel="#{propuesta.nombrePropuesta}" itemValue="#{propuesta.idPropuesta}" />
+                                                    </c:forEach>
+                                                </p:selectOneMenu>
+                                            </h:outputLink>
+                                            <p:tooltip id="toolTipFade" for="fade" value="Este campo es unicamente para proyectos que se relacionen a un convenio"/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -171,91 +171,84 @@
                                         <p:commandButton actionListener="#{proyectosMB.searchByDocInterno(proyectosMB.numDocumentoSol)}" id="idBtnSearchInSol" process="@this,duisol" update="duisolicitante,correosolicitante,nombresolicitante,apellidosolicitante,cargosolicitante,facultadsolicitante,unidadsolicitante,telefonosolicitante,celularsolicitante,faxsolicitante" icon="ui-icon-search" value="Buscar"/>
                                     </p:column>
                                 </p:panelGrid>
-                                <p:panelGrid>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Dui:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputMask id="duisolicitante" mask="99999999-9" value="#{proyectosMB.numDocumentoSol}" required="true"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel value="Correo Electronico:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}"/>                                       
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Nombre:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel value="Apellido:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" />
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Cargo:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel value="Facultad/Unidad:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:selectOneMenu id="facultadsolicitante" value="#{proyectosMB.facultadSelectedPojoSol}"  style="width:180px" required="true">
-                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <p:ajax listener="#{proyectosMB.onFacultadSolicitanteChange()}" update="unidadsolicitante" />
-                                                <c:forEach var="facu" items="#{proyectosMB.facultadesUnidadesList}">
-                                                    <f:selectItem itemLabel="#{facu.label}" itemValue="#{facu.value}"/>
-                                                </c:forEach>
-                                            </p:selectOneMenu>
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Escuela/Departamento:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:selectOneMenu id="unidadsolicitante" value="#{proyectosMB.escuelaDeptoSelectedSol.idEscuelaDepto}"  style="width:180px" required="true">
-                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <c:forEach var="uni" items="#{proyectosMB.escuelaDeptoListSol}">
-                                                    <f:selectItem itemLabel="#{uni.nombreEscuelaDepto}" itemValue="#{uni.idEscuelaDepto}"/>
-                                                </c:forEach>
-                                            </p:selectOneMenu>
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel value="Telefono Fijo:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999"/>
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Telefono Celuluar:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel value="Fax:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="faxsolicitante" value="#{proyectosMB.telefonoSolFax.numeroTelefono}"/>
-                                        </p:column>
-                                    </p:row>
-                                </p:panelGrid> 
+                                <p:panelGrid columns="4">
+                                    <p:column>
+                                        <p:outputLabel value="Nombre:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Apellido:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Dui:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="duisolicitante" mask="99999999-9" value="#{proyectosMB.persona.duiPersona}" required="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Correo Electronico:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}"/>                                       
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Cargo:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Facultad/Unidad:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="facultadsolicitante" value="#{proyectosMB.facultadSelectedPojoSol}"  style="width:180px" required="true">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <p:ajax listener="#{proyectosMB.onFacultadSolicitanteChange()}" update="unidadsolicitante" />
+                                            <c:forEach var="facu" items="#{proyectosMB.facultadesUnidadesList}">
+                                                <f:selectItem itemLabel="#{facu.label}" itemValue="#{facu.value}"/>
+                                            </c:forEach>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Escuela/Departamento:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="unidadsolicitante" value="#{proyectosMB.escuelaDeptoSelectedSol.idEscuelaDepto}"  style="width:180px" >
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                            <c:forEach var="uni" items="#{proyectosMB.escuelaDeptoListSol}">
+                                                <f:selectItem itemLabel="#{uni.nombreEscuelaDepto}" itemValue="#{uni.idEscuelaDepto}"/>
+                                            </c:forEach>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Telefono Fijo:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Telefono Celuluar:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Fax:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="faxsolicitante" value="#{proyectosMB.telefonoSolFax.numeroTelefono}"/>
+                                    </p:column>
+                                </p:panelGrid>
+                                <p:panel>
+                                    <p:commandButton id="idBtnAddAsis"  update="idTabAsis" process="@this" actionListener="#{proyectosMB.mostrarTab()}" value="Agregar Coordinador T&eacute;cnico"/> 
+                                </p:panel>
                             </p:tab>
-                            <p:tab title="Datos de Asistente t&eacute;cnico del proyecto" >
+                            <p:tab title="Datos del Coordinador t&eacute;cnico del proyecto" id="idTabAsis" rendered="#{proyectosMB.tabAsis==true}" >
                                 <p:panelGrid>
                                     <p:column>
                                         <p:outputLabel value="Dui:"/>
@@ -266,18 +259,6 @@
                                     </p:column>
                                 </p:panelGrid>
                                 <p:panelGrid columns="4">
-                                    <p:column>
-                                        <p:outputLabel value="Dui:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="duiasistente" mask="99999999-9" value="#{proyectosMB.numDocumentoAsis}" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Correo Electronico:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}"/>                                       
-                                    </p:column> 
                                     <p:column>
                                         <p:outputLabel value="Nombre:"/>
                                     </p:column>
@@ -290,6 +271,18 @@
                                     <p:column>
                                         <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" required="false"/>
                                     </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Dui:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="duiasistente" mask="99999999-9" value="#{proyectosMB.personaAsistente.duiPersona}" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Correo Electronico:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}"/>                                       
+                                    </p:column> 
                                     <p:column>
                                         <p:outputLabel value="Cargo:"/>
                                     </p:column>
@@ -339,7 +332,7 @@
                                     </p:column>
                                 </p:panelGrid>
                             </p:tab>
-                            <p:tab title="Datos del Coordinador Externo" rendered="#{proyectosMB.proyectoSelected.idTipoProyecto!=1}">
+                            <p:tab title="Datos del Coordinador Externo">
                                 <p:panelGrid>
                                     <p:column>
                                         <p:outputLabel value="Pasaporte:"/>
@@ -350,18 +343,6 @@
                                     </p:column>
                                 </p:panelGrid>
                                 <p:panelGrid columns="4">
-                                    <p:column>
-                                        <p:outputLabel value="Pasaporte de coordinador:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="pasaporteexterna" value="#{proyectosMB.numDocumentoRefExt}" required="true"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Correo Electronico:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}"/>                                       
-                                    </p:column>
                                     <p:column>
                                         <p:outputLabel value="Nombre:"/>
                                     </p:column>
@@ -375,6 +356,18 @@
                                         <p:inputText id="apellidoexterna" value="#{proyectosMB.personaExterna.apellidoPersona}" required="true"/>
                                     </p:column>
                                     <p:column>
+                                        <p:outputLabel value="Pasaporte de coordinador:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="pasaporteexterna" value="#{proyectosMB.personaExterna.pasaporte}" required="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel value="Correo Electronico:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}"/>                                       
+                                    </p:column>
+                                    <p:column>
                                         <p:outputLabel value="Cargo:"/>
                                     </p:column>
                                     <p:column>
@@ -384,10 +377,10 @@
                                         <p:outputLabel value="Entidad/Instituci&oacute;n"/>
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="unidadext" value="#{proyectosMB.organismoSelected.idOrganismo}"  style="width:180px" required="true">
+                                        <p:selectOneMenu id="unidadext" value="#{proyectosMB.organismoSelectedRefExt.idOrganismo}"  style="width:180px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" />
-                                            <c:forEach var="uni" items="#{proyectosMB.organismoList}">
-                                                <f:selectItem itemLabel="#{uni.nombreOrganismo}" itemValue="#{uni.idOrganismo}"/>
+                                            <c:forEach var="org" items="#{proyectosMB.organismoList}">
+                                                <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
                                             </c:forEach>
                                         </p:selectOneMenu>
                                     </p:column>

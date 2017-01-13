@@ -6,11 +6,13 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -92,13 +94,13 @@ public class Persona implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaPropuesta> personaPropuestaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<PersonaProyecto> personaProyectoList;
+    private List<PersonaProyecto> personaProyectoList=new ArrayList<PersonaProyecto>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaMovilidad> personaMovilidadList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaBeca> personaBecaList;
-    @OneToMany(mappedBy = "idPersona")
-    private List<Telefono> telefonoList;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "idPersona")
+    private List<Telefono> telefonoList=new ArrayList<Telefono>();
 
     public Persona() {
     }

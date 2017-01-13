@@ -41,7 +41,7 @@
                     <h:outputText value="#{proyecto.idTipoProyecto.nombreTipoProyecto}" />
                 </p:column>
 
-                <p:column headerText="AÃƒÂ±o de GestiÃƒÂ³n" sortBy="#{proyecto.anioGestion}" filterBy="#{proyecto.anioGestion}">
+                <p:column headerText="A&ntilde;o de Gesti&oacute;n" sortBy="#{proyecto.anioGestion}" filterBy="#{proyecto.anioGestion}">
                     <h:outputText value="#{proyecto.anioGestion}" />
                 </p:column>
 
@@ -52,12 +52,12 @@
                 <p:column headerText="Opciones" >
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       value="Editar" actionListener="#{proyectosMB.preUpdateProyecto(proyecto.idProyecto)}" update=":formAdmin :formProyecto" process="@this :formAdmin"/>
+                                       value="Editar" actionListener="#{proyectosMB.preUpdateProyecto(proyecto.idProyecto)}" update=":formAdmin"/>
                     </div>
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-search"
                                        title="Consultar" value="Consultar"
-                                       actionListener="#{proyectoMB.preConsultarProyecto(proyecto)}" />
+                                       actionListener="#{proyectosMB.preConsultarProyecto(proyecto.idProyecto)}" update=":formAdmin"/>
                     </div>
                 </p:column>
             </p:dataTable>

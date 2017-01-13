@@ -19,7 +19,7 @@ public class TipoPersonaDao extends GenericDao<TipoPersona, Integer>{
 
     public TipoPersona getTipoPersonaByNombre(String name) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT tipo FROM TipoPersona tipo WHERE tipo.nombre=:name ");
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT tipo FROM TipoPersona tipo WHERE tipo.nombreTipoPersona=:name ");
              q.setParameter("name",name);
              return (TipoPersona) q.uniqueResult();
        
