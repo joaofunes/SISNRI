@@ -41,24 +41,20 @@ public class Persona implements Serializable {
     @Column(name = "ID_PERSONA", nullable = false)
     private Integer idPersona;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "NOMBRE_PERSONA", nullable = false, length = 60)
+    @Column(name = "NOMBRE_PERSONA", nullable = true, length = 60)
     private String nombrePersona;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "APELLIDO_PERSONA", nullable = false, length = 60)
+    @Column(name = "APELLIDO_PERSONA", nullable = true, length = 60)
     private String apellidoPersona;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 30)
-    @Column(name = "EMAIL_PERSONA", nullable = false, length = 30)
+    @Column(name = "EMAIL_PERSONA", nullable = true, length = 30)
     private String emailPersona;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "DUI_PERSONA", nullable = false, length = 10)
+    @Column(name = "DUI_PERSONA", nullable = true, length = 10)
     private String duiPersona;
     @Size(max = 17)
     @Column(name = "NIT_PERSONA", length = 17)
@@ -67,9 +63,8 @@ public class Persona implements Serializable {
     @Column(name = "CARGO_PERSONA", length = 100)
     private String cargoPersona;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 30)
-    @Column(name = "PASAPORTE", nullable = false, length = 30)
+    @Column(name = "PASAPORTE", nullable = true, length = 30)
     private String pasaporte;
     @Basic(optional = false)
     @NotNull

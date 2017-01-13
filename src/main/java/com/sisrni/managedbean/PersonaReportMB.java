@@ -6,9 +6,12 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.jasper.Reporte;
+import com.sisrni.managedbean.generic.GenericManagedBean;
+import com.sisrni.managedbean.lazymodel.PersonaLazyModal;
 import com.sisrni.model.Persona;
 import com.sisrni.pojo.rpt.RptPersona;
 import com.sisrni.service.PersonaService;
+import com.sisrni.service.generic.GenericService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +41,7 @@ import org.springframework.web.context.WebApplicationContext;
 @Named("personaReportMB")
 @Scope(WebApplicationContext.SCOPE_SESSION)
 public class PersonaReportMB {
-    
+   
     @Autowired
     @Qualifier(value = "personaService")
     private PersonaService personaService;
@@ -68,19 +71,21 @@ public class PersonaReportMB {
     }
 
     public void print(List<RptPersona> list) {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+              ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getResponse();
         Reporte reporte = new Reporte("compgastosrep", "rpt_comparativo_gasto_reparaciones", request);
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptPersona>(list)));
-        reporte.addParameter("fechaInicial", new Date());
-        reporte.addParameter("fechaFinal", new Date());
         reporte.addParameter("usuario", "ADM");
         reporte.addParameter("equipox", "Equipo 1");
         reporte.addParameter("equipoy", "Equipo 2");
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
     }
 
     public String getReportName() {
@@ -90,5 +95,17 @@ public class PersonaReportMB {
     public void setReportName(String reportName) {
         this.reportName = reportName;
     }
+
+     //extends GenericManagedBean<Persona, Integer> 
+//    @Override
+//    public GenericService<Persona, Integer> getService() {
+//       return personaService;
+//    }
+//
+//    @Override
+//    public LazyDataModel<Persona> getNewLazyModel() {
+//        return new PersonaLazyModal(personaService);
+//            
+//    }
 
 }
