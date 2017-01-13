@@ -170,6 +170,7 @@ public class PropuestaConvenioMB implements Serializable{
 
     private boolean flagConvenioMarco = false;
     private boolean flagEdicion = false;
+    private boolean flagEscuelaDept = false;
     private boolean mismoSolicitante;
     
     private JCMail mail;
@@ -724,26 +725,42 @@ public class PropuestaConvenioMB implements Serializable{
         int i=1;
         
         for (Facultad fac : listaFacultad) {
-            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
-            pojo.setId(fac.getIdFacultad());
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();            
             pojo.setLabel(fac.getNombreFacultad());
             pojo.setUnidadFacultad('F');
-            pojo.setValue(""+ i++);
+            pojo.setId(i++);
+            pojo.setPrimary(fac.getIdFacultad());
             listaFacultadUnidad.add(pojo);
         }
         for (Unidad uni : listaUnidad) {
-            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
-            pojo.setId(uni.getIdUnidad());
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();            
             pojo.setLabel(uni.getNombreUnidad());
             pojo.setUnidadFacultad('U');
-            pojo.setValue(""+ i++);
+            pojo.setId(i++);
+            pojo.setPrimary(uni.getIdUnidad());
             listaFacultadUnidad.add(pojo);
         }        
         return listaFacultadUnidad;
     }
 
 
-    
+    public void actualizarEscuelaDept(){
+        try {
+             
+             
+             if(facultadesUnidades.getUnidadFacultad()=='U'){
+                  flagEscuelaDept=true;
+             }else{
+                 flagEscuelaDept=false;
+             }
+            
+             
+//             RequestContext context = RequestContext.getCurrentInstance();
+//             context.update("formAdmin:idEscuelaDept");            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     
     /// test de email
@@ -1096,6 +1113,14 @@ public void FileRead(){
 
     public void setEscuelaDepartamentoInterno(EscuelaDepartamento escuelaDepartamentoInterno) {
         this.escuelaDepartamentoInterno = escuelaDepartamentoInterno;
+    }
+
+    public boolean isFlagEscuelaDept() {
+        return flagEscuelaDept;
+    }
+
+    public void setFlagEscuelaDept(boolean flagEscuelaDept) {
+        this.flagEscuelaDept = flagEscuelaDept;
     }
 
    
