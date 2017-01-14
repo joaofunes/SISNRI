@@ -12,10 +12,13 @@ import java.io.Serializable;
  * @author Lillian
  */
 public class PojoFacultadesUnidades implements Serializable {
-
+    
+    
+    
+    private Integer id;
+    private Integer primary;
     private String value;
     private String label;
-    private Integer id;
     private char unidadFacultad;
     
 
@@ -49,6 +52,14 @@ public class PojoFacultadesUnidades implements Serializable {
 
     public void setUnidadFacultad(char unidadFacultad) {
         this.unidadFacultad = unidadFacultad;
+    }
+
+    public Integer getPrimary() {
+        return primary;
+    }
+
+    public void setPrimary(Integer primary) {
+        this.primary = primary;
     }
 
     

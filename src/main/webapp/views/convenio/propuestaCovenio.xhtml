@@ -70,7 +70,7 @@
                             </p:column>
                             <p:column>
                                 <p:selectOneMenu id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{facultadUnidadConverter}" style="width:190px">                                   
-                                    <p:ajax update="idEscuelaDept"/>
+                                    <p:ajax event="change" update="idEscuelaDept" listener="#{propuestaConvenioMB.actualizarEscuelaDept()}"/>
                                     <f:selectItem itemLabel="--Seleccione Facultad/Unidad--" itemValue="#{null}"  itemDisabled="true" />
                                     <c:forEach var="c" items="#{propuestaConvenioMB.listaFacultadUnidad}">
                                         <f:selectItem itemLabel="#{c.label}" itemValue="#{c}"/>
@@ -89,10 +89,10 @@
                         </p:row>
                         <p:row>
                             <p:column>
-                                 <p:outputLabel rendered="#{propuestaConvenioMB.facultadesUnidades.unidadFacultad eq 'F'.charAt(0)}" for="idEscuelaDept" value="Escuela/Departamento" />
+                                 <p:outputLabel rendered="#{!propuestaConvenioMB.flagEscuelaDept}" for="idEscuelaDept" value="Escuela/Departamento" />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu  id="idEscuelaDept" rendered="#{propuestaConvenioMB.facultadesUnidades.unidadFacultad eq 'F'.charAt(0)}" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
+                                <p:selectOneMenu  id="idEscuelaDept" rendered="#{!propuestaConvenioMB.flagEscuelaDept}" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
                                     <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
                                     <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
                                 </p:selectOneMenu>

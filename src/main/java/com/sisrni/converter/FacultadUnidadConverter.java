@@ -51,7 +51,7 @@ public class FacultadUnidadConverter implements Converter{
                     
                 listaFacultadUnidad=firstBean.getListaFacultadUnidad();
                 for (PojoFacultadesUnidades s : listaFacultadUnidad) {
-                    if (Integer.parseInt(s.getValue()) == number) {
+                    if (s.getId() == number) {
                         return s;
                     }
                 }
