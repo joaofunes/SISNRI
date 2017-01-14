@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+            <ui:define name="content">
+                <center>
+                    <h:form id="formAdmin">
+                        <p:panel style="width: 900px;">
+                            <p:panelGrid>
+                                <p:row >
+                                    <p:column >
+                                        <p:outputLabel for="movilidadId" value="Programa de movilidad :" />
+                                        <p:selectOneMenu id="movilidadId" value="#{documentacionMovilidadMB.pojoMovilidadSelected.idMovilidad}" style="width:355px">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="-1" noSelectionOption="false" />
+                                            <p:ajax event="itemSelect" listener="#{documentacionMovilidadMB.onMovilidadChange()}" process="movilidadId" update=":idDataMovilidad :formDocsTable"/>
+                                            <c:forEach var="mov" items="#{documentacionMovilidadMB.listPojoMovilidad}">
+                                                <f:selectItem itemLabel="Codigo Movilidad:#{mov.idMovilidad} -.- Docente: #{mov.nombrePersona} #{mov.apellidoPersona}" itemValue="#{mov.idMovilidad}" />
+                                            </c:forEach>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton  styleClass="boton"
+                                                          update=":idAddDocument" process="@this"
+                                                          value="Agregar Documento"
+                                                          oncomplete="PF('AddDocDialog').show();"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:panel>
+                    </h:form>
+                    <p:separator/>
+                    <h:form id="idDataMovilidad">
+                        <p:panel style="width: 900px;">
+                            <p:panelGrid  >
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Codigo : "  style="font-weight:bold"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.idMovilidad}" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="Programa: "  style="font-weight:bold" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.nombrePrograma}" />
+                                    </p:column>
+                                   
+                                </p:row>
+                                <p:row>
+                                     <p:column>
+                                        <h:outputText value="Docente "  style="font-weight:bold" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.nombrePersona} #{documentacionMovilidadMB.pojoToShow.apellidoPersona}" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="Tipo movilidad:" style="font-weight:bold"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.nombreTipoMovilidad}"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>        
+                                    <p:column>
+                                        <h:outputText value="Pais origen: "  style="font-weight:bold" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.paisOrigen}" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="Pais destino: "  style="font-weight:bold" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.paisDestino}" />
+                                    </p:column>
+
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Fecha de entrada:" style="font-weight:bold"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.fechaEntrada}" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="Fecha de salida: "  style="font-weight:bold" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.fechaSalida}" />
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <p:spacer height="40" />
+                    <h:form id="formDocsTable">
+                        <p:panel style="width: 900px">
+                            <p:dataTable var="doc" value="#{documentacionMovilidadMB.listadoDocumentos}" paginator="true" rows="5"
+                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                         rowsPerPageTemplate="5,10,15"
+                                         >
+                                <p:column headerText="Movilidad" sortBy="#{doc.idMovilidad.idMovilidad}" filterBy="#{doc.idMovilidad.idMovilidad}">
+                                    <h:outputText value="#{doc.idMovilidad.idMovilidad}" />
+                                </p:column>
+                                <p:column headerText="Tipo de Documento" sortBy="#{doc.idTipoDocumento.nombreDocumento}" filterBy="#{doc.idTipoDocumento.nombreDocumento}">
+                                    <h:outputText value="#{doc.idTipoDocumento.nombreDocumento}" />
+                                </p:column>
+                                <p:column headerText="Persona que recibi&oacute;" sortBy="#{doc.usuarioRecibe}" filterBy="#{doc.usuarioRecibe}">
+                                    <h:outputText value="#{doc.usuarioRecibe}" />
+                                </p:column>
+                                <p:column headerText="Fecha de recibido" sortBy="#{doc.fechaRecibido}" filterBy="#{doc.fechaRecibido}">
+                                    <h:outputText value="#{doc.fechaRecibido}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Documento" sortBy="#{doc.nombreDocumento}" filterBy="#{doc.nombreDocumento}">
+                                    <h:outputText value="#{doc.nombreDocumento}" />
+                                </p:column>
+                                <p:column headerText="Opciones" >
+                                    <div style="float: left">
+                                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar"
+                                                       value="Editar" actionListener="#{documentacionMovilidadMB.preActualizacion(doc)}"
+                                                       oncomplete="PF('EditDocDialog').show();" process="@this" update=":idEditDocument"/>
+                                    </div>
+                                    <div style="float: left">
+                                        <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                                       title="Eliminar" value="Eliminar"
+                                                       actionListener="#{documentacionMovilidadMB.preActualizacion(doc)}"
+                                                       oncomplete="PF('eliminarDialog').show();" process="@this" update=":idEliminar"/>
+                                    </div>
+                                    <div style="float: left">
+                                        <p:commandLink styleClass="ui-icon ui-icon-document-b"
+                                                       title="Preview" value="Previsualizar"
+                                                       actionListener="#{documentacionMovilidadMB.preView(doc)}"
+                                                       oncomplete="PF('previewDialog').show();" process="@this" update=":idPreview"
+                                                       rendered="#{doc.nombreDocumento.contains('.pdf')}"/>
+                                        <div style="float: left">
+                                            <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
+                                                           title="Descargar" value="Descargar Archivo"
+                                                           actionListener="#{documentacionMovilidadMB.FileDownloadView(doc)}"
+                                                           process="@this" update="formDocsTable" ajax="false">
+                                                <p:fileDownload value="#{documentacionMovilidadMB.content}" />
+                                            </p:commandLink>
+                                        </div>
+                                    </div>
+                                </p:column>
+                            </p:dataTable>
+
+                        </p:panel>
+                    </h:form>
+
+                </center>
+                <p:dialog id="idAddDocument" hideEffect="fade" dynamic="false" widgetVar="AddDocDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Agregar documento" closeOnEscape="true">
+                    <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>
+
+                    <h:form id="formAddDocument">
+                        <center>
+                            <h:panelGrid columns="2" >
+                                <p:column>
+                                    <p:outputLabel for="tipoDoc" value="Tipo Documento" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="tipoDoc" value="#{documentacionMovilidadMB.tipoDocumento}" effect="fade" converter="#{tipoDocumentoConverter}" required="true">
+                                        <f:selectItem itemLabel="Tipo Documento" itemValue="null" noSelectionOption="true" />
+                                        <f:selectItems value="#{documentacionMovilidadMB.listTipoDocumento}" var="tDocumento" itemLabel="#{tDocumento.nombreDocumento}" itemValue="#{tDocumento}"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Documento" />
+                                </p:column>
+                                <p:column>
+                                    <p:fileUpload fileUploadListener="#{documentacionMovilidadMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
+                                                  sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" />
+                                </p:column>
+                                <p:column>
+                                    <p:commandButton  value="Agregar" id="idGuardarDocumento" actionListener="#{documentacionMovilidadMB.addDocument()}" process="@form"
+                                                      update="@form :formDocsTable" icon="ui-icon-disk" onsuccess="PF('AddDocDialog').hide()" />
+                                </p:column>
+                            </h:panelGrid>
+                        </center>
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="idEditDocument" widgetVar="EditDocDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Editar documento" closeOnEscape="true">
+
+                    <h:form id="formEditDpcument">
+                        <center>
+                            <h:panelGrid columns="2" >
+                                <p:column>
+                                    <p:outputLabel value="Tipo documento" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="tipoDocUpdate" value="#{documentacionMovilidadMB.tipoDocumento}" effect="fade" converter="#{tipoDocumentoConverter}" required="true">
+                                        <f:selectItem itemLabel="Tipo Documento" itemValue="null" noSelectionOption="true" />
+                                        <f:selectItems value="#{documentacionMovilidadMB.listTipoDocumento}" var="tDocumento" itemLabel="#{tDocumento.nombreDocumento}" itemValue="#{tDocumento}"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel  value="Nombre Docuemnto:" />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{documentacionMovilidadMB.documento.nombreDocumento}" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Documento" />
+                                </p:column>
+                                <p:column>
+                                    <p:fileUpload fileUploadListener="#{documentacionMovilidadMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
+                                                  sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" />
+                                </p:column>
+                                <p:column>
+                                    <p:commandButton value="Actualizar" id="idActualziarDocumento" actionListener="#{documentacionMovilidadMB.actualzarDocument()}" process="@form"
+                                                     update="@form :formDocsTable" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').hide();" />
+                                </p:column>
+                            </h:panelGrid>
+                        </center>
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="idEliminar" widgetVar="eliminarDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Eliminar documento" closeOnEscape="true">
+
+                    <h:form id="formEliminarDpcument">
+                        <center>
+                            <h:panelGrid columns="2" >
+                                <p:column>
+                                    <p:outputLabel value="Tipo documento:" />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{documentacionMovilidadMB.documento.idTipoDocumento.nombreDocumento}" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel  value="Uusario recibido:" />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{documentacionMovilidadMB.documento.usuarioRecibe}" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Fecha Recibido:" />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{documentacionMovilidadMB.documento.fechaRecibido}" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="Documento:" />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{documentacionMovilidadMB.documento.nombreDocumento}" />
+                                </p:column>
+
+                                <p:column>
+                                    <p:commandButton value="Eliminar"  actionListener="#{documentacionMovilidadMB.eliminarDocument()}" process="@form"
+                                                     update="@form  :formDocsTable" icon="ui-icon-disk" oncomplete="PF('eliminarDialog').hide();" />
+                                    <p:commandButton value="Cancelar" icon="ui-icon-disk" oncomplete="PF('eliminarDialog').hide();" />
+                                </p:column>
+                            </h:panelGrid>
+                        </center>
+                    </h:form>
+
+                </p:dialog>
+
+                <p:dialog id="idPreview"  widgetVar="previewDialog"  responsive="true"  resizable="false" modal="true" header="Preview documento" closeOnEscape="true">
+
+                    <pe:documentViewer style="width:550px; height:550px"  value="#{documentacionMovilidadMB.content}"/>
+
+                </p:dialog>
+
+
+            </ui:define>
+
+
+        </ui:composition>
+
+    </body>
+</html>

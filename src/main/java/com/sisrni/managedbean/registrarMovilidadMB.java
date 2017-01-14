@@ -58,6 +58,11 @@ public class registrarMovilidadMB {
     //Variables
     private Boolean existeReferente;
     private Boolean existePersonaMovilidad;
+    private Boolean existeMovilidad;
+    private Boolean isEditable;
+    
+    private float totalViaticosCurso;
+    private float totalViaticosCursoBoletoAereo;
 
     private Integer tipoMovilidadSelected;
     private Integer categoriaMovilidadSelected;
@@ -76,7 +81,7 @@ public class registrarMovilidadMB {
     private static final String FAX = "FAX";
     private static final String CELULAR = "CELULAR";
 
-    private String[] facultadesUnidadesBeneficiadasSelected;
+    //private String[] facultadesUnidadesBeneficiadasSelected;
     private String facultadDeReferente;
     private String facultadPersonaMovilidad;
 
@@ -155,6 +160,7 @@ public class registrarMovilidadMB {
     private List<EscuelaDepartamento> listEscuelaDepartamentoPersonaMovilidad;
 
     private List<PojoMovilidadAdm> listPojoMovilidadAdm;
+    private List<String> listFacultadesUnidadesBeneficiadasSelected;
 
     //Services
     @Autowired
@@ -237,9 +243,12 @@ public class registrarMovilidadMB {
     public void cargarMovilidadPersona() {
         existeReferente = false;    // sea false no existe
         existePersonaMovilidad = false;
+        existeMovilidad = false;
+        isEditable = true;
 
         programaMovilidadSelected = new ProgramaMovilidad();
         movilidad = new Movilidad();
+        programaMovilidad = new ProgramaMovilidad();
         tipoMovilidad = new TipoMovilidad();
         tipoMovilidadSelected = null;
         categoriaMovilidadSelected = null;
@@ -281,7 +290,7 @@ public class registrarMovilidadMB {
         faxPersonaFacultad = new Telefono();
 
         listMovilidad = movilidadService.findAll(); //para vista movilidadAdm.xhtml
-        listPojoMovilidadAdm = movilidadService.getMovilidadAdm();
+        listPojoMovilidadAdm = movilidadService.getMovilidadAdm(-1);
 
         listProgramaMovilidad = programaMovilidadService.findAll();
         listTipoMovilidad = tipoMovilidadService.findAll();
@@ -305,6 +314,8 @@ public class registrarMovilidadMB {
 
         listUnidad = unidadService.findAll();
         listUnidadAdd = new ArrayList<Unidad>();
+        
+        listFacultadesUnidadesBeneficiadasSelected = new ArrayList<String>();
 
         listOrganismoPersonaMovilidad = organismoService.findAll();
 
@@ -321,7 +332,7 @@ public class registrarMovilidadMB {
 
         //Tipos personas
         tipoPersonaReferenteFact = tipoPersonaService.getTipoPersonaByNombre("REFERENTE FACULTAD BENEFICIADA");
-        tipoPersonaSaliente = tipoPersonaService.getTipoPersonaByNombre("DOCENTE SALIENTE");
+        tipoPersonaSaliente = tipoPersonaService.getTipoPersonaByNombre("DOCENTE EN MOVILIDAD");
 
         listPersonaReferenteFacultad = personaService.getPersonasByIdOrganismo(1);  // Revisar esto
 
@@ -641,6 +652,10 @@ public class registrarMovilidadMB {
      */
     public void getArreglosFacultadesUnidadesBeneficiadas() {
         int result;
+        listFacultadesBeneficiadasSelected.clear();
+        listUnidadesBeneficiadasSelected.clear();
+        String[]facultadesUnidadesBeneficiadasSelected = new String[listFacultadesUnidadesBeneficiadasSelected.size()];
+        facultadesUnidadesBeneficiadasSelected =listFacultadesUnidadesBeneficiadasSelected.toArray(facultadesUnidadesBeneficiadasSelected);
         try {
             for (int i = 0; i < facultadesUnidadesBeneficiadasSelected.length; i++) {
                 result = -1;
@@ -670,7 +685,7 @@ public class registrarMovilidadMB {
      * Movilidad
      */
     public void addFacultadesBeneficiadas(List<String> facultadesBeneficiadas) {
-
+        listFacultadAdd.clear();
         try {
             String[] facultadesBeneficiadasSelected = new String[facultadesBeneficiadas.size()];
             facultadesBeneficiadasSelected = facultadesBeneficiadas.toArray(facultadesBeneficiadasSelected);
@@ -680,6 +695,7 @@ public class registrarMovilidadMB {
                 Facultad facultadBnf = facultadService.findById(Integer.parseInt(facultadesBeneficiadasSelected[i]));
                 if (facultadBnf != null) {
                     listFacultadAdd.add(facultadBnf);
+                    
                 }
             }
             movilidad.setFacultadList(listFacultadAdd);
@@ -707,6 +723,7 @@ public class registrarMovilidadMB {
      * Metodo para agregar las Unidades beneficiadas a la instancia de Movilidad
      */
     public void addUnidadesBeneficiadas(List<String> unidadesBeneficiadas) {
+        listUnidadAdd.clear();
         try {
             String[] unidadesBeneficiadasSelected = new String[unidadesBeneficiadas.size()];
             unidadesBeneficiadasSelected = unidadesBeneficiadas.toArray(unidadesBeneficiadasSelected);
@@ -773,6 +790,10 @@ public class registrarMovilidadMB {
 
     public void crearMovilidad() {
         try {
+             if (existeMovilidad== true) {
+               categoriaMovilidad = categoriaMovilidadService.findById(categoriaMovilidadSelected); 
+               tipoMovilidad = tipoMovilidadService.findById(tipoMovilidadSelected);
+             }
             movilidad.setIdProgramaMovilidad(programaMovilidad);
             movilidad.setIdTipoMovilidad(tipoMovilidad);
             movilidad.setIdCategoria(categoriaMovilidad);
@@ -831,8 +852,12 @@ public class registrarMovilidadMB {
         try {
             crearMovilidad();
 
-            movilidadService.save(movilidad);
-
+            if (existeMovilidad== true) {
+                movilidadService.merge(movilidad);
+            } else {
+                movilidadService.save(movilidad);
+            }
+            
             if (existePersonaMovilidad == false) {
                 //Guardado de persona en Movilidad
                 personaService.save(personaMovilidadGenerico);
@@ -929,6 +954,7 @@ public class registrarMovilidadMB {
      * Metodo para redireccionar avista de crear nueva movilidad
      */
     public void irnuevaMovilidad() throws IOException {
+        cargarMovilidadPersona();
         FacesContext.getCurrentInstance().getExternalContext().redirect("registrarMovilidad.xhtml");
     }
 
@@ -939,18 +965,23 @@ public class registrarMovilidadMB {
      *
      */
     public void preActualizar(Integer idMovilidad) {
-        Movilidad movilidad;
+        //Movilidad movilidad;
         Integer tipoMovilidad;
         List<Integer> facultadTmp = new ArrayList<Integer>();
         List<Integer> unidadTmp = new ArrayList<Integer>();
         List<String> facultadesUnidadesTmp = new ArrayList<String>();
+        EscuelaDepartamento escuelaDepto = null;
+        EscuelaDepartamento escuelaDeptoReferente = null;
         try {
             if ((movilidad = movilidadService.findById(idMovilidad)) != null) {
+                existeMovilidad = true;
+                
                 tipoMovilidad = movilidad.getIdTipoMovilidad().getIdTipoMovilidad();
                 tipoMovilidadSelected = movilidad.getIdTipoMovilidad().getIdTipoMovilidad();
                 programaMovilidadSelected.setIdProgramaMovilidad(movilidad.getIdProgramaMovilidad().getIdProgramaMovilidad());
                 programaMovilidad = programaMovilidadService.findById(programaMovilidadSelected.getIdProgramaMovilidad());
                 categoriaMovilidadSelected = movilidad.getIdCategoria().getIdCategoriaMovilidad();
+                
 
                 //Cargando datos de detalle de la movilidad
                 paisOrigenSelected = movilidad.getIdPaisOrigen();
@@ -971,7 +1002,7 @@ public class registrarMovilidadMB {
                 obsequioSelected = movilidad.getObsequio();
 
                 facultadTmp = facultadService.getFacultadesMovilidad(movilidad.getIdMovilidad());
-                unidadTmp = unidadService.getUnidadesMovilidad(idMovilidad);
+                unidadTmp = unidadService.getUnidadesMovilidad(movilidad.getIdMovilidad());
 
                 for (Integer f : facultadTmp) {
                     facultadesUnidadesTmp.add(String.valueOf(f) + ",1");
@@ -979,43 +1010,104 @@ public class registrarMovilidadMB {
                 for (Integer u : unidadTmp) {
                     facultadesUnidadesTmp.add(String.valueOf(u) + ",2");
                 }
-                facultadesUnidadesBeneficiadasSelected = new String[facultadesUnidadesTmp.size()];
-                facultadesUnidadesBeneficiadasSelected = facultadesUnidadesTmp.toArray(facultadesUnidadesBeneficiadasSelected);
+                //facultadesUnidadesBeneficiadasSelected = new String[facultadesUnidadesTmp.size()];
+                 //facultadesUnidadesTmp.toArray(facultadesUnidadesBeneficiadasSelected);
+                listFacultadesUnidadesBeneficiadasSelected =  facultadesUnidadesTmp;                
 
                 this.movilidad.setOtrosBeneficiados(movilidad.getOtrosBeneficiados());
 
                 //Cargando las Personas
+                //Persona en movilidad
+                personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD");
+                existePersonaMovilidad = true;
+                escuelaDepto = personaMovilidadGenerico.getIdEscuelaDepto();
                 if (tipoMovilidad == 2) { //movilidad Saliente
                     mostrarEntrante = false;
                     mostrarSaliente = true;
-                    
-                    personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD");
-                     listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
-                    if(personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()!=null){
-                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad())+",1";
-                        //Agregar los departamentos <-----------------------------------
-                    }else{
-                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdUnidad().getIdUnidad())+",2";
+
+                    listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
+
+                    if (escuelaDepto != null) {
+                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
+
+                        listEscuelaDepartamentoPersonaMovilidad = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadPersonaMovilidad.substring(0, facultadPersonaMovilidad.indexOf(",1"))));
+                        escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+
+                    } else {
+                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdUnidad().getIdUnidad()) + ",2";
+                        listEscuelaDepartamentoPersonaMovilidad = new ArrayList<EscuelaDepartamento>();
+                        escuelaDepartamentoPersonaMovilidad = null;
                     }
-                    
-                    
-                   
-                    RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad,facultadPersona");
-                } else {
+
+                } else {//movilidad Entrante
                     mostrarEntrante = true;
                     mostrarSaliente = false;
-                    
+
+                    institucionPersonaMovilidadSelected = personaMovilidadGenerico.getIdOrganismo().getIdOrganismo();
+                    onchangeListInstitucionPersonaMovilidad();
+                    if (escuelaDepto != null) {
+                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
+
+                        listEscuelaDepartamentoPersonaMovilidad = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadPersonaMovilidad.substring(0, facultadPersonaMovilidad.indexOf(",1"))));
+                        escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+
+                    } else {
+                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdUnidad().getIdUnidad()) + ",2";
+                        listEscuelaDepartamentoPersonaMovilidad = new ArrayList<EscuelaDepartamento>();
+                        escuelaDepartamentoPersonaMovilidad = null;
+                    }
+
+                }
+                //obteniendo telefonos de la persona en movilidad
+                for (Telefono tlfx : personaMovilidadGenerico.getTelefonoList()) {
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(FIJO)) {
+                        telFijoPersonaMovilidad = tlfx;
+                    }
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
+                        telCelPersonaMovilidad = tlfx;
+                    }
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                        faxPersonaMovilidad = tlfx;
+                    }
                 }
 
-            }
+                //Persona Referente Facultad
+                personaFacultadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "REFERENTE FACULTAD BENEFICIADA");
+                existeReferente = true;
+                escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
+                if (escuelaDeptoReferente != null) {
+                    facultadDeReferente = Integer.toString(personaFacultadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
+                    listEscuelaDepartamentoRefFact = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadDeReferente.substring(0, facultadDeReferente.indexOf(",1"))));
+                    escuelaDepartamentoReferenteFactBnfSelected = personaFacultadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+                } else {
+                    facultadDeReferente = Integer.toString(personaFacultadGenerico.getIdUnidad().getIdUnidad()) + ",2";
+                    listEscuelaDepartamentoRefFact = new ArrayList<EscuelaDepartamento>();
+                    escuelaDepartamentoReferenteFactBnfSelected = null;
+                }
+                //obteniendo telefonos de la persona en movilidad
+                for (Telefono tlfx : personaFacultadGenerico.getTelefonoList()) {
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(FIJO)) {
+                        telFijoPersonaFacultad = tlfx;
+                    }
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
+                        telCelPersonaFacultad = tlfx;
+                    }
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                        faxPersonaFacultad = tlfx;
+                    }
+                }
 
+                //Actualizando el Panel de la persona en movilidad
+                RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad");
+              
+            }
+            
             FacesContext.getCurrentInstance().getExternalContext().redirect("registrarMovilidad.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
+
     public Persona getPersonaMovilidad(List<PersonaMovilidad> lista, String tipo) {
         Persona p = new Persona();
         for (PersonaMovilidad per : lista) {
@@ -1027,6 +1119,162 @@ public class registrarMovilidadMB {
         return p;
     }
 
+    
+    /**
+     * Consultar Movilidad
+     * @return 
+     */
+    
+    public void consultarMovilidad(Integer idMovilidad){
+         //Movilidad movilidad;
+        Integer tipoMovilidad;
+        List<Integer> facultadTmp = new ArrayList<Integer>();
+        List<Integer> unidadTmp = new ArrayList<Integer>();
+        List<String> facultadesUnidadesTmp = new ArrayList<String>();
+        EscuelaDepartamento escuelaDepto = null;
+        EscuelaDepartamento escuelaDeptoReferente = null;
+        try {
+            if ((movilidad = movilidadService.findById(idMovilidad)) != null) {
+                existeMovilidad = true;
+                
+                tipoMovilidad = movilidad.getIdTipoMovilidad().getIdTipoMovilidad();
+                tipoMovilidadSelected = movilidad.getIdTipoMovilidad().getIdTipoMovilidad();
+                programaMovilidadSelected.setIdProgramaMovilidad(movilidad.getIdProgramaMovilidad().getIdProgramaMovilidad());
+                programaMovilidad = programaMovilidadService.findById(programaMovilidadSelected.getIdProgramaMovilidad());
+                categoriaMovilidadSelected = movilidad.getIdCategoria().getIdCategoriaMovilidad();
+                
+
+                //Cargando datos de detalle de la movilidad
+                paisOrigenSelected = movilidad.getIdPaisOrigen();
+                institucionOrigenSelected = movilidad.getIdUniversidadOrigen();
+                onchangeListPaisOrigen();
+                paisDestinoSelected = movilidad.getIdPaisDestino();
+                institucionDestinoSelected = movilidad.getIdUniversidadDestino();
+                onchangeListPaisDestino();
+
+                fechaInicioSelected = movilidad.getFechaInicio();
+                fechaFinSelected = movilidad.getFechaFin();
+                this.movilidad.setViaticos(movilidad.getViaticos());
+                this.movilidad.setPagoDeCurso(movilidad.getPagoDeCurso());
+                this.movilidad.setVoletoAereo(movilidad.getVoletoAereo());
+                fechaEntregaMinedSelected = movilidad.getFechaEntregaMined();
+                etapaMovilidadSelected = movilidad.getIdEtapaMovilidad().getIdEtapa();
+                entregaInformeSelected = movilidad.getEntregaDeInforme();
+                obsequioSelected = movilidad.getObsequio();
+                
+                //Total de viaticos mas curso
+                totalViaticosCurso = movilidad.getViaticos().floatValue() + movilidad.getPagoDeCurso().floatValue();
+                //Total viaticos curos y voleto aereo
+                totalViaticosCursoBoletoAereo = totalViaticosCurso + movilidad.getVoletoAereo().floatValue();
+                
+                facultadTmp = facultadService.getFacultadesMovilidad(movilidad.getIdMovilidad());
+                unidadTmp = unidadService.getUnidadesMovilidad(movilidad.getIdMovilidad());
+
+                for (Integer f : facultadTmp) {
+                    facultadesUnidadesTmp.add(String.valueOf(f) + ",1");
+                }
+                for (Integer u : unidadTmp) {
+                    facultadesUnidadesTmp.add(String.valueOf(u) + ",2");
+                }
+                //facultadesUnidadesBeneficiadasSelected = new String[facultadesUnidadesTmp.size()];
+                 //facultadesUnidadesTmp.toArray(facultadesUnidadesBeneficiadasSelected);
+                listFacultadesUnidadesBeneficiadasSelected =  facultadesUnidadesTmp;                
+
+                this.movilidad.setOtrosBeneficiados(movilidad.getOtrosBeneficiados());
+
+                //Cargando las Personas
+                //Persona en movilidad
+                personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD");
+                existePersonaMovilidad = true;
+                escuelaDepto = personaMovilidadGenerico.getIdEscuelaDepto();
+                if (tipoMovilidad == 2) { //movilidad Saliente
+                    mostrarEntrante = false;
+                    mostrarSaliente = true;
+
+                    listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
+
+                    if (escuelaDepto != null) {
+                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
+
+                        listEscuelaDepartamentoPersonaMovilidad = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadPersonaMovilidad.substring(0, facultadPersonaMovilidad.indexOf(",1"))));
+                        escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+
+                    } else {
+                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdUnidad().getIdUnidad()) + ",2";
+                        listEscuelaDepartamentoPersonaMovilidad = new ArrayList<EscuelaDepartamento>();
+                        escuelaDepartamentoPersonaMovilidad = null;
+                    }
+
+                } else {//movilidad Entrante
+                    mostrarEntrante = true;
+                    mostrarSaliente = false;
+
+                    institucionPersonaMovilidadSelected = personaMovilidadGenerico.getIdOrganismo().getIdOrganismo();
+                    onchangeListInstitucionPersonaMovilidad();
+                    if (escuelaDepto != null) {
+                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
+
+                        listEscuelaDepartamentoPersonaMovilidad = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadPersonaMovilidad.substring(0, facultadPersonaMovilidad.indexOf(",1"))));
+                        escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+
+                    } else {
+                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdUnidad().getIdUnidad()) + ",2";
+                        listEscuelaDepartamentoPersonaMovilidad = new ArrayList<EscuelaDepartamento>();
+                        escuelaDepartamentoPersonaMovilidad = null;
+                    }
+
+                }
+                //obteniendo telefonos de la persona en movilidad
+                for (Telefono tlfx : personaMovilidadGenerico.getTelefonoList()) {
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(FIJO)) {
+                        telFijoPersonaMovilidad = tlfx;
+                    }
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
+                        telCelPersonaMovilidad = tlfx;
+                    }
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                        faxPersonaMovilidad = tlfx;
+                    }
+                }
+
+                //Persona Referente Facultad
+                personaFacultadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "REFERENTE FACULTAD BENEFICIADA");
+                existeReferente = true;
+                escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
+                if (escuelaDeptoReferente != null) {
+                    facultadDeReferente = Integer.toString(personaFacultadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
+                    listEscuelaDepartamentoRefFact = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadDeReferente.substring(0, facultadDeReferente.indexOf(",1"))));
+                    escuelaDepartamentoReferenteFactBnfSelected = personaFacultadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+                } else {
+                    facultadDeReferente = Integer.toString(personaFacultadGenerico.getIdUnidad().getIdUnidad()) + ",2";
+                    listEscuelaDepartamentoRefFact = new ArrayList<EscuelaDepartamento>();
+                    escuelaDepartamentoReferenteFactBnfSelected = null;
+                }
+                //obteniendo telefonos de la persona en movilidad
+                for (Telefono tlfx : personaFacultadGenerico.getTelefonoList()) {
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(FIJO)) {
+                        telFijoPersonaFacultad = tlfx;
+                    }
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
+                        telCelPersonaFacultad = tlfx;
+                    }
+                    if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                        faxPersonaFacultad = tlfx;
+                    }
+                }
+
+                //Actualizando el Panel de la persona en movilidad
+                RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad");
+              
+            }
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("consultarMovilidad.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     //GETTER Y SETTER
     public List<ProgramaMovilidad> getListProgramaMovilidad() {
         return listProgramaMovilidad;
@@ -1284,14 +1532,14 @@ public class registrarMovilidadMB {
         this.listUnidad = listUnidad;
     }
 
-    public String[] getFacultadesUnidadesBeneficiadasSelected() {
+   /* public String[] getFacultadesUnidadesBeneficiadasSelected() {
         return facultadesUnidadesBeneficiadasSelected;
     }
 
     public void setFacultadesUnidadesBeneficiadasSelected(String[] facultadesUnidadesBeneficiadasSelected) {
         this.facultadesUnidadesBeneficiadasSelected = facultadesUnidadesBeneficiadasSelected;
     }
-
+*/
     public Persona getPersonaFacultadGenerico() {
         return personaFacultadGenerico;
     }
@@ -1444,4 +1692,29 @@ public class registrarMovilidadMB {
         this.listPojoMovilidadAdm = listPojoMovilidadAdm;
     }
 
+    public List<String> getListFacultadesUnidadesBeneficiadasSelected() {
+        return listFacultadesUnidadesBeneficiadasSelected;
+    }
+
+    public void setListFacultadesUnidadesBeneficiadasSelected(List<String> listFacultadesUnidadesBeneficiadasSelected) {
+        this.listFacultadesUnidadesBeneficiadasSelected = listFacultadesUnidadesBeneficiadasSelected;
+    }
+
+    public Boolean getIsEditable() {
+        return isEditable;
+    }
+
+    public void setIsEditable(Boolean isEditable) {
+        this.isEditable = isEditable;
+    }
+
+    public float getTotalViaticosCurso() {
+        return totalViaticosCurso;
+    }
+
+    public float getTotalViaticosCursoBoletoAereo() {
+        return totalViaticosCursoBoletoAereo;
+    }
+
+    
 }
