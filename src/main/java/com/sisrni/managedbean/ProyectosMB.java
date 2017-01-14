@@ -210,6 +210,8 @@ public class ProyectosMB {
     public String edSol;
     public String edAsis;
     public String orRefExt;
+    public Boolean mostrarEscuelaSol;
+    public Boolean mostrarEscuelaAsis;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -325,6 +327,8 @@ public class ProyectosMB {
         edSol="";
         edAsis="";
         orRefExt="";
+        mostrarEscuelaSol=false;
+        mostrarEscuelaAsis=false;
     }
 
     public void mostrarTab() {
@@ -830,6 +834,33 @@ public class ProyectosMB {
             }
         }
         return p;
+    }
+        public String preUpdateProyecto() {
+        try {
+
+            FacesContext.getCurrentInstance().getExternalContext().redirect("registrarProyecto.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public void mostrarCampo(){
+        String arreglo[] = facultadSelectedPojoSol.split(",");
+            if (arreglo[1].equals("2")) {
+                mostrarEscuelaSol=true;
+            }else{
+                mostrarEscuelaSol=false;
+                onFacultadSolicitanteChange();
+            }
+    }
+    public void mostrarCampoAsis(){
+        String arreglo2[] = facultadSelectedPojoAsis.split(",");
+            if (arreglo2[1].equals("2")) {
+                mostrarEscuelaAsis=true;
+            }else{
+                mostrarEscuelaAsis=false;
+                onFacultadAsistenteChange();
+            }
     }
 
     public void preConsultarProyecto(Integer id) {
@@ -1547,6 +1578,22 @@ public class ProyectosMB {
 
     public void setOrRefExt(String orRefExt) {
         this.orRefExt = orRefExt;
+    }
+
+    public Boolean getMostrarEscuelaSol() {
+        return mostrarEscuelaSol;
+    }
+
+    public void setMostrarEscuelaSol(Boolean mostrarEscuelaSol) {
+        this.mostrarEscuelaSol = mostrarEscuelaSol;
+    }
+
+    public Boolean getMostrarEscuelaAsis() {
+        return mostrarEscuelaAsis;
+    }
+
+    public void setMostrarEscuelaAsis(Boolean mostrarEscuelaAsis) {
+        this.mostrarEscuelaAsis = mostrarEscuelaAsis;
     }
     
     
