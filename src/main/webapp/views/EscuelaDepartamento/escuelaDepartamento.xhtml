@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <center>
+            
+            <p:panel style="width: 70%" header="Gestion de Escuelas y Departamentos">  
+                
+                <h:form id="formEscuelaDepartamento">
+                    <p:panelGrid columns="2">
+                        <p:column>
+                            <h:outputLabel for="nombreEscuelaDepto" value="Nombre Escuela o Departamento:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nombreEscuelaDepto" value="#{escuelaDepartamentoMB.escuelaDepartamento.nombreEscuelaDepto}" required="true" size="40" />
+                            <p:watermark for="nombreEscuelaDepto" value="Nombre escuelaDepartamento" id="watermarkNombreEscuelaDepartamento"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel for="facultadEscuelaDepartamento" value="Facultad:"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="facultadEscuelaDepartamento" value="#{escuelaDepartamentoMB.facultad.idFacultad}"  style="width:200px" required="true" >
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                <c:forEach var="reg" items="#{escuelaDepartamentoMB.listFacultad}">
+                                    <f:selectItem itemLabel="#{reg.nombreFacultad}" itemValue="#{reg.idFacultad}"/>
+                                </c:forEach>
+                            </p:selectOneMenu>
+                        </p:column>
+                         <p:column>
+                            <h:outputLabel for="descripcionEscuelaDepto" value="Descripcion:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="descripcionEscuelaDepto" value="#{escuelaDepartamentoMB.escuelaDepartamento.descripcion}" required="true" size="40" />
+                            <p:watermark for="descripcionEscuelaDepto" value="Descripcion escuelaDepartamento" id="watermarkDescripcionEscuelaDepartamento"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton styleClass="boton" rendered="#{!escuelaDepartamentoMB.actualizar}"
+                                             actionListener="#{escuelaDepartamentoMB.guardarEscuelaDepartamento}" value="Guardar"  update="formEscuelaDepartamento :formTablaEscuelaDepartamentoes" process="@this :formEscuelaDepartamento"/>
+
+                            <p:commandButton styleClass="boton" rendered="#{escuelaDepartamentoMB.actualizar}"
+                                             actionListener="#{escuelaDepartamentoMB.actualizarEscuelaDepartamento()}" update="formEscuelaDepartamento :formTablaEscuelaDepartamentoes "
+                                             value="Actualizar" />
+
+                            <p:commandButton styleClass="boton" rendered="#{escuelaDepartamentoMB.actualizar}"
+                                             actionListener="#{escuelaDepartamentoMB.cancelarEscuelaDepartamento()}" immediate="true" value="Cancelar" update="formEscuelaDepartamento"  process="@this" />
+
+
+                        </p:column>
+                    </p:panelGrid>
+
+                </h:form>
+                <br></br>
+                <h:form id="formTablaEscuelaDepartamentoes">
+                    <p:dataTable var="escuelaDepartamento" value="#{escuelaDepartamentoMB.listEscuelaDepartamento}" rows="10" 
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen escuelaDepartamentoes registrados actualmente" >
+                        <p:column headerText="Nombre"  filterBy="#{escuelaDepartamento.nombreEscuelaDepto}">
+                            <h:outputText value="#{escuelaDepartamento.nombreEscuelaDepto}"/>
+                        </p:column>
+                        <p:column headerText="Facultad" filterBy="#{escuelaDepartamento.idFacultad.nombreFacultad}">
+                            <h:outputText value="#{escuelaDepartamento.idFacultad.nombreFacultad}"/>
+                        </p:column> 
+                        <p:column headerText="Descripcion"  filterBy="#{escuelaDepartamento.descripcion}">
+                            <h:outputText value="#{escuelaDepartamento.descripcion}"/>
+                        </p:column>
+                        <p:column headerText="Opciones" style="width: 15%">
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
+                                               actionListener="#{escuelaDepartamentoMB.preActualizarEscuelaDepartamento(escuelaDepartamento)}" update=":formEscuelaDepartamento" process="@form:formTablaEscuelaDepartamentoes">
+                                </p:commandLink>
+                            </div>
+                            
+                            
+                            
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                               title="Eliminar" value="Eliminar"
+                                               actionListener="#{escuelaDepartamentoMB.preBorradoEscuelaDepartamento(escuelaDepartamento)}" update=":idEliminacion" />
+                            </div> 
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </p:panel>     
+        </center> 
+        
+        
+        <!--'Dialog de confirmacion de la operacion de Borrado'-->
+        <p:confirmDialog widgetVar="confirmDeleteEscuelaDepartamentoDlg" header="Borrar EscuelaDepartamento" message="Confirma la eliminacion del EscuelaDepartamento?" 
+                         global="true" showEffect="fade" hideEffect="fade">
+            <h:form id="idEliminacion">
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="Nombre EscuelaDepartamento:"/>
+                    <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.nombreEscuelaDepto}"/>
+                    <h:outputLabel value="Facultad:"/>
+                    <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.idFacultad.nombreFacultad}"/>
+                </p:panelGrid>
+                <br/>
+                <br/>
+            </h:form>
+             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+                              actionListener="#{escuelaDepartamentoMB.borrarEscuelaDepartamento()}" update=":formTablaEscuelaDepartamentoes"/>
+             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>
