@@ -165,19 +165,19 @@
                                             <p:outputLabel for="telPersona" value="Telefono"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telPersona" label="telPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telFijoPersonaMovilidad.numeroTelefono}"/>
+                                            <p:inputMask id="telPersona" label="telPersona" mask="#{registrarMovilidadMB.mascaraTelefonoMovilidad}"  value="#{registrarMovilidadMB.telFijoPersonaMovilidad.numeroTelefono}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="celPersona" value="Telefono movil"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celPersona" label="celPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telCelPersonaMovilidad.numeroTelefono}"/>
+                                            <p:inputMask id="celPersona" label="celPersona" mask="#{registrarMovilidadMB.mascaraTelefonoMovilidad}"  value="#{registrarMovilidadMB.telCelPersonaMovilidad.numeroTelefono}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="faxPersona" value="Fax"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="faxPersona" label="faxPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.faxPersonaMovilidad.numeroTelefono}"/> <br/>
+                                            <p:inputMask id="faxPersona" label="faxPersona" mask="#{registrarMovilidadMB.mascaraTelefonoMovilidad}"  value="#{registrarMovilidadMB.faxPersonaMovilidad.numeroTelefono}"/> <br/>
                                         </p:column>
 
                                     </p:panelGrid>
