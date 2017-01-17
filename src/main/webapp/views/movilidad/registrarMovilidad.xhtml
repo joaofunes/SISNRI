@@ -37,7 +37,7 @@
                                         </p:column>
                                         <p:column>
                                             <!--<p:inputTextarea id="nombreMovilidad" label="nombreMovilidad" value="#" style="width:180px"/>-->
-                                            <p:selectOneMenu id="nombreMovilidad" value="#{registrarMovilidadMB.programaMovilidadSelected.idProgramaMovilidad}" style="width: 180px"  required="true">
+                                            <p:selectOneMenu id="nombreMovilidad" value="#{registrarMovilidadMB.programaMovilidadSelected.idProgramaMovilidad}" style="width: 180px"  required="true" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listProgramaMovilidad}" var="nombMovilidad" itemLabel="#{nombMovilidad.nombreProgramaMovilidad}" itemValue="#{nombMovilidad.idProgramaMovilidad}"/>
                                                 <p:ajax listener="#{registrarMovilidadMB.onchangeProgramaMovilidadList()}" update="acordion:descripcionMovilidad"/>
@@ -48,7 +48,7 @@
                                             <p:outputLabel for="descripcionMovilidad" value="Descripcion"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputTextarea id="descripcionMovilidad" value="#{registrarMovilidadMB.programaMovilidad.descripcion}" style="width:180px"/>
+                                            <p:inputTextarea id="descripcionMovilidad" value="#{registrarMovilidadMB.programaMovilidad.descripcion}" style="width:180px" readonly="true"/>
                                         </p:column>
                                        
                                         <p:column>
@@ -66,7 +66,7 @@
                                 </p:tab>
                                 <p:tab title="Datos docente en movilidad">
                                     <p:outputLabel value="Documento"/>
-                                    <p:inputText id="searchDocPersonaMovilidad" value="#{registrarMovilidadMB.docSearchPersonaMovilidad}"/>
+                                    <p:inputText id="searchDocPersonaMovilidad" value="#{registrarMovilidadMB.docSearchPersonaMovilidad}" />
                                     <p:commandButton value="Buscar" actionListener="#{registrarMovilidadMB.buscarPersonaEnMovilidadEntrante()}"  icon="ui-icon-search" process="searchDocPersonaMovilidad @this" update="panelPersonaEnMovilidad" rendered="#{registrarMovilidadMB.mostrarEntrante}"/>
                                     <p:commandButton value="Buscar" actionListener="#{registrarMovilidadMB.buscarPersonaEnMovilidadSaliente()}"  icon="ui-icon-search" process="searchDocPersonaMovilidad @this" update="panelPersonaEnMovilidad" rendered="#{registrarMovilidadMB.mostrarSaliente}"/>
                                     <p:separator/>
@@ -92,13 +92,13 @@
                                             <p:outputLabel for="nombrePersona" value="Nombres"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombrePersona" label="nombrePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nombrePersona}" />
+                                            <p:inputText id="nombrePersona" label="nombrePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nombrePersona}" required="true" />
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidoPersona" value="Apellidos"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidoPersona" label="apellidoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.apellidoPersona}" />
+                                            <p:inputText id="apellidoPersona" label="apellidoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.apellidoPersona}" required="true"/>
                                         </p:column>                        
                                         <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
                                             <p:outputLabel for="duiPersona" value="DUI"/>
@@ -116,14 +116,14 @@
                                             <p:outputLabel for="pasaportePersona" value="Pasaporte"/>
                                         </p:column>
                                         <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
-                                            <p:inputText id="pasaportePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.pasaporte}"/>
+                                            <p:inputText id="pasaportePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.pasaporte}" />
                                         </p:column>
 
                                         <p:column>
                                             <p:outputLabel for="cargoPersona" value="Cargo"/>
                                         </p:column>    
                                         <p:column>
-                                            <p:inputText id="cargoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.cargoPersona}"/>
+                                            <p:inputText id="cargoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.cargoPersona}" required="true"/>
                                         </p:column>
                                         
                                         <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
@@ -137,7 +137,7 @@
                                             </p:selectOneMenu>
                                         </p:column>    
                                         <p:column>
-                                            <p:outputLabel for="facultadPersona" value="Facultad/Unidad"/>  <!--Pendiente-->
+                                            <p:outputLabel for="facultadPersona" value="Facultad/Unidad"/>  
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="facultadPersona" value="#{registrarMovilidadMB.facultadPersonaMovilidad}" style="width: 180px" >
@@ -147,10 +147,10 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="escuelaDepartamentoPersona" value="Escuela/Departamento"/>   <!--Pendiente-->
+                                            <p:outputLabel for="escuelaDepartamentoPersona" value="Escuela/Departamento"/>   
                                         </p:column>   
                                         <p:column>
-                                            <p:selectOneMenu id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDepartamentoPersonaMovilidad}" style="width: 180px" >
+                                            <p:selectOneMenu id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDepartamentoPersonaMovilidad}" style="width: 180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoPersonaMovilidad}" var="escDptoPersona" itemLabel="#{escDptoPersona.nombreEscuelaDepto}" itemValue="#{escDptoPersona.idEscuelaDepto}"/>
                                             </p:selectOneMenu>
@@ -165,19 +165,19 @@
                                             <p:outputLabel for="telPersona" value="Telefono"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telPersona" label="telPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telFijoPersonaMovilidad.numeroTelefono}"/>
+                                            <p:inputMask id="telPersona" label="telPersona" mask="#{registrarMovilidadMB.mascaraTelefonoMovilidad}"  value="#{registrarMovilidadMB.telFijoPersonaMovilidad.numeroTelefono}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="celPersona" value="Telefono movil"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celPersona" label="celPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telCelPersonaMovilidad.numeroTelefono}"/>
+                                            <p:inputMask id="celPersona" label="celPersona" mask="#{registrarMovilidadMB.mascaraTelefonoMovilidad}"  value="#{registrarMovilidadMB.telCelPersonaMovilidad.numeroTelefono}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="faxPersona" value="Fax"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="faxPersona" label="faxPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.faxPersonaMovilidad.numeroTelefono}"/> <br/>
+                                            <p:inputMask id="faxPersona" label="faxPersona" mask="#{registrarMovilidadMB.mascaraTelefonoMovilidad}"  value="#{registrarMovilidadMB.faxPersonaMovilidad.numeroTelefono}"/> <br/>
                                         </p:column>
 
                                     </p:panelGrid>
@@ -294,7 +294,7 @@
                                             <p:outputLabel for="facultadBeneficiada" value="Facultades/Unidades beneficiadas"/>  
                                         </p:column>
                                         <p:column>
-                                            <p:selectCheckboxMenu id="facultadBeneficiada" value="#{registrarMovilidadMB.facultadesUnidadesBeneficiadasSelected}"  label="Facultades Beneficiadas" panelStyle="width: 180px" filter="true" filterMatchMode="startsWith">
+                                            <p:selectCheckboxMenu id="facultadBeneficiada" value="#{registrarMovilidadMB.listFacultadesUnidadesBeneficiadasSelected}"  label="Facultades Beneficiadas" panelStyle="width: 210px" filter="true" filterMatchMode="startsWith">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listFacultadUnidad}" var="facultadBenef" itemLabel="#{facultadBenef.label}" itemValue="#{facultadBenef.value}"/>
                                             </p:selectCheckboxMenu>
@@ -312,7 +312,7 @@
 
                                 <p:tab title="Datos Referente de la facultad">
                                     <p:outputLabel value="Documento"/>
-                                    <p:inputText id="searchDocReferenteFact" value="#{registrarMovilidadMB.docSearchReferente}"/>
+                                    <p:inputText id="searchDocReferenteFact" value="#{registrarMovilidadMB.docSearchReferente}" />
                                     <p:commandButton value="Buscar" actionListener="#{registrarMovilidadMB.buscarReferente()}"  icon="ui-icon-search" process="searchDocReferenteFact @this" update="panelReferente"/>
                                     <p:separator/>
                                     <p:panelGrid columns="4" id="panelReferente">
@@ -346,7 +346,7 @@
                                             <p:outputLabel for="duiPersonaFacultad" value="DUI"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duiPersonaFacultad" mask="99999999-9" value="#{registrarMovilidadMB.personaFacultadGenerico.duiPersona}" />
+                                            <p:inputMask id="duiPersonaFacultad" mask="99999999-9" value="#{registrarMovilidadMB.personaFacultadGenerico.duiPersona}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="nitPersonaFacultad" value="NIT"/>
@@ -374,7 +374,7 @@
                                             <p:outputLabel for="escuelaDepartamentoReferenteFactBnf" value="Escuela/Departamento"/> 
                                         </p:column>   
                                         <p:column>
-                                            <p:selectOneMenu id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoReferenteFactBnfSelected}" style="width: 180px" >
+                                            <p:selectOneMenu id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoReferenteFactBnfSelected}" style="width: 180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoRefFact}" var="unidadPersona" itemLabel="#{unidadPersona.nombreEscuelaDepto}" itemValue="#{unidadPersona.idEscuelaDepto}"/>
                                             </p:selectOneMenu>

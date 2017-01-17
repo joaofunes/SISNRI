@@ -37,8 +37,13 @@ public class DocumentoService extends GenericService<Documento, Integer> {
         return documentoDao.getDocumentFindBeca(idBeca);
     }
 
+
     public List<Documento> getDocumentFindProyecto(Integer idProyecto) {
         return documentoDao.getDocumentFindProyecto(idProyecto);
+    }
+
+ public List<Documento> getDocumentoFindMovilidad(Integer idMovilidad) {
+        return documentoDao.getDocumentoFindMovilidad(idMovilidad);
     }
 
 }

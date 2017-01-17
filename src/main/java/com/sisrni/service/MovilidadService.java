@@ -23,7 +23,9 @@ public class MovilidadService  extends GenericService<Movilidad, Integer>{
       return movilidadDao;
     }
     
-    public List<PojoMovilidadAdm> getMovilidadAdm(){
-        return movilidadDao.getMovilidadAdm();
+    
+    
+     public List<PojoMovilidadAdm> getMovilidadAdm(Integer idMovSearch){
+        return movilidadDao.getMovilidadAdm(idMovSearch);
     }
 }

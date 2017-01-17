@@ -1,0 +1,385 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+
+            <ui:define name="content">
+                <center>
+                    <p:panel style="width: 80%">
+                        <h:form id="formRegistrarMovilidad">
+                            <p:tab>
+                                <p:column>
+                                    <p:row>
+                                        <p:outputLabel for="tipoMovilidad" value="Tipo de movilidad: "/>
+                                    </p:row>
+                                    <p:row>
+                                        <h:outputText id="tipoMovilidad" value="#{registrarMovilidadMB.tipoMovilidadConsultar}"/>
+                                    </p:row>
+                                </p:column>
+                            </p:tab>
+
+                            <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
+                                <p:tab title="Informacion academica">
+                                    <p:panelGrid columns="4">
+                                        <p:column>
+                                            <p:outputLabel for="nombreMovilidad" value="Programa de movilidad: "/>
+                                        </p:column>
+                                        <p:column>
+                                            <!--<p:inputTextarea id="nombreMovilidad" label="nombreMovilidad" value="#" style="width:180px"/>-->
+                                            <h:outputText id="nombreMovilidad" value="#{registrarMovilidadMB.programaMovilidad.nombreProgramaMovilidad}"/>
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:outputLabel for="descripcionMovilidad" value="Descripcion"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="descripcionMovilidad" value="#{registrarMovilidadMB.programaMovilidad.descripcion}"/>
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:outputLabel for="categoriaMovilidad" value="Categoria movilidad: "/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="categoriaMovilidad" value="#{registrarMovilidadMB.categoriaMovilidadConsultar}"/>
+                                        </p:column>
+
+                                    </p:panelGrid>
+                                </p:tab>
+                                <p:tab title="Datos docente en movilidad">
+
+                                    <p:panelGrid columns="4" id="panelPersonaEnMovilidad">
+                                        <!--      <p:column>
+                                                  <p:outputLabel for="listaPersonaEnMovilidad" value="Docente en movilidad"/>
+                                              </p:column>
+                                              <p:column>
+                                                  <p:selectOneMenu id="listaPersonaEnMovilidad" value="#{registrarMovilidadMB.personaMovilidad}" style="width: 180px" converter="#{personaConverter}">
+                                                      <f:selectItem itemLabel="-Seleccione-" noSelectionOption="true"/>
+                                                      <f:selectItems value="#{registrarMovilidadMB.listPersonaMovilidad}" var="personaEnMov" itemLabel="#{personaEnMov.nombrePersona} #{personaEnMov.apellidoPersona}" itemValue="#{personaEnMov}"/>
+                                                      <p:ajax listener="#{registrarMovilidadMB.onchangeListPersonaMovilidad()}" update="formRegistrarMovilidad"/>
+                                                  </p:selectOneMenu>
+                                              </p:column>
+                                              <p:column>
+                                                  <h:panelGroup/>
+                                              </p:column>
+                                              <p:column>
+                                                  <h:panelGroup/>
+                                              </p:column> -->
+                                        <p:column>
+                                            <p:outputLabel for="nombrePersona" value="Nombres: "/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="nombrePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nombrePersona}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="apellidoPersona" value="Apellidos: "/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="apellidoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.apellidoPersona}"/>
+                                        </p:column>                        
+                                        <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
+                                            <p:outputLabel for="duiPersona" value="DUI: "/>
+                                        </p:column>
+                                        <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
+                                            <h:outputText id="duiPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.duiPersona}"/>
+                                        </p:column>
+                                        <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}" >
+                                            <p:outputLabel for="nitPersona" value="NIT"/>
+                                        </p:column>
+                                        <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
+                                            <h:outputText id="nitPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nitPersona}" />
+                                        </p:column>
+                                        <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
+                                            <p:outputLabel for="pasaportePersona" value="Pasaporte"/>
+                                        </p:column>
+                                        <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
+                                            <h:outputText id="pasaportePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.pasaporte}"/>
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:outputLabel for="cargoPersona" value="Cargo"/>
+                                        </p:column>    
+                                        <p:column>
+                                            <h:outputText id="cargoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.cargoPersona}"/>
+                                        </p:column>
+
+                                        <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
+                                            <p:outputLabel for="InstitucionPersona" value="Institucion"/>
+                                        </p:column>
+                                        <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
+                                            <h:outputText id="InstitucionPersona" value="#{registrarMovilidadMB.institucionPersonaMovConsultar}"/>
+                                        </p:column>    
+                                        <p:column>
+                                            <p:outputLabel for="facultadPersona" value="Facultad/Unidad"/>  
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="facultadPersona" value="#{registrarMovilidadMB.facultadPersonaMovConsultar}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="escuelaDepartamentoPersona" value="Escuela/Departamento"/>   
+                                        </p:column>   
+                                        <p:column>
+                                            <h:outputText id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDeptoPersonaMovConsultar}"/>
+                                        </p:column>   
+                                        <p:column>
+                                            <p:outputLabel for="emailPersona" value="Correo Electronico"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="emailPersona"  value="#{registrarMovilidadMB.personaMovilidadGenerico.emailPersona}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="telPersona" value="Telefono"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="telPersona"  value="#{registrarMovilidadMB.telFijoPersonaMovilidad.numeroTelefono}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="celPersona" value="Telefono movil"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="celPersona"  value="#{registrarMovilidadMB.telCelPersonaMovilidad.numeroTelefono}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="faxPersona" value="Fax"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="faxPersona" value="#{registrarMovilidadMB.faxPersonaMovilidad.numeroTelefono}"/>
+                                        </p:column>
+
+                                    </p:panelGrid>
+                                </p:tab>
+                                <p:tab title="Detalle de Movilidad">
+                                    <p:panelGrid columns="4">
+                                        <p:column>
+                                            <p:outputLabel for="paisOrigen" value="Pais origen"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="paisOrigen" value="#{registrarMovilidadMB.paisOrigenConsultar}"/>
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:outputLabel for="institucionOrigen" value="Institucion origen"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenConsultar}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="paisDestino" value="Pais destino"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="paisDestino" value="#{registrarMovilidadMB.paisDestinoconsultar}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="institucionDestino" value="Institucion destino"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="institucionDestino" value="#{registrarMovilidadMB.institucionDestinoConsultar}"/>
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:outputLabel for="desdeMovilidad" value="Fecha inicio"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="desdeMovilidad" value="#{registrarMovilidadMB.fInicioConsultar}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="hastaMovilidad" value="Fecha fin"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="hastaMovilidad" value="#{registrarMovilidadMB.fFinConsultar}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="viaticos" value="Viaticos"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="viaticos"  value="#{registrarMovilidadMB.movilidad.viaticos}" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="pagoCurso" value="Pago de curso"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="pagoCurso"  value="#{registrarMovilidadMB.movilidad.pagoDeCurso}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="totalViaticosCurso" value="Total (Viaticos + curso)"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="totalViaticosCurso" value="#{registrarMovilidadMB.totalViaticosCurso}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="boletoAereo" value="Boleto aereo"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="boletoAereo"  value="#{registrarMovilidadMB.movilidad.voletoAereo}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="totalViaticosCursoBoleto" value="Total (viaticos + Curso + Boleto aereo)"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="totalViaticosCursoBoleto"  value="#{registrarMovilidadMB.totalViaticosCursoBoletoAereo}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="fechaEntregaMined" value="Fecha de entrega al MINED"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="fechaEntregaMined"   value="#{registrarMovilidadMB.fEntregaConsultar}" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="etapa" value="Etapa"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="etapa" value="#{registrarMovilidadMB.etapaMovilidadConsultar}"/>
+                                        </p:column> 
+
+                                        <p:column>
+                                            <p:outputLabel for="entregaInforme" value="Entrega de informe"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="entregaInforme" value="#{registrarMovilidadMB.entregaInformeConsultar}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="obsequio" value="Obsequio"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="obsequio" value="#{registrarMovilidadMB.obsequioConsultar}"/>
+                                        </p:column>    
+                                        <p:column>
+                                            <p:outputLabel for="facultadBeneficiada" value="Facultades/Unidades beneficiadas"/>  
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectCheckboxMenu id="facultadBeneficiada" value="#{registrarMovilidadMB.listFacultadesUnidadesBeneficiadasSelected}"  label="Facultades Beneficiadas" panelStyle="width: 180px" filter="true" filterMatchMode="startsWith">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItems value="#{registrarMovilidadMB.listFacultadUnidad}" var="facultadBenef" itemLabel="#{facultadBenef.label}" itemValue="#{facultadBenef.value}" itemDisabled="true"/>
+                                            </p:selectCheckboxMenu>
+                                        </p:column>   
+
+                                        <p:column>
+                                            <p:outputLabel for="otroBeneficiado" value="Otro beneficiado"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="otroBeneficiado" value="#{registrarMovilidadMB.movilidad.otrosBeneficiados}"/>
+                                        </p:column>
+
+                                    </p:panelGrid>
+                                </p:tab>
+
+                                <p:tab title="Datos Referente de la facultad">
+                                    <p:panelGrid columns="4"> 
+                                        <!--<p:column>
+                                               <p:outputLabel for="listaPersonaFacultad" value="Referente de la facultad"/> 
+                                           </p:column>
+                                           <p:column>
+                                               <p:selectOneMenu id="listaPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadSelected}" style="width: 180px"  converter="#{personaConverter}">
+                                                   <f:selectItem itemLabel="-Seleccione-" noSelectionOption="true"/>
+                                                   <f:selectItems value="#{registrarMovilidadMB.listPersonaReferenteFacultad}" var="coordinador" itemLabel="#{coordinador.nombrePersona} #{coordinador.apellidoPersona}" itemValue="#{coordinador}"/>
+                                                   <f:ajax listener="#{registrarMovilidadMB.onchangeListReferenteFacultad()}" render="nombrePersonaFacultad apellidoPersonaFacultad duiPersonaFacultad nitPersonaFacultad cargoPersonaFacultad facultadBeneficiadaPersona escuelaDepartamentoReferenteFactBnf emailPersonaFacultad telPersonaFacultad celPersonaFacultad faxPersonaFacultad"/>
+                                               </p:selectOneMenu>
+                                           </p:column>
+                                           <p:column><h:panelGroup/></p:column>  
+                                           <p:column><h:panelGroup/></p:column>-->
+
+
+                                        <p:column>
+                                            <p:outputLabel for="nombrePersonaFacultad" value="Nombres"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="nombrePersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nombrePersona}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="apellidoPersonaFacultad" value="Apellidos"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="apellidoPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.apellidoPersona}"/>
+                                        </p:column>                        
+                                        <p:column>
+                                            <p:outputLabel for="duiPersonaFacultad" value="DUI"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="duiPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.duiPersona}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="nitPersonaFacultad" value="NIT"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="nitPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nitPersona}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="cargoPersonaFacultad" value="Cargo"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="cargoPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.cargoPersona}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="facultadBeneficiadaPersona" value="Facultad/unidad"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadPersonaRefConsultar}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="escuelaDepartamentoReferenteFactBnf" value="Escuela/Departamento"/> 
+                                        </p:column>   
+                                        <p:column>
+                                            <h:outputText id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoRefConsultar}"/>
+                                        </p:column>   
+                                        <p:column>
+                                            <p:outputLabel for="emailPersonaFacultad" value="Correo Electronico"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="emailPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="telPersonaFacultad" value="Telefono"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="telPersonaFacultad" value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="celPersonaFacultad" value="Telefono movil"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="celPersonaFacultad"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="faxPersonaFacultad" value="Fax"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText id="faxPersonaFacultad"  value="#{registrarMovilidadMB.faxPersonaFacultad.numeroTelefono}" />
+                                        </p:column>
+                                    </p:panelGrid>
+                                </p:tab>
+                            </p:accordionPanel>
+                            <p:panel>
+                                <h:panelGrid columns="4">
+                                    <p:column>
+                                        <h:panelGroup/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton styleClass="boton"    value="Regresar"  id="btnRegresar" title="Regresar" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:panelGroup/>  
+                                    </p:column>
+                                    <p:column>
+                                        <h:panelGroup/>
+                                    </p:column>
+                                </h:panelGrid>
+                            </p:panel>
+
+                        </h:form>
+                    </p:panel>
+                </center>
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>
