@@ -33,5 +33,8 @@ public class ProyectoService extends GenericService<Proyecto, Integer> {
     public List<PojoMapaInteractivo> getProjectListToCharts(List<String> paisSelected, List<String> tipoProyectoSelected, String desde, String hasta) {
         return proyectoDao.getProjectListToCharts(paisSelected, tipoProyectoSelected, desde, hasta);
     }
+    public Proyecto getProyectoByID(Integer idProyecto){
+        return proyectoDao.getProyectoByID(idProyecto);
+    }
 
 }

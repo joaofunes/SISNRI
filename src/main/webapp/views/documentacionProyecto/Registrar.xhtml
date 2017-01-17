@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:pe="http://primefaces.org/ui/extensions"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:define name="content">
+        <center>
+            <h:form id="formAdmin">
+                <p:panel style="width: 900px;">
+                    <p:panelGrid>
+                        <p:row >
+                            <p:column >
+                                <p:outputLabel for="becaId" value="Proyecto :" />
+                                <p:selectOneMenu id="becaId" value="#{documentacionProyectoMB.docProySelected.idProyecto}" style="width:355px">
+                                    <f:selectItem itemLabel="--Seleccione--" itemValue="-1" noSelectionOption="false" />
+                                    <p:ajax event="itemSelect" listener="#{documentacionProyectoMB.onProyectoChange()}" process="becaId" update=":idDataBeca :formDocsTable"/>
+                                    <c:forEach var="p" items="#{documentacionProyectoMB.docProyList}">
+                                        <f:selectItem itemLabel="#{p.nombreProyecto}" itemValue="#{p.idProyecto}" />
+                                    </c:forEach>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton  styleClass="boton"
+                                                  update=":idAddDocument" process="@this"
+                                                  value="Agregar Documento"
+                                                  oncomplete="PF('AddDocDialog').show();"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+            <p:separator/>
+            <h:form id="idDataBeca">
+                <p:panel style="width: 900px;">
+                    <p:panelGrid  >
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Codigo : "  style="font-weight:bold"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{documentacionProyectoMB.proyecto.idProyecto}" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Tipo Proyecto: "  style="font-weight:bold" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{documentacionProyectoMB.proyecto.idTipoProyecto.nombreTipoProyecto}" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Nombre del Proyecto "  style="font-weight:bold" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{documentacionProyectoMB.proyecto.nombreProyecto}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Pais Cooperante: "  style="font-weight:bold" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{documentacionProyectoMB.proyecto.idPaisCooperante.nombrePais}" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="A&ntilde;o de Gesti&oacute;n: "  style="font-weight:bold" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{documentacionProyectoMB.proyecto.anioGestion}" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Monto: "  style="font-weight:bold" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{documentacionProyectoMB.proyecto.montoProyecto}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Lugar del Proyecto:" style="font-weight:bold"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{documentacionProyectoMB.proyecto.lugarProyecto}" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Fecha Inicio: "  style="font-weight:bold" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{documentacionProyectoMB.proyecto.fechaInicio}" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="Fecha Fin: "  style="font-weight:bold" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{documentacionProyectoMB.proyecto.fechaFin}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+
+            <p:spacer height="40" />
+            <h:form id="formDocsTable">
+                <p:panel style="width: 900px">
+                    <p:dataTable var="doc" value="#{documentacionProyectoMB.listadoDocumentos}" paginator="true" rows="5"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 >
+                        <p:column headerText="Proyecto" sortBy="#{doc.idProyecto.nombreProyecto}" filterBy="#{doc.idProyecto.nombreProyecto}">
+                            <h:outputText value="#{doc.idProyecto.nombreProyecto}" />
+                        </p:column>
+                        <p:column headerText="Tipo de Documento" sortBy="#{doc.idTipoDocumento.nombreDocumento}" filterBy="#{doc.idTipoDocumento.nombreDocumento}">
+                            <h:outputText value="#{doc.idTipoDocumento.nombreDocumento}" />
+                        </p:column>
+                        <p:column headerText="Persona que recibi&oacute;" sortBy="#{doc.usuarioRecibe}" filterBy="#{doc.usuarioRecibe}">
+                            <h:outputText value="#{doc.usuarioRecibe}" />
+                        </p:column>
+                        <p:column headerText="Fecha de recibido" sortBy="#{doc.fechaRecibido}" filterBy="#{doc.fechaRecibido}">
+                            <h:outputText value="#{doc.fechaRecibido}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Documento" sortBy="#{doc.nombreDocumento}" filterBy="#{doc.nombreDocumento}">
+                            <h:outputText value="#{doc.nombreDocumento}" />
+                        </p:column>
+                        <p:column headerText="Opciones" >
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar"
+                                               value="Editar" actionListener="#{documentacionProyectoMB.preActualizacion(doc)}"
+                                               oncomplete="PF('EditDocDialog').show();" process="@this" update=":idEditDocument"/>
+                            </div>
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                               title="Eliminar" value="Eliminar"
+                                               actionListener="#{documentacionProyectoMB.preActualizacion(doc)}"
+                                               oncomplete="PF('eliminarDialog').show();" process="@this" update=":idEliminar"/>
+                            </div>
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-document-b"
+                                               title="Preview" value="Previsualizar"
+                                               actionListener="#{documentacionProyectoMB.preView(doc)}"
+                                               oncomplete="PF('previewDialog').show();" process="@this" update=":idPreview"
+                                               rendered="#{doc.nombreDocumento.contains('.pdf')}"/>
+                                <div style="float: left">
+                                    <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
+                                                   title="Descargar" value="Descargar Archivo"
+                                                   actionListener="#{documentacionProyectoMB.FileDownloadView(doc)}"
+                                                   process="@this" update="formDocsTable" ajax="false">
+                                        <p:fileDownload value="#{documentacionProyectoMB.content}" />
+                                    </p:commandLink>
+                                </div>
+                            </div>
+                        </p:column>
+                    </p:dataTable>
+
+                </p:panel>
+            </h:form>
+
+        </center>
+        <p:dialog id="idAddDocument" hideEffect="fade" dynamic="false" widgetVar="AddDocDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Agregar documento" closeOnEscape="true">
+            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>
+
+            <h:form id="formAddDocument">
+                <center>
+                    <h:panelGrid columns="2" >
+                        <p:column>
+                            <p:outputLabel for="tipoDoc" value="Tipo Documento" />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="tipoDoc" value="#{documentacionProyectoMB.tipoDocumento}" effect="fade" converter="#{tipoDocumentoConverter}" required="true">
+                                <f:selectItem itemLabel="Tipo Documento" itemValue="null" noSelectionOption="true" />
+                                <f:selectItems value="#{documentacionProyectoMB.listTipoDocumento}" var="tDocumento" itemLabel="#{tDocumento.nombreDocumento}" itemValue="#{tDocumento}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Documento" />
+                        </p:column>
+                        <p:column>
+                            <p:fileUpload fileUploadListener="#{documentacionProyectoMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
+                                          sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton  value="Agregar" id="idGuardarDocumento" actionListener="#{documentacionProyectoMB.addDocument()}" process="@form"
+                                              update="@form :formDocsTable" icon="ui-icon-disk" onsuccess="PF('AddDocDialog').hide()" />
+                        </p:column>
+                    </h:panelGrid>
+                </center>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="idEditDocument" widgetVar="EditDocDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Editar documento" closeOnEscape="true">
+
+            <h:form id="formEditDpcument">
+                <center>
+                    <h:panelGrid columns="2" >
+                        <p:column>
+                            <p:outputLabel value="Tipo documento" />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="tipoDocUpdate" value="#{documentacionProyectoMB.tipoDocumento}" effect="fade" converter="#{tipoDocumentoConverter}" required="true">
+                                <f:selectItem itemLabel="Tipo Documento" itemValue="null" noSelectionOption="true" />
+                                <f:selectItems value="#{documentacionProyectoMB.listTipoDocumento}" var="tDocumento" itemLabel="#{tDocumento.nombreDocumento}" itemValue="#{tDocumento}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel  value="Nombre Docuemnto:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionProyectoMB.documento.nombreDocumento}" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Documento" />
+                        </p:column>
+                        <p:column>
+                            <p:fileUpload fileUploadListener="#{documentacionProyectoMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
+                                          sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Actualizar" id="idActualziarDocumento" actionListener="#{documentacionProyectoMB.actualzarDocument()}" process="@form"
+                                             update="@form :formDocsTable" icon="ui-icon-disk" oncomplete="PF('EditDocDialog').hide();" />
+                        </p:column>
+                    </h:panelGrid>
+                </center>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="idEliminar" widgetVar="eliminarDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Eliminar documento" closeOnEscape="true">
+
+            <h:form id="formEliminarDpcument">
+                <center>
+                    <h:panelGrid columns="2" >
+                        <p:column>
+                            <p:outputLabel value="Tipo documento:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionProyectoMB.documento.idTipoDocumento.nombreDocumento}" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel  value="Uusario recibido:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionProyectoMB.documento.usuarioRecibe}" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Fecha Recibido:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionProyectoMB.documento.fechaRecibido}" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Documento:" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{documentacionProyectoMB.documento.nombreDocumento}" />
+                        </p:column>
+
+                        <p:column>
+                            <p:commandButton value="Eliminar"  actionListener="#{documentacionProyectoMB.eliminarDocument()}" process="@form"
+                                             update="@form  :formDocsTable" icon="ui-icon-disk" oncomplete="PF('eliminarDialog').hide();" />
+                            <p:commandButton value="Cancelar" icon="ui-icon-disk" oncomplete="PF('eliminarDialog').hide();" />
+                        </p:column>
+                    </h:panelGrid>
+                </center>
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog id="idPreview"  widgetVar="previewDialog"  responsive="true"  resizable="false" modal="true" header="Preview documento" closeOnEscape="true">
+
+            <pe:documentViewer style="width:550px; height:550px"  value="#{documentacionProyectoMB.content}"/>
+
+        </p:dialog>
+
+
+    </ui:define>
+
+</ui:composition>

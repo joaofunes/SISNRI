@@ -95,5 +95,16 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         }
         return null;
     }
+        public Proyecto getProyectoByID(Integer id) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Proyecto a WHERE a.idProyecto =:id");
+            q.setParameter("id", id);
+            return (Proyecto) q.uniqueResult();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
