@@ -49,7 +49,9 @@ public class DocumentoDao extends GenericDao<Documento, Integer> {
             q.setParameter("idProyecto", idProyecto);
             return q.list();
         } catch (Exception e) {
-
+        }
+        return null;
+    }
     
     public List<Documento> getDocumentoFindMovilidad(Integer idMovilidad){
         try{
