@@ -5,7 +5,6 @@
  */
 package com.sisrni.service;
 
-
 import com.sisrni.dao.DocumentoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Documento;
@@ -20,8 +19,8 @@ import org.springframework.stereotype.Service;
  * @author Joao
  */
 @Service(value = "documentoService")
-public class DocumentoService extends GenericService<Documento, Integer>{
-    
+public class DocumentoService extends GenericService<Documento, Integer> {
+
     @Autowired
     private DocumentoDao documentoDao;
 
@@ -29,11 +28,17 @@ public class DocumentoService extends GenericService<Documento, Integer>{
     public GenericDao<Documento, Integer> getDao() {
         return documentoDao;
     }
-    
-    public List<Documento> getDocumentFindCovenio(int propuestaConvenio){
+
+    public List<Documento> getDocumentFindCovenio(int propuestaConvenio) {
         return documentoDao.getDocumentFindCovenio(propuestaConvenio);
     }
-public List<Documento> getDocumentFindBeca(Integer idBeca){
+
+    public List<Documento> getDocumentFindBeca(Integer idBeca) {
         return documentoDao.getDocumentFindBeca(idBeca);
     }
+
+    public List<Documento> getDocumentFindProyecto(Integer idProyecto) {
+        return documentoDao.getDocumentFindProyecto(idProyecto);
+    }
+
 }

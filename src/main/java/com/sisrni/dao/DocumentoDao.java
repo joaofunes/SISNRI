@@ -43,4 +43,13 @@ public class DocumentoDao extends GenericDao<Documento, Integer> {
         }
         return null;
     }
+    public List<Documento> getDocumentFindProyecto(Integer idProyecto) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT doc FROM Documento doc JOIN FETCH doc.idTipoDocumento tipo WHERE doc.idProyecto.idProyecto =:idProyecto");
+            q.setParameter("idProyecto", idProyecto);
+            return q.list();
+        } catch (Exception e) {
+        }
+        return null;
+    }
 }
