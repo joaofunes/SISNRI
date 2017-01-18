@@ -332,6 +332,8 @@ public class PropuestaConvenioMB implements Serializable{
                      }
                  }
 
+             }else{
+                referenteInterno=new Persona();
              }
              RequestContext context=RequestContext.getCurrentInstance();
              context.update("formAdmin:idSolicinateNombreInterno");

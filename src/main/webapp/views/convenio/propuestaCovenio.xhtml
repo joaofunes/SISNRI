@@ -136,32 +136,14 @@
                                 </p:selectBooleanCheckbox>
                             </p:column>
 
-        
-                            
-<!--                            <p:column>
-                                <p:outputLabel for="idSolicinateNombreInternos" value="Busqueda Nombre Solicitante" />
-                            </p:column>
-                            <p:column>
-                                <p:autoComplete id="idSolicinateNombreInternos"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
-                                                var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" scrollHeight="250">
-                                    <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.searchByNameInterno()}" process="@this,idSolicinateNombreInterno" update="idFacultadInterno,idUnidadInterno,formAdmin"/>
-                                </p:autoComplete> 
-                                <p:watermark for="idSolicinateNombreInternos" value="Ingrese Nombre Solicitante" id="solNomb2" />
-                                <p:message for="idSolicinateNombreInternos" />
-                            </p:column>-->
-
-
                         </p:row>
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
                             </p:column>
                             <p:column>                                            
-
-                                <p:inputText id="idSolicinateNombreInterno"   label="Nombre" value="#{propuestaConvenioMB.referenteInterno.nombrePersona}" />
-                                
+                                <p:inputText id="idSolicinateNombreInterno"   label="Nombre" value="#{propuestaConvenioMB.referenteInterno.nombrePersona}" />                                
                                 <p:watermark for="idSolicinateNombreInterno" value="Nombre Solicitante"/>                                           
-
                             </p:column>
                             <p:column>
                                 <p:outputLabel for="idSolicinateApellidoInterno" value="Apellido Solicitante" />
@@ -193,7 +175,7 @@
                                 <p:outputLabel for="idTelFijoInterno" value="Tel:" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idTelFijoInterno"   readonly="true" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}"/> 
+                                <p:inputText id="idTelFijoInterno"    value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}"/> 
                                 <p:watermark for="idTelFijoInterno" value="xxxx-xxxx"  /> 
                                 <p:message for="idTelFijoInterno" />
                             </p:column>
@@ -201,7 +183,7 @@
                                 <p:outputLabel for="idCelInterno" value="Cel:" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idCelInterno"   readonly="true" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}"/> 
+                                <p:inputText id="idCelInterno"    value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}"/> 
                                 <p:watermark for="idCelInterno" value="xxxx-xxxx" id="waterfax" /> 
                                 <p:message for="idCelInterno" />
                             </p:column>
@@ -229,7 +211,7 @@
                                 <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idCargoInterno"   label="cargo" readonly="true" value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
+                                <p:inputText id="idCargoInterno"   label="cargo"  value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
                                 <p:watermark for="idCargoInterno" value="Cargo" id="waterCargo" />
                                 <p:message for="idCargoInterno" />
                             </p:column>
