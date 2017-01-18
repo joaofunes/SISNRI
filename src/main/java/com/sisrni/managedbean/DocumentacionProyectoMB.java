@@ -6,6 +6,7 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Documento;
+import com.sisrni.model.Proyecto;
 import com.sisrni.service.DocumentoService;
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +23,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.sisrni.model.TipoDocumento;
 import com.sisrni.pojo.rpt.PojoBeca;
 import com.sisrni.security.AppUserDetails;
-import com.sisrni.service.BecaService;
 import com.sisrni.service.PropuestaConvenioService;
+import com.sisrni.service.ProyectoService;
 import com.sisrni.service.TipoDocumentoService;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -63,10 +64,11 @@ public class DocumentacionProyectoMB implements Serializable {
     private StreamedContent content;
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMMM/yyyy");
 
-    //listas de beca
-    private PojoBeca pojoBecaSelected;
+    //listas de proyectos
+    private Proyecto docProySelected;
     private PojoBeca pojoToShow;
-    private List<PojoBeca> becaPojoList;
+    private List<Proyecto> docProyList;
+    private Proyecto proyecto;
 
     private boolean visualizar;
 
@@ -83,7 +85,8 @@ public class DocumentacionProyectoMB implements Serializable {
     private TipoDocumentoService tipoDocumentoService;
 
     @Autowired
-    private BecaService becaService;
+    @Qualifier(value = "proyectoService")
+    private ProyectoService proyectoService;
 
     @PostConstruct
     public void init() {
@@ -100,37 +103,38 @@ public class DocumentacionProyectoMB implements Serializable {
             usuario = user.getSessionUser();
             documento = new Documento();
             listadoDocumentos = new ArrayList<Documento>();
-            listTipoDocumento = tipoDocumentoService.getTipoDocumentosByCategory(3);
+            listTipoDocumento = tipoDocumentoService.getTipoDocumentosByCategory(2);
             tipoDocumento = new TipoDocumento();
-            becaPojoList = becaService.getBecas(0);
-            pojoBecaSelected = new PojoBeca();
+            docProyList = proyectoService.findAll();
+            proyecto=new Proyecto();
+            docProySelected=new Proyecto();
             pojoToShow = new PojoBeca();
             visualizar = Boolean.FALSE;
         } catch (Exception e) {
         }
     }
 
-    public void onBecaChange() {
+    public void onProyectoChange() {
         try {
-            PojoBeca aux = null;
-            if (pojoBecaSelected.getIdBeca() != -1) {
-                aux = becaService.getBecas(pojoBecaSelected.getIdBeca()).get(0);
+            Proyecto aux = null;
+            if (docProySelected.getIdProyecto() != -1) {
+                aux = proyectoService.getProyectoByID(docProySelected.getIdProyecto());
             }
-            searchDocumentoBeca(pojoBecaSelected.getIdBeca());
+            searchDocumentoProyecto(docProySelected.getIdProyecto());
 
             if (aux != null) {
-                pojoToShow = aux;
+                proyecto = aux;
             } else {
-                pojoToShow = new PojoBeca();
+                proyecto = new Proyecto();
             }
         } catch (Exception e) {
         }
     }
 
-    public void searchDocumentoBeca(Integer idBeca) {
+    public void searchDocumentoProyecto(Integer idProyecto) {
         try {
             listadoDocumentos = new ArrayList<Documento>();
-            listadoDocumentos = documentoService.getDocumentFindBeca(idBeca);
+            listadoDocumentos = documentoService.getDocumentFindProyecto(idProyecto);
         } catch (Exception e) {
         }
     }
@@ -162,14 +166,14 @@ public class DocumentacionProyectoMB implements Serializable {
      */
     public void addDocument() {
         try {
-            this.documento.setIdBeca(becaService.findById(pojoBecaSelected.getIdBeca()));
+            this.documento.setIdProyecto(proyectoService.findById(docProySelected.getIdProyecto()));
             this.documento.setFechaRecibido(new Date());
             this.documento.setIdTipoDocumento(tipoDocumento);
             this.documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
             documentoService.save(documento);
             this.documento = new Documento();
             this.tipoDocumento = new TipoDocumento();
-            onBecaChange();
+            onProyectoChange();
         } catch (Exception e) {
 
         }
@@ -199,7 +203,7 @@ public class DocumentacionProyectoMB implements Serializable {
             documentoService.merge(documento);
             this.documento = new Documento();
             this.tipoDocumento = new TipoDocumento();
-            onBecaChange();
+            onProyectoChange();
             FacesMessage message = new FacesMessage("Succesful", " Documento actualizado exitosamente");
         } catch (Exception e) {
         }
@@ -213,7 +217,7 @@ public class DocumentacionProyectoMB implements Serializable {
             documentoService.delete(this.documento);
             this.documento = new Documento();
             this.tipoDocumento = new TipoDocumento();
-            onBecaChange();
+            onProyectoChange();
             FacesMessage message = new FacesMessage("Succesful", " Documento eliminado exitosamente");
         } catch (Exception e) {
         } finally {
@@ -489,22 +493,6 @@ public class DocumentacionProyectoMB implements Serializable {
         this.user = user;
     }
 
-    public List<PojoBeca> getBecaPojoList() {
-        return becaPojoList;
-    }
-
-    public void setBecaPojoList(List<PojoBeca> becaPojoList) {
-        this.becaPojoList = becaPojoList;
-    }
-
-    public PojoBeca getPojoBecaSelected() {
-        return pojoBecaSelected;
-    }
-
-    public void setPojoBecaSelected(PojoBeca pojoBecaSelected) {
-        this.pojoBecaSelected = pojoBecaSelected;
-    }
-
     public PojoBeca getPojoToShow() {
         return pojoToShow;
     }
@@ -529,4 +517,29 @@ public class DocumentacionProyectoMB implements Serializable {
         this.visualizar = visualizar;
     }
 
+    public Proyecto getDocProySelected() {
+        return docProySelected;
+    }
+
+    public void setDocProySelected(Proyecto docProySelected) {
+        this.docProySelected = docProySelected;
+    }
+    
+
+    public List<Proyecto> getDocProyList() {
+        return docProyList;
+    }
+
+    public void setDocProyList(List<Proyecto> docProyList) {
+        this.docProyList = docProyList;
+    }
+
+    public Proyecto getProyecto() {
+        return proyecto;
+    }
+
+    public void setProyecto(Proyecto proyecto) {
+        this.proyecto = proyecto;
+    }
+    
 }

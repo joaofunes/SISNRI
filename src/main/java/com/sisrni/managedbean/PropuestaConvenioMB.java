@@ -171,6 +171,7 @@ public class PropuestaConvenioMB implements Serializable{
     private boolean flagConvenioMarco = false;
     private boolean flagEdicion = false;
     private boolean flagEscuelaDept = false;
+    private boolean flagEscuelaDeptInterno = false;
     private boolean mismoSolicitante;
     
     private JCMail mail;
@@ -304,6 +305,10 @@ public class PropuestaConvenioMB implements Serializable{
              
              referenteInterno=personaService.getPersonaByDui(query);
              
+             if(referenteInterno == null){
+               referenteInterno=new Persona();
+             }
+             
              if (referenteInterno.getIdPersona() != null) {
 
                  List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteInterno);
@@ -331,8 +336,6 @@ public class PropuestaConvenioMB implements Serializable{
                          }
                      }
                  }
-
-             }
              RequestContext context=RequestContext.getCurrentInstance();
              context.update("formAdmin:idSolicinateNombreInterno");
              context.update("formAdmin:idSolicinateApellidoInterno");
@@ -343,6 +346,8 @@ public class PropuestaConvenioMB implements Serializable{
              context.update("formAdmin:idUnidadInterno");
              context.update("formAdmin:idFacultadUnidadInterno");
              context.update("formAdmin:idCargoInterno");
+             }
+            
              
          } catch (Exception e) {
              e.printStackTrace();
@@ -362,6 +367,10 @@ public class PropuestaConvenioMB implements Serializable{
              
              referenteExterno=personaService.getPersonaByPasaporte(query);
              
+             if(referenteExterno==null){
+               referenteExterno= new Persona();
+             }
+             
              if (referenteExterno.getIdPersona() != null) {
                  List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteExterno);
 
@@ -373,8 +382,6 @@ public class PropuestaConvenioMB implements Serializable{
                          telCelularExterno = tel;
                      }
                  }
-             }
-             
              RequestContext context=RequestContext.getCurrentInstance();
              context.update("formAdmin:idSolicinateNombreExterno");
              context.update("formAdmin:idSolicinateApellidoExterno");
@@ -383,6 +390,9 @@ public class PropuestaConvenioMB implements Serializable{
              context.update("formAdmin:idCelExterno");
              context.update("formAdmin:idCargoExterno");
              context.update("formAdmin:idEntidadInstitucion");
+             }
+             
+             
 
              
          } catch (Exception e) {
@@ -743,20 +753,36 @@ public class PropuestaConvenioMB implements Serializable{
         return listaFacultadUnidad;
     }
 
-
+  /**
+   * Metodo para renderizar escuela o departamento despues de seleccionar facultad para un solicitante
+   */
     public void actualizarEscuelaDept(){
         try {
-             
              
              if(facultadesUnidades.getUnidadFacultad()=='U'){
                   flagEscuelaDept=true;
              }else{
                  flagEscuelaDept=false;
              }
-            
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    /**
+     * * Metodo para renderizar escuela o departamento despues de seleccionar facultad para un solicitanteInterno
+     */
+    public void actualizarEscuelaDeptInterno(){
+        try {
              
-//             RequestContext context = RequestContext.getCurrentInstance();
-//             context.update("formAdmin:idEscuelaDept");            
+             if(facultadesUnidadesInterno.getUnidadFacultad()=='U'){
+                  flagEscuelaDeptInterno=true;
+             }else{
+                 flagEscuelaDeptInterno=false;
+             }
+                
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1121,6 +1147,14 @@ public void FileRead(){
 
     public void setFlagEscuelaDept(boolean flagEscuelaDept) {
         this.flagEscuelaDept = flagEscuelaDept;
+    }
+
+    public boolean isFlagEscuelaDeptInterno() {
+        return flagEscuelaDeptInterno;
+    }
+
+    public void setFlagEscuelaDeptInterno(boolean flagEscuelaDeptInterno) {
+        this.flagEscuelaDeptInterno = flagEscuelaDeptInterno;
     }
 
    
