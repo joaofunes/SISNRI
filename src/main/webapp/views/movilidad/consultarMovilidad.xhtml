@@ -254,7 +254,7 @@
                                             <p:outputLabel for="facultadBeneficiada" value="Facultades/Unidades beneficiadas"/>  
                                         </p:column>
                                         <p:column>
-                                            <p:selectCheckboxMenu id="facultadBeneficiada" value="#{registrarMovilidadMB.listFacultadesUnidadesBeneficiadasSelected}"  label="Facultades Beneficiadas" panelStyle="width: 180px" filter="true" filterMatchMode="startsWith">
+                                            <p:selectCheckboxMenu id="facultadBeneficiada" value="#{registrarMovilidadMB.listFacultadesUnidadesBeneficiadasSelected}"  label="Facultades Beneficiadas" panelStyle="width: 250px" style="width: 180px" filter="true" filterMatchMode="startsWith">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listFacultadUnidad}" var="facultadBenef" itemLabel="#{facultadBenef.label}" itemValue="#{facultadBenef.value}" itemDisabled="true"/>
                                             </p:selectCheckboxMenu>
@@ -361,7 +361,7 @@
                                         <h:panelGroup/>
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton styleClass="boton"    value="Regresar"  id="btnRegresar" title="Regresar" />
+                                        <p:commandButton styleClass="boton"    value="Regresar" actionListener="#{registrarMovilidadMB.regresar()}"  id="btnRegresar" title="Regresar" />
                                     </p:column>
                                     <p:column>
                                         <h:panelGroup/>  
