@@ -34,6 +34,7 @@ import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -840,6 +841,21 @@ public class registrarMovilidadMB {
                 categoriaMovilidad = categoriaMovilidadService.findById(categoriaMovilidadSelected);
                 tipoMovilidad = tipoMovilidadService.findById(tipoMovilidadSelected);
             }
+            if(movilidad.getEntregaDeInforme()==null){
+                movilidad.setEntregaDeInforme(false);
+            }
+            if(movilidad.getObsequio() ==null){
+                movilidad.setObsequio(false);
+            }
+            if(movilidad.getPagoDeCurso()==null){
+                movilidad.setPagoDeCurso(new BigDecimal(0.00));
+            }
+            if(movilidad.getViaticos()==null){
+                movilidad.setViaticos(new BigDecimal(0.00));
+            }
+            if(movilidad.getVoletoAereo()==null){
+                movilidad.setVoletoAereo(new BigDecimal(0.00));
+            }
             movilidad.setIdProgramaMovilidad(programaMovilidad);
             movilidad.setIdTipoMovilidad(tipoMovilidad);
             movilidad.setIdCategoria(categoriaMovilidad);
@@ -1204,13 +1220,15 @@ public class registrarMovilidadMB {
                 institucionDestinoSelected = movilidad.getIdUniversidadDestino();
                 institucionDestinoConsultar = organismoService.findById(institucionDestinoSelected).getNombreOrganismo();
                 
-                fInicioConsultar =sdf.format( movilidad.getFechaInicio()); 
+                if(movilidad.getFechaInicio()!=null){ fInicioConsultar =sdf.format( movilidad.getFechaInicio());}
+              
+                if(movilidad.getFechaFin() != null){fFinConsultar = sdf.format(movilidad.getFechaFin());}
                 
-                fFinConsultar = sdf.format(movilidad.getFechaFin());
                 this.movilidad.setViaticos(movilidad.getViaticos());
                 this.movilidad.setPagoDeCurso(movilidad.getPagoDeCurso());
                 this.movilidad.setVoletoAereo(movilidad.getVoletoAereo());
-                fEntregaConsultar = sdf.format(movilidad.getFechaEntregaMined());
+                if(movilidad.getFechaEntregaMined()!=null){fEntregaConsultar = sdf.format(movilidad.getFechaEntregaMined());}
+                
                 etapaMovilidadSelected = movilidad.getIdEtapaMovilidad().getIdEtapa();
                 etapaMovilidadConsultar = etapamovilidadService.findById(etapaMovilidadSelected).getNombreEtapa();
                 entregaInformeSelected = movilidad.getEntregaDeInforme();
@@ -1220,7 +1238,7 @@ public class registrarMovilidadMB {
                     entregaInformeConsultar = "NO";
                 }
                 obsequioSelected = movilidad.getObsequio();
-                if (obsequioSelected == true) {
+                if (obsequioSelected == true ) {
                     obsequioConsultar = "SI";
                 } else {
                     obsequioConsultar = "NO";
@@ -1255,18 +1273,15 @@ public class registrarMovilidadMB {
                     mostrarEntrante = false;
                     mostrarSaliente = true;
 
-                    listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
-
                     if (escuelaDepto != null) {
-                        facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
-
-                        listEscuelaDepartamentoPersonaMovilidad = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadPersonaMovilidad.substring(0, facultadPersonaMovilidad.indexOf(",1"))));
-                        escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+                        facultadPersonaMovConsultar = personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getNombreFacultad();
+                        escuelaDeptoPersonaMovConsultar = personaMovilidadGenerico.getIdEscuelaDepto().getNombreEscuelaDepto();
+                        
 
                     } else {
                         facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdUnidad().getIdUnidad()) + ",2";
-                        listEscuelaDepartamentoPersonaMovilidad = new ArrayList<EscuelaDepartamento>();
-                        escuelaDepartamentoPersonaMovilidad = null;
+                        facultadPersonaMovConsultar= personaMovilidadGenerico.getIdUnidad().getNombreUnidad();
+                        escuelaDeptoPersonaMovConsultar="";
                     }
 
                 } else {//movilidad Entrante
