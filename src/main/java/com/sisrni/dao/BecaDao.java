@@ -7,6 +7,7 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Beca;
+import com.sisrni.pojo.rpt.BecasGestionadasPojo;
 import com.sisrni.pojo.rpt.PojoBeca;
 import java.util.List;
 import org.hibernate.Query;
@@ -39,7 +40,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 + "ON bec.ID_PAIS_DESTINO = pai.ID_PAIS\n"
                 + "WHERE peb.ID_TIPO_PERSONA=6";
         if (idBecaSearch > 0) {
-            query = query + " AND bec.ID_BECA="+ idBecaSearch;
+            query = query + " AND bec.ID_BECA=" + idBecaSearch;
         }
 
         try {
@@ -61,5 +62,20 @@ public class BecaDao extends GenericDao<Beca, Integer> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<BecasGestionadasPojo> getDataBecasGestionadasReportes() {
+        String query = "select b.ANIO_GESTION anio, count(b.ID_BECA) gestionadas,(SELECT COUNT(i.ID_BECA) FROM beca i WHERE i.OTORGADA=1 and i.ANIO_GESTION=b.ANIO_GESTION) becasOtorgadas,(SELECT SUM(a.MONTO_TOTAL) FROM beca a WHERE a.OTORGADA=1 and a.ANIO_GESTION=b.ANIO_GESTION) 'montoOtorgadas',(SELECT COUNT(c.ID_BECA) FROM beca c WHERE c.OTORGADA=0 and c.ANIO_GESTION=b.ANIO_GESTION) becasDenegadas,(SELECT SUM(r.MONTO_TOTAL) FROM beca r WHERE r.OTORGADA=0 and r.ANIO_GESTION=b.ANIO_GESTION) montoDenegadas  from beca b WHERE b.ANIO_GESTION BETWEEN\n"
+                + "2016 and 2017\n"
+                + "GROUP BY b.ANIO_GESTION";
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("anio", new IntegerType())
+                .addScalar("gestionadas", new IntegerType())
+                .addScalar("becasOtorgadas", new IntegerType())
+                .addScalar("montoOtorgadas", new DoubleType())
+                .addScalar("becasDenegadas", new IntegerType())
+                .addScalar("montoDenegadas", new DoubleType())
+                .setResultTransformer(Transformers.aliasToBean(BecasGestionadasPojo.class));
+        return q.list();
     }
 }

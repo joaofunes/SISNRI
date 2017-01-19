@@ -8,6 +8,7 @@ package com.sisrni.service;
 import com.sisrni.dao.BecaDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Beca;
+import com.sisrni.pojo.rpt.BecasGestionadasPojo;
 import com.sisrni.pojo.rpt.PojoBeca;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
@@ -32,4 +33,9 @@ public class BecaService extends GenericService<Beca, Integer> {
     public List<PojoBeca> getBecas(Integer idBecaSearch) {
         return becaDao.getBecas(idBecaSearch);
     }
+
+    public List<BecasGestionadasPojo> getDataBecasGestionadasReportes() {
+        return becaDao.getDataBecasGestionadasReportes();
+    }
+
 }
