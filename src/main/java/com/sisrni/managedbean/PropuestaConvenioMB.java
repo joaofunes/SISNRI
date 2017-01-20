@@ -307,6 +307,8 @@ public class PropuestaConvenioMB implements Serializable{
              
              if(referenteInterno == null){
                referenteInterno=new Persona();
+             }else{
+               referenteInterno.setDuiPersona(query);
              }
              
              if (referenteInterno.getIdPersona() != null) {
@@ -369,6 +371,8 @@ public class PropuestaConvenioMB implements Serializable{
              
              if(referenteExterno==null){
                referenteExterno= new Persona();
+             }else{
+               referenteExterno.setPasaporte(query);
              }
              
              if (referenteExterno.getIdPersona() != null) {

@@ -11,9 +11,11 @@
                  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                  >
 
+
     <ui:define name="content">
 <!--        <ui:include src="../persona/crearPersona.xhtml" />
         <ui:include src="../persona/editPersona.xhtml" />-->
+
 
         <h:form id="formAdmin">
             <center> 
@@ -81,9 +83,7 @@
                     <p:selectOneMenu id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{facultadUnidadConverter}" style="width:190px">                                   
                         <p:ajax event="change" process="@this" update="GroupSolicitante" listener="#{propuestaConvenioMB.actualizarEscuelaDept()}"/>
                         <f:selectItem itemLabel="--Seleccione Facultad/Unidad--" itemValue="#{null}"  itemDisabled="true" />
-                        <c:forEach var="c" items="#{propuestaConvenioMB.listaFacultadUnidad}">
-                            <f:selectItem itemLabel="#{c.label}" itemValue="#{c}"/>
-                        </c:forEach>
+                        <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="escDpt" itemLabel="#{escDpt.label}" itemValue="#{escDpt}" />                                                                                       
                     </p:selectOneMenu>
                 </p:column>
 
@@ -91,7 +91,7 @@
                     <p:outputLabel rendered="#{!propuestaConvenioMB.flagEscuelaDept}"  value="Escuela/Departamento" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu  id="idEscuelaDept" rendered="#{!propuestaConvenioMB.flagEscuelaDept}" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
+                    <p:selectOneMenu  id="idEscuelaDept" rendered="#{!propuestaConvenioMB.flagEscuelaDept}" required="true" value="#{propuestaConvenioMB.escuelaDepartamento}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
                         <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
                         <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
                     </p:selectOneMenu>
@@ -120,11 +120,11 @@
                                                 completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"  />
                                   <p:watermark for="idDocumentoInterno" value="99999999-9" />
                                 
-<!--                                    <p:inputMask id="idDocumentoInterno"   autocomplete="" value="#{propuestaConvenioMB.numDocumentoInterno}" mask="99999999-9">
-                                       <p:ajax event="keyup" listener="#{propuestaConvenioMB.completeBusquedaDui()}" process="@this,idDocumentoInterno" update="idFacultadInterno,idUnidadInterno,formAdmin"/>
+<!--                                  <p:inputMask id="idDocumentoInterno2"   value="#{propuestaConvenioMB.referenteInterno.nitPersona}" mask="99999999-9">
+                                      <p:ajax event="keyup"   listener="#{propuestaConvenioMB.completeBusquedaDui}" process="@this,idDocumentoInterno2" />
                                     </p:inputMask>    
-                                    <p:watermark for="idDocumentoInterno" value="99999999-9" id="watermarkDui" />
-                                    <p:message for="idDocumentoInterno" /> -->
+                                    <p:watermark for="idDocumentoInterno2" value="99999999-9" />
+                                    -->
                                                                
                             </p:column>
                             <p:column>
@@ -198,16 +198,7 @@
                                     <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
                                     <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
                                 </p:selectOneMenu>
-                                
-                             
-                 
-<!--                                 <p:selectOneMenu id="idFacultadUnidadInterno" required="true" value="#{propuestaConvenioMB.facultadesUnidadesInterno}" converter="#{facultadUnidadConverter}" style="width:190px">                                   
-                                    <p:ajax update="idEscuelaDeptInter"/>
-                                    <f:selectItem itemLabel="Seleccione Facultad/Unidad" itemValue="#{null}"  itemDisabled="true" />
-                                    <c:forEach var="c" items="#{propuestaConvenioMB.listaFacultadUnidad}">
-                                        <f:selectItem itemLabel="#{c.label}" itemValue="#{c}"/>
-                                    </c:forEach>
-                                </p:selectOneMenu>-->
+
                             </p:column>                        
                         
                             <p:column>
@@ -413,10 +404,9 @@
         </h:form>   
 
         <script type="text/javascript">
-            /**
-             * Faces Validator
-             */
+           
             PrimeFaces.validator['custom.emailValidator'] = {
+                
                 pattern: /\S+@\S+/,
                 validate: function (element, value) {
                     if (!this.pattern.test(value)) {
@@ -428,11 +418,14 @@
                 }
             };
             
-          
-             $(document).ready(function() {
-                $("[id='formAdmin:idDocumentoInterno']").mask("999-99-99");
-            });
         </script>
+<script>
+//<![CDATA[
+PF=function(){
+    $(':input[id="myPanel:number_input"]').inputmask("mask", {"mask": "(999) 999-9999"});
+};
+//]]>
+</script>
 
 
 
