@@ -132,6 +132,9 @@ public class BecaMB implements Serializable {
 
     private boolean tabExternoBoolean;
     private boolean mostrarTabExterno;
+    
+    private boolean noEstabaInterno;
+    private boolean noEstabaExterno;
 
     @Autowired
     FacultadService facultadService;
@@ -259,9 +262,7 @@ public class BecaMB implements Serializable {
 
 //registra la informacion conserniente a una beca
     public void guardarBeca() throws Exception {
-
         try {
-
             //guardando becario
             Carrera carrera = carreraService.findById(carreraSelected.getIdCarrera());
             becario.setIdCarrera(carrera);
@@ -309,7 +310,7 @@ public class BecaMB implements Serializable {
                 telefonoCelularAsesorInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
                 telefonoCelularAsesorInterno.setIdPersona(asesorInterno);
                 asesorInterno.getTelefonoList().add(telefonoCelularAsesorInterno);
-                if (existeInterno == true || actualizar == true) {
+                if (existeInterno == true || (actualizar == true && noEstabaInterno==false) ) {
                     personaService.merge(asesorInterno);
                 } else {
                     personaService.save(asesorInterno);
@@ -330,7 +331,7 @@ public class BecaMB implements Serializable {
                 telefonoCelularAsesorExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
                 telefonoCelularAsesorExterno.setIdPersona(asesorExterno);
                 asesorExterno.getTelefonoList().add(telefonoCelularAsesorExterno);
-                if (existeExterno == true || actualizar == true) {
+                if (existeExterno == true || (actualizar == true && noEstabaExterno==false)) {
                     personaService.merge(asesorExterno);
                 } else {
                     personaService.save(asesorExterno);
@@ -348,7 +349,9 @@ public class BecaMB implements Serializable {
                 becaService.merge(beca);
             } else {
                 becaService.save(beca);
-                //vinculando becario a beca
+            }
+            //vinculando becario a beca
+            if (actualizar != true) {
                 PersonaBecaPK personaBecaPKbecario = new PersonaBecaPK();
                 personaBecaPKbecario.setIdBeca(beca.getIdBeca());
                 personaBecaPKbecario.setIdPersona(becario.getIdPersona());
@@ -359,36 +362,36 @@ public class BecaMB implements Serializable {
                 personaBecaBecario.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("BECARIO"));
                 personaBecaBecario.setPersonaBecaPK(personaBecaPKbecario);
                 beca.getPersonaBecaList().add(personaBecaBecario);
-
-                //vinculando asesor interno a beca
-                if (mostrarTabInterno) {
-                    PersonaBecaPK personaBecaPKAsistenteI = new PersonaBecaPK();
-                    personaBecaPKAsistenteI.setIdBeca(beca.getIdBeca());
-                    personaBecaPKAsistenteI.setIdPersona(asesorInterno.getIdPersona());
-
-                    PersonaBeca personaBecaAsistenteI = new PersonaBeca();
-                    personaBecaAsistenteI.setPersona(asesorInterno);
-                    personaBecaAsistenteI.setBeca(beca);
-                    personaBecaAsistenteI.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("ASESOR INTERNO"));
-                    personaBecaAsistenteI.setPersonaBecaPK(personaBecaPKAsistenteI);
-                    beca.getPersonaBecaList().add(personaBecaAsistenteI);
-                }
-                //vinculando el asesor externo a la beca
-                if (mostrarTabExterno) {
-                    PersonaBecaPK personaBecaPKAsistenteE = new PersonaBecaPK();
-                    personaBecaPKAsistenteE.setIdBeca(beca.getIdBeca());
-                    personaBecaPKAsistenteE.setIdPersona(asesorExterno.getIdPersona());
-
-                    PersonaBeca personaBecaAsistenteE = new PersonaBeca();
-                    personaBecaAsistenteE.setPersona(asesorExterno);
-                    personaBecaAsistenteE.setBeca(beca);
-                    personaBecaAsistenteE.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("ASESOR EXTERNO"));
-                    personaBecaAsistenteE.setPersonaBecaPK(personaBecaPKAsistenteE);
-                    beca.getPersonaBecaList().add(personaBecaAsistenteE);
-                }
-                //actualizando beca
-                becaService.merge(beca);
             }
+            //vinculando asesor interno a beca
+            if ((actualizar!=true&& mostrarTabInterno==true) || (actualizar==true && noEstabaInterno==true && mostrarTabInterno==true)) {
+                PersonaBecaPK personaBecaPKAsistenteI = new PersonaBecaPK();
+                personaBecaPKAsistenteI.setIdBeca(beca.getIdBeca());
+                personaBecaPKAsistenteI.setIdPersona(asesorInterno.getIdPersona());
+
+                PersonaBeca personaBecaAsistenteI = new PersonaBeca();
+                personaBecaAsistenteI.setPersona(asesorInterno);
+                personaBecaAsistenteI.setBeca(beca);
+                personaBecaAsistenteI.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("ASESOR INTERNO"));
+                personaBecaAsistenteI.setPersonaBecaPK(personaBecaPKAsistenteI);
+                beca.getPersonaBecaList().add(personaBecaAsistenteI);
+            }
+            //vinculando el asesor externo a la beca
+            if ((actualizar!=true && mostrarTabExterno==true) || (actualizar==true && noEstabaExterno==true && mostrarTabExterno==true)) {
+                PersonaBecaPK personaBecaPKAsistenteE = new PersonaBecaPK();
+                personaBecaPKAsistenteE.setIdBeca(beca.getIdBeca());
+                personaBecaPKAsistenteE.setIdPersona(asesorExterno.getIdPersona());
+
+                PersonaBeca personaBecaAsistenteE = new PersonaBeca();
+                personaBecaAsistenteE.setPersona(asesorExterno);
+                personaBecaAsistenteE.setBeca(beca);
+                personaBecaAsistenteE.setIdTipoPersona(tipoPersonaService.getTipoPersonaByNombre("ASESOR EXTERNO"));
+                personaBecaAsistenteE.setPersonaBecaPK(personaBecaPKAsistenteE);
+                beca.getPersonaBecaList().add(personaBecaAsistenteE);
+            }
+
+            //actualizando beca
+            becaService.merge(beca);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Los datos han sido registrados con exito."));
             inicializador();
@@ -426,17 +429,21 @@ public class BecaMB implements Serializable {
                 if (asesorInterno == null) {
                     tabInternoBoolean = Boolean.FALSE;
                     mostrarTabInterno = Boolean.FALSE;
+                    noEstabaInterno=true;
                 } else {
                     tabInternoBoolean = Boolean.TRUE;
                     mostrarTabInterno = Boolean.TRUE;
+                    noEstabaInterno=false;
                 }
                 asesorExterno = getPersonaBeca(beca.getPersonaBecaList(), "ASESOR EXTERNO");
                 if (asesorExterno == null) {
                     tabExternoBoolean = Boolean.FALSE;
                     mostrarTabExterno = Boolean.FALSE;
+                    noEstabaExterno=true;
                 } else {
                     tabExternoBoolean = Boolean.TRUE;
                     mostrarTabExterno = Boolean.TRUE;
+                    noEstabaExterno=false;
                 }
                 buscarBecario(becario.getDuiPersona());
                 if (asesorInterno != null) {
@@ -655,6 +662,22 @@ public class BecaMB implements Serializable {
 
     public Persona getBecario() {
         return becario;
+    }
+
+    public boolean isNoEstabaInterno() {
+        return noEstabaInterno;
+    }
+
+    public void setNoEstabaInterno(boolean noEstabaInterno) {
+        this.noEstabaInterno = noEstabaInterno;
+    }
+
+    public boolean isNoEstabaExterno() {
+        return noEstabaExterno;
+    }
+
+    public void setNoEstabaExterno(boolean noEstabaExterno) {
+        this.noEstabaExterno = noEstabaExterno;
     }
 
     public void setBecario(Persona becario) {
