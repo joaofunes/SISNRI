@@ -9,6 +9,7 @@ import com.sisrni.dao.ProyectoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Proyecto;
 import com.sisrni.pojo.rpt.PojoMapaInteractivo;
+import com.sisrni.pojo.rpt.RptProyectoPojo;
 import com.sisrni.service.generic.GenericService;
 import java.util.Date;
 import java.util.List;
@@ -36,5 +37,7 @@ public class ProyectoService extends GenericService<Proyecto, Integer> {
     public Proyecto getProyectoByID(Integer idProyecto){
         return proyectoDao.getProyectoByID(idProyecto);
     }
-
+    public List<RptProyectoPojo> getDataProyectosGestionadosReportes() {
+        return proyectoDao.getDataProyectosGestionadosReportes();
+    }
 }

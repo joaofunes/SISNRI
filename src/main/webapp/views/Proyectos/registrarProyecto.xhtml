@@ -244,93 +244,100 @@
                                         <p:inputText id="faxsolicitante" value="#{proyectosMB.telefonoSolFax.numeroTelefono}"/>
                                     </p:column>
                                 </p:panelGrid>
-                                <p:panel>
-                                    <p:commandButton id="idBtnAddAsis"  update="idTabAsis" process="@this" actionListener="#{proyectosMB.mostrarTab()}" value="Agregar Coordinador T&eacute;cnico"/> 
-                                </p:panel>
+                                    <p:column>
+                                        <h:outputLabel value="Agregar Coordinador t&eacute;cnico?: " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectBooleanButton id="btnExterno" value="#{proyectosMB.tabAsisMostrar}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                            <p:ajax update="idTabAsis" listener="#{proyectosMB.mostrarTab()}" />
+                                        </p:selectBooleanButton>
+                                    </p:column>
                             </p:tab>
-                            <p:tab title="Datos del Coordinador t&eacute;cnico del proyecto" id="idTabAsis" rendered="#{proyectosMB.tabAsis==true}" >
-                                <p:panelGrid>
-                                    <p:column>
-                                        <p:outputLabel value="Dui:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="duiasis" mask="99999999-9" value="#{proyectosMB.numDocumentoAsis}"/>
-                                        <p:commandButton actionListener="#{proyectosMB.searchByDocAsistente(proyectosMB.numDocumentoAsis)}" id="idBtnSearchInAsis" process="@this,duiasis" update="duiasistente,correoasistente,nombreasistente,apellidoasistente,cargoasistente,facultadasistente,unidadasis,telefonoasistente,celularasistente,faxasistente" icon="ui-icon-search" value="Buscar"/>
-                                    </p:column>
-                                </p:panelGrid>
-                                <p:panelGrid columns="4">
-                                    <p:column>
-                                        <p:outputLabel value="Nombre:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" required="false"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Apellido:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" required="false"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Dui:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="duiasistente" mask="99999999-9" value="#{proyectosMB.personaAsistente.duiPersona}" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Correo Electronico:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}"/>                                       
-                                    </p:column> 
-                                    <p:column>
-                                        <p:outputLabel value="Cargo:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Facultad/Unidad:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="facultadasistente" value="#{proyectosMB.facultadSelectedPojoAsis}"  style="width:180px" >
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <c:forEach var="facul" items="#{proyectosMB.facultadesUnidadesList}">
-                                                <f:selectItem itemLabel="#{facul.label}" itemValue="#{facul.value}"/>
-                                            </c:forEach>
-                                            <p:ajax event="change" listener="#{proyectosMB.mostrarCampoAsis()}" update="unidadasis" process="@this" partialSubmit="true"/>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Escuela/Departamento"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="unidadasis" value="#{proyectosMB.escuelaDeptoSelectedAsis.idEscuelaDepto}" disabled="#{proyectosMB.mostrarEscuelaAsis}" style="width:180px" >
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <c:forEach var="uni" items="#{proyectosMB.escuelaDeptoListAsis}">
-                                                <f:selectItem itemLabel="#{uni.nombreEscuelaDepto}" itemValue="#{uni.idEscuelaDepto}"/>
-                                            </c:forEach>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Telefono Fijo:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-9999-9999"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Telefono Celuluar:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Fax:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="faxasistente" value="#{proyectosMB.telefonoAsisFax.numeroTelefono}"/>
-                                    </p:column>
-                                </p:panelGrid>
+                            <p:tab title="Datos del Coordinador t&eacute;cnico del proyecto">
+                                <h:panelGroup id="idTabAsis" >
+                                    <p:panelGrid rendered="#{!proyectosMB.actualizar and proyectosMB.tabAsis}">
+                                        <p:column>
+                                            <p:outputLabel value="Dui:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="duiasis" mask="99999999-9" value="#{proyectosMB.numDocumentoAsis}"/>
+                                            <p:commandButton actionListener="#{proyectosMB.searchByDocAsistente(proyectosMB.numDocumentoAsis)}" id="idBtnSearchInAsis" process="@this,duiasis" update="duiasistente,correoasistente,nombreasistente,apellidoasistente,cargoasistente,facultadasistente,unidadasis,telefonoasistente,celularasistente,faxasistente" icon="ui-icon-search" value="Buscar"/>
+                                        </p:column>
+                                    </p:panelGrid>
+                                    <p:panelGrid columns="4" rendered="#{proyectosMB.tabAsis}">
+                                        <p:column>
+                                            <p:outputLabel value="Nombre:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" required="false"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Apellido:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" required="false"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Dui:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="duiasistente" mask="99999999-9" value="#{proyectosMB.personaAsistente.duiPersona}" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Correo Electronico:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}"/>                                       
+                                        </p:column> 
+                                        <p:column>
+                                            <p:outputLabel value="Cargo:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Facultad/Unidad:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="facultadasistente" value="#{proyectosMB.facultadSelectedPojoAsis}"  style="width:180px" >
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <c:forEach var="facul" items="#{proyectosMB.facultadesUnidadesList}">
+                                                    <f:selectItem itemLabel="#{facul.label}" itemValue="#{facul.value}"/>
+                                                </c:forEach>
+                                                <p:ajax event="change" listener="#{proyectosMB.mostrarCampoAsis()}" update="unidadasis" process="@this" partialSubmit="true"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Escuela/Departamento"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="unidadasis" value="#{proyectosMB.escuelaDeptoSelectedAsis.idEscuelaDepto}" disabled="#{proyectosMB.mostrarEscuelaAsis}" style="width:180px" >
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <c:forEach var="uni" items="#{proyectosMB.escuelaDeptoListAsis}">
+                                                    <f:selectItem itemLabel="#{uni.nombreEscuelaDepto}" itemValue="#{uni.idEscuelaDepto}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Telefono Fijo:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-9999-9999"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Telefono Celuluar:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Fax:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="faxasistente" value="#{proyectosMB.telefonoAsisFax.numeroTelefono}"/>
+                                        </p:column>
+                                    </p:panelGrid>
+                                </h:panelGroup>
                             </p:tab>
                             <p:tab title="Datos del Coordinador Externo">
                                 <p:panelGrid>

@@ -61,8 +61,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 public class ProyectosMB {
 
-    @Inject
-    ProyectoMB proyectoMB;
     @Autowired
     private AreaConocimientoService areaConocimientoService;
     @Autowired
@@ -202,6 +200,7 @@ public class ProyectosMB {
     public boolean actualizar;
     public Integer organismoInteger;
     public Boolean tabAsis;
+    public Boolean tabAsisMostrar;
     private Boolean asistenteNull;
     public Boolean consultar;
     public String fu;
@@ -319,6 +318,7 @@ public class ProyectosMB {
         actualizar = false;
         organismoInteger = 0;
         tabAsis = false;
+        tabAsisMostrar=Boolean.FALSE;
         asistenteNull = false;
         consultar = false;
         fu="";
@@ -332,7 +332,7 @@ public class ProyectosMB {
     }
 
     public void mostrarTab() {
-        tabAsis = true;
+        tabAsis = tabAsisMostrar ? Boolean.TRUE : Boolean.FALSE;
     }
 
     public void guardarProyecto() {
@@ -1332,14 +1332,6 @@ public class ProyectosMB {
         this.mostrarmonto = mostrarmonto;
     }
 
-    public ProyectoMB getProyectoMB() {
-        return proyectoMB;
-    }
-
-    public void setProyectoMB(ProyectoMB proyectoMB) {
-        this.proyectoMB = proyectoMB;
-    }
-
     public List<Facultad> getFacultadBeneficiada() {
         return facultadBeneficiada;
     }
@@ -1595,7 +1587,21 @@ public class ProyectosMB {
     public void setMostrarEscuelaAsis(Boolean mostrarEscuelaAsis) {
         this.mostrarEscuelaAsis = mostrarEscuelaAsis;
     }
-    
-    
-    
+
+    public boolean isActualizar() {
+        return actualizar;
+    }
+
+    public void setActualizar(boolean actualizar) {
+        this.actualizar = actualizar;
+    }
+
+    public Boolean getTabAsisMostrar() {
+        return tabAsisMostrar;
+    }
+
+    public void setTabAsisMostrar(Boolean tabAsisMostrar) {
+        this.tabAsisMostrar = tabAsisMostrar;
+    }
+
 }
