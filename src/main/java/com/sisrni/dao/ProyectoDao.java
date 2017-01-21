@@ -9,6 +9,7 @@ import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Proyecto;
 import com.sisrni.pojo.rpt.PojoMapaInteractivo;
 import com.sisrni.pojo.rpt.PojoProyectosByTipo;
+import com.sisrni.pojo.rpt.RptProyectoPojo;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
@@ -105,6 +106,14 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
             e.printStackTrace();
         }
         return null;
+    }
+    public List<RptProyectoPojo> getDataProyectosGestionadosReportes() {
+        String query = "select b.NOMBRE_PROYECTO nombre, b.OBJETIVO objetivo FROM proyecto b";
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("nombre", new StringType())
+                .addScalar("objetivo", new StringType())
+                .setResultTransformer(Transformers.aliasToBean(RptProyectoPojo.class));
+        return q.list();
     }
 
 }
