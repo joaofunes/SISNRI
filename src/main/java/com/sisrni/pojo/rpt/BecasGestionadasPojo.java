@@ -12,6 +12,8 @@ package com.sisrni.pojo.rpt;
 public class BecasGestionadasPojo {
 
     private Integer anio;
+    private String nombrePais;
+    private String nombreFacultad;
     private Integer gestionadas;
     private Integer becasOtorgadas;
     private Integer becasDenegadas;
@@ -42,8 +44,6 @@ public class BecasGestionadasPojo {
         this.becasOtorgadas = becasOtorgadas;
     }
 
-  
-
     public Double getMontoOtorgadas() {
         return montoOtorgadas;
     }
@@ -68,4 +68,21 @@ public class BecasGestionadasPojo {
         this.becasDenegadas = becasDenegadas;
     }
 
+    public String getNombrePais() {
+        return nombrePais;
+    }
+
+    public void setNombrePais(String nombrePais) {
+        this.nombrePais = nombrePais;
+    }
+
+    public String getNombreFacultad() {
+        return nombreFacultad;
+    }
+
+    public void setNombreFacultad(String nombreFacultad) {
+        this.nombreFacultad = nombreFacultad;
+    }
+
+   
 }

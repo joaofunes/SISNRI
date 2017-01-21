@@ -6,18 +6,16 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.jasper.Reporte;
-import com.sisrni.model.Beca;
 import com.sisrni.pojo.rpt.BecasGestionadasPojo;
 import com.sisrni.service.BecaService;
-import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.imageio.ImageIO;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,26 +33,34 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(WebApplicationContext.SCOPE_SESSION)
 public class ReporteBecas {
 
+    private int yearActual;
+    private String anioDesde;
+    private String anioHasta;
+
     private String reportName;
     @Autowired
     BecaService becaService;
 
     @PostConstruct
     public void init() {
-
+        yearActual = getYearOfDate(new Date());
     }
 
     public void print() {
         try {
+            Integer desdeYear = Integer.parseInt(anioDesde.trim());
+            Integer hastaYear = Integer.parseInt(anioHasta.trim());
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             HttpServletRequest request = (HttpServletRequest) context.getRequest();
             HttpServletResponse response = (HttpServletResponse) context.getResponse();
             Reporte reporte = new Reporte("beca", "rpt_becas_gestionadas_blank", request);
-            List<BecasGestionadasPojo> dataBecasGestionadasReportes = becaService.getDataBecasGestionadasReportes();
+            List<BecasGestionadasPojo> dataBecasGestionadasReportes = becaService.getDataBecasGestionadasReportes(desdeYear, hastaYear);
             reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<BecasGestionadasPojo>(dataBecasGestionadasReportes)));
-            String pathImage= getBaseDir();
-            reporte.addParameter("uesImageUrl",pathImage);
-            //reporte.addParameter("srniImageUrl", "C:\\Users\\Cortez\\Desktop\\TESIS\\ues.png");
+            reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
+            reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
+            reporte.addParameter("desde", anioDesde.trim());
+            reporte.addParameter("hasta", anioHasta.trim());
+            //reporte.addParameter("ItemDataSource", new JRBeanCollectionDataSource(new HashSet<BecasGestionadasPojo>(dataBecasGestionadasReportes)));
             reporte.setReportInSession(request, response);
             reportName = reporte.getNombreLogico();
             RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
@@ -63,8 +69,86 @@ public class ReporteBecas {
         }
     }
 
-    public String getBaseDir() {
-        String baseDir = "/img/ues.png";
+    public void printPaisDestino() {
+        try {
+            Integer desdeYear = Integer.parseInt(anioDesde.trim());
+            Integer hastaYear = Integer.parseInt(anioHasta.trim());
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            HttpServletRequest request = (HttpServletRequest) context.getRequest();
+            HttpServletResponse response = (HttpServletResponse) context.getResponse();
+            Reporte reporte = new Reporte("beca", "rpt_becas_gestionadas_paisDestino", request);
+            List<BecasGestionadasPojo> dataBecasGestionadasReportes = becaService.getDataBecasGestionadasGroupPaisDestino(desdeYear, hastaYear);
+            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<BecasGestionadasPojo>(dataBecasGestionadasReportes)));
+            reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
+            reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
+            reporte.addParameter("desde", anioDesde.trim());
+            reporte.addParameter("hasta", anioHasta.trim());
+            reporte.setReportInSession(request, response);
+            reportName = reporte.getNombreLogico();
+            RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+        public void printFacultad() {
+        try {
+            Integer desdeYear = Integer.parseInt(anioDesde.trim());
+            Integer hastaYear = Integer.parseInt(anioHasta.trim());
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            HttpServletRequest request = (HttpServletRequest) context.getRequest();
+            HttpServletResponse response = (HttpServletResponse) context.getResponse();
+            Reporte reporte = new Reporte("beca", "rpt_becas_gestionadas_facultad", request);
+            List<BecasGestionadasPojo> dataBecasGestionadasReportes = becaService.getDataBecasGestionadasGroupFacultad(desdeYear, hastaYear);
+            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<BecasGestionadasPojo>(dataBecasGestionadasReportes)));
+            reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
+            reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
+            reporte.addParameter("desde", anioDesde.trim());
+            reporte.addParameter("hasta", anioHasta.trim());
+            reporte.setReportInSession(request, response);
+            reportName = reporte.getNombreLogico();
+            RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private Integer getYearOfDate(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        Integer year = cal.get(Calendar.YEAR);
+        return year;
+    }
+
+    public int getYearActual() {
+        return yearActual;
+    }
+
+    public void setYearActual(int yearActual) {
+        this.yearActual = yearActual;
+    }
+
+    public String getAnioDesde() {
+        return anioDesde;
+    }
+
+    public void setAnioDesde(String anioDesde) {
+        this.anioDesde = anioDesde;
+    }
+
+    public String getAnioHasta() {
+        return anioHasta;
+    }
+
+    public void setAnioHasta(String anioHasta) {
+        this.anioHasta = anioHasta;
+    }
+
+    public String getBaseDir(String imagen) {
+        String baseDir = "/img/" + imagen;
         try {
             return FacesContext.getCurrentInstance()
                     .getExternalContext()

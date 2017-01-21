@@ -7,6 +7,8 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Noticia;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -18,9 +20,31 @@ import org.springframework.stereotype.Repository;
 @Repository(value = "noticiaDao")
 public class NoticiaDao extends GenericDao<Noticia, Integer> {
 
-    public List<Noticia> getActiveNews() {
-        String query = "Select n from Noticia n where n.estadoNoticia=1";
+    public List<Noticia> getActiveNews(Integer categoria) {
+
+        String query = "Select n from Noticia n where n.estadoNoticia=1 ";
+        if (categoria != 0) {
+            query += "and n.idCategoria.idCategoria=:categoria ";
+        }
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
+        if (categoria != 0) {
+            q.setParameter("categoria", categoria);
+        }
+        query += "order by n.fechaNoticia desc";
         return q.list();
     }
+
+    public Long getCountNoticiasByCat(String cat, Date desde, Date hasta) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//        String frmDate=format.format(desde);
+//       
+//        String enDate = format.format(hasta);
+        String query = "Select count(n.idNoticia) from Noticia n where n.estadoNoticia=1 and n.idCategoria.categoriaNoticia =:cat and n.fechaNoticia between :desde and :hasta ";
+        Query q = getSessionFactory().getCurrentSession().createQuery(query);
+        q.setParameter("cat", cat);
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        return (Long) q.uniqueResult();
+    }
+
 }

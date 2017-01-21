@@ -7,14 +7,35 @@
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui" 
-                 >
+
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
     <ui:define name="content">
         <h:form> 
-            <p:dataScroller value="#{noticiaMB.listar()}" var="car" chunkSize="10">
+            <center>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="categoria" value="Filtrar:" style="size: 30px"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelectedPublicas}" style="width:125px">
+                                <f:selectItem itemValue="0" itemLabel="--Todas--"/>
+                                <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
+                                    <f:selectItem itemLabel="#{cat.categoriaNoticia}" itemValue="#{cat.idCategoria}" />        
+                                </c:forEach>
+                                <p:ajax event="change" update="idDataScroll" listener="#{noticiaMB.listarOnCatChange()}" process="@this"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </center>
+
+
+            <p:dataScroller id="idDataScroll" value="#{noticiaMB.noticiasListPublicas}" var="car" chunkSize="10">
                 <f:facet name="header">
-                    <p:outputLabel value="Noticias" style="font-size: 25px"/>
+                    <p:outputLabel value="Noticias Recientes" style="font-size: 25px"/>
                 </f:facet>
                 <f:facet name="loader">
                     <p:commandButton type="button" value="Ver Mas" icon="ui-icon-circle-triangle-s"/>

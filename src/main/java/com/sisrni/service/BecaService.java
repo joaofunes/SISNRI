@@ -34,8 +34,15 @@ public class BecaService extends GenericService<Beca, Integer> {
         return becaDao.getBecas(idBecaSearch);
     }
 
-    public List<BecasGestionadasPojo> getDataBecasGestionadasReportes() {
-        return becaDao.getDataBecasGestionadasReportes();
+    public List<BecasGestionadasPojo> getDataBecasGestionadasReportes(Integer desde, Integer hasta) {
+        return becaDao.getDataBecasGestionadasReportes(desde, hasta);
     }
 
+    public List<BecasGestionadasPojo> getDataBecasGestionadasGroupPaisDestino(Integer desde, Integer hasta) {
+        return becaDao.getDataBecasGestionadasGroupPaisDestino(desde, hasta);
+    }
+
+    public List<BecasGestionadasPojo> getDataBecasGestionadasGroupFacultad(Integer desde, Integer hasta) {
+        return becaDao.getDataBecasGestionadasGroupFacultad(desde, hasta);
+    }
 }

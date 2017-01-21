@@ -2,37 +2,56 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition 
-                template="/WEB-INF/templates/layout.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
-    
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
     <ui:define name="content">
-       <ui:include src="../common/Print.xhtml"/>
-  
-       <h:form id="form">
+        <ui:include src="../common/Print.xhtml"/>
 
-            <div align="center" style="border: 1px black solid">
-                <h3 align="center">Prueba de becas gestionada segun periodo</h3>
-                <h1 class="title ui-widget-header ui-corner-all" align="center">SISNRI</h1>
+        <h:form id="form">
 
+            <div align="center" style="border:0px black solid">
+                <h1 class="title ui-widget-header ui-corner-all" align="center">Reporte de Becas Gestionadas</h1>
+                <p:fieldset legend="Parametros de Entrada" style="font-size: 17px">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel  value="Desde: " />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu id="anioDesde" value="#{reporteBecas.anioDesde}" style="width:180px">
+                                    <c:forEach begin="0" end="125" varStatus="loop">
+                                        <c:set var="currentYear" value="${reporteBecas.yearActual-loop.index} " />
+                                        <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
+                                    </c:forEach>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel  value="Hasta: " />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu id="anioHasta" value="#{reporteBecas.anioHasta}" style="width:180px">
+                                    <c:forEach begin="0" end="125" varStatus="loop">
+                                        <c:set var="currentYear" value="${reporteBecas.yearActual-loop.index} " />
+                                        <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
+                                    </c:forEach>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
 
-                <p:panelGrid  columns="2" columnClasses="column">
-                   
-                    <p:column>
-                        <h:outputLabel for="rpt" value="Nombre de Reporte : XD" />
-                    </p:column>
-                </p:panelGrid>
-
-               
                 <h:panelGrid columns="2"  cellpadding="5">
                     <f:facet name="footer">
                         <div class="footer-section">
-                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="sss"  actionListener="#{reporteBecas.print()}" oncomplete="print(xhr, status, args)"/>                   
+                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="Generar"  actionListener="#{reporteBecas.printFacultad()}" oncomplete="print(xhr, status, args)"/>                   
                             <p:commandButton value="Cancelar"   icon="ui-icon-trash"    />
-                           
+
                         </div>
                     </f:facet>
                 </h:panelGrid>
@@ -40,6 +59,6 @@
             </div>
 
         </h:form>
-       
-</ui:define>  
+
+    </ui:define>  
 </ui:composition>

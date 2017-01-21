@@ -64,10 +64,10 @@ public class BecaDao extends GenericDao<Beca, Integer> {
         return null;
     }
 
-    public List<BecasGestionadasPojo> getDataBecasGestionadasReportes() {
+    public List<BecasGestionadasPojo> getDataBecasGestionadasReportes(Integer desde, Integer hasta) {
         String query = "select b.ANIO_GESTION anio, count(b.ID_BECA) gestionadas,(SELECT COUNT(i.ID_BECA) FROM beca i WHERE i.OTORGADA=1 and i.ANIO_GESTION=b.ANIO_GESTION) becasOtorgadas,(SELECT SUM(a.MONTO_TOTAL) FROM beca a WHERE a.OTORGADA=1 and a.ANIO_GESTION=b.ANIO_GESTION) 'montoOtorgadas',(SELECT COUNT(c.ID_BECA) FROM beca c WHERE c.OTORGADA=0 and c.ANIO_GESTION=b.ANIO_GESTION) becasDenegadas,(SELECT SUM(r.MONTO_TOTAL) FROM beca r WHERE r.OTORGADA=0 and r.ANIO_GESTION=b.ANIO_GESTION) montoDenegadas  from beca b WHERE b.ANIO_GESTION BETWEEN\n"
-                + "2016 and 2017\n"
-                + "GROUP BY b.ANIO_GESTION";
+                + desde + " and " + hasta + " \n"
+                + "GROUP BY b.ANIO_GESTION ORDER BY b.ANIO_GESTION desc";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("anio", new IntegerType())
                 .addScalar("gestionadas", new IntegerType())
@@ -78,4 +78,49 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 .setResultTransformer(Transformers.aliasToBean(BecasGestionadasPojo.class));
         return q.list();
     }
+
+    public List<BecasGestionadasPojo> getDataBecasGestionadasGroupPaisDestino(Integer desde, Integer hasta) {
+        String query = "select p.NOMBRE_PAIS nombrePais,count(b.ID_BECA) gestionadas,\n"
+                + "(SELECT COUNT(i.ID_BECA) FROM beca i WHERE i.OTORGADA=1 and i.ID_PAIS_DESTINO=b.ID_PAIS_DESTINO) becasOtorgadas,\n"
+                + "(SELECT SUM(a.MONTO_TOTAL) FROM beca a WHERE a.OTORGADA=1 and a.ID_PAIS_DESTINO=b.ID_PAIS_DESTINO) montoOtorgadas,\n"
+                + "(SELECT COUNT(c.ID_BECA) FROM beca c WHERE c.OTORGADA=0 and c.ID_PAIS_DESTINO=b.ID_PAIS_DESTINO) becasDenegadas,\n"
+                + "(SELECT SUM(r.MONTO_TOTAL) FROM beca r WHERE r.OTORGADA=0 and r.ID_PAIS_DESTINO=b.ID_PAIS_DESTINO) montoDenegadas\n"
+                + "from beca b INNER JOIN pais p ON b.ID_PAIS_DESTINO=p.ID_PAIS\n"
+                + "WHERE b.ANIO_GESTION BETWEEN " + desde + " and " + hasta + "\n"
+                + "GROUP BY b.ID_PAIS_DESTINO ORDER BY b.ID_PAIS_DESTINO asc";
+
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("nombrePais", new StringType())
+                .addScalar("gestionadas", new IntegerType())
+                .addScalar("becasOtorgadas", new IntegerType())
+                .addScalar("montoOtorgadas", new DoubleType())
+                .addScalar("becasDenegadas", new IntegerType())
+                .addScalar("montoDenegadas", new DoubleType())
+                .setResultTransformer(Transformers.aliasToBean(BecasGestionadasPojo.class));
+        return q.list();
+    }
+
+    public List<BecasGestionadasPojo> getDataBecasGestionadasGroupFacultad(Integer desde, Integer hasta) {
+        String query = "SELECT f.NOMBRE_FACULTAD nombreFacultad, count(*) gestionadas,\n"
+                + "SUM(if(b.OTORGADA=0,1,0)) becasDenegadas,\n"
+                + "       SUM(if(b.OTORGADA=1,1,0)) becasOtorgadas,\n"
+                + "       SUM(if(b.OTORGADA=1,b.MONTO_TOTAL,0)) montoOtorgadas\n"
+                + "from BECA b\n"
+                + "INNER JOIN persona_beca pb ON b.ID_BECA = pb.ID_BECA\n"
+                + "INNER JOIN persona p ON pb.ID_PERSONA = p.ID_PERSONA\n"
+                + "INNER JOIN carrera c ON p.ID_CARRERA = c.ID_CARRERA\n"
+                + "INNER JOIN facultad f ON c.ID_FACULTAD = f.ID_FACULTAD\n"
+                + "WHERE b.ANIO_GESTION BETWEEN " + desde + " AND " + hasta + "\n"
+                + "GROUP BY f.ID_FACULTAD ORDER BY f.NOMBRE_FACULTAD ASC";
+
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("nombreFacultad", new StringType())
+                .addScalar("gestionadas", new IntegerType())
+                .addScalar("becasOtorgadas", new IntegerType())
+                .addScalar("montoOtorgadas", new DoubleType())
+                .addScalar("becasDenegadas", new IntegerType())
+                .setResultTransformer(Transformers.aliasToBean(BecasGestionadasPojo.class));
+        return q.list();
+    }
+
 }

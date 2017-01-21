@@ -9,6 +9,7 @@ import com.sisrni.dao.NoticiaDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Noticia;
 import com.sisrni.service.generic.GenericService;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,10 @@ public class NoticiaService extends GenericService<Noticia, Integer> {
         return noticiaDao;
     }
 
-    public List<Noticia> getActiveNews() {
-        return noticiaDao.getActiveNews();
+    public List<Noticia> getActiveNews(Integer categoria) {
+        return noticiaDao.getActiveNews(categoria);
     }
+     public Long getCountNoticiasByCat(String cat, Date desde, Date hasta) {
+       return noticiaDao.getCountNoticiasByCat(cat, desde, hasta);
+     }
 }

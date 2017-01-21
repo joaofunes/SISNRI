@@ -51,6 +51,8 @@ public class NoticiaMB implements Serializable {
     private CategoriaNoticia categoriaSelected;
     private List<CategoriaNoticia> categoriaNoticiaList;
     private List<Noticia> noticiasList;
+    private List<Noticia> noticiasListPublicas;
+    private Integer categoriaSelectedPublicas;
     private Boolean actualizar;
     private Noticia noticiaPopUp;
 
@@ -77,6 +79,8 @@ public class NoticiaMB implements Serializable {
         categoriaSelected = new CategoriaNoticia();
         categoriaNoticiaList = categoriaNoticiaService.findAll();
         noticiasList = noticiaService.findAll();
+        categoriaSelectedPublicas = 0;
+        noticiasListPublicas = noticiaService.getActiveNews(categoriaSelectedPublicas);
         actualizar = false;
         noticiaPopUp = new Noticia();
     }
@@ -209,8 +213,12 @@ public class NoticiaMB implements Serializable {
         return noticiasList;
     }
 
-    public List<Noticia> listar() {
-        return noticiaService.getActiveNews();
+    public void listarOnCatChange() {
+        try {
+            noticiasListPublicas = noticiaService.getActiveNews(categoriaSelectedPublicas);
+        } catch (Exception e) {
+        }
+
     }
 
     public void setNoticiasList(List<Noticia> noticiasList) {
@@ -243,6 +251,22 @@ public class NoticiaMB implements Serializable {
 
     public void setNoticiaPopUp(Noticia noticiaPopUp) {
         this.noticiaPopUp = noticiaPopUp;
+    }
+
+    public List<Noticia> getNoticiasListPublicas() {
+        return noticiasListPublicas;
+    }
+
+    public void setNoticiasListPublicas(List<Noticia> noticiasListPublicas) {
+        this.noticiasListPublicas = noticiasListPublicas;
+    }
+
+    public Integer getCategoriaSelectedPublicas() {
+        return categoriaSelectedPublicas;
+    }
+
+    public void setCategoriaSelectedPublicas(Integer categoriaSelectedPublicas) {
+        this.categoriaSelectedPublicas = categoriaSelectedPublicas;
     }
 
 }
