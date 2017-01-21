@@ -16,7 +16,7 @@
         <h:form id="form">
 
             <div align="center" style="border:0px black solid">
-                <h1 class="title ui-widget-header ui-corner-all" align="center">Reporte de Becas Gestionadas</h1>
+                <h1 class="title ui-widget-header ui-corner-all" align="center">Reporte de Noticias Publicadas</h1>
                 <p:fieldset legend="Parametros de Entrada" style="font-size: 17px">
                     <p:panelGrid>
                         <p:row>
@@ -24,23 +24,13 @@
                                 <p:outputLabel  value="Desde: " />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu id="anioDesde" value="#{reporteBecas.anioDesde}" style="width:180px">
-                                    <c:forEach begin="0" end="125" varStatus="loop">
-                                        <c:set var="currentYear" value="${reporteBecas.yearActual-loop.index} " />
-                                        <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
-                                    </c:forEach>
-                                </p:selectOneMenu>
+                                <p:calendar id="germanDesde" value="#{reporteNoticias.desde}" locale="de" navigator="true" pattern="dd/MM/yyyy" />
                             </p:column>
                             <p:column>
                                 <p:outputLabel  value="Hasta: " />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu id="anioHasta" value="#{reporteBecas.anioHasta}" style="width:180px">
-                                    <c:forEach begin="0" end="125" varStatus="loop">
-                                        <c:set var="currentYear" value="${reporteBecas.yearActual-loop.index} " />
-                                        <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
-                                    </c:forEach>
-                                </p:selectOneMenu>
+                                <p:calendar id="germanHasta" value="#{reporteNoticias.hasta}" locale="de" navigator="true" pattern="dd/MM/yyyy" />
                             </p:column>
                         </p:row>
                     </p:panelGrid>
@@ -49,7 +39,7 @@
                 <h:panelGrid columns="2"  cellpadding="5">
                     <f:facet name="footer">
                         <div class="footer-section">
-                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="Generar"  actionListener="#{reporteBecas.print()}" oncomplete="print(xhr, status, args)"/>                   
+                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="Generar"  actionListener="#{reporteNoticias.obtenerDatos()}" oncomplete="print(xhr, status, args)"/>                   
                             <p:commandButton value="Cancelar"   icon="ui-icon-trash"    />
 
                         </div>

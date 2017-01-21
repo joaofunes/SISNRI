@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tabla2" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="10feaed3-4037-4b2c-a754-2291cf60be4a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="136"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#DC143C">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFCC">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="ItemDataSet" uuid="a4beaf02-0993-4e21-b02d-d2e9dc953cd6">
+		<field name="anio" class="java.lang.Integer"/>
+		<field name="gestionadas" class="java.lang.Integer"/>
+		<field name="becasOtorgadas" class="java.lang.Integer"/>
+		<field name="becasDenegadas" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="ItemDataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<componentElement>
+				<reportElement uuid="e11e1793-b896-4134-8a28-7ebc6549991a" key="table" style="table" x="0" y="0" width="572" height="125"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ItemDataSet" uuid="90b26577-81b0-4227-b37f-4ab578f63794">
+						<dataSourceExpression><![CDATA[$P{ItemDataSource}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="144" uuid="953707c6-dd70-4a67-8299-89513ae706f0">
+						<jr:columnHeader style="table_CH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement uuid="231157d0-0d56-4dc3-8630-d39be193364c" mode="Opaque" x="0" y="0" width="144" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" isBold="true"/>
+									<paragraph leftIndent="2"/>
+								</textElement>
+								<text><![CDATA[Año	]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="04ba803a-029e-4205-b60a-93999b7a867b" x="0" y="0" width="144" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="11" isUnderline="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{anio}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="144" uuid="d3947c74-65d1-49e2-912e-5dea8ae3ca73">
+						<jr:columnHeader style="table_CH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement uuid="1fbf07fc-814f-433f-a386-15cc0cf58b8f" mode="Opaque" x="0" y="0" width="144" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+									<paragraph leftIndent="2"/>
+								</textElement>
+								<text><![CDATA[Gestionadas]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="2a71b80c-681c-4b04-8cf8-afa1edd2a38a" x="0" y="0" width="144" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="11" isUnderline="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{gestionadas}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="144" uuid="4411baad-fb42-4ef8-93b6-22782054bae4">
+						<jr:columnHeader style="table_CH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement uuid="1258ffa9-76f3-4808-b88e-5888117e95ca" mode="Opaque" x="0" y="0" width="144" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+									<paragraph leftIndent="2"/>
+								</textElement>
+								<text><![CDATA[Otorgadas]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="9088b2f3-07f0-46bf-a37d-18419f844b41" x="0" y="0" width="144" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="11" isUnderline="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{becasOtorgadas}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="141" uuid="3f973aba-8c72-4420-853e-9d179cfd21bf">
+						<jr:columnHeader style="table_CH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement uuid="c416474d-f2d4-4c45-aadf-8ed386f570bf" mode="Opaque" x="0" y="0" width="141" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+									<paragraph leftIndent="2"/>
+								</textElement>
+								<text><![CDATA[Denegadas]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="4588eb97-3892-48ec-b2a4-cc4c398f4893" x="0" y="0" width="141" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="11" isUnderline="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{becasDenegadas}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement uuid="79461f66-29d1-4cd5-abe2-7d0f6070d822" x="0" y="24" width="572" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

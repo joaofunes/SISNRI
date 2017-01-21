@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
-	<property name="ireport.zoom" value="1.6105100000000199"/>
+	<property name="ireport.zoom" value="2.35794769100003"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="149"/>
+	<property name="ireport.y" value="597"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -10,23 +10,23 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="anio" class="java.lang.Integer">
-		<fieldDescription><![CDATA[anio]]></fieldDescription>
-	</field>
-	<field name="becasDenegadas" class="java.lang.Integer">
-		<fieldDescription><![CDATA[becasDenegadas]]></fieldDescription>
+	<field name="gestionadas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[gestionadas]]></fieldDescription>
 	</field>
 	<field name="becasOtorgadas" class="java.lang.Integer">
 		<fieldDescription><![CDATA[becasOtorgadas]]></fieldDescription>
 	</field>
-	<field name="gestionadas" class="java.lang.Integer">
-		<fieldDescription><![CDATA[gestionadas]]></fieldDescription>
+	<field name="nombrePais" class="java.lang.String">
+		<fieldDescription><![CDATA[nombrePais]]></fieldDescription>
 	</field>
 	<field name="montoDenegadas" class="java.lang.Double">
 		<fieldDescription><![CDATA[montoDenegadas]]></fieldDescription>
 	</field>
 	<field name="montoOtorgadas" class="java.lang.Double">
 		<fieldDescription><![CDATA[montoOtorgadas]]></fieldDescription>
+	</field>
+	<field name="becasDenegadas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[becasDenegadas]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -101,7 +101,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Año]]></text>
+				<text><![CDATA[ Pais Destino]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="4591de44-19ac-4ff4-931f-e681ad845686" mode="Opaque" x="213" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
@@ -136,13 +136,6 @@
 				<textFieldExpression><![CDATA[$F{gestionadas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="20a19768-b408-4045-8acd-c8c29417d3b5" x="0" y="0" width="108" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{anio}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement uuid="239fcef6-fd46-4444-a978-51020881f255" x="213" y="0" width="105" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="11"/>
@@ -162,6 +155,11 @@
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{becasDenegadas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d18f2318-a74f-4311-9199-2200bfc42d7c" x="0" y="0" width="108" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nombrePais}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -195,7 +193,7 @@
 					<chartLegend/>
 				</chart>
 				<pieDataset>
-					<keyExpression><![CDATA[$F{anio}]]></keyExpression>
+					<keyExpression><![CDATA[$F{nombrePais}]]></keyExpression>
 					<valueExpression><![CDATA[$F{gestionadas}]]></valueExpression>
 					<labelExpression><![CDATA[$F{gestionadas}+""]]></labelExpression>
 				</pieDataset>
@@ -234,7 +232,7 @@
 					<chartLegend/>
 				</chart>
 				<pieDataset>
-					<keyExpression><![CDATA[$F{anio}]]></keyExpression>
+					<keyExpression><![CDATA[$F{nombrePais}]]></keyExpression>
 					<valueExpression><![CDATA[$F{becasOtorgadas}]]></valueExpression>
 					<labelExpression><![CDATA[$F{becasOtorgadas}+""]]></labelExpression>
 				</pieDataset>
