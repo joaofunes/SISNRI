@@ -351,12 +351,12 @@ public class registrarMovilidadMB {
         listEscuelaDepartamentoPersonaMovilidad = new ArrayList<EscuelaDepartamento>();
 
         // tipos telefonos
-        tipoTelefonoFax = tipoTelefonoService.getTipoByDesc("FAX");
+        tipoTelefonoFax = tipoTelefonoService.getTipoByDesc("FAX");  //REVISAR ESTO
         tipoTelefonoFijo = tipoTelefonoService.getTipoByDesc("FIJO");
         tipoTelefonoCel = tipoTelefonoService.getTipoByDesc("CELULAR");
 
         //Tipos personas
-        tipoPersonaReferenteFact = tipoPersonaService.getTipoPersonaByNombre("REFERENTE FACULTAD BENEFICIADA");
+        tipoPersonaReferenteFact = tipoPersonaService.getTipoPersonaByNombre("REFERENTE FACULTAD BENEFICIADA");  //REVISAR ESTO
         tipoPersonaSaliente = tipoPersonaService.getTipoPersonaByNombre("DOCENTE EN MOVILIDAD");
 
         listPersonaReferenteFacultad = personaService.getPersonasByIdOrganismo(1);  // Revisar esto
@@ -474,7 +474,7 @@ public class registrarMovilidadMB {
     public void onchangeListPaisOrigen() {
         try {
             if (paisOrigenSelected != null) {
-                listOrganismosOrigen = organismoService.getOrganismosPorPaisYTipo(paisOrigenSelected, 1);
+                listOrganismosOrigen = organismoService.getOrganismosPorPaisYTipo(paisOrigenSelected, 1); //REVISAR ESTO
             }
         } catch (Exception e) {
 
@@ -1080,7 +1080,7 @@ public class registrarMovilidadMB {
 
                 //Cargando las Personas
                 //Persona en movilidad
-                personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD");
+                personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD");  //REVISAR ESTO
                 existePersonaMovilidad = true;
                 escuelaDepto = personaMovilidadGenerico.getIdEscuelaDepto();
                 if (tipoMovilidad == 2) { //movilidad Saliente
@@ -1136,7 +1136,7 @@ public class registrarMovilidadMB {
                 }
 
                 //Persona Referente Facultad
-                personaFacultadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "REFERENTE FACULTAD BENEFICIADA");
+                personaFacultadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "REFERENTE FACULTAD BENEFICIADA"); //REVISAR ESTO
                 existeReferente = true;
                 escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
                 if (escuelaDeptoReferente != null) {
@@ -1266,7 +1266,7 @@ public class registrarMovilidadMB {
 
                 //Cargando las Personas
                 //Persona en movilidad
-                personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD");
+                personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD"); //REVISAR ESTO
                 existePersonaMovilidad = true;
                 escuelaDepto = personaMovilidadGenerico.getIdEscuelaDepto();
                 if (tipoMovilidad == 2) { //movilidad Saliente
@@ -1314,7 +1314,7 @@ public class registrarMovilidadMB {
                 }
 
                 //Persona Referente Facultad
-                personaFacultadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "REFERENTE FACULTAD BENEFICIADA");
+                personaFacultadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "REFERENTE FACULTAD BENEFICIADA"); //REVISAR ESTO
                 existeReferente = true;
                 escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
                 if (escuelaDeptoReferente != null) {
