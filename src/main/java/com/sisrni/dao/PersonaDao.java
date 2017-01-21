@@ -201,7 +201,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getPersonaList(boolean extranjero) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE  a.extranjero =:extranjero AND a.activo is true")
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  a.extranjero =:extranjero AND a.activo is true")
                     .setBoolean("extranjero", extranjero);
             return q.list();
 
