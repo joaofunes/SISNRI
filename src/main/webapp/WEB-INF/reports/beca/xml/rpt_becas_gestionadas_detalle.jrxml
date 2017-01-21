@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="708" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
+	<property name="ireport.zoom" value="1.8660295208389333"/>
+	<property name="ireport.x" value="180"/>
+	<property name="ireport.y" value="310"/>
+	<parameter name="uesImageUrl" class="java.lang.String"/>
+	<parameter name="srniImageUrl" class="java.lang.String"/>
+	<parameter name="desde" class="java.lang.String"/>
+	<parameter name="hasta" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="apellido" class="java.lang.String">
+		<fieldDescription><![CDATA[apellido]]></fieldDescription>
+	</field>
+	<field name="anio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[anio]]></fieldDescription>
+	</field>
+	<field name="facultad" class="java.lang.String">
+		<fieldDescription><![CDATA[facultad]]></fieldDescription>
+	</field>
+	<field name="montoBeca" class="java.lang.Double">
+		<fieldDescription><![CDATA[montoBeca]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	</field>
+	<field name="paisDestino" class="java.lang.String">
+		<fieldDescription><![CDATA[paisDestino]]></fieldDescription>
+	</field>
+	<field name="programaBeca" class="java.lang.String">
+		<fieldDescription><![CDATA[programaBeca]]></fieldDescription>
+	</field>
+	<field name="universidadDestino" class="java.lang.String">
+		<fieldDescription><![CDATA[universidadDestino]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="131" splitType="Stretch">
+			<elementGroup>
+				<staticText>
+					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="0" y="0" width="708" height="32"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Universidad de El Salvador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="0" y="32" width="708" height="20"/>
+					<textElement textAlignment="Center">
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Secretaria de Relaciones Nacionales e Internacionales]]></text>
+				</staticText>
+			</elementGroup>
+			<staticText>
+				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="75" width="708" height="25" forecolor="#5B63B1"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte Detalle Becas]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="368" y="100" width="340" height="20" forecolor="#786C6C"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="154" y="100" width="214" height="20" forecolor="#786C6C"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Fecha de creacion: "]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="0" y="0" width="65" height="65"/>
+				<imageExpression><![CDATA[$P{uesImageUrl}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="642" y="0" width="65" height="65"/>
+				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="0" y="16" width="708" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Periodo de consulta Desde : " +$P{desde} + " Hasta: "+$P{hasta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="187" y="0" width="101" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Facultad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="0" y="0" width="187" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Becario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4591de44-19ac-4ff4-931f-e681ad845686" mode="Opaque" x="288" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Programa Beca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a997b92c-483d-41a2-9401-1755f03eab09" mode="Opaque" x="393" y="0" width="44" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Año]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79717a4b-be92-4af8-9c2a-4bc292094163" mode="Opaque" x="437" y="0" width="91" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pais Destino]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79717a4b-be92-4af8-9c2a-4bc292094163" mode="Opaque" x="528" y="0" width="114" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Universida Destino]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79717a4b-be92-4af8-9c2a-4bc292094163" mode="Opaque" x="642" y="0" width="66" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="5ee19e1c-16b5-432f-89f2-f23c7e5b87da" stretchType="RelativeToTallestObject" x="0" y="0" width="187" height="20"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nombre}+ " " + $F{apellido}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement uuid="5d7570d8-d636-41fb-9e42-34e0eb0ef620" stretchType="RelativeToTallestObject" mode="Transparent" x="187" y="0" width="101" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{facultad}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement uuid="dadd3772-a81c-4bd8-a3a5-466200ca7ee1" stretchType="RelativeToTallestObject" mode="Transparent" x="288" y="0" width="105" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{programaBeca}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement uuid="9ed847a2-a254-428b-b6d8-9c31dfd93c5d" stretchType="RelativeToTallestObject" mode="Transparent" x="393" y="0" width="44" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement uuid="55e23f47-74fa-4c46-928f-42701639bb26" stretchType="RelativeToTallestObject" mode="Transparent" x="437" y="0" width="91" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paisDestino}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement uuid="10a9ddd6-c204-4af8-8ff4-5761b1f35a2d" stretchType="RelativeToTallestObject" mode="Transparent" x="528" y="0" width="114" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{universidadDestino}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern=" $ #,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="560bfe71-f6da-4202-aa9a-d269657b2964" stretchType="RelativeToTallestObject" mode="Transparent" x="642" y="0" width="66" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montoBeca}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch">
+			<line>
+				<reportElement uuid="52c1682d-a761-425b-adee-0c857f0badbb" x="0" y="0" width="707" height="2"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="21" splitType="Stretch">
+			<elementGroup>
+				<textField>
+					<reportElement uuid="ca85c37e-d9a9-4449-a43d-95c36d307209" x="0" y="1" width="707" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"+ " " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
