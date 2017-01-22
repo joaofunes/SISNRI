@@ -50,7 +50,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="facultadbecario" value="#{becaConsultarMB.facultadSelectedBecario.idFacultad}"  style="width:180px" >
-                                                <p:ajax event="change" listener="#{becaConsultarMB.getCarrerasByFacultad}" process="@this" update="carreraBecario"/>
                                                 <c:forEach var="fac" items="#{becaConsultarMB.facultadList}">
                                                     <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
                                                 </c:forEach>
@@ -91,7 +90,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="paiscooperantebeca" value="#{becaConsultarMB.paisCooperanteSelected.idPais}"  style="width:180px">
-
                                                 <c:forEach var="pais" items="#{becaConsultarMB.paisList}">
                                                     <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
                                                 </c:forEach>
@@ -102,7 +100,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="programaBecas" value="#{becaConsultarMB.programaBecaSelected.idPrograma}"  style="width:180px">
-
                                                 <c:forEach var="programa" items="#{becaConsultarMB.programaBecaList}">
                                                     <f:selectItem itemLabel="#{programa.nombrePrograma}" itemValue="#{programa.idPrograma}"/>
                                                 </c:forEach>
@@ -115,8 +112,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="paisdestino" value="#{becaConsultarMB.paisDestinoSelected.idPais}"  style="width:180px">
-
-                                                <p:ajax event="change" listener="#{becaConsultarMB.getUniversidadesPorPais(becaConsultarMB.paisDestinoSelected.idPais)}" process="@this" update="universidadDestino"/>
                                                 <c:forEach var="pais" items="#{becaConsultarMB.paisList}">
                                                     <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
                                                 </c:forEach>
@@ -167,7 +162,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText readonly="true" value="#{becaConsultarMB.beca.montoExterno}" id="montoexterno">
-                                                <p:ajax event="blur" listener="#{becaConsultarMB.cambiarMontoBeca}" update="montototal" />
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -175,7 +169,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText readonly="true" value="#{becaConsultarMB.beca.montoInterno}" disabled="#{becaConsultarMB.mostrarmonto}" id="montointerno">
-                                                <p:ajax event="blur" listener="#{becaConsultarMB.cambiarMontoBeca}" update="montototal" />
                                             </p:inputText>
                                         </p:column>
                                     </p:row>
@@ -238,8 +231,6 @@
                                             </p:column>
                                             <p:column>
                                                 <p:selectOneMenu id="facultadUnidadAI" value="#{becaConsultarMB.facuniSelectded}"  style="width:180px" >
-                                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                    <p:ajax event="change" listener="#{becaConsultarMB.onFacUniChange}" update="escuelaDep" process="@this"/>
                                                     <c:forEach var="fac" items="#{becaConsultarMB.facultadesUnidadesList}">
                                                         <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
                                                     </c:forEach>
@@ -252,7 +243,6 @@
                                             </p:column>
                                             <p:column>
                                                 <p:selectOneMenu id="escuelaDep" value="#{becaConsultarMB.escuelaDeptoInterno.idEscuelaDepto}"  style="width:180px" >
-                                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                     <c:forEach var="escDep" items="#{becaConsultarMB.escuelaDepartamentoList}">
                                                         <f:selectItem itemLabel="#{escDep.descripcion}" itemValue="#{escDep.idEscuelaDepto}"/>
                                                     </c:forEach>
@@ -279,7 +269,6 @@
                             </p:tab>
                             <p:tab title="Datos del Asesor Externo">
                                 <h:panelGroup id="aidiExterno">
-                                    <p:separator rendered="#{becaConsultarMB.mostrarTabExterno}"/>
                                     <p:panelGrid id="panelExt" rendered="#{becaConsultarMB.mostrarTabExterno}">
                                         <p:row>
                                             <p:column>
