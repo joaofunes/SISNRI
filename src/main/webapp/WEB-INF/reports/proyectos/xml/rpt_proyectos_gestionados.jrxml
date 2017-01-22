@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_proyectos_gestionados" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="09827370-de1a-4458-b232-447fc2e04db5">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="25"/>
 	<property name="ireport.y" value="17"/>
+	<parameter name="Desde" class="java.lang.String"/>
+	<parameter name="Hasta" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -69,7 +71,28 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement uuid="9bf2b8e1-ab7a-429f-8a1a-f54e72ab7cfb" x="246" y="1" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{Desde}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d6b010e0-9be3-46f4-9d7e-2ee1559d4346" x="442" y="1" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{Hasta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9c9174c5-48c3-47cc-8881-abe8d985b42d" x="190" y="1" width="55" height="20"/>
+				<textElement/>
+				<text><![CDATA[Desde:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ce5171d8-63d3-476a-bba3-9e81f7bf2001" x="394" y="1" width="47" height="20"/>
+				<textElement/>
+				<text><![CDATA[Hasta:]]></text>
+			</staticText>
+		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="21" splitType="Stretch">
