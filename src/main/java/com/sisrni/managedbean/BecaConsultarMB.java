@@ -46,6 +46,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -55,9 +56,9 @@ import org.springframework.web.context.WebApplicationContext;
  *
  * @author Cortez
  */
-@Named(value = "becaMB")
+@Named(value = "becaConsultarMB")
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
-public class BecaMB implements Serializable {
+public class BecaConsultarMB implements Serializable {
 
     /**
      * Creates a new instance of BecaMB
@@ -132,9 +133,14 @@ public class BecaMB implements Serializable {
 
     private boolean tabExternoBoolean;
     private boolean mostrarTabExterno;
-    
+
     private boolean noEstabaInterno;
     private boolean noEstabaExterno;
+
+    private String modalidad;
+private String fechaInicioString;
+    private String fechaFinString;
+    private String otorgadaString;
 
     @Autowired
     FacultadService facultadService;
@@ -184,7 +190,7 @@ public class BecaMB implements Serializable {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public BecaMB() {
+    public BecaConsultarMB() {
     }
 
     @PostConstruct
@@ -310,7 +316,7 @@ public class BecaMB implements Serializable {
                 telefonoCelularAsesorInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
                 telefonoCelularAsesorInterno.setIdPersona(asesorInterno);
                 asesorInterno.getTelefonoList().add(telefonoCelularAsesorInterno);
-                if (existeInterno == true || (actualizar == true && noEstabaInterno==false) ) {
+                if (existeInterno == true || (actualizar == true && noEstabaInterno == false)) {
                     personaService.merge(asesorInterno);
                 } else {
                     personaService.save(asesorInterno);
@@ -331,7 +337,7 @@ public class BecaMB implements Serializable {
                 telefonoCelularAsesorExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
                 telefonoCelularAsesorExterno.setIdPersona(asesorExterno);
                 asesorExterno.getTelefonoList().add(telefonoCelularAsesorExterno);
-                if (existeExterno == true || (actualizar == true && noEstabaExterno==false)) {
+                if (existeExterno == true || (actualizar == true && noEstabaExterno == false)) {
                     personaService.merge(asesorExterno);
                 } else {
                     personaService.save(asesorExterno);
@@ -364,7 +370,7 @@ public class BecaMB implements Serializable {
                 beca.getPersonaBecaList().add(personaBecaBecario);
             }
             //vinculando asesor interno a beca
-            if ((actualizar!=true&& mostrarTabInterno==true) || (actualizar==true && noEstabaInterno==true && mostrarTabInterno==true)) {
+            if ((actualizar != true && mostrarTabInterno == true) || (actualizar == true && noEstabaInterno == true && mostrarTabInterno == true)) {
                 PersonaBecaPK personaBecaPKAsistenteI = new PersonaBecaPK();
                 personaBecaPKAsistenteI.setIdBeca(beca.getIdBeca());
                 personaBecaPKAsistenteI.setIdPersona(asesorInterno.getIdPersona());
@@ -377,7 +383,7 @@ public class BecaMB implements Serializable {
                 beca.getPersonaBecaList().add(personaBecaAsistenteI);
             }
             //vinculando el asesor externo a la beca
-            if ((actualizar!=true && mostrarTabExterno==true) || (actualizar==true && noEstabaExterno==true && mostrarTabExterno==true)) {
+            if ((actualizar != true && mostrarTabExterno == true) || (actualizar == true && noEstabaExterno == true && mostrarTabExterno == true)) {
                 PersonaBecaPK personaBecaPKAsistenteE = new PersonaBecaPK();
                 personaBecaPKAsistenteE.setIdBeca(beca.getIdBeca());
                 personaBecaPKAsistenteE.setIdPersona(asesorExterno.getIdPersona());
@@ -420,6 +426,7 @@ public class BecaMB implements Serializable {
     }
 
     public void preUpdate(Integer id) {
+        inicializador();
         try {
             Beca aux = becaService.findById(id);
             if (aux != null) {
@@ -429,21 +436,21 @@ public class BecaMB implements Serializable {
                 if (asesorInterno == null) {
                     tabInternoBoolean = Boolean.FALSE;
                     mostrarTabInterno = Boolean.FALSE;
-                    noEstabaInterno=true;
+                    noEstabaInterno = true;
                 } else {
                     tabInternoBoolean = Boolean.TRUE;
                     mostrarTabInterno = Boolean.TRUE;
-                    noEstabaInterno=false;
+                    noEstabaInterno = false;
                 }
                 asesorExterno = getPersonaBeca(beca.getPersonaBecaList(), "ASESOR EXTERNO");
                 if (asesorExterno == null) {
                     tabExternoBoolean = Boolean.FALSE;
                     mostrarTabExterno = Boolean.FALSE;
-                    noEstabaExterno=true;
+                    noEstabaExterno = true;
                 } else {
                     tabExternoBoolean = Boolean.TRUE;
                     mostrarTabExterno = Boolean.TRUE;
-                    noEstabaExterno=false;
+                    noEstabaExterno = false;
                 }
                 buscarBecario(becario.getDuiPersona());
                 if (asesorInterno != null) {
@@ -459,19 +466,37 @@ public class BecaMB implements Serializable {
                 }
 
                 paisCooperanteSelected = paisService.findById(beca.getIdPaisCooperante());
+                paisList.clear();
+                paisList.add(paisCooperanteSelected);
+
                 programaBecaSelected.setIdPrograma(beca.getIdProgramaBeca().getIdPrograma());
+                programaBecaList.clear();
+                programaBecaList.add(beca.getIdProgramaBeca());
+
                 paisDestinoSelected.setIdPais(beca.getIdPaisDestino());
                 universidadSelected = beca.getIdUniversidad();
                 getUniversidadesPorPais(beca.getIdPaisDestino());
+                universidadList.clear();
+                universidadList.add(universidadSelected);
                 tipoModalidaBecaSelected = beca.getIdTipoModalidad();
                 if (tipoModalidaBecaSelected.getIdTipoModalidad() == 1) {
                     mostrarmonto = Boolean.FALSE;
+                    modalidad = "PARCIAL";
                 } else {
                     mostrarmonto = Boolean.TRUE;
+                    modalidad = "TOTAL";
                 }
-
+                anio = beca.getAnioGestion() + "";
+                fechaInicioString=DateFormatUtils.format(beca.getFechaInicio(), "dd/MM/yyyy");
+                fechaFinString=DateFormatUtils.format(beca.getFechaFin(), "dd/MM/yyyy");
+                if(beca.getOtorgada()==1){
+                otorgadaString="SI";
+                }
+                if(beca.getOtorgada()==0){
+                otorgadaString="NO";
+                }
                 actualizar = Boolean.TRUE;
-                FacesContext.getCurrentInstance().getExternalContext().redirect("registrarBeca.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("consultar.xhtml");
             }
         } catch (Exception e) {
         }
@@ -571,8 +596,12 @@ public class BecaMB implements Serializable {
                     telefonoFijoBecario = getTelefono(becario.getTelefonoList(), FIJO);
                     telefonoCelularBecario = getTelefono(becario.getTelefonoList(), CELULAR);
                     facultadSelectedBecario = becario.getIdCarrera().getIdFacultad();
+                    facultadList.clear();
+                    facultadList.add(facultadSelectedBecario);
                     carreraList = carreraService.getCarrerasByFacultad(facultadSelectedBecario.getIdFacultad());
                     carreraSelected = becario.getIdCarrera();
+                    carreraList.clear();
+                    carreraList.add(carreraSelected);
                     this.existeBecario = Boolean.TRUE;
                 } else {
                     becario = new Persona();
@@ -636,6 +665,8 @@ public class BecaMB implements Serializable {
                     telefonoFijoAsesorExterno = getTelefono(asesorExterno.getTelefonoList(), FIJO);
                     telefonoCelularAsesorExterno = getTelefono(asesorExterno.getTelefonoList(), CELULAR);
                     entidadInstitucionSelected = asesorExterno.getIdOrganismo();
+                    organismoList.clear();
+                    organismoList.add(entidadInstitucionSelected);
                     existeExterno = Boolean.TRUE;
 
                 } else {
@@ -1042,6 +1073,38 @@ public class BecaMB implements Serializable {
 
     public void setMostrarTabExterno(boolean mostrarTabExterno) {
         this.mostrarTabExterno = mostrarTabExterno;
+    }
+
+    public String getModalidad() {
+        return modalidad;
+    }
+
+    public void setModalidad(String modalidad) {
+        this.modalidad = modalidad;
+    }
+
+    public String getFechaFinString() {
+        return fechaFinString;
+    }
+
+    public void setFechaFinString(String fechaFinString) {
+        this.fechaFinString = fechaFinString;
+    }
+
+    public String getFechaInicioString() {
+        return fechaInicioString;
+    }
+
+    public void setFechaInicioString(String fechaInicioString) {
+        this.fechaInicioString = fechaInicioString;
+    }
+
+    public String getOtorgadaString() {
+        return otorgadaString;
+    }
+
+    public void setOtorgadaString(String otorgadaString) {
+        this.otorgadaString = otorgadaString;
     }
 
 }
