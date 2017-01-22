@@ -10,6 +10,7 @@ import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Beca;
 import com.sisrni.pojo.rpt.BecasGestionadasPojo;
 import com.sisrni.pojo.rpt.PojoBeca;
+import com.sisrni.pojo.rpt.RptDetalleBecasPojo;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +46,8 @@ public class BecaService extends GenericService<Beca, Integer> {
     public List<BecasGestionadasPojo> getDataBecasGestionadasGroupFacultad(Integer desde, Integer hasta) {
         return becaDao.getDataBecasGestionadasGroupFacultad(desde, hasta);
     }
+    
+     public List<RptDetalleBecasPojo> getDetalleBecas(Integer desde, Integer hasta) {
+      return becaDao.getDetalleBecas(desde, hasta);
+     }
 }

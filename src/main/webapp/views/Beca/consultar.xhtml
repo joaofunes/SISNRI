@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition template="/WEB-INF/templates/layout.xhtml">
+
+        <ui:define name="content">
+            <h:form id="formAdmin">
+                <center>
+                    <p:panel style="width: 100%">
+                        <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
+                            <p:tab title="Datos del Becario">
+                                <p:panelGrid id="panelBecario">
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Nombre de Becario:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" id="nombrebecario" value="#{becaConsultarMB.becario.nombrePersona}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Apellidos:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" id="apellidobecario" value="#{becaConsultarMB.becario.apellidoPersona}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="DUI:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask readonly="true" id="duibecario" mask="99999999-9" value="#{becaConsultarMB.becario.duiPersona}" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Correo Electronico:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" id="correobecario" value="#{becaConsultarMB.becario.emailPersona}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Facultad:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="facultadbecario" value="#{becaConsultarMB.facultadSelectedBecario.idFacultad}"  style="width:180px" >
+                                                <c:forEach var="fac" items="#{becaConsultarMB.facultadList}">
+                                                    <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Carrera"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="carreraBecario" value="#{becaConsultarMB.carreraSelected.idCarrera}"  style="width:180px" >
+                                                <c:forEach var="carrera" items="#{becaConsultarMB.carreraList}">
+                                                    <f:selectItem itemLabel="#{carrera.nombreCarrera}" itemValue="#{carrera.idCarrera}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Telefono Fijo:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask readonly="true" id="telefonobecario" value="#{becaConsultarMB.telefonoFijoBecario.numeroTelefono}" mask="(503)-9999-9999"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Telefono Celular:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask readonly="true" id="telefonoCelular" value="#{becaConsultarMB.telefonoCelularBecario.numeroTelefono}" mask="(503)-9999-9999" />
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:tab>
+                            <p:tab title="Datos de la Beca">
+                                <p:panelGrid>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Pais cooperante:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="paiscooperantebeca" value="#{becaConsultarMB.paisCooperanteSelected.idPais}"  style="width:180px">
+                                                <c:forEach var="pais" items="#{becaConsultarMB.paisList}">
+                                                    <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Programa de Becas:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="programaBecas" value="#{becaConsultarMB.programaBecaSelected.idPrograma}"  style="width:180px">
+                                                <c:forEach var="programa" items="#{becaConsultarMB.programaBecaList}">
+                                                    <f:selectItem itemLabel="#{programa.nombrePrograma}" itemValue="#{programa.idPrograma}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Pais destino"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="paisdestino" value="#{becaConsultarMB.paisDestinoSelected.idPais}"  style="width:180px">
+                                                <c:forEach var="pais" items="#{becaConsultarMB.paisList}">
+                                                    <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Universidad Destino"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="universidadDestino" value="#{becaConsultarMB.universidadSelected.idOrganismo}"  style="width:180px">
+                                                <c:forEach var="universidad" items="#{becaConsultarMB.universidadList}">
+                                                    <f:selectItem itemLabel="#{universidad.nombreOrganismo}" itemValue="#{universidad.idOrganismo}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Tipo Modalidad"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" value="#{becaConsultarMB.modalidad}" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel  value="A&ntilde;o de Gesti&oacute;n: " />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" value="#{becaConsultarMB.anio}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Fecha Inicio:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" value="#{becaConsultarMB.fechaInicioString}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Fecha Fin:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" value="#{becaConsultarMB.fechaFinString}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column >
+                                            <p:outputLabel  value="Monto externo"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" value="#{becaConsultarMB.beca.montoExterno}" id="montoexterno">
+                                            </p:inputText>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel  value="Monto interno"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" value="#{becaConsultarMB.beca.montoInterno}" disabled="#{becaConsultarMB.mostrarmonto}" id="montointerno">
+                                            </p:inputText>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Monto Total:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" value="#{becaConsultarMB.beca.montoTotal}" id="montototal" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Otorgada?"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" value="#{becaConsultarMB.otorgadaString}"/>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:tab>
+                            <p:tab title="Datos del Asesor Interno"  >
+                                <h:panelGroup id="aidiInterno">
+                                    <p:panelGrid id="panelInterno" rendered="#{becaConsultarMB.mostrarTabInterno}">
+                                        <p:row>
+                                            <p:column>
+                                                <p:outputLabel value="Nombre:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="nombreAsesorInterno" value="#{becaConsultarMB.asesorInterno.nombrePersona}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:outputLabel value="Apellido:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="apellidoAsesorInterno" value="#{becaConsultarMB.asesorInterno.apellidoPersona}"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <p:outputLabel value="Dui:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputMask readonly="true" id="duiAsesorInterno" mask="99999999-9" value="#{becaConsultarMB.asesorInterno.duiPersona}" />
+                                            </p:column>
+                                            <p:column>
+                                                <p:outputLabel value="Correo Electronico:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="correoAsosorInterno" value="#{becaConsultarMB.asesorInterno.emailPersona}"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <p:outputLabel value="Cargo:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="cargoAsesorInterno" value="#{becaConsultarMB.asesorInterno.cargoPersona}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:outputLabel value="Facultad/Unidad:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:selectOneMenu id="facultadUnidadAI" value="#{becaConsultarMB.facuniSelectded}"  style="width:180px" >
+                                                    <c:forEach var="fac" items="#{becaConsultarMB.facultadesUnidadesList}">
+                                                        <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
+                                                    </c:forEach>
+                                                </p:selectOneMenu>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <p:outputLabel value="Escuela/Departamento"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:selectOneMenu id="escuelaDep" value="#{becaConsultarMB.escuelaDeptoInterno.idEscuelaDepto}"  style="width:180px" >
+                                                    <c:forEach var="escDep" items="#{becaConsultarMB.escuelaDepartamentoList}">
+                                                        <f:selectItem itemLabel="#{escDep.descripcion}" itemValue="#{escDep.idEscuelaDepto}"/>
+                                                    </c:forEach>
+                                                </p:selectOneMenu>
+                                            </p:column>
+                                            <p:column>
+                                                <p:outputLabel value="Telefono Fijo:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputMask readonly="true" id="telefonoFijoAsesorInterno" value="#{becaConsultarMB.telefonoFijoAsesorInterno.numeroTelefono}" mask="(503)-9999-9999"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <p:outputLabel value="Telefono Celular :  "/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputMask readonly="true" id="telefonoCelularAsesorInterno" value="#{becaConsultarMB.telefonoCelularAsesorInterno.numeroTelefono}" mask="(503)-9999-9999"/>
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                    <p:outputLabel value="No se encontraron datos de asesor Interno" rendered="#{!becaConsultarMB.mostrarTabInterno}"/>
+                                </h:panelGroup>
+                            </p:tab>
+                            <p:tab title="Datos del Asesor Externo">
+                                <h:panelGroup id="aidiExterno">
+                                    <p:panelGrid id="panelExt" rendered="#{becaConsultarMB.mostrarTabExterno}">
+                                        <p:row>
+                                            <p:column>
+                                                <p:outputLabel value="Nombre:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="nombreAsesorExterno" value="#{becaConsultarMB.asesorExterno.nombrePersona}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:outputLabel value="Apellido:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="apellidoAsesorExterno" value="#{becaConsultarMB.asesorExterno.apellidoPersona}"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <p:outputLabel value="Pasaporte:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="pasaporteAsesorExterno" value="#{becaConsultarMB.asesorExterno.pasaporte}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:outputLabel value="Correo Electronico:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="correoAsesorExterno" value="#{becaConsultarMB.asesorExterno.emailPersona}"/>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <p:outputLabel value="Cargo:"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="cargoAsesorExterno" value="#{becaConsultarMB.asesorExterno.cargoPersona}"/>
+                                            </p:column>
+                                            <p:column >
+                                                <p:outputLabel value="Entidad/Institucion"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:selectOneMenu id="entidadAsesorExterno" value="#{becaConsultarMB.entidadInstitucionSelected.idOrganismo}"  style="width:180px">
+                                                    <c:forEach var="entidad" items="#{becaConsultarMB.organismoList}">
+                                                        <f:selectItem itemLabel="#{entidad.nombreOrganismo}" itemValue="#{entidad.idOrganismo}"/>
+                                                    </c:forEach>
+                                                </p:selectOneMenu>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <p:outputLabel value="Telefono  Fijo :"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="telefonoFijoAsesorExterno" value="#{becaConsultarMB.telefonoFijoAsesorExterno.numeroTelefono}" />
+                                            </p:column>
+                                            <p:column>
+                                                <p:outputLabel value="Telefono Celular"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:inputText readonly="true" id="telefonoCelularAsesorExterno" value="#{becaConsultarMB.telefonoCelularAsesorExterno.numeroTelefono}"/>
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                    <p:outputLabel value="No se encontraron datos de Asesor Externo" rendered="#{!becaConsultarMB.mostrarTabExterno}"/>
+                                </h:panelGroup>
+                            </p:tab>
+                        </p:accordionPanel>
+                    </p:panel>
+                    <p:commandButton rendered="#{becaConsultarMB.actualizar}" styleClass="boton" actionListener="#{becaConsultarMB.cancelar()}" process="@this" value="Cancelar" id="btnCancelar" title="Cancelar"/>
+                    <p:commandButton rendered="#{becaConsultarMB.actualizar}" styleClass="boton" actionListener="#{becaConsultarMB.guardarBeca()}" process="formAdmin " update="formAdmin" value="Actualizar" id="btnActualizar" title="Actualizar Beca"/>
+                    <p:commandButton rendered="#{!becaConsultarMB.actualizar}" styleClass="boton" actionListener="#{becaConsultarMB.cancelar()}" process="@this" update="formAdmin" value="Cancelar" id="btnregresar" title="volver"/>
+                    <p:commandButton rendered="#{!becaConsultarMB.actualizar}" styleClass="boton" actionListener="#{becaConsultarMB.guardarBeca()}" process="formAdmin" update="formAdmin" value="Guardar" id="btnGuardarBeca" title="Guardar Beca"/>
+                </center>
+            </h:form>
+            <p:separator/>
+        </ui:define>
+    </ui:composition>
+</html>

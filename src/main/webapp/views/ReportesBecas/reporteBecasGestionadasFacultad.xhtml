@@ -49,7 +49,9 @@
                 <h:panelGrid columns="2"  cellpadding="5">
                     <f:facet name="footer">
                         <div class="footer-section">
-                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="Generar"  actionListener="#{reporteBecas.printFacultad()}" oncomplete="print(xhr, status, args)"/>                   
+                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="Pdf"  actionListener="#{reporteBecas.printFacultad('pdf')}" oncomplete="print(xhr, status, args)"/> 
+                            <p:commandButton id="reportButtonExcel" icon=""  value="Excel"  actionListener="#{reporteBecas.printFacultad('xlsx')}" oncomplete="prints(xhr, status, args)" />                   
+                            <p:commandButton id="reportButtonDoc" icon=""  value="World"  actionListener="#{reporteBecas.printFacultad('doc')}" oncomplete="prints(xhr, status, args)" />                   
                             <p:commandButton value="Cancelar"   icon="ui-icon-trash"    />
 
                         </div>

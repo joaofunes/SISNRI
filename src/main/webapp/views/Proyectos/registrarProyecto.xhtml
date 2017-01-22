@@ -101,13 +101,15 @@
                                             <p:outputLabel value="Fecha Inicio:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:calendar pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.proyecto.fechaInicio}" />
+                                            <p:calendar id="fechainicio" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.proyecto.fechaInicio}" />
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Fecha Fin:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:calendar pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.proyecto.fechaFin}"/>
+                                            <p:calendar id="fechafin" pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.proyecto.fechaFin}">
+                                            
+                                            </p:calendar>
                                         </p:column>
                                     </p:row>
                                     <p:row>

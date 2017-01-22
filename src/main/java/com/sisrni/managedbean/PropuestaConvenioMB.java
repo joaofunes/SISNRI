@@ -307,9 +307,9 @@ public class PropuestaConvenioMB implements Serializable{
              
              if(referenteInterno == null){
                referenteInterno=new Persona();
-             }else{
-               referenteInterno.setDuiPersona(query);
              }
+
+             referenteInterno.setDuiPersona(query);           
              
              if (referenteInterno.getIdPersona() != null) {
 
@@ -371,10 +371,10 @@ public class PropuestaConvenioMB implements Serializable{
              
              if(referenteExterno==null){
                referenteExterno= new Persona();
-             }else{
-               referenteExterno.setPasaporte(query);
              }
              
+             referenteExterno.setPasaporte(query);
+                          
              if (referenteExterno.getIdPersona() != null) {
                  List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteExterno);
 
@@ -591,7 +591,7 @@ public class PropuestaConvenioMB implements Serializable{
                     
                     referenteInterno.setExtranjero(Boolean.FALSE);//no es extrajero
                     referenteInterno.setActivo(Boolean.TRUE);//esta activo
-                    referenteInterno.setPasaporte("");
+                    referenteInterno.setPasaporte("0");
                     personaService.saveOrUpdate(referenteInterno);
                 }
                 
@@ -615,7 +615,7 @@ public class PropuestaConvenioMB implements Serializable{
                 //crear persona y luego almacenar
                 referenteExterno.setExtranjero(Boolean.TRUE);//no es extrajero
                 referenteExterno.setActivo(Boolean.TRUE);//esta activo
-                referenteExterno.setDuiPersona("");
+                referenteExterno.setDuiPersona("0");
                 personaService.saveOrUpdate(referenteExterno);
                 
                 telefonoService.saveOrUpdate(telCelularExterno);

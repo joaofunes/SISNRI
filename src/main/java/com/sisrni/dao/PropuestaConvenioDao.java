@@ -91,7 +91,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                 "ON PRS_PROP.ID_PERSONA=PRS.ID_PERSONA\n" +
                 "INNER JOIN TIPO_PERSONA TP_PRS\n" +
                 "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
-                "WHERE TP_PRS.NOMBRE='SOLICITANTE') TB_SOLICITANTE\n" +
+                "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='SOLICITANTE') TB_SOLICITANTE\n" +
                 "INNER JOIN\n" +
                 "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS INTERNO,PRS_PROP.ID_PROPUESTA AS PROPUESTA, PRS.ID_PERSONA AS ID_REF_INTERNO\n" +
                 "FROM PERSONA_PROPUESTA PRS_PROP \n" +
@@ -99,7 +99,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                 "ON PRS_PROP.ID_PERSONA=PRS.ID_PERSONA\n" +
                 "INNER JOIN TIPO_PERSONA TP_PRS\n" +
                 "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
-                "WHERE TP_PRS.NOMBRE='REFERENTE INTERNO') TB_INTERNO\n" +
+                "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='REFERENTE INTERNO') TB_INTERNO\n" +
                 "ON TB_SOLICITANTE.PROPUESTA=TB_INTERNO.PROPUESTA\n" +
                 "INNER JOIN\n" +
                 "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS EXTERNO,PRS_PROP.ID_PROPUESTA AS PROPUESTA,PRS.ID_PERSONA AS ID_REF_EXTERNO\n" +
@@ -108,7 +108,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                 "ON PRS_PROP.ID_PERSONA=PRS.ID_PERSONA\n" +
                 "INNER JOIN TIPO_PERSONA TP_PRS\n" +
                 "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
-                "WHERE TP_PRS.NOMBRE='REFERENTE EXTERNO') TB_EXTERNO\n" +
+                "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='REFERENTE EXTERNO') TB_EXTERNO\n" +
                 "ON TB_INTERNO.PROPUESTA=TB_EXTERNO.PROPUESTA) TB_PERSONAS\n" +
                 "ON TB_CONVENIO.ID_PROPUESTA=TB_PERSONAS.PROPUESTA";
           
@@ -167,7 +167,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "ON PRS_PROP.ID_PERSONA=PRS.ID_PERSONA\n" +
                     "INNER JOIN TIPO_PERSONA TP_PRS\n" +
                     "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
-                    "WHERE TP_PRS.NOMBRE='SOLICITANTE') TB_SOLICITANTE\n" +
+                    "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='SOLICITANTE') TB_SOLICITANTE\n" +
                     "INNER JOIN\n" +
                     "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS INTERNO,PRS_PROP.ID_PROPUESTA AS PROPUESTA, PRS.ID_PERSONA AS ID_REF_INTERNO\n" +
                     "FROM PERSONA_PROPUESTA PRS_PROP \n" +
@@ -175,7 +175,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "ON PRS_PROP.ID_PERSONA=PRS.ID_PERSONA\n" +
                     "INNER JOIN TIPO_PERSONA TP_PRS\n" +
                     "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
-                    "WHERE TP_PRS.NOMBRE='REFERENTE INTERNO') TB_INTERNO\n" +
+                    "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='REFERENTE INTERNO') TB_INTERNO\n" +
                     "ON TB_SOLICITANTE.PROPUESTA=TB_INTERNO.PROPUESTA\n" +
                     "INNER JOIN\n" +
                     "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS EXTERNO,PRS_PROP.ID_PROPUESTA AS PROPUESTA,PRS.ID_PERSONA AS ID_REF_EXTERNO\n" +
@@ -184,7 +184,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "ON PRS_PROP.ID_PERSONA=PRS.ID_PERSONA\n" +
                     "INNER JOIN TIPO_PERSONA TP_PRS\n" +
                     "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
-                    "WHERE TP_PRS.NOMBRE='REFERENTE EXTERNO') TB_EXTERNO\n" +
+                    "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='REFERENTE EXTERNO') TB_EXTERNO\n" +
                     "ON TB_INTERNO.PROPUESTA=TB_EXTERNO.PROPUESTA) TB_PERSONAS\n" +
                     "\n" +                    
                     "ON TB_CONVENIO.ID_PROPUESTA=TB_PERSONAS.PROPUESTA WHERE ID_PROPUESTA="+id;

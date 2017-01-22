@@ -44,8 +44,10 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -211,6 +213,7 @@ public class ProyectosMB {
     public String orRefExt;
     public Boolean mostrarEscuelaSol;
     public Boolean mostrarEscuelaAsis;
+    public Boolean validarFecha;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -318,17 +321,18 @@ public class ProyectosMB {
         actualizar = false;
         organismoInteger = 0;
         tabAsis = false;
-        tabAsisMostrar=Boolean.FALSE;
+        tabAsisMostrar = Boolean.FALSE;
         asistenteNull = false;
         consultar = false;
-        fu="";
-        fuSol="";
-        fuAsis="";
-        edSol="";
-        edAsis="";
-        orRefExt="";
-        mostrarEscuelaSol=false;
-        mostrarEscuelaAsis=false;
+        fu = "";
+        fuSol = "";
+        fuAsis = "";
+        edSol = "";
+        edAsis = "";
+        orRefExt = "";
+        mostrarEscuelaSol = false;
+        mostrarEscuelaAsis = false;
+        validarFecha = false;
     }
 
     public void mostrarTab() {
@@ -429,43 +433,62 @@ public class ProyectosMB {
                 proyecto.setIdPropuestaConvenio(propuesta);
             }
 
+//            if (proyecto.getFechaFin().before(proyecto.getFechaInicio())) {
+//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia!", "La fecha de inicio debe ser menor a la fecha fin"));
+//                validarFecha = true;
+//            } else {
+//                validarFecha = false;
+//            }
             Pais paiscooperante = paisService.findById(paisCooperanteSelected.getIdPais());
+
             proyecto.setIdPaisCooperante(paiscooperante);
+
             proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
             //Intermedia de proyecto y area de conocimiento
-            for (int i = 0; i < areaConocimientoSelected.length; i++) {
+            for (int i = 0;
+                    i < areaConocimientoSelected.length;
+                    i++) {
                 AreaConocimiento area = areaConocimientoService.findById(Integer.parseInt(areaConocimientoSelected[i]));
                 if (area != null) {
                     areasConocimiento.add(area);
                 }
             }
+
             proyecto.setAreaConocimientoList(areasConocimiento);
             // guardar organismo
-            for (int i = 0; i < organismoProySelected.length; i++) {
+            for (int i = 0;
+                    i < organismoProySelected.length;
+                    i++) {
                 Organismo organismo = organismoService.findById(Integer.parseInt(organismoProySelected[i]));
                 if (organismo != null) {
                     organismosProyecto.add(organismo);
                 }
             }
+
             proyecto.setOrganismoList(organismosProyecto);
             //guardar facultades beneficiadas
-            for (int i = 0; i < facultadBeneficiadaSelected.length; i++) {
+            for (int i = 0;
+                    i < facultadBeneficiadaSelected.length;
+                    i++) {
                 Facultad facultades = facultadService.findById(Integer.parseInt(facultadBeneficiadaSelected[i]));
                 if (facultades != null) {
                     facultadesBeneficiadaList.add(facultades);
                 }
             }
+
             proyecto.setFacultadList(facultadesBeneficiadaList);
             //si selecciona facultad o unidad
             String facultadArreglo[] = facultadSelectedPojoP.split(",");
-            if (facultadArreglo[1].equals("1")) {
+            if (facultadArreglo[1].equals(
+                    "1")) {
                 Facultad facSelected = facultadService.findById(Integer.parseInt(facultadArreglo[0]));
                 proyecto.setIdFacultad(facSelected);
             } else {
                 proyecto.setIdUnidad(Integer.parseInt(facultadArreglo[0]));
             }
 
-            if (actualizar == true) {
+            if (actualizar
+                    == true) {
                 proyectoService.merge(proyecto);
                 if (tabAsis == true) {
                     //guardar en tabla intermedia persona_proyecto Asistente          
@@ -536,6 +559,7 @@ public class ProyectosMB {
         }
         return lista;
     }
+
     public void onFacultadSolicitanteChange() {
         facultadSelectedPojoSol.trim();
         String facultadArreglo[] = facultadSelectedPojoSol.split(",");
@@ -575,17 +599,17 @@ public class ProyectosMB {
                     if (persona.getIdEscuelaDepto() != null) {
                         facultadSelectedPojoSol = persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
                         //para consultar facultad
-                        Facultad facSol= facultadService.findById(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
-                        fuSol=facSol.getNombreFacultad();
+                        Facultad facSol = facultadService.findById(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
+                        fuSol = facSol.getNombreFacultad();
                         escuelaDeptoListSol = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
                         escuelaDeptoSelectedSol = persona.getIdEscuelaDepto();
-                        EscuelaDepartamento escDepSol=escuelaDepartamentoService.findById(persona.getIdEscuelaDepto().getIdEscuelaDepto());
-                        fuSol=escDepSol.getNombreEscuelaDepto();
+                        EscuelaDepartamento escDepSol = escuelaDepartamentoService.findById(persona.getIdEscuelaDepto().getIdEscuelaDepto());
+                        fuSol = escDepSol.getNombreEscuelaDepto();
                     }
                     if (persona.getIdUnidad() != null) {
                         facultadSelectedPojoSol = persona.getIdUnidad().getIdUnidad() + ",2";
-                        Unidad unidadSol=unidadService.findById(persona.getIdUnidad().getIdUnidad());
-                        fuSol=unidadSol.getNombreUnidad();
+                        Unidad unidadSol = unidadService.findById(persona.getIdUnidad().getIdUnidad());
+                        fuSol = unidadSol.getNombreUnidad();
                         escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
                     }
                     onChangeInterno();
@@ -637,17 +661,17 @@ public class ProyectosMB {
                     }
                     if (personaAsistente.getIdEscuelaDepto() != null) {
                         facultadSelectedPojoAsis = personaAsistente.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
-                        Facultad facAsis=facultadService.findById(personaAsistente.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
-                        fuAsis=facAsis.getNombreFacultad();
+                        Facultad facAsis = facultadService.findById(personaAsistente.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
+                        fuAsis = facAsis.getNombreFacultad();
                         escuelaDeptoListAsis = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(personaAsistente.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
                         escuelaDeptoSelectedAsis = personaAsistente.getIdEscuelaDepto();
-                        EscuelaDepartamento escDepAsis=escuelaDepartamentoService.findById(personaAsistente.getIdEscuelaDepto().getIdEscuelaDepto());
-                        edAsis=escDepAsis.getNombreEscuelaDepto();
+                        EscuelaDepartamento escDepAsis = escuelaDepartamentoService.findById(personaAsistente.getIdEscuelaDepto().getIdEscuelaDepto());
+                        edAsis = escDepAsis.getNombreEscuelaDepto();
                     }
                     if (personaAsistente.getIdUnidad() != null) {
                         facultadSelectedPojoAsis = personaAsistente.getIdUnidad().getIdUnidad() + ",2";
-                        Unidad unidadAsis=unidadService.findById(personaAsistente.getIdUnidad().getIdUnidad());
-                        fuAsis=unidadAsis.getNombreUnidad();
+                        Unidad unidadAsis = unidadService.findById(personaAsistente.getIdUnidad().getIdUnidad());
+                        fuAsis = unidadAsis.getNombreUnidad();
                         escuelaDeptoListAsis = new ArrayList<EscuelaDepartamento>();
                     }
                     onChangeAsistente();
@@ -726,6 +750,7 @@ public class ProyectosMB {
         Integer year = cal.get(Calendar.YEAR);
         return year;
     }
+
     public void regresar() {
         try {
             inicializador();
@@ -755,24 +780,24 @@ public class ProyectosMB {
                 }
                 personaExterna = getPersonaProyecto(proyecto.getPersonaProyectoList(), "REFERENTE EXTERNO");
                 organismoSelectedRefExt = personaExterna.getIdOrganismo();
-                Organismo orgExt=organismoService.findById(personaExterna.getIdOrganismo().getIdOrganismo());
-                orRefExt=orgExt.getNombreOrganismo();
+                Organismo orgExt = organismoService.findById(personaExterna.getIdOrganismo().getIdOrganismo());
+                orRefExt = orgExt.getNombreOrganismo();
                 if (proyecto.getIdFacultad() == null) {
                     facultadSelectedPojoP = proyecto.getIdUnidad() + ",2";
-                    Unidad unidadProyecto=unidadService.findById(proyecto.getIdUnidad());
-                    fu=unidadProyecto.getNombreUnidad();
+                    Unidad unidadProyecto = unidadService.findById(proyecto.getIdUnidad());
+                    fu = unidadProyecto.getNombreUnidad();
                 } else {
                     facultadSelectedPojoP = proyecto.getIdFacultad().getIdFacultad() + ",1";
-                    Facultad facultadProyecto=facultadService.findById(proyecto.getIdFacultad().getIdFacultad());
-                    fu=facultadProyecto.getNombreFacultad();
+                    Facultad facultadProyecto = facultadService.findById(proyecto.getIdFacultad().getIdFacultad());
+                    fu = facultadProyecto.getNombreFacultad();
                 }
                 searchByDocInterno(persona.getDuiPersona());
                 searchByDocAsistente(personaAsistente.getDuiPersona());
                 searchByDocReferenteExterno(personaExterna.getPasaporte());
                 proyectoSelected = proyecto.getIdTipoProyecto();
-                if(proyecto.getIdPropuestaConvenio()==null){
-                }else{
-                propuestaConvenioSelected = proyecto.getIdPropuestaConvenio();
+                if (proyecto.getIdPropuestaConvenio() == null) {
+                } else {
+                    propuestaConvenioSelected = proyecto.getIdPropuestaConvenio();
                 }
                 paisCooperanteSelected = proyecto.getIdPaisCooperante();
                 cargarOrganismos(proyecto.getOrganismoList());
@@ -835,7 +860,8 @@ public class ProyectosMB {
         }
         return p;
     }
-        public String preUpdateProyecto() {
+
+    public String preUpdateProyecto() {
         try {
 
             FacesContext.getCurrentInstance().getExternalContext().redirect("registrarProyecto.xhtml");
@@ -844,23 +870,25 @@ public class ProyectosMB {
         }
         return null;
     }
-    public void mostrarCampo(){
+
+    public void mostrarCampo() {
         String arreglo[] = facultadSelectedPojoSol.split(",");
-            if (arreglo[1].equals("2")) {
-                mostrarEscuelaSol=true;
-            }else{
-                mostrarEscuelaSol=false;
-                onFacultadSolicitanteChange();
-            }
+        if (arreglo[1].equals("2")) {
+            mostrarEscuelaSol = true;
+        } else {
+            mostrarEscuelaSol = false;
+            onFacultadSolicitanteChange();
+        }
     }
-    public void mostrarCampoAsis(){
+
+    public void mostrarCampoAsis() {
         String arreglo2[] = facultadSelectedPojoAsis.split(",");
-            if (arreglo2[1].equals("2")) {
-                mostrarEscuelaAsis=true;
-            }else{
-                mostrarEscuelaAsis=false;
-                onFacultadAsistenteChange();
-            }
+        if (arreglo2[1].equals("2")) {
+            mostrarEscuelaAsis = true;
+        } else {
+            mostrarEscuelaAsis = false;
+            onFacultadAsistenteChange();
+        }
     }
 
     public void preConsultarProyecto(Integer id) {
@@ -1602,6 +1630,14 @@ public class ProyectosMB {
 
     public void setTabAsisMostrar(Boolean tabAsisMostrar) {
         this.tabAsisMostrar = tabAsisMostrar;
+    }
+
+    public Boolean getValidarFecha() {
+        return validarFecha;
+    }
+
+    public void setValidarFecha(Boolean validarFecha) {
+        this.validarFecha = validarFecha;
     }
 
 }

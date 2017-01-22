@@ -16,6 +16,8 @@ import com.sisrni.service.PersonaService;
 import com.sisrni.service.ProyectoService;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -43,17 +45,22 @@ public class ProyectoReportMB {
     ProyectoService proyectoService;
     @Autowired
     PersonaService personaService;
-    
-    private static final String tipoPersona="REFERENTE EXTERNO";
+
+    private static final String tipoPersona = "REFERENTE EXTERNO";
+    private String anioDesde;
+    private String anioHasta;
+    private int yearActual;
 
     @PostConstruct
     public void init() {
-
+        yearActual = getYearOfDate(new Date());
     }
+
     public void llenarReporte() {
         List<RptProyectoPojo> list = new ArrayList<RptProyectoPojo>();
-
-        List<Proyecto> comparativoReparacionesDos = proyectoService.findAll();
+        Integer desdeYear = Integer.parseInt(anioDesde.trim());
+        Integer hastaYear = Integer.parseInt(anioHasta.trim());
+        List<Proyecto> comparativoReparacionesDos = proyectoService.getProyectosDesdeHasta(desdeYear, hastaYear);
         RptProyectoPojo prueba = new RptProyectoPojo();
 
         for (Proyecto item : comparativoReparacionesDos) {
@@ -71,25 +78,28 @@ public class ProyectoReportMB {
 
         print(list);
     }
-    public String obtenerOrganismos(List<Organismo> listOrganismos){
-        List<String> nombreOrganismo=new ArrayList<String>();
-        for(Organismo organismo:listOrganismos){
+
+    public String obtenerOrganismos(List<Organismo> listOrganismos) {
+        List<String> nombreOrganismo = new ArrayList<String>();
+        for (Organismo organismo : listOrganismos) {
             nombreOrganismo.add(organismo.getNombreOrganismo());
         }
         return String.join(",", nombreOrganismo);
     }
-    public String obtenerPersonaExterna(List<PersonaProyecto> listPersonas, String tipoPersona){
-        String nombrecompleto="";
-        for(PersonaProyecto personaExterna: listPersonas){
-            if(personaExterna.getIdTipoPersona().getNombreTipoPersona().equalsIgnoreCase(tipoPersona)){
-               nombrecompleto= personaExterna.getPersona().getNombrePersona() +" "+ personaExterna.getPersona().getApellidoPersona();
+
+    public String obtenerPersonaExterna(List<PersonaProyecto> listPersonas, String tipoPersona) {
+        String nombrecompleto = "";
+        for (PersonaProyecto personaExterna : listPersonas) {
+            if (personaExterna.getIdTipoPersona().getNombreTipoPersona().equalsIgnoreCase(tipoPersona)) {
+                nombrecompleto = personaExterna.getPersona().getNombrePersona() + " " + personaExterna.getPersona().getApellidoPersona();
             }
         }
         return nombrecompleto;
     }
-    public String obtenerFacultades(List<Facultad> listFacultades){
-        List<String> nombreFacultad=new ArrayList<String>();
-        for(Facultad facultad:listFacultades){
+
+    public String obtenerFacultades(List<Facultad> listFacultades) {
+        List<String> nombreFacultad = new ArrayList<String>();
+        for (Facultad facultad : listFacultades) {
             nombreFacultad.add(facultad.getNombreFacultad());
         }
         return String.join(",", nombreFacultad);
@@ -97,24 +107,25 @@ public class ProyectoReportMB {
 
     public void print(List<RptProyectoPojo> list) {
         try {
-              ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        HttpServletRequest request = (HttpServletRequest) context.getRequest();
-        HttpServletResponse response = (HttpServletResponse) context.getResponse();
-        Reporte reporte = new Reporte("proyectos", "rpt_proyectos_gestionados", request);
-        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyectoPojo>(list)));
-//        reporte.addParameter("usuario", "ADM");
-//        reporte.addParameter("equipox", "Equipo 1");
-//        reporte.addParameter("equipoy", "Equipo 2");
-        reporte.setReportInSession(request, response);
-        reportName = reporte.getNombreLogico();
-        RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            HttpServletRequest request = (HttpServletRequest) context.getRequest();
+            HttpServletResponse response = (HttpServletResponse) context.getResponse();
+            Reporte reporte = new Reporte("proyectos", "rpt_proyectos_gestionados", request);
+            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyectoPojo>(list)));
+            reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
+            reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
+            reporte.addParameter("Desde", anioDesde.trim());
+            reporte.addParameter("Hasta", anioHasta.trim());
+            reporte.setReportInSession(request, response);
+            reportName = reporte.getNombreLogico();
+            RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
         } catch (Exception e) {
-          e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
-    public String getBaseDir() {
-        String baseDir = "/img/ues.png";
+    public String getBaseDir(String imagen) {
+        String baseDir = "/img/" + imagen;
         try {
             return FacesContext.getCurrentInstance()
                     .getExternalContext()
@@ -126,6 +137,13 @@ public class ProyectoReportMB {
         }
     }
 
+    private Integer getYearOfDate(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        Integer year = cal.get(Calendar.YEAR);
+        return year;
+    }
+
     public String getReportName() {
         return reportName;
     }
@@ -134,4 +152,28 @@ public class ProyectoReportMB {
         this.reportName = reportName;
     }
 
+    public String getAnioDesde() {
+        return anioDesde;
+    }
+
+    public void setAnioDesde(String anioDesde) {
+        this.anioDesde = anioDesde;
+    }
+
+    public String getAnioHasta() {
+        return anioHasta;
+    }
+
+    public void setAnioHasta(String anioHasta) {
+        this.anioHasta = anioHasta;
+    }
+
+    public int getYearActual() {
+        return yearActual;
+    }
+
+    public void setYearActual(int yearActual) {
+        this.yearActual = yearActual;
+    }
+    
 }
