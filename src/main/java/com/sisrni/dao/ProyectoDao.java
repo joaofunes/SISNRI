@@ -65,7 +65,7 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                 }
                 String qt = "SELECT tp.ID_TIPO_PROYECTO as idTipoProyecto,tp.NOMBRE_TIPO_PROYECTO as nombreTipoProyecto,count(pr.ID_PROYECTO) as cantidadProyectos FROM PROYECTO pr INNER JOIN TIPO_PROYECTO tp ON pr.ID_TIPO_PROYECTO = tp.ID_TIPO_PROYECTO\n"
                         + " WHERE pr.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta) + "\n"
-                        + "AND pr.ID_PAIS_COOPERANTE IN(" +String.join(",", paisesFinales) +")"+ whereTipoProyecto + " GROUP BY tp.NOMBRE_TIPO_PROYECTO";
+                        + "AND pr.ID_PAIS_COOPERANTE IN(" + String.join(",", paisesFinales) + ")" + whereTipoProyecto + " GROUP BY tp.NOMBRE_TIPO_PROYECTO";
 
                 Query rtp = getSessionFactory().getCurrentSession().createSQLQuery(qt)
                         .addScalar("idTipoProyecto", new IntegerType())
@@ -74,7 +74,7 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                         .setResultTransformer(Transformers.aliasToBean(PojoProyectosByTipo.class));
 
                 List<PojoProyectosByTipo> listTipos = rtp.list();
-                
+
                 for (PojoMapaInteractivo pj : listPojos) {
                     String qp = "SELECT * FROM PROYECTO pr \n"
                             + " WHERE pr.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta) + "\n"
@@ -96,7 +96,8 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         }
         return null;
     }
-        public Proyecto getProyectoByID(Integer id) {
+
+    public Proyecto getProyectoByID(Integer id) {
         try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Proyecto a WHERE a.idProyecto =:id");
             q.setParameter("id", id);
@@ -107,6 +108,7 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         }
         return null;
     }
+
     public List<RptProyectoPojo> getDataProyectosGestionadosReportes() {
         String query = "select b.NOMBRE_PROYECTO nombre, b.OBJETIVO objetivo FROM proyecto b";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
@@ -116,4 +118,12 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         return q.list();
     }
 
+    public List<Proyecto> getProyectosDesdeHasta(Integer desde, Integer hasta) {
+        String query = "select p from Proyecto p where p.anioGestion between :desde and :hasta";
+        Query q = getSessionFactory().getCurrentSession().createQuery(query);
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        return q.list();
+
+    }
 }

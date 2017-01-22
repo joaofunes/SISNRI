@@ -55,7 +55,7 @@ public class ReporteNoticias {
         hasta = new Date();
     }
 
-    public void obtenerDatos() {
+    public void obtenerDatos(String formato) {
         List<String> categoriaList = categoriaNoticiaService.getCategoriaNoticiaName();
         List<RptNoticiasPojo> list = new ArrayList<RptNoticiasPojo>();
         RptNoticiasPojo aux;
@@ -71,10 +71,10 @@ public class ReporteNoticias {
                 return p1.getCategoria().compareTo(p2.getCategoria());
             }
         });
-        print(list);
+        print(list,formato);
     }
 
-    public void print(List<RptNoticiasPojo> list) {
+    public void print(List<RptNoticiasPojo> list,String formato) {
         try {
 
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
@@ -86,6 +86,9 @@ public class ReporteNoticias {
             reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
             reporte.addParameter("desde", desde);
             reporte.addParameter("hasta", hasta);
+               if(!formato.equalsIgnoreCase("pdf")){
+               reporte.setTipoMime(formato);
+            }
             reporte.setReportInSession(request, response);
             reportName = reporte.getNombreLogico();
             RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);

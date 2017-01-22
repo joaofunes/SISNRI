@@ -9,6 +9,7 @@ import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Beca;
 import com.sisrni.pojo.rpt.BecasGestionadasPojo;
 import com.sisrni.pojo.rpt.PojoBeca;
+import com.sisrni.pojo.rpt.RptDetalleBecasPojo;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
@@ -123,4 +124,30 @@ public class BecaDao extends GenericDao<Beca, Integer> {
         return q.list();
     }
 
+    public List<RptDetalleBecasPojo> getDetalleBecas(Integer desde, Integer hasta) {
+        String query = "SELECT  p.NOMBRE_PERSONA nombre, p.APELLIDO_PERSONA apellido, f.NOMBRE_FACULTAD facultad,pro.NOMBRE_PROGRAMA programaBeca,b.ANIO_GESTION anio, x.NOMBRE_PAIS paisDestino,\n"
+                + "org.NOMBRE_ORGANISMO universidadDestino,b.MONTO_TOTAL montoBeca\n"
+                + "from beca b INNER JOIN persona_beca pb ON b.ID_BECA = pb.ID_BECA\n"
+                + "INNER JOIN persona p ON pb.ID_PERSONA = p.ID_PERSONA\n"
+                + "INNER JOIN carrera c ON p.ID_CARRERA = c.ID_CARRERA\n"
+                + "INNER JOIN facultad f ON c.ID_FACULTAD = f.ID_FACULTAD\n"
+                + "INNER JOIN programa_beca pro ON b.ID_PROGRAMA_BECA = pro.ID_PROGRAMA\n"
+                + "INNER JOIN organismo org ON b.ID_UNIVERSIDAD = org.ID_ORGANISMO\n"
+                + "INNER JOIN pais x ON org.ID_PAIS= x.ID_PAIS\n"
+                + "WHERE pb.ID_TIPO_PERSONA = 6 AND b.OTORGADA=1\n"
+                + "AND b.ANIO_GESTION BETWEEN " + desde + " AND " + hasta + "\n"
+                + "ORDER BY p.NOMBRE_PERSONA,p.APELLIDO_PERSONA, b.ANIO_GESTION desc";
+
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("nombre", new StringType())
+                .addScalar("apellido", new StringType())
+                .addScalar("facultad", new StringType())
+                .addScalar("programaBeca", new StringType())
+                .addScalar("anio", new IntegerType())
+                .addScalar("paisDestino", new StringType())
+                .addScalar("universidadDestino", new StringType())
+                .addScalar("montoBeca", new DoubleType())
+                .setResultTransformer(Transformers.aliasToBean(RptDetalleBecasPojo.class));
+        return q.list();
+    }
 }
