@@ -138,7 +138,7 @@ public class BecaConsultarMB implements Serializable {
     private boolean noEstabaExterno;
 
     private String modalidad;
-private String fechaInicioString;
+    private String fechaInicioString;
     private String fechaFinString;
     private String otorgadaString;
 
@@ -487,13 +487,13 @@ private String fechaInicioString;
                     modalidad = "TOTAL";
                 }
                 anio = beca.getAnioGestion() + "";
-                fechaInicioString=DateFormatUtils.format(beca.getFechaInicio(), "dd/MM/yyyy");
-                fechaFinString=DateFormatUtils.format(beca.getFechaFin(), "dd/MM/yyyy");
-                if(beca.getOtorgada()==1){
-                otorgadaString="SI";
+                fechaInicioString = DateFormatUtils.format(beca.getFechaInicio(), "dd/MM/yyyy");
+                fechaFinString = DateFormatUtils.format(beca.getFechaFin(), "dd/MM/yyyy");
+                if (beca.getOtorgada() == 1) {
+                    otorgadaString = "SI";
                 }
-                if(beca.getOtorgada()==0){
-                otorgadaString="NO";
+                if (beca.getOtorgada() == 0) {
+                    otorgadaString = "NO";
                 }
                 actualizar = Boolean.TRUE;
                 FacesContext.getCurrentInstance().getExternalContext().redirect("consultar.xhtml");
@@ -632,11 +632,30 @@ private String fechaInicioString;
                     }
                     if (asesorInterno.getIdEscuelaDepto() != null) {
                         facuniSelectded = asesorInterno.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
+                        PojoFacultadesUnidades j = new PojoFacultadesUnidades();
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                            if (pojo.getValue().equalsIgnoreCase(facuniSelectded)) {
+                                j = pojo;
+                            }
+                        }
+                        facultadesUnidadesList.clear();
+                        facultadesUnidadesList.add(j);
+                        
                         escuelaDeptoInterno = asesorInterno.getIdEscuelaDepto();
-                        escuelaDepartamentoList = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(asesorInterno.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
+                        escuelaDepartamentoList.clear();
+                        escuelaDepartamentoList.add(escuelaDeptoInterno);
+                        //escuelaDepartamentoList = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(asesorInterno.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
                     }
                     if (asesorInterno.getIdUnidad() != null) {
                         facuniSelectded = asesorInterno.getIdUnidad().getIdUnidad() + ",2";
+                        PojoFacultadesUnidades j = new PojoFacultadesUnidades();
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                            if (pojo.getValue().equalsIgnoreCase(facuniSelectded)) {
+                                j = pojo;
+                            }
+                        }
+                        facultadesUnidadesList.clear();
+                        facultadesUnidadesList.add(j);
                         escuelaDeptoInterno = new EscuelaDepartamento();
                         escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
                     }
