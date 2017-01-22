@@ -60,7 +60,7 @@ public class ProyectoReportMB {
         List<RptProyectoPojo> list = new ArrayList<RptProyectoPojo>();
         Integer desdeYear = Integer.parseInt(anioDesde.trim());
         Integer hastaYear = Integer.parseInt(anioHasta.trim());
-        List<Proyecto> comparativoReparacionesDos = proyectoService.getProyectoByParam(desdeYear, hastaYear);
+        List<Proyecto> comparativoReparacionesDos = proyectoService.getProyectosDesdeHasta(desdeYear, hastaYear);
         RptProyectoPojo prueba = new RptProyectoPojo();
 
         for (Proyecto item : comparativoReparacionesDos) {

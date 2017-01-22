@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_proyectos_gestionados" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="09827370-de1a-4458-b232-447fc2e04db5">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="25"/>
-	<property name="ireport.y" value="17"/>
+	<property name="ireport.x" value="148"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="Desde" class="java.lang.String"/>
 	<parameter name="Hasta" class="java.lang.String"/>
+	<parameter name="uesImageUrl" class="java.lang.String"/>
+	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -68,27 +70,35 @@
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement uuid="5ab41911-8cd6-4622-945d-5a4d4b0adbf4" x="0" y="0" width="65" height="65"/>
+				<imageExpression><![CDATA[$P{uesImageUrl}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="6e9f9fb3-cbdf-4180-be6a-94ab603ba8aa" x="737" y="0" width="65" height="65"/>
+				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="55" splitType="Stretch">
 			<textField>
-				<reportElement uuid="9bf2b8e1-ab7a-429f-8a1a-f54e72ab7cfb" x="246" y="1" width="100" height="20"/>
+				<reportElement uuid="9bf2b8e1-ab7a-429f-8a1a-f54e72ab7cfb" x="315" y="1" width="71" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{Desde}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="d6b010e0-9be3-46f4-9d7e-2ee1559d4346" x="442" y="1" width="100" height="20"/>
+				<reportElement uuid="d6b010e0-9be3-46f4-9d7e-2ee1559d4346" x="472" y="2" width="62" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{Hasta}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="9c9174c5-48c3-47cc-8881-abe8d985b42d" x="190" y="1" width="55" height="20"/>
+				<reportElement uuid="9c9174c5-48c3-47cc-8881-abe8d985b42d" x="259" y="2" width="55" height="20"/>
 				<textElement/>
 				<text><![CDATA[Desde:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ce5171d8-63d3-476a-bba3-9e81f7bf2001" x="394" y="1" width="47" height="20"/>
+				<reportElement uuid="ce5171d8-63d3-476a-bba3-9e81f7bf2001" x="424" y="2" width="47" height="20"/>
 				<textElement/>
 				<text><![CDATA[Hasta:]]></text>
 			</staticText>
@@ -156,11 +166,11 @@
 		<band height="21" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="a1ccc803-a798-4bd8-b6b0-c4ec4622ce51" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="131" height="20"/>
-				<box leftPadding="5">
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
 					<font isUnderline="false"/>
@@ -169,77 +179,77 @@
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="0cdb131e-a151-4740-a972-de06c98fd796" positionType="Float" stretchType="RelativeToTallestObject" x="131" y="0" width="105" height="20"/>
-				<box leftPadding="5">
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{objetivo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="bcdd82ca-b226-481e-8f9f-77fe92c609fb" positionType="Float" stretchType="RelativeToTallestObject" x="236" y="0" width="69" height="20"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{anioGestion}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="b3e9b74b-99f8-4d25-a2c2-ae67083893a4" positionType="Float" stretchType="RelativeToTallestObject" x="305" y="0" width="93" height="20"/>
-				<box leftPadding="5">
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{orgamismo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="980f17de-9e6d-429d-976b-91feb1242b39" positionType="Float" stretchType="RelativeToTallestObject" x="398" y="0" width="102" height="20"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{paisCooperante}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="3c054356-7a14-42f6-b801-ef76407e7ba6" positionType="Float" stretchType="RelativeToTallestObject" x="500" y="0" width="151" height="20"/>
-				<box leftPadding="5">
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{contraparteExterna}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="40d8cde0-0608-4d3d-9a20-5919ef9449a4" positionType="Float" stretchType="RelativeToTallestObject" x="651" y="0" width="95" height="20"/>
-				<box leftPadding="5">
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{beneficiadoUES}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="2607ec4f-da12-4472-b1a0-3e07d7b12af8" positionType="Float" stretchType="RelativeToTallestObject" x="746" y="0" width="55" height="20"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
