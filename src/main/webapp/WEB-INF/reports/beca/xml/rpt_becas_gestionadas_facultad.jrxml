@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.9487171000000243"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="656"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -32,14 +32,14 @@
 		<band height="131" splitType="Stretch">
 			<elementGroup>
 				<staticText>
-					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="0" y="0" width="528" height="32"/>
+					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="65" y="0" width="398" height="32"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" size="24" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Universidad de El Salvador]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="0" y="32" width="528" height="20"/>
+					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="65" y="32" width="398" height="20"/>
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>

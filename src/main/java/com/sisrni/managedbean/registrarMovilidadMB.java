@@ -699,8 +699,8 @@ public class registrarMovilidadMB {
      */
     public void getArreglosFacultadesUnidadesBeneficiadas() {
         int result;
-        listFacultadesBeneficiadasSelected.clear();
-        listUnidadesBeneficiadasSelected.clear();
+        listFacultadesBeneficiadasSelected = new ArrayList<String>();
+        listUnidadesBeneficiadasSelected = new ArrayList<String>();
         String[] facultadesUnidadesBeneficiadasSelected = new String[listFacultadesUnidadesBeneficiadasSelected.size()];
         facultadesUnidadesBeneficiadasSelected = listFacultadesUnidadesBeneficiadasSelected.toArray(facultadesUnidadesBeneficiadasSelected);
         try {
@@ -713,14 +713,9 @@ public class registrarMovilidadMB {
                 }
             }
 
-            //Invocando a metodo para agregar las facultades beneficiadas a la instancia de Movilidad
-            if (!listFacultadesBeneficiadasSelected.isEmpty()) {
-                addFacultadesBeneficiadas(listFacultadesBeneficiadasSelected);
-            }
-            if (!listUnidadesBeneficiadasSelected.isEmpty()) {
-                addUnidadesBeneficiadas(listUnidadesBeneficiadasSelected);
-            }
-
+            //Invocando a metodos para agregar las facultades y unidades beneficiadas a la instancia de Movilidad
+             addFacultadesBeneficiadas(listFacultadesBeneficiadasSelected);
+             addUnidadesBeneficiadas(listUnidadesBeneficiadasSelected);
         } catch (Exception e) {
             e.printStackTrace();
         }
