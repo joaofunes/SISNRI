@@ -29,9 +29,9 @@ import org.springframework.web.context.WebApplicationContext;
  * @author Joao
  */
 
-@Named("consultarConvenioMB")
+@Named("consultarPropuestaConvenioMB")
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
-public class ConsultarConvenioMB implements Serializable{
+public class ConsultarPropuestaConvenioMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
     
@@ -77,7 +77,7 @@ public class ConsultarConvenioMB implements Serializable{
         try {
             propuestaConvenio = new PropuestaConvenio();    
             estado = new Estado();
-            listadoPropuestaConvenio= propuestaConvenioService.getAllConvenioSQL();
+            listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();            
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
         } catch (Exception e) {
             e.printStackTrace();
