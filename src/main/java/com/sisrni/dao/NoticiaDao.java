@@ -47,4 +47,19 @@ public class NoticiaDao extends GenericDao<Noticia, Integer> {
         return (Long) q.uniqueResult();
     }
 
+    public List<Noticia> getNoticiasDetalle(Integer categoria, Date desde, Date hasta) {
+        String query = "Select n from Noticia n where n.fechaNoticia between :desde and :hasta and n.estadoNoticia=1";
+        if (categoria != 0) {
+            query += " and n.idCategoria.idCategoria =:categoria";
+        }
+        query += " order by n.idCategoria.categoriaNoticia asc";
+        Query q = getSessionFactory().getCurrentSession().createQuery(query);
+        if (categoria != 0) {
+            q.setParameter("categoria", categoria);
+        }
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        return q.list();
+    }
+
 }
