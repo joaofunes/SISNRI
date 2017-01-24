@@ -371,7 +371,7 @@ public class ProyectosMB {
                 personaService.save(persona);
             }
             //guardar persona Asistente
-            if (tabAsis == true) {
+            if (actualizar!=true && tabAsis == true) {
                 String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
                 if (facultadArregloAsis[1].equals("1")) {
                     EscuelaDepartamento escuelaselecAsis = escuelaDepartamentoService.findById(escuelaDeptoSelectedAsis.getIdEscuelaDepto());
@@ -432,65 +432,74 @@ public class ProyectosMB {
                 propuesta = propuestaConvenioService.findById(propuestaConvenioSelected.getIdPropuesta());
                 proyecto.setIdPropuestaConvenio(propuesta);
             }
-
-//            if (proyecto.getFechaFin().before(proyecto.getFechaInicio())) {
-//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia!", "La fecha de inicio debe ser menor a la fecha fin"));
-//                validarFecha = true;
-//            } else {
-//                validarFecha = false;
-//            }
             Pais paiscooperante = paisService.findById(paisCooperanteSelected.getIdPais());
-
             proyecto.setIdPaisCooperante(paiscooperante);
-
             proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
             //Intermedia de proyecto y area de conocimiento
-            for (int i = 0;
-                    i < areaConocimientoSelected.length;
-                    i++) {
+            for (int i = 0; i < areaConocimientoSelected.length; i++) {
                 AreaConocimiento area = areaConocimientoService.findById(Integer.parseInt(areaConocimientoSelected[i]));
                 if (area != null) {
                     areasConocimiento.add(area);
                 }
             }
-
             proyecto.setAreaConocimientoList(areasConocimiento);
             // guardar organismo
-            for (int i = 0;
-                    i < organismoProySelected.length;
-                    i++) {
+            for (int i = 0; i < organismoProySelected.length; i++) {
                 Organismo organismo = organismoService.findById(Integer.parseInt(organismoProySelected[i]));
                 if (organismo != null) {
                     organismosProyecto.add(organismo);
                 }
             }
-
             proyecto.setOrganismoList(organismosProyecto);
             //guardar facultades beneficiadas
-            for (int i = 0;
-                    i < facultadBeneficiadaSelected.length;
-                    i++) {
+            for (int i = 0; i < facultadBeneficiadaSelected.length; i++) {
                 Facultad facultades = facultadService.findById(Integer.parseInt(facultadBeneficiadaSelected[i]));
                 if (facultades != null) {
                     facultadesBeneficiadaList.add(facultades);
                 }
             }
-
             proyecto.setFacultadList(facultadesBeneficiadaList);
             //si selecciona facultad o unidad
             String facultadArreglo[] = facultadSelectedPojoP.split(",");
-            if (facultadArreglo[1].equals(
-                    "1")) {
+            if (facultadArreglo[1].equals("1")) {
                 Facultad facSelected = facultadService.findById(Integer.parseInt(facultadArreglo[0]));
                 proyecto.setIdFacultad(facSelected);
             } else {
                 proyecto.setIdUnidad(Integer.parseInt(facultadArreglo[0]));
             }
-
-            if (actualizar
-                    == true) {
+            if (actualizar == true) {
                 proyectoService.merge(proyecto);
-                if (tabAsis == true) {
+                //
+                if (tabAsis == true && asistenteNull==true) {
+                    String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
+                if (facultadArregloAsis[1].equals("1")) {
+                    EscuelaDepartamento escuelaselecAsis = escuelaDepartamentoService.findById(escuelaDeptoSelectedAsis.getIdEscuelaDepto());
+                    personaAsistente.setIdEscuelaDepto(escuelaselecAsis);
+                } else {
+                    Unidad unidadSelectedAsist = unidadService.findById(Integer.parseInt(facultadArregloAsis[0]));
+                    personaAsistente.setIdUnidad(unidadSelectedAsist);
+                }
+                personaAsistente.setPasaporte("-");
+                personaAsistente.setExtranjero(Boolean.FALSE);
+                personaAsistente.setActivo(Boolean.TRUE);
+                //guardar telefono fijo asistente
+                telefonoAsisFijo.setIdPersona(personaAsistente);
+                telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoFijo);
+                personaAsistente.getTelefonoList().add(telefonoAsisFijo);
+                //guardar telefono celular asistente
+                telefonoAsisCel.setIdPersona(personaAsistente);
+                telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
+                personaAsistente.getTelefonoList().add(telefonoAsisCel);
+                // guardar fax Asistente
+                telefonoAsisFax.setIdPersona(personaAsistente);
+                telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
+                personaAsistente.getTelefonoList().add(telefonoAsisFax);
+                if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
+                    personaService.merge(personaAsistente);
+                } else {
+                    personaService.save(personaAsistente);
+                }
+                //
                     //guardar en tabla intermedia persona_proyecto Asistente          
                     personaProyectoAsisPK.setIdPersona(personaAsistente.getIdPersona());
                     personaProyectoAsisPK.setIdProyecto(proyecto.getIdProyecto());
@@ -499,8 +508,8 @@ public class ProyectosMB {
                     personaProyectoAsis.setIdTipoPersona(tipoPersonaAsis);
                     personaProyectoAsis.setPersonaProyectoPK(personaProyectoAsisPK);
                     proyecto.getPersonaProyectoList().add(personaProyectoAsis);
-                    if (asistenteNull == null) {
-                        proyectoService.save(proyecto);
+                    if (asistenteNull == true) {
+                        proyectoService.merge(proyecto);
                     } else {
                     }
                 }
