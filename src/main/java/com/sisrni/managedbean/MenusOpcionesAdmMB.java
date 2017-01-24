@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 
@@ -59,27 +60,42 @@ public class MenusOpcionesAdmMB implements Serializable{
     
     private boolean actualizar;
     private List<SsMenus> listadoMenus;
+    
+    private List<SsRoles> selectedlistRoles;
+    private String[] selectedArrayRoles;
+    private List<SsRoles> listRoles;
+    
    
     private SsMenus ssMenus;
+   
     private SsRoles roles;
     
     private CurrentUserSessionBean user;
     private AppUserDetails usuario;
+    
    
     @PostConstruct
     public void init() {
         try {    
              
-            user = new CurrentUserSessionBean();
-            usuario = user.getSessionUser();
+           
             listadoMenus = new ArrayList<SsMenus>();
             ssMenus = new SsMenus();
+            
+             user = new CurrentUserSessionBean();
+            usuario = user.getSessionUser();
+           
+            
             options=new DualListModel<SsOpciones>();
+            
+            
+            listRoles= ssRolesService.findAll();
             setActualizar(false);
             getMenus();
         } catch (Exception e) {
         }
     }
+    
     
     
     public void getMenus(){
@@ -153,8 +169,19 @@ public class MenusOpcionesAdmMB implements Serializable{
                         getSsMenus().setFechaRegistro(new Date());
                         getSsMenus().setUsuarioRegistro(usuario.getUsuario().getCodigoUsuario());                        
                         getSsMenus().setSsRolesSet(usuario.getUsuario().getSsRolesSet());
+                        selectedlistRoles = new ArrayList<SsRoles>();
+                        for(String us:selectedArrayRoles){
+                            roles = new SsRoles();
+                            roles=ssRolesService.findById(Integer.parseInt(us.toString()));
+                            selectedlistRoles.add(roles);                            
+                        }                        
+                        
+                       
+                        
+                        //ssMenus.setSsRolesSet(selectedlistRoles); 
                 
 		        menusService.getDao().save(getSsMenus());
+                        
 			getMenus();
                         this.ssMenus = null;
                         this.ssMenus = new SsMenus();
@@ -260,6 +287,30 @@ public class MenusOpcionesAdmMB implements Serializable{
 
     public void setOptionsTarget(List<SsOpciones> optionsTarget) {
         this.optionsTarget = optionsTarget;
+    }
+   
+    public List<SsRoles> getListRoles() {
+        return listRoles;
+    }
+
+    public void setListRoles(List<SsRoles> listRoles) {
+        this.listRoles = listRoles;
+    }
+
+    public List<SsRoles> getSelectedlistRoles() {
+        return selectedlistRoles;
+    }
+
+    public void setSelectedlistRoles(List<SsRoles> selectedlistRoles) {
+        this.selectedlistRoles = selectedlistRoles;
+    }
+
+    public String[] getSelectedArrayRoles() {
+        return selectedArrayRoles;
+    }
+
+    public void setSelectedArrayRoles(String[] selectedArrayRoles) {
+        this.selectedArrayRoles = selectedArrayRoles;
     }
 
     
