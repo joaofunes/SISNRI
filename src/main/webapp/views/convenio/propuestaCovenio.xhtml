@@ -174,8 +174,8 @@
                             <p:column>
                                 <p:outputLabel for="idTelFijoInterno" value="Tel:" />
                             </p:column>
-                            <p:column>
-                                <p:inputText id="idTelFijoInterno"    value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}"/> 
+                            <p:column>                                                               
+                                <p:inputMask id="idTelFijoInterno"  mask="9999-9999" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}" />
                                 <p:watermark for="idTelFijoInterno" value="xxxx-xxxx"  /> 
                                 <p:message for="idTelFijoInterno" />
                             </p:column>
@@ -183,8 +183,8 @@
                                 <p:outputLabel for="idCelInterno" value="Cel:" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idCelInterno"    value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}"/> 
-                                <p:watermark for="idCelInterno" value="xxxx-xxxx" id="waterfax" /> 
+                                <p:inputMask id="idCelInterno"  mask="9999-9999" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}" />
+                                <p:watermark for="idCelInterno" value="xxxx-xxxx"  /> 
                                 <p:message for="idCelInterno" />
                             </p:column>
                         </p:row>
@@ -294,7 +294,7 @@
                                 <p:outputLabel for="idTelefonoExterno" value="Tel: " />
                             </p:column>
                             <p:column>
-                                <p:inputMask id="idTelefonoExterno" readonly="true" mask="9999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" />
+                                <p:inputMask id="idTelefonoExterno"  mask="9999-9999" value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" />
                                 <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
                                 <p:message for="idTelefonoExterno" />
                             </p:column>
@@ -302,7 +302,7 @@
                                 <p:outputLabel for="idCelExterno" value="Cel" />
                             </p:column>
                             <p:column>
-                                <p:inputMask id="idCelExterno" readonly="true" mask="(999) 999-9999" value="#{propuestaConvenioMB.telCelularExterno.numeroTelefono}" />
+                                <p:inputMask id="idCelExterno"  mask="9999-9999" value="#{propuestaConvenioMB.telCelularExterno.numeroTelefono}" />
                                 <p:watermark for="idCelExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
                                 <p:message for="idCelExterno" />
                             </p:column>
@@ -312,7 +312,7 @@
                                 <p:outputLabel for="idCargoExterno" value="Cargo" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="idCargoExterno" readonly="true" label="cargo" value="#{propuestaConvenioMB.referenteExterno.cargoPersona}"/>
+                                <p:inputText id="idCargoExterno"  label="cargo" value="#{propuestaConvenioMB.referenteExterno.cargoPersona}"/>
                                 <p:watermark for="idCargoExterno" value="Cargo" id="waterCargoEx" />
                                 <p:message for="idCargoExterno" />
                             </p:column>

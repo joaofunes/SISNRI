@@ -65,7 +65,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 @Named("documentacionMB")
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
-
 public class DocumentacionMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
@@ -217,6 +216,7 @@ public class DocumentacionMB implements Serializable{
     */
     public void addDocument(){
         try {     
+             
              documento.setIdPropuesta(propuestaConvenio);
              documento.setFechaRecibido(new Date());
              documento.setIdTipoDocumento(tipoDocumento); 
