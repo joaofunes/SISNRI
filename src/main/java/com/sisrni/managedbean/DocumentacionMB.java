@@ -223,7 +223,9 @@ public class DocumentacionMB implements Serializable{
              documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
              documentoService.save(documento);
              getDataConvenio();
-             FacesMessage message = new FacesMessage("Succesful", " Documento agregado exitosamente");
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Succesful", "Documento agregado exitosamente"));
+           
+           
         } catch (Exception e) {
             e.printStackTrace();
         }
