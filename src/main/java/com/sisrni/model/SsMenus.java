@@ -70,6 +70,7 @@ public class SsMenus implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private SsMenus ssIdMenu;
 
+
     public SsMenus() {
     }
 

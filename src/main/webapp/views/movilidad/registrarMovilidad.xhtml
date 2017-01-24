@@ -150,7 +150,7 @@
                                             <p:outputLabel for="escuelaDepartamentoPersona" value="Escuela/Departamento"/>   
                                         </p:column>   
                                         <p:column>
-                                            <p:selectOneMenu id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDepartamentoPersonaMovilidad}" style="width: 180px" required="true">
+                                            <p:selectOneMenu id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDepartamentoPersonaMovilidad}" style="width: 180px">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoPersonaMovilidad}" var="escDptoPersona" itemLabel="#{escDptoPersona.nombreEscuelaDepto}" itemValue="#{escDptoPersona.idEscuelaDepto}"/>
                                             </p:selectOneMenu>
@@ -374,7 +374,7 @@
                                             <p:outputLabel for="escuelaDepartamentoReferenteFactBnf" value="Escuela/Departamento"/> 
                                         </p:column>   
                                         <p:column>
-                                            <p:selectOneMenu id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoReferenteFactBnfSelected}" style="width: 180px" required="true">
+                                            <p:selectOneMenu id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoReferenteFactBnfSelected}" style="width: 180px">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoRefFact}" var="unidadPersona" itemLabel="#{unidadPersona.nombreEscuelaDepto}" itemValue="#{unidadPersona.idEscuelaDepto}"/>
                                             </p:selectOneMenu>

@@ -130,9 +130,9 @@
                                 
                             </p:selectManyMenu>-->
                             
-                            <p:selectCheckboxMenu id="idRoles" value="#{menusOpcionesAdmMB.selectedlistRoles}" label="Cities"
+                            <p:selectCheckboxMenu id="idRoles" value="#{menusOpcionesAdmMB.selectedArrayRoles}" label="Cities"
                                                   filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
-                                <f:selectItems value="#{menusOpcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol}" />
+                                <f:selectItems value="#{menusOpcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" />
                             </p:selectCheckboxMenu>
                            
                         </p:column>

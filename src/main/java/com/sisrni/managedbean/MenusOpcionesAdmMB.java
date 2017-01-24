@@ -62,6 +62,7 @@ public class MenusOpcionesAdmMB implements Serializable{
     private List<SsMenus> listadoMenus;
     
     private List<SsRoles> selectedlistRoles;
+    private String[] selectedArrayRoles;
     private List<SsRoles> listRoles;
     
    
@@ -168,15 +169,18 @@ public class MenusOpcionesAdmMB implements Serializable{
                         getSsMenus().setFechaRegistro(new Date());
                         getSsMenus().setUsuarioRegistro(usuario.getUsuario().getCodigoUsuario());                        
                         getSsMenus().setSsRolesSet(usuario.getUsuario().getSsRolesSet());
+                        selectedlistRoles = new ArrayList<SsRoles>();
+                        for(String us:selectedArrayRoles){
+                            roles = new SsRoles();
+                            roles=ssRolesService.findById(Integer.parseInt(us.toString()));
+                            selectedlistRoles.add(roles);                            
+                        }                        
                         
-                         ssMenus.setSsRolesSet((Set<SsRoles>) selectedlistRoles); 
+                       
+                        
+                        //ssMenus.setSsRolesSet(selectedlistRoles); 
                 
 		        menusService.getDao().save(getSsMenus());
-                        
-                        
-                        
-                        
-                        
                         
 			getMenus();
                         this.ssMenus = null;
@@ -284,6 +288,14 @@ public class MenusOpcionesAdmMB implements Serializable{
     public void setOptionsTarget(List<SsOpciones> optionsTarget) {
         this.optionsTarget = optionsTarget;
     }
+   
+    public List<SsRoles> getListRoles() {
+        return listRoles;
+    }
+
+    public void setListRoles(List<SsRoles> listRoles) {
+        this.listRoles = listRoles;
+    }
 
     public List<SsRoles> getSelectedlistRoles() {
         return selectedlistRoles;
@@ -293,12 +305,12 @@ public class MenusOpcionesAdmMB implements Serializable{
         this.selectedlistRoles = selectedlistRoles;
     }
 
-    public List<SsRoles> getListRoles() {
-        return listRoles;
+    public String[] getSelectedArrayRoles() {
+        return selectedArrayRoles;
     }
 
-    public void setListRoles(List<SsRoles> listRoles) {
-        this.listRoles = listRoles;
+    public void setSelectedArrayRoles(String[] selectedArrayRoles) {
+        this.selectedArrayRoles = selectedArrayRoles;
     }
 
     

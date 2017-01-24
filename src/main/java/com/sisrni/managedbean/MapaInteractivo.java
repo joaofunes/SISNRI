@@ -68,6 +68,10 @@ public class MapaInteractivo implements Serializable {
     int numeroProyectos = 0;
     double montoProyectos = 0;
     private List<Proyecto> projectListToPopUp;
+
+    //
+    private boolean noHayRegistros;
+
     //services
     @Autowired
     @Qualifier(value = "paisService")
@@ -92,26 +96,68 @@ public class MapaInteractivo implements Serializable {
 
     public void inicializador() {
         mostrarGraficos = false;
+
         yearActual = getYearOfDate(new Date());
         Integer menosUno = yearActual - 1;
         yearDesde = menosUno.toString() + " ";
         yearHasta = menosUno.toString() + " ";
+
         paisSelected = new ArrayList<String>();
-        tipoProyectoSelected = new ArrayList<String>();
         paisList = paisService.findAll();
+        llenarPaises();
+
+        tipoProyectoSelected = new ArrayList<String>();
         tipoProyectosList = tipoProyectoService.findAll();
+        llenarTipos();
+
         projectListToChart = new ArrayList<PojoMapaInteractivo>();
         projectListToPopUp = new ArrayList<Proyecto>();
 //        inicializarMapa();
+        noHayRegistros = Boolean.FALSE;
         graficar();
     }
 
     public void graficar() {
-        projectListToChart = proyectoService.getProjectListToCharts(paisSelected, tipoProyectoSelected, yearDesde.trim(), yearHasta.trim());
-        montoProyectos = calcularMonto(projectListToChart);
-        crearMapa();
-        createPieModel();
-        createPieTipo();
+        if (!paisSelected.isEmpty() && !tipoProyectoSelected.isEmpty()) {
+            projectListToChart = proyectoService.getProjectListToCharts(paisSelected, tipoProyectoSelected, yearDesde.trim(), yearHasta.trim());
+            montoProyectos = calcularMonto(projectListToChart);
+            if (!projectListToChart.isEmpty()) {
+                crearMapa();
+                createPieModel();
+                createPieTipo();
+                noHayRegistros = Boolean.FALSE;
+            } else {
+                noHayRegistros = Boolean.TRUE;
+                inicializarMapa();
+                inicializarPieUno();
+                inicializarPieDos();
+            }
+
+        } else {
+            if (paisSelected.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un Pais" + mostrarGraficos));
+            }
+            if (tipoProyectoSelected.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un tipo de proyecto" + mostrarGraficos));
+            }
+            noHayRegistros = Boolean.TRUE;
+            inicializarMapa();
+            inicializarPieUno();
+            inicializarPieDos();
+        }
+
+    }
+
+    public void llenarPaises() {
+        for (Pais p : paisList) {
+            paisSelected.add(p.getIdPais() + "");
+        }
+    }
+
+    public void llenarTipos() {
+        for (TipoProyecto tp : tipoProyectosList) {
+            tipoProyectoSelected.add(tp.getIdTipoProyecto() + "");
+        }
     }
 
     public void onCountryChange() {
@@ -130,7 +176,6 @@ public class MapaInteractivo implements Serializable {
         pieModel.setTitle("Pais y Porcejaje de cooperacion");
         pieModel.setLegendPosition("w");
         pieModel.setShowDataLabels(true);
-
     }
 
     private void createPieTipo() {
@@ -139,11 +184,25 @@ public class MapaInteractivo implements Serializable {
         for (PojoProyectosByTipo pj : series) {
             pieModelType.set(pj.getNombreTipoProyecto(), pj.getCantidadProyectos());
         }
-
         pieModelType.setTitle("Cantidad y Tipos de Proyecto");
         pieModelType.setLegendPosition("w");
         pieModelType.setShowDataLabels(true);
+    }
 
+    public void inicializarPieUno() {
+
+        pieModel = new PieChartModel();
+        pieModel.setTitle("Pais y Porcejaje de cooperacion");
+        pieModel.setLegendPosition("w");
+        pieModel.setShowDataLabels(true);
+
+    }
+
+    private void inicializarPieDos() {
+        pieModelType = new PieChartModel();
+        pieModelType.setTitle("Cantidad y Tipos de Proyecto");
+        pieModelType.setLegendPosition("w");
+        pieModelType.setShowDataLabels(true);
     }
 
     public void fillPopUp(Integer pais) {
@@ -228,9 +287,18 @@ public class MapaInteractivo implements Serializable {
     }
 
     public void inicializarMapa() {
-        this.chartModel = new GChartModelBuilder().setChartType(GChartType.GEO)
-                .addColumns("Pais", "Cooperacion")
-                .build();
+        this.chartModel = null;
+        try {
+            Map<String, Object> colorAxis = new HashMap<String, Object>();
+            colorAxis.put("colors", new String[]{"Green", "Red"});
+            GChartModelBuilder chartModelBuilder = new GChartModelBuilder();
+            chartModelBuilder.setChartType(GChartType.GEO);
+            chartModelBuilder.addColumns("Codigo", "Pais", "Cooperacion($)");
+            chartModelBuilder.addOption("colorAxis", colorAxis);
+            this.chartModel = chartModelBuilder.build();
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "PrimeFaces Rocks." + mostrarGraficos));
+        }
     }
 
     private double calcularMonto(List<PojoMapaInteractivo> projectListToChart) {
@@ -246,6 +314,14 @@ public class MapaInteractivo implements Serializable {
         cal.setTime(date);
         Integer year = cal.get(Calendar.YEAR);
         return year;
+    }
+
+    public boolean isNoHayRegistros() {
+        return noHayRegistros;
+    }
+
+    public void setNoHayRegistros(boolean noHayRegistros) {
+        this.noHayRegistros = noHayRegistros;
     }
 
     public List<Pais> getPaisList() {
