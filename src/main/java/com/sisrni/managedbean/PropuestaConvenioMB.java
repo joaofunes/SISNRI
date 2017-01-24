@@ -413,6 +413,7 @@ public class PropuestaConvenioMB implements Serializable{
            
             if (mismoSolicitante) {
                     referenteInterno = solicitante;
+                    numDocumentoInterno = referenteInterno.getDuiPersona().replaceAll("-","");
                 if (referenteInterno.getIdUnidad() != null) {
                     for (PojoFacultadesUnidades us : listaFacultadUnidad) {
                         if (us.getId() == solicitante.getIdUnidad().getIdUnidad() && us.getUnidadFacultad() == 'U') {
@@ -443,6 +444,7 @@ public class PropuestaConvenioMB implements Serializable{
                telFijoInterno = new Telefono();
                telCelularInterno= new Telefono();
                facultadesUnidadesInterno = new PojoFacultadesUnidades();
+               numDocumentoInterno = null;
             }
             RequestContext context = RequestContext.getCurrentInstance();
             context.update("formAdmin:idSolicinateNombreInterno");
@@ -454,6 +456,7 @@ public class PropuestaConvenioMB implements Serializable{
             context.update("formAdmin:idUnidadInterno");
             context.update("formAdmin:idFacultadUnidadInterno");
             context.update("formAdmin:idCargoInterno");
+            context.update("formAdmin:idDocumentoInterno");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -550,7 +553,6 @@ public class PropuestaConvenioMB implements Serializable{
             propuestaEstadoService.save(estado);
             
             // persona solicitante
-           System.out.println(facultadesUnidades);
             
             solicitante.setIdUnidad(null);
             solicitante.setIdCarrera(null);
@@ -631,7 +633,10 @@ public class PropuestaConvenioMB implements Serializable{
                 personaPropuestaService.save(prsRefExterno);
             }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", "Propuesta Convenio almacenada"));
+           
             
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            context.redirect(context.getRequestContextPath() + "sisrni/views/convenio/consultarPropuestaConvenio.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }

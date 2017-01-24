@@ -41,34 +41,34 @@
                             <p:column headerText="REVISION" />
                         </p:row>
                     </p:columnGroup>
-                    
-                    <p:column>
+                   
+                    <p:column style="align-content: center">
                         <h:outputText value="#{convenio.nombre_propuesta}" />
                     </p:column>                                    
                     <p:column>
                         <h:outputText value="#{convenio.fecha_cambio_estado}" />
                     </p:column>                    
                     
-                    <p:column headerText="">
-                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('DISENIO CONVENIO')?'/img/animation/ajax-loader - verde.gif':'0'}" />
+                    <p:column headerText="Dise&ntilde;o de Convenio" style="align-content: center">
+                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('DISENIO CONVENIO')?'/img/animation/clock_r.gif':'0'}" />
                     </p:column>
                     <p:column headerText="Dise&ntilde;o de Interesados">                       
-                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('DISENIO DE INTERESADOS')?'/img/animation/ajax-loader - verde.gif':'0'}" />  
+                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('DISENIO DE INTERESADOS')?'/img/animation/clock_az.gif':'0'}" />  
                     </p:column>
                     <p:column headerText="Fiscalia">
-                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('FISCALIA')?'/img/animation/ajax-loader - verde.gif':'0'}" />  
+                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('FISCALIA')?'/img/animation/clock_v.gif':'0'}" />  
                     </p:column>
                     <p:column headerText="CSU">
-                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('CSU')?'/img/animation/ajax-loader - verde.gif':'0'}" />    
+                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('CSU')?'/img/animation/clock_r.gif':'0'}" />    
                     </p:column>
-                    <p:column headerText="AGU">
-                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('AGU')?'/img/animation/ajax-loader - verde.gif':'0'}" />      
+                    <p:column headerText="AGU" style="align-items: center">
+                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('AGU')?'/img/animation/clock_a.gif':'0'}" />      
                     </p:column>
                     <p:column headerText="Proceso de Firma">
-                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('PROCESO DE FIRMA')?'/img/animation/ajax-loader - verde.gif':'0'}" />       
+                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('PROCESO DE FIRMA')?'/img/animation/clock_v.gif':'0'}" />       
                     </p:column>
                     <p:column headerText="Revision">
-                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('REVISION')?'/img/animation/ajax-loader - verde.gif':'0'}" />        
+                       <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('REVISION')?'/img/animation/clock_v.gif':'0'}" />        
                     </p:column>
                    
                 </p:dataTable>
