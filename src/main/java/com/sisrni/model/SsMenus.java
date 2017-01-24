@@ -69,7 +69,7 @@ public class SsMenus implements Serializable {
     @JoinColumn(name = "SS__ID_MENU", referencedColumnName = "ID_MENU")
     @ManyToOne(fetch = FetchType.LAZY)
     private SsMenus ssIdMenu;
-    public Object setSsRolesSet;
+
 
     public SsMenus() {
     }
