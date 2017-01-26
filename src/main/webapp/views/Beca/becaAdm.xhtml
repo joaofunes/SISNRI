@@ -10,6 +10,7 @@
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
 
         <ui:define name="content">
+          <h2 class="title ui-widget-header ui-corner-all" align="center">Gestion de Becas Cortas</h2>
             <h:form id="formAdmin">
                 <p:panelGrid >
                     <p:row>
@@ -42,7 +43,9 @@
                     <p:column headerText="Pais destino" sortBy="#{beca.paisDestino}" filterBy="#{beca.paisDestino}" style="width: 15%" filterStyle="width:100%">
                         <h:outputText value="#{beca.paisDestino}" />
                     </p:column>
-
+                    <p:column headerText="Universidad Destino" sortBy="#{beca.universidadDestino}" filterBy="#{beca.universidadDestino}" style="width: 15%" filterStyle="width:100%">
+                        <h:outputText value="#{beca.universidadDestino}" />
+                    </p:column>
                     <p:column headerText="Monto" sortBy="#{beca.montoBeca}" filterBy="#{beca.montoBeca}" style="width: 9%" filterStyle="width:100%">
                         <h:outputText value="#{beca.montoBeca}" />
                     </p:column>
@@ -61,7 +64,7 @@
                             <p:commandLink styleClass="ui-icon ui-icon-search" title="Editar" 
                                            value="Editar" actionListener="#{becaConsultarMB.preUpdate(beca.idBeca)}"/>
                         </div>
-                         <div style="float: left">
+                        <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-close" title="Editar" 
                                            value="Editar" actionListener="#{becaMB.preUpdate(beca.idBeca)}"/>
                         </div>

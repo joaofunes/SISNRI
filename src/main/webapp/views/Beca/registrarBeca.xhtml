@@ -146,7 +146,7 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Tipo Modalidad"/>
+                                            <p:outputLabel value="Tipo Financiamiento"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu  id="modalidadbeca" value="#{becaMB.tipoModalidaBecaSelected.idTipoModalidad}"  style="width:180px">
@@ -177,7 +177,7 @@
                                             <p:calendar pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaInicio}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Fecha Fin:"/>
+                                            <p:outputLabel value="Fecha Finalizacion:"/>
                                         </p:column>
                                         <p:column>
                                             <p:calendar pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaFin}"/>
@@ -221,7 +221,7 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <h:outputText value="Agregar Asesor Interno?: " />
+                                            <h:outputText value="Agregar Coordinador Academico Interno?: " />
                                         </p:column>
                                         <p:column>
                                             <p:selectBooleanButton id="btnInterno" value="#{becaMB.tabInternoBoolean}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
@@ -229,7 +229,7 @@
                                             </p:selectBooleanButton>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText value="Agregar Asesor Externo?: " />
+                                            <h:outputText value="Agregar Coordinador Academico Externo?: " />
                                         </p:column>
                                         <p:column>
                                             <p:selectBooleanButton id="btnExterno" value="#{becaMB.tabExternoBoolean}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
@@ -239,7 +239,7 @@
                                     </p:row>
                                 </p:panelGrid>
                             </p:tab>
-                            <p:tab title="Datos del Asesor Interno"  >
+                            <p:tab title="Datos del Coordinador Academico Interno"  >
                                 <h:panelGroup id="aidiInterno">
                                     <h:panelGroup rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno}">
                                         <p:outputLabel value="Documento:" />
@@ -324,10 +324,10 @@
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
-                                    <p:outputLabel value="Para ingresar datoss del asesor Interno active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabInterno}"/>
+                                    <p:outputLabel value="Para ingresar datoss del Coordinador Academico Interno active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabInterno}"/>
                                 </h:panelGroup>
                             </p:tab>
-                            <p:tab title="Datos del Asesor Externo">
+                            <p:tab title="Datos del Coordinador Academico Externo">
                                 <h:panelGroup id="aidiExterno">
                                     <h:panelGroup rendered="#{!becaMB.actualizar and becaMB.mostrarTabExterno}">
                                         <p:outputLabel value="Pasaporte: " />
@@ -401,7 +401,7 @@
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
-                                     <p:outputLabel value="Para ingresar datoss del asesor Externo active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabExterno}"/>
+                                     <p:outputLabel value="Para ingresar datoss del Coordinador Academico Externo active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabExterno}"/>
                                     </h:panelGroup>
                             </p:tab>
                         </p:accordionPanel>
