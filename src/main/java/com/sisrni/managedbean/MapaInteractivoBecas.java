@@ -5,15 +5,11 @@
  */
 package com.sisrni.managedbean;
 
+import com.sisrni.model.Beca;
 import com.sisrni.model.Pais;
-import com.sisrni.model.Proyecto;
-import com.sisrni.model.TipoProyecto;
-import com.sisrni.pojo.rpt.PojoMapaInteractivo;
 import com.sisrni.pojo.rpt.PojoMapaInteractivoBecas;
-import com.sisrni.pojo.rpt.PojoProyectosByTipo;
 import com.sisrni.service.BecaService;
 import com.sisrni.service.PaisService;
-import com.sisrni.service.ProyectoService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,10 +26,6 @@ import org.apache.commons.logging.LogFactory;
 import org.primefaces.extensions.component.gchart.model.GChartModel;
 import org.primefaces.extensions.component.gchart.model.GChartModelBuilder;
 import org.primefaces.extensions.component.gchart.model.GChartType;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -67,7 +59,7 @@ public class MapaInteractivoBecas implements Serializable {
     private PieChartModel pieModelType;
     //int numeroProyectos = 0;
     private double montoBecas = 0;
-    //private List<Proyecto> projectListToPopUp;
+    private List<Beca> becasListToPopUp;
 
     //
     private boolean noHayRegistros;
@@ -109,7 +101,7 @@ public class MapaInteractivoBecas implements Serializable {
 //        tipoProyectosList = tipoProyectoService.findAll();
 //        llenarTipos();
         becasListToChart = new ArrayList<PojoMapaInteractivoBecas>();
-        //projectListToPopUp = new ArrayList<Proyecto>();
+        becasListToPopUp = new ArrayList<Beca>();
 
         noHayRegistros = Boolean.FALSE;
         graficar();
@@ -151,7 +143,14 @@ public class MapaInteractivoBecas implements Serializable {
             paisSelected.add(p.getIdPais() + "");
         }
     }
+    public void fillPopUp(Integer pais) {
+        for (PojoMapaInteractivoBecas pj : becasListToChart) {
+            if (pj.getIdPais() == pais) {
+                becasListToPopUp = pj.getBecastList();
 
+            }
+        }
+    }
 //    public void llenarTipos() {
 //        for (TipoProyecto tp : tipoProyectosList) {
 //            tipoProyectoSelected.add(tp.getIdTipoProyecto() + "");
@@ -200,14 +199,7 @@ public class MapaInteractivoBecas implements Serializable {
         pieModelType.setShowDataLabels(true);
     }
 
-//    public void fillPopUp(Integer pais) {
-//        for (PojoMapaInteractivo pj : projectListToChart) {
-//            if (pj.getIdPais() == pais) {
-//                projectListToPopUp = pj.getProjectList();
-//
-//            }
-//        }
-//    }
+
 //    private void createBarModel() {
 //        barModel = initBarModel();
 //
@@ -453,6 +445,14 @@ public class MapaInteractivoBecas implements Serializable {
 
     public void setMontoBecas(double montoBecas) {
         this.montoBecas = montoBecas;
+    }
+
+    public List<Beca> getBecasListToPopUp() {
+        return becasListToPopUp;
+    }
+
+    public void setBecasListToPopUp(List<Beca> becasListToPopUp) {
+        this.becasListToPopUp = becasListToPopUp;
     }
 
 }

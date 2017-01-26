@@ -120,7 +120,7 @@
                         <f:facet name="header">
                             <h:outputText value="Detalle" />
                         </f:facet>
-                       
+                        <p:commandButton value="Ver" id="btnPopUpr" actionListener="#{mapaInteractivoBecas.fillPopUp(r.idPais)}" oncomplete="PF('projectPopUp').show();" update=":listP" icon="ui-icon-search" />
                     </p:column>
                     <p:columnGroup type="footer">
                         <p:row>
@@ -142,19 +142,28 @@
             </p:panel>
         </p:outputPanel>
 
-        <p:dialog header="Detalle de Proyectos" id="listP" widgetVar="projectPopUp" modal="true" appendTo="@(body)" rendered="false">
-            <p:dataTable var="p" value="#{mapaInteractivoBecas.projectListToPopUp}" scrollable="true" scrollHeight="150" id="tablelist" style="width: 1000px">
-                <p:column headerText="Proyecto">
-                    <h:outputText value="#{p.nombreProyecto}" />
+        <p:dialog header="Detalle de Proyectos" id="listP" widgetVar="projectPopUp" modal="true" appendTo="@(body)">
+            <p:dataTable var="p" value="#{mapaInteractivoBecas.becasListToPopUp}" scrollable="true" scrollHeight="150" id="tablelist" style="width: 1000px">
+                <p:column headerText="Programa de Beca">
+                    <h:outputText value="#{p.idProgramaBeca.nombrePrograma}" />
                 </p:column>
-                <p:column headerText="Tipo">
-                    <h:outputText value="#{p.idTipoProyecto.nombreTipoProyecto}" />
+                <p:column headerText="Universidad Destino">
+                    <h:outputText value="#{p.idUniversidad.nombreOrganismo}" />
                 </p:column>
                 <p:column headerText="A&ntilde;o Gestion">
                     <h:outputText value="#{p.anioGestion}" />
                 </p:column>
+                 <p:column headerText="Inicio">
+                     <h:outputText value="#{p.fechaInicio}">
+                      
+                    </h:outputText>
+                </p:column>
+                 <p:column headerText="Finalizacion">
+                     <h:outputText value="#{p.fechaFin}">
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="Monto($)">
-                    <h:outputText value="#{p.montoProyecto}">
+                    <h:outputText value="#{p.montoTotal}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                 </p:column>

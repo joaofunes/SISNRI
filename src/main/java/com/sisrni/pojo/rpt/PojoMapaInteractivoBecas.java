@@ -5,6 +5,8 @@
  */
 package com.sisrni.pojo.rpt;
 
+import com.sisrni.model.Beca;import java.util.List;
+
 import java.io.Serializable;
 
 /**
@@ -13,13 +15,21 @@ import java.io.Serializable;
  */
 public class PojoMapaInteractivoBecas implements Serializable {
 
-    public Integer idPais;
+    private Integer idPais;
     private String codigoPais;
     private String nombrePais;
     private Double montoCooperacion;
     private Integer cantidadBecas;
-    //private List<Proyecto> projectList;
+    private List<Beca> becastList;
     //private List<PojoProyectosByTipo> series;
+
+    public Integer getIdPais() {
+        return idPais;
+    }
+
+    public void setIdPais(Integer idPais) {
+        this.idPais = idPais;
+    }
 
     public String getCodigoPais() {
         return codigoPais;
@@ -45,16 +55,6 @@ public class PojoMapaInteractivoBecas implements Serializable {
         this.montoCooperacion = montoCooperacion;
     }
 
-
-
-    public Integer getIdPais() {
-        return idPais;
-    }
-
-    public void setIdPais(Integer idPais) {
-        this.idPais = idPais;
-    }
-
     public Integer getCantidadBecas() {
         return cantidadBecas;
     }
@@ -62,5 +62,15 @@ public class PojoMapaInteractivoBecas implements Serializable {
     public void setCantidadBecas(Integer cantidadBecas) {
         this.cantidadBecas = cantidadBecas;
     }
+
+    public List<Beca> getBecastList() {
+        return becastList;
+    }
+
+    public void setBecastList(List<Beca> becastList) {
+        this.becastList = becastList;
+    }
+
+    
 
 }
