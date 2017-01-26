@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
-	<property name="ireport.zoom" value="1.9487171000000243"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="1.464100000000018"/>
+	<property name="ireport.x" value="1"/>
+	<property name="ireport.y" value="363"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -29,7 +29,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="131" splitType="Stretch">
+		<band height="139" splitType="Stretch">
 			<elementGroup>
 				<staticText>
 					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="65" y="0" width="398" height="32"/>
@@ -47,19 +47,19 @@
 				</staticText>
 			</elementGroup>
 			<staticText>
-				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="75" width="528" height="25" forecolor="#5B63B1"/>
+				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="68" width="528" height="25" forecolor="#5B63B1"/>
 				<textElement textAlignment="Center">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reporte de Becas Gestionadas ]]></text>
+				<text><![CDATA[Reporte de Becas Internacionales Gestionadas]]></text>
 			</staticText>
 			<textField pattern="MM/dd/yyyy">
-				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="100" width="264" height="20" forecolor="#786C6C"/>
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="119" width="264" height="20" forecolor="#786C6C"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField pattern="MM/dd/yyyy">
-				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="100" width="264" height="20" forecolor="#786C6C"/>
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="119" width="264" height="20" forecolor="#786C6C"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Fecha de creacion: "]]></textFieldExpression>
 			</textField>
@@ -71,6 +71,13 @@
 				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="463" y="0" width="65" height="65"/>
 				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="93" width="528" height="25" forecolor="#5B63B1"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Agrupadas por Facultad]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -80,7 +87,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="false" isUnderline="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Periodo de consulta Desde : " +$P{desde} + " Hasta: "+$P{hasta}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Periodo de Consulta" +$P{desde} + " - "+$P{hasta}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -88,6 +95,13 @@
 		<band height="20" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="208" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
@@ -95,31 +109,59 @@
 			</staticText>
 			<staticText>
 				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="0" y="0" width="208" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Facultad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="4591de44-19ac-4ff4-931f-e681ad845686" mode="Opaque" x="288" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="79717a4b-be92-4af8-9c2a-4bc292094163" mode="Opaque" x="288" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Denegadas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4591de44-19ac-4ff4-931f-e681ad845686" mode="Opaque" x="368" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Otorgadas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="a997b92c-483d-41a2-9401-1755f03eab09" mode="Opaque" x="368" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="a997b92c-483d-41a2-9401-1755f03eab09" mode="Opaque" x="448" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Monto Otorgadas]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="79717a4b-be92-4af8-9c2a-4bc292094163" mode="Opaque" x="448" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Denegadas]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -127,27 +169,27 @@
 		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement uuid="381f9cd8-c6ed-4e66-be3f-efe3d29d875e" x="208" y="0" width="80" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{gestionadas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="239fcef6-fd46-4444-a978-51020881f255" x="288" y="0" width="80" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{becasOtorgadas}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="e2bc8503-97ee-412f-894e-dd5c1a5327b5" x="368" y="0" width="80" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{montoOtorgadas}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="8e66a2d9-292f-40d1-b9c2-7c2ed51f0675" x="448" y="0" width="80" height="20"/>
+				<reportElement uuid="8e66a2d9-292f-40d1-b9c2-7c2ed51f0675" x="288" y="0" width="80" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="11"/>
 				</textElement>
@@ -155,8 +197,43 @@
 			</textField>
 			<textField>
 				<reportElement uuid="dec859bb-f771-41d3-b12e-16ec1566642f" x="0" y="0" width="208" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{nombreFacultad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="239fcef6-fd46-4444-a978-51020881f255" x="368" y="0" width="80" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{becasOtorgadas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e2bc8503-97ee-412f-894e-dd5c1a5327b5" x="448" y="0" width="80" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montoOtorgadas}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -179,10 +256,10 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="204" splitType="Stretch">
+		<band height="220" splitType="Stretch">
 			<pieChart>
 				<chart theme="default">
-					<reportElement uuid="b056c4c8-0858-4f53-b3c8-f257e20f8c3c" stretchType="RelativeToBandHeight" x="0" y="23" width="264" height="168"/>
+					<reportElement uuid="b056c4c8-0858-4f53-b3c8-f257e20f8c3c" stretchType="RelativeToBandHeight" x="0" y="30" width="264" height="190"/>
 					<chartTitle color="#5B63B1">
 						<titleExpression><![CDATA["Becas Gestionadas"]]></titleExpression>
 					</chartTitle>
@@ -221,7 +298,7 @@
 			</pieChart>
 			<pieChart>
 				<chart theme="default">
-					<reportElement uuid="810f3741-2f34-4d5b-80c7-abbfa3b5351e" stretchType="RelativeToBandHeight" x="264" y="23" width="264" height="168"/>
+					<reportElement uuid="810f3741-2f34-4d5b-80c7-abbfa3b5351e" stretchType="RelativeToBandHeight" x="264" y="30" width="264" height="190"/>
 					<chartTitle color="#5B63B1">
 						<titleExpression><![CDATA["Becas Otorgadas"]]></titleExpression>
 					</chartTitle>
