@@ -536,6 +536,7 @@ public class PropuestaConvenioMB implements Serializable{
             
             // guardar propuesta convenio
             propuestaConvenio.setIdConvenio(propuestaConvenioTemp.getIdPropuesta());
+            propuestaConvenio.setFechaIngreso(new Date());
             propuestaConvenioService.save(propuestaConvenio);
             
             
