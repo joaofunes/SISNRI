@@ -155,11 +155,12 @@
                 </p:column>
                  <p:column headerText="Inicio">
                      <h:outputText value="#{p.fechaInicio}">
-                      
+                      <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputText>
                 </p:column>
                  <p:column headerText="Finalizacion">
                      <h:outputText value="#{p.fechaFin}">
+                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputText>
                 </p:column>
                 <p:column headerText="Monto($)">
