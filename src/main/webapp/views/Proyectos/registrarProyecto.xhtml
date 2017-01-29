@@ -16,8 +16,7 @@
                     <p:panel style="width: 80%">  
                         <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
                             <p:tab title="Datos del Proyecto">
-                                <p:panelGrid>
-                                    <p:row>
+                                <p:panelGrid columns="4">
                                         <p:column>
                                             <p:outputLabel value="Tipo de Proyecto:" />
                                         </p:column>
@@ -43,8 +42,6 @@
                                             </h:outputLink>
                                             <p:tooltip id="toolTipFade" for="fade" value="Este campo es unicamente para proyectos que se relacionen a un convenio"/>
                                         </p:column>
-                                    </p:row>
-                                    <p:row>
                                         <p:column>
                                             <p:outputLabel value="Facultad/Unidad:"/>
                                         </p:column>
@@ -57,15 +54,7 @@
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
-                                        <p:column>
-                                            <p:outputLabel value="Monto del Proyecto:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText value="#{proyectosMB.proyecto.montoProyecto}"/>
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
+                                    <p:column>
                                             <p:outputLabel  value="A&ntilde;o de Gesti&oacute;n: " />
                                         </p:column>
                                         <p:column>
@@ -77,13 +66,27 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
+                                            <p:outputLabel value="Tipo de Moneda:" />
+                                        </p:column>
+                                        <p:column >
+                                            <p:selectOneMenu value="#{proyectosMB.tipoMoneda}" style="width: 180px">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItem itemValue="1" itemLabel="EUR" />
+                                                <f:selectItem itemValue="2" itemLabel="USD" />
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Monto del Proyecto:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText value="#{proyectosMB.montoProyecto}"/>
+                                        </p:column>
+                                        <p:column>
                                             <p:outputLabel value="Lugar de Ejecuci&oacute;n:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText value="#{proyectosMB.proyecto.lugarProyecto}"/>
                                         </p:column>
-                                    </p:row>
-                                    <p:row>
                                         <p:column >
                                             <p:outputLabel value="Nombre del Proyecto:"  />
                                         </p:column>
@@ -96,8 +99,6 @@
                                         <p:column>
                                             <p:inputTextarea value="#{proyectosMB.proyecto.objetivo}" rows="2" maxlength="1000" style="width:180px"/>
                                         </p:column>
-                                    </p:row>
-                                    <p:row>
                                         <p:column>
                                             <p:outputLabel value="Fecha Inicio:"/>
                                         </p:column>
@@ -112,8 +113,6 @@
 
                                             </p:calendar>
                                         </p:column>
-                                    </p:row>
-                                    <p:row>
                                         <p:column>
                                             <p:outputLabel value="Pais cooperante:"/>
                                         </p:column>
@@ -136,9 +135,6 @@
                                                 </c:forEach>
                                             </p:selectCheckboxMenu>
                                         </p:column>
-
-                                    </p:row>
-                                    <p:row>
                                         <p:column>
                                             <p:outputLabel value="Area de Conocimiento:"/>
                                         </p:column>
@@ -161,7 +157,6 @@
                                                 </c:forEach>
                                             </p:selectCheckboxMenu>
                                         </p:column>
-                                    </p:row>
                                 </p:panelGrid>
                             </p:tab>
                             <p:tab title="Datos del Coordinador del proyecto">

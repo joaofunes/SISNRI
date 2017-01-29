@@ -19,6 +19,7 @@ import com.sisrni.model.TipoFacultad;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.TipoTelefono;
+import com.sisrni.model.TipoCambio;
 import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
@@ -37,18 +38,17 @@ import com.sisrni.service.TipoFacultadService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.TipoTelefonoService;
+import com.sisrni.service.TipoCambioService;
 import com.sisrni.service.UnidadService;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
 import javax.inject.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -95,6 +95,8 @@ public class ProyectosMB {
     private TipoFacultadService tipoFacultadService;
     @Autowired
     private EscuelaDepartamentoService escuelaDepartamentoService;
+    @Autowired
+    private TipoCambioService tipoCambioService;
 
 //Definicion de objetos    
     private Proyecto proyecto;
@@ -187,6 +189,9 @@ public class ProyectosMB {
     private static final String FIJO = "FIJO";
     private static final String FAX = "FAX";
     private static final String CELULAR = "CELULAR";
+    private TipoCambio codigoMonedaDolar;
+    private TipoCambio codigoMonedaEuro;
+    private TipoCambio tipoCambio;
     private int existeSol;
     private int existeAsis;
     private int existeRefExt;
@@ -214,6 +219,8 @@ public class ProyectosMB {
     public Boolean mostrarEscuelaSol;
     public Boolean mostrarEscuelaAsis;
     public Boolean validarFecha;
+    public Integer tipoMoneda;
+    public Long montoProyecto;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -291,6 +298,7 @@ public class ProyectosMB {
         personaProyectoPK = new PersonaProyectoPK();
         personaProyectoAsisPK = new PersonaProyectoPK();
         personaProyectoExtPK = new PersonaProyectoPK();
+        tipoCambio= new TipoCambio();
         regiones = new Pais();
         numDocumentoAsis = "";
         numDocumentoSol = "";
@@ -309,6 +317,8 @@ public class ProyectosMB {
         //tipo facultad
         tipoFacultad = tipoFacultadService.getTipoFacultadByNombre("INICIATIVA");
         tipoFacultadB = tipoFacultadService.getTipoFacultadByNombre("BENEFICIADA");
+        codigoMonedaDolar= tipoCambioService.getTipoCambioByCodigo("USD");
+        codigoMonedaEuro= tipoCambioService.getTipoCambioByCodigo("EUR");
         //bandera
         existeSol = 0;
         existeAsis = 0;
@@ -333,6 +343,7 @@ public class ProyectosMB {
         mostrarEscuelaSol = false;
         mostrarEscuelaAsis = false;
         validarFecha = false;
+        tipoMoneda=0;
     }
 
     public void mostrarTab() {
@@ -435,6 +446,15 @@ public class ProyectosMB {
             Pais paiscooperante = paisService.findById(paisCooperanteSelected.getIdPais());
             proyecto.setIdPaisCooperante(paiscooperante);
             proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
+            //seteando monto
+            if(tipoMoneda.equals(codigoMonedaDolar)){
+                proyecto.setMontoProyecto(montoProyecto);
+            }else
+            {
+                double aux= tipoCambio.getDolaresPorUnidad().doubleValue();
+                double aux2= montoProyecto*aux;
+//                proyecto.setMontoProyecto(aux2);
+            }
             //Intermedia de proyecto y area de conocimiento
             for (int i = 0; i < areaConocimientoSelected.length; i++) {
                 AreaConocimiento area = areaConocimientoService.findById(Integer.parseInt(areaConocimientoSelected[i]));
@@ -1649,4 +1669,27 @@ public class ProyectosMB {
         this.validarFecha = validarFecha;
     }
 
+    public Integer getTipoMoneda() {
+        return tipoMoneda;
+    }
+
+    public void setTipoMoneda(Integer tipoMoneda) {
+        this.tipoMoneda = tipoMoneda;
+    }
+
+    public Long getMontoProyecto() {
+        return montoProyecto;
+    }
+
+    public void setMontoProyecto(Long montoProyecto) {
+        this.montoProyecto = montoProyecto;
+    }
+
+    public TipoCambio getTipoCambio() {
+        return tipoCambio;
+    }
+
+    public void setTipoCambio(TipoCambio tipoCambio) {
+        this.tipoCambio = tipoCambio;
+    } 
 }
