@@ -63,6 +63,8 @@ public class Organismo implements Serializable {
     private TipoOrganismo idTipoOrganismo;
     @OneToMany(mappedBy = "idUniversidad")
     private List<Beca> becaList;
+    @OneToMany(mappedBy = "idOrganismoCooperante")
+    private List<Beca> becaList1;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Telefono> telefonoList;
     @OneToMany(mappedBy = "idOrganismo")
@@ -173,6 +175,14 @@ public class Organismo implements Serializable {
 
     public void setBecaList(List<Beca> becaList) {
         this.becaList = becaList;
+    }
+
+    public List<Beca> getBecaList1() {
+        return becaList1;
+    }
+
+    public void setBecaList1(List<Beca> becaList1) {
+        this.becaList1 = becaList1;
     }
 
     public List<Telefono> getTelefonoList() {

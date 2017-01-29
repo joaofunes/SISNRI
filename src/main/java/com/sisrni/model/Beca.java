@@ -76,6 +76,9 @@ public class Beca implements Serializable {
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idUniversidad;
+    @JoinColumn(name = "ID_ORGANISMO_COOPERANTE", referencedColumnName = "ID_ORGANISMO")
+    @ManyToOne
+    private Organismo idOrganismoCooperante;
     @JoinColumn(name = "ID_PROGRAMA_BECA", referencedColumnName = "ID_PROGRAMA")
     @ManyToOne
     private ProgramaBeca idProgramaBeca;
@@ -210,6 +213,14 @@ public class Beca implements Serializable {
 
     public void setIdUniversidad(Organismo idUniversidad) {
         this.idUniversidad = idUniversidad;
+    }
+
+    public Organismo getIdOrganismoCooperante() {
+        return idOrganismoCooperante;
+    }
+
+    public void setIdOrganismoCooperante(Organismo idOrganismoCooperante) {
+        this.idOrganismoCooperante = idOrganismoCooperante;
     }
 
     public ProgramaBeca getIdProgramaBeca() {

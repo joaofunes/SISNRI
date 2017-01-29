@@ -53,10 +53,8 @@ public class Persona implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "EMAIL_PERSONA", nullable = false, length = 30)
     private String emailPersona;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "DUI_PERSONA", nullable = false, length = 10)
+    @Size(max = 10)
+    @Column(name = "DUI_PERSONA", length = 10)
     private String duiPersona;
     @Size(max = 17)
     @Column(name = "NIT_PERSONA", length = 17)
@@ -64,10 +62,8 @@ public class Persona implements Serializable {
     @Size(max = 100)
     @Column(name = "CARGO_PERSONA", length = 100)
     private String cargoPersona;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "PASAPORTE", nullable = false, length = 30)
+    @Size(max = 30)
+    @Column(name = "PASAPORTE", length = 30)
     private String pasaporte;
     @Basic(optional = false)
     @NotNull
@@ -107,13 +103,11 @@ public class Persona implements Serializable {
         this.idPersona = idPersona;
     }
 
-    public Persona(Integer idPersona, String nombrePersona, String apellidoPersona, String emailPersona, String duiPersona, String pasaporte, boolean extranjero, boolean activo) {
+    public Persona(Integer idPersona, String nombrePersona, String apellidoPersona, String emailPersona, boolean extranjero, boolean activo) {
         this.idPersona = idPersona;
         this.nombrePersona = nombrePersona;
         this.apellidoPersona = apellidoPersona;
         this.emailPersona = emailPersona;
-        this.duiPersona = duiPersona;
-        this.pasaporte = pasaporte;
         this.extranjero = extranjero;
         this.activo = activo;
     }
