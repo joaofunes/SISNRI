@@ -174,6 +174,11 @@ public class PropuestaConvenioMB implements Serializable{
     private boolean flagEscuelaDeptInterno = false;
     private boolean mismoSolicitante;
     
+    private Boolean tabAsis;
+    private Boolean tabAsisMostrar;
+    private Boolean tabAsisExterno;
+    private Boolean tabAsisMostrarExterno;
+    
     private JCMail mail;
     
      
@@ -258,6 +263,10 @@ public class PropuestaConvenioMB implements Serializable{
             personaEdit = new Persona();
             propuestaConvenio = new PropuestaConvenio();   
             escuelaDepartamento = new EscuelaDepartamento();
+            tabAsisMostrar = Boolean.FALSE;
+            tabAsis = Boolean.FALSE;
+            tabAsisExterno= Boolean.FALSE;
+            tabAsisMostrarExterno= Boolean.FALSE;
          } catch (Exception e) {
            e.printStackTrace();
          }
@@ -290,6 +299,7 @@ public class PropuestaConvenioMB implements Serializable{
     }
      
      
+    
 
      
      /***
@@ -798,7 +808,20 @@ public class PropuestaConvenioMB implements Serializable{
         }
     }
     
-    
+    /**
+     * metodo habilita tab de solicitante interno 
+     */
+     public void mostrarTab() {
+        tabAsis = tabAsisMostrar ? Boolean.TRUE : Boolean.FALSE;
+    }
+    /**
+     * metodo habilita tab de solicitante interno 
+     */
+     public void mostrarTabExterno() {
+        tabAsisExterno = tabAsisMostrarExterno ? Boolean.TRUE : Boolean.FALSE;
+    }
+     
+     
     /// test de email
    
 public void FileRead(){
@@ -1165,6 +1188,38 @@ public void FileRead(){
 
     public void setFlagEscuelaDeptInterno(boolean flagEscuelaDeptInterno) {
         this.flagEscuelaDeptInterno = flagEscuelaDeptInterno;
+    }
+
+    public Boolean getTabAsisMostrar() {
+        return tabAsisMostrar;
+    }
+
+    public void setTabAsisMostrar(Boolean tabAsisMostrar) {
+        this.tabAsisMostrar = tabAsisMostrar;
+    }
+
+    public Boolean getTabAsis() {
+        return tabAsis;
+    }
+
+    public void setTabAsis(Boolean tabAsis) {
+        this.tabAsis = tabAsis;
+    }
+
+    public Boolean getTabAsisExterno() {
+        return tabAsisExterno;
+    }
+
+    public void setTabAsisExterno(Boolean tabAsisExterno) {
+        this.tabAsisExterno = tabAsisExterno;
+    }
+
+    public Boolean getTabAsisMostrarExterno() {
+        return tabAsisMostrarExterno;
+    }
+
+    public void setTabAsisMostrarExterno(Boolean tabAsisMostrarExterno) {
+        this.tabAsisMostrarExterno = tabAsisMostrarExterno;
     }
 
    
