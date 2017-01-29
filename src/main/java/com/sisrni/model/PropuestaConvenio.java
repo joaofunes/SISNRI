@@ -56,6 +56,11 @@ public class PropuestaConvenio implements Serializable {
     private Date vigencia;
     @Column(name = "ID_CONVENIO")
     private Integer idConvenio;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "FECHA_INGRESO", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date fechaIngreso;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
     private List<PropuestaEstado> propuestaEstadoList;
     @OneToMany(mappedBy = "idPropuesta")
@@ -151,7 +156,15 @@ public class PropuestaConvenio implements Serializable {
     public void setProyectoList(List<Proyecto> proyectoList) {
         this.proyectoList = proyectoList;
     }
+    
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
 
+    public void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+    
     public TipoPropuestaConvenio getIdTipoPropuestaConvenio() {
         return idTipoPropuestaConvenio;
     }

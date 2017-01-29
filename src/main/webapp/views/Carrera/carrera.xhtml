@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestion de Carreras">  
+            <p:panel style="width: 70%" header="Gestión de Carreras">  
                 
                 <h:form id="formCarrera">
                     <p:panelGrid columns="2">
@@ -23,6 +23,15 @@
                             <p:inputText id="nombreCarrera" value="#{carreraMB.carrera.nombreCarrera}" required="true" size="60" />
                             <p:watermark for="nombreCarrera" value="Nombre carrera" id="watermarkNombreCarrera"/>
                         </p:column>
+                        
+                        <h:outputLabel value="Organismo: "/>
+                        <p:selectOneMenu id="organismo" value="#{carreraMB.organismoSelected.idOrganismo}">
+                      <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                      <p:ajax listener="#{carreraMB.onchangeOrganismo()}" update="facultadCarrera" />
+                      <c:forEach var="organismo" items="#{carreraMB.organismosList}">
+                        <f:selectItem itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo.idOrganismo}"/>
+                    </c:forEach>
+                </p:selectOneMenu>
                         <p:column>
                             <h:outputLabel for="facultadCarrera" value="Facultad:"/>
                         </p:column>
@@ -58,6 +67,9 @@
                         <p:column headerText="Carrera"  filterBy="#{carrera.nombreCarrera}">
                             <h:outputText value="#{carrera.nombreCarrera}"/>
                         </p:column>
+                        <p:column headerText="Universidad" filterBy="#{carrera.idFacultad.idOrganismo.nombreOrganismo}">
+                            <h:outputText value="#{carrera.idFacultad.idOrganismo.nombreOrganismo}"/>
+                        </p:column> 
                         <p:column headerText="Facultad" filterBy="#{carrera.idFacultad.nombreFacultad}">
                             <h:outputText value="#{carrera.idFacultad.nombreFacultad}"/>
                         </p:column> 

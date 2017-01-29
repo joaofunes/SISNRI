@@ -78,7 +78,9 @@
                                 <h:outputText value="Monto: "  style="font-weight:bold" />
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{documentacionBecaMB.pojoToShow.montoBeca}" />
+                                <h:outputText value="#{documentacionBecaMB.pojoToShow.montoBeca}">
+                        <f:convertNumber type="currency" currencySymbol="$" />
+                    </h:outputText>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -112,10 +114,10 @@
                         <p:column headerText="Tipo de Documento" sortBy="#{doc.idTipoDocumento.nombreDocumento}" filterBy="#{doc.idTipoDocumento.nombreDocumento}">
                             <h:outputText value="#{doc.idTipoDocumento.nombreDocumento}" />
                         </p:column>
-                        <p:column headerText="Persona que recibi&oacute;" sortBy="#{doc.usuarioRecibe}" filterBy="#{doc.usuarioRecibe}">
+                        <p:column headerText="Recibido Por" sortBy="#{doc.usuarioRecibe}" filterBy="#{doc.usuarioRecibe}">
                             <h:outputText value="#{doc.usuarioRecibe}" />
                         </p:column>
-                        <p:column headerText="Fecha de recibido" sortBy="#{doc.fechaRecibido}" filterBy="#{doc.fechaRecibido}">
+                        <p:column headerText="Fecha de Recepcion" sortBy="#{doc.fechaRecibido}" filterBy="#{doc.fechaRecibido}">
                             <h:outputText value="#{doc.fechaRecibido}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
