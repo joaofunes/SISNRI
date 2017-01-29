@@ -16,7 +16,7 @@
        <h:form id="form">
 
             <div align="center" style="border: 1px black solid">
-                <h3 align="center">Reporte de Fondos de Proyectos Internacionales</h3>
+                <h3 align="center">Reporte de Fondos de Proyectos Internacionales por A&ntilde;o</h3>
                 <h1 class="title ui-widget-header ui-corner-all" align="center">SISRNI</h1>
 
 
@@ -50,14 +50,14 @@
                         </p:row>
                     </p:panelGrid>
                 </p:fieldset>
-
-               
                 <h:panelGrid columns="2"  cellpadding="5">
                     <f:facet name="footer">
                         <div class="footer-section">
-                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="reporte"  actionListener="#{proyectoReportMB.llenarReporte()}" oncomplete="print(xhr, status, args)"/>                   
+                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="Pdf"  actionListener="#{proyectoReportMB.printReportesFinanciados('pdf')}" oncomplete="print(xhr, status, args)"/>            
+                            <p:commandButton id="reportButtonExcel" icon="ui-icon-print"  value="Excel"  actionListener="#{proyectoReportMB.printReportesFinanciados('xls')}" oncomplete="prints(xhr, status, args)"/>             
+                            <p:commandButton id="reportButtonDoc" icon="ui-icon-print"  value="Word"  actionListener="#{proyectoReportMB.printReportesFinanciados('doc')}" oncomplete="prints(xhr, status, args)"/>             
                             <p:commandButton value="Cancelar"   icon="ui-icon-trash"    />
-                           
+
                         </div>
                     </f:facet>
                 </h:panelGrid>

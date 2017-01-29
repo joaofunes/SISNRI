@@ -5,11 +5,12 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:poue="http://primefaces.org/ui/extensions">
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
-
         <ui:define name="content">
+            <p:outputLabel value="Registro de Proyectos Internacionales" id="titulo" style="display:block; text-align:center"/>
             <h:form id="formAdmin">
                 <center> 
                     <p:panel style="width: 80%">  
@@ -104,11 +105,11 @@
                                             <p:calendar id="fechainicio" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.proyecto.fechaInicio}" />
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Fecha Fin:"/>
+                                            <p:outputLabel value="Fecha Finalizaci&oacute;n:"/>
                                         </p:column>
                                         <p:column>
                                             <p:calendar id="fechafin" pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.proyecto.fechaFin}">
-                                            
+
                                             </p:calendar>
                                         </p:column>
                                     </p:row>
@@ -170,9 +171,10 @@
                                     </p:column>
                                     <p:column>
                                         <p:inputMask id="duisol" mask="99999999-9" value="#{proyectosMB.numDocumentoSol}"/>
-                                        <p:commandButton actionListener="#{proyectosMB.searchByDocInterno(proyectosMB.numDocumentoSol)}" id="idBtnSearchInSol" process="@this,duisol" update="duisolicitante,correosolicitante,nombresolicitante,apellidosolicitante,cargosolicitante,facultadsolicitante,unidadsolicitante,telefonosolicitante,celularsolicitante,faxsolicitante" icon="ui-icon-search" value="Buscar"/>
+                                        <p:commandButton actionListener="#{proyectosMB.searchByDocInterno(proyectosMB.numDocumentoSol)}" id="idBtnSearchInSol" process="@this,duisol" update="duisolicitante,correosolicitante,nombresolicitante,apellidosolicitante,cargosolicitante,facultadsolicitante,unidadsolicitante,telefonosolicitante,celularsolicitante" icon="ui-icon-search" value="Buscar"/>
                                     </p:column>
                                 </p:panelGrid>
+                                <p:separator/>
                                 <p:panelGrid columns="4">
                                     <p:column>
                                         <p:outputLabel value="Nombre:"/>
@@ -193,7 +195,7 @@
                                         <p:inputMask id="duisolicitante" mask="99999999-9" value="#{proyectosMB.persona.duiPersona}" required="true"/>
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="Correo Electronico:"/>
+                                        <p:outputLabel value="Correo Electr&oacute;nico:"/>
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}"/>                                       
@@ -228,44 +230,39 @@
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="Telefono Fijo:"/>
+                                        <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                     </p:column>
                                     <p:column>
                                         <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999"/>
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="Telefono Celuluar:"/>
+                                        <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Fax:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="faxsolicitante" value="#{proyectosMB.telefonoSolFax.numeroTelefono}"/>
+                                        <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="(503)-9999-9999"/>
                                     </p:column>
                                 </p:panelGrid>
-                                    <p:column>
-                                        <h:outputLabel value="Agregar Coordinador t&eacute;cnico?: " />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectBooleanButton id="btnExterno" value="#{proyectosMB.tabAsisMostrar}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
-                                            <p:ajax update="idTabAsis" listener="#{proyectosMB.mostrarTab()}" />
-                                        </p:selectBooleanButton>
-                                    </p:column>
+                                <p:column>
+                                    <h:outputLabel value="Agregar Coordinador t&eacute;cnico? " />
+                                </p:column>
+                                <p:column>
+                                    <p:selectBooleanButton id="btnExterno" value="#{proyectosMB.tabAsisMostrar}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                        <p:ajax update="idTabAsis" listener="#{proyectosMB.mostrarTab()}" />
+                                    </p:selectBooleanButton>
+                                </p:column>
                             </p:tab>
                             <p:tab title="Datos del Coordinador t&eacute;cnico del proyecto">
                                 <h:panelGroup id="idTabAsis" >
-                                    <p:panelGrid rendered="#{!proyectosMB.actualizar and proyectosMB.tabAsis}">
+                                    <p:panelGrid rendered="#{proyectosMB.tabAsis}">
                                         <p:column>
                                             <p:outputLabel value="Dui:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="duiasis" mask="99999999-9" value="#{proyectosMB.numDocumentoAsis}"/>
-                                            <p:commandButton actionListener="#{proyectosMB.searchByDocAsistente(proyectosMB.numDocumentoAsis)}" id="idBtnSearchInAsis" process="@this,duiasis" update="duiasistente,correoasistente,nombreasistente,apellidoasistente,cargoasistente,facultadasistente,unidadasis,telefonoasistente,celularasistente,faxasistente" icon="ui-icon-search" value="Buscar"/>
+                                            <p:commandButton actionListener="#{proyectosMB.searchByDocAsistente(proyectosMB.numDocumentoAsis)}" id="idBtnSearchInAsis" process="@this,duiasis" update="duiasistente,correoasistente,nombreasistente,apellidoasistente,cargoasistente,facultadasistente,unidadasis,telefonoasistente,celularasistente" icon="ui-icon-search" value="Buscar"/>
                                         </p:column>
                                     </p:panelGrid>
+                                    <p:separator rendered="#{proyectosMB.tabAsis}"/>
                                     <p:panelGrid columns="4" rendered="#{proyectosMB.tabAsis}">
                                         <p:column>
                                             <p:outputLabel value="Nombre:"/>
@@ -286,7 +283,7 @@
                                             <p:inputMask id="duiasistente" mask="99999999-9" value="#{proyectosMB.personaAsistente.duiPersona}" />
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Correo Electronico:"/>
+                                            <p:outputLabel value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}"/>                                       
@@ -321,22 +318,16 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Telefono Fijo:"/>
+                                            <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-9999-9999"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Telefono Celuluar:"/>
+                                            <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:outputLabel value="Fax:"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText id="faxasistente" value="#{proyectosMB.telefonoAsisFax.numeroTelefono}"/>
+                                            <p:inputMask id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}" mask="(503)-9999-9999"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
@@ -344,13 +335,14 @@
                             <p:tab title="Datos del Coordinador Externo">
                                 <p:panelGrid>
                                     <p:column>
-                                        <p:outputLabel value="Pasaporte:"/>
+                                        <p:outputLabel value="Documento de Identificaci&oacute;n:"/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputMask id="pasaporteext" mask="99999999-9" value="#{proyectosMB.numDocumentoRefExt}"/>
-                                        <p:commandButton actionListener="#{proyectosMB.searchByDocReferenteExterno(proyectosMB.numDocumentoRefExt)}" id="idBtnSearchInExt" process="@this,pasaporteext" update="pasaporteexterna,correoexterna,nombreexterna,apellidoexterna,cargoexterna,unidadasis,telefonoexterna,celularexterno,faxexterna" icon="ui-icon-search" value="Buscar"/>
+                                        <p:inputText id="pasaporteext" value="#{proyectosMB.numDocumentoRefExt}"/>
+                                        <p:commandButton actionListener="#{proyectosMB.searchByDocReferenteExterno(proyectosMB.numDocumentoRefExt)}" id="idBtnSearchInExt" process="@this,pasaporteext" update="pasaporteexterna,correoexterna,nombreexterna,apellidoexterna,cargoexterna,unidadasis,telefonoexterna,celularexterno" icon="ui-icon-search" value="Buscar"/>
                                     </p:column>
                                 </p:panelGrid>
+                                <p:separator/>
                                 <p:panelGrid columns="4">
                                     <p:column>
                                         <p:outputLabel value="Nombre:"/>
@@ -365,7 +357,7 @@
                                         <p:inputText id="apellidoexterna" value="#{proyectosMB.personaExterna.apellidoPersona}" required="true"/>
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="Pasaporte de coordinador:"/>
+                                        <p:outputLabel value="Documento de Identificaci&oacute;n:"/>
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="pasaporteexterna" value="#{proyectosMB.personaExterna.pasaporte}" required="true"/>
@@ -394,22 +386,16 @@
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="Telefono Fijo:"/>
+                                        <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="telefonoexterna" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" />
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="Telefono Celuluar:"/>
+                                        <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="celularexterno" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Fax:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="faxexterna" value="#{proyectosMB.telefonoRefextFax.numeroTelefono}"/>
                                     </p:column>
                                 </p:panelGrid>
                             </p:tab>

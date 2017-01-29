@@ -58,10 +58,10 @@ import org.springframework.web.context.WebApplicationContext;
  *
  * @author Lillian
  */
-@Named(value = "proyectosMB")
+@Named(value = "proyectoConsultarMB")
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
 
-public class ProyectosMB {
+public class ProyectoConsultarMB {
 
     @Autowired
     private AreaConocimientoService areaConocimientoService;
@@ -240,10 +240,10 @@ public class ProyectosMB {
         organismoSelectedRefExt = new Organismo();
         areasConocimiento = new ArrayList<AreaConocimiento>();
         organismosProyecto = new ArrayList<Organismo>();
-        facultadesBeneficiadaList = new ArrayList<Facultad>();
         paisSelected = new Pais();
         paisCooperanteSelected = new Pais();
         //Listas
+        facultadesBeneficiadaList = facultadService.findAll();
         tipoproyectolist = tipoProyectoService.findAll();
         areaConocimientoList = areaConocimientoService.findAll();
         organismoProyList = organismoService.findAll();
@@ -607,18 +607,29 @@ public class ProyectosMB {
                     }
                     if (persona.getIdEscuelaDepto() != null) {
                         facultadSelectedPojoSol = persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
-                        //para consultar facultad
-                        Facultad facSol = facultadService.findById(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
-                        fuSol = facSol.getNombreFacultad();
-                        escuelaDeptoListSol = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
-                        escuelaDeptoSelectedSol = persona.getIdEscuelaDepto();
-                        EscuelaDepartamento escDepSol = escuelaDepartamentoService.findById(persona.getIdEscuelaDepto().getIdEscuelaDepto());
-                        fuSol = escDepSol.getNombreEscuelaDepto();
+                        PojoFacultadesUnidades j = new PojoFacultadesUnidades();
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                            if (pojo.getValue().equalsIgnoreCase(facultadSelectedPojoSol)) {
+                                j = pojo;
+                            }
+                        }
+                        facultadesUnidadesList.clear();
+                        facultadesUnidadesList.add(j);
+                        escuelaDeptoSelectedSol = personaAsistente.getIdEscuelaDepto();
+                        escuelaDeptoListSol.clear();
+                        escuelaDeptoListSol.add(escuelaDeptoSelectedSol);
                     }
                     if (persona.getIdUnidad() != null) {
                         facultadSelectedPojoSol = persona.getIdUnidad().getIdUnidad() + ",2";
-                        Unidad unidadSol = unidadService.findById(persona.getIdUnidad().getIdUnidad());
-                        fuSol = unidadSol.getNombreUnidad();
+                        PojoFacultadesUnidades j = new PojoFacultadesUnidades();
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                            if (pojo.getValue().equalsIgnoreCase(facultadSelectedPojoSol)) {
+                                j = pojo;
+                            }
+                        }
+                        facultadesUnidadesList.clear();
+                        facultadesUnidadesList.add(j);
+                        escuelaDeptoSelectedSol= new EscuelaDepartamento();
                         escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
                     }
                     onChangeInterno();
@@ -670,17 +681,29 @@ public class ProyectosMB {
                     }
                     if (personaAsistente.getIdEscuelaDepto() != null) {
                         facultadSelectedPojoAsis = personaAsistente.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
-                        Facultad facAsis = facultadService.findById(personaAsistente.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
-                        fuAsis = facAsis.getNombreFacultad();
-                        escuelaDeptoListAsis = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(personaAsistente.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
+                        PojoFacultadesUnidades j = new PojoFacultadesUnidades();
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                            if (pojo.getValue().equalsIgnoreCase(facultadSelectedPojoAsis)) {
+                                j = pojo;
+                            }
+                        }
+                        facultadesUnidadesList.clear();
+                        facultadesUnidadesList.add(j);
                         escuelaDeptoSelectedAsis = personaAsistente.getIdEscuelaDepto();
-                        EscuelaDepartamento escDepAsis = escuelaDepartamentoService.findById(personaAsistente.getIdEscuelaDepto().getIdEscuelaDepto());
-                        edAsis = escDepAsis.getNombreEscuelaDepto();
+                        escuelaDeptoListAsis.clear();
+                        escuelaDeptoListAsis.add(escuelaDeptoSelectedAsis);
                     }
                     if (personaAsistente.getIdUnidad() != null) {
                         facultadSelectedPojoAsis = personaAsistente.getIdUnidad().getIdUnidad() + ",2";
-                        Unidad unidadAsis = unidadService.findById(personaAsistente.getIdUnidad().getIdUnidad());
-                        fuAsis = unidadAsis.getNombreUnidad();
+                        PojoFacultadesUnidades j = new PojoFacultadesUnidades();
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                            if (pojo.getValue().equalsIgnoreCase(facultadSelectedPojoAsis)) {
+                                j = pojo;
+                            }
+                        }
+                        facultadesUnidadesList.clear();
+                        facultadesUnidadesList.add(j);
+                        escuelaDeptoSelectedAsis = new EscuelaDepartamento();
                         escuelaDeptoListAsis = new ArrayList<EscuelaDepartamento>();
                     }
                     onChangeAsistente();
@@ -789,26 +812,45 @@ public class ProyectosMB {
                 }
                 personaExterna = getPersonaProyecto(proyecto.getPersonaProyectoList(), "REFERENTE EXTERNO");
                 organismoSelectedRefExt = personaExterna.getIdOrganismo();
-                Organismo orgExt = organismoService.findById(personaExterna.getIdOrganismo().getIdOrganismo());
-                orRefExt = orgExt.getNombreOrganismo();
+                organismoSelectedRefExt = organismoService.findById(personaExterna.getIdOrganismo().getIdOrganismo());
+                organismoList.clear();
+                organismoList.add(organismoSelectedRefExt);
                 if (proyecto.getIdFacultad() == null) {
                     facultadSelectedPojoP = proyecto.getIdUnidad() + ",2";
-                    Unidad unidadProyecto = unidadService.findById(proyecto.getIdUnidad());
-                    fu = unidadProyecto.getNombreUnidad();
+                    PojoFacultadesUnidades j = new PojoFacultadesUnidades();
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                            if (pojo.getValue().equalsIgnoreCase(facultadSelectedPojoP)) {
+                                j = pojo;
+                            }
+                        }
+                        facultadesUnidadesList.clear();
+                        facultadesUnidadesList.add(j);
                 } else {
                     facultadSelectedPojoP = proyecto.getIdFacultad().getIdFacultad() + ",1";
-                    Facultad facultadProyecto = facultadService.findById(proyecto.getIdFacultad().getIdFacultad());
-                    fu = facultadProyecto.getNombreFacultad();
+                    PojoFacultadesUnidades j = new PojoFacultadesUnidades();
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                            if (pojo.getValue().equalsIgnoreCase(facultadSelectedPojoP)) {
+                                j = pojo;
+                            }
+                        }
+                        facultadesUnidadesList.clear();
+                        facultadesUnidadesList.add(j);
                 }
                 searchByDocInterno(persona.getDuiPersona());
                 searchByDocAsistente(personaAsistente.getDuiPersona());
                 searchByDocReferenteExterno(personaExterna.getPasaporte());
-                proyectoSelected = proyecto.getIdTipoProyecto();
+                proyectoSelected = tipoProyectoService.findById(proyecto.getIdTipoProyecto().getIdTipoProyecto());
+                tipoproyectolist.clear();
+                tipoproyectolist.add(proyectoSelected);
                 if (proyecto.getIdPropuestaConvenio() == null) {
                 } else {
-                    propuestaConvenioSelected = proyecto.getIdPropuestaConvenio();
+                    propuestaConvenioSelected = propuestaConvenioService.getByID(proyecto.getIdPropuestaConvenio().getIdPropuesta());
+                    propuestaConvenioList.clear();
+                    propuestaConvenioList.add(propuestaConvenioSelected);
                 }
-                paisCooperanteSelected = proyecto.getIdPaisCooperante();
+                paisCooperanteSelected = paisService.findById(proyecto.getIdPaisCooperante().getIdPais());
+                paisCooperanteList.clear();
+                paisCooperanteList.add(paisCooperanteSelected);
                 cargarOrganismos(proyecto.getOrganismoList());
                 cargarAreas(proyecto.getAreaConocimientoList());
                 cargarFacultadesBeneficiadas(proyecto.getFacultadList());
@@ -855,7 +897,6 @@ public class ProyectosMB {
         }
         organismoProySelected = new String[tamanio];
         organismoProySelected = list.toArray(organismoProySelected);
-
     }
     //metodo para obtener a las personas del proyecto ingresado
 

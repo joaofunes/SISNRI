@@ -6,13 +6,11 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +28,7 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "PERSONA", catalog = "sisrni", schema = "")
+@Table(name = "persona", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")})
 public class Persona implements Serializable {
@@ -41,20 +39,24 @@ public class Persona implements Serializable {
     @Column(name = "ID_PERSONA", nullable = false)
     private Integer idPersona;
     @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "NOMBRE_PERSONA", nullable = true, length = 60)
+    @Column(name = "NOMBRE_PERSONA", nullable = false, length = 60)
     private String nombrePersona;
     @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "APELLIDO_PERSONA", nullable = true, length = 60)
+    @Column(name = "APELLIDO_PERSONA", nullable = false, length = 60)
     private String apellidoPersona;
     @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 30)
-    @Column(name = "EMAIL_PERSONA", nullable = true, length = 30)
+    @Column(name = "EMAIL_PERSONA", nullable = false, length = 30)
     private String emailPersona;
     @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "DUI_PERSONA", nullable = true, length = 10)
+    @Column(name = "DUI_PERSONA", nullable = false, length = 10)
     private String duiPersona;
     @Size(max = 17)
     @Column(name = "NIT_PERSONA", length = 17)
@@ -63,8 +65,9 @@ public class Persona implements Serializable {
     @Column(name = "CARGO_PERSONA", length = 100)
     private String cargoPersona;
     @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 30)
-    @Column(name = "PASAPORTE", nullable = true, length = 30)
+    @Column(name = "PASAPORTE", nullable = false, length = 30)
     private String pasaporte;
     @Basic(optional = false)
     @NotNull
@@ -74,6 +77,10 @@ public class Persona implements Serializable {
     @NotNull
     @Column(name = "ACTIVO", nullable = false)
     private boolean activo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private List<PersonaMovilidad> personaMovilidadList;
+    @OneToMany(mappedBy = "idPersona")
+    private List<Telefono> telefonoList;
     @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
     @ManyToOne
     private Unidad idUnidad;
@@ -87,15 +94,11 @@ public class Persona implements Serializable {
     @ManyToOne
     private Organismo idOrganismo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private List<PersonaProyecto> personaProyectoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaPropuesta> personaPropuestaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<PersonaProyecto> personaProyectoList=new ArrayList<PersonaProyecto>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<PersonaMovilidad> personaMovilidadList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<PersonaBeca> personaBecaList=new ArrayList<PersonaBeca>();
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "idPersona")
-    private List<Telefono> telefonoList=new ArrayList<Telefono>();
+    private List<PersonaBeca> personaBecaList;
 
     public Persona() {
     }
@@ -195,6 +198,22 @@ public class Persona implements Serializable {
         this.activo = activo;
     }
 
+    public List<PersonaMovilidad> getPersonaMovilidadList() {
+        return personaMovilidadList;
+    }
+
+    public void setPersonaMovilidadList(List<PersonaMovilidad> personaMovilidadList) {
+        this.personaMovilidadList = personaMovilidadList;
+    }
+
+    public List<Telefono> getTelefonoList() {
+        return telefonoList;
+    }
+
+    public void setTelefonoList(List<Telefono> telefonoList) {
+        this.telefonoList = telefonoList;
+    }
+
     public Unidad getIdUnidad() {
         return idUnidad;
     }
@@ -227,14 +246,6 @@ public class Persona implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
-    public List<PersonaPropuesta> getPersonaPropuestaList() {
-        return personaPropuestaList;
-    }
-
-    public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
-        this.personaPropuestaList = personaPropuestaList;
-    }
-
     public List<PersonaProyecto> getPersonaProyectoList() {
         return personaProyectoList;
     }
@@ -243,12 +254,12 @@ public class Persona implements Serializable {
         this.personaProyectoList = personaProyectoList;
     }
 
-    public List<PersonaMovilidad> getPersonaMovilidadList() {
-        return personaMovilidadList;
+    public List<PersonaPropuesta> getPersonaPropuestaList() {
+        return personaPropuestaList;
     }
 
-    public void setPersonaMovilidadList(List<PersonaMovilidad> personaMovilidadList) {
-        this.personaMovilidadList = personaMovilidadList;
+    public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
+        this.personaPropuestaList = personaPropuestaList;
     }
 
     public List<PersonaBeca> getPersonaBecaList() {
@@ -257,14 +268,6 @@ public class Persona implements Serializable {
 
     public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
         this.personaBecaList = personaBecaList;
-    }
-
-    public List<Telefono> getTelefonoList() {
-        return telefonoList;
-    }
-
-    public void setTelefonoList(List<Telefono> telefonoList) {
-        this.telefonoList = telefonoList;
     }
 
     @Override

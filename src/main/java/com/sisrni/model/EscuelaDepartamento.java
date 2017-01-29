@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "ESCUELA_DEPARTAMENTO", catalog = "sisrni", schema = "")
+@Table(name = "escuela_departamento", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "EscuelaDepartamento.findAll", query = "SELECT e FROM EscuelaDepartamento e")})
 public class EscuelaDepartamento implements Serializable {
@@ -44,11 +44,11 @@ public class EscuelaDepartamento implements Serializable {
     private String descripcion;
     @Column(name = "IDENTIFICADOR")
     private Boolean identificador;
-    @OneToMany(mappedBy = "idEscuelaDepto")
-    private List<Persona> personaList;
     @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD")
     @ManyToOne
     private Facultad idFacultad;
+    @OneToMany(mappedBy = "idEscuelaDepto")
+    private List<Persona> personaList;
 
     public EscuelaDepartamento() {
     }
@@ -89,20 +89,20 @@ public class EscuelaDepartamento implements Serializable {
         this.identificador = identificador;
     }
 
-    public List<Persona> getPersonaList() {
-        return personaList;
-    }
-
-    public void setPersonaList(List<Persona> personaList) {
-        this.personaList = personaList;
-    }
-
     public Facultad getIdFacultad() {
         return idFacultad;
     }
 
     public void setIdFacultad(Facultad idFacultad) {
         this.idFacultad = idFacultad;
+    }
+
+    public List<Persona> getPersonaList() {
+        return personaList;
+    }
+
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
     }
 
     @Override

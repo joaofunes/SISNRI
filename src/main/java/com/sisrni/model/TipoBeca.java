@@ -17,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -25,50 +26,51 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "tipo_modalida_beca", catalog = "sisrni", schema = "")
+@Table(name = "tipo_beca", catalog = "sisrni", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"NOMBRE_TIPO_BECA"})})
 @NamedQueries({
-    @NamedQuery(name = "TipoModalidaBeca.findAll", query = "SELECT t FROM TipoModalidaBeca t")})
-public class TipoModalidaBeca implements Serializable {
+    @NamedQuery(name = "TipoBeca.findAll", query = "SELECT t FROM TipoBeca t")})
+public class TipoBeca implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID_TIPO_MODALIDAD", nullable = false)
-    private Integer idTipoModalidad;
+    @Column(name = "ID_TIPO_BECA", nullable = false)
+    private Integer idTipoBeca;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "MODALIDAD", nullable = false, length = 50)
-    private String modalidad;
-    @OneToMany(mappedBy = "idTipoModalidad")
+    @Size(min = 1, max = 200)
+    @Column(name = "NOMBRE_TIPO_BECA", nullable = false, length = 200)
+    private String nombreTipoBeca;
+    @OneToMany(mappedBy = "idTipoBeca")
     private List<Beca> becaList;
 
-    public TipoModalidaBeca() {
+    public TipoBeca() {
     }
 
-    public TipoModalidaBeca(Integer idTipoModalidad) {
-        this.idTipoModalidad = idTipoModalidad;
+    public TipoBeca(Integer idTipoBeca) {
+        this.idTipoBeca = idTipoBeca;
     }
 
-    public TipoModalidaBeca(Integer idTipoModalidad, String modalidad) {
-        this.idTipoModalidad = idTipoModalidad;
-        this.modalidad = modalidad;
+    public TipoBeca(Integer idTipoBeca, String nombreTipoBeca) {
+        this.idTipoBeca = idTipoBeca;
+        this.nombreTipoBeca = nombreTipoBeca;
     }
 
-    public Integer getIdTipoModalidad() {
-        return idTipoModalidad;
+    public Integer getIdTipoBeca() {
+        return idTipoBeca;
     }
 
-    public void setIdTipoModalidad(Integer idTipoModalidad) {
-        this.idTipoModalidad = idTipoModalidad;
+    public void setIdTipoBeca(Integer idTipoBeca) {
+        this.idTipoBeca = idTipoBeca;
     }
 
-    public String getModalidad() {
-        return modalidad;
+    public String getNombreTipoBeca() {
+        return nombreTipoBeca;
     }
 
-    public void setModalidad(String modalidad) {
-        this.modalidad = modalidad;
+    public void setNombreTipoBeca(String nombreTipoBeca) {
+        this.nombreTipoBeca = nombreTipoBeca;
     }
 
     public List<Beca> getBecaList() {
@@ -82,18 +84,18 @@ public class TipoModalidaBeca implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idTipoModalidad != null ? idTipoModalidad.hashCode() : 0);
+        hash += (idTipoBeca != null ? idTipoBeca.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TipoModalidaBeca)) {
+        if (!(object instanceof TipoBeca)) {
             return false;
         }
-        TipoModalidaBeca other = (TipoModalidaBeca) object;
-        if ((this.idTipoModalidad == null && other.idTipoModalidad != null) || (this.idTipoModalidad != null && !this.idTipoModalidad.equals(other.idTipoModalidad))) {
+        TipoBeca other = (TipoBeca) object;
+        if ((this.idTipoBeca == null && other.idTipoBeca != null) || (this.idTipoBeca != null && !this.idTipoBeca.equals(other.idTipoBeca))) {
             return false;
         }
         return true;
@@ -101,7 +103,7 @@ public class TipoModalidaBeca implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sisrni.model.TipoModalidaBeca[ idTipoModalidad=" + idTipoModalidad + " ]";
+        return "com.sisrni.model.TipoBeca[ idTipoBeca=" + idTipoBeca + " ]";
     }
     
 }

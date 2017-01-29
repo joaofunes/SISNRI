@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sisrni.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -21,41 +21,50 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Angel
+ * @author Cortez
  */
 @Entity
-@Table(name = "ss_usuarios") //, schema = ""
+@Table(name = "ss_usuarios", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "SsUsuarios.findAll", query = "SELECT s FROM SsUsuarios s")})
 public class SsUsuarios implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_USUARIO", nullable = false)
     private Integer idUsuario;
+    @Size(max = 15)
     @Column(name = "CODIGO_USUARIO", length = 15)
     private String codigoUsuario;
+    @Size(max = 100)
     @Column(name = "NOMBRE_USUARIO", length = 100)
     private String nombreUsuario;
-    
-    @Column(length = 100)
+    @Size(max = 100)
+    @Column(name = "CARGO", length = 100)
     private String cargo;
-    @Column(length = 150)
+    @Size(max = 150)
+    @Column(name = "DESCRIPCION", length = 150)
     private String descripcion;
-    @Column(length = 1)
+    @Size(max = 1)
+    @Column(name = "BLOQUEADO", length = 1)
     private String bloqueado;
-    @Column(length = 100)
+    @Size(max = 100)
+    @Column(name = "CLAVE", length = 100)
     private String clave;
     @Column(name = "INTENTOS_ACCESO_FALLIDOS")
     private Short intentosAccesoFallidos;
+    @Size(max = 15)
     @Column(name = "USUARIO_REGISTRO", length = 15)
     private String usuarioRegistro;
     @Column(name = "FECHA_REGISTRO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
+    @Size(max = 15)
     @Column(name = "USUARIO_ULTIMAMODIFICACION", length = 15)
     private String usuarioUltimamodificacion;
     @Column(name = "FECHA_ULTIMAMODIFICACION")
@@ -64,21 +73,21 @@ public class SsUsuarios implements Serializable {
     @Column(name = "FECHA_ULTIMO_ACCESO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaUltimoAcceso;
+    @Size(max = 100)
     @Column(name = "DIRECCION_ACCESO", length = 100)
     private String direccionAcceso;
+    @Size(max = 300)
     @Column(name = "DETALLE_ULTIMO_ACCESO", length = 300)
     private String detalleUltimoAcceso;
     @Column(name = "FECHA_CAMBIO_CLAVE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCambioClave;
-    
     @Column(name = "ID_PERSONA")
     private Integer idPersona;
-   
-    @ManyToMany(mappedBy = "ssUsuariosSet", fetch = FetchType.LAZY)
-    private Set<SsRoles> ssRolesSet;
-    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
-    private Set<SsHistoricoClaves> ssHistoricoClavesSet;
+    @ManyToMany(mappedBy = "ssUsuariosList")
+    private List<SsRoles> ssRolesList;
+    @OneToMany(mappedBy = "idUsuario")
+    private List<SsHistoricoClaves> ssHistoricoClavesList;
 
     public SsUsuarios() {
     }
@@ -110,8 +119,6 @@ public class SsUsuarios implements Serializable {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-
-   
 
     public String getCargo() {
         return cargo;
@@ -217,21 +224,28 @@ public class SsUsuarios implements Serializable {
         this.fechaCambioClave = fechaCambioClave;
     }
 
-   
-    public Set<SsRoles> getSsRolesSet() {
-        return ssRolesSet;
+    public Integer getIdPersona() {
+        return idPersona;
     }
 
-    public void setSsRolesSet(Set<SsRoles> ssRolesSet) {
-        this.ssRolesSet = ssRolesSet;
+    public void setIdPersona(Integer idPersona) {
+        this.idPersona = idPersona;
     }
 
-    public Set<SsHistoricoClaves> getSsHistoricoClavesSet() {
-        return ssHistoricoClavesSet;
+    public List<SsRoles> getSsRolesList() {
+        return ssRolesList;
     }
 
-    public void setSsHistoricoClavesSet(Set<SsHistoricoClaves> ssHistoricoClavesSet) {
-        this.ssHistoricoClavesSet = ssHistoricoClavesSet;
+    public void setSsRolesList(List<SsRoles> ssRolesList) {
+        this.ssRolesList = ssRolesList;
+    }
+
+    public List<SsHistoricoClaves> getSsHistoricoClavesList() {
+        return ssHistoricoClavesList;
+    }
+
+    public void setSsHistoricoClavesList(List<SsHistoricoClaves> ssHistoricoClavesList) {
+        this.ssHistoricoClavesList = ssHistoricoClavesList;
     }
 
     @Override
@@ -257,14 +271,6 @@ public class SsUsuarios implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.SsUsuarios[ idUsuario=" + idUsuario + " ]";
-    }
-
-    public Integer getIdPersona() {
-        return idPersona;
-    }
-
-    public void setIdPersona(Integer idPersona) {
-        this.idPersona = idPersona;
     }
     
 }

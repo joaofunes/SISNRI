@@ -61,7 +61,7 @@ public class CurrentUserSessionBean implements Serializable{
             AppUserDetails usuario = getSessionUser();
             if (usuario != null && usuario.getUsuario() != null) {
                 getForm().setMenusLst(new ArrayList<MenuList>());
-                for (SsRoles rol : usuario.getUsuario().getSsRolesSet()) {
+                for (SsRoles rol : usuario.getUsuario().getSsRolesList()) {
                     List<SsMenus> mns = ssMenusService.getMenusByrol(rol);
                     getForm().setMenusLst(MenuList.GenerarMenu(mns));
                     for (MenuList menu : getForm().getMenusLst()) {

@@ -76,7 +76,7 @@ public class MenusOpcionesMB implements Serializable{
             
               usuario = user.getSessionUser();
             
-             for(SsRoles iter: usuario.getUsuario().getSsRolesSet()){
+             for(SsRoles iter: usuario.getUsuario().getSsRolesList()){
                 listadoMenus = menusService.getMenusByrol(iter);
                   
              }
@@ -148,7 +148,7 @@ public class MenusOpcionesMB implements Serializable{
 		try {	
                         getSsMenus().setFechaRegistro(new Date());
                         getSsMenus().setUsuarioRegistro("UsuarioPrueba");
-                        getSsMenus().setSsRolesSet(usuario.getUsuario().getSsRolesSet());
+                        getSsMenus().setSsRolesList(usuario.getUsuario().getSsRolesList());
                 
 		        menusService.getDao().save(getSsMenus());
 			getMenus();
