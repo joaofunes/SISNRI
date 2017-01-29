@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "PROGRAMA_MOVILIDAD", catalog = "sisrni", schema = "")
+@Table(name = "programa_movilidad", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "ProgramaMovilidad.findAll", query = "SELECT p FROM ProgramaMovilidad p")})
 public class ProgramaMovilidad implements Serializable {

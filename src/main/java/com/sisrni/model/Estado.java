@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "ESTADO", catalog = "sisrni", schema = "")
+@Table(name = "estado", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Estado.findAll", query = "SELECT e FROM Estado e")})
 public class Estado implements Serializable {
@@ -52,7 +52,7 @@ public class Estado implements Serializable {
     @NotNull
     @Column(name = "TIPO_ESTADO", nullable = false)
     private int tipoEstado;
-    @JoinTable(name = "PROYECTO_ESTADO", joinColumns = {
+    @JoinTable(name = "proyecto_estado", joinColumns = {
         @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
     @ManyToMany

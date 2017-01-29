@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "PROPUESTA_CONVENIO", catalog = "sisrni", schema = "", uniqueConstraints = {
+@Table(name = "propuesta_convenio", catalog = "sisrni", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"ID_PROPUESTA"})})
 @NamedQueries({
     @NamedQuery(name = "PropuestaConvenio.findAll", query = "SELECT p FROM PropuestaConvenio p")})
@@ -61,17 +61,17 @@ public class PropuestaConvenio implements Serializable {
     @Column(name = "FECHA_INGRESO", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaIngreso;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
-    private List<PropuestaEstado> propuestaEstadoList;
-    @OneToMany(mappedBy = "idPropuesta")
-    private List<Documento> documentoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
-    private List<PersonaPropuesta> personaPropuestaList;
-    @OneToMany(mappedBy = "idPropuestaConvenio")
-    private List<Proyecto> proyectoList;
     @JoinColumn(name = "ID_TIPO_PROPUESTA_CONVENIO", referencedColumnName = "ID_TIPO_PROPUESTA")
     @ManyToOne
     private TipoPropuestaConvenio idTipoPropuestaConvenio;
+    @OneToMany(mappedBy = "idPropuesta")
+    private List<Documento> documentoList;
+    @OneToMany(mappedBy = "idPropuestaConvenio")
+    private List<Proyecto> proyectoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
+    private List<PropuestaEstado> propuestaEstadoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
+    private List<PersonaPropuesta> personaPropuestaList;
 
     public PropuestaConvenio() {
     }
@@ -80,9 +80,10 @@ public class PropuestaConvenio implements Serializable {
         this.idPropuesta = idPropuesta;
     }
 
-    public PropuestaConvenio(Integer idPropuesta, String nombrePropuesta) {
+    public PropuestaConvenio(Integer idPropuesta, String nombrePropuesta, Date fechaIngreso) {
         this.idPropuesta = idPropuesta;
         this.nombrePropuesta = nombrePropuesta;
+        this.fechaIngreso = fechaIngreso;
     }
 
     public Integer getIdPropuesta() {
@@ -125,12 +126,20 @@ public class PropuestaConvenio implements Serializable {
         this.idConvenio = idConvenio;
     }
 
-    public List<PropuestaEstado> getPropuestaEstadoList() {
-        return propuestaEstadoList;
+    public Date getFechaIngreso() {
+        return fechaIngreso;
     }
 
-    public void setPropuestaEstadoList(List<PropuestaEstado> propuestaEstadoList) {
-        this.propuestaEstadoList = propuestaEstadoList;
+    public void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
+    public TipoPropuestaConvenio getIdTipoPropuestaConvenio() {
+        return idTipoPropuestaConvenio;
+    }
+
+    public void setIdTipoPropuestaConvenio(TipoPropuestaConvenio idTipoPropuestaConvenio) {
+        this.idTipoPropuestaConvenio = idTipoPropuestaConvenio;
     }
 
     public List<Documento> getDocumentoList() {
@@ -141,14 +150,6 @@ public class PropuestaConvenio implements Serializable {
         this.documentoList = documentoList;
     }
 
-    public List<PersonaPropuesta> getPersonaPropuestaList() {
-        return personaPropuestaList;
-    }
-
-    public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
-        this.personaPropuestaList = personaPropuestaList;
-    }
-
     public List<Proyecto> getProyectoList() {
         return proyectoList;
     }
@@ -156,21 +157,21 @@ public class PropuestaConvenio implements Serializable {
     public void setProyectoList(List<Proyecto> proyectoList) {
         this.proyectoList = proyectoList;
     }
-    
-    public Date getFechaIngreso() {
-        return fechaIngreso;
+
+    public List<PropuestaEstado> getPropuestaEstadoList() {
+        return propuestaEstadoList;
     }
 
-    public void setFechaIngreso(Date fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
-    }
-    
-    public TipoPropuestaConvenio getIdTipoPropuestaConvenio() {
-        return idTipoPropuestaConvenio;
+    public void setPropuestaEstadoList(List<PropuestaEstado> propuestaEstadoList) {
+        this.propuestaEstadoList = propuestaEstadoList;
     }
 
-    public void setIdTipoPropuestaConvenio(TipoPropuestaConvenio idTipoPropuestaConvenio) {
-        this.idTipoPropuestaConvenio = idTipoPropuestaConvenio;
+    public List<PersonaPropuesta> getPersonaPropuestaList() {
+        return personaPropuestaList;
+    }
+
+    public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
+        this.personaPropuestaList = personaPropuestaList;
     }
 
     @Override

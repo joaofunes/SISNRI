@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "PAIS", catalog = "sisrni", schema = "")
+@Table(name = "pais", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Pais.findAll", query = "SELECT p FROM Pais p")})
 public class Pais implements Serializable {
@@ -42,10 +42,10 @@ public class Pais implements Serializable {
     @Size(max = 60)
     @Column(name = "NOMBRE_PAIS", length = 60)
     private String nombrePais;
-    @OneToMany(mappedBy = "idPais")
-    private List<Provincia> provinciaList;
     @OneToMany(mappedBy = "idPaisCooperante")
     private List<Proyecto> proyectoList;
+    @OneToMany(mappedBy = "idPais")
+    private List<Provincia> provinciaList;
     @JoinColumn(name = "ID_REGION", referencedColumnName = "ID_REGION")
     @ManyToOne
     private Region idRegion;
@@ -81,20 +81,20 @@ public class Pais implements Serializable {
         this.nombrePais = nombrePais;
     }
 
-    public List<Provincia> getProvinciaList() {
-        return provinciaList;
-    }
-
-    public void setProvinciaList(List<Provincia> provinciaList) {
-        this.provinciaList = provinciaList;
-    }
-
     public List<Proyecto> getProyectoList() {
         return proyectoList;
     }
 
     public void setProyectoList(List<Proyecto> proyectoList) {
         this.proyectoList = proyectoList;
+    }
+
+    public List<Provincia> getProvinciaList() {
+        return provinciaList;
+    }
+
+    public void setProvinciaList(List<Provincia> provinciaList) {
+        this.provinciaList = provinciaList;
     }
 
     public Region getIdRegion() {

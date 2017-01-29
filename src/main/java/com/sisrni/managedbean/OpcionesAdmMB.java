@@ -142,7 +142,7 @@ public class OpcionesAdmMB implements Serializable{
 		try {	
                         ssOpciones.setFechaRegistro(new Date());
                         ssOpciones.setUsuarioRegistro(usuario.getUsuario().getCodigoUsuario());                        
-                        ssOpciones.setSsRolesSet(usuario.getUsuario().getSsRolesSet());
+                        ssOpciones.setSsRolesList(usuario.getUsuario().getSsRolesList());
                 
 		        opcionesService.getDao().save(ssOpciones);
 			getMenus();
