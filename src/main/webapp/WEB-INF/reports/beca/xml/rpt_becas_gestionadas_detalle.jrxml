@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="708" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
-	<property name="ireport.zoom" value="1.5421731577181266"/>
+	<property name="ireport.zoom" value="1.0533250172243194"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="22"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -38,7 +38,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="131" splitType="Stretch">
+		<band height="145" splitType="Stretch">
 			<elementGroup>
 				<staticText>
 					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="65" y="0" width="577" height="32"/>
@@ -60,15 +60,15 @@
 				<textElement textAlignment="Center">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reporte Detalle Becas]]></text>
+				<text><![CDATA[Reporte de Becas Internacionales Gestionadas]]></text>
 			</staticText>
 			<textField pattern="MM/dd/yyyy">
-				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="368" y="100" width="340" height="20" forecolor="#786C6C"/>
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="368" y="125" width="340" height="20" forecolor="#786C6C"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField pattern="MM/dd/yyyy">
-				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="154" y="100" width="214" height="20" forecolor="#786C6C"/>
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="154" y="125" width="214" height="20" forecolor="#786C6C"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Fecha de creacion: "]]></textFieldExpression>
 			</textField>
@@ -80,6 +80,13 @@
 				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="642" y="0" width="65" height="65"/>
 				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="100" width="708" height="25" forecolor="#5B63B1"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -89,7 +96,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="false" isUnderline="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Periodo de consulta Desde : " +$P{desde} + " Hasta: "+$P{hasta}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Periodo de Consulta : " +$P{desde} + "- "+$P{hasta}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

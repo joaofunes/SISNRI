@@ -14,8 +14,8 @@ public class SsOpcionesDao extends GenericDao<SsOpciones, Integer> {
 
     public List<SsOpciones> getOpcionesByMenuRol(SsMenus menu, SsRoles rol) {
         Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o  FROM SsOpciones o "
-                + "LEFT OUTER JOIN o.ssMenusSet m  "
-                + "LEFT OUTER JOIN o.ssRolesSet r  "
+                + "LEFT OUTER JOIN o.ssMenusList m  "
+                + "LEFT OUTER JOIN o.ssRolesList r  "
                 + "WHERE o.visible='S' AND r.idRol = :rol  AND m.idMenu =:menu  ");
         q.setParameter("rol", rol.getIdRol());
         q.setParameter("menu", menu.getIdMenu());
@@ -26,7 +26,7 @@ public class SsOpcionesDao extends GenericDao<SsOpciones, Integer> {
         try {
             List<SsOpciones> lst = new ArrayList<SsOpciones>();
             //  Query q = getSessionFactory().getCurrentSession().createSQLQuery("SELECT * FROM ss_opciones op WHERE op.ID_OPCION NOT IN (SELECT DISTINCT menopc.ID_OPCION FROM ss_menus_opciones menopc)");
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT op FROM SsOpciones op WHERE op.idOpcion NOT IN (SELECT DISTINCT o.idOpcion  FROM SsOpciones o INNER JOIN o.ssMenusSet m  )");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT op FROM SsOpciones op WHERE op.idOpcion NOT IN (SELECT DISTINCT o.idOpcion  FROM SsOpciones o INNER JOIN o.ssMenusList m  )");
             lst = q.list();
             if (lst != null) {
                 return lst;
@@ -46,7 +46,7 @@ public class SsOpcionesDao extends GenericDao<SsOpciones, Integer> {
         try {
             List<SsOpciones> lst = new ArrayList<SsOpciones>();
             //Query q = getSessionFactory().getCurrentSession().createSQLQuery("SELECT * FROM ss_opciones op WHERE op.ID_OPCION IN (SELECT menopc.ID_OPCION FROM ss_menus_opciones menopc WHERE menopc.ID_MENU =:idMenu)");
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT op FROM SsOpciones op WHERE op.idOpcion IN (SELECT  o.idOpcion  FROM SsOpciones o INNER JOIN o.ssMenusSet m WHERE m.idMenu=:idMenu)");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT op FROM SsOpciones op WHERE op.idOpcion IN (SELECT  o.idOpcion  FROM SsOpciones o INNER JOIN o.ssMenusList m WHERE m.idMenu=:idMenu)");
             q.setParameter("idMenu", idMenu);
             lst = q.list();
             if (lst != null) {

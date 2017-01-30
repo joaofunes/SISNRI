@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sisrni.model;
-
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,47 +20,51 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Angel
+ * @author Cortez
  */
 @Entity
-@Table(name = "ss_opciones")//, catalog = "sisrni", schema = ""
+@Table(name = "ss_opciones", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "SsOpciones.findAll", query = "SELECT s FROM SsOpciones s")})
 public class SsOpciones implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "ID_OPCION", nullable = false)
     private Integer idOpcion;
+    @Size(max = 100)
     @Column(name = "NOMBRE_OPCION", length = 100)
     private String nombreOpcion;
-    @Column(length = 300)
+    @Size(max = 300)
+    @Column(name = "URL", length = 300)
     private String url;
-    @Column(length = 1)
+    @Size(max = 1)
+    @Column(name = "VISIBLE", length = 1)
     private String visible;
+    @Size(max = 15)
     @Column(name = "USUARIO_REGISTRO", length = 15)
     private String usuarioRegistro;
     @Column(name = "FECHA_REGISTRO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
+    @Size(max = 15)
     @Column(name = "USUARIO_ULTIMAMODIFICACION", length = 15)
     private String usuarioUltimamodificacion;
     @Column(name = "FECHA_ULTIMAMODIFICACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaUltimamodificacion;
+    @Size(max = 45)
     @Column(name = "IMAGEN_OPCION", length = 45)
     private String imagenOpcion;
-    @ManyToMany(mappedBy = "ssOpcionesSet", fetch = FetchType.LAZY)
-    private Set<SsMenus> ssMenusSet;
-    @ManyToMany(mappedBy = "ssOpcionesSet", fetch = FetchType.LAZY)
-    private Set<SsRoles> ssRolesSet;
-    
- 
+    @ManyToMany(mappedBy = "ssOpcionesList")
+    private List<SsMenus> ssMenusList;
+    @ManyToMany(mappedBy = "ssOpcionesList")
+    private List<SsRoles> ssRolesList;
 
     public SsOpciones() {
     }
@@ -96,12 +97,12 @@ public class SsOpciones implements Serializable {
         this.url = url;
     }
 
-    public boolean isVisible() {
-        return "S".equals(visible);
+    public String getVisible() {
+        return visible;
     }
 
-    public void setVisible(boolean visible) {
-         this.visible = visible ? "S" : "N";
+    public void setVisible(String visible) {
+        this.visible = visible;
     }
 
     public String getUsuarioRegistro() {
@@ -144,20 +145,20 @@ public class SsOpciones implements Serializable {
         this.imagenOpcion = imagenOpcion;
     }
 
-    public Set<SsMenus> getSsMenusSet() {
-        return ssMenusSet;
+    public List<SsMenus> getSsMenusList() {
+        return ssMenusList;
     }
 
-    public void setSsMenusSet(Set<SsMenus> ssMenusSet) {
-        this.ssMenusSet = ssMenusSet;
+    public void setSsMenusList(List<SsMenus> ssMenusList) {
+        this.ssMenusList = ssMenusList;
     }
 
-    public Set<SsRoles> getSsRolesSet() {
-        return ssRolesSet;
+    public List<SsRoles> getSsRolesList() {
+        return ssRolesList;
     }
 
-    public void setSsRolesSet(Set<SsRoles> ssRolesSet) {
-        this.ssRolesSet = ssRolesSet;
+    public void setSsRolesList(List<SsRoles> ssRolesList) {
+        this.ssRolesList = ssRolesList;
     }
 
     @Override
@@ -184,21 +185,5 @@ public class SsOpciones implements Serializable {
     public String toString() {
         return "com.sisrni.model.SsOpciones[ idOpcion=" + idOpcion + " ]";
     }
-
-//    public boolean isVisibleTemop() {
-//        return getVisible().equals("S");        
-//    }
-//
-////     if(getVisible().equals("1")){
-////         return true;
-////        }else{
-////         return false;
-////        }    
-//    public void setVisibleTemop(boolean visibleTemop) {
-//        this.visibleTemop = visibleTemop;
-//        setVisible(this.visibleTemop ? "S" : "N");
-//
-//    }
-    
     
 }

@@ -19,6 +19,7 @@ import com.sisrni.model.TipoFacultad;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.TipoTelefono;
+import com.sisrni.model.TipoCambio;
 import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
@@ -37,18 +38,17 @@ import com.sisrni.service.TipoFacultadService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.TipoTelefonoService;
+import com.sisrni.service.TipoCambioService;
 import com.sisrni.service.UnidadService;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
 import javax.inject.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -95,6 +95,8 @@ public class ProyectosMB {
     private TipoFacultadService tipoFacultadService;
     @Autowired
     private EscuelaDepartamentoService escuelaDepartamentoService;
+    @Autowired
+    private TipoCambioService tipoCambioService;
 
 //Definicion de objetos    
     private Proyecto proyecto;
@@ -187,6 +189,9 @@ public class ProyectosMB {
     private static final String FIJO = "FIJO";
     private static final String FAX = "FAX";
     private static final String CELULAR = "CELULAR";
+    private TipoCambio codigoMonedaDolar;
+    private TipoCambio codigoMonedaEuro;
+    private TipoCambio tipoCambio;
     private int existeSol;
     private int existeAsis;
     private int existeRefExt;
@@ -214,6 +219,8 @@ public class ProyectosMB {
     public Boolean mostrarEscuelaSol;
     public Boolean mostrarEscuelaAsis;
     public Boolean validarFecha;
+    public Integer tipoMoneda;
+    public Long montoProyecto;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -291,6 +298,7 @@ public class ProyectosMB {
         personaProyectoPK = new PersonaProyectoPK();
         personaProyectoAsisPK = new PersonaProyectoPK();
         personaProyectoExtPK = new PersonaProyectoPK();
+        tipoCambio= new TipoCambio();
         regiones = new Pais();
         numDocumentoAsis = "";
         numDocumentoSol = "";
@@ -309,6 +317,8 @@ public class ProyectosMB {
         //tipo facultad
         tipoFacultad = tipoFacultadService.getTipoFacultadByNombre("INICIATIVA");
         tipoFacultadB = tipoFacultadService.getTipoFacultadByNombre("BENEFICIADA");
+        codigoMonedaDolar= tipoCambioService.getTipoCambioByCodigo("USD");
+        codigoMonedaEuro= tipoCambioService.getTipoCambioByCodigo("EUR");
         //bandera
         existeSol = 0;
         existeAsis = 0;
@@ -333,6 +343,7 @@ public class ProyectosMB {
         mostrarEscuelaSol = false;
         mostrarEscuelaAsis = false;
         validarFecha = false;
+        tipoMoneda=0;
     }
 
     public void mostrarTab() {
@@ -432,65 +443,83 @@ public class ProyectosMB {
                 propuesta = propuestaConvenioService.findById(propuestaConvenioSelected.getIdPropuesta());
                 proyecto.setIdPropuestaConvenio(propuesta);
             }
-
-//            if (proyecto.getFechaFin().before(proyecto.getFechaInicio())) {
-//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia!", "La fecha de inicio debe ser menor a la fecha fin"));
-//                validarFecha = true;
-//            } else {
-//                validarFecha = false;
-//            }
             Pais paiscooperante = paisService.findById(paisCooperanteSelected.getIdPais());
-
             proyecto.setIdPaisCooperante(paiscooperante);
-
             proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
+            //seteando monto
+            if(tipoMoneda.equals(codigoMonedaDolar)){
+                proyecto.setMontoProyecto(montoProyecto);
+            }else
+            {
+                double aux= tipoCambio.getDolaresPorUnidad().doubleValue();
+                double aux2= montoProyecto*aux;
+//                proyecto.setMontoProyecto(aux2);
+            }
             //Intermedia de proyecto y area de conocimiento
-            for (int i = 0;
-                    i < areaConocimientoSelected.length;
-                    i++) {
+            for (int i = 0; i < areaConocimientoSelected.length; i++) {
                 AreaConocimiento area = areaConocimientoService.findById(Integer.parseInt(areaConocimientoSelected[i]));
                 if (area != null) {
                     areasConocimiento.add(area);
                 }
             }
-
             proyecto.setAreaConocimientoList(areasConocimiento);
             // guardar organismo
-            for (int i = 0;
-                    i < organismoProySelected.length;
-                    i++) {
+            for (int i = 0; i < organismoProySelected.length; i++) {
                 Organismo organismo = organismoService.findById(Integer.parseInt(organismoProySelected[i]));
                 if (organismo != null) {
                     organismosProyecto.add(organismo);
                 }
             }
-
             proyecto.setOrganismoList(organismosProyecto);
             //guardar facultades beneficiadas
-            for (int i = 0;
-                    i < facultadBeneficiadaSelected.length;
-                    i++) {
+            for (int i = 0; i < facultadBeneficiadaSelected.length; i++) {
                 Facultad facultades = facultadService.findById(Integer.parseInt(facultadBeneficiadaSelected[i]));
                 if (facultades != null) {
                     facultadesBeneficiadaList.add(facultades);
                 }
             }
-
             proyecto.setFacultadList(facultadesBeneficiadaList);
             //si selecciona facultad o unidad
             String facultadArreglo[] = facultadSelectedPojoP.split(",");
-            if (facultadArreglo[1].equals(
-                    "1")) {
+            if (facultadArreglo[1].equals("1")) {
                 Facultad facSelected = facultadService.findById(Integer.parseInt(facultadArreglo[0]));
                 proyecto.setIdFacultad(facSelected);
             } else {
                 proyecto.setIdUnidad(Integer.parseInt(facultadArreglo[0]));
             }
-
-            if (actualizar
-                    == true) {
+            if (actualizar == true) {
                 proyectoService.merge(proyecto);
-                if (tabAsis == true) {
+                //
+                if (tabAsis == true && asistenteNull==true) {
+                    String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
+                if (facultadArregloAsis[1].equals("1")) {
+                    EscuelaDepartamento escuelaselecAsis = escuelaDepartamentoService.findById(escuelaDeptoSelectedAsis.getIdEscuelaDepto());
+                    personaAsistente.setIdEscuelaDepto(escuelaselecAsis);
+                } else {
+                    Unidad unidadSelectedAsist = unidadService.findById(Integer.parseInt(facultadArregloAsis[0]));
+                    personaAsistente.setIdUnidad(unidadSelectedAsist);
+                }
+                personaAsistente.setPasaporte("-");
+                personaAsistente.setExtranjero(Boolean.FALSE);
+                personaAsistente.setActivo(Boolean.TRUE);
+                //guardar telefono fijo asistente
+                telefonoAsisFijo.setIdPersona(personaAsistente);
+                telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoFijo);
+                personaAsistente.getTelefonoList().add(telefonoAsisFijo);
+                //guardar telefono celular asistente
+                telefonoAsisCel.setIdPersona(personaAsistente);
+                telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
+                personaAsistente.getTelefonoList().add(telefonoAsisCel);
+                // guardar fax Asistente
+                telefonoAsisFax.setIdPersona(personaAsistente);
+                telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
+                personaAsistente.getTelefonoList().add(telefonoAsisFax);
+                if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
+                    personaService.merge(personaAsistente);
+                } else {
+                    personaService.save(personaAsistente);
+                }
+                //
                     //guardar en tabla intermedia persona_proyecto Asistente          
                     personaProyectoAsisPK.setIdPersona(personaAsistente.getIdPersona());
                     personaProyectoAsisPK.setIdProyecto(proyecto.getIdProyecto());
@@ -499,8 +528,8 @@ public class ProyectosMB {
                     personaProyectoAsis.setIdTipoPersona(tipoPersonaAsis);
                     personaProyectoAsis.setPersonaProyectoPK(personaProyectoAsisPK);
                     proyecto.getPersonaProyectoList().add(personaProyectoAsis);
-                    if (asistenteNull == null) {
-                        proyectoService.save(proyecto);
+                    if (asistenteNull == true) {
+                        proyectoService.merge(proyecto);
                     } else {
                     }
                 }
@@ -1640,4 +1669,27 @@ public class ProyectosMB {
         this.validarFecha = validarFecha;
     }
 
+    public Integer getTipoMoneda() {
+        return tipoMoneda;
+    }
+
+    public void setTipoMoneda(Integer tipoMoneda) {
+        this.tipoMoneda = tipoMoneda;
+    }
+
+    public Long getMontoProyecto() {
+        return montoProyecto;
+    }
+
+    public void setMontoProyecto(Long montoProyecto) {
+        this.montoProyecto = montoProyecto;
+    }
+
+    public TipoCambio getTipoCambio() {
+        return tipoCambio;
+    }
+
+    public void setTipoCambio(TipoCambio tipoCambio) {
+        this.tipoCambio = tipoCambio;
+    } 
 }

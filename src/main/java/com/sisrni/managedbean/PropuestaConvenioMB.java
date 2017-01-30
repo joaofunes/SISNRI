@@ -174,6 +174,11 @@ public class PropuestaConvenioMB implements Serializable{
     private boolean flagEscuelaDeptInterno = false;
     private boolean mismoSolicitante;
     
+    private Boolean tabAsis;
+    private Boolean tabAsisMostrar;
+    private Boolean tabAsisExterno;
+    private Boolean tabAsisMostrarExterno;
+    
     private JCMail mail;
     
      
@@ -206,36 +211,10 @@ public class PropuestaConvenioMB implements Serializable{
     }
     
     
-    /**
-     * cargar datos de usuario logeado
+   
+    /***
+     * metodo incializador de instancias
      */
-    private void cargarUsuario() {
-        try {
-         
-          solicitante=personaService.findById( usuario.getUsuario().getIdPersona());          
-         
-          if(solicitante.getIdUnidad()!= null){
-            
-             for(PojoFacultadesUnidades us: listaFacultadUnidad){
-                 if(us.getId()==solicitante.getIdUnidad().getIdUnidad() && us.getUnidadFacultad()=='U'){
-                     facultadesUnidades=us;
-                 }
-             }
-          }
-          if(solicitante.getIdCarrera()!= null){              
-             for(PojoFacultadesUnidades us: listaFacultadUnidad){
-                 if(us.getId()== solicitante.getIdCarrera().getIdFacultad().getIdFacultad() && us.getUnidadFacultad()=='F'){
-                     facultadesUnidades=us;
-                 }
-             }
-          }
-                      
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    
     
     public void inicializador() {
          try {  
@@ -258,10 +237,18 @@ public class PropuestaConvenioMB implements Serializable{
             personaEdit = new Persona();
             propuestaConvenio = new PropuestaConvenio();   
             escuelaDepartamento = new EscuelaDepartamento();
+            tabAsisMostrar = Boolean.FALSE;
+            tabAsis = Boolean.FALSE;
+            tabAsisExterno= Boolean.FALSE;
+            tabAsisMostrarExterno= Boolean.FALSE;
          } catch (Exception e) {
            e.printStackTrace();
          }
     }
+    
+    /**
+     * Metodo para recargas listados
+     */
     private void inicializadorListados() {
          try {  
              
@@ -290,6 +277,35 @@ public class PropuestaConvenioMB implements Serializable{
     }
      
      
+     /**
+     * cargar datos de usuario logeado
+     */
+    private void cargarUsuario() {
+        try {
+         
+          solicitante=personaService.findById( usuario.getUsuario().getIdPersona());          
+         
+          if(solicitante.getIdUnidad()!= null){
+            
+             for(PojoFacultadesUnidades us: listaFacultadUnidad){
+                 if(us.getId()==solicitante.getIdUnidad().getIdUnidad() && us.getUnidadFacultad()=='U'){
+                     facultadesUnidades=us;
+                 }
+             }
+          }
+          if(solicitante.getIdCarrera()!= null){              
+             for(PojoFacultadesUnidades us: listaFacultadUnidad){
+                 if(us.getId()== solicitante.getIdCarrera().getIdFacultad().getIdFacultad() && us.getUnidadFacultad()=='F'){
+                     facultadesUnidades=us;
+                 }
+             }
+          }
+                      
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 
      
      /***
@@ -413,6 +429,7 @@ public class PropuestaConvenioMB implements Serializable{
            
             if (mismoSolicitante) {
                     referenteInterno = solicitante;
+                    numDocumentoInterno = referenteInterno.getDuiPersona().replaceAll("-","");
                 if (referenteInterno.getIdUnidad() != null) {
                     for (PojoFacultadesUnidades us : listaFacultadUnidad) {
                         if (us.getId() == solicitante.getIdUnidad().getIdUnidad() && us.getUnidadFacultad() == 'U') {
@@ -443,6 +460,7 @@ public class PropuestaConvenioMB implements Serializable{
                telFijoInterno = new Telefono();
                telCelularInterno= new Telefono();
                facultadesUnidadesInterno = new PojoFacultadesUnidades();
+               numDocumentoInterno = null;
             }
             RequestContext context = RequestContext.getCurrentInstance();
             context.update("formAdmin:idSolicinateNombreInterno");
@@ -454,6 +472,7 @@ public class PropuestaConvenioMB implements Serializable{
             context.update("formAdmin:idUnidadInterno");
             context.update("formAdmin:idFacultadUnidadInterno");
             context.update("formAdmin:idCargoInterno");
+            context.update("formAdmin:idDocumentoInterno");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -481,27 +500,7 @@ public class PropuestaConvenioMB implements Serializable{
         }
     } 
     
-    /**
-//     * Metodo para almacenar una nueva persona
-//     */ 
-//    public void preEditarPropuestaExterno(){
-//        try {
-//           
-//            if(numDocumentoExterno!=null && !numDocumentoExterno.equals("")){
-//             personaEdit = new Persona();   
-//             personaEdit = personaService.getPersonaByID(referenteExterno.getIdPersona());
-//              if(personaEdit != null){  
-//                RequestContext context = RequestContext.getCurrentInstance();              
-//                context.execute("PF('EditDialog').show();");
-//               } else {
-//                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Editado", "Persona no encontrada"));
-//              }   
-//            }     
-//             
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    } 
+
     
     
     /**
@@ -533,6 +532,7 @@ public class PropuestaConvenioMB implements Serializable{
             
             // guardar propuesta convenio
             propuestaConvenio.setIdConvenio(propuestaConvenioTemp.getIdPropuesta());
+            propuestaConvenio.setFechaIngreso(new Date());
             propuestaConvenioService.save(propuestaConvenio);
             
             
@@ -550,7 +550,6 @@ public class PropuestaConvenioMB implements Serializable{
             propuestaEstadoService.save(estado);
             
             // persona solicitante
-           System.out.println(facultadesUnidades);
             
             solicitante.setIdUnidad(null);
             solicitante.setIdCarrera(null);
@@ -631,7 +630,10 @@ public class PropuestaConvenioMB implements Serializable{
                 personaPropuestaService.save(prsRefExterno);
             }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", "Propuesta Convenio almacenada"));
+           
             
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            context.redirect(context.getRequestContextPath() + "sisrni/views/convenio/consultarPropuestaConvenio.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -685,14 +687,7 @@ public class PropuestaConvenioMB implements Serializable{
         }
     }
     
-    public void volver(){
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("consultarConvenio.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(PropuestaConvenioMB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
+   
     public void onTipoConvenioChange(){
         try {            
             
@@ -792,7 +787,20 @@ public class PropuestaConvenioMB implements Serializable{
         }
     }
     
-    
+    /**
+     * metodo habilita tab de solicitante interno 
+     */
+     public void mostrarTab() {
+        tabAsis = tabAsisMostrar ? Boolean.TRUE : Boolean.FALSE;
+    }
+    /**
+     * metodo habilita tab de solicitante interno 
+     */
+     public void mostrarTabExterno() {
+        tabAsisExterno = tabAsisMostrarExterno ? Boolean.TRUE : Boolean.FALSE;
+    }
+     
+     
     /// test de email
    
 public void FileRead(){
@@ -1159,6 +1167,38 @@ public void FileRead(){
 
     public void setFlagEscuelaDeptInterno(boolean flagEscuelaDeptInterno) {
         this.flagEscuelaDeptInterno = flagEscuelaDeptInterno;
+    }
+
+    public Boolean getTabAsisMostrar() {
+        return tabAsisMostrar;
+    }
+
+    public void setTabAsisMostrar(Boolean tabAsisMostrar) {
+        this.tabAsisMostrar = tabAsisMostrar;
+    }
+
+    public Boolean getTabAsis() {
+        return tabAsis;
+    }
+
+    public void setTabAsis(Boolean tabAsis) {
+        this.tabAsis = tabAsis;
+    }
+
+    public Boolean getTabAsisExterno() {
+        return tabAsisExterno;
+    }
+
+    public void setTabAsisExterno(Boolean tabAsisExterno) {
+        this.tabAsisExterno = tabAsisExterno;
+    }
+
+    public Boolean getTabAsisMostrarExterno() {
+        return tabAsisMostrarExterno;
+    }
+
+    public void setTabAsisMostrarExterno(Boolean tabAsisMostrarExterno) {
+        this.tabAsisMostrarExterno = tabAsisMostrarExterno;
     }
 
    

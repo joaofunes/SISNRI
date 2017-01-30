@@ -2,14 +2,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition  template="/WEB-INF/templates/layout.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:pe="http://primefaces.org/ui/extensions" 
-    >
-                    
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:pe="http://primefaces.org/ui/extensions" 
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 >  
     <ui:define name="content">
              <ui:include src="../persona/crearPersona.xhtml" />
              <ui:include src="../persona/editPersona.xhtml" />
@@ -20,25 +20,25 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
                              >    
-                    <p:column headerText="Nombre Propuesta">
+                    <p:column filterBy="#{pconvenios.NOMBRE_PROPUESTA}"  headerText="Nombre Propuesta">
                         <h:outputText value="#{pconvenios.NOMBRE_PROPUESTA}" />
                     </p:column>
-                    <p:column headerText="Finalidad">
+                    <p:column filterBy="#{pconvenios.FINALIDAD_PROPUESTA}" headerText="Finalidad">
                         <h:outputText value="#{pconvenios.FINALIDAD_PROPUESTA}" />
                     </p:column>
-                    <p:column headerText="Solicitante">
+                    <p:column  filterBy="#{pconvenios.SOLICITANTE}" headerText="Solicitante">
                         <h:outputText value="#{pconvenios.SOLICITANTE}" />
                     </p:column>
-                    <p:column headerText="Referente Interno">
+                    <p:column filterBy="#{pconvenios.INTERNO}"  headerText="Referente Interno">
                         <h:outputText value="#{pconvenios.INTERNO}" />
                     </p:column>
-                    <p:column headerText="Referente Externo">
+                    <p:column filterBy="#{pconvenios.EXTERNO}" headerText="Referente Externo">
                         <h:outputText value="#{pconvenios.EXTERNO}" />
                     </p:column>
-                    <p:column headerText="Tipo Propuesta">
+                    <p:column filterBy="#{pconvenios.TIPO_CONVENIO}" headerText="Tipo Propuesta">
                         <h:outputText value="#{pconvenios.TIPO_CONVENIO}" />
                     </p:column>
-                    <p:column headerText="Estado Propuesta">
+                    <p:column filterBy="#{pconvenios.NOMBRE_ESTADO}" headerText="Estado Propuesta">
                         <h:outputText value="#{pconvenios.NOMBRE_ESTADO}" />
                     </p:column>
                     <p:column headerText="Opciones" >
@@ -47,7 +47,7 @@
                                            value="Editar" actionListener="#{consultarPropuestaConvenioMB.preEditar(pconvenios)}" />
                         </div>
                         <div style="float: left">
-                            <p:commandLink styleClass="ui-icon ui-icontransferthick-e-w"
+                            <p:commandLink styleClass="ui-icon swap-horiz"
                                            title="Cambiar estado" value="Cambiar estado"
                                            update=":idCambiarEstado"
                                            actionListener="#{consultarPropuestaConvenioMB.preEliminar(pconvenios)}"

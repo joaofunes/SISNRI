@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sisrni.model;
 
 import java.io.Serializable;
@@ -11,7 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,10 +20,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Angel
+ * @author Cortez
  */
 @Entity
 @Table(name = "ss_historico_claves", catalog = "sisrni", schema = "")
@@ -32,6 +33,7 @@ import javax.persistence.TemporalType;
 public class SsHistoricoClaves implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_HISTORICO_CLAVE", nullable = false)
     private Integer idHistoricoClave;
@@ -40,10 +42,11 @@ public class SsHistoricoClaves implements Serializable {
     @Column(name = "FECHA_CLAVE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaClave;
-    @Column(length = 100)
+    @Size(max = 100)
+    @Column(name = "CLAVE2", length = 100)
     private String clave2;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private SsUsuarios idUsuario;
 
     public SsHistoricoClaves() {

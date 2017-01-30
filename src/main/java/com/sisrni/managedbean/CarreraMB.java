@@ -8,8 +8,10 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Carrera;
 import com.sisrni.model.Facultad;
+import com.sisrni.model.Organismo;
 import com.sisrni.service.CarreraService;
 import com.sisrni.service.FacultadService;
+import com.sisrni.service.OrganismoService;
 import com.sisrni.utils.JsfUtil;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -40,6 +42,8 @@ public class CarreraMB{
     private Facultad facultad;
     private List<Facultad> listFacultad;
     private List<Carrera> listCarrera;
+    private List<Organismo> organismosList;
+    private Organismo organismoSelected;
     private boolean actualizar;
     
     
@@ -53,6 +57,9 @@ public class CarreraMB{
     @Qualifier(value = "facultadService")
     private FacultadService facultadService;
     
+    @Autowired
+    @Qualifier(value = "organismoService")
+    private OrganismoService organismoService;
     
     /*Constructor*/
     public CarreraMB(){
@@ -75,6 +82,8 @@ public class CarreraMB{
     public void cargarCarrera(){
         carrera = new Carrera();
         facultad = new Facultad();
+        organismoSelected = new Organismo();
+        organismosList = organismoService.findAll();
         listFacultad = facultadService.findAll();
         listCarrera = carreraService.findAll();
         actualizar = false;
@@ -108,6 +117,7 @@ public class CarreraMB{
        try{ 
         actualizar = true;
         this.carrera = carrera;
+        this.organismoSelected.setIdOrganismo(carrera.getIdFacultad().getIdOrganismo().getIdOrganismo());
         this.facultad.setIdFacultad(carrera.getIdFacultad().getIdFacultad());
        }catch(Exception e){
            System.out.println(e.getMessage());
@@ -132,6 +142,17 @@ public class CarreraMB{
             e.printStackTrace();
         }
         cargarCarrera(); 
+    }
+    
+     public void onchangeOrganismo() {
+        try {
+            if (organismoSelected.getIdOrganismo()!= null && !organismoSelected.getIdOrganismo().equals("")) {
+               listFacultad = facultadService.getFacultadesByUniversidad(organismoSelected.getIdOrganismo());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     
@@ -196,7 +217,23 @@ public class CarreraMB{
   
     
     /*Getters y Setters*/
+       public List<Organismo> getOrganismosList() {
+        return organismosList;
+    }
 
+    public void setOrganismosList(List<Organismo> organismosList) {
+        this.organismosList = organismosList;
+    }
+    
+    public Organismo getOrganismoSelected() {
+        return organismoSelected;
+    }
+
+    public void setOrganismoSelected(Organismo organismoSelected) {
+        this.organismoSelected = organismoSelected;
+    }
+    
+    
     public Carrera getCarrera() {
         return carrera;
     }

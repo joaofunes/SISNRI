@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "MOVILIDAD", catalog = "sisrni", schema = "")
+@Table(name = "movilidad", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Movilidad.findAll", query = "SELECT m FROM Movilidad m")})
 public class Movilidad implements Serializable {
@@ -74,18 +74,19 @@ public class Movilidad implements Serializable {
     private Date fechaEntregaMined;
     @Column(name = "OBSEQUIO")
     private Boolean obsequio;
-    @JoinTable(name = "MOVILIDAD_UNIDAD", joinColumns = {
+    @Column(name = "FECHA_INGRESO")
+    @Temporal(TemporalType.DATE)
+    private Date fechaIngreso;
+    @JoinTable(name = "movilidad_unidad", joinColumns = {
         @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD", nullable = false)})
     @ManyToMany
     private List<Unidad> unidadList;
-    @JoinTable(name = "MOVILIDAD_FACULTAD", joinColumns = {
+    @JoinTable(name = "movilidad_facultad", joinColumns = {
         @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)})
     @ManyToMany
     private List<Facultad> facultadList;
-    @OneToMany(mappedBy = "idMovilidad")
-    private List<Documento> documentoList;
     @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID_CATEGORIA_MOVILIDAD")
     @ManyToOne
     private CategoriaMovilidad idCategoria;
@@ -98,6 +99,8 @@ public class Movilidad implements Serializable {
     @JoinColumn(name = "ID_TIPO_MOVILIDAD", referencedColumnName = "ID_TIPO_MOVILIDAD")
     @ManyToOne
     private TipoMovilidad idTipoMovilidad;
+    @OneToMany(mappedBy = "idMovilidad")
+    private List<Documento> documentoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movilidad")
     private List<PersonaMovilidad> personaMovilidadList;
 
@@ -220,6 +223,14 @@ public class Movilidad implements Serializable {
         this.obsequio = obsequio;
     }
 
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
     public List<Unidad> getUnidadList() {
         return unidadList;
     }
@@ -234,14 +245,6 @@ public class Movilidad implements Serializable {
 
     public void setFacultadList(List<Facultad> facultadList) {
         this.facultadList = facultadList;
-    }
-
-    public List<Documento> getDocumentoList() {
-        return documentoList;
-    }
-
-    public void setDocumentoList(List<Documento> documentoList) {
-        this.documentoList = documentoList;
     }
 
     public CategoriaMovilidad getIdCategoria() {
@@ -274,6 +277,14 @@ public class Movilidad implements Serializable {
 
     public void setIdTipoMovilidad(TipoMovilidad idTipoMovilidad) {
         this.idTipoMovilidad = idTipoMovilidad;
+    }
+
+    public List<Documento> getDocumentoList() {
+        return documentoList;
+    }
+
+    public void setDocumentoList(List<Documento> documentoList) {
+        this.documentoList = documentoList;
     }
 
     public List<PersonaMovilidad> getPersonaMovilidadList() {
