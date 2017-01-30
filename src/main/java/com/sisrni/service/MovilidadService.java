@@ -4,6 +4,7 @@ import com.sisrni.dao.MovilidadDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Movilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
+import com.sisrni.pojo.rpt.RptMovilidadesSegunEtapaPojo;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,10 @@ public class MovilidadService  extends GenericService<Movilidad, Integer>{
     
      public List<PojoMovilidadAdm> getMovilidadAdm(Integer idMovSearch){
         return movilidadDao.getMovilidadAdm(idMovSearch);
+    }
+     
+     
+    public List<RptMovilidadesSegunEtapaPojo> getCantidadMovilidadesSegunEtapa(Integer anio){
+        return movilidadDao.getCantidadMovilidadesSegunEtapa(anio);
     }
 }
