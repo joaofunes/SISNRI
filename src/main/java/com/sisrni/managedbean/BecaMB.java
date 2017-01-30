@@ -16,6 +16,7 @@ import com.sisrni.model.PersonaBeca;
 import com.sisrni.model.PersonaBecaPK;
 import com.sisrni.model.ProgramaBeca;
 import com.sisrni.model.Telefono;
+import com.sisrni.model.TipoCambio;
 import com.sisrni.model.TipoModalidaBeca;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoBeca;
@@ -108,6 +109,9 @@ public class BecaMB implements Serializable {
     private List<PojoFacultadesUnidades> facultadesUnidadesList;
     private List<EscuelaDepartamento> escuelaDepartamentoList;
     private String facuniSelectded;
+    private Organismo organismoCooperanteSelected;
+    TipoCambio tipoCambioSelected;
+   
 
     private boolean mostrarmonto;
 
@@ -181,8 +185,12 @@ public class BecaMB implements Serializable {
     @Autowired
     EscuelaDepartamentoService escuelaDepartamentoService;
 
+//    @Autowired
+//    TipoCambioService cambioService;
+    
     @Autowired
     private SessionFactory sessionFactory;
+    
 
     public BecaMB() {
     }
@@ -237,6 +245,7 @@ public class BecaMB implements Serializable {
         organismoList = organismoService.findAll();
         facultadesUnidadesList = getListFacultadesUnidades(facultadList, unidadListAsesorInterno);
         escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
+        organismoCooperanteSelected=new Organismo();
 
         mostrarmonto = true;
         //para buscar personas
@@ -1042,6 +1051,14 @@ public class BecaMB implements Serializable {
 
     public void setMostrarTabExterno(boolean mostrarTabExterno) {
         this.mostrarTabExterno = mostrarTabExterno;
+    }
+
+    public Organismo getOrganismoCooperanteSelected() {
+        return organismoCooperanteSelected;
+    }
+
+    public void setOrganismoCooperanteSelected(Organismo organismoCooperanteSelected) {
+        this.organismoCooperanteSelected = organismoCooperanteSelected;
     }
 
 }

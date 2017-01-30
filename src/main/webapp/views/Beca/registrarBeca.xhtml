@@ -97,13 +97,13 @@
                                 <p:panelGrid>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Pais cooperante:"/>
+                                            <p:outputLabel value="Organismo cooperante:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="paiscooperantebeca" value="#{becaMB.paisCooperanteSelected.idPais}"  style="width:180px">
+                                            <p:selectOneMenu id="paiscooperantebeca" value="#{becaMB.organismoCooperanteSelected}"  style="width:180px">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" />
-                                                <c:forEach var="pais" items="#{becaMB.paisList}">
-                                                    <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                                                <c:forEach var="cop" items="#{becaMB.organismoList}">
+                                                    <f:selectItem itemLabel="#{cop.nombreOrganismo}" itemValue="#{cop.idOrganismo}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
