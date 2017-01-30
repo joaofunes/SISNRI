@@ -211,36 +211,10 @@ public class PropuestaConvenioMB implements Serializable{
     }
     
     
-    /**
-     * cargar datos de usuario logeado
+   
+    /***
+     * metodo incializador de instancias
      */
-    private void cargarUsuario() {
-        try {
-         
-          solicitante=personaService.findById( usuario.getUsuario().getIdPersona());          
-         
-          if(solicitante.getIdUnidad()!= null){
-            
-             for(PojoFacultadesUnidades us: listaFacultadUnidad){
-                 if(us.getId()==solicitante.getIdUnidad().getIdUnidad() && us.getUnidadFacultad()=='U'){
-                     facultadesUnidades=us;
-                 }
-             }
-          }
-          if(solicitante.getIdCarrera()!= null){              
-             for(PojoFacultadesUnidades us: listaFacultadUnidad){
-                 if(us.getId()== solicitante.getIdCarrera().getIdFacultad().getIdFacultad() && us.getUnidadFacultad()=='F'){
-                     facultadesUnidades=us;
-                 }
-             }
-          }
-                      
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    
     
     public void inicializador() {
          try {  
@@ -271,6 +245,10 @@ public class PropuestaConvenioMB implements Serializable{
            e.printStackTrace();
          }
     }
+    
+    /**
+     * Metodo para recargas listados
+     */
     private void inicializadorListados() {
          try {  
              
@@ -299,6 +277,34 @@ public class PropuestaConvenioMB implements Serializable{
     }
      
      
+     /**
+     * cargar datos de usuario logeado
+     */
+    private void cargarUsuario() {
+        try {
+         
+          solicitante=personaService.findById( usuario.getUsuario().getIdPersona());          
+         
+          if(solicitante.getIdUnidad()!= null){
+            
+             for(PojoFacultadesUnidades us: listaFacultadUnidad){
+                 if(us.getId()==solicitante.getIdUnidad().getIdUnidad() && us.getUnidadFacultad()=='U'){
+                     facultadesUnidades=us;
+                 }
+             }
+          }
+          if(solicitante.getIdCarrera()!= null){              
+             for(PojoFacultadesUnidades us: listaFacultadUnidad){
+                 if(us.getId()== solicitante.getIdCarrera().getIdFacultad().getIdFacultad() && us.getUnidadFacultad()=='F'){
+                     facultadesUnidades=us;
+                 }
+             }
+          }
+                      
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
 
      
@@ -494,27 +500,7 @@ public class PropuestaConvenioMB implements Serializable{
         }
     } 
     
-    /**
-//     * Metodo para almacenar una nueva persona
-//     */ 
-//    public void preEditarPropuestaExterno(){
-//        try {
-//           
-//            if(numDocumentoExterno!=null && !numDocumentoExterno.equals("")){
-//             personaEdit = new Persona();   
-//             personaEdit = personaService.getPersonaByID(referenteExterno.getIdPersona());
-//              if(personaEdit != null){  
-//                RequestContext context = RequestContext.getCurrentInstance();              
-//                context.execute("PF('EditDialog').show();");
-//               } else {
-//                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Editado", "Persona no encontrada"));
-//              }   
-//            }     
-//             
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    } 
+
     
     
     /**
@@ -701,14 +687,7 @@ public class PropuestaConvenioMB implements Serializable{
         }
     }
     
-    public void volver(){
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("consultarConvenio.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(PropuestaConvenioMB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
+   
     public void onTipoConvenioChange(){
         try {            
             
