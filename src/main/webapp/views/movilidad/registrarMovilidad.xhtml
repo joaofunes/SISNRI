@@ -173,12 +173,12 @@
                                         <p:column>
                                             <p:inputMask id="celPersona" label="celPersona" mask="#{registrarMovilidadMB.mascaraTelefonoMovilidad}"  value="#{registrarMovilidadMB.telCelPersonaMovilidad.numeroTelefono}"/>
                                         </p:column>
-                                        <p:column>
+                                     <!--   <p:column>
                                             <p:outputLabel for="faxPersona" value="Fax"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="faxPersona" label="faxPersona" mask="#{registrarMovilidadMB.mascaraTelefonoMovilidad}"  value="#{registrarMovilidadMB.faxPersonaMovilidad.numeroTelefono}"/> <br/>
-                                        </p:column>
+                                        </p:column> -->
 
                                     </p:panelGrid>
                                 </p:tab>
@@ -225,19 +225,19 @@
                                         </p:column>
 
                                         <p:column>
-                                            <p:outputLabel for="desdeMovilidad" value="Fecha inicio"/> 
+                                            <p:outputLabel for="desdeMovilidad" value="Fecha de inicio"/> 
                                         </p:column>
                                         <p:column>
                                             <p:calendar id="desdeMovilidad" value="#{registrarMovilidadMB.fechaInicioSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="hastaMovilidad" value="Fecha fin"/> 
+                                            <p:outputLabel for="hastaMovilidad" value="Fecha de finalizacion"/> 
                                         </p:column>
                                         <p:column>
                                             <p:calendar id="hastaMovilidad" value="#{registrarMovilidadMB.fechaFinSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="viaticos" value="Viaticos"/>
+                                            <p:outputLabel for="viaticos" value="Monto de viaticos"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="viaticos" label="viaticos" value="#{registrarMovilidadMB.movilidad.viaticos}" />
@@ -254,12 +254,7 @@
                                         <p:column>
                                             <p:inputText id="boletoAereo" label="boletoAereo" value="#{registrarMovilidadMB.movilidad.voletoAereo}" />
                                         </p:column>
-                                        <p:column>
-                                            <p:outputLabel for="fechaEntregaMined" value="Fecha de entrega al MINED"/> 
-                                        </p:column>
-                                        <p:column>
-                                            <p:calendar id="fechaEntregaMined" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10" value="#{registrarMovilidadMB.fechaEntregaMinedSelected}"/>
-                                        </p:column>
+                                        
                                         <p:column>
                                             <p:outputLabel for="etapa" value="Etapa"/> 
                                         </p:column>
@@ -281,15 +276,21 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
+                                            <p:outputLabel for="fechaEntregaMined" value="Fecha de entrega de informe"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <p:calendar id="fechaEntregaMined" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10" value="#{registrarMovilidadMB.fechaEntregaMinedSelected}"/>
+                                        </p:column>
+                                   <!--<p:column>
                                             <p:outputLabel for="obsequio" value="Obsequio"/> 
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="obsequio" value="#{registrarMovilidadMB.obsequioSelected}" style="width: 180px"> 
-                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItem itemLabel="SI" itemValue="true"/>
                                                 <f:selectItem itemLabel="NO" itemValue="false"/>
                                             </p:selectOneMenu>
-                                        </p:column>
+                                        </p:column>-->
                                         <p:column>
                                             <p:outputLabel for="facultadBeneficiada" value="Facultades/Unidades beneficiadas"/>  
                                         </p:column>
@@ -386,7 +387,7 @@
                                             <p:inputText id="emailPersonaFacultad" label="emailPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" />
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="telPersonaFacultad" value="Telefono"/>
+                                            <p:outputLabel for="telPersonaFacultad" value="Telefono institucional"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="telPersonaFacultad" label="telPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}"/>
@@ -397,12 +398,12 @@
                                         <p:column>
                                             <p:inputMask id="celPersonaFacultad" label="celPersonaFacultad" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}"/>
                                         </p:column>
-                                        <p:column>
+                                    <!--    <p:column>
                                             <p:outputLabel for="faxPersonaFacultad" value="Fax"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="faxPersonaFacultad" label="faxPersonaFacultad" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.faxPersonaFacultad.numeroTelefono}"/> <br/>
-                                        </p:column>
+                                        </p:column> -->
                                     </p:panelGrid>
                                 </p:tab>
                             </p:accordionPanel>
@@ -412,7 +413,7 @@
                                         <h:panelGroup/>
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.regresar()}"    value="Regresar"  id="btnRegresar" title="Regresar" />
+                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.regresar()}"  process="@this"   value="Regresar"  id="btnRegresar" title="Regresar" />
                                     </p:column>
                                     <p:column>
                                         <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.guardarMovilidadPersona()}" process="formRegistrarMovilidad" update="formRegistrarMovilidad"  value="Guardar"  id="btnModificar"  title="Guardar Movilidad" />                                 
