@@ -28,7 +28,12 @@ import org.springframework.stereotype.Repository;
 public class BecaDao extends GenericDao<Beca, Integer> {
 
     public List<PojoBeca> getBecas(Integer idBecaSearch) {
-        String query = "SELECT bec.ID_BECA idBeca, bec.ANIO_GESTION anioGestion,  prb.NOMBRE_PROGRAMA as programaBeca, per.NOMBRE_PERSONA nombreBecario, per.APELLIDO_PERSONA apellidoBecario,\n"
+        String query = "SELECT bec.ID_BECA idBeca,\n"
+                + "  bec.ANIO_GESTION anioGestion,\n"
+                + "  prb.NOMBRE_PROGRAMA as programaBeca,\n"
+                + "  per.NOMBRE_PERSONA nombreBecario,\n"
+                + "  per.APELLIDO_PERSONA apellidoBecario,\n"
+                + "  fac.NOMBRE_FACULTAD facultad,\n"
                 + "pai.NOMBRE_PAIS paisDestino, org.NOMBRE_ORGANISMO universidadDestino, bec.MONTO_TOTAL montoBeca,IF(bec.OTORGADA = 1, 'SI','NO') as  otorgada\n"
                 + "FROM beca bec\n"
                 + "INNER JOIN programa_beca prb\n"
@@ -37,6 +42,10 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 + "ON bec.ID_BECA = peb.ID_BECA\n"
                 + "INNER JOIN persona per\n"
                 + "ON peb.ID_PERSONA = per.ID_PERSONA\n"
+                + "  INNER JOIN carrera ca\n"
+                + "  ON per.ID_CARRERA = ca.ID_CARRERA\n"
+                + "  INNER JOIN facultad fac\n"
+                + "  ON ca.ID_FACULTAD = fac.ID_FACULTAD\n"
                 + "INNER JOIN organismo org\n"
                 + "  ON bec.ID_UNIVERSIDAD = org.ID_ORGANISMO\n"
                 + "INNER JOIN pais pai\n"
@@ -45,7 +54,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
         if (idBecaSearch > 0) {
             query = query + " AND bec.ID_BECA=" + idBecaSearch;
         }
-
+query+=" ORDER BY bec.FECHA_INGRESO DESC";
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                     .addScalar("idBeca", new IntegerType())
@@ -53,6 +62,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                     .addScalar("programaBeca", new StringType())
                     .addScalar("nombreBecario", new StringType())
                     .addScalar("apellidoBecario", new StringType())
+                    .addScalar("facultad", new StringType())
                     .addScalar("paisDestino", new StringType())
                     .addScalar("universidadDestino", new StringType())
                     .addScalar("montoBeca", new DoubleType())
