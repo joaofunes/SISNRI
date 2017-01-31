@@ -6,6 +6,7 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -70,21 +71,21 @@ public class Proyecto implements Serializable {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO", nullable = false)})
     @ManyToMany
-    private List<AreaConocimiento> areaConocimientoList;
+    private List<AreaConocimiento> areaConocimientoList = new ArrayList<AreaConocimiento>();
     @JoinTable(name = "facultad_proyecto", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)})
     @ManyToMany
-    private List<Facultad> facultadList;
+    private List<Facultad> facultadList= new ArrayList<Facultad>();
     @ManyToMany(mappedBy = "proyectoList")
-    private List<Estado> estadoList;
+    private List<Estado> estadoList= new ArrayList<Estado>();
     @JoinTable(name = "proyecto_organismo", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO", nullable = false)})
     @ManyToMany
-    private List<Organismo> organismoList;
+    private List<Organismo> organismoList= new ArrayList<Organismo>();
     @OneToMany(mappedBy = "idProyecto")
-    private List<Documento> documentoList;
+    private List<Documento> documentoList= new ArrayList<Documento>();
     @JoinColumn(name = "ID_PROPUESTA_CONVENIO", referencedColumnName = "ID_PROPUESTA")
     @ManyToOne
     private PropuestaConvenio idPropuestaConvenio;
@@ -98,7 +99,7 @@ public class Proyecto implements Serializable {
     @ManyToOne
     private Pais idPaisCooperante;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
-    private List<PersonaProyecto> personaProyectoList;
+    private List<PersonaProyecto> personaProyectoList= new ArrayList<PersonaProyecto>();
 
     public Proyecto() {
     }

@@ -69,17 +69,18 @@
                                             <p:outputLabel value="Tipo de Moneda:" />
                                         </p:column>
                                         <p:column >
-                                            <p:selectOneMenu value="#{proyectosMB.tipoMoneda}" style="width: 180px">
+                                            <p:selectOneMenu value="#{proyectosMB.tipoCambioSelected.idTipoCambio}" style="width: 180px">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItem itemValue="1" itemLabel="EUR" />
-                                                <f:selectItem itemValue="2" itemLabel="USD" />
+                                                <c:forEach var="mon" items="#{proyectosMB.tipoCambioList}">
+                                                    <f:selectItem itemLabel="#{mon.nombreDivisa}" itemValue="#{mon.idTipoCambio}"/>
+                                                </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Monto del Proyecto:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText value="#{proyectosMB.montoProyecto}"/>
+                                            <p:inputText value="#{proyectosMB.proyecto.montoProyecto}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Lugar de Ejecuci&oacute;n:"/>
