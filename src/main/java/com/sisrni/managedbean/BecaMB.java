@@ -376,10 +376,12 @@ public class BecaMB implements Serializable {
             
             TipoCambio auxTc = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
             beca.setMontoExterno(auxTc.getDolaresPorUnidad().multiply(beca.getMontoExterno()));
+            beca.setMontoTotal(beca.getMontoExterno().add(beca.getMontoInterno()));
             
             if (actualizar == true) {
                 becaService.merge(beca);
             } else {
+                beca.setFechaIngreso(new Date());
                 becaService.save(beca);
             }
             //vinculando becario a beca

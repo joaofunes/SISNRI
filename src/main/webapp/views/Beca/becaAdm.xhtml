@@ -10,7 +10,7 @@
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
 
         <ui:define name="content">
-          <h2 class="title ui-widget-header ui-corner-all" align="center">Gestion de Becas Cortas</h2>
+            <h2 class="title ui-widget-header ui-corner-all" align="center">Gestion de Becas Cortas</h2>
             <h:form id="formAdmin">
                 <p:panelGrid >
                     <p:row>
@@ -39,7 +39,9 @@
                     <p:column headerText="Becario" sortBy="#{beca.nombreBecario}" filterBy="#{beca.nombreBecario}" style="width: 25%">
                         <h:outputText value="#{beca.nombreBecario} #{beca.apellidoBecario}" />
                     </p:column>
-
+                    <p:column headerText="Facultad" sortBy="#{beca.facultad}" filterBy="#{beca.facutlad}" style="width: 25%">
+                        <h:outputText value="#{beca.facutlad}" />
+                    </p:column>
                     <p:column headerText="Pais destino" sortBy="#{beca.paisDestino}" filterBy="#{beca.paisDestino}" style="width: 15%" filterStyle="width:100%">
                         <h:outputText value="#{beca.paisDestino}" />
                     </p:column>
