@@ -18,7 +18,6 @@ public class PojoBeca implements Serializable {
     private Integer anioGestion;
     private String programaBeca;
     private String nombreBecario;
-    private String facutlad;
     private String apellidoBecario;
     private String paisDestino;
     private String universidadDestino;
@@ -95,14 +94,6 @@ public class PojoBeca implements Serializable {
 
     public void setAnioGestion(Integer anioGestion) {
         this.anioGestion = anioGestion;
-    }
-
-    public String getFacutlad() {
-        return facutlad;
-    }
-
-    public void setFacutlad(String facutlad) {
-        this.facutlad = facutlad;
     }
 
 }
