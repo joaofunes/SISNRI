@@ -21,7 +21,7 @@
                                         <p:outputLabel for="tipoMovilidad" value="Tipo de movilidad: "/>
                                     </p:row>
                                     <p:row>
-                                        <h:outputText id="tipoMovilidad" value="#{registrarMovilidadMB.tipoMovilidadConsultar}"/>
+                                        <p:inputText id="tipoMovilidad" value="#{registrarMovilidadMB.tipoMovilidadConsultar}" readonly="true" style="width: 180px"/>
                                     </p:row>
                                 </p:column>
                             </p:tab>
@@ -34,21 +34,21 @@
                                         </p:column>
                                         <p:column>
                                             <!--<p:inputTextarea id="nombreMovilidad" label="nombreMovilidad" value="#" style="width:180px"/>-->
-                                            <h:outputText id="nombreMovilidad" value="#{registrarMovilidadMB.programaMovilidad.nombreProgramaMovilidad}" />
+                                            <p:inputTextarea id="nombreMovilidad" value="#{registrarMovilidadMB.programaMovilidad.nombreProgramaMovilidad}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                         <p:column>
                                             <p:outputLabel for="descripcionMovilidad" value="Descripcion"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="descripcionMovilidad" value="#{registrarMovilidadMB.programaMovilidad.descripcion}"/>
+                                            <p:inputTextarea id="descripcionMovilidad" value="#{registrarMovilidadMB.programaMovilidad.descripcion}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                         <p:column>
                                             <p:outputLabel for="categoriaMovilidad" value="Categoria movilidad: "/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="categoriaMovilidad" value="#{registrarMovilidadMB.categoriaMovilidadConsultar}"/>
+                                            <p:inputText id="categoriaMovilidad" value="#{registrarMovilidadMB.categoriaMovilidadConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                     </p:panelGrid>
@@ -76,82 +76,82 @@
                                             <p:outputLabel for="nombrePersona" value="Nombres: "/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="nombrePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nombrePersona}"/>
+                                            <p:inputText id="nombrePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nombrePersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidoPersona" value="Apellidos: "/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="apellidoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.apellidoPersona}"/>
+                                            <p:inputText id="apellidoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.apellidoPersona}" style="width:180px" readonly="true"/>
                                         </p:column>                        
                                         <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
                                             <p:outputLabel for="duiPersona" value="DUI: "/>
                                         </p:column>
                                         <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
-                                            <h:outputText id="duiPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.duiPersona}"/>
+                                            <p:inputText id="duiPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.duiPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}" >
                                             <p:outputLabel for="nitPersona" value="NIT"/>
                                         </p:column>
                                         <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
-                                            <h:outputText id="nitPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nitPersona}" />
+                                            <p:inputText id="nitPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nitPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
                                             <p:outputLabel for="pasaportePersona" value="Pasaporte"/>
                                         </p:column>
                                         <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
-                                            <h:outputText id="pasaportePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.pasaporte}"/>
+                                            <p:inputText id="pasaportePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.pasaporte}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                         <p:column>
                                             <p:outputLabel for="cargoPersona" value="Cargo"/>
                                         </p:column>    
                                         <p:column>
-                                            <h:outputText id="cargoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.cargoPersona}"/>
+                                            <p:inputText id="cargoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.cargoPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                         <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
                                             <p:outputLabel for="InstitucionPersona" value="Institucion"/>
                                         </p:column>
                                         <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
-                                            <h:outputText id="InstitucionPersona" value="#{registrarMovilidadMB.institucionPersonaMovConsultar}"/>
+                                            <p:inputTextarea id="InstitucionPersona" value="#{registrarMovilidadMB.institucionPersonaMovConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>    
                                         <p:column>
                                             <p:outputLabel for="facultadPersona" value="Facultad/Unidad"/>  
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="facultadPersona" value="#{registrarMovilidadMB.facultadPersonaMovConsultar}"/>
+                                            <p:inputTextarea id="facultadPersona" value="#{registrarMovilidadMB.facultadPersonaMovConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="escuelaDepartamentoPersona" value="Escuela/Departamento"/>   
                                         </p:column>   
                                         <p:column>
-                                            <h:outputText id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDeptoPersonaMovConsultar}"/>
+                                            <p:inputTextarea id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDeptoPersonaMovConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>   
                                         <p:column>
                                             <p:outputLabel for="emailPersona" value="Correo Electronico"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="emailPersona"  value="#{registrarMovilidadMB.personaMovilidadGenerico.emailPersona}"/>
+                                            <p:inputText id="emailPersona"  value="#{registrarMovilidadMB.personaMovilidadGenerico.emailPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="telPersona" value="Telefono"/>
+                                            <p:outputLabel for="telPersona" value="Telefono Institucional"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="telPersona"  value="#{registrarMovilidadMB.telFijoPersonaMovilidad.numeroTelefono}"/>
+                                            <p:inputText id="telPersona"  value="#{registrarMovilidadMB.telFijoPersonaMovilidad.numeroTelefono}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="celPersona" value="Telefono movil"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="celPersona"  value="#{registrarMovilidadMB.telCelPersonaMovilidad.numeroTelefono}"/>
+                                            <p:inputText id="celPersona"  value="#{registrarMovilidadMB.telCelPersonaMovilidad.numeroTelefono}" style="width:180px" readonly="true"/>
                                         </p:column>
-                                        <p:column>
+                                     <!--   <p:column>
                                             <p:outputLabel for="faxPersona" value="Fax"/>
                                         </p:column>
                                         <p:column>
                                             <h:outputText id="faxPersona" value="#{registrarMovilidadMB.faxPersonaMovilidad.numeroTelefono}"/>
-                                        </p:column>
+                                        </p:column>  -->
 
                                     </p:panelGrid>
                                 </p:tab>
@@ -161,95 +161,97 @@
                                             <p:outputLabel for="paisOrigen" value="Pais origen"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="paisOrigen" value="#{registrarMovilidadMB.paisOrigenConsultar}"/>
+                                            <p:inputText id="paisOrigen" value="#{registrarMovilidadMB.paisOrigenConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                         <p:column>
                                             <p:outputLabel for="institucionOrigen" value="Institucion origen"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenConsultar}"/>
+                                            <p:inputText id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="paisDestino" value="Pais destino"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="paisDestino" value="#{registrarMovilidadMB.paisDestinoconsultar}"/>
+                                            <p:inputText id="paisDestino" value="#{registrarMovilidadMB.paisDestinoconsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="institucionDestino" value="Institucion destino"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="institucionDestino" value="#{registrarMovilidadMB.institucionDestinoConsultar}"/>
+                                            <p:inputTextarea id="institucionDestino" value="#{registrarMovilidadMB.institucionDestinoConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                         <p:column>
-                                            <p:outputLabel for="desdeMovilidad" value="Fecha inicio"/> 
+                                            <p:outputLabel for="desdeMovilidad" value="Fecha de inicio"/> 
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="desdeMovilidad" value="#{registrarMovilidadMB.fInicioConsultar}"/>
+                                            <p:inputText id="desdeMovilidad" value="#{registrarMovilidadMB.fInicioConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="hastaMovilidad" value="Fecha fin"/> 
+                                            <p:outputLabel for="hastaMovilidad" value="Fecha de finalizacion"/> 
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="hastaMovilidad" value="#{registrarMovilidadMB.fFinConsultar}"/>
+                                            <p:inputText id="hastaMovilidad" value="#{registrarMovilidadMB.fFinConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="viaticos" value="Viaticos"/>
+                                            <p:outputLabel for="viaticos" value="Monto de viaticos"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="viaticos"  value="#{registrarMovilidadMB.movilidad.viaticos}" />
+                                            <p:inputText id="viaticos"  value="#{registrarMovilidadMB.movilidad.viaticos}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="pagoCurso" value="Pago de curso"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="pagoCurso"  value="#{registrarMovilidadMB.movilidad.pagoDeCurso}"/>
+                                            <p:inputText id="pagoCurso"  value="#{registrarMovilidadMB.movilidad.pagoDeCurso}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="totalViaticosCurso" value="Total (Viaticos + curso)"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="totalViaticosCurso" value="#{registrarMovilidadMB.totalViaticosCurso}"/>
+                                            <p:inputText id="totalViaticosCurso" value="#{registrarMovilidadMB.totalViaticosCurso}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="boletoAereo" value="Boleto aereo"/> 
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="boletoAereo"  value="#{registrarMovilidadMB.movilidad.voletoAereo}"/>
+                                            <p:inputText id="boletoAereo"  value="#{registrarMovilidadMB.movilidad.voletoAereo}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="totalViaticosCursoBoleto" value="Total (viaticos + Curso + Boleto aereo)"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="totalViaticosCursoBoleto"  value="#{registrarMovilidadMB.totalViaticosCursoBoletoAereo}"/>
+                                            <p:inputText id="totalViaticosCursoBoleto"  value="#{registrarMovilidadMB.totalViaticosCursoBoletoAereo}" style="width:180px" readonly="true"/>
                                         </p:column>
-                                        <p:column>
-                                            <p:outputLabel for="fechaEntregaMined" value="Fecha de entrega al MINED"/> 
-                                        </p:column>
-                                        <p:column>
-                                            <h:outputText id="fechaEntregaMined"   value="#{registrarMovilidadMB.fEntregaConsultar}" />
-                                        </p:column>
+                                        
                                         <p:column>
                                             <p:outputLabel for="etapa" value="Etapa"/> 
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="etapa" value="#{registrarMovilidadMB.etapaMovilidadConsultar}"/>
+                                            <p:inputText id="etapa" value="#{registrarMovilidadMB.etapaMovilidadConsultar}" style="width:180px" readonly="true"/>
                                         </p:column> 
 
                                         <p:column>
                                             <p:outputLabel for="entregaInforme" value="Entrega de informe"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="entregaInforme" value="#{registrarMovilidadMB.entregaInformeConsultar}"/>
+                                            <p:inputText id="entregaInforme" value="#{registrarMovilidadMB.entregaInformeConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
+                                            <p:outputLabel for="fechaEntregaMined" value="Fecha de entrega de informe"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="fechaEntregaMined"   value="#{registrarMovilidadMB.fEntregaConsultar}" style="width:180px" readonly="true"/>
+                                        </p:column>
+                                        
+                                   <!-- <p:column>
                                             <p:outputLabel for="obsequio" value="Obsequio"/> 
                                         </p:column>
                                         <p:column>
                                             <h:outputText id="obsequio" value="#{registrarMovilidadMB.obsequioConsultar}"/>
-                                        </p:column>    
+                                        </p:column> -->   
                                         <p:column>
                                             <p:outputLabel for="facultadBeneficiada" value="Facultades/Unidades beneficiadas"/>  
                                         </p:column>
@@ -264,7 +266,7 @@
                                             <p:outputLabel for="otroBeneficiado" value="Otro beneficiado"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="otroBeneficiado" value="#{registrarMovilidadMB.movilidad.otrosBeneficiados}"/>
+                                            <p:inputText id="otroBeneficiado" value="#{registrarMovilidadMB.movilidad.otrosBeneficiados}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                     </p:panelGrid>
@@ -290,68 +292,68 @@
                                             <p:outputLabel for="nombrePersonaFacultad" value="Nombres"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="nombrePersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nombrePersona}"/>
+                                            <p:inputText id="nombrePersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nombrePersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidoPersonaFacultad" value="Apellidos"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="apellidoPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.apellidoPersona}"/>
+                                            <p:inputText id="apellidoPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.apellidoPersona}" style="width:180px" readonly="true"/>
                                         </p:column>                        
                                         <p:column>
                                             <p:outputLabel for="duiPersonaFacultad" value="DUI"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="duiPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.duiPersona}"/>
+                                            <p:inputText id="duiPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.duiPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="nitPersonaFacultad" value="NIT"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="nitPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nitPersona}"/>
+                                            <p:inputText id="nitPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nitPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="cargoPersonaFacultad" value="Cargo"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="cargoPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.cargoPersona}"/>
+                                            <p:inputText id="cargoPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.cargoPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="facultadBeneficiadaPersona" value="Facultad/unidad"/> 
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadPersonaRefConsultar}"/>
+                                            <p:inputTextarea id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadPersonaRefConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="escuelaDepartamentoReferenteFactBnf" value="Escuela/Departamento"/> 
                                         </p:column>   
                                         <p:column>
-                                            <h:outputText id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoRefConsultar}"/>
+                                            <p:inputTextarea id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoRefConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>   
                                         <p:column>
-                                            <p:outputLabel for="emailPersonaFacultad" value="Correo Electronico"/>
+                                            <p:outputLabel for="emailPersonaFacultad" value="Correo electronico"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="emailPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" />
+                                            <p:inputText id="emailPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="telPersonaFacultad" value="Telefono"/>
+                                            <p:outputLabel for="telPersonaFacultad" value="Telefono institucional"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="telPersonaFacultad" value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}"/>
+                                            <p:inputText id="telPersonaFacultad" value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="celPersonaFacultad" value="Telefono movil"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="celPersonaFacultad"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}"/>
+                                            <p:inputText id="celPersonaFacultad"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}" style="width:180px" readonly="true"/>
                                         </p:column>
-                                        <p:column>
+                                   <!--     <p:column>
                                             <p:outputLabel for="faxPersonaFacultad" value="Fax"/>
                                         </p:column>
                                         <p:column>
                                             <h:outputText id="faxPersonaFacultad"  value="#{registrarMovilidadMB.faxPersonaFacultad.numeroTelefono}" />
-                                        </p:column>
+                                        </p:column>   -->
                                     </p:panelGrid>
                                 </p:tab>
                             </p:accordionPanel>

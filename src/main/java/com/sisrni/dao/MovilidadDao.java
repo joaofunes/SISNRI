@@ -8,6 +8,7 @@ package com.sisrni.dao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Movilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
+import com.sisrni.pojo.rpt.RptMovilidadesSegunEtapaPojo;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -56,4 +57,28 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
         }
         return null;
     }
+
+    public List<RptMovilidadesSegunEtapaPojo> getCantidadMovilidadesSegunEtapa(Integer anio) {
+        String query = "SELECT tm.NOMBRE_TIPO_MOVILIDAD nombreMovilidad, COUNT(mv.ID_MOVILIDAD) cantidad  \n"
+                + "FROM movilidad mv INNER JOIN tipo_movilidad tm ON mv.ID_TIPO_MOVILIDAD = tm.ID_TIPO_MOVILIDAD   \n"
+                + "WHERE mv.ID_ETAPA_MOVILIDAD =3 AND YEAR(mv.FECHA_INICIO)= "+anio+ " GROUP BY tm.NOMBRE_TIPO_MOVILIDAD \n"
+                + "UNION \n"
+                + "SELECT eta.NOMBRE_ETAPA , COUNT(mov.ID_MOVILIDAD) \n"
+                + "FROM movilidad mov INNER JOIN etapa_movilidad eta ON mov.ID_ETAPA_MOVILIDAD = eta.ID_ETAPA \n"
+                + "WHERE (mov.ID_ETAPA_MOVILIDAD =3 OR mov.ID_ETAPA_MOVILIDAD =4)  AND  YEAR(mov.FECHA_INICIO)= "+anio+" \n"
+                + "GROUP BY eta.NOMBRE_ETAPA; ";
+
+        try {
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                    .addScalar("nombreMovilidad", new StringType())
+                    .addScalar("cantidad", new IntegerType())
+                    .setResultTransformer(Transformers.aliasToBean(RptMovilidadesSegunEtapaPojo.class));
+
+            return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
