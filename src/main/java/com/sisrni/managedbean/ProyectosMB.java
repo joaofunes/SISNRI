@@ -138,6 +138,7 @@ public class ProyectosMB {
     private List<Facultad> facultadBeneficiada;
     private List<Facultad> facultadBeneficiadaList;
     private List<Proyecto> proyectoList;
+    private List<TipoCambio> tipoCambioList;
 //Definicion de selected
     private TipoProyecto proyectoSelected;
     private String[] areaConocimientoSelected;
@@ -164,6 +165,7 @@ public class ProyectosMB {
     private Organismo organismoSelectedRefExt;
     private Pais paisSelected;
     private Pais paisCooperanteSelected;
+    private TipoCambio tipoCambioSelected;
 //Telefono
 //private Telefono telefono;
     private Telefono telefonoSolFijo;
@@ -219,7 +221,6 @@ public class ProyectosMB {
     public Boolean mostrarEscuelaSol;
     public Boolean mostrarEscuelaAsis;
     public Boolean validarFecha;
-    public Integer tipoMoneda;
     public Long montoProyecto;
 
     /**
@@ -250,6 +251,7 @@ public class ProyectosMB {
         facultadesBeneficiadaList = new ArrayList<Facultad>();
         paisSelected = new Pais();
         paisCooperanteSelected = new Pais();
+        tipoCambioSelected= new TipoCambio();
         //Listas
         tipoproyectolist = tipoProyectoService.findAll();
         areaConocimientoList = areaConocimientoService.findAll();
@@ -270,6 +272,7 @@ public class ProyectosMB {
         escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
         escuelaDeptoListAsis = new ArrayList<EscuelaDepartamento>();
         proyectoList = proyectoService.findAll();
+        tipoCambioList=tipoCambioService.findAll();
         //Objetos
         proyecto = new Proyecto();
         propuestaConvenio = new PropuestaConvenio();
@@ -343,7 +346,6 @@ public class ProyectosMB {
         mostrarEscuelaSol = false;
         mostrarEscuelaAsis = false;
         validarFecha = false;
-        tipoMoneda=0;
     }
 
     public void mostrarTab() {
@@ -373,9 +375,9 @@ public class ProyectosMB {
             telefonoSolCel.setIdTipoTelefono(tipoTelefonoCel);
             persona.getTelefonoList().add(telefonoSolCel);
             //guardar telefono fax solicitante
-            telefonoSolFax.setIdPersona(persona);
-            telefonoSolFax.setIdTipoTelefono(tipoTelefonoFax);
-            persona.getTelefonoList().add(telefonoSolFax);
+//            telefonoSolFax.setIdPersona(persona);
+//            telefonoSolFax.setIdTipoTelefono(tipoTelefonoFax);
+//            persona.getTelefonoList().add(telefonoSolFax);
             if (existeSol == 1 || actualizar == true) {
                 personaService.merge(persona);
             } else {
@@ -403,9 +405,9 @@ public class ProyectosMB {
                 telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
                 personaAsistente.getTelefonoList().add(telefonoAsisCel);
                 // guardar fax Asistente
-                telefonoAsisFax.setIdPersona(personaAsistente);
-                telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
-                personaAsistente.getTelefonoList().add(telefonoAsisFax);
+//                telefonoAsisFax.setIdPersona(personaAsistente);
+//                telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
+//                personaAsistente.getTelefonoList().add(telefonoAsisFax);
                 if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
                     personaService.merge(personaAsistente);
                 } else {
@@ -427,9 +429,9 @@ public class ProyectosMB {
             telefonoRefextCel.setIdTipoTelefono(tipoTelefonoCel);
             personaExterna.getTelefonoList().add(telefonoRefextCel);
             //guardar fax persona externa
-            telefonoRefextFax.setIdPersona(personaExterna);
-            telefonoRefextFax.setIdTipoTelefono(tipoTelefonoFax);
-            personaExterna.getTelefonoList().add(telefonoRefextFax);
+//            telefonoRefextFax.setIdPersona(personaExterna);
+//            telefonoRefextFax.setIdTipoTelefono(tipoTelefonoFax);
+//            personaExterna.getTelefonoList().add(telefonoRefextFax);
             if (existeRefExt == 1 || actualizar == true) {
                 personaService.merge(personaExterna);
             } else {
@@ -447,13 +449,14 @@ public class ProyectosMB {
             proyecto.setIdPaisCooperante(paiscooperante);
             proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
             //seteando monto
-            if(tipoMoneda.equals(codigoMonedaDolar)){
-                proyecto.setMontoProyecto(montoProyecto);
+            if(tipoCambioSelected.getIdTipoCambio()==2){
+//                proyecto.setMontoProyecto(Long.parseLong(tipoCambioSelected.getDolaresPorUnidad().toString()));
             }else
             {
-                double aux= tipoCambio.getDolaresPorUnidad().doubleValue();
-                double aux2= montoProyecto*aux;
-//                proyecto.setMontoProyecto(aux2);
+                TipoCambio aux=tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+                BigDecimal d = new BigDecimal(proyecto.getMontoProyecto());
+                d=d.multiply(aux.getDolaresPorUnidad());
+                proyecto.setMontoProyecto(d.longValue());
             }
             //Intermedia de proyecto y area de conocimiento
             for (int i = 0; i < areaConocimientoSelected.length; i++) {
@@ -1669,14 +1672,6 @@ public class ProyectosMB {
         this.validarFecha = validarFecha;
     }
 
-    public Integer getTipoMoneda() {
-        return tipoMoneda;
-    }
-
-    public void setTipoMoneda(Integer tipoMoneda) {
-        this.tipoMoneda = tipoMoneda;
-    }
-
     public Long getMontoProyecto() {
         return montoProyecto;
     }
@@ -1692,4 +1687,21 @@ public class ProyectosMB {
     public void setTipoCambio(TipoCambio tipoCambio) {
         this.tipoCambio = tipoCambio;
     } 
+
+    public List<TipoCambio> getTipoCambioList() {
+        return tipoCambioList;
+    }
+
+    public void setTipoCambioList(List<TipoCambio> tipoCambioList) {
+        this.tipoCambioList = tipoCambioList;
+    }
+
+    public TipoCambio getTipoCambioSelected() {
+        return tipoCambioSelected;
+    }
+
+    public void setTipoCambioSelected(TipoCambio tipoCambioSelected) {
+        this.tipoCambioSelected = tipoCambioSelected;
+    }
+    
 }
