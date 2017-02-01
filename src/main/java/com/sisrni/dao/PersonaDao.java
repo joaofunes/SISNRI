@@ -26,7 +26,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getSolicitanteByName(String name) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a   JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true ");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true ");
             q.setParameter("name", '%' + name.toLowerCase() + '%');
             return q.list();
 
@@ -43,9 +43,8 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getReferenteInternoByName(String query) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true");
             q.setParameter("name", '%' + query.toLowerCase() + '%');
-
             return q.list();
 
         } catch (Exception e) {
@@ -62,7 +61,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getReferenteExternoByName(String query) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true");
             q.setParameter("name", '%' + query.toLowerCase() + '%');
             return q.list();
 
@@ -73,20 +72,15 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
     }
 
     /**
-     * Metodo para relaizar busquedas de referente internos por medio de su
-     * documento y email
-     *
-     * @param doc
+     * Metodo para relaizar busquedas de referente internos por medio de su email
      * @param persona
      * @return
      */
-    public Persona getReferenteInternoByDocEmail(String doc, Persona persona) {
+    public List<Persona> getReferenteInternoByEmail(String email) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a   JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE  a.emailPersona =:email AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num AND a.activo is true");
-            q.setParameter("num", doc);
-            q.setParameter("email", persona.getEmailPersona());
-            return (Persona) q.uniqueResult();
-
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  a.emailPersona =:email AND a.activo is true AND a.extranjero is false");
+            q.setParameter("email",email);
+            return  q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,19 +88,15 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
     }
 
     /**
-     * Metodo para relaizar busquedas de referente externos por medio de su
-     * documento y email
-     *
-     * @param doc
+     * Metodo para relaizar busquedas de referente externos por medio de su email
      * @param persona
      * @return
      */
-    public Persona getReferenteExternoByDocEmail(String doc, Persona persona) {
+    public List<Persona> getReferenteExternoByEmail(String email) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE  a.emailPersona =:email AND a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num AND a.activo is true");
-            q.setParameter("num", doc);
-            q.setParameter("email", persona.getEmailPersona());
-            return (Persona) q.uniqueResult();
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  a.emailPersona =:email AND a.activo is true AND a.extranjero is true");
+            q.setParameter("email", email);
+            return  q.list();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,45 +104,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         return null;
     }
 
-    /**
-     * Metodo para relaizar busquedas de referente externos por medio de su
-     * documento
-     *
-     * @param doc
-     * @param persona
-     * @return
-     */
-    public Persona getReferenteInternoByDocumento(String doc) {
-        try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE  a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num AND a.activo is true");
-            q.setParameter("num", doc);
-            return (Persona) q.uniqueResult();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Metodo para relaizar busquedas de referente externos por medio de su
-     * documento
-     *
-     * @param doc
-     * @param persona
-     * @return
-     */
-    public Persona getReferenteExternoByDoccumento(String doc) {
-        try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  JOIN FETCH a.idUnidad unidad JOIN FETCH unidad.idFacultad facultad WHERE a.duiPersona =:num OR a.nitPersona =:num OR a.pasaporte =:num AND a.activo is true");
-            q.setParameter("num", doc);
-            return (Persona) q.uniqueResult();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+  
 
     /**
      * Mentodo para obtener una persona en base a el proyecto al que pertenece y
