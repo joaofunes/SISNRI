@@ -14,6 +14,7 @@ public class BecasGestionadasPojo {
     private Integer anio;
     private String nombrePais;
     private String nombreFacultad;
+    private String organismo;
     private Integer gestionadas;
     private Integer becasOtorgadas;
     private Integer becasDenegadas;
@@ -82,6 +83,14 @@ public class BecasGestionadasPojo {
 
     public void setNombreFacultad(String nombreFacultad) {
         this.nombreFacultad = nombreFacultad;
+    }
+
+    public String getOrganismo() {
+        return organismo;
+    }
+
+    public void setOrganismo(String organismo) {
+        this.organismo = organismo;
     }
 
    

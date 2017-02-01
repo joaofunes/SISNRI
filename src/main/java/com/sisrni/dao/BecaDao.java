@@ -54,7 +54,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
         if (idBecaSearch > 0) {
             query = query + " AND bec.ID_BECA=" + idBecaSearch;
         }
-query+=" ORDER BY bec.FECHA_INGRESO DESC";
+        query += " ORDER BY bec.FECHA_INGRESO DESC";
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                     .addScalar("idBeca", new IntegerType())
@@ -161,6 +161,28 @@ query+=" ORDER BY bec.FECHA_INGRESO DESC";
                 .addScalar("montoBeca", new DoubleType())
                 .setResultTransformer(Transformers.aliasToBean(RptDetalleBecasPojo.class));
         return q.list();
+    }
+
+    public List<BecasGestionadasPojo> getDataBecasGestionadasGroupOrganismos(Integer desde, Integer hasta) {
+        String query = "SELECT o.NOMBRE_ORGANISMO organismo, count(*) gestionadas,\n"
+                + "  SUM(if(b.OTORGADA=1,1,0)) becasOtorgadas,\n"
+                + "  SUM(if(b.OTORGADA=0,1,0)) becasDenegadas,\n"
+                + "    SUM(if(b.OTORGADA=1,b.MONTO_TOTAL,0)) montoOtorgadas\n"
+                + "FROM beca b INNER JOIN organismo o\n"
+                + "ON b.ID_ORGANISMO_COOPERANTE = o.ID_ORGANISMO\n"
+                + "WHERE\n"
+                + " b.ANIO_GESTION BETWEEN "+ desde + " AND "+hasta+ "\n"
+                + " GROUP BY b.ID_ORGANISMO_COOPERANTE";
+        
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("organismo", new StringType())
+                .addScalar("gestionadas", new IntegerType())
+                .addScalar("becasOtorgadas", new IntegerType())
+                .addScalar("montoOtorgadas", new DoubleType())
+                .addScalar("becasDenegadas", new IntegerType())
+                .setResultTransformer(Transformers.aliasToBean(BecasGestionadasPojo.class));
+        return q.list();
+        
     }
 
     public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected, String desde, String hasta) {//List<String> tipoBecaSelected,
