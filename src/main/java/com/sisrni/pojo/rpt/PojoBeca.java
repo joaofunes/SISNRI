@@ -19,6 +19,7 @@ public class PojoBeca implements Serializable {
     private String programaBeca;
     private String nombreBecario;
     private String apellidoBecario;
+    private String facultad;
     private String paisDestino;
     private String universidadDestino;
     private Double montoBeca;
@@ -94,6 +95,14 @@ public class PojoBeca implements Serializable {
 
     public void setAnioGestion(Integer anioGestion) {
         this.anioGestion = anioGestion;
+    }
+
+    public String getFacultad() {
+        return facultad;
+    }
+
+    public void setFacultad(String facultad) {
+        this.facultad = facultad;
     }
 
 }

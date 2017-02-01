@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
+	<property name="ireport.zoom" value="1.464100000000018"/>
+	<property name="ireport.x" value="1"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="uesImageUrl" class="java.lang.String"/>
+	<parameter name="srniImageUrl" class="java.lang.String"/>
+	<parameter name="desde" class="java.lang.String"/>
+	<parameter name="hasta" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="organismo" class="java.lang.String">
+		<fieldDescription><![CDATA[organismo]]></fieldDescription>
+	</field>
+	<field name="montoOtorgadas" class="java.lang.Double">
+		<fieldDescription><![CDATA[montoOtorgadas]]></fieldDescription>
+	</field>
+	<field name="gestionadas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[gestionadas]]></fieldDescription>
+	</field>
+	<field name="becasOtorgadas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[becasOtorgadas]]></fieldDescription>
+	</field>
+	<field name="becasDenegadas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[becasDenegadas]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="139" splitType="Stretch">
+			<elementGroup>
+				<staticText>
+					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="65" y="0" width="398" height="32"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Universidad de El Salvador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="65" y="32" width="398" height="20"/>
+					<textElement textAlignment="Center">
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Secretaria de Relaciones Nacionales e Internacionales]]></text>
+				</staticText>
+			</elementGroup>
+			<staticText>
+				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="68" width="528" height="25" forecolor="#5B63B1"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Becas Internacionales Gestionadas]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="119" width="264" height="20" forecolor="#786C6C"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="119" width="264" height="20" forecolor="#786C6C"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Fecha de creacion: "]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="0" y="0" width="65" height="65"/>
+				<imageExpression><![CDATA[$P{uesImageUrl}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="463" y="0" width="65" height="65"/>
+				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="93" width="528" height="25" forecolor="#5B63B1"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Agrupadas por Organismo Cooperante]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="0" y="16" width="528" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Periodo de Consulta" +$P{desde} + " - "+$P{hasta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="208" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gestionadas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="0" y="0" width="208" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Facultad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79717a4b-be92-4af8-9c2a-4bc292094163" mode="Opaque" x="288" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Denegadas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4591de44-19ac-4ff4-931f-e681ad845686" mode="Opaque" x="368" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Otorgadas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a997b92c-483d-41a2-9401-1755f03eab09" mode="Opaque" x="448" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Otorgadas]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="381f9cd8-c6ed-4e66-be3f-efe3d29d875e" x="208" y="0" width="80" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gestionadas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8e66a2d9-292f-40d1-b9c2-7c2ed51f0675" x="288" y="0" width="80" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{becasDenegadas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="239fcef6-fd46-4444-a978-51020881f255" x="368" y="0" width="80" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{becasOtorgadas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e2bc8503-97ee-412f-894e-dd5c1a5327b5" x="448" y="0" width="80" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montoOtorgadas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="771f8a87-a86e-4bf3-9916-f32c6e097fb2" x="0" y="0" width="208" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{organismo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch">
+			<line>
+				<reportElement uuid="52c1682d-a761-425b-adee-0c857f0badbb" x="0" y="1" width="528" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="21" splitType="Stretch">
+			<elementGroup>
+				<textField>
+					<reportElement uuid="ca85c37e-d9a9-4449-a43d-95c36d307209" x="0" y="1" width="528" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"+ " " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="220" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement uuid="f6346c5d-824e-4442-88be-ea3f59257136" x="81" y="26" width="334" height="125"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Becas Gestionadas"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{organismo}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{gestionadas}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

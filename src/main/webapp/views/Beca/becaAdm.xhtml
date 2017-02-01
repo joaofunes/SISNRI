@@ -10,7 +10,7 @@
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
 
         <ui:define name="content">
-          <h2 class="title ui-widget-header ui-corner-all" align="center">Gestion de Becas Cortas</h2>
+            <h2 class="title ui-widget-header ui-corner-all" align="center">Gestion de Becas Cortas</h2>
             <h:form id="formAdmin">
                 <p:panelGrid >
                     <p:row>
@@ -30,32 +30,36 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              rowsPerPageTemplate="5,10,15"                       
                              >
-                    <p:column  headerText="No." sortBy="#{beca.idBeca}" filterBy="#{beca.idBeca}" style="width: 7%" filterStyle="width:100%">
+                    <p:column  headerText="No." sortBy="#{beca.idBeca}" filterBy="#{beca.idBeca}" style="width: 6%" filterStyle="width:100%">
                         <h:outputText value="#{beca.idBeca}" />
                     </p:column>
-                    <p:column  headerText="Programa Beca" sortBy="#{beca.programaBeca}" filterBy="#{beca.programaBeca}"  style="width: 25%">
+                    <p:column  headerText="Programa Beca" sortBy="#{beca.programaBeca}" style="width: 13%" filterBy="#{beca.programaBeca}"  >
                         <h:outputText value="#{beca.programaBeca}" />
                     </p:column>
-                    <p:column headerText="Becario" sortBy="#{beca.nombreBecario}" filterBy="#{beca.nombreBecario}" style="width: 25%">
+                    <p:column headerText="Becario" sortBy="#{beca.nombreBecario}" filterBy="#{beca.nombreBecario}" filterStyle="width:90%">
                         <h:outputText value="#{beca.nombreBecario} #{beca.apellidoBecario}" />
                     </p:column>
-
-                    <p:column headerText="Pais destino" sortBy="#{beca.paisDestino}" filterBy="#{beca.paisDestino}" style="width: 15%" filterStyle="width:100%">
+                    <p:column headerText="Facultad" sortBy="#{beca.facultad}" filterBy="#{beca.facultad}" filterStyle="width:90%">
+                        <h:outputText value="#{beca.facultad}" />
+                    </p:column>
+                    <p:column headerText="Pais destino" sortBy="#{beca.paisDestino}" filterBy="#{beca.paisDestino}" style="width: 12%" filterStyle="width:100%">
                         <h:outputText value="#{beca.paisDestino}" />
                     </p:column>
-                    <p:column headerText="Universidad Destino" sortBy="#{beca.universidadDestino}" filterBy="#{beca.universidadDestino}" style="width: 15%" filterStyle="width:100%">
+                    <p:column headerText="Universidad Destino" sortBy="#{beca.universidadDestino}" filterBy="#{beca.universidadDestino}" style="width: 16%" filterStyle="width:100%">
                         <h:outputText value="#{beca.universidadDestino}" />
                     </p:column>
-                    <p:column headerText="Monto" sortBy="#{beca.montoBeca}" filterBy="#{beca.montoBeca}" style="width: 9%" filterStyle="width:100%">
-                        <h:outputText value="#{beca.montoBeca}" />
+                    <p:column headerText="Monto" sortBy="#{beca.montoBeca}" filterBy="#{beca.montoBeca}" style="width: 8%" filterStyle="width:100%">
+                        <h:outputText value="#{beca.montoBeca}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
                     </p:column>
-                    <p:column headerText="A&ntilde;o" sortBy="#{beca.anioGestion}" filterBy="#{beca.anioGestion}" style="width: 9%" filterStyle="width:100%">
+                    <p:column headerText="A&ntilde;o" sortBy="#{beca.anioGestion}" filterBy="#{beca.anioGestion}" style="width: 7%" filterStyle="width:100%">
                         <h:outputText value="#{beca.anioGestion}"/>
                     </p:column>
-                    <p:column headerText="Otorgada" sortBy="#{beca.otorgada}" filterBy="#{beca.otorgada}" style="width: 12%" filterStyle="width:100%">
+                    <p:column headerText="Otorgada" sortBy="#{beca.otorgada}" filterBy="#{beca.otorgada}" style="width: 10%" filterStyle="width:100%">
                         <h:outputText value="#{beca.otorgada}" />
                     </p:column>
-                    <p:column headerText="Opciones" style="width: 10%">
+                    <p:column headerText="Opciones" style="width: 8%">
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
                                            value="Editar" actionListener="#{becaMB.preUpdate(beca.idBeca)}"/>

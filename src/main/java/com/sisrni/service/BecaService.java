@@ -52,8 +52,11 @@ public class BecaService extends GenericService<Beca, Integer> {
         return becaDao.getDetalleBecas(desde, hasta);
     }
 
-    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected,  String desde, String hasta) { //    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected,  String desde, String hasta) { //
+    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected, String desde, String hasta) { //    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected,  String desde, String hasta) { //
         return becaDao.getBecastListToCharts(paisSelected, desde, hasta);//tipoBecaSelected
     }
 
+    public List<BecasGestionadasPojo> getDataBecasGestionadasGroupOrganismos(Integer desde, Integer hasta) {
+        return becaDao.getDataBecasGestionadasGroupOrganismos(desde, hasta);
+    }
 }
