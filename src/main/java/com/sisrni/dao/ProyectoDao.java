@@ -148,4 +148,14 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                 .setResultTransformer(Transformers.aliasToBean(RptProyectosPorPaisPojo.class));
         return q.list();
     }
+    public List<RptProyectosFinanciadosPojo> getDataProyectosTotales(Integer desde, Integer hasta){
+        String query = "SELECT p.ANIO_GESTION as anioGestion, count(p.ID_PROYECTO) as suma from proyecto p where p.ANIO_GESTION BETWEEN \n" 
+                + desde + " AND " + hasta +  " GROUP BY p.ANIO_GESTION \n" 
+                + " ORDER BY p.ANIO_GESTION asc ";
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("anioGestion", new IntegerType())
+                .addScalar("suma", new DoubleType())
+                .setResultTransformer(Transformers.aliasToBean(RptProyectosFinanciadosPojo.class));
+        return q.list();
+    }
 }
