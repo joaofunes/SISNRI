@@ -180,6 +180,7 @@ public class PropuestaConvenioMB implements Serializable {
     private Boolean tabAsisExterno;
     private Boolean tabAsisMostrarExterno;
     private Boolean disableAutoInterno; 
+    private Boolean flagSearchDuiInterno; 
     
     private List<Persona> listAll;
 
@@ -241,6 +242,7 @@ public class PropuestaConvenioMB implements Serializable {
             tabAsisExterno = Boolean.FALSE;
             tabAsisMostrarExterno = Boolean.FALSE;
             disableAutoInterno = Boolean.TRUE;
+            flagSearchDuiInterno = Boolean.FALSE;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -315,15 +317,25 @@ public class PropuestaConvenioMB implements Serializable {
         try {
             List<Persona> list = new ArrayList<Persona>();
             if (tipoBusquedaInterna.equalsIgnoreCase("nombre")) {
-                list = personaService.getReferenteInternoByName(query);
-            } else if (tipoBusquedaInterna.equalsIgnoreCase("email")) {
-                list = personaService.getReferenteInternoByEmail(query);
-            } else if (tipoBusquedaInterna.equalsIgnoreCase("doc")) {
-                query = query.substring(0, 7) + "-" + query.substring(7);
-                referenteInterno = personaService.getPersonaByDui(query);
-                boolean add = list.add(referenteInterno);
-            }
-
+                listAll = personaService.getReferenteInternoByName(query);
+                for (Persona us : listAll) {
+                    list.add(us);
+                }
+                return list;
+            } else if (tipoBusquedaInterna.equalsIgnoreCase("email")) {                
+                listAll = personaService.getReferenteInternoByEmail(query);
+                for (Persona us : listAll) {
+                    list.add(us);
+                }
+                return list;
+            } 
+//            else if (tipoBusquedaInterna.equalsIgnoreCase("doc")) {
+//                query = query.substring(0, 7) + "-" + query.substring(7);
+//                referenteInterno = personaService.getPersonaByDui(query);
+//                boolean add = list.add(referenteInterno);
+//               
+//                return list;
+//            }
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -365,16 +377,9 @@ public class PropuestaConvenioMB implements Serializable {
     public void completeBusquedaDui(String query) {
 
         try {
-
-           if (tipoBusquedaInterna.equalsIgnoreCase("nombre")) {
-            } else if (tipoBusquedaInterna.equalsIgnoreCase("email")) {
-            } else if (tipoBusquedaInterna.equalsIgnoreCase("doc")) {
-                query = query.substring(0, 7) + "-" + query.substring(7);
-                referenteInterno = personaService.getPersonaByDui(query);
-            }
- 
-            
-
+            query = query.substring(0, 7) + "-" + query.substring(7);
+            referenteInterno = personaService.getPersonaByDui(query);
+           
             if (referenteInterno == null) {
                 referenteInterno = new Persona();
             }
@@ -838,11 +843,14 @@ public class PropuestaConvenioMB implements Serializable {
     /**
      * metodo habilita el autoComplete para ingreso de busquedas de personas internas
      */
-    public void habilitarAutoInterno() { 
-           
-        
+    public void habilitarAutoInterno() {                    
          if(disableAutoInterno){        
             disableAutoInterno = Boolean.FALSE;  
+         }
+         if(tipoBusquedaInterna.equalsIgnoreCase("doc")){
+            flagSearchDuiInterno  = Boolean.TRUE;
+         }else{
+             flagSearchDuiInterno  = Boolean.FALSE;
          }
     }
 
@@ -1264,6 +1272,14 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setListAll(List<Persona> listAll) {
         this.listAll = listAll;
+    }
+
+    public Boolean getFlagSearchDuiInterno() {
+        return flagSearchDuiInterno;
+    }
+
+    public void setFlagSearchDuiInterno(Boolean flagSearchDuiInterno) {
+        this.flagSearchDuiInterno = flagSearchDuiInterno;
     }
 
 }
