@@ -54,5 +54,7 @@ public class ProyectoService extends GenericService<Proyecto, Integer> {
     public List<RptProyectosPorPaisPojo> getDataProyectosPorPais(Integer desde, Integer hasta) {
         return proyectoDao.getDataProyectosPorPais(desde, hasta);
     }
-    
+    public List<RptProyectosFinanciadosPojo> getDataProyectosTotales(Integer desde, Integer hasta) {
+        return proyectoDao.getDataProyectosTotales(desde, hasta);
+    }
 }
