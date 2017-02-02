@@ -1,28 +1,81 @@
 package com.sisrni.managedbean;
 
+import com.sisrni.managedbean.form.CurrentUserSessionForm;
+import com.sisrni.model.SsMenus;
+import com.sisrni.model.SsOpciones;
+import com.sisrni.model.SsRoles;
+import com.sisrni.service.SsMenusService;
+import com.sisrni.service.SsOpcionesService;
+import com.sisrni.service.SsRolesService;
+import com.sisrni.utils.MenuList;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.inject.Named;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
 
-//import java.io.Serializable;
-//import java.util.ArrayList;
-//import java.util.Iterator;
-//import java.util.List;
-//
-//import javax.faces.application.FacesMessage;
-//import javax.faces.context.FacesContext;
-//import javax.inject.Named;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Scope;
-//import org.springframework.web.context.WebApplicationContext;
-//
-///**
-// * Login bean.
-// *
-// * @author ALVARADO
-// */
-////@ManagedBean
-////@SessionScoped
-//@Named("loginBean")
-//@Scope(WebApplicationContext.SCOPE_SESSION)
-//public class LoginBean implements Serializable {
+/**
+ *
+ */
+//@ManagedBean
+//@SessionScoped
+@Named("loginBean")
+@Scope(WebApplicationContext.SCOPE_SESSION)
+public class LoginBean implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Autowired
+    private SsOpcionesService ssOpcionesService;
+    @Autowired
+    private SsMenusService ssMenusService;
+    @Autowired
+    private SsRolesService ssRolesService;
+
+    private CurrentUserSessionForm currentUserSessionForm;
+
+    @PostConstruct
+    public void init() {
+        try {
+
+            calculateMenuTest();
+
+        } catch (Exception e) {
+        }
+    }
+
+    public void calculateMenuTest() {
+        if (getForm().getOptions() == null || getForm().getOptions().isEmpty()) {
+            SsRoles rol = ssRolesService.getRolByName("ADM");
+            List<SsMenus> mns = ssMenusService.getMenusByrol(rol);
+            getForm().setMenusLst(MenuList.GenerarMenu(mns));
+            for (MenuList menu : getForm().getMenusLst()) {
+                List<SsOpciones> opcionesMenu = obtenerMenuOpcion(rol, menu.getSsMenu());
+                menu.setSsOpciones(opcionesMenu);
+                for (MenuList subMenu : menu.getSubMenu()) {
+                    List<SsOpciones> opcionesSubMenu = obtenerMenuOpcion(rol, subMenu.getSsMenu());
+                    subMenu.setSsOpciones(opcionesSubMenu);
+                }
+            }
+        }
+    }
+
+    public CurrentUserSessionForm getForm() {
+        if (currentUserSessionForm == null) {
+            currentUserSessionForm = new CurrentUserSessionForm();
+        }
+        return currentUserSessionForm;
+    }
+
+    private List<SsOpciones> obtenerMenuOpcion(SsRoles rol, SsMenus menu) {
+        List<SsOpciones> opt = this.ssOpcionesService.getOpcionesByMenuRol(rol, menu);
+        getForm().getOptions().addAll(opt);
+        return opt;
+
+    }
+}
 //
 //    private static final long serialVersionUID = 7765876811740798583L;
 //    @Autowired
