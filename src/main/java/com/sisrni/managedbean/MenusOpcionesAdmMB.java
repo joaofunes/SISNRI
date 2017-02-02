@@ -178,7 +178,7 @@ public class MenusOpcionesAdmMB implements Serializable{
                         
                        
                         
-                        //ssMenus.setSsRolesSet(selectedlistRoles); 
+                        ssMenus.setSsRolesList(selectedlistRoles); 
                 
 		        menusService.getDao().save(getSsMenus());
                         
