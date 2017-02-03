@@ -843,7 +843,8 @@ public class PropuestaConvenioMB implements Serializable {
     /**
      * metodo habilita el autoComplete para ingreso de busquedas de personas internas
      */
-    public void habilitarAutoInterno() {                    
+    public void habilitarAutoInterno() {  
+         RequestContext context = RequestContext.getCurrentInstance();
          if(disableAutoInterno){        
             disableAutoInterno = Boolean.FALSE;  
          }
@@ -852,6 +853,9 @@ public class PropuestaConvenioMB implements Serializable {
          }else{
              flagSearchDuiInterno  = Boolean.FALSE;
          }
+         context.update("formAdmin:acordion:idDocumentoInterno_input");
+         context.update("formAdmin:acordion:idDocumentoInterno_input");
+         context.update("formAdmin:acordion:searchDui_input");
     }
 
     

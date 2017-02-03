@@ -53,11 +53,20 @@ public class LoginBean implements Serializable {
             getForm().setMenusLst(MenuList.GenerarMenu(mns));
             for (MenuList menu : getForm().getMenusLst()) {
                 List<SsOpciones> opcionesMenu = obtenerMenuOpcion(rol, menu.getSsMenu());
+                
+                
                 menu.setSsOpciones(opcionesMenu);
+                
+                for(SsOpciones us: opcionesMenu){
+                  System.out.println("--------opcion-------------------"+us.getNombreOpcion());
+                }
+                
                 for (MenuList subMenu : menu.getSubMenu()) {
-                    List<SsOpciones> opcionesSubMenu = obtenerMenuOpcion(rol, subMenu.getSsMenu());
+                    
+                    List<SsOpciones> opcionesSubMenu = obtenerMenuOpcion(rol, subMenu.getSsMenu());                    
                     subMenu.setSsOpciones(opcionesSubMenu);
                 }
+                System.out.println("---------------------------");
             }
         }
     }
