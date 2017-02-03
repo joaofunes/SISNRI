@@ -26,4 +26,12 @@ public class SsRolesDao extends GenericDao<SsRoles, Integer> {
         rolesYOpciones=(SsRoles) q.uniqueResult();
         return rolesYOpciones;
     }
+
+    public SsRoles getRolByName(String name) {
+        SsRoles rolesYOpciones=null;
+        Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o FROM SsRoles o  WHERE o.codigoRol LIKE :name ");
+        q.setParameter("name", "%" + name + "%");        
+        rolesYOpciones=(SsRoles) q.uniqueResult();
+        return rolesYOpciones;
+    }
 }

@@ -51,6 +51,12 @@ public class OpcionesAdmMB implements Serializable{
    
     private SsOpciones ssOpciones;
     private SsRoles roles;
+    
+    private List<SsRoles> selectedlistRoles;
+    private String[] selectedArrayRoles;
+    private List<SsRoles> listRoles;
+    
+    private Boolean visible ;
 
     public OpcionesAdmMB() {
     }
@@ -66,6 +72,8 @@ public class OpcionesAdmMB implements Serializable{
             usuario = user.getSessionUser();
             listadoOpciones = new ArrayList<SsOpciones>();
             ssOpciones = new SsOpciones();
+            listRoles= ssRolesService.findAll();
+            visible= Boolean.FALSE;
             setActualizar(false);
             getMenus();
         } catch (Exception e) {
@@ -143,7 +151,22 @@ public class OpcionesAdmMB implements Serializable{
                         ssOpciones.setFechaRegistro(new Date());
                         ssOpciones.setUsuarioRegistro(usuario.getUsuario().getCodigoUsuario());                        
                         ssOpciones.setSsRolesList(usuario.getUsuario().getSsRolesList());
-                
+                    
+                        if(visible){
+                            ssOpciones.setVisible(String.valueOf('S'));
+                        }else{
+                            ssOpciones.setVisible(String.valueOf('N'));
+                        }
+                        
+                        selectedlistRoles = new ArrayList<SsRoles>();
+                        for(String us:selectedArrayRoles){
+                            roles = new SsRoles();
+                            roles=ssRolesService.findById(Integer.parseInt(us.toString()));
+                            selectedlistRoles.add(roles);                            
+                        }                        
+                        
+                        ssOpciones.setSsRolesList(selectedlistRoles); 
+                                        
 		        opcionesService.getDao().save(ssOpciones);
 			getMenus();
                         this.ssOpciones = null;
@@ -205,6 +228,46 @@ public class OpcionesAdmMB implements Serializable{
 
     public void setSsOpciones(SsOpciones ssOpciones) {
         this.ssOpciones = ssOpciones;
+    }
+
+    public SsRoles getRoles() {
+        return roles;
+    }
+
+    public void setRoles(SsRoles roles) {
+        this.roles = roles;
+    }
+
+    public List<SsRoles> getSelectedlistRoles() {
+        return selectedlistRoles;
+    }
+
+    public void setSelectedlistRoles(List<SsRoles> selectedlistRoles) {
+        this.selectedlistRoles = selectedlistRoles;
+    }
+
+    public String[] getSelectedArrayRoles() {
+        return selectedArrayRoles;
+    }
+
+    public void setSelectedArrayRoles(String[] selectedArrayRoles) {
+        this.selectedArrayRoles = selectedArrayRoles;
+    }
+
+    public List<SsRoles> getListRoles() {
+        return listRoles;
+    }
+
+    public void setListRoles(List<SsRoles> listRoles) {
+        this.listRoles = listRoles;
+    }
+
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 
     

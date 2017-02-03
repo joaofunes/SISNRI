@@ -14,21 +14,7 @@
 
     <ui:define name="content">
         <h:form id="formAdmin">
-            <p:autoComplete id="nameCustom" value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.methodCompleteName}"
-                            var="name" itemLabel="#{name.nombrePersona}" itemValue="#{name}" converter="#{personaConverter}"
-                            forceSelection="true">                                            
-                <p:column>
-                    <h:outputText value="#{name.nombrePersona}" />
-                </p:column>
-            </p:autoComplete>
-                
-            <p:autoComplete id="idSolicinateNombreInterno" required="true" dropdown="true" minQueryLength="3"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeSolicitanteInterno}"
-                            var="interno" itemLabel="#{interno.nombrePersona}" itemValue="#{interno}" converter="#{personaConverter}" forceSelection="true" >                                                                                                                                                                                                                                         
-                <p:column>
-                    <h:outputText value="#{interno.nombrePersona} #{interno.apellidoPersona}" />
-                </p:column>
-            </p:autoComplete>
-
+           
             <center>
                 <p:panel style="width: 80%">  
                     <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
@@ -134,9 +120,9 @@
                                     <p:column>
                                         <p:outputLabel for="tipoBusquedaInt" value="Tipo de Busqueda:" />
                                     </p:column>
-                                    <p:column>
+                                    <p:column>                                        
                                         <p:selectOneMenu id="tipoBusquedaInt" value="#{propuestaConvenioMB.tipoBusquedaInterna}" style="width:125px">  
-                                            <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoInterno}" update="idDocumentoInterno"  process="@this" />
+                                            <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoInterno}" update="idDocumentoInterno searchDui"  process="@this" />
                                             <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                             <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
                                             <f:selectItem itemLabel="E-mail" itemValue="email" />
@@ -147,12 +133,18 @@
                                         <p:outputLabel for="idDocumentoInterno" value="Busqueda" />     
                                     </p:column>
                                     <p:column> 
-
-                                      
-
-                                        <p:autoComplete id="idDocumentoInterno" minQueryLength="8" size="20" maxlength="20" value="#{propuestaConvenioMB.referenteInterno}" 
+                                        <p:autoComplete id="searchDui" minQueryLength="8" size="8" rendered="#{propuestaConvenioMB.flagSearchDuiInterno}"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
+                                                        var="name" itemLabel="#{name.nombrePersona}" itemValue="#{name}" converter="#{personaConverter}"
+                                                        forceSelection="true">                                            
+                                            <p:column>
+                                                <h:outputText value="#{name.nombrePersona}" />
+                                            </p:column>
+                                        </p:autoComplete>
+                                        <p:watermark for="searchDui" value="DUI"/>  
+                                        <p:autoComplete id="idDocumentoInterno" value="#{propuestaConvenioMB.referenteInterno}" rendered="#{!propuestaConvenioMB.flagSearchDuiInterno}"
                                                         completeMethod="#{propuestaConvenioMB.methodSearch}" disabled="#{propuestaConvenioMB.disableAutoInterno}"
-                                                        var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" forceSelection="true">                                           
+                                                        var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                        forceSelection="true">                                           
                                             <p:column>
                                                 <h:outputText value="#{theme.nombrePersona}" />
                                             </p:column>
