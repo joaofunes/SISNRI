@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.2100000000000009"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="350"/>
+	<property name="ireport.y" value="89"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -35,14 +35,14 @@
 		<band height="139" splitType="Stretch">
 			<elementGroup>
 				<staticText>
-					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="0" y="0" width="528" height="32"/>
+					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="65" y="0" width="398" height="32"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" size="24" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Universidad de El Salvador]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="0" y="32" width="528" height="20"/>
+					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="65" y="32" width="398" height="20"/>
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
@@ -56,16 +56,6 @@
 				</textElement>
 				<text><![CDATA[Reporte de Becas Internacionales Gestionadas]]></text>
 			</staticText>
-			<textField pattern="MM/dd/yyyy">
-				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="278" y="118" width="250" height="20" forecolor="#786C6C"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<textField pattern="MM/dd/yyyy">
-				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="118" width="278" height="20" forecolor="#786C6C"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["Fecha de creacion: "]]></textFieldExpression>
-			</textField>
 			<image>
 				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="0" y="0" width="65" height="65"/>
 				<imageExpression><![CDATA[$P{uesImageUrl}]]></imageExpression>
@@ -81,10 +71,15 @@
 				</textElement>
 				<text><![CDATA[Agrupadas por Año]]></text>
 			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="118" width="528" height="20" forecolor="#786C6C"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Fecha de creación: "+new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="54" splitType="Stretch">
+		<band height="41" splitType="Stretch">
 			<textField>
 				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="0" y="16" width="528" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -97,7 +92,7 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="108" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="65" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -111,7 +106,7 @@
 				<text><![CDATA[Gestionadas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="0" y="0" width="108" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="0" y="0" width="65" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -125,7 +120,7 @@
 				<text><![CDATA[Año]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="79717a4b-be92-4af8-9c2a-4bc292094163" mode="Opaque" x="213" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="79717a4b-be92-4af8-9c2a-4bc292094163" mode="Opaque" x="170" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -139,7 +134,7 @@
 				<text><![CDATA[Denegadas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="4591de44-19ac-4ff4-931f-e681ad845686" mode="Opaque" x="318" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="4591de44-19ac-4ff4-931f-e681ad845686" mode="Opaque" x="275" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -153,7 +148,7 @@
 				<text><![CDATA[Otorgadas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="a997b92c-483d-41a2-9401-1755f03eab09" mode="Opaque" x="423" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="a997b92c-483d-41a2-9401-1755f03eab09" mode="Opaque" x="380" y="0" width="148" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -164,14 +159,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Monto Otorgadas]]></text>
+				<text><![CDATA[Monto Becas Otorgadas]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="381f9cd8-c6ed-4e66-be3f-efe3d29d875e" x="108" y="0" width="105" height="20"/>
+				<reportElement uuid="381f9cd8-c6ed-4e66-be3f-efe3d29d875e" x="65" y="0" width="105" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -185,7 +180,7 @@
 				<textFieldExpression><![CDATA[$F{gestionadas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="20a19768-b408-4045-8acd-c8c29417d3b5" x="0" y="0" width="108" height="20"/>
+				<reportElement uuid="20a19768-b408-4045-8acd-c8c29417d3b5" x="0" y="0" width="65" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -199,7 +194,7 @@
 				<textFieldExpression><![CDATA[$F{anio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="8e66a2d9-292f-40d1-b9c2-7c2ed51f0675" x="213" y="0" width="105" height="20"/>
+				<reportElement uuid="8e66a2d9-292f-40d1-b9c2-7c2ed51f0675" x="170" y="0" width="105" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -213,7 +208,7 @@
 				<textFieldExpression><![CDATA[$F{becasDenegadas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="239fcef6-fd46-4444-a978-51020881f255" x="318" y="0" width="105" height="20"/>
+				<reportElement uuid="239fcef6-fd46-4444-a978-51020881f255" x="275" y="0" width="105" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -226,17 +221,17 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{becasOtorgadas}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement uuid="e2bc8503-97ee-412f-894e-dd5c1a5327b5" x="423" y="0" width="105" height="20"/>
-				<box>
+			<textField pattern="$#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="e2bc8503-97ee-412f-894e-dd5c1a5327b5" x="380" y="0" width="148" height="20"/>
+				<box leftPadding="7">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{montoOtorgadas}]]></textFieldExpression>
 			</textField>
@@ -251,95 +246,71 @@
 	</columnFooter>
 	<pageFooter>
 		<band height="21" splitType="Stretch">
+			<elementGroup/>
 			<elementGroup>
-				<textField>
-					<reportElement uuid="ca85c37e-d9a9-4449-a43d-95c36d307209" x="0" y="1" width="528" height="20"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"+ " " + $V{PAGE_NUMBER}]]></textFieldExpression>
-				</textField>
+				<elementGroup>
+					<textField evaluationTime="Report">
+						<reportElement uuid="cb938e98-7705-43d3-94db-9cb48cb34812" x="297" y="1" width="40" height="20"/>
+						<textElement/>
+						<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement uuid="c61a49d3-7525-4385-ac55-83d253ae495e" x="217" y="1" width="80" height="20"/>
+						<textElement textAlignment="Right"/>
+						<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+					</textField>
+				</elementGroup>
 			</elementGroup>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="230" splitType="Stretch">
-			<pieChart>
-				<chart>
-					<reportElement uuid="b056c4c8-0858-4f53-b3c8-f257e20f8c3c" x="0" y="40" width="264" height="190"/>
-					<chartTitle color="#5B63B1">
-						<titleExpression><![CDATA["Becas Gestionadas"]]></titleExpression>
+		<band height="254" splitType="Stretch">
+			<bar3DChart>
+				<chart isShowLegend="false">
+					<reportElement uuid="1d57f22c-1955-45e4-ba0e-4de4049ddb61" positionType="FixRelativeToBottom" x="0" y="75" width="253" height="179"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Grafico de Becas Gestionadas"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
-				<pieDataset>
-					<keyExpression><![CDATA[$F{anio}]]></keyExpression>
-					<valueExpression><![CDATA[$F{gestionadas}]]></valueExpression>
-					<labelExpression><![CDATA[$F{gestionadas}+""]]></labelExpression>
-				</pieDataset>
-				<piePlot>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Gestionadas"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{anio}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{gestionadas}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
 					<plot>
-						<seriesColor seriesOrder="0" color="#9933FF"/>
-						<seriesColor seriesOrder="1" color="#CC0066"/>
-						<seriesColor seriesOrder="2" color="#33CCFF"/>
-						<seriesColor seriesOrder="3" color="#33FF33"/>
-						<seriesColor seriesOrder="4" color="#FFFF33"/>
-						<seriesColor seriesOrder="5" color="#3333FF"/>
-						<seriesColor seriesOrder="6" color="#FF6633"/>
-						<seriesColor seriesOrder="7" color="#FF0066"/>
-						<seriesColor seriesOrder="8" color="#00CC33"/>
-						<seriesColor seriesOrder="9" color="#00CCCC"/>
-						<seriesColor seriesOrder="10" color="#FF9999"/>
-						<seriesColor seriesOrder="11" color="#99FF99"/>
-						<seriesColor seriesOrder="12" color="#006699"/>
-						<seriesColor seriesOrder="13" color="#009966"/>
-						<seriesColor seriesOrder="14" color="#3300FF"/>
-						<seriesColor seriesOrder="15" color="#66FFFF"/>
-						<seriesColor seriesOrder="16" color="#FFFF00"/>
-						<seriesColor seriesOrder="17" color="#009933"/>
-						<seriesColor seriesOrder="18" color="#CCFFCC"/>
+						<seriesColor seriesOrder="0" color="#FF3333"/>
 					</plot>
 					<itemLabel/>
-				</piePlot>
-			</pieChart>
-			<pieChart>
-				<chart>
-					<reportElement uuid="810f3741-2f34-4d5b-80c7-abbfa3b5351e" x="264" y="40" width="264" height="190"/>
-					<chartTitle color="#5B63B1">
-						<titleExpression><![CDATA["Becas Otorgadas"]]></titleExpression>
+				</bar3DPlot>
+			</bar3DChart>
+			<bar3DChart>
+				<chart isShowLegend="false">
+					<reportElement uuid="1d57f22c-1955-45e4-ba0e-4de4049ddb61" positionType="FixRelativeToBottom" x="275" y="75" width="253" height="179"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Grafico de Becas Otorgadas"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
-				<pieDataset>
-					<keyExpression><![CDATA[$F{anio}]]></keyExpression>
-					<valueExpression><![CDATA[$F{becasOtorgadas}]]></valueExpression>
-					<labelExpression><![CDATA[$F{becasOtorgadas}+""]]></labelExpression>
-				</pieDataset>
-				<piePlot>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Otorgadas"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{anio}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{becasOtorgadas}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
 					<plot>
-						<seriesColor seriesOrder="0" color="#9933FF"/>
-						<seriesColor seriesOrder="1" color="#CC0066"/>
-						<seriesColor seriesOrder="2" color="#33CCFF"/>
-						<seriesColor seriesOrder="3" color="#33FF33"/>
-						<seriesColor seriesOrder="4" color="#FFFF33"/>
-						<seriesColor seriesOrder="5" color="#3333FF"/>
-						<seriesColor seriesOrder="6" color="#FF6633"/>
-						<seriesColor seriesOrder="7" color="#FF0066"/>
-						<seriesColor seriesOrder="8" color="#00CC33"/>
-						<seriesColor seriesOrder="9" color="#00CCCC"/>
-						<seriesColor seriesOrder="10" color="#FF9999"/>
-						<seriesColor seriesOrder="11" color="#99FF99"/>
-						<seriesColor seriesOrder="12" color="#006699"/>
-						<seriesColor seriesOrder="13" color="#009966"/>
-						<seriesColor seriesOrder="14" color="#3300FF"/>
-						<seriesColor seriesOrder="15" color="#66FFFF"/>
-						<seriesColor seriesOrder="16" color="#FFFF00"/>
-						<seriesColor seriesOrder="17" color="#009933"/>
-						<seriesColor seriesOrder="18" color="#CCFFCC"/>
+						<seriesColor seriesOrder="0" color="#00CC66"/>
 					</plot>
 					<itemLabel/>
-				</piePlot>
-			</pieChart>
+				</bar3DPlot>
+			</bar3DChart>
 		</band>
 	</summary>
 </jasperReport>
