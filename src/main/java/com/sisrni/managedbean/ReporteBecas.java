@@ -60,7 +60,7 @@ public class ReporteBecas {
             HttpServletResponse response = (HttpServletResponse) context.getResponse();
             Reporte reporte = new Reporte("beca", "rpt_becas_gestionadas_blank", request);
             List<BecasGestionadasPojo> dataBecasGestionadasReportes = becaService.getDataBecasGestionadasReportes(desdeYear, hastaYear);
-            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<BecasGestionadasPojo>(dataBecasGestionadasReportes)));
+            reporte.setDataSource(new JRBeanCollectionDataSource(dataBecasGestionadasReportes));
             reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
             reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
             reporte.addParameter("desde", anioDesde.trim());
@@ -113,7 +113,7 @@ public class ReporteBecas {
             HttpServletResponse response = (HttpServletResponse) context.getResponse();
             Reporte reporte = new Reporte("beca", "rpt_becas_gestionadas_facultad", request);
             List<BecasGestionadasPojo> dataBecasGestionadasReportes = becaService.getDataBecasGestionadasGroupFacultad(desdeYear, hastaYear);
-            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<BecasGestionadasPojo>(dataBecasGestionadasReportes)));
+            reporte.setDataSource(new JRBeanCollectionDataSource(dataBecasGestionadasReportes));
             reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
             reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
             reporte.addParameter("desde", anioDesde.trim());
