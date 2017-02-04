@@ -34,6 +34,7 @@ import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.primefaces.model.DefaultStreamedContent;
 
 import org.artofsolving.jodconverter.OfficeDocumentConverter;
@@ -71,6 +72,8 @@ public class DocumentacionProyectoMB implements Serializable {
     private Proyecto proyecto;
 
     private boolean visualizar;
+    private String fechaInicio;
+    private String fechaFin;
 
     @Autowired
     @Qualifier(value = "documentoService")
@@ -124,6 +127,8 @@ public class DocumentacionProyectoMB implements Serializable {
 
             if (aux != null) {
                 proyecto = aux;
+                fechaInicio=DateFormatUtils.format(proyecto.getFechaInicio(), "dd/MM/yyyy");
+                fechaFin= DateFormatUtils.format(proyecto.getFechaFin(), "dd/MM/yyyy");
             } else {
                 proyecto = new Proyecto();
             }
@@ -540,6 +545,22 @@ public class DocumentacionProyectoMB implements Serializable {
 
     public void setProyecto(Proyecto proyecto) {
         this.proyecto = proyecto;
+    }
+
+    public String getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(String fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public String getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(String fechaFin) {
+        this.fechaFin = fechaFin;
     }
     
 }
