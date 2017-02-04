@@ -78,7 +78,9 @@
                                 <h:outputText value="Monto: "  style="font-weight:bold" />
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{documentacionProyectoMB.proyecto.montoProyecto}" />
+                                <h:outputText value="#{documentacionProyectoMB.proyecto.montoProyecto}">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -92,13 +94,13 @@
                                 <h:outputText value="Fecha Inicio: "  style="font-weight:bold" />
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{documentacionProyectoMB.proyecto.fechaInicio}" />
+                                <h:outputText value="#{documentacionProyectoMB.fechaInicio}" />
                             </p:column>
                             <p:column>
                                 <h:outputText value="Fecha Fin: "  style="font-weight:bold" />
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{documentacionProyectoMB.proyecto.fechaFin}" />
+                                <h:outputText value="#{documentacionProyectoMB.fechaFin}" />
                             </p:column>
                         </p:row>
                     </p:panelGrid>

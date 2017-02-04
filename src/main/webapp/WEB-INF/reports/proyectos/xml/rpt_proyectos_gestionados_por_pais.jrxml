@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_proyectos_gestionados_por_pais" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="257"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -20,7 +20,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="131" splitType="Stretch">
+		<band height="162" splitType="Stretch">
 			<elementGroup>
 				<staticText>
 					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="0" y="0" width="528" height="32"/>
@@ -44,7 +44,7 @@
 				</textElement>
 				<text><![CDATA[Reporte de Proyectos Gestionados por País]]></text>
 			</staticText>
-			<textField pattern="MM/dd/yyyy">
+			<textField pattern="dd/MM/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="100" width="264" height="20" forecolor="#786C6C"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
@@ -62,19 +62,15 @@
 				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="463" y="0" width="65" height="65"/>
 				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
 			</image>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="54" splitType="Stretch">
 			<textField>
-				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="0" y="16" width="528" height="20"/>
+				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="1" y="128" width="528" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="false" isUnderline="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Periodo de consulta Desde : " +$P{desde} + " Hasta: "+$P{hasta}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
@@ -139,7 +135,7 @@
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="21" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<elementGroup/>
 			<textField isBlankWhenNull="true">
 				<reportElement uuid="19605b50-2188-4a1a-96c6-bb2cfbd6bf16" x="198" y="1" width="80" height="20"/>

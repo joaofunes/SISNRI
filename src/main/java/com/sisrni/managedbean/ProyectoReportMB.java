@@ -57,7 +57,7 @@ public class ProyectoReportMB {
         yearActual = getYearOfDate(new Date());
     }
 
-    public void llenarReporte() {
+    public void llenarReporte(String formato) {
         List<RptProyectoPojo> list = new ArrayList<RptProyectoPojo>();
         Integer desdeYear = Integer.parseInt(anioDesde.trim());
         Integer hastaYear = Integer.parseInt(anioHasta.trim());
@@ -77,7 +77,7 @@ public class ProyectoReportMB {
             list.add(prueba);
         }
 
-        print(list);
+        print(list, formato);
     }
 
     public String obtenerOrganismos(List<Organismo> listOrganismos) {
@@ -106,7 +106,7 @@ public class ProyectoReportMB {
         return String.join(",", nombreFacultad);
     }
 
-    public void print(List<RptProyectoPojo> list) {
+    public void print(List<RptProyectoPojo> list, String formato) {
         try {
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             HttpServletRequest request = (HttpServletRequest) context.getRequest();
@@ -117,6 +117,9 @@ public class ProyectoReportMB {
             reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
             reporte.addParameter("Desde", anioDesde.trim());
             reporte.addParameter("Hasta", anioHasta.trim());
+            if (!formato.equalsIgnoreCase("pdf")) {
+                reporte.setTipoMime(formato);
+            }
             reporte.setReportInSession(request, response);
             reportName = reporte.getNombreLogico();
             RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);

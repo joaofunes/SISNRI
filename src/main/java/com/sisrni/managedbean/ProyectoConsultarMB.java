@@ -20,6 +20,7 @@ import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.TipoCambio;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.service.AreaConocimientoService;
@@ -33,6 +34,7 @@ import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.ProyectoService;
 import com.sisrni.service.RegionService;
 import com.sisrni.service.TelefonoService;
+import com.sisrni.service.TipoCambioService;
 import com.sisrni.service.TipoFacultadService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoProyectoService;
@@ -50,6 +52,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
@@ -95,6 +98,8 @@ public class ProyectoConsultarMB {
     private TipoFacultadService tipoFacultadService;
     @Autowired
     private EscuelaDepartamentoService escuelaDepartamentoService;
+    @Autowired
+    private TipoCambioService tipoCambioService;
 
 //Definicion de objetos    
     private Proyecto proyecto;
@@ -136,6 +141,7 @@ public class ProyectoConsultarMB {
     private List<Facultad> facultadBeneficiada;
     private List<Facultad> facultadBeneficiadaList;
     private List<Proyecto> proyectoList;
+    private List<TipoCambio> tipoCambioList;
 //Definicion de selected
     private TipoProyecto proyectoSelected;
     private String[] areaConocimientoSelected;
@@ -162,6 +168,7 @@ public class ProyectoConsultarMB {
     private Organismo organismoSelectedRefExt;
     private Pais paisSelected;
     private Pais paisCooperanteSelected;
+    private TipoCambio tipoCambioSelected;
 //Telefono
 //private Telefono telefono;
     private Telefono telefonoSolFijo;
@@ -176,6 +183,7 @@ public class ProyectoConsultarMB {
     private TipoTelefono tipoTelefonoFax;
     private TipoTelefono tipoTelefonoFijo;
     private TipoTelefono tipoTelefonoCel;
+    private TipoCambio tipoCambio;
 
     private TipoPersona tipoPersonaSol;
     private TipoPersona tipoPersonaAsis;
@@ -193,6 +201,8 @@ public class ProyectoConsultarMB {
     Pais regiones;
     public boolean mostrarmonto;
     private List<PojoFacultadesUnidades> facultadesUnidadesList;
+    private List<PojoFacultadesUnidades> facultadesUnidadesSolList;
+    private List<PojoFacultadesUnidades> facultadesUnidadesAsisList;
     private String facultadSelectedPojoP;
     private String facultadSelectedPojoSol;
     private String facultadSelectedPojoAsis;
@@ -214,6 +224,8 @@ public class ProyectoConsultarMB {
     public Boolean mostrarEscuelaSol;
     public Boolean mostrarEscuelaAsis;
     public Boolean validarFecha;
+    private String fechaInicio;
+    private String fechaFin;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -242,6 +254,7 @@ public class ProyectoConsultarMB {
         organismosProyecto = new ArrayList<Organismo>();
         paisSelected = new Pais();
         paisCooperanteSelected = new Pais();
+        tipoCambioSelected = new TipoCambio();
         //Listas
         facultadesBeneficiadaList = facultadService.findAll();
         tipoproyectolist = tipoProyectoService.findAll();
@@ -263,6 +276,7 @@ public class ProyectoConsultarMB {
         escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
         escuelaDeptoListAsis = new ArrayList<EscuelaDepartamento>();
         proyectoList = proyectoService.findAll();
+        tipoCambioList = tipoCambioService.findAll();
         //Objetos
         proyecto = new Proyecto();
         propuestaConvenio = new PropuestaConvenio();
@@ -297,6 +311,9 @@ public class ProyectoConsultarMB {
         numDocumentoRefExt = "";
         numDocumentoBecario = "";
         facultadesUnidadesList = getListFacultadesUnidades(facultadList, unidadList);
+        facultadesUnidadesSolList = getListFacultadesUnidades(facultadList, unidadList);
+        facultadesUnidadesAsisList = getListFacultadesUnidades(facultadList, unidadList);
+        tipoCambio = new TipoCambio();
 
         // tipos telefonos
         tipoTelefonoFax = tipoTelefonoService.getTipoByDesc("FAX");
@@ -608,27 +625,27 @@ public class ProyectoConsultarMB {
                     if (persona.getIdEscuelaDepto() != null) {
                         facultadSelectedPojoSol = persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
                         PojoFacultadesUnidades j = new PojoFacultadesUnidades();
-                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesSolList) {
                             if (pojo.getValue().equalsIgnoreCase(facultadSelectedPojoSol)) {
                                 j = pojo;
                             }
                         }
-                        facultadesUnidadesList.clear();
-                        facultadesUnidadesList.add(j);
-                        escuelaDeptoSelectedSol = personaAsistente.getIdEscuelaDepto();
+                        facultadesUnidadesSolList.clear();
+                        facultadesUnidadesSolList.add(j);
+                        escuelaDeptoSelectedSol = persona.getIdEscuelaDepto();
                         escuelaDeptoListSol.clear();
                         escuelaDeptoListSol.add(escuelaDeptoSelectedSol);
                     }
                     if (persona.getIdUnidad() != null) {
                         facultadSelectedPojoSol = persona.getIdUnidad().getIdUnidad() + ",2";
                         PojoFacultadesUnidades j = new PojoFacultadesUnidades();
-                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesSolList) {
                             if (pojo.getValue().equalsIgnoreCase(facultadSelectedPojoSol)) {
                                 j = pojo;
                             }
                         }
-                        facultadesUnidadesList.clear();
-                        facultadesUnidadesList.add(j);
+                        facultadesUnidadesSolList.clear();
+                        facultadesUnidadesSolList.add(j);
                         escuelaDeptoSelectedSol= new EscuelaDepartamento();
                         escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
                     }
@@ -656,9 +673,6 @@ public class ProyectoConsultarMB {
                 if (us.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                     telefonoSolCel = us;
                 }
-                if (us.getIdTipoTelefono().getNombre().equals(FAX)) {
-                    telefonoSolFax = us;
-                }
             }
         } catch (Exception e) {
         }
@@ -682,13 +696,13 @@ public class ProyectoConsultarMB {
                     if (personaAsistente.getIdEscuelaDepto() != null) {
                         facultadSelectedPojoAsis = personaAsistente.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
                         PojoFacultadesUnidades j = new PojoFacultadesUnidades();
-                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesAsisList) {
                             if (pojo.getValue().equalsIgnoreCase(facultadSelectedPojoAsis)) {
                                 j = pojo;
                             }
                         }
-                        facultadesUnidadesList.clear();
-                        facultadesUnidadesList.add(j);
+                        facultadesUnidadesAsisList.clear();
+                        facultadesUnidadesAsisList.add(j);
                         escuelaDeptoSelectedAsis = personaAsistente.getIdEscuelaDepto();
                         escuelaDeptoListAsis.clear();
                         escuelaDeptoListAsis.add(escuelaDeptoSelectedAsis);
@@ -696,13 +710,13 @@ public class ProyectoConsultarMB {
                     if (personaAsistente.getIdUnidad() != null) {
                         facultadSelectedPojoAsis = personaAsistente.getIdUnidad().getIdUnidad() + ",2";
                         PojoFacultadesUnidades j = new PojoFacultadesUnidades();
-                        for (PojoFacultadesUnidades pojo : facultadesUnidadesList) {
+                        for (PojoFacultadesUnidades pojo : facultadesUnidadesAsisList) {
                             if (pojo.getValue().equalsIgnoreCase(facultadSelectedPojoAsis)) {
                                 j = pojo;
                             }
                         }
-                        facultadesUnidadesList.clear();
-                        facultadesUnidadesList.add(j);
+                        facultadesUnidadesAsisList.clear();
+                        facultadesUnidadesAsisList.add(j);
                         escuelaDeptoSelectedAsis = new EscuelaDepartamento();
                         escuelaDeptoListAsis = new ArrayList<EscuelaDepartamento>();
                     }
@@ -725,9 +739,6 @@ public class ProyectoConsultarMB {
                 }
                 if (us.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                     telefonoAsisCel = us;
-                }
-                if (us.getIdTipoTelefono().getNombre().equals(FAX)) {
-                    telefonoAsisFax = us;
                 }
             }
         } catch (Exception e) {
@@ -766,9 +777,6 @@ public class ProyectoConsultarMB {
                 }
                 if (us.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                     telefonoRefextCel = us;
-                }
-                if (us.getIdTipoTelefono().getNombre().equals(FAX)) {
-                    telefonoRefextFax = us;
                 }
             }
         } catch (Exception e) {
@@ -842,6 +850,11 @@ public class ProyectoConsultarMB {
                 proyectoSelected = tipoProyectoService.findById(proyecto.getIdTipoProyecto().getIdTipoProyecto());
                 tipoproyectolist.clear();
                 tipoproyectolist.add(proyectoSelected);
+                tipoCambioSelected=tipoCambioService.findById(2);
+                tipoCambioList.clear();
+                tipoCambioList.add(tipoCambioSelected);
+                fechaInicio=DateFormatUtils.format(proyecto.getFechaInicio(), "dd/MM/yyyy");
+                fechaFin=DateFormatUtils.format(proyecto.getFechaFin(), "dd/MM/yyyy");
                 if (proyecto.getIdPropuestaConvenio() == null) {
                 } else {
                     propuestaConvenioSelected = propuestaConvenioService.getByID(proyecto.getIdPropuestaConvenio().getIdPropuesta());
@@ -1482,6 +1495,22 @@ public class ProyectoConsultarMB {
         this.facultadesUnidadesList = facultadesUnidadesList;
     }
 
+    public List<PojoFacultadesUnidades> getFacultadesUnidadesSolList() {
+        return facultadesUnidadesSolList;
+    }
+
+    public void setFacultadesUnidadesSolList(List<PojoFacultadesUnidades> facultadesUnidadesSolList) {
+        this.facultadesUnidadesSolList = facultadesUnidadesSolList;
+    }
+
+    public List<PojoFacultadesUnidades> getFacultadesUnidadesAsisList() {
+        return facultadesUnidadesAsisList;
+    }
+
+    public void setFacultadesUnidadesAsisList(List<PojoFacultadesUnidades> facultadesUnidadesAsisList) {
+        this.facultadesUnidadesAsisList = facultadesUnidadesAsisList;
+    }
+
     public String getFacultadSelectedPojoP() {
         return facultadSelectedPojoP;
     }
@@ -1690,4 +1719,44 @@ public class ProyectoConsultarMB {
         this.validarFecha = validarFecha;
     }
 
+    public List<TipoCambio> getTipoCambioList() {
+        return tipoCambioList;
+    }
+
+    public void setTipoCambioList(List<TipoCambio> tipoCambioList) {
+        this.tipoCambioList = tipoCambioList;
+    }
+
+    public TipoCambio getTipoCambioSelected() {
+        return tipoCambioSelected;
+    }
+
+    public void setTipoCambioSelected(TipoCambio tipoCambioSelected) {
+        this.tipoCambioSelected = tipoCambioSelected;
+    }
+
+    public TipoCambio getTipoCambio() {
+        return tipoCambio;
+    }
+
+    public void setTipoCambio(TipoCambio tipoCambio) {
+        this.tipoCambio = tipoCambio;
+    }
+
+    public String getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(String fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public String getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(String fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+    
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_proyectos_gestionados" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="09827370-de1a-4458-b232-447fc2e04db5">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="148"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="Desde" class="java.lang.String"/>
 	<parameter name="Hasta" class="java.lang.String"/>
@@ -38,7 +38,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="118" splitType="Stretch">
+		<band height="150" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="0" y="2" width="802" height="32"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -65,7 +65,7 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Fecha de creacion: "]]></textFieldExpression>
 			</textField>
-			<textField pattern="MM/dd/yyyy">
+			<textField pattern="dd/MM/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="421" y="90" width="381" height="20" forecolor="#786C6C"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
@@ -78,32 +78,15 @@
 				<reportElement uuid="6e9f9fb3-cbdf-4180-be6a-94ab603ba8aa" x="737" y="0" width="65" height="65"/>
 				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="124" y="112" width="528" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Periodo de consulta Desde : " +$P{Desde} + " Hasta: "+$P{Hasta}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
-	<pageHeader>
-		<band height="55" splitType="Stretch">
-			<textField>
-				<reportElement uuid="9bf2b8e1-ab7a-429f-8a1a-f54e72ab7cfb" x="315" y="1" width="71" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$P{Desde}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="d6b010e0-9be3-46f4-9d7e-2ee1559d4346" x="472" y="2" width="62" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$P{Hasta}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="9c9174c5-48c3-47cc-8881-abe8d985b42d" x="259" y="2" width="55" height="20"/>
-				<textElement/>
-				<text><![CDATA[Desde:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="ce5171d8-63d3-476a-bba3-9e81f7bf2001" x="424" y="2" width="47" height="20"/>
-				<textElement/>
-				<text><![CDATA[Hasta:]]></text>
-			</staticText>
-		</band>
-	</pageHeader>
 	<columnHeader>
 		<band height="21" splitType="Stretch">
 			<staticText>
@@ -172,7 +155,7 @@
 					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isUnderline="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
@@ -185,7 +168,7 @@
 					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{objetivo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -196,7 +179,7 @@
 					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{anioGestion}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -207,7 +190,7 @@
 					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{orgamismo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -218,7 +201,7 @@
 					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{paisCooperante}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -229,7 +212,7 @@
 					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{contraparteExterna}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -240,7 +223,7 @@
 					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{beneficiadoUES}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -251,7 +234,7 @@
 					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -262,12 +245,12 @@
 	<pageFooter>
 		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement uuid="03e6436d-cbdb-4711-81e0-ad2ad6ed732b" x="341" y="1" width="97" height="20"/>
+				<reportElement uuid="03e6436d-cbdb-4711-81e0-ad2ad6ed732b" x="320" y="1" width="97" height="20"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement uuid="87700fd2-0b8a-43cd-a965-b3c73658fea8" x="438" y="1" width="40" height="20"/>
+				<reportElement uuid="87700fd2-0b8a-43cd-a965-b3c73658fea8" x="417" y="1" width="40" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>

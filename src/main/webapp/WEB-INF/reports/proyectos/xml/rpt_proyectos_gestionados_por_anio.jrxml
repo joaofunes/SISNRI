@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="192"/>
+	<property name="ireport.y" value="161"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -20,7 +20,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="131" splitType="Stretch">
+		<band height="170" splitType="Stretch">
 			<elementGroup>
 				<staticText>
 					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="0" y="0" width="528" height="32"/>
@@ -44,7 +44,7 @@
 				</textElement>
 				<text><![CDATA[Reporte de Proyectos Gestionados por Año ]]></text>
 			</staticText>
-			<textField pattern="MM/dd/yyyy">
+			<textField pattern="dd/MM/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="100" width="264" height="20" forecolor="#786C6C"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
@@ -62,19 +62,15 @@
 				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="463" y="0" width="65" height="65"/>
 				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
 			</image>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="54" splitType="Stretch">
 			<textField>
-				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="0" y="16" width="528" height="20"/>
+				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="0" y="132" width="528" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="false" isUnderline="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Periodo de consulta Desde : " +$P{desde} + " Hasta: "+$P{hasta}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
@@ -108,7 +104,7 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{anioGestion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="" isBlankWhenNull="true">
 				<reportElement uuid="864f5016-53b3-4540-a6c2-db298c1ae46c" x="259" y="0" width="100" height="20"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.5"/>
@@ -146,8 +142,8 @@
 	<summary>
 		<band height="259" splitType="Stretch">
 			<bar3DChart>
-				<chart>
-					<reportElement uuid="51538b10-2101-4dda-8e63-628c93d4b57c" x="114" y="47" width="267" height="152"/>
+				<chart isShowLegend="false">
+					<reportElement uuid="51538b10-2101-4dda-8e63-628c93d4b57c" x="115" y="30" width="313" height="169"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -159,11 +155,11 @@
 						<valueExpression><![CDATA[$F{suma}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
-				<bar3DPlot xOffset="15.0">
-					<plot labelRotation="-90.0"/>
+				<bar3DPlot isShowLabels="true" xOffset="10.0" yOffset="10.0">
+					<plot labelRotation="0.0"/>
 					<itemLabel/>
-					<categoryAxisFormat labelRotation="-90.0">
-						<axisFormat tickLabelColor="#FFFFFF"/>
+					<categoryAxisFormat labelRotation="0.0">
+						<axisFormat tickLabelColor="#000000"/>
 					</categoryAxisFormat>
 				</bar3DPlot>
 			</bar3DChart>
