@@ -95,8 +95,8 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getReferenteExternoByEmail(String email) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  a.emailPersona =:email AND a.activo is true AND a.extranjero is true");
-            q.setParameter("email", email);
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is true");
+            q.setParameter("email", '%' + email.toLowerCase() + '%');
             return  q.list();
 
         } catch (Exception e) {

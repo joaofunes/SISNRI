@@ -46,20 +46,21 @@
                 </p:column>
 
                 <p:column headerText="Monto ($)" sortBy="#{proyecto.montoProyecto}" filterBy="#{proyecto.montoProyecto}">
-                    <h:outputText value="$#{proyecto.montoProyecto}" />
+                    <h:outputText value="$#{proyecto.montoProyecto}">
+                        <f:convertNumber pattern="#0.00"/>
+                    </h:outputText>
                 </p:column>
-
-                <p:column headerText="Opciones" >
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       value="Editar" actionListener="#{proyectosMB.preUpdateProyecto(proyecto.idProyecto)}" update=":formAdmin"/>
-                    </div>
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-search"
-                                       title="Consultar" value="Consultar"
-                                       actionListener="#{proyectoConsultarMB.preConsultarProyecto(proyecto.idProyecto)}" update=":formAdmin"/>
-                    </div>
-                </p:column>
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{proyectosMB.preUpdateProyecto(proyecto.idProyecto)}" update=":formAdmin"/>
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-search"
+                                           title="Consultar" value="Consultar"
+                                           actionListener="#{proyectoConsultarMB.preConsultarProyecto(proyecto.idProyecto)}" update=":formAdmin"/>
+                        </div>
+                    </p:column>
             </p:dataTable>
 
 

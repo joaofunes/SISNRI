@@ -155,6 +155,7 @@
                                             <p:column>
                                                 <h:outputText value="#{theme.nombrePersona}" />
                                             </p:column>
+                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
                                         </p:autoComplete>
                                         <p:watermark for="idNombreInterno" value="Nombre"/> 
                                         <p:autoComplete id="idEmailInterno" value="#{propuestaConvenioMB.referenteInterno}" rendered="#{propuestaConvenioMB.flagSearchEmailInterno}"
@@ -164,6 +165,7 @@
                                             <p:column>
                                                 <h:outputText value="#{theme.emailPersona}" />
                                             </p:column>
+                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
                                         </p:autoComplete>
                                         <p:watermark for="idEmailInterno" value="E-mail"/> 
                                     </p:column>
@@ -328,6 +330,7 @@
                                             <p:column>
                                                 <h:outputText value="#{theme.emailPersona}" />
                                             </p:column>
+                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="GroupSolicitanteExterno"/>
                                         </p:autoComplete>
                                         <p:watermark for="idEmailExterno" value="E-mail"/> 
                                     </p:column>
