@@ -367,13 +367,13 @@ public class PropuestaConvenioMB implements Serializable {
         try {
             List<Persona> list = new ArrayList<Persona>();
             if (tipoBusquedaInterna.equalsIgnoreCase("nombre")) {
-                listAll = personaService.getReferenteInternoByName(query);
+                listAll = personaService.getReferenteExternoByName(query);
                 for (Persona us : listAll) {
                     list.add(us);
                 }
                 return list;
             } else if (tipoBusquedaInterna.equalsIgnoreCase("email")) {                
-                listAll = personaService.getReferenteInternoByEmail(query);
+                listAll = personaService.getReferenteExternoByEmail(query);
                 for (Persona us : listAll) {
                     list.add(us);
                 }
@@ -407,6 +407,77 @@ public class PropuestaConvenioMB implements Serializable {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    
+    /**
+     * Metodo para setear entidad persona en base al nombre solicitado de la
+     * persona solicitante interna
+     */
+    public void cargarNombreSoliInterno() {
+        try {
+            if (referenteInterno.getIdPersona() != null) {
+
+                List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteInterno);
+
+                for (Telefono tel : telefonosByPersona) {
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
+                        telFijoInterno = tel;
+                    }
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
+                        telCelularInterno = tel;
+                    }
+                }
+
+                if (referenteInterno.getIdUnidad() != null) {
+                    for (PojoFacultadesUnidades us : listaFacultadUnidad) {
+                        if (us.getId() == solicitante.getIdUnidad().getIdUnidad() && us.getUnidadFacultad() == 'U') {
+                            facultadesUnidadesInterno = us;
+                        }
+                    }
+                }
+                if (referenteInterno.getIdCarrera() != null) {
+                    for (PojoFacultadesUnidades us : listaFacultadUnidad) {
+                        if (us.getId() == referenteInterno.getIdCarrera().getIdFacultad().getIdFacultad() && us.getUnidadFacultad() == 'F') {
+                            facultadesUnidadesInterno = us;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    /**
+     * Metodo para setear entidad persona en base al nombre solicitado de la
+     * persona solicitante interna
+     */
+    public void cargarNombreSoliExterno() {
+        try {
+
+             if (referenteExterno == null) {
+                referenteExterno = new Persona();
+            }
+
+
+            if (referenteExterno.getIdPersona() != null) {
+                List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(referenteExterno);
+
+                for (Telefono tel : telefonosByPersona) {
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
+                        telFijoExterno = tel;
+                    }
+                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
+                        telCelularExterno = tel;
+                    }
+                }
+            } 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     
