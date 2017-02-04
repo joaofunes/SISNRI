@@ -183,6 +183,10 @@ public class PropuestaConvenioMB implements Serializable {
     private Boolean flagSearchDuiInterno; 
     private Boolean flagSearchNombreInterno; 
     private Boolean flagSearchEmailInterno; 
+    private Boolean disableAutoExterno; 
+    private Boolean flagSearchDuiExterno; 
+    private Boolean flagSearchNombreExterno; 
+    private Boolean flagSearchEmailExterno; 
     
     private List<Persona> listAll;
 
@@ -247,6 +251,11 @@ public class PropuestaConvenioMB implements Serializable {
             flagSearchDuiInterno = Boolean.FALSE;
             flagSearchNombreInterno= Boolean.FALSE; 
             flagSearchEmailInterno= Boolean.FALSE; 
+            
+            disableAutoExterno=Boolean.TRUE; 
+            flagSearchDuiExterno= Boolean.FALSE; 
+            flagSearchNombreExterno= Boolean.FALSE; 
+            flagSearchEmailExterno= Boolean.FALSE; 
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -340,6 +349,36 @@ public class PropuestaConvenioMB implements Serializable {
 //               
 //                return list;
 //            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Metodo para realizar busquedas por nombre, email, documento independiente
+     *
+     * @param query
+     * @return
+     */
+    public List<Persona> methodSearchExterno(String query) {
+        try {
+            List<Persona> list = new ArrayList<Persona>();
+            if (tipoBusquedaInterna.equalsIgnoreCase("nombre")) {
+                listAll = personaService.getReferenteInternoByName(query);
+                for (Persona us : listAll) {
+                    list.add(us);
+                }
+                return list;
+            } else if (tipoBusquedaInterna.equalsIgnoreCase("email")) {                
+                listAll = personaService.getReferenteInternoByEmail(query);
+                for (Persona us : listAll) {
+                    list.add(us);
+                }
+                return list;
+            } 
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -867,6 +906,29 @@ public class PropuestaConvenioMB implements Serializable {
          }
 
     }
+    /**
+     * metodo habilita el autoComplete para ingreso de busquedas de personas Externas
+     */
+    public void habilitarAutoExterno() {  
+
+         flagSearchDuiExterno = Boolean.FALSE;
+         flagSearchNombreExterno= Boolean.FALSE; 
+         flagSearchEmailExterno= Boolean.FALSE; 
+         
+         if(disableAutoExterno){        
+            disableAutoExterno = Boolean.FALSE;  
+         }
+         if(tipoBusquedaExterna.equalsIgnoreCase("doc")){
+            flagSearchDuiExterno  = Boolean.TRUE;
+         }
+         if(tipoBusquedaExterna.equalsIgnoreCase("nombre")){
+            flagSearchNombreExterno= Boolean.TRUE; 
+         }
+         if(tipoBusquedaExterna.equalsIgnoreCase("email")){
+             flagSearchEmailExterno= Boolean.TRUE; 
+         }
+
+    }
 
     
     /// test de email
@@ -1310,6 +1372,38 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setFlagSearchEmailInterno(Boolean flagSearchEmailInterno) {
         this.flagSearchEmailInterno = flagSearchEmailInterno;
+    }
+
+    public Boolean getDisableAutoExterno() {
+        return disableAutoExterno;
+    }
+
+    public void setDisableAutoExterno(Boolean disableAutoExterno) {
+        this.disableAutoExterno = disableAutoExterno;
+    }
+
+    public Boolean getFlagSearchDuiExterno() {
+        return flagSearchDuiExterno;
+    }
+
+    public void setFlagSearchDuiExterno(Boolean flagSearchDuiExterno) {
+        this.flagSearchDuiExterno = flagSearchDuiExterno;
+    }
+
+    public Boolean getFlagSearchNombreExterno() {
+        return flagSearchNombreExterno;
+    }
+
+    public void setFlagSearchNombreExterno(Boolean flagSearchNombreExterno) {
+        this.flagSearchNombreExterno = flagSearchNombreExterno;
+    }
+
+    public Boolean getFlagSearchEmailExterno() {
+        return flagSearchEmailExterno;
+    }
+
+    public void setFlagSearchEmailExterno(Boolean flagSearchEmailExterno) {
+        this.flagSearchEmailExterno = flagSearchEmailExterno;
     }
 
 }

@@ -250,9 +250,9 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu  id="idFacultadUnidadInterno"  value="#{propuestaConvenioMB.facultadesUnidadesInterno}" converter="#{facultadUnidadConverter}" style="width:160px" >                                              
-                                                <p:ajax event="change" process="@this" update="GroupSolicitanteInterno" listener="#{propuestaConvenioMB.actualizarEscuelaDeptInterno()}"/>
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
                                                 <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
+                                                <p:ajax event="change" listener="#{propuestaConvenioMB.actualizarEscuelaDeptInterno()}" update="idEscuelaDeptInter" process="@this" partialSubmit="true"/>
                                             </p:selectOneMenu>
 
                                         </p:column>                        
@@ -288,20 +288,48 @@
                                     <p:column>
                                         <p:outputLabel for="tipoBusquedaExt" value="Tipo de Busqueda:" />
                                     </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="tipoBusquedaExt" value="#{propuestaConvenioMB.tipoBusquedaExterna}" style="width:125px">                                       
+                                    
+                                    <p:column>                                        
+                                        <p:selectOneMenu id="tipoBusquedaExt" value="#{propuestaConvenioMB.tipoBusquedaExterna}"  style="width:125px">  
+                                            <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoExterno}" update="grup2"  process="tipoBusquedaExt" />
+                                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                             <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
                                             <f:selectItem itemLabel="E-mail" itemValue="email" />
                                             <f:selectItem itemLabel="Documento" itemValue="doc" />  
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel for="idTipoDocExterno" value="Busqueda" />
+                                        <p:outputLabel value="Busqueda" />
                                     </p:column>
                                     <p:column>
-                                        <p:autoComplete id="idTipoDocExterno" minQueryLength="7" size="20" maxlength="20" value="#{propuestaConvenioMB.numDocumentoExterno}" 
-                                                        completeMethod="#{propuestaConvenioMB.completeBusquedaPassaporte}"  />
-                                        <p:watermark for="idTipoDocExterno" value="Busqueda" />
+                                       
+                                        <p:autoComplete id="searchDoc" minQueryLength="8" size="8" rendered="#{propuestaConvenioMB.flagSearchDuiExterno}"  
+                                                         value="#{propuestaConvenioMB.numDocumentoExterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaPassaporte}"
+                                                        var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
+                                                        forceSelection="true">                                            
+                                            <p:column>
+                                                <h:outputText value="#{name.duiPersona}" />
+                                            </p:column>
+                                        </p:autoComplete>
+                                        <p:watermark for="searchDoc" value="Documento"/>  
+                                        <p:autoComplete id="idNombreExterno" value="#{propuestaConvenioMB.referenteExterno}" rendered="#{propuestaConvenioMB.flagSearchNombreExterno}"
+                                                        completeMethod="#{propuestaConvenioMB.methodSearchExterno}" disabled="#{propuestaConvenioMB.disableAutoExterno}"
+                                                        var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                        forceSelection="true">                                           
+                                            <p:column>
+                                                <h:outputText value="#{theme.nombrePersona}" />
+                                            </p:column>
+                                        </p:autoComplete>
+                                        <p:watermark for="idNombreExterno" value="Nombre"/> 
+                                        <p:autoComplete id="idEmailExterno" value="#{propuestaConvenioMB.referenteExterno}" rendered="#{propuestaConvenioMB.flagSearchEmailExterno}"
+                                                        completeMethod="#{propuestaConvenioMB.methodSearchExterno}" disabled="#{propuestaConvenioMB.disableAutoExterno}"
+                                                        var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                        forceSelection="true">                                           
+                                            <p:column>
+                                                <h:outputText value="#{theme.emailPersona}" />
+                                            </p:column>
+                                        </p:autoComplete>
+                                        <p:watermark for="idEmailExterno" value="E-mail"/> 
                                     </p:column>
                                 </p:panelGrid>
                             </h:panelGroup>  
