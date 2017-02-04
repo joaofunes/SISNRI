@@ -850,12 +850,14 @@ public class PropuestaConvenioMB implements Serializable {
          }
          if(tipoBusquedaInterna.equalsIgnoreCase("doc")){
             flagSearchDuiInterno  = Boolean.TRUE;
-         }else{
-             flagSearchDuiInterno  = Boolean.FALSE;
          }
-         context.update("formAdmin:acordion:idDocumentoInterno_input");
-         context.update("formAdmin:acordion:idDocumentoInterno_input");
-         context.update("formAdmin:acordion:searchDui_input");
+         if(!tipoBusquedaInterna.equalsIgnoreCase("doc")){
+            flagSearchDuiInterno  = Boolean.FALSE;
+         }
+         
+//         context.update("formAdmin:acordion:idDocumentoInterno_input");
+//         context.update("formAdmin:acordion:idDocumentoInterno_input");
+//         context.update("formAdmin:acordion:searchDui_input");
     }
 
     
