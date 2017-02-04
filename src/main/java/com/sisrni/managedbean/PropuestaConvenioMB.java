@@ -181,6 +181,8 @@ public class PropuestaConvenioMB implements Serializable {
     private Boolean tabAsisMostrarExterno;
     private Boolean disableAutoInterno; 
     private Boolean flagSearchDuiInterno; 
+    private Boolean flagSearchNombreInterno; 
+    private Boolean flagSearchEmailInterno; 
     
     private List<Persona> listAll;
 
@@ -243,6 +245,8 @@ public class PropuestaConvenioMB implements Serializable {
             tabAsisMostrarExterno = Boolean.FALSE;
             disableAutoInterno = Boolean.TRUE;
             flagSearchDuiInterno = Boolean.FALSE;
+            flagSearchNombreInterno= Boolean.FALSE; 
+            flagSearchEmailInterno= Boolean.FALSE; 
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -844,20 +848,24 @@ public class PropuestaConvenioMB implements Serializable {
      * metodo habilita el autoComplete para ingreso de busquedas de personas internas
      */
     public void habilitarAutoInterno() {  
-         RequestContext context = RequestContext.getCurrentInstance();
+
+         flagSearchDuiInterno  = Boolean.FALSE;
+         flagSearchNombreInterno= Boolean.FALSE; 
+         flagSearchEmailInterno= Boolean.FALSE; 
+         
          if(disableAutoInterno){        
             disableAutoInterno = Boolean.FALSE;  
          }
          if(tipoBusquedaInterna.equalsIgnoreCase("doc")){
             flagSearchDuiInterno  = Boolean.TRUE;
          }
-         if(!tipoBusquedaInterna.equalsIgnoreCase("doc")){
-            flagSearchDuiInterno  = Boolean.FALSE;
+         if(tipoBusquedaInterna.equalsIgnoreCase("nombre")){
+            flagSearchNombreInterno= Boolean.TRUE; 
          }
-         
-//         context.update("formAdmin:acordion:idDocumentoInterno_input");
-//         context.update("formAdmin:acordion:idDocumentoInterno_input");
-//         context.update("formAdmin:acordion:searchDui_input");
+         if(tipoBusquedaInterna.equalsIgnoreCase("email")){
+             flagSearchEmailInterno= Boolean.TRUE; 
+         }
+
     }
 
     
@@ -1286,6 +1294,22 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setFlagSearchDuiInterno(Boolean flagSearchDuiInterno) {
         this.flagSearchDuiInterno = flagSearchDuiInterno;
+    }
+
+    public Boolean getFlagSearchNombreInterno() {
+        return flagSearchNombreInterno;
+    }
+
+    public void setFlagSearchNombreInterno(Boolean flagSearchNombreInterno) {
+        this.flagSearchNombreInterno = flagSearchNombreInterno;
+    }
+
+    public Boolean getFlagSearchEmailInterno() {
+        return flagSearchEmailInterno;
+    }
+
+    public void setFlagSearchEmailInterno(Boolean flagSearchEmailInterno) {
+        this.flagSearchEmailInterno = flagSearchEmailInterno;
     }
 
 }

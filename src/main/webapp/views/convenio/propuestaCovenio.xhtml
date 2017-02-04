@@ -141,14 +141,14 @@
                                     </p:column>
                                     <p:column> 
                                         <p:autoComplete id="searchDui" minQueryLength="8" size="8" rendered="#{propuestaConvenioMB.flagSearchDuiInterno}"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
-                                                        var="name" itemLabel="#{name.nombrePersona}" itemValue="#{name}" converter="#{personaConverter}"
+                                                        var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
                                                         forceSelection="true">                                            
                                             <p:column>
-                                                <h:outputText value="#{name.nombrePersona}" />
+                                                <h:outputText value="#{name.duiPersona}" />
                                             </p:column>
                                         </p:autoComplete>
                                         <p:watermark for="searchDui" value="DUI"/>  
-                                        <p:autoComplete id="idDocumentoInterno" value="#{propuestaConvenioMB.referenteInterno}" rendered="#{!propuestaConvenioMB.flagSearchDuiInterno}"
+                                        <p:autoComplete id="idNombreInterno" value="#{propuestaConvenioMB.referenteInterno}" rendered="#{propuestaConvenioMB.flagSearchNombreInterno}"
                                                         completeMethod="#{propuestaConvenioMB.methodSearch}" disabled="#{propuestaConvenioMB.disableAutoInterno}"
                                                         var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                         forceSelection="true">                                           
@@ -156,6 +156,16 @@
                                                 <h:outputText value="#{theme.nombrePersona}" />
                                             </p:column>
                                         </p:autoComplete>
+                                        <p:watermark for="idNombreInterno" value="Nombre"/> 
+                                        <p:autoComplete id="idEmailInterno" value="#{propuestaConvenioMB.referenteInterno}" rendered="#{propuestaConvenioMB.flagSearchEmailInterno}"
+                                                        completeMethod="#{propuestaConvenioMB.methodSearch}" disabled="#{propuestaConvenioMB.disableAutoInterno}"
+                                                        var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                        forceSelection="true">                                           
+                                            <p:column>
+                                                <h:outputText value="#{theme.emailPersona}" />
+                                            </p:column>
+                                        </p:autoComplete>
+                                        <p:watermark for="idEmailInterno" value="E-mail"/> 
                                     </p:column>
                                 </p:panelGrid >   
                             </h:panelGroup> 
