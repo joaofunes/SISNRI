@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestion de Categorias de Documento">  
+            <p:panel style="width: 70%" header="Gestión de Categorías de Documento">  
                 
                 <h:form id="formCategoriaDocumento">
                     <p:panelGrid columns="2">            
@@ -20,8 +20,8 @@
                             <h:outputLabel for="nombre" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombre" value="#{categoriaDocumentoMB.categoriaDocumento.nombreCategoria}" required="true" size="20" />
-                            <p:watermark for="nombre" value="Nombre categoriaDocumento" id="watermarkNombreCategoriaDocumento"/>
+                            <p:inputText id="nombre" value="#{categoriaDocumentoMB.categoriaDocumento.nombreCategoria}" required="true" size="50" />
+                            <p:watermark for="nombre" value="Nombre Categoría de Documento" id="watermarkNombreCategoriaDocumento"/>
                         </p:column>
                         
                         <p:column>

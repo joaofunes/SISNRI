@@ -9,6 +9,7 @@ import com.sisrni.model.Organismo;
 import com.sisrni.model.Pais;
 import com.sisrni.model.Region;
 import com.sisrni.model.TipoOrganismo;
+import com.sisrni.pojo.rpt.PojoPais;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PaisService;
 import com.sisrni.service.RegionService;
@@ -51,6 +52,11 @@ public class OrganismoCooperanteMB {
     private List<Organismo> organismosList;
     private boolean actualizar;
     
+     //listas de pais
+    private PojoPais pojoPaisSelected;
+    private PojoPais pojoToShow;
+    private List<PojoPais> paisPojoList;
+    
     @Autowired
     OrganismoService organismoService;
 
@@ -69,9 +75,13 @@ public class OrganismoCooperanteMB {
     regionSelected = new Region();
     paisSelected = new Pais();
     regionList = regionService.findAll();
+    paisPojoList = paisService.getPaises(0);
+    pojoPaisSelected = new PojoPais();
+    pojoToShow = new PojoPais();
     actualizar=false;
     
     }
+    
     public void guardarOrganismo(){
         try {
             //seteamos el tipo organismo seleccionado el cual buscamos en la base para ver si existe utilizando el tipoorganismoservice
@@ -200,5 +210,29 @@ public class OrganismoCooperanteMB {
     public void setActualizar(boolean actualizar) {
         this.actualizar = actualizar;
     }
+    public List<PojoPais> getPaisPojoList() {
+        return paisPojoList;
+    }
+
+    public void setPaisPojoList(List<PojoPais> paisPojoList) {
+        this.paisPojoList = paisPojoList;
+    }
+
+    public PojoPais getPojoPaisSelected() {
+        return pojoPaisSelected;
+    }
+
+    public void setPojoPaisSelected(PojoPais pojoPaisSelected) {
+        this.pojoPaisSelected = pojoPaisSelected;
+    }
+
+    public PojoPais getPojoToShow() {
+        return pojoToShow;
+    }
+
+    public void setPojoToShow(PojoPais pojoToShow) {
+        this.pojoToShow = pojoToShow;
+    }
+
     
 }

@@ -12,21 +12,21 @@
     <ui:define name="content">
      <center>  
         
-         <p:panel style="width: 70%" header="Programa Beca">  
+         <p:panel style="width: 70%" header="Gestión de Programas de Becas">  
          
              <h:form id="formAdmin">
                
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
                
                     <p:column>
-                        <h:outputText value="Nombre ProgramaBeca:" />
+                        <h:outputText value="Nombre Programa de Beca:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="nombreProgramaBeca" value="#{programaBecaMB.programaBeca.nombrePrograma}" required="true" size="50" />
                     </p:column>
                
                     <p:column>
-                        <h:outputText value="Descripcion ProgramaBeca:" />
+                        <h:outputText value="Descripción Programa de Beca:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="descri" value="#{programaBecaMB.programaBeca.descripcion}" required="true" size="50" />
@@ -58,11 +58,11 @@
                              paginator="true">
 
 
-                    <p:column headerText="Nombre Menu" sortBy="#{programaBeca.nombrePrograma}" filterBy="#{programaBeca.nombrePrograma}">
+                    <p:column headerText="Nombre Menú" sortBy="#{programaBeca.nombrePrograma}" filterBy="#{programaBeca.nombrePrograma}">
                         <h:outputText value="#{programaBeca.nombrePrograma}" />
                     </p:column>
 
-                    <p:column headerText="Descripcion" sortBy="#{programaBeca.descripcion}" filterBy="#{programaBeca.descripcion}">
+                    <p:column headerText="Descripción" sortBy="#{programaBeca.descripcion}" filterBy="#{programaBeca.descripcion}">
                         <h:outputText value="#{programaBeca.descripcion}" />
                     </p:column>
                     <p:column headerText="Opciones" >
@@ -90,7 +90,7 @@
                  <h:outputText value="#{programaBecaMB.delProgramaBeca.nombrePrograma}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripcion de ProgramaBeca : "  style="font-weight:bold" />
+                 <h:outputText value="Descripción de ProgramaBeca : "  style="font-weight:bold" />
                  <h:outputText value="#{programaBecaMB.delProgramaBeca.descripcion}" />
              
             </h:form>    
