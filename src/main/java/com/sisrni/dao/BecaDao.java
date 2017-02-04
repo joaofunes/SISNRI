@@ -54,7 +54,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
         if (idBecaSearch > 0) {
             query = query + " AND bec.ID_BECA=" + idBecaSearch;
         }
-query+=" ORDER BY bec.FECHA_INGRESO DESC";
+        query += " ORDER BY bec.FECHA_INGRESO DESC";
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                     .addScalar("idBeca", new IntegerType())
@@ -78,16 +78,18 @@ query+=" ORDER BY bec.FECHA_INGRESO DESC";
     }
 
     public List<BecasGestionadasPojo> getDataBecasGestionadasReportes(Integer desde, Integer hasta) {
-        String query = "select b.ANIO_GESTION anio, count(b.ID_BECA) gestionadas,(SELECT COUNT(i.ID_BECA) FROM beca i WHERE i.OTORGADA=1 and i.ANIO_GESTION=b.ANIO_GESTION) becasOtorgadas,(SELECT SUM(a.MONTO_TOTAL) FROM beca a WHERE a.OTORGADA=1 and a.ANIO_GESTION=b.ANIO_GESTION) 'montoOtorgadas',(SELECT COUNT(c.ID_BECA) FROM beca c WHERE c.OTORGADA=0 and c.ANIO_GESTION=b.ANIO_GESTION) becasDenegadas,(SELECT SUM(r.MONTO_TOTAL) FROM beca r WHERE r.OTORGADA=0 and r.ANIO_GESTION=b.ANIO_GESTION) montoDenegadas  from beca b WHERE b.ANIO_GESTION BETWEEN\n"
-                + desde + " and " + hasta + " \n"
-                + "GROUP BY b.ANIO_GESTION ORDER BY b.ANIO_GESTION desc";
+        String query = "SELECT b.ANIO_GESTION anio, count(*) gestionadas,\n"
+                + "  sum(if(b.OTORGADA=1,1,0)) becasOtorgadas,\n"
+                + "  sum(if(b.OTORGADA=0,1,0)) becasDenegadas,\n"
+                + "  sum(if(OTORGADA=1,b.MONTO_TOTAL,0.00)) montoOtorgadas\n"
+                + "FROM  beca b WHERE b.ANIO_GESTION BETWEEN " + desde + " AND "+ hasta+" \n"
+                + "GROUP BY b.ANIO_GESTION ORDER BY b.ANIO_GESTION asc";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("anio", new IntegerType())
                 .addScalar("gestionadas", new IntegerType())
                 .addScalar("becasOtorgadas", new IntegerType())
                 .addScalar("montoOtorgadas", new DoubleType())
                 .addScalar("becasDenegadas", new IntegerType())
-                .addScalar("montoDenegadas", new DoubleType())
                 .setResultTransformer(Transformers.aliasToBean(BecasGestionadasPojo.class));
         return q.list();
     }
@@ -161,6 +163,28 @@ query+=" ORDER BY bec.FECHA_INGRESO DESC";
                 .addScalar("montoBeca", new DoubleType())
                 .setResultTransformer(Transformers.aliasToBean(RptDetalleBecasPojo.class));
         return q.list();
+    }
+
+    public List<BecasGestionadasPojo> getDataBecasGestionadasGroupOrganismos(Integer desde, Integer hasta) {
+        String query = "SELECT o.NOMBRE_ORGANISMO organismo, count(*) gestionadas,\n"
+                + "  SUM(if(b.OTORGADA=1,1,0)) becasOtorgadas,\n"
+                + "  SUM(if(b.OTORGADA=0,1,0)) becasDenegadas,\n"
+                + "    SUM(if(b.OTORGADA=1,b.MONTO_TOTAL,0)) montoOtorgadas\n"
+                + "FROM beca b INNER JOIN organismo o\n"
+                + "ON b.ID_ORGANISMO_COOPERANTE = o.ID_ORGANISMO\n"
+                + "WHERE\n"
+                + " b.ANIO_GESTION BETWEEN " + desde + " AND " + hasta + "\n"
+                + " GROUP BY b.ID_ORGANISMO_COOPERANTE";
+
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("organismo", new StringType())
+                .addScalar("gestionadas", new IntegerType())
+                .addScalar("becasOtorgadas", new IntegerType())
+                .addScalar("montoOtorgadas", new DoubleType())
+                .addScalar("becasDenegadas", new IntegerType())
+                .setResultTransformer(Transformers.aliasToBean(BecasGestionadasPojo.class));
+        return q.list();
+
     }
 
     public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected, String desde, String hasta) {//List<String> tipoBecaSelected,

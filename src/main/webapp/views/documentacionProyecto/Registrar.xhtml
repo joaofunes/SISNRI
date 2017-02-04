@@ -118,10 +118,10 @@
                         <p:column headerText="Tipo de Documento" sortBy="#{doc.idTipoDocumento.nombreDocumento}" filterBy="#{doc.idTipoDocumento.nombreDocumento}">
                             <h:outputText value="#{doc.idTipoDocumento.nombreDocumento}" />
                         </p:column>
-                        <p:column headerText="Persona que recibi&oacute;" sortBy="#{doc.usuarioRecibe}" filterBy="#{doc.usuarioRecibe}">
+                        <p:column headerText="Recibido por:" sortBy="#{doc.usuarioRecibe}" filterBy="#{doc.usuarioRecibe}">
                             <h:outputText value="#{doc.usuarioRecibe}" />
                         </p:column>
-                        <p:column headerText="Fecha de recibido" sortBy="#{doc.fechaRecibido}" filterBy="#{doc.fechaRecibido}">
+                        <p:column headerText="Fecha de recepci&oacute;n" sortBy="#{doc.fechaRecibido}" filterBy="#{doc.fechaRecibido}">
                             <h:outputText value="#{doc.fechaRecibido}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>

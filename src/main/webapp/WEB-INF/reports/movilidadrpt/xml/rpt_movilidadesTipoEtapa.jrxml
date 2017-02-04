@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="149"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -24,14 +24,14 @@
 				<staticText>
 					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="0" y="0" width="528" height="32"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Arial" size="24" isBold="true"/>
+						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Universidad de El Salvador]]></text>
 				</staticText>
 				<staticText>
 					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="0" y="32" width="528" height="20"/>
 					<textElement textAlignment="Center">
-						<font size="14"/>
+						<font fontName="Arial" size="12"/>
 					</textElement>
 					<text><![CDATA[Secretaria de Relaciones Nacionales e Internacionales]]></text>
 				</staticText>
@@ -39,18 +39,22 @@
 			<staticText>
 				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="75" width="528" height="25" forecolor="#5B63B1"/>
 				<textElement textAlignment="Center">
-					<font size="18" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Reporte de Movilidades]]></text>
 			</staticText>
 			<textField pattern="MM/dd/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="100" width="264" height="20" forecolor="#786C6C"/>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField pattern="MM/dd/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="100" width="264" height="20" forecolor="#786C6C"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Fecha de creacion: "]]></textFieldExpression>
 			</textField>
 			<image>
@@ -68,7 +72,7 @@
 			<textField>
 				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="0" y="16" width="528" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false" isUnderline="false"/>
+					<font fontName="Arial" size="12" isBold="false" isUnderline="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Para el año : " +$P{desde}]]></textFieldExpression>
 			</textField>
@@ -96,12 +100,16 @@
 		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement uuid="534160c9-2f45-4c23-9f4c-f0eed06a8508" x="136" y="0" width="138" height="20"/>
-				<textElement/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nombreMovilidad}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="826dab3f-1015-40fe-9cda-27d2896b74c8" x="274" y="0" width="133" height="20"/>
-				<textElement/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -118,7 +126,9 @@
 			<elementGroup>
 				<textField>
 					<reportElement uuid="ca85c37e-d9a9-4449-a43d-95c36d307209" x="0" y="1" width="528" height="20"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12"/>
+					</textElement>
 					<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"+ " " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 			</elementGroup>

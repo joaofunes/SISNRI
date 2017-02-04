@@ -492,6 +492,9 @@ public class BecaMB implements Serializable {
                     asesorExterno = new Persona();
                 }
                 
+                organismoCooperanteSelected=beca.getIdOrganismoCooperante();
+                tipoBecaSelected=beca.getIdTipoBeca();
+                tipoCambioSelected=tipoCambioService.findById(2);
                 paisCooperanteSelected = paisService.findById(beca.getIdPaisCooperante());
                 programaBecaSelected.setIdPrograma(beca.getIdProgramaBeca().getIdPrograma());
                 paisDestinoSelected.setIdPais(beca.getIdPaisDestino());

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
-	<property name="ireport.zoom" value="1.2100000000000009"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="89"/>
+	<property name="ireport.zoom" value="1.464100000000018"/>
+	<property name="ireport.x" value="5"/>
+	<property name="ireport.y" value="216"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -10,23 +10,20 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="anio" class="java.lang.Integer">
-		<fieldDescription><![CDATA[anio]]></fieldDescription>
+	<field name="organismo" class="java.lang.String">
+		<fieldDescription><![CDATA[organismo]]></fieldDescription>
 	</field>
-	<field name="becasDenegadas" class="java.lang.Integer">
-		<fieldDescription><![CDATA[becasDenegadas]]></fieldDescription>
-	</field>
-	<field name="becasOtorgadas" class="java.lang.Integer">
-		<fieldDescription><![CDATA[becasOtorgadas]]></fieldDescription>
+	<field name="montoOtorgadas" class="java.lang.Double">
+		<fieldDescription><![CDATA[montoOtorgadas]]></fieldDescription>
 	</field>
 	<field name="gestionadas" class="java.lang.Integer">
 		<fieldDescription><![CDATA[gestionadas]]></fieldDescription>
 	</field>
-	<field name="montoDenegadas" class="java.lang.Double">
-		<fieldDescription><![CDATA[montoDenegadas]]></fieldDescription>
+	<field name="becasOtorgadas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[becasOtorgadas]]></fieldDescription>
 	</field>
-	<field name="montoOtorgadas" class="java.lang.Double">
-		<fieldDescription><![CDATA[montoOtorgadas]]></fieldDescription>
+	<field name="becasDenegadas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[becasDenegadas]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -69,7 +66,7 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Agrupadas por Año]]></text>
+				<text><![CDATA[Agrupadas por Organismo Cooperante]]></text>
 			</staticText>
 			<textField pattern="MM/dd/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="118" width="528" height="20" forecolor="#786C6C"/>
@@ -79,20 +76,20 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="41" splitType="Stretch">
+		<band height="40" splitType="Stretch">
 			<textField>
-				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="0" y="16" width="528" height="20"/>
+				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="0" y="18" width="528" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="false" isUnderline="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Periodo de Consulta : " +$P{desde} + " -  "+$P{hasta}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Periodo de Consulta: "+$P{desde} + " - "+$P{hasta}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="65" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="208" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -106,7 +103,7 @@
 				<text><![CDATA[Gestionadas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="0" y="0" width="65" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="0" y="0" width="208" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -117,10 +114,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Año]]></text>
+				<text><![CDATA[Organismo Cooperante]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="79717a4b-be92-4af8-9c2a-4bc292094163" mode="Opaque" x="170" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="79717a4b-be92-4af8-9c2a-4bc292094163" mode="Opaque" x="288" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -134,7 +131,7 @@
 				<text><![CDATA[Denegadas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="4591de44-19ac-4ff4-931f-e681ad845686" mode="Opaque" x="275" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="4591de44-19ac-4ff4-931f-e681ad845686" mode="Opaque" x="368" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -148,7 +145,7 @@
 				<text><![CDATA[Otorgadas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="a997b92c-483d-41a2-9401-1755f03eab09" mode="Opaque" x="380" y="0" width="148" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="a997b92c-483d-41a2-9401-1755f03eab09" mode="Opaque" x="448" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -159,14 +156,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Monto Becas Otorgadas]]></text>
+				<text><![CDATA[Monto Otorgadas]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="381f9cd8-c6ed-4e66-be3f-efe3d29d875e" x="65" y="0" width="105" height="20"/>
+				<reportElement uuid="381f9cd8-c6ed-4e66-be3f-efe3d29d875e" x="208" y="0" width="80" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -180,21 +177,7 @@
 				<textFieldExpression><![CDATA[$F{gestionadas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="20a19768-b408-4045-8acd-c8c29417d3b5" x="0" y="0" width="65" height="20"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{anio}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="8e66a2d9-292f-40d1-b9c2-7c2ed51f0675" x="170" y="0" width="105" height="20"/>
+				<reportElement uuid="8e66a2d9-292f-40d1-b9c2-7c2ed51f0675" x="288" y="0" width="80" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -208,7 +191,7 @@
 				<textFieldExpression><![CDATA[$F{becasDenegadas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="239fcef6-fd46-4444-a978-51020881f255" x="275" y="0" width="105" height="20"/>
+				<reportElement uuid="239fcef6-fd46-4444-a978-51020881f255" x="368" y="0" width="80" height="20"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -221,8 +204,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{becasOtorgadas}]]></textFieldExpression>
 			</textField>
-			<textField pattern="$#,##0.00" isBlankWhenNull="false">
-				<reportElement uuid="e2bc8503-97ee-412f-894e-dd5c1a5327b5" x="380" y="0" width="148" height="20"/>
+			<textField pattern="$#,##0.00">
+				<reportElement uuid="e2bc8503-97ee-412f-894e-dd5c1a5327b5" x="448" y="0" width="80" height="20"/>
 				<box leftPadding="7">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -234,6 +217,17 @@
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{montoOtorgadas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="771f8a87-a86e-4bf3-9916-f32c6e097fb2" x="0" y="0" width="208" height="20"/>
+				<box leftPadding="7">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{organismo}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -247,70 +241,102 @@
 	<pageFooter>
 		<band height="21" splitType="Stretch">
 			<elementGroup/>
-			<elementGroup>
-				<elementGroup>
-					<textField evaluationTime="Report">
-						<reportElement uuid="cb938e98-7705-43d3-94db-9cb48cb34812" x="297" y="1" width="40" height="20"/>
-						<textElement/>
-						<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-					</textField>
-					<textField>
-						<reportElement uuid="c61a49d3-7525-4385-ac55-83d253ae495e" x="217" y="1" width="80" height="20"/>
-						<textElement textAlignment="Right"/>
-						<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-					</textField>
-				</elementGroup>
-			</elementGroup>
+			<textField>
+				<reportElement uuid="d77bdb27-437a-443b-a5fa-afe9e8d4f02b" x="207" y="1" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="45971f4a-804a-4269-8a4d-00a8846d516a" x="287" y="1" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="254" splitType="Stretch">
-			<bar3DChart>
-				<chart isShowLegend="false">
-					<reportElement uuid="1d57f22c-1955-45e4-ba0e-4de4049ddb61" positionType="FixRelativeToBottom" x="0" y="75" width="253" height="179"/>
+		<band height="280" splitType="Stretch">
+			<pieChart>
+				<chart>
+					<reportElement uuid="9ca69fa7-f2b2-4223-ae7a-a06676fe4b81" x="0" y="33" width="264" height="247"/>
 					<chartTitle>
-						<titleExpression><![CDATA["Grafico de Becas Gestionadas"]]></titleExpression>
+						<titleExpression><![CDATA["Becas Gestionadas"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
-					<chartLegend/>
+					<chartLegend>
+						<font size="8"/>
+					</chartLegend>
 				</chart>
-				<categoryDataset>
-					<categorySeries>
-						<seriesExpression><![CDATA["Gestionadas"]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{anio}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{gestionadas}]]></valueExpression>
-					</categorySeries>
-				</categoryDataset>
-				<bar3DPlot>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{organismo}]]></keyExpression>
+					<valueExpression><![CDATA[$F{gestionadas}]]></valueExpression>
+					<labelExpression><![CDATA[$F{gestionadas}+""]]></labelExpression>
+				</pieDataset>
+				<piePlot>
 					<plot>
-						<seriesColor seriesOrder="0" color="#FF3333"/>
+						<seriesColor seriesOrder="0" color="#009933"/>
+						<seriesColor seriesOrder="1" color="#9933FF"/>
+						<seriesColor seriesOrder="2" color="#33CCFF"/>
+						<seriesColor seriesOrder="3" color="#33FF33"/>
+						<seriesColor seriesOrder="4" color="#FFFF33"/>
+						<seriesColor seriesOrder="5" color="#3333FF"/>
+						<seriesColor seriesOrder="6" color="#FF6633"/>
+						<seriesColor seriesOrder="7" color="#FF0066"/>
+						<seriesColor seriesOrder="8" color="#00CC33"/>
+						<seriesColor seriesOrder="9" color="#CC0066"/>
+						<seriesColor seriesOrder="10" color="#00CCCC"/>
+						<seriesColor seriesOrder="11" color="#FF9999"/>
+						<seriesColor seriesOrder="12" color="#99FF99"/>
+						<seriesColor seriesOrder="13" color="#006699"/>
+						<seriesColor seriesOrder="14" color="#009966"/>
+						<seriesColor seriesOrder="15" color="#3300FF"/>
+						<seriesColor seriesOrder="16" color="#66FFFF"/>
+						<seriesColor seriesOrder="17" color="#FFFF00"/>
+						<seriesColor seriesOrder="18" color="#CCFFCC"/>
 					</plot>
 					<itemLabel/>
-				</bar3DPlot>
-			</bar3DChart>
-			<bar3DChart>
-				<chart isShowLegend="false">
-					<reportElement uuid="1d57f22c-1955-45e4-ba0e-4de4049ddb61" positionType="FixRelativeToBottom" x="275" y="75" width="253" height="179"/>
+				</piePlot>
+			</pieChart>
+			<pieChart>
+				<chart>
+					<reportElement uuid="9ca69fa7-f2b2-4223-ae7a-a06676fe4b81" x="264" y="33" width="264" height="247"/>
 					<chartTitle>
-						<titleExpression><![CDATA["Grafico de Becas Otorgadas"]]></titleExpression>
+						<titleExpression><![CDATA["Becas Otorgadas"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
-					<chartLegend/>
+					<chartLegend>
+						<font size="8"/>
+					</chartLegend>
 				</chart>
-				<categoryDataset>
-					<categorySeries>
-						<seriesExpression><![CDATA["Otorgadas"]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{anio}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{becasOtorgadas}]]></valueExpression>
-					</categorySeries>
-				</categoryDataset>
-				<bar3DPlot>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{organismo}]]></keyExpression>
+					<valueExpression><![CDATA[$F{becasOtorgadas}]]></valueExpression>
+					<labelExpression><![CDATA[$F{becasOtorgadas}+""]]></labelExpression>
+				</pieDataset>
+				<piePlot>
 					<plot>
-						<seriesColor seriesOrder="0" color="#00CC66"/>
+						<seriesColor seriesOrder="0" color="#009933"/>
+						<seriesColor seriesOrder="1" color="#9933FF"/>
+						<seriesColor seriesOrder="2" color="#33CCFF"/>
+						<seriesColor seriesOrder="3" color="#33FF33"/>
+						<seriesColor seriesOrder="4" color="#FFFF33"/>
+						<seriesColor seriesOrder="5" color="#3333FF"/>
+						<seriesColor seriesOrder="6" color="#FF6633"/>
+						<seriesColor seriesOrder="7" color="#FF0066"/>
+						<seriesColor seriesOrder="8" color="#00CC33"/>
+						<seriesColor seriesOrder="9" color="#CC0066"/>
+						<seriesColor seriesOrder="10" color="#00CCCC"/>
+						<seriesColor seriesOrder="11" color="#FF9999"/>
+						<seriesColor seriesOrder="12" color="#99FF99"/>
+						<seriesColor seriesOrder="13" color="#006699"/>
+						<seriesColor seriesOrder="14" color="#009966"/>
+						<seriesColor seriesOrder="15" color="#3300FF"/>
+						<seriesColor seriesOrder="16" color="#66FFFF"/>
+						<seriesColor seriesOrder="17" color="#FFFF00"/>
+						<seriesColor seriesOrder="18" color="#CCFFCC"/>
 					</plot>
 					<itemLabel/>
-				</bar3DPlot>
-			</bar3DChart>
+				</piePlot>
+			</pieChart>
 		</band>
 	</summary>
 </jasperReport>
