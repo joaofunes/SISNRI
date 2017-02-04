@@ -110,6 +110,11 @@
                         <h:outputText value="#{organismo.direccionOrganismo}" />
                     </p:column>
                     
+                            <p:column headerText="Pais">
+                                <h:outputText value="#{organismo.idPais}" >
+                                    <f:converter converterId="nombrePaisConverter"/>
+                                </h:outputText>
+                            </p:column>
                     <p:column headerText="Código Postal" sortBy="#{organismo.codigoPostal}" filterBy="#{organismo.codigoPostal}">
                         <h:outputText value="#{organismo.codigoPostal}" />
                     </p:column>
