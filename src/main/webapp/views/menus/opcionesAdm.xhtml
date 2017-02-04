@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<ui:composition template="/WEB-INF/templates/commonLayout.xhtml"
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
-   
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" 
+    >
+        
     
     <ui:define name="content">
         <h:form id="formAdmin">
@@ -50,6 +52,10 @@
                             <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
                                              actionListener="#{opcionesAdmMB.cancelar()}" immediate="true" update=":formAdmin"
                                              value="Cancelar" />
+                             <p:commandButton 
+                                           title="Agregar Opcion" value="Agregar Opcion"
+                                           process="@this"                                           
+                                           oncomplete="PF('NuevoOpcionDialog').show();"/>
                         </p:column>
                 </p:row>
 
@@ -95,6 +101,59 @@
  
             
         </h:form>
+        
+        
+          <p:dialog id="NuevoMenuDlg" widgetVar="NuevoOpcionDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Nuevo Opcion" closeOnEscape="true">
+            
+            <h:form id="formNuevoMenu">
+                <center>                  
+                    <h:panelGrid columns="2" >
+                        
+                        <p:column>
+                             <p:outputLabel for="idNombreOpcion" value="Nombre Opciones" />                            
+                        </p:column>
+                        <p:column>                           
+                            <p:inputText id="idNombreOpcion"  value="#{opcionesAdmMB.ssOpciones.nombreOpcion}" required="true" size="80" />
+                            <p:watermark for="idNombreOpcion" value="Nombre Opcion" />
+                            <p:message for="idNombreOpcion" />
+                        </p:column>
+                        
+                        <p:column>
+                              <p:outputLabel for="idUrl" value="Url" /> 
+                              <p:watermark for="idUrl" value="Url" />
+                              <p:message for="idUrl" />
+                        </p:column>                    
+                       <p:column>
+                            <p:inputText id="idUrl"   value="#{opcionesAdmMB.ssOpciones.url}" required="true" size="80" />
+                        </p:column>   
+                        
+                         <p:column>
+                            <p:outputLabel for="idVisible" value="Visible" />   
+                        </p:column>                       
+                        <p:column>
+                            <h:selectBooleanCheckbox id="idVisible" value="#{opcionesAdmMB.visible}"  />
+                        </p:column> 
+                        
+                        <p:column>  
+                            <p:outputLabel for="idRoles" value="Roles" />
+                        </p:column>                                         
+                        <p:column>                                                                     
+                            <p:selectCheckboxMenu id="idRoles" value="#{opcionesAdmMB.selectedArrayRoles}" label="Cities"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                                <f:selectItems value="#{opcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" />
+                            </p:selectCheckboxMenu> 
+                        </p:column>
+                     
+                        <p:column> 
+                            <p:commandButton value="Guardar" id="idGuardarMenu" actionListener="#{opcionesAdmMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('NuevoOpcionDialog').hide();" />
+                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('NuevoOpcionDialog').close();" />
+                        </p:column>
+                    </h:panelGrid>
+                </center>    
+            </h:form>  
+        </p:dialog>
+        
+        
         
     </ui:define>
     

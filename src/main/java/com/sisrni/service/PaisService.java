@@ -9,6 +9,7 @@ package com.sisrni.service;
 import com.sisrni.dao.PaisDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Pais;
+import com.sisrni.pojo.rpt.PojoPais;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class PaisService extends GenericService<Pais, Integer>{
       return paisDao;
     }
     
+     public List<PojoPais> getPaises(Integer idPaisSearch) {
+        return paisDao.getPaises(idPaisSearch);
+    }
     public List<Pais> getPaisesByRegionId(Integer id){
     return paisDao.getPaisesByRegionId(id);
     }

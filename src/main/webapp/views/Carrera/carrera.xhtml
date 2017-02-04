@@ -20,12 +20,12 @@
                             <h:outputLabel for="nombreCarrera" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombreCarrera" value="#{carreraMB.carrera.nombreCarrera}" required="true" size="60" />
-                            <p:watermark for="nombreCarrera" value="Nombre carrera" id="watermarkNombreCarrera"/>
+                            <p:inputText id="nombreCarrera" value="#{carreraMB.carrera.nombreCarrera}" required="true" size="50" />
+                            <p:watermark for="nombreCarrera" value="Nombre de la Carrera" id="watermarkNombreCarrera"/>
                         </p:column>
                         
-                        <h:outputLabel value="Organismo: "/>
-                        <p:selectOneMenu id="organismo" value="#{carreraMB.organismoSelected.idOrganismo}">
+                        <h:outputLabel value="Universidad: "/>
+                        <p:selectOneMenu id="organismo" value="#{carreraMB.organismoSelected.idOrganismo}" style="width: 100%">
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <p:ajax listener="#{carreraMB.onchangeOrganismo()}" update="facultadCarrera" />
                       <c:forEach var="organismo" items="#{carreraMB.organismosList}">
@@ -36,7 +36,7 @@
                             <h:outputLabel for="facultadCarrera" value="Facultad:"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="facultadCarrera" value="#{carreraMB.facultad.idFacultad}"  style="width:120px" required="true">
+                            <p:selectOneMenu id="facultadCarrera" value="#{carreraMB.facultad.idFacultad}"  style="width: 100%" required="true">
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                 <c:forEach var="reg" items="#{carreraMB.listFacultad}">
                                     <f:selectItem itemLabel="#{reg.nombreFacultad}" itemValue="#{reg.idFacultad}"/>

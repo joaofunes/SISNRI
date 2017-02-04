@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "htth://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html 
+      xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"     
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
@@ -22,7 +23,52 @@
 <div class="logo2">
 
 </div>
+<div class="responsive4 col-xs-12" style="padding: 0;">
+                <nav class="navbar navbar-inverse" style="border-radius: 0px; border: none; ">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".js-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml" style="background: red; color:white; padding-top: 5px;">
+                            <div class="img_t" ></div>
+                            <label style="padding-top: 15%;">SRNI</label></a>
+                    </div>
+
+                    <div class="collapse navbar-collapse js-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <c:forEach items="#{loginBean.form.menusLst}" var="menu"> 
+                                <li class="dropdown mega-dropdown">
+                                    <a  href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml" class="responsive dropdown-toggle" data-toggle="dropdown">#{menu.ssMenu.nombreMenu} <span class="caret"></span></a>				
+                                    <ul class="dropdown-menu mega-dropdown-menu">
+
+                                        <li class="col-sm-3">
+
+                                            <ul>
+                                                <li class="dropdown-header">#{menu.ssMenu.nombreMenu}</li>
+                                                <c:forEach items="#{menu.ssOpciones}" var="opcion"> 
+                                                    <li><a href="#{opcion.url}">#{opcion.nombreOpcion}</a></li>   
+                                                </c:forEach>
+                                            </ul>
+
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            </c:forEach> 
+                        </ul>
+                    </div>
+                </nav>
+
+            </div>        
+
+        
    <div class="container">
+       
+       
+       
     <div class="row">
         <div class="col-md-12 heightlogin" >
             <div class="pr-wrap">
@@ -59,6 +105,10 @@
         <p>Ciudad Universitaria, Final de Av.M&aacute;rtires y H&eacute;roes del 30 julio, San Salvador, El Salvador, Am&eacute;rica Central.<br/>
             Tel&eacute;fonos: +(503) 2511-2000</p>
 </div>
+       
+            
+
+       
 </div>
 
 
