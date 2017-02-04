@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestion de Facultades">  
+            <p:panel style="width: 70%" header="Gestión de Facultades">  
                 
                 <h:form id="formFacultad">
                     <p:panelGrid columns="2">
@@ -20,14 +20,14 @@
                             <h:outputLabel for="nombreFacultad" value="Nombre de la Facultad:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombreFacultad" value="#{facultadMB.facultad.nombreFacultad}" required="true" size="40" />
+                            <p:inputText id="nombreFacultad" value="#{facultadMB.facultad.nombreFacultad}" required="true" size="50" />
                             <p:watermark for="nombreFacultad" value="Nombre facultad" id="watermarkNombreFacultad"/>
                         </p:column>
                         <p:column>
                             <h:outputLabel for="organismoFacultad" value="Universidad:"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="organismoFacultad" value="#{facultadMB.organismo.idOrganismo}"  style="width:200px" required="true" >
+                            <p:selectOneMenu id="organismoFacultad" value="#{facultadMB.organismo.idOrganismo}"  style="width: 100%" required="true" >
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                 <c:forEach var="reg" items="#{facultadMB.listOrganismo}">
                                     <f:selectItem itemLabel="#{reg.nombreOrganismo}" itemValue="#{reg.idOrganismo}"/>
@@ -84,7 +84,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteFacultadDlg" header="Borrar Facultad" message="Confirma la eliminacion del Facultad?" 
+        <p:confirmDialog widgetVar="confirmDeleteFacultadDlg" header="Borrar Facultad" message="¿Confirma la eliminación del Facultad?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">

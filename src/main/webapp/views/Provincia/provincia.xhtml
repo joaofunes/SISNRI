@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestion de Provincias">  
+            <p:panel style="width: 70%" header="Gestión de Provincias">  
                 
                 <h:form id="formProvincia">
                     <p:panelGrid columns="2">
@@ -20,14 +20,14 @@
                             <h:outputLabel for="nombreProvincia" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombreProvincia" value="#{provinciaMB.provincia.nombreProvincia}" required="true" size="60" />
-                            <p:watermark for="nombreProvincia" value="Nombre provincia" id="watermarkNombreProvincia"/>
+                            <p:inputText id="nombreProvincia" value="#{provinciaMB.provincia.nombreProvincia}" required="true" size="50" />
+                            <p:watermark for="nombreProvincia" value="Nombre Provincia" id="watermarkNombreProvincia"/>
                         </p:column>
                         <p:column>
-                            <h:outputLabel for="paisProvincia" value="Pais:"/>
+                            <h:outputLabel for="paisProvincia" value="País:"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="paisProvincia" value="#{provinciaMB.pais.idPais}"  style="width:120px" required="true">
+                            <p:selectOneMenu id="paisProvincia" value="#{provinciaMB.pais.idPais}"  style="width: 100%" required="true">
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                 <c:forEach var="reg" items="#{provinciaMB.listPais}">
                                     <f:selectItem itemLabel="#{reg.nombrePais}" itemValue="#{reg.idPais}"/>
@@ -58,7 +58,7 @@
                         <p:column headerText="Provincia"  filterBy="#{provincia.nombreProvincia}">
                             <h:outputText value="#{provincia.nombreProvincia}"/>
                         </p:column>
-                        <p:column headerText="Pais" filterBy="#{provincia.idPais.nombrePais}">
+                        <p:column headerText="País" filterBy="#{provincia.idPais.nombrePais}">
                             <h:outputText value="#{provincia.idPais.nombrePais}"/>
                         </p:column> 
                         <p:column headerText="Opciones" style="width: 15%">
@@ -84,7 +84,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteProvinciaDlg" header="Borrar Provincia" message="Confirma la eliminacion del Provincia?" 
+        <p:confirmDialog widgetVar="confirmDeleteProvinciaDlg" header="Borrar Provincia" message="¿Confirma la eliminación del Provincia?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
