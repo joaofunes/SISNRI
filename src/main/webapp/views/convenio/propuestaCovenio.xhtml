@@ -92,7 +92,7 @@
                                             <p:outputLabel rendered="#{!propuestaConvenioMB.flagEscuelaDept}"  value="Escuela/Departamento" />
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu  id="idEscuelaDept" rendered="#{!propuestaConvenioMB.flagEscuelaDept}" required="true" value="#{propuestaConvenioMB.escuelaDepartamento}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
+                                            <p:selectOneMenu  id="idEscuelaDept" disabled="#{propuestaConvenioMB.flagEscuelaDept}" required="true" value="#{propuestaConvenioMB.escuelaDepartamento}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
                                                 <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
                                             </p:selectOneMenu>
@@ -172,10 +172,7 @@
                                 </p:panelGrid >   
                             </h:panelGroup> 
                             <h:panelGroup id="GroupSolicitanteInterno" >  
-                                <p:panelGrid rendered="#{propuestaConvenioMB.tabAsis}"> 
-
-                                </p:panelGrid>    
-
+                                
                                 <p:panelGrid rendered="#{propuestaConvenioMB.tabAsis}">     
                                     <p:growl id="msg" />
                                     <p:row>                                        
@@ -274,7 +271,7 @@
                                             <p:outputLabel rendered="#{!propuestaConvenioMB.flagEscuelaDeptInterno}" for="idEscuelaDeptInter" value="Escuela/Departamento" />
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu  id="idEscuelaDeptInter" rendered="#{!propuestaConvenioMB.flagEscuelaDeptInterno}"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
+                                            <p:selectOneMenu  id="idEscuelaDeptInter" disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno}"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
                                                 <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
                                             </p:selectOneMenu>
