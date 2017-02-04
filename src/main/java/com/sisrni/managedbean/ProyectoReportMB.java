@@ -8,10 +8,11 @@ package com.sisrni.managedbean;
 import com.sisrni.jasper.Reporte;
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
-import com.sisrni.model.Persona;
 import com.sisrni.model.PersonaProyecto;
 import com.sisrni.model.Proyecto;
 import com.sisrni.pojo.rpt.RptProyectoPojo;
+import com.sisrni.pojo.rpt.RptProyectosFinanciadosPojo;
+import com.sisrni.pojo.rpt.RptProyectosPorPaisPojo;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.ProyectoService;
 import java.net.MalformedURLException;
@@ -124,6 +125,84 @@ public class ProyectoReportMB {
         }
     }
 
+    public void printReportesFinanciados(String formato) {
+        try {
+            Integer desdeYear = Integer.parseInt(anioDesde.trim());
+            Integer hastaYear = Integer.parseInt(anioHasta.trim());
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            HttpServletRequest request = (HttpServletRequest) context.getRequest();
+            HttpServletResponse response = (HttpServletResponse) context.getResponse();
+            Reporte reporte = new Reporte("proyectos", "rpt_proyectos_gestionados_por_anio", request);
+            List<RptProyectosFinanciadosPojo> dataProyectosFinanciadosReportes = proyectoService.getDataProyectosFinanciadosReportes(desdeYear, hastaYear);
+            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyectosFinanciadosPojo>(dataProyectosFinanciadosReportes)));
+            reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
+            reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
+            reporte.addParameter("desde", anioDesde.trim());
+            reporte.addParameter("hasta", anioHasta.trim());
+            //reporte.addParameter("ItemDataSource", new JRBeanCollectionDataSource(new HashSet<BecasGestionadasPojo>(dataBecasGestionadasReportes)));
+            if (!formato.equalsIgnoreCase("pdf")) {
+                reporte.setTipoMime(formato);
+            }
+            reporte.setReportInSession(request, response);
+            reportName = reporte.getNombreLogico();
+            RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printReportesProyectosPais(String formato) {
+        try {
+            Integer desdeYear = Integer.parseInt(anioDesde.trim());
+            Integer hastaYear = Integer.parseInt(anioHasta.trim());
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            HttpServletRequest request = (HttpServletRequest) context.getRequest();
+            HttpServletResponse response = (HttpServletResponse) context.getResponse();
+            Reporte reporte = new Reporte("proyectos", "rpt_proyectos_gestionados_por_pais", request);
+            List<RptProyectosPorPaisPojo> dataProyectosPorPais = proyectoService.getDataProyectosPorPais(desdeYear, hastaYear);
+            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyectosPorPaisPojo>(dataProyectosPorPais)));
+            reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
+            reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
+            reporte.addParameter("desde", anioDesde.trim());
+            reporte.addParameter("hasta", anioHasta.trim());
+            //reporte.addParameter("ItemDataSource", new JRBeanCollectionDataSource(new HashSet<BecasGestionadasPojo>(dataBecasGestionadasReportes)));
+            if (!formato.equalsIgnoreCase("pdf")) {
+                reporte.setTipoMime(formato);
+            }
+            reporte.setReportInSession(request, response);
+            reportName = reporte.getNombreLogico();
+            RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void printReportesProyectosTotales(String formato) {
+        try {
+            Integer desdeYear = Integer.parseInt(anioDesde.trim());
+            Integer hastaYear = Integer.parseInt(anioHasta.trim());
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            HttpServletRequest request = (HttpServletRequest) context.getRequest();
+            HttpServletResponse response = (HttpServletResponse) context.getResponse();
+            Reporte reporte = new Reporte("proyectos", "rpt_proyectos_totales", request);
+            List<RptProyectosFinanciadosPojo> dataProyectosTotales = proyectoService.getDataProyectosTotales(desdeYear, hastaYear);
+            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyectosFinanciadosPojo>(dataProyectosTotales)));
+            reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
+            reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
+            reporte.addParameter("desde", anioDesde.trim());
+            reporte.addParameter("hasta", anioHasta.trim());
+            //reporte.addParameter("ItemDataSource", new JRBeanCollectionDataSource(new HashSet<BecasGestionadasPojo>(dataBecasGestionadasReportes)));
+            if (!formato.equalsIgnoreCase("pdf")) {
+                reporte.setTipoMime(formato);
+            }
+            reporte.setReportInSession(request, response);
+            reportName = reporte.getNombreLogico();
+            RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public String getBaseDir(String imagen) {
         String baseDir = "/img/" + imagen;
         try {
@@ -175,5 +254,5 @@ public class ProyectoReportMB {
     public void setYearActual(int yearActual) {
         this.yearActual = yearActual;
     }
-    
+
 }

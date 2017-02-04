@@ -8,8 +8,8 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
-
         <ui:define name="content">
+            <p:outputLabel value="Consulta de Proyectos Internacionales" id="titulo" style="display:block; text-align:center"/>
             <h:form id="formAdmin">
                 <center> 
                     <p:panel style="width: 80%">  
@@ -20,17 +20,22 @@
                                         <p:column>
                                             <p:outputLabel value="Tipo de Proyecto:" />
                                         </p:column>
-                                        <p:column >
-                                            <h:outputText id="tipoproyecto" value="#{proyectosMB.proyectoSelected.idTipoProyecto}" style="width:180px"/>
+                                        <p:column>
+                                            <p:selectOneMenu id="tipoproyecto" value="#{proyectoConsultarMB.proyectoSelected.idTipoProyecto}" style="width:180px" >
+                                                <c:forEach var="reg" items="#{proyectoConsultarMB.tipoproyectolist}">
+                                                    <f:selectItem itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg.idTipoProyecto}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Nombre de convenio:" />
                                         </p:column>
                                         <p:column>
-                                            <h:outputLink id="fade" value="#">
-                                                <h:outputText id="propuesta" value="#{proyectosMB.propuestaConvenioSelected.idPropuesta}" style="width:180px"/>
-                                            </h:outputLink>
-                                            <p:tooltip id="toolTipFade" for="fade" value="Este campo es unicamente para proyectos que se relacionen a un convenio"/>
+                                            <p:selectOneMenu id="propuesta" value="#{proyectoConsultarMB.propuestaConvenioSelected.idPropuesta}" style="width:180px">
+                                                <c:forEach var="pro" items="#{proyectoConsultarMB.propuestaConvenioList}">
+                                                    <f:selectItem itemLabel="#{pro.nombrePropuesta}" itemValue="#{pro.idPropuesta}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -38,13 +43,18 @@
                                             <p:outputLabel value="Facultad/Unidad:"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="facultadproyecto" value="#{proyectosMB.fu}" style="width:180px"/>
+                                            <p:selectOneMenu id="facultadproyecto" value="#{proyectoConsultarMB.facultadSelectedPojoP}" style="width:180px" required="true">
+                                                <p:ajax listener="#{proyectoConsultarMB.onFacultadChange()}"  process="@this"/>
+                                                <c:forEach var="fac" items="#{proyectoConsultarMB.facultadesUnidadesList}">
+                                                    <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Monto del Proyecto:"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText value="#{proyectosMB.proyecto.montoProyecto}"/>
+                                            <p:inputText value="#{proyectoConsultarMB.proyecto.montoProyecto}" readonly="true"/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -52,13 +62,13 @@
                                             <p:outputLabel  value="A&ntilde;o de Gesti&oacute;n: " />
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="desde" value="#{proyectosMB.anio}" style="width:180px"/>
+                                            <p:inputText id="desde" value="#{proyectoConsultarMB.proyecto.anioGestion}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Lugar de Ejecuci&oacute;n:"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText value="#{proyectosMB.proyecto.lugarProyecto}"/>
+                                            <p:inputText value="#{proyectoConsultarMB.proyecto.lugarProyecto}" readonly="true"/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -66,13 +76,13 @@
                                             <p:outputLabel value="Nombre del Proyecto:"  />
                                         </p:column>
                                         <p:column>
-                                            <h:outputText value="#{proyectosMB.proyecto.nombreProyecto}"  style="width:180px"/>
+                                            <p:inputText value="#{proyectoConsultarMB.proyecto.nombreProyecto}"  style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Objetivo del Proyecto:" />
                                         </p:column>
                                         <p:column>
-                                            <h:outputText value="#{proyectosMB.proyecto.objetivo}" style="width:180px"/>
+                                            <p:inputText value="#{proyectoConsultarMB.proyecto.objetivo}" style="width:180px" readonly="true"/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -80,13 +90,13 @@
                                             <p:outputLabel value="Fecha Inicio:"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText value="#{proyectosMB.proyecto.fechaInicio}" />
+                                            <p:inputText value="#{proyectoConsultarMB.proyecto.fechaInicio}" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Fecha Fin:"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText value="#{proyectosMB.proyecto.fechaFin}"/>
+                                            <p:inputText value="#{proyectoConsultarMB.proyecto.fechaFin}" readonly="true"/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -94,15 +104,19 @@
                                             <p:outputLabel value="Pais cooperante:"/>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText id="paiscooperante" value="#{proyectosMB.paisCooperanteSelected.idPais}" style="width:180px"/>
+                                            <p:selectOneMenu id="paiscooperante" value="#{proyectoConsultarMB.paisCooperanteSelected.idPais}" style="width:180px">
+                                                <c:forEach var="pais" items="#{proyectoConsultarMB.paisCooperanteList}">
+                                                    <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Organismos cooperantes:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectCheckboxMenu id="organismoproy" value="#{proyectosMB.organismoProySelected}" label="Seleccione"
+                                            <p:selectCheckboxMenu id="organismoproy" value="#{proyectoConsultarMB.organismoProySelected}" label="Seleccione"
                                                                   filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
-                                                <c:forEach var="org" items="#{proyectosMB.organismoProyList}">
+                                                <c:forEach var="org" items="#{proyectoConsultarMB.organismoProyList}">
                                                     <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}" itemDisabled="true"/>
                                                 </c:forEach>
                                             </p:selectCheckboxMenu>
@@ -114,9 +128,9 @@
                                             <p:outputLabel value="Area de Conocimiento:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectCheckboxMenu id="areaconocimiento" value="#{proyectosMB.areaConocimientoSelected}" label="Seleccione"
+                                            <p:selectCheckboxMenu id="areaconocimiento" value="#{proyectoConsultarMB.areaConocimientoSelected}" label="Seleccione"
                                                                   filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
-                                                <c:forEach var="reg" items="#{proyectosMB.areaConocimientoList}">
+                                                <c:forEach var="reg" items="#{proyectoConsultarMB.areaConocimientoList}">
                                                     <f:selectItem itemLabel="#{reg.nombreArea}" itemValue="#{reg.idAreaConocimiento}" itemDisabled="true"/>
                                                 </c:forEach>
                                             </p:selectCheckboxMenu>
@@ -125,9 +139,9 @@
                                             <p:outputLabel value="Facultad Beneficiada:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectCheckboxMenu id="facultadbeneficiada" value="#{proyectosMB.facultadBeneficiadaSelected}" label="Seleccione"
+                                            <p:selectCheckboxMenu id="facultadbeneficiada" value="#{proyectoConsultarMB.facultadBeneficiadaSelected}" label="Seleccione"
                                                                   filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
-                                                <c:forEach var="fac" items="#{proyectosMB.facultadBeneficiadaList}">
+                                                <c:forEach var="fac" items="#{proyectoConsultarMB.facultadesBeneficiadaList}">
                                                     <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}" itemDisabled="true"/>
                                                 </c:forEach>
                                             </p:selectCheckboxMenu>
@@ -141,61 +155,64 @@
                                         <p:outputLabel value="Nombre:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" />
+                                        <p:inputText id="nombresolicitante" value="#{proyectoConsultarMB.persona.nombrePersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Apellido:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" />
+                                        <p:inputText id="apellidosolicitante" value="#{proyectoConsultarMB.persona.apellidoPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Dui:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="duisolicitante" value="#{proyectosMB.persona.duiPersona}"/>
+                                        <p:inputText id="duisolicitante" value="#{proyectoConsultarMB.persona.duiPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Correo Electronico:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}"/>                                       
+                                        <p:inputText id="correosolicitante" value="#{proyectoConsultarMB.persona.emailPersona}" readonly="true"/>                                       
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Cargo:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}"/>
+                                        <p:inputText id="cargosolicitante" value="#{proyectoConsultarMB.persona.cargoPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Facultad/Unidad:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="facultadsolicitante" value="#{proyectosMB.fuSol}"  style="width:180px" />
+                                        <p:selectOneMenu id="facultadsolicitante" value="#{proyectoConsultarMB.facultadSelectedPojoSol}"  style="width:180px" required="true">
+                                            <c:forEach var="facu" items="#{proyectoConsultarMB.facultadesUnidadesList}">
+                                                <f:selectItem itemLabel="#{facu.label}" itemValue="#{facu.value}"/>
+                                            </c:forEach>
+                                            <p:ajax event="change" listener="#{proyectosMB.mostrarCampo()}" update="unidadsolicitante" process="@this" partialSubmit="true"/>
+                                        </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Escuela/Departamento:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="unidadsolicitante" value="#{proyectosMB.edSol}"  style="width:180px"/>
+                                        <p:selectOneMenu id="unidadsolicitante" value="#{proyectoConsultarMB.escuelaDeptoSelectedSol.idEscuelaDepto}" disabled="#{proyectosMB.mostrarEscuelaSol}" style="width:180px" >
+                                            <c:forEach var="uni" items="#{proyectoConsultarMB.escuelaDeptoListSol}">
+                                                <f:selectItem itemLabel="#{uni.nombreEscuelaDepto}" itemValue="#{uni.idEscuelaDepto}"/>
+                                            </c:forEach>
+                                        </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Telefono Fijo:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}"/>
+                                        <p:inputText id="telefonosolicitante" value="#{proyectoConsultarMB.telefonoSolFijo.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Telefono Celuluar:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Fax:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText id="faxsolicitante" value="#{proyectosMB.telefonoSolFax.numeroTelefono}"/>
+                                        <p:inputText id="celularsolicitante" value="#{proyectoConsultarMB.telefonoSolCel.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                 </p:panelGrid>
                             </p:tab>
@@ -205,61 +222,64 @@
                                         <p:outputLabel value="Nombre:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" />
+                                        <p:inputText id="nombreasistente" value="#{proyectoConsultarMB.personaAsistente.nombrePersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Apellido:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" />
+                                        <p:inputText id="apellidoasistente" value="#{proyectoConsultarMB.personaAsistente.apellidoPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Dui:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="duiasistente" value="#{proyectosMB.personaAsistente.duiPersona}" />
+                                        <p:inputText id="duiasistente" value="#{proyectoConsultarMB.personaAsistente.duiPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Correo Electronico:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}"/>                                       
+                                        <p:inputText id="correoasistente" value="#{proyectoConsultarMB.personaAsistente.emailPersona}" readonly="true"/>                                       
                                     </p:column> 
                                     <p:column>
                                         <p:outputLabel value="Cargo:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}"/>
+                                        <p:inputText id="cargoasistente" value="#{proyectoConsultarMB.personaAsistente.cargoPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Facultad/Unidad:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="facultadasistente" value="#{proyectosMB.fuAsis}"  style="width:180px"/>
+                                        <p:selectOneMenu id="facultadasistente" value="#{proyectoConsultarMB.facultadSelectedPojoAsis}"  style="width:180px" >
+                                            <c:forEach var="facul" items="#{proyectoConsultarMB.facultadesUnidadesList}">
+                                                <f:selectItem itemLabel="#{facul.label}" itemValue="#{facul.value}"/>
+                                            </c:forEach>
+                                            <p:ajax event="change" listener="#{proyectosMB.mostrarCampoAsis()}" update="unidadasis" process="@this" partialSubmit="true"/>
+                                        </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Escuela/Departamento"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="unidadasis" value="#{proyectosMB.edAsis}"  style="width:180px"/>
+                                        <p:selectOneMenu id="unidadasis" value="#{proyectoConsultarMB.escuelaDeptoSelectedAsis.idEscuelaDepto}" disabled="#{proyectosMB.mostrarEscuelaAsis}" style="width:180px" >
+                                            <c:forEach var="uni" items="#{proyectoConsultarMB.escuelaDeptoListAsis}">
+                                                <f:selectItem itemLabel="#{uni.nombreEscuelaDepto}" itemValue="#{uni.idEscuelaDepto}"/>
+                                            </c:forEach>
+                                        </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Telefono Fijo:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}"/>
+                                        <p:inputText id="telefonoasistente" value="#{proyectoConsultarMB.telefonoAsisFijo.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Telefono Celuluar:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Fax:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText id="faxasistente" value="#{proyectosMB.telefonoAsisFax.numeroTelefono}"/>
+                                        <p:inputText id="celularasistente" value="#{proyectoConsultarMB.telefonoAsisCel.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                 </p:panelGrid>
                             </p:tab>
@@ -269,61 +289,59 @@
                                         <p:outputLabel value="Nombre:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="nombreexterna" value="#{proyectosMB.personaExterna.nombrePersona}" />
+                                        <p:inputText id="nombreexterna" value="#{proyectoConsultarMB.personaExterna.nombrePersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Apellido:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="apellidoexterna" value="#{proyectosMB.personaExterna.apellidoPersona}" />
+                                        <p:inputText id="apellidoexterna" value="#{proyectoConsultarMB.personaExterna.apellidoPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column>
-                                        <p:outputLabel value="Pasaporte de coordinador:"/>
+                                        <p:outputLabel value="Documento de Identificacion:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="pasaporteexterna" value="#{proyectosMB.personaExterna.pasaporte}" />
+                                        <p:inputText id="pasaporteexterna" value="#{proyectoConsultarMB.personaExterna.pasaporte}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Correo Electronico:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}"/>                                       
+                                        <p:inputText id="correoexterna" value="#{proyectoConsultarMB.personaExterna.emailPersona}" readonly="true"/>                                       
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Cargo:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="cargoexterna" value="#{proyectosMB.personaExterna.cargoPersona}"/>
+                                        <p:inputText id="cargoexterna" value="#{proyectoConsultarMB.personaExterna.cargoPersona}" readonly="true"/>
                                     </p:column>
                                     <p:column >
                                         <p:outputLabel value="Entidad/Instituci&oacute;n"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="unidadext" value="#{proyectosMB.orRefExt}"  style="width:180px"/>
+                                        <p:selectOneMenu id="unidadext" value="#{proyectoConsultarMB.organismoSelectedRefExt.idOrganismo}"  style="width:180px" required="true">
+                                            <c:forEach var="org" items="#{proyectoConsultarMB.organismoList}">
+                                                <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
+                                            </c:forEach>
+                                        </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Telefono Fijo:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="telefonoexterna" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" />
+                                        <p:inputText id="telefonoexterna" value="#{proyectoConsultarMB.telefonoRefextFijo.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Telefono Celuluar:"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="celularexterno" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Fax:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText id="faxexterna" value="#{proyectosMB.telefonoRefextFax.numeroTelefono}"/>
+                                        <p:inputText id="celularexterno" value="#{proyectoConsultarMB.telefonoRefextCel.numeroTelefono}" readonly="true"/>
                                     </p:column>
                                 </p:panelGrid>
                             </p:tab>
                         </p:accordionPanel>                                                                         
                     </p:panel>
-                    <p:commandButton styleClass="boton" value="Regresar"  id="btnRegresar" title="Regresar" actionListener="#{proyectosMB.regresar()}" process="@this"/>
+                    <p:commandButton styleClass="boton" value="Regresar"  id="btnRegresar" title="Regresar" actionListener="#{proyectoConsultarMB.regresar()}" process="@this"/>
                 </center>
             </h:form>
         </ui:define>

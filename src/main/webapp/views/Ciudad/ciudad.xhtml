@@ -20,14 +20,14 @@
                             <h:outputLabel for="nombreCiudad" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombreCiudad" value="#{ciudadMB.ciudad.nombreCiudad}" required="true" size="60" />
-                            <p:watermark for="nombreCiudad" value="Nombre ciudad" id="watermarkNombreCiudad"/>
+                            <p:inputText id="nombreCiudad" value="#{ciudadMB.ciudad.nombreCiudad}" required="true" size="50" />
+                            <p:watermark for="nombreCiudad" value="Nombre de Ciudad" id="watermarkNombreCiudad"/>
                         </p:column>
                         <p:column>
                             <h:outputLabel for="provinciaCiudad" value="Provincia:"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="provinciaCiudad" value="#{ciudadMB.provincia.idProvincia}"  style="width:120px" required="true">
+                            <p:selectOneMenu id="provinciaCiudad" value="#{ciudadMB.provincia.idProvincia}"  style="width: 100%" required="true">
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                 <c:forEach var="reg" items="#{ciudadMB.listProvincia}">
                                     <f:selectItem itemLabel="#{reg.nombreProvincia}" itemValue="#{reg.idProvincia}"/>

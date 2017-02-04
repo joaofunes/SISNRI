@@ -25,6 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -32,7 +33,7 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "BECA", catalog = "sisrni", schema = "")
+@Table(name = "beca", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Beca.findAll", query = "SELECT b FROM Beca b")})
 public class Beca implements Serializable {
@@ -66,25 +67,41 @@ public class Beca implements Serializable {
     private BigDecimal montoTotal;
     @Column(name = "OTORGADA")
     private Short otorgada;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "FECHA_INGRESO", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date fechaIngreso;
     @OneToMany(mappedBy = "idBeca")
-    private List<Documento> documentoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
-    private List<PersonaBeca> personaBecaList =new ArrayList<PersonaBeca>(); 
+    private List<Documento> documentoList=new ArrayList<Documento>();
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idUniversidad;
+    @JoinColumn(name = "ID_ORGANISMO_COOPERANTE", referencedColumnName = "ID_ORGANISMO")
+    @ManyToOne
+    private Organismo idOrganismoCooperante;
     @JoinColumn(name = "ID_PROGRAMA_BECA", referencedColumnName = "ID_PROGRAMA")
     @ManyToOne
     private ProgramaBeca idProgramaBeca;
+    @JoinColumn(name = "ID_TIPO_BECA", referencedColumnName = "ID_TIPO_BECA")
+    @ManyToOne
+    private TipoBeca idTipoBeca;
     @JoinColumn(name = "ID_TIPO_MODALIDAD", referencedColumnName = "ID_TIPO_MODALIDAD")
     @ManyToOne
     private TipoModalidaBeca idTipoModalidad;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
+    private List<PersonaBeca> personaBecaList=new ArrayList<PersonaBeca>();
 
     public Beca() {
     }
 
     public Beca(Integer idBeca) {
         this.idBeca = idBeca;
+    }
+
+    public Beca(Integer idBeca, Date fechaIngreso) {
+        this.idBeca = idBeca;
+        this.fechaIngreso = fechaIngreso;
     }
 
     public Integer getIdBeca() {
@@ -175,20 +192,20 @@ public class Beca implements Serializable {
         this.otorgada = otorgada;
     }
 
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
     public List<Documento> getDocumentoList() {
         return documentoList;
     }
 
     public void setDocumentoList(List<Documento> documentoList) {
         this.documentoList = documentoList;
-    }
-
-    public List<PersonaBeca> getPersonaBecaList() {
-        return personaBecaList;
-    }
-
-    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
-        this.personaBecaList = personaBecaList;
     }
 
     public Organismo getIdUniversidad() {
@@ -199,6 +216,14 @@ public class Beca implements Serializable {
         this.idUniversidad = idUniversidad;
     }
 
+    public Organismo getIdOrganismoCooperante() {
+        return idOrganismoCooperante;
+    }
+
+    public void setIdOrganismoCooperante(Organismo idOrganismoCooperante) {
+        this.idOrganismoCooperante = idOrganismoCooperante;
+    }
+
     public ProgramaBeca getIdProgramaBeca() {
         return idProgramaBeca;
     }
@@ -207,12 +232,28 @@ public class Beca implements Serializable {
         this.idProgramaBeca = idProgramaBeca;
     }
 
+    public TipoBeca getIdTipoBeca() {
+        return idTipoBeca;
+    }
+
+    public void setIdTipoBeca(TipoBeca idTipoBeca) {
+        this.idTipoBeca = idTipoBeca;
+    }
+
     public TipoModalidaBeca getIdTipoModalidad() {
         return idTipoModalidad;
     }
 
     public void setIdTipoModalidad(TipoModalidaBeca idTipoModalidad) {
         this.idTipoModalidad = idTipoModalidad;
+    }
+
+    public List<PersonaBeca> getPersonaBecaList() {
+        return personaBecaList;
+    }
+
+    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
+        this.personaBecaList = personaBecaList;
     }
 
     @Override

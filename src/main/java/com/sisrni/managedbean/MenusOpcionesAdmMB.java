@@ -168,7 +168,7 @@ public class MenusOpcionesAdmMB implements Serializable{
 		try {	
                         getSsMenus().setFechaRegistro(new Date());
                         getSsMenus().setUsuarioRegistro(usuario.getUsuario().getCodigoUsuario());                        
-                        getSsMenus().setSsRolesSet(usuario.getUsuario().getSsRolesSet());
+                        getSsMenus().setSsRolesList(usuario.getUsuario().getSsRolesList());
                         selectedlistRoles = new ArrayList<SsRoles>();
                         for(String us:selectedArrayRoles){
                             roles = new SsRoles();
@@ -178,7 +178,7 @@ public class MenusOpcionesAdmMB implements Serializable{
                         
                        
                         
-                        //ssMenus.setSsRolesSet(selectedlistRoles); 
+                        ssMenus.setSsRolesList(selectedlistRoles); 
                 
 		        menusService.getDao().save(getSsMenus());
                         

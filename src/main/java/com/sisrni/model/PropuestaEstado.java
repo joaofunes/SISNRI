@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * @author Cortez
  */
 @Entity
-@Table(name = "PROPUESTA_ESTADO", catalog = "sisrni", schema = "")
+@Table(name = "propuesta_estado", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PropuestaEstado.findAll", query = "SELECT p FROM PropuestaEstado p")})
 public class PropuestaEstado implements Serializable {

@@ -10,6 +10,8 @@ import com.sisrni.model.Proyecto;
 import com.sisrni.pojo.rpt.PojoMapaInteractivo;
 import com.sisrni.pojo.rpt.PojoProyectosByTipo;
 import com.sisrni.pojo.rpt.RptProyectoPojo;
+import com.sisrni.pojo.rpt.RptProyectosFinanciadosPojo;
+import com.sisrni.pojo.rpt.RptProyectosPorPaisPojo;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
@@ -125,5 +127,35 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         q.setParameter("hasta", hasta);
         return q.list();
 
+    }
+    public List<RptProyectosFinanciadosPojo> getDataProyectosFinanciadosReportes(Integer desde, Integer hasta){
+        String query = "SELECT p.ANIO_GESTION as anioGestion, sum(p.MONTO_PROYECTO) as suma from proyecto p where p.ANIO_GESTION BETWEEN \n" 
+                + desde + " AND " + hasta +  " GROUP BY p.ANIO_GESTION \n" 
+                + " ORDER BY p.ANIO_GESTION asc ";
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("anioGestion", new IntegerType())
+                .addScalar("suma", new DoubleType())
+                .setResultTransformer(Transformers.aliasToBean(RptProyectosFinanciadosPojo.class));
+        return q.list();
+    }
+    public List<RptProyectosPorPaisPojo> getDataProyectosPorPais(Integer desde, Integer hasta){
+        String query = "SELECT pa.NOMBRE_PAIS as nombrePais, sum(p.MONTO_PROYECTO) as suma from proyecto p join pais pa on (p.ID_PAIS_COOPERANTE=pa.ID_PAIS) where p.ANIO_GESTION BETWEEN \n" 
+                + desde + " AND " + hasta +  " GROUP BY pa.NOMBRE_PAIS \n" 
+                + " ORDER BY pa.NOMBRE_PAIS asc ";
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("nombrePais", new StringType())
+                .addScalar("suma", new DoubleType())
+                .setResultTransformer(Transformers.aliasToBean(RptProyectosPorPaisPojo.class));
+        return q.list();
+    }
+    public List<RptProyectosFinanciadosPojo> getDataProyectosTotales(Integer desde, Integer hasta){
+        String query = "SELECT p.ANIO_GESTION as anioGestion, count(p.ID_PROYECTO) as suma from proyecto p where p.ANIO_GESTION BETWEEN \n" 
+                + desde + " AND " + hasta +  " GROUP BY p.ANIO_GESTION \n" 
+                + " ORDER BY p.ANIO_GESTION asc ";
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("anioGestion", new IntegerType())
+                .addScalar("suma", new DoubleType())
+                .setResultTransformer(Transformers.aliasToBean(RptProyectosFinanciadosPojo.class));
+        return q.list();
     }
 }

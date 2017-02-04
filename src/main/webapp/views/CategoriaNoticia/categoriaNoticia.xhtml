@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestion de Categorias de Noticia">  
+            <p:panel style="width: 70%" header="Gestión de Categorías de Noticia">  
                 
                 <h:form id="formCategoriaNoticia">
                     <p:panelGrid columns="2">            
@@ -20,8 +20,8 @@
                             <h:outputLabel for="nombre" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombre" value="#{categoriaNoticiaMB.categoriaNoticia.categoriaNoticia}" required="true" size="20" />
-                            <p:watermark for="nombre" value="Nombre categoria de noticia" id="watermarkNombreCategoriaNoticia"/>
+                            <p:inputText id="nombre" value="#{categoriaNoticiaMB.categoriaNoticia.categoriaNoticia}" required="true" size="50" />
+                            <p:watermark for="nombre" value="Nombre de Categoría de Noticia" id="watermarkNombreCategoriaNoticia"/>
                         </p:column>
                         
                         <p:column>

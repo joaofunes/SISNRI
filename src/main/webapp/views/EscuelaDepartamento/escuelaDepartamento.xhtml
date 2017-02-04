@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestion de Escuelas y Departamentos">  
+            <p:panel style="width: 70%" header="Gestión de Escuelas y Departamentos">  
                 
                 <h:form id="formEscuelaDepartamento">
                     <p:panelGrid columns="2">
@@ -21,13 +21,13 @@
                         </p:column>
                         <p:column>
                             <p:inputText id="nombreEscuelaDepto" value="#{escuelaDepartamentoMB.escuelaDepartamento.nombreEscuelaDepto}" required="true" size="40" />
-                            <p:watermark for="nombreEscuelaDepto" value="Nombre escuelaDepartamento" id="watermarkNombreEscuelaDepartamento"/>
+                            <p:watermark for="nombreEscuelaDepto" value="Nombre de Escuela o Departamento" id="watermarkNombreEscuelaDepartamento"/>
                         </p:column>
                         <p:column>
                             <h:outputLabel for="facultadEscuelaDepartamento" value="Facultad:"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="facultadEscuelaDepartamento" value="#{escuelaDepartamentoMB.facultad.idFacultad}"  style="width:200px" required="true" >
+                            <p:selectOneMenu id="facultadEscuelaDepartamento" value="#{escuelaDepartamentoMB.facultad.idFacultad}"  style="width: 100%" required="true" >
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                 <c:forEach var="reg" items="#{escuelaDepartamentoMB.listFacultad}">
                                     <f:selectItem itemLabel="#{reg.nombreFacultad}" itemValue="#{reg.idFacultad}"/>
@@ -40,14 +40,14 @@
                         </p:column>
                          <p:column>
                              <p:inputText id="identificadorEscuelaDepartamento" value="#{escuelaDepartamentoMB.escuelaDepartamento.identificador}" required="true" size="40" />
-                            <p:watermark for="identificadorEscuelaDepartamento" value="Tipo escuelaDepartamento" id="watermarkIdentificadorEscuelaDepartamento"/>
+                            <p:watermark for="identificadorEscuelaDepartamento" value="Tipo de Escuela o Departamento" id="watermarkIdentificadorEscuelaDepartamento"/>
                         </p:column>   
                          <p:column>
-                            <h:outputLabel for="descripcionEscuelaDepto" value="Descripcion:"/>
+                            <h:outputLabel for="descripcionEscuelaDepto" value="Descripción:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="descripcionEscuelaDepto" value="#{escuelaDepartamentoMB.escuelaDepartamento.descripcion}" required="true" size="40" />
-                            <p:watermark for="descripcionEscuelaDepto" value="Descripcion escuelaDepartamento" id="watermarkDescripcionEscuelaDepartamento"/>
+                            <p:watermark for="descripcionEscuelaDepto" value="Descripción de Escuela o Departamento" id="watermarkDescripcionEscuelaDepartamento"/>
                         </p:column>
                         <p:column>
                             <p:commandButton styleClass="boton" rendered="#{!escuelaDepartamentoMB.actualizar}"
@@ -76,7 +76,7 @@
                         <p:column headerText="Facultad" filterBy="#{escuelaDepartamento.idFacultad.nombreFacultad}">
                             <h:outputText value="#{escuelaDepartamento.idFacultad.nombreFacultad}"/>
                         </p:column> 
-                        <p:column headerText="Descripcion"  filterBy="#{escuelaDepartamento.descripcion}">
+                        <p:column headerText="Descripción"  filterBy="#{escuelaDepartamento.descripcion}">
                             <h:outputText value="#{escuelaDepartamento.descripcion}"/>
                         </p:column>
                         <p:column headerText="Opciones" style="width: 15%">
@@ -102,7 +102,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteEscuelaDepartamentoDlg" header="Borrar EscuelaDepartamento" message="Confirma la eliminacion del EscuelaDepartamento?" 
+        <p:confirmDialog widgetVar="confirmDeleteEscuelaDepartamentoDlg" header="Borrar EscuelaDepartamento" message="¿Confirma la eliminación del registro?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">

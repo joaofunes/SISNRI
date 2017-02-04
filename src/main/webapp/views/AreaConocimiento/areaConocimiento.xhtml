@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestion de Areas de Conocimiento">  
+            <p:panel style="width: 70%" header="Gestión de Areas de Conocimiento">  
                 
                 <h:form id="formAreaConocimiento">
                     <p:panelGrid columns="2">            
@@ -20,8 +20,8 @@
                             <h:outputLabel for="nombre" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombre" value="#{areaConocimientoMB.areaConocimiento.nombreArea}" required="true" size="20" />
-                            <p:watermark for="nombre" value="Nombre areaConocimiento" id="watermarkNombreAreaConocimiento"/>
+                            <p:inputText id="nombre" value="#{areaConocimientoMB.areaConocimiento.nombreArea}" required="true" size="40" />
+                            <p:watermark for="nombre" value="Nombre Area de Conocimiento" id="watermarkNombreAreaConocimiento"/>
                         </p:column>
                         
                         <p:column>
@@ -44,8 +44,8 @@
                 <h:form id="formTablaAreaConocimientoes">
                     <p:dataTable var="areaConocimiento" value="#{areaConocimientoMB.listAreaConocimiento}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen areaConocimientoes registrados actualmente" >                       
-                        <p:column headerText="Nombre AreaConocimiento"  filterBy="#{areaConocimiento.nombreArea}"  style="width: 20%">
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen Areas de Conocimiento registradas actualmente" >                       
+                        <p:column headerText="Nombre Area de Conocimiento"  filterBy="#{areaConocimiento.nombreArea}"  style="width: 20%">
                             <h:outputText value="#{areaConocimiento.nombreArea}"/>
                         </p:column>
                         <p:column headerText="Opciones" style="width: 15%">
@@ -71,11 +71,11 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteAreaConocimientoDlg" header="Borrar AreaConocimiento" message="Confirma la eliminacion de la AreaConocimiento?" 
+        <p:confirmDialog widgetVar="confirmDeleteAreaConocimientoDlg" header="Borrar AreaConocimiento" message="¿Confirma la eliminación del Area de Conocimiento?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
-                    <h:outputLabel value="Nombre AreaConocimiento:"/>
+                    <h:outputLabel value="Nombre Area de Conocimiento:"/>
                     <h:outputText value="#{areaConocimientoMB.areaConocimiento.nombreArea}"/>
                 </p:panelGrid>
                 <br/>

@@ -1,112 +1,150 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<ui:composition  template="/WEB-INF/templates/layout.xhtml"
-                 xmlns="http://www.w3.org/1999/xhtml"
-                 xmlns:f="http://java.sun.com/jsf/core"
-                 xmlns:h="http://java.sun.com/jsf/html"
-                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                 xmlns:p="http://primefaces.org/ui"
-                 xmlns:pe="http://primefaces.org/ui/extensions" 
-
-                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-
+<ui:composition 
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="content">
-        <h:form id="formAdmin">
-            <h:panelGrid columns="2">
-                <h:outputLabel value="Nombre:"/>
-                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.nombreOrganismo}"/>
-                <h:outputLabel value="Tipo Organismo"/>
-                <p:selectOneMenu id="tipoorganismo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}">
-                    <c:forEach var="tipoOrg" items="#{organismoCooperanteMB.tipoOrganismoList}">
+        <center>
+            
+            <p:panel style="width: 70%" header="Gestión de Organismos de Cooperación">  
+                
+                <h:form id="formOrganismo">
+                    <p:panelGrid columns="2">
+                        <p:column>
+                            <h:outputLabel for="nombreOrganismo" value="Nombre:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nombreOrganismo" value="#{organismoCooperanteMB.organismoCooperante.nombreOrganismo}" required="true" size="40" />
+                            <p:watermark for="nombreOrganismo" value="Nombre del Organismo" id="watermarkNombreOrganismo"/>
+                        </p:column>
+                        
+                        <h:outputLabel value="Tipo de Organismo: "/>
+                        <p:selectOneMenu id="tipoorganismo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}" style="width: 100%" >
+                      <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                      <c:forEach var="tipoOrg" items="#{organismoCooperanteMB.tipoOrganismoList}">
                         <f:selectItem itemLabel="#{tipoOrg.nombreTipo}" itemValue="#{tipoOrg.idTipoOrganismo}"/>
                     </c:forEach>
                 </p:selectOneMenu>
-                
-                <h:outputLabel value="Region"/>
-                <p:selectOneMenu id="region" value="#{organismoCooperanteMB.regionSelected.idRegion}">
+                        <p:column>
+                            <h:outputLabel for="region" value="Región:"/>
+                             </p:column>
+                        <p:column>
+                             <p:selectOneMenu id="region" value="#{organismoCooperanteMB.regionSelected.idRegion}" style="width: 100%">
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <p:ajax listener="#{organismoCooperanteMB.onchangeRegion()}" update="pais" />
                     <c:forEach var="region" items="#{organismoCooperanteMB.regionList}">
                         <f:selectItem itemLabel="#{region.nombreRegion}" itemValue="#{region.idRegion}"/>
                     </c:forEach>
                 </p:selectOneMenu>
-                
-                 <h:outputLabel value="PaÃ­s"/>
-                <p:selectOneMenu id="pais" value="#{organismoCooperanteMB.paisSelected.idPais}">
+                 </p:column>
+                        <p:column>
+                 <h:outputLabel for="pais" value="País"/>
+               
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="pais" value="#{organismoCooperanteMB.paisSelected.idPais}" style="width: 100%">
                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                     <c:forEach var="pais" items="#{organismoCooperanteMB.paisList}">
                         <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
                     </c:forEach>
                 </p:selectOneMenu>
-<!--                <h:outputLabel value="Telefono:"/>
-                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.telefonoOrganismo}"/>
-                <h:outputLabel value="Fax:"/>
-                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.faxOranismo}"/>-->
-                <h:outputLabel value="Correo:"/>
-                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}"/>
-                <h:outputLabel value="Direccion:"/>
-                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}"/>
-                <h:outputLabel value="CÃ³digo Postal:"/>
-                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}"/>
-            </h:panelGrid>
-           
-                        <p:commandButton rendered="#{!organismoCooperanteMB.actualizar}"  styleClass="boton"
-                                         actionListener="#{organismoCooperanteMB.guardarOrganismo()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
-                                         value="Guardar" />
-                       
-                        <p:commandButton rendered="#{organismoCooperanteMB.actualizar}" styleClass="boton"
-                                         actionListener="#{organismoCooperanteMB.updateorganismo}" update="formAdmin :formPrincipal"
-                                         value="Actualizar" />                   
-        </h:form>
-        
-        <h:outputLabel style="margin-bottom: 20px;"/>
-      
-        <h:form id="formPrincipal">
-            <center>
-            <p:panel style="width: 900px">
-            
-                <p:dataTable var="organismo" value="#{organismoCooperanteMB.organismosList}"  rows="10"
-                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             rowsPerPageTemplate="5,10,15"
-                             paginator="true">
+                        </p:column>
+                        <p:column>
+                         <h:outputLabel value="Correo:"/>
+                         </p:column>
+                        <p:column>
+                            <p:inputText value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}" size="40"/>
+                        </p:column>
+                         <p:column>
+                <h:outputLabel value="Dirección:"/>
+                        </p:column>
+                         <p:column>
+                            
+                             <p:inputText value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}" size="40"/>
+                        </p:column>
+                         <p:column>
+                             
+                <h:outputLabel value="Código Postal:"/>
+                        </p:column>
+                            <p:column>
+                                
+                                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}" size="40"/> 
+                               </p:column>
+                         <p:column> 
+                             <p:commandButton styleClass="boton" rendered="#{!organismoCooperanteMB.actualizar}"
+                                              actionListener="#{organismoCooperanteMB.guardarOrganismo()}" value="Guardar"  update="formOrganismo :formTablaOrganismos" process="@this :formOrganismo"/>
 
+                            <p:commandButton styleClass="boton" rendered="#{organismoCooperanteMB.actualizar}"
+                                             actionListener="#{organismoCooperanteMB.updateorganismo()}" update="formOrganismo :formTablaOrganismos "
+                                             value="Actualizar" />
 
-                    <p:column headerText="Nombre" sortBy="#{organismo.nombreOrganismo}" filterBy="#{organismo.nombreOrganismo}">
+                            <p:commandButton styleClass="boton" rendered="#{organismoCooperanteMB.actualizar}"
+                                             actionListener="#{carreraMB.cancelarCarrera()}" immediate="true" value="Cancelar" update="formOrganismo"  process="@this" />
+
+                        </p:column>
+                    </p:panelGrid>
+
+                </h:form>
+                <br></br>
+                <h:form id="formTablaOrganismos">
+                    <p:dataTable var="organismo" value="#{organismoCooperanteMB.organismosList}" rows="10" 
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen Organismos Registrados actualmente" >
+                      <p:column headerText="Nombre" sortBy="#{organismo.nombreOrganismo}" filterBy="#{organismo.nombreOrganismo}">
                         <h:outputText value="#{organismo.nombreOrganismo}" />
                     </p:column>
-                    
-                    <p:column headerText="Tipo" sortBy="#{organismo.idTipoOrganismo.nombreTipo}" filterBy="#{organismo.idTipoOrganismo.nombreTipo}">
+                        <p:column headerText="Tipo" sortBy="#{organismo.idTipoOrganismo.nombreTipo}" filterBy="#{organismo.idTipoOrganismo.nombreTipo}">
                         <h:outputText value="#{organismo.idTipoOrganismo.nombreTipo}" />
                     </p:column>
-                    
-                    <p:column headerText="Correo" sortBy="#{organismo.correoOrganismo}" filterBy="#{organismo.correoOrganismo}">
+                         <p:column headerText="Correo" sortBy="#{organismo.correoOrganismo}" filterBy="#{organismo.correoOrganismo}">
                         <h:outputText value="#{organismo.correoOrganismo}" />
                     </p:column>
                     
-                    <p:column headerText="DirecciÃƒÂ³n" sortBy="#{organismo.direccionOrganismo}" filterBy="#{organismo.direccionOrganismo}">
+                    <p:column headerText="Dirección" sortBy="#{organismo.direccionOrganismo}" filterBy="#{organismo.direccionOrganismo}">
                         <h:outputText value="#{organismo.direccionOrganismo}" />
                     </p:column>
                     
-                    <p:column headerText="CÃ³digo Postal" sortBy="#{organismo.codigoPostal}" filterBy="#{organismo.codigoPostal}">
+                    <p:column headerText="Código Postal" sortBy="#{organismo.codigoPostal}" filterBy="#{organismo.codigoPostal}">
                         <h:outputText value="#{organismo.codigoPostal}" />
                     </p:column>
                     
-             
-                    <p:column headerText="Opciones" >
-                        <div style="float: left">
-                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                           value="Editar" actionListener="#{organismoCooperanteMB.preUpdate(organismo)}" update=":formAdmin" process="@form :formPrincipal"/>
-                        </div>
-                    </p:column>
-                </p:dataTable>
+                        <p:column headerText="Opciones" style="width: 15%">
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
+                                               actionListener="#{organismoCooperanteMB.preUpdate(organismo)}" update=":formOrganismo" process="@form:formTablaOrganismos">
+                                </p:commandLink>
+                            </div>
+                        
+                        </p:column>
 
-            </p:panel>
-             </center>   
-        </h:form>
-
+                    </p:dataTable>
+                </h:form>
+            </p:panel>     
+        </center> 
+        
+        
+        <!--'Dialog de confirmacin de la operacion de Borrado'-->
+        <p:confirmDialog widgetVar="confirmDeleteOrganismo Dlg" header="Borrar Organismo Cooperante" message="¿Confirma la eliminación del Organismo Cooperante?" 
+                         global="true" showEffect="fade" hideEffect="fade">
+            <h:form id="idEliminacion">
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="Nombre Organismo:"/>
+                    <h:outputText value="#{organismo.nombreOrganismo}"/>
+                    <h:outputLabel value="Tipo:"/>
+                    <h:outputText value="#{organismo.idTipoOrganismo.nombreTipo}"/>
+                </p:panelGrid>
+                <br/>
+                <br/>
+            </h:form>
+             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+                              actionListener="#{carreraMB.borrarCarrera()}" update=":formTablaOrganismos"/>
+             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
     </ui:define>
-
-</ui:composition> 
-
+</ui:composition>

@@ -323,7 +323,7 @@ public class PersonaMB implements Serializable{
         try {
             
             if(nDocumento!=null && !nDocumento.equals("")){
-             this.persona  = personaService.getReferenteInternoByDocumento(nDocumento);
+            // this.persona  = personaService.getReferenteInternoByDocumento(nDocumento);
              RequestContext context = RequestContext.getCurrentInstance();              
              context.execute("PF('PersonaEditDialog').show();");
             }     
@@ -340,7 +340,7 @@ public class PersonaMB implements Serializable{
         try {
             
             if(nDocumento!=null && !nDocumento.equals("")){
-             this.persona  = personaService.getReferenteExternoByDoccumento(nDocumento);
+           //  this.persona  = personaService.getReferenteExternoByDoccumento(nDocumento);
              RequestContext context = RequestContext.getCurrentInstance();              
              context.execute("PF('PersonaEditDialog').show();");
             }     

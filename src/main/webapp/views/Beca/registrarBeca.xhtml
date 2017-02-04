@@ -97,13 +97,13 @@
                                 <p:panelGrid>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Pais cooperante:"/>
+                                            <p:outputLabel value="Tipo Beca:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="paiscooperantebeca" value="#{becaMB.paisCooperanteSelected.idPais}"  style="width:180px">
+                                            <p:selectOneMenu id="tipoBeca" value="#{becaMB.tipoBecaSelected.idTipoBeca}"  style="width:180px">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" />
-                                                <c:forEach var="pais" items="#{becaMB.paisList}">
-                                                    <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                                                <c:forEach var="tb" items="#{becaMB.tipoBecaList}">
+                                                    <f:selectItem itemLabel="#{tb.nombreTipoBeca}" itemValue="#{tb.idTipoBeca}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
@@ -121,6 +121,17 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
+                                            <p:outputLabel value="Organismo cooperante:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="paiscooperantebeca" value="#{becaMB.organismoCooperanteSelected.idOrganismo}"  style="width:180px">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" />
+                                                <c:forEach var="cop" items="#{becaMB.organismoList}">
+                                                    <f:selectItem itemLabel="#{cop.nombreOrganismo}" itemValue="#{cop.idOrganismo}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
                                             <p:outputLabel value="Pais destino"/>
                                         </p:column>
                                         <p:column>
@@ -132,6 +143,8 @@
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
+                                    </p:row>
+                                    <p:row>
                                         <p:column>
                                             <p:outputLabel value="Universidad Destino"/>
                                         </p:column>
@@ -141,20 +154,6 @@
                                                 <c:forEach var="universidad" items="#{becaMB.universidadList}">
                                                     <f:selectItem itemLabel="#{universidad.nombreOrganismo}" itemValue="#{universidad.idOrganismo}"/>
                                                 </c:forEach>
-                                            </p:selectOneMenu>
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Tipo Financiamiento"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:selectOneMenu  id="modalidadbeca" value="#{becaMB.tipoModalidaBecaSelected.idTipoModalidad}"  style="width:180px">
-                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <c:forEach var="modalidad" items="#{becaMB.tipoModalidadBecaList}">
-                                                    <f:selectItem itemLabel="#{modalidad.modalidad}" itemValue="#{modalidad.idTipoModalidad}"/>
-                                                </c:forEach>
-                                                <p:ajax event="change" listener="#{becaMB.mostrarCampo()}" update="montointerno montoexterno" process="@this" partialSubmit="true"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
@@ -181,6 +180,31 @@
                                         </p:column>
                                         <p:column>
                                             <p:calendar pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaFin}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Tipo Financiamiento"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu  id="modalidadbeca" value="#{becaMB.tipoModalidaBecaSelected.idTipoModalidad}"  style="width:180px">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <c:forEach var="modalidad" items="#{becaMB.tipoModalidadBecaList}">
+                                                    <f:selectItem itemLabel="#{modalidad.modalidad}" itemValue="#{modalidad.idTipoModalidad}"/>
+                                                </c:forEach>
+                                                <p:ajax event="change" listener="#{becaMB.mostrarCampo()}" update="montointerno montoexterno" process="@this" partialSubmit="true"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Tipo de Moneda Externo:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu  id="tipoCambio" value="#{becaMB.tipoCambioSelected.idTipoCambio}"  style="width:180px">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <c:forEach var="tipoCambio" items="#{becaMB.tipoCambioList}">
+                                                    <f:selectItem itemLabel="#{tipoCambio.nombreDivisa}" itemValue="#{tipoCambio.idTipoCambio}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -401,8 +425,8 @@
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
-                                     <p:outputLabel value="Para ingresar datoss del Coordinador Academico Externo active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabExterno}"/>
-                                    </h:panelGroup>
+                                    <p:outputLabel value="Para ingresar datoss del Coordinador Academico Externo active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabExterno}"/>
+                                </h:panelGroup>
                             </p:tab>
                         </p:accordionPanel>
                     </p:panel>

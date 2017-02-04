@@ -25,6 +25,10 @@ public class SsRolesService extends GenericService<SsRoles, Integer> {
     public SsRoles findByUser(String user) {
         return ssRolesDao.findByUser(user);
     }
+    
+    public SsRoles getRolByName(String name) {
+        return ssRolesDao.getRolByName(name);
+    }
 //    
 //       public List<SsRoles> getRolesByUrl(SsRoles rol) {
 //        return this.ssRolesDao.getRolesByUrl(rol);

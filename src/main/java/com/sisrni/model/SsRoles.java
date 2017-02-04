@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sisrni.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -23,49 +22,56 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Angel
+ * @author Cortez
  */
 @Entity
-@Table(name = "ss_roles")//ec2-52-67-90-249.sa-east-1.compute.amazonaws.com
+@Table(name = "ss_roles", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "SsRoles.findAll", query = "SELECT s FROM SsRoles s")})
 public class SsRoles implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "ID_ROL", nullable = false)
     private Integer idRol;
+    @Size(max = 50)
     @Column(name = "CODIGO_ROL", length = 50)
     private String codigoRol;
+    @Size(max = 50)
     @Column(name = "NOMBRE_ROL", length = 50)
     private String nombreRol;
-    @Column(length = 150)
+    @Size(max = 150)
+    @Column(name = "DESCRIPCION", length = 150)
     private String descripcion;
+    @Size(max = 15)
     @Column(name = "USUARIO_REGISTRO", length = 15)
     private String usuarioRegistro;
     @Column(name = "FECHA_REGISTRO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
+    @Size(max = 15)
     @Column(name = "USUARIO_ULTIMAMODIFICACION", length = 15)
     private String usuarioUltimamodificacion;
     @Column(name = "FECHA_ULTIMAMODIFICACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaUltimamodificacion;
-    @ManyToMany(mappedBy = "ssRolesSet", fetch = FetchType.LAZY)
-    private Set<SsMenus> ssMenusSet;
+    @ManyToMany(mappedBy = "ssRolesList")
+    private List<SsMenus> ssMenusList;
     @JoinTable(name = "ss_roles_usuarios", joinColumns = {
         @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO", nullable = false)})
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<SsUsuarios> ssUsuariosSet;
+    @ManyToMany
+    private List<SsUsuarios> ssUsuariosList;
     @JoinTable(name = "ss_roles_opciones", joinColumns = {
         @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_OPCION", referencedColumnName = "ID_OPCION", nullable = false)})
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<SsOpciones> ssOpcionesSet;
+    @ManyToMany
+    private List<SsOpciones> ssOpcionesList;
 
     public SsRoles() {
     }
@@ -138,28 +144,28 @@ public class SsRoles implements Serializable {
         this.fechaUltimamodificacion = fechaUltimamodificacion;
     }
 
-    public Set<SsMenus> getSsMenusSet() {
-        return ssMenusSet;
+    public List<SsMenus> getSsMenusList() {
+        return ssMenusList;
     }
 
-    public void setSsMenusSet(Set<SsMenus> ssMenusSet) {
-        this.ssMenusSet = ssMenusSet;
+    public void setSsMenusList(List<SsMenus> ssMenusList) {
+        this.ssMenusList = ssMenusList;
     }
 
-    public Set<SsUsuarios> getSsUsuariosSet() {
-        return ssUsuariosSet;
+    public List<SsUsuarios> getSsUsuariosList() {
+        return ssUsuariosList;
     }
 
-    public void setSsUsuariosSet(Set<SsUsuarios> ssUsuariosSet) {
-        this.ssUsuariosSet = ssUsuariosSet;
+    public void setSsUsuariosList(List<SsUsuarios> ssUsuariosList) {
+        this.ssUsuariosList = ssUsuariosList;
     }
 
-    public Set<SsOpciones> getSsOpcionesSet() {
-        return ssOpcionesSet;
+    public List<SsOpciones> getSsOpcionesList() {
+        return ssOpcionesList;
     }
 
-    public void setSsOpcionesSet(Set<SsOpciones> ssOpcionesSet) {
-        this.ssOpcionesSet = ssOpcionesSet;
+    public void setSsOpcionesList(List<SsOpciones> ssOpcionesList) {
+        this.ssOpcionesList = ssOpcionesList;
     }
 
     @Override

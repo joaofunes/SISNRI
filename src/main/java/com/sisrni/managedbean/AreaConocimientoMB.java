@@ -75,14 +75,14 @@ public class AreaConocimientoMB{
      * correspondiente de la base de datos
      */
     public void guardarAreaConocimiento(){
-        String msg ="AreaConocimiento Almacenado Exitosamente!";
+        String msg ="Area de Conocimiento Almacenada Exitosamente!";
         try{
            areaConocimiento.setIdAreaConocimiento(Integer.MIN_VALUE);
            areaConocimientoService.save(areaConocimiento);
-          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardada!!", msg));
            
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Guardar AreaConocimiento!");
+            JsfUtil.addErrorMessage("Error al Guardar Area de Conocimiento!");
             e.printStackTrace();
         }
         cargarAreaConocimiento();
@@ -106,13 +106,13 @@ public class AreaConocimientoMB{
      * seleccionada
      */
     public void actualizarAreaConocimiento(){
-        String msg ="AreaConocimiento Actualizado Exitosamente!";
+        String msg ="Area de Conocimiento Actualizada Exitosamente!";
         try{
             //actualizando la instancia
             areaConocimientoService.merge(areaConocimiento);
             actualizar = false;
             cancelarAreaConocimiento(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar AreaConocimiento");
             e.printStackTrace();
@@ -139,16 +139,16 @@ public class AreaConocimientoMB{
      * Metodo que borra una instancia de 'AreaConocimiento' de la Base de datos
      */
     public void borrarAreaConocimiento(){ 
-        String msg ="AreaConocimiento Eliminado Exitosamente!";
+        String msg ="Area de Conocimiento Eliminada Exitosamente!";
         try{
             //Borrando la instancia de areaConocimiento
             areaConocimientoService.delete(areaConocimiento);
             cargarAreaConocimiento();
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('confirmDeleteAreaConocimientoDlg').hide();"); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminada!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar AreaConocimiento!");
+            JsfUtil.addErrorMessage("Error al Eliminar Area de Conocimiento!");
             e.printStackTrace();
         }finally{
             actualizar = false;
@@ -163,12 +163,14 @@ public class AreaConocimientoMB{
      * actualizacion de AreaConocimiento
      */
     public void cancelarAreaConocimiento(){
-        String msg ="AreaConocimiento cancelado";
+        String msg ="Area de Conocimiento cancelada";
         try{
         areaConocimiento = null;
         areaConocimiento = new AreaConocimiento();
         RequestContext.getCurrentInstance().reset(":formAreaConocimiento");
+         if(actualizar){
         JsfUtil.addSuccessMessage(msg);
+         }
         }catch(Exception e){
              System.out.println(e.getMessage());
         }

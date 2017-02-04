@@ -28,7 +28,12 @@ import org.springframework.stereotype.Repository;
 public class BecaDao extends GenericDao<Beca, Integer> {
 
     public List<PojoBeca> getBecas(Integer idBecaSearch) {
-        String query = "SELECT bec.ID_BECA idBeca, bec.ANIO_GESTION anioGestion,  prb.NOMBRE_PROGRAMA as programaBeca, per.NOMBRE_PERSONA nombreBecario, per.APELLIDO_PERSONA apellidoBecario,\n"
+        String query = "SELECT bec.ID_BECA idBeca,\n"
+                + "  bec.ANIO_GESTION anioGestion,\n"
+                + "  prb.NOMBRE_PROGRAMA as programaBeca,\n"
+                + "  per.NOMBRE_PERSONA nombreBecario,\n"
+                + "  per.APELLIDO_PERSONA apellidoBecario,\n"
+                + "  fac.NOMBRE_FACULTAD facultad,\n"
                 + "pai.NOMBRE_PAIS paisDestino, org.NOMBRE_ORGANISMO universidadDestino, bec.MONTO_TOTAL montoBeca,IF(bec.OTORGADA = 1, 'SI','NO') as  otorgada\n"
                 + "FROM beca bec\n"
                 + "INNER JOIN programa_beca prb\n"
@@ -37,6 +42,10 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 + "ON bec.ID_BECA = peb.ID_BECA\n"
                 + "INNER JOIN persona per\n"
                 + "ON peb.ID_PERSONA = per.ID_PERSONA\n"
+                + "  INNER JOIN carrera ca\n"
+                + "  ON per.ID_CARRERA = ca.ID_CARRERA\n"
+                + "  INNER JOIN facultad fac\n"
+                + "  ON ca.ID_FACULTAD = fac.ID_FACULTAD\n"
                 + "INNER JOIN organismo org\n"
                 + "  ON bec.ID_UNIVERSIDAD = org.ID_ORGANISMO\n"
                 + "INNER JOIN pais pai\n"
@@ -45,7 +54,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
         if (idBecaSearch > 0) {
             query = query + " AND bec.ID_BECA=" + idBecaSearch;
         }
-
+        query += " ORDER BY bec.FECHA_INGRESO DESC";
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                     .addScalar("idBeca", new IntegerType())
@@ -53,6 +62,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                     .addScalar("programaBeca", new StringType())
                     .addScalar("nombreBecario", new StringType())
                     .addScalar("apellidoBecario", new StringType())
+                    .addScalar("facultad", new StringType())
                     .addScalar("paisDestino", new StringType())
                     .addScalar("universidadDestino", new StringType())
                     .addScalar("montoBeca", new DoubleType())
@@ -68,16 +78,18 @@ public class BecaDao extends GenericDao<Beca, Integer> {
     }
 
     public List<BecasGestionadasPojo> getDataBecasGestionadasReportes(Integer desde, Integer hasta) {
-        String query = "select b.ANIO_GESTION anio, count(b.ID_BECA) gestionadas,(SELECT COUNT(i.ID_BECA) FROM beca i WHERE i.OTORGADA=1 and i.ANIO_GESTION=b.ANIO_GESTION) becasOtorgadas,(SELECT SUM(a.MONTO_TOTAL) FROM beca a WHERE a.OTORGADA=1 and a.ANIO_GESTION=b.ANIO_GESTION) 'montoOtorgadas',(SELECT COUNT(c.ID_BECA) FROM beca c WHERE c.OTORGADA=0 and c.ANIO_GESTION=b.ANIO_GESTION) becasDenegadas,(SELECT SUM(r.MONTO_TOTAL) FROM beca r WHERE r.OTORGADA=0 and r.ANIO_GESTION=b.ANIO_GESTION) montoDenegadas  from beca b WHERE b.ANIO_GESTION BETWEEN\n"
-                + desde + " and " + hasta + " \n"
-                + "GROUP BY b.ANIO_GESTION ORDER BY b.ANIO_GESTION desc";
+        String query = "SELECT b.ANIO_GESTION anio, count(*) gestionadas,\n"
+                + "  sum(if(b.OTORGADA=1,1,0)) becasOtorgadas,\n"
+                + "  sum(if(b.OTORGADA=0,1,0)) becasDenegadas,\n"
+                + "  sum(if(OTORGADA=1,b.MONTO_TOTAL,0.00)) montoOtorgadas\n"
+                + "FROM  beca b WHERE b.ANIO_GESTION BETWEEN " + desde + " AND "+ hasta+" \n"
+                + "GROUP BY b.ANIO_GESTION ORDER BY b.ANIO_GESTION asc";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("anio", new IntegerType())
                 .addScalar("gestionadas", new IntegerType())
                 .addScalar("becasOtorgadas", new IntegerType())
                 .addScalar("montoOtorgadas", new DoubleType())
                 .addScalar("becasDenegadas", new IntegerType())
-                .addScalar("montoDenegadas", new DoubleType())
                 .setResultTransformer(Transformers.aliasToBean(BecasGestionadasPojo.class));
         return q.list();
     }
@@ -151,6 +163,28 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 .addScalar("montoBeca", new DoubleType())
                 .setResultTransformer(Transformers.aliasToBean(RptDetalleBecasPojo.class));
         return q.list();
+    }
+
+    public List<BecasGestionadasPojo> getDataBecasGestionadasGroupOrganismos(Integer desde, Integer hasta) {
+        String query = "SELECT o.NOMBRE_ORGANISMO organismo, count(*) gestionadas,\n"
+                + "  SUM(if(b.OTORGADA=1,1,0)) becasOtorgadas,\n"
+                + "  SUM(if(b.OTORGADA=0,1,0)) becasDenegadas,\n"
+                + "    SUM(if(b.OTORGADA=1,b.MONTO_TOTAL,0)) montoOtorgadas\n"
+                + "FROM beca b INNER JOIN organismo o\n"
+                + "ON b.ID_ORGANISMO_COOPERANTE = o.ID_ORGANISMO\n"
+                + "WHERE\n"
+                + " b.ANIO_GESTION BETWEEN " + desde + " AND " + hasta + "\n"
+                + " GROUP BY b.ID_ORGANISMO_COOPERANTE";
+
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("organismo", new StringType())
+                .addScalar("gestionadas", new IntegerType())
+                .addScalar("becasOtorgadas", new IntegerType())
+                .addScalar("montoOtorgadas", new DoubleType())
+                .addScalar("becasDenegadas", new IntegerType())
+                .setResultTransformer(Transformers.aliasToBean(BecasGestionadasPojo.class));
+        return q.list();
+
     }
 
     public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected, String desde, String hasta) {//List<String> tipoBecaSelected,

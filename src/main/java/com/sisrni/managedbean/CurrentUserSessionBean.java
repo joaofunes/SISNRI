@@ -7,6 +7,7 @@ import com.sisrni.model.SsRoles;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.SsMenusService;
 import com.sisrni.service.SsOpcionesService;
+import com.sisrni.service.SsRolesService;
 import com.sisrni.utils.MenuList;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class CurrentUserSessionBean implements Serializable{
     private SsOpcionesService ssOpcionesService;
     @Autowired
     private SsMenusService ssMenusService;
+    @Autowired
+    private SsRolesService ssRolesService;
 
     private CurrentUserSessionForm currentUserSessionForm;
 
@@ -61,7 +64,7 @@ public class CurrentUserSessionBean implements Serializable{
             AppUserDetails usuario = getSessionUser();
             if (usuario != null && usuario.getUsuario() != null) {
                 getForm().setMenusLst(new ArrayList<MenuList>());
-                for (SsRoles rol : usuario.getUsuario().getSsRolesSet()) {
+                for (SsRoles rol : usuario.getUsuario().getSsRolesList()) {
                     List<SsMenus> mns = ssMenusService.getMenusByrol(rol);
                     getForm().setMenusLst(MenuList.GenerarMenu(mns));
                     for (MenuList menu : getForm().getMenusLst()) {
@@ -76,6 +79,20 @@ public class CurrentUserSessionBean implements Serializable{
             }
         }
 //        return getForm().getOptions();
+    }
+    
+    public void calculateMenuTest() {
+        SsRoles rol = ssRolesService.getRolByName("EOP");
+        List<SsMenus> mns = ssMenusService.getMenusByrol(rol);
+        getForm().setMenusLst(MenuList.GenerarMenu(mns));
+        for (MenuList menu : getForm().getMenusLst()) {
+            List<SsOpciones> opcionesMenu = obtenerMenuOpcion(rol, menu.getSsMenu());
+            menu.setSsOpciones(opcionesMenu);
+            for (MenuList subMenu : menu.getSubMenu()) {
+                List<SsOpciones> opcionesSubMenu = obtenerMenuOpcion(rol, subMenu.getSsMenu());
+                subMenu.setSsOpciones(opcionesSubMenu);
+            }
+        }
     }
 
     public CurrentUserSessionForm getForm() {

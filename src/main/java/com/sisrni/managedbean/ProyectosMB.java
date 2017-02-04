@@ -19,6 +19,7 @@ import com.sisrni.model.TipoFacultad;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.TipoTelefono;
+import com.sisrni.model.TipoCambio;
 import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
@@ -37,18 +38,18 @@ import com.sisrni.service.TipoFacultadService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoProyectoService;
 import com.sisrni.service.TipoTelefonoService;
+import com.sisrni.service.TipoCambioService;
 import com.sisrni.service.UnidadService;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
 import javax.inject.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -95,6 +96,8 @@ public class ProyectosMB {
     private TipoFacultadService tipoFacultadService;
     @Autowired
     private EscuelaDepartamentoService escuelaDepartamentoService;
+    @Autowired
+    private TipoCambioService tipoCambioService;
 
 //Definicion de objetos    
     private Proyecto proyecto;
@@ -117,6 +120,7 @@ public class ProyectosMB {
     private String numDocumentoBecario;
     private int yearActual;
     private String anio;
+    private Date fechaActual;
 
 //Definicion de listas
     private List<Facultad> facultadList;
@@ -136,6 +140,7 @@ public class ProyectosMB {
     private List<Facultad> facultadBeneficiada;
     private List<Facultad> facultadBeneficiadaList;
     private List<Proyecto> proyectoList;
+    private List<TipoCambio> tipoCambioList;
 //Definicion de selected
     private TipoProyecto proyectoSelected;
     private String[] areaConocimientoSelected;
@@ -162,6 +167,7 @@ public class ProyectosMB {
     private Organismo organismoSelectedRefExt;
     private Pais paisSelected;
     private Pais paisCooperanteSelected;
+    private TipoCambio tipoCambioSelected;
 //Telefono
 //private Telefono telefono;
     private Telefono telefonoSolFijo;
@@ -187,6 +193,9 @@ public class ProyectosMB {
     private static final String FIJO = "FIJO";
     private static final String FAX = "FAX";
     private static final String CELULAR = "CELULAR";
+    private TipoCambio codigoMonedaDolar;
+    private TipoCambio codigoMonedaEuro;
+    private TipoCambio tipoCambio;
     private int existeSol;
     private int existeAsis;
     private int existeRefExt;
@@ -214,6 +223,7 @@ public class ProyectosMB {
     public Boolean mostrarEscuelaSol;
     public Boolean mostrarEscuelaAsis;
     public Boolean validarFecha;
+    public Long montoProyecto;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -243,6 +253,7 @@ public class ProyectosMB {
         facultadesBeneficiadaList = new ArrayList<Facultad>();
         paisSelected = new Pais();
         paisCooperanteSelected = new Pais();
+        tipoCambioSelected = new TipoCambio();
         //Listas
         tipoproyectolist = tipoProyectoService.findAll();
         areaConocimientoList = areaConocimientoService.findAll();
@@ -263,6 +274,7 @@ public class ProyectosMB {
         escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
         escuelaDeptoListAsis = new ArrayList<EscuelaDepartamento>();
         proyectoList = proyectoService.findAll();
+        tipoCambioList = tipoCambioService.findAll();
         //Objetos
         proyecto = new Proyecto();
         propuestaConvenio = new PropuestaConvenio();
@@ -291,6 +303,7 @@ public class ProyectosMB {
         personaProyectoPK = new PersonaProyectoPK();
         personaProyectoAsisPK = new PersonaProyectoPK();
         personaProyectoExtPK = new PersonaProyectoPK();
+        tipoCambio = new TipoCambio();
         regiones = new Pais();
         numDocumentoAsis = "";
         numDocumentoSol = "";
@@ -309,12 +322,15 @@ public class ProyectosMB {
         //tipo facultad
         tipoFacultad = tipoFacultadService.getTipoFacultadByNombre("INICIATIVA");
         tipoFacultadB = tipoFacultadService.getTipoFacultadByNombre("BENEFICIADA");
+        codigoMonedaDolar = tipoCambioService.getTipoCambioByCodigo("USD");
+        codigoMonedaEuro = tipoCambioService.getTipoCambioByCodigo("EUR");
         //bandera
         existeSol = 0;
         existeAsis = 0;
         existeRefExt = 0;
         yearActual = getYearOfDate(new Date());
         anio = "";
+        fechaActual = new Date();
         facultadSelectedPojoP = "";
         facultadSelectedPojoSol = "";
         facultadSelectedPojoAsis = "";
@@ -362,16 +378,16 @@ public class ProyectosMB {
             telefonoSolCel.setIdTipoTelefono(tipoTelefonoCel);
             persona.getTelefonoList().add(telefonoSolCel);
             //guardar telefono fax solicitante
-            telefonoSolFax.setIdPersona(persona);
-            telefonoSolFax.setIdTipoTelefono(tipoTelefonoFax);
-            persona.getTelefonoList().add(telefonoSolFax);
+//            telefonoSolFax.setIdPersona(persona);
+//            telefonoSolFax.setIdTipoTelefono(tipoTelefonoFax);
+//            persona.getTelefonoList().add(telefonoSolFax);
             if (existeSol == 1 || actualizar == true) {
                 personaService.merge(persona);
             } else {
                 personaService.save(persona);
             }
             //guardar persona Asistente
-            if (actualizar!=true && tabAsis == true) {
+            if (tabAsis == true) {
                 String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
                 if (facultadArregloAsis[1].equals("1")) {
                     EscuelaDepartamento escuelaselecAsis = escuelaDepartamentoService.findById(escuelaDeptoSelectedAsis.getIdEscuelaDepto());
@@ -392,9 +408,9 @@ public class ProyectosMB {
                 telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
                 personaAsistente.getTelefonoList().add(telefonoAsisCel);
                 // guardar fax Asistente
-                telefonoAsisFax.setIdPersona(personaAsistente);
-                telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
-                personaAsistente.getTelefonoList().add(telefonoAsisFax);
+//                telefonoAsisFax.setIdPersona(personaAsistente);
+//                telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
+//                personaAsistente.getTelefonoList().add(telefonoAsisFax);
                 if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
                     personaService.merge(personaAsistente);
                 } else {
@@ -416,15 +432,18 @@ public class ProyectosMB {
             telefonoRefextCel.setIdTipoTelefono(tipoTelefonoCel);
             personaExterna.getTelefonoList().add(telefonoRefextCel);
             //guardar fax persona externa
-            telefonoRefextFax.setIdPersona(personaExterna);
-            telefonoRefextFax.setIdTipoTelefono(tipoTelefonoFax);
-            personaExterna.getTelefonoList().add(telefonoRefextFax);
+//            telefonoRefextFax.setIdPersona(personaExterna);
+//            telefonoRefextFax.setIdTipoTelefono(tipoTelefonoFax);
+//            personaExterna.getTelefonoList().add(telefonoRefextFax);
             if (existeRefExt == 1 || actualizar == true) {
                 personaService.merge(personaExterna);
             } else {
                 personaService.save(personaExterna);
             }
             //Guardando datos del proyecto
+            SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+            formateador.format(fechaActual);
+            proyecto.setFechoIngreso(fechaActual);
             proyecto.setIdTipoProyecto(tipoProyectoService.findById(proyectoSelected.getIdTipoProyecto()));
             PropuestaConvenio propuesta;
             if (propuestaConvenioSelected.getIdPropuesta() == null) {
@@ -435,6 +454,15 @@ public class ProyectosMB {
             Pais paiscooperante = paisService.findById(paisCooperanteSelected.getIdPais());
             proyecto.setIdPaisCooperante(paiscooperante);
             proyecto.setAnioGestion(Integer.parseInt(anio.trim()));
+            //seteando monto
+            if (tipoCambioSelected.getIdTipoCambio() == 2) {
+//                proyecto.setMontoProyecto(Long.parseLong(tipoCambioSelected.getDolaresPorUnidad().toString()));
+            } else {
+                TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+                BigDecimal d = new BigDecimal(proyecto.getMontoProyecto());
+                d = d.multiply(aux.getDolaresPorUnidad());
+                proyecto.setMontoProyecto(d.longValue());
+            }
             //Intermedia de proyecto y area de conocimiento
             for (int i = 0; i < areaConocimientoSelected.length; i++) {
                 AreaConocimiento area = areaConocimientoService.findById(Integer.parseInt(areaConocimientoSelected[i]));
@@ -470,36 +498,36 @@ public class ProyectosMB {
             if (actualizar == true) {
                 proyectoService.merge(proyecto);
                 //
-                if (tabAsis == true && asistenteNull==true) {
+                if (tabAsis == true && asistenteNull == true) {
                     String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
-                if (facultadArregloAsis[1].equals("1")) {
-                    EscuelaDepartamento escuelaselecAsis = escuelaDepartamentoService.findById(escuelaDeptoSelectedAsis.getIdEscuelaDepto());
-                    personaAsistente.setIdEscuelaDepto(escuelaselecAsis);
-                } else {
-                    Unidad unidadSelectedAsist = unidadService.findById(Integer.parseInt(facultadArregloAsis[0]));
-                    personaAsistente.setIdUnidad(unidadSelectedAsist);
-                }
-                personaAsistente.setPasaporte("-");
-                personaAsistente.setExtranjero(Boolean.FALSE);
-                personaAsistente.setActivo(Boolean.TRUE);
-                //guardar telefono fijo asistente
-                telefonoAsisFijo.setIdPersona(personaAsistente);
-                telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoFijo);
-                personaAsistente.getTelefonoList().add(telefonoAsisFijo);
-                //guardar telefono celular asistente
-                telefonoAsisCel.setIdPersona(personaAsistente);
-                telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
-                personaAsistente.getTelefonoList().add(telefonoAsisCel);
-                // guardar fax Asistente
-                telefonoAsisFax.setIdPersona(personaAsistente);
-                telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
-                personaAsistente.getTelefonoList().add(telefonoAsisFax);
-                if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
-                    personaService.merge(personaAsistente);
-                } else {
-                    personaService.save(personaAsistente);
-                }
-                //
+                    if (facultadArregloAsis[1].equals("1")) {
+                        EscuelaDepartamento escuelaselecAsis = escuelaDepartamentoService.findById(escuelaDeptoSelectedAsis.getIdEscuelaDepto());
+                        personaAsistente.setIdEscuelaDepto(escuelaselecAsis);
+                    } else {
+                        Unidad unidadSelectedAsist = unidadService.findById(Integer.parseInt(facultadArregloAsis[0]));
+                        personaAsistente.setIdUnidad(unidadSelectedAsist);
+                    }
+                    personaAsistente.setPasaporte("-");
+                    personaAsistente.setExtranjero(Boolean.FALSE);
+                    personaAsistente.setActivo(Boolean.TRUE);
+                    //guardar telefono fijo asistente
+                    telefonoAsisFijo.setIdPersona(personaAsistente);
+                    telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoFijo);
+                    personaAsistente.getTelefonoList().add(telefonoAsisFijo);
+                    //guardar telefono celular asistente
+                    telefonoAsisCel.setIdPersona(personaAsistente);
+                    telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
+                    personaAsistente.getTelefonoList().add(telefonoAsisCel);
+                    // guardar fax Asistente
+                    telefonoAsisFax.setIdPersona(personaAsistente);
+                    telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
+                    personaAsistente.getTelefonoList().add(telefonoAsisFax);
+                    if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
+                        personaService.merge(personaAsistente);
+                    } else {
+                        personaService.save(personaAsistente);
+                    }
+                    //
                     //guardar en tabla intermedia persona_proyecto Asistente          
                     personaProyectoAsisPK.setIdPersona(personaAsistente.getIdPersona());
                     personaProyectoAsisPK.setIdProyecto(proyecto.getIdProyecto());
@@ -645,9 +673,6 @@ public class ProyectosMB {
                 if (us.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                     telefonoSolCel = us;
                 }
-                if (us.getIdTipoTelefono().getNombre().equals(FAX)) {
-                    telefonoSolFax = us;
-                }
             }
         } catch (Exception e) {
         }
@@ -703,9 +728,6 @@ public class ProyectosMB {
                 if (us.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                     telefonoAsisCel = us;
                 }
-                if (us.getIdTipoTelefono().getNombre().equals(FAX)) {
-                    telefonoAsisFax = us;
-                }
             }
         } catch (Exception e) {
         }
@@ -743,9 +765,6 @@ public class ProyectosMB {
                 }
                 if (us.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                     telefonoRefextCel = us;
-                }
-                if (us.getIdTipoTelefono().getNombre().equals(FAX)) {
-                    telefonoRefextFax = us;
                 }
             }
         } catch (Exception e) {
@@ -804,6 +823,7 @@ public class ProyectosMB {
                 searchByDocAsistente(personaAsistente.getDuiPersona());
                 searchByDocReferenteExterno(personaExterna.getPasaporte());
                 proyectoSelected = proyecto.getIdTipoProyecto();
+                tipoCambioSelected.setIdTipoCambio(2);
                 if (proyecto.getIdPropuestaConvenio() == null) {
                 } else {
                     propuestaConvenioSelected = proyecto.getIdPropuestaConvenio();
@@ -1647,6 +1667,38 @@ public class ProyectosMB {
 
     public void setValidarFecha(Boolean validarFecha) {
         this.validarFecha = validarFecha;
+    }
+
+    public Long getMontoProyecto() {
+        return montoProyecto;
+    }
+
+    public void setMontoProyecto(Long montoProyecto) {
+        this.montoProyecto = montoProyecto;
+    }
+
+    public TipoCambio getTipoCambio() {
+        return tipoCambio;
+    }
+
+    public void setTipoCambio(TipoCambio tipoCambio) {
+        this.tipoCambio = tipoCambio;
+    }
+
+    public List<TipoCambio> getTipoCambioList() {
+        return tipoCambioList;
+    }
+
+    public void setTipoCambioList(List<TipoCambio> tipoCambioList) {
+        this.tipoCambioList = tipoCambioList;
+    }
+
+    public TipoCambio getTipoCambioSelected() {
+        return tipoCambioSelected;
+    }
+
+    public void setTipoCambioSelected(TipoCambio tipoCambioSelected) {
+        this.tipoCambioSelected = tipoCambioSelected;
     }
 
 }
