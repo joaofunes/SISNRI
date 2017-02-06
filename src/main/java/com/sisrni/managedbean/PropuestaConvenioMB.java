@@ -633,15 +633,7 @@ public class PropuestaConvenioMB implements Serializable {
             }
             RequestContext context = RequestContext.getCurrentInstance();
             context.update("formAdmin:idSolicinateNombreInterno");
-            context.update("formAdmin:idSolicinateApellidoInterno");
-            context.update("formAdmin:email");
-            context.update("formAdmin:idTelFijoInterno");
-            context.update("formAdmin:idCelInterno");
-            context.update("formAdmin:idFacultadInterno");
-            context.update("formAdmin:idUnidadInterno");
-            context.update("formAdmin:idFacultadUnidadInterno");
-            context.update("formAdmin:idCargoInterno");
-            context.update("formAdmin:idDocumentoInterno");
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -82,14 +82,14 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{facultadUnidadConverter}" style="width:190px">                                   
-                                                <p:ajax event="change" process="@this" update="GroupSolicitante" listener="#{propuestaConvenioMB.actualizarEscuelaDept()}"/>
+                                                <p:ajax event="change" process="@this" update="idEscuelaDept" listener="#{propuestaConvenioMB.actualizarEscuelaDept()}"/>
                                                 <f:selectItem itemLabel="--Seleccione Facultad/Unidad--" itemValue="#{null}"  itemDisabled="true" />
                                                 <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="escDpt" itemLabel="#{escDpt.label}" itemValue="#{escDpt}" />                                                                                       
                                             </p:selectOneMenu>
                                         </p:column>
 
                                         <p:column>
-                                            <p:outputLabel rendered="#{!propuestaConvenioMB.flagEscuelaDept}"  value="Escuela/Departamento" />
+                                            <p:outputLabel   value="Escuela/Departamento" />
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu  id="idEscuelaDept" disabled="#{propuestaConvenioMB.flagEscuelaDept}" required="true" value="#{propuestaConvenioMB.escuelaDepartamento}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
@@ -172,7 +172,7 @@
                                 </p:panelGrid >   
                             </h:panelGroup> 
                             <h:panelGroup id="GroupSolicitanteInterno" >  
-                                
+
                                 <p:panelGrid rendered="#{propuestaConvenioMB.tabAsis}">     
                                     <p:growl id="msg" />
                                     <p:row>                                        
@@ -181,7 +181,7 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectBooleanCheckbox value="#{propuestaConvenioMB.mismoSolicitante}">
-                                                <p:ajax update="msg" listener="#{propuestaConvenioMB.mismoSolicitante()}" />
+                                                <p:ajax update="msg,GroupSolicitanteInterno" listener="#{propuestaConvenioMB.mismoSolicitante()}" />
                                             </p:selectBooleanCheckbox>
                                         </p:column>
 
@@ -255,7 +255,18 @@
                                             </p:selectOneMenu>
 
                                         </p:column>                        
+                                        <p:column>
+                                            <p:outputLabel  for="idEscuelaDeptInter" value="Escuela/Departamento" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu  id="idEscuelaDeptInter" disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno}"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
+                                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
+                                                <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
+                                            </p:selectOneMenu>
+                                        </p:column>
 
+                                    </p:row>   
+                                    <p:row>
                                         <p:column>
                                             <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
                                         </p:column>
@@ -265,17 +276,6 @@
                                             <p:message for="idCargoInterno" />
                                         </p:column>
 
-                                    </p:row>   
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel rendered="#{!propuestaConvenioMB.flagEscuelaDeptInterno}" for="idEscuelaDeptInter" value="Escuela/Departamento" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:selectOneMenu  id="idEscuelaDeptInter" disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno}"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
-                                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
-                                                <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
-                                            </p:selectOneMenu>
-                                        </p:column>
                                     </p:row>
 
                                 </p:panelGrid>        
@@ -287,7 +287,7 @@
                                     <p:column>
                                         <p:outputLabel for="tipoBusquedaExt" value="Tipo de Busqueda:" />
                                     </p:column>
-                                    
+
                                     <p:column>                                        
                                         <p:selectOneMenu id="tipoBusquedaExt" value="#{propuestaConvenioMB.tipoBusquedaExterna}"  style="width:125px">  
                                             <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoExterno}" update="grup2"  process="tipoBusquedaExt" />
@@ -301,9 +301,9 @@
                                         <p:outputLabel value="Busqueda" />
                                     </p:column>
                                     <p:column>
-                                       
+
                                         <p:autoComplete id="searchDoc" minQueryLength="8" size="8" rendered="#{propuestaConvenioMB.flagSearchDuiExterno}"  
-                                                         value="#{propuestaConvenioMB.numDocumentoExterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaPassaporte}"
+                                                        value="#{propuestaConvenioMB.numDocumentoExterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaPassaporte}"
                                                         var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
                                                         forceSelection="true">                                            
                                             <p:column>
@@ -333,7 +333,7 @@
                                     </p:column>
                                 </p:panelGrid>
                             </h:panelGroup>  
-                              <h:panelGroup id="GroupSolicitanteExterno" >        
+                            <h:panelGroup id="GroupSolicitanteExterno" >        
                                 <p:panelGrid rendered="#{propuestaConvenioMB.tabAsisExterno}">                           
 
                                     <p:row>
@@ -430,17 +430,20 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="idTipoPropuesta" required="true"  value="#{propuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >                                            
-                                                <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="fileUploadGroup"  process="@this" />
+                                                <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="idNamePropuesta"  process="@this" />
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Tipo Propuesta" noSelectionOption="true" />                                            
                                                 <f:selectItems value="#{propuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />       
                                             </p:selectOneMenu>
                                             <p:message for="idTipoPropuesta" />  
                                         </p:column>
+                                    </p:row>
+                                    <p:row>
+
                                         <p:column>
-                                            <p:outputLabel rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idNamePropuesta" value="Convenio"  />
+                                            <p:outputLabel id="idNamePropuesta" value="Convenio"  />
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu rendered="#{!propuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{propuestaConvenioConverter}"  style="width:160px" >                                              
+                                            <p:selectOneMenu disabled="#{propuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{propuestaConvenioConverter}"  style="width:160px" >                                              
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Convenio" noSelectionOption="true" />                                            
                                                 <f:selectItems value="#{propuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
                                             </p:selectOneMenu>
