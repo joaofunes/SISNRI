@@ -47,21 +47,17 @@ public class PersistenceHibernateConfig {
     public DataSource dataSource() throws Exception {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        
 
 //        //servidor BD
 //        ds.setUrl("jdbc:mysql://srnidb.cdl1mrxlsyzf.sa-east-1.rds.amazonaws.com:3306/sisrni");
 //        ds.setUsername("srnidb");
 //        ds.setPassword("tragra01");
 //
-
         //Enchufe a LUIS
 //        ds.setUrl("jdbc:mysql://gearsofttec.com:3306/gearsof1_sisrni");
 //        ds.setUsername("gearsof1_sisrni");
 //        ds.setPassword("$1$rn1");
-      
-
-       // DB Local
+        // DB Local
 //        ds.setUrl("jdbc:mysql://localhost:3306/sisrni");
 //        ds.setUsername("root");
 //        ds.setPassword("");
@@ -91,4 +87,36 @@ public class PersistenceHibernateConfig {
         };
     }
 
+     /*
+     * FreeMarker configuration.
+     */
+//    @Bean
+//    public JavaMailSender getMailSender() {
+//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+//
+//        // Using gmail.
+//        mailSender.setHost("smtp.gmail.com");
+//        mailSender.setPort(587);
+//        mailSender.setUsername("tgraduacion01@gmail.com");
+//        mailSender.setPassword("tragra01");
+//
+//        Properties javaMailProperties = new Properties();
+//        javaMailProperties.put("mail.smtp.starttls.enable", "true");
+//        javaMailProperties.put("mail.smtp.auth", "true");
+//        javaMailProperties.put("mail.transport.protocol", "smtp");
+//        javaMailProperties.put("mail.debug", "true");
+//
+//        mailSender.setJavaMailProperties(javaMailProperties);
+//        return mailSender;
+//    }
+//
+//    @Bean
+//    public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() {
+//        FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
+//        bean.setTemplateLoaderPath("/WEB-INF/freemarker/");
+//        return bean;
+//    }
+//
+//   
+ 
 }

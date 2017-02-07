@@ -19,6 +19,7 @@ public class PojoBeca implements Serializable {
     private String programaBeca;
     private String nombreBecario;
     private String apellidoBecario;
+    private String correoBecario;
     private String facultad;
     private String paisDestino;
     private String universidadDestino;
@@ -103,6 +104,14 @@ public class PojoBeca implements Serializable {
 
     public void setFacultad(String facultad) {
         this.facultad = facultad;
+    }
+
+    public String getCorreoBecario() {
+        return correoBecario;
+    }
+
+    public void setCorreoBecario(String correoBecario) {
+        this.correoBecario = correoBecario;
     }
 
 }
