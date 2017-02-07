@@ -33,6 +33,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 + "  prb.NOMBRE_PROGRAMA as programaBeca,\n"
                 + "  per.NOMBRE_PERSONA nombreBecario,\n"
                 + "  per.APELLIDO_PERSONA apellidoBecario,\n"
+                + "  per.EMAIL_PERSONA correoBecario,\n"
                 + "  fac.NOMBRE_FACULTAD facultad,\n"
                 + "pai.NOMBRE_PAIS paisDestino, org.NOMBRE_ORGANISMO universidadDestino, bec.MONTO_TOTAL montoBeca,IF(bec.OTORGADA = 1, 'SI','NO') as  otorgada\n"
                 + "FROM beca bec\n"
@@ -62,6 +63,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                     .addScalar("programaBeca", new StringType())
                     .addScalar("nombreBecario", new StringType())
                     .addScalar("apellidoBecario", new StringType())
+                    .addScalar("correoBecario",new StringType())
                     .addScalar("facultad", new StringType())
                     .addScalar("paisDestino", new StringType())
                     .addScalar("universidadDestino", new StringType())
@@ -82,7 +84,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 + "  sum(if(b.OTORGADA=1,1,0)) becasOtorgadas,\n"
                 + "  sum(if(b.OTORGADA=0,1,0)) becasDenegadas,\n"
                 + "  sum(if(OTORGADA=1,b.MONTO_TOTAL,0.00)) montoOtorgadas\n"
-                + "FROM  beca b WHERE b.ANIO_GESTION BETWEEN " + desde + " AND "+ hasta+" \n"
+                + "FROM  beca b WHERE b.ANIO_GESTION BETWEEN " + desde + " AND " + hasta + " \n"
                 + "GROUP BY b.ANIO_GESTION ORDER BY b.ANIO_GESTION asc";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("anio", new IntegerType())

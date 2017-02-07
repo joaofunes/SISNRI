@@ -339,14 +339,19 @@
             <version>1.0.5</version>
         </dependency>
 
-                <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.4.4</version>
         </dependency>
-
-
+        <!--
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.23</version>
+        </dependency>
+-->
         <dependency>
             <groupId>jodconverter-core-3.0-beta-4</groupId>
             <artifactId>jodconverter</artifactId>

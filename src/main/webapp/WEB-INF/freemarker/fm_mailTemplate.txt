@@ -1,0 +1,44 @@
+<html>
+    <body>
+      
+<style>
+	table {
+    border-collapse: collapse;
+    width: 100%;
+	}
+
+	th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+	}
+
+	tr:hover{background-color:#f5f5f5}
+</style>
+
+        <h3>Estimado/a: <b> ${obj.nombreBecario}  ${obj.apellidoBecario} </b></h3>
+<p>Tenga un cordial saludo, el motivo del presente es para informarle que ha sido registrada la informacion de la beca a la cual aplica.</p>
+        <div>
+			<table border="1">
+				<tr>
+					<td>Pais Destino</td>
+					<td>Universidad Destino Destino</td>
+					<td>Gestionada</td>
+					<td>Monto</td>
+				</tr>
+				<tr>
+					<td>${obj.paisDestino}</td>
+					<td>${obj.universidadDestino}</td>
+					<td>${obj.anioGestion}</td>
+					<td>${obj.montoBeca}</td>
+				</tr>
+			</table>
+        </div>
+         <br>
+         <br>
+        <span>Favor, mantengase en contacto con nostros para estar al tanto de cualquier evento en el proceso.</span>
+        <br>
+        <br>
+        <span>Att: Secretaria de releaciones Nacionales e Internacionales de la Universidad de El Salvador</span>
+    </body>
+</html>

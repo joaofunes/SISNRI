@@ -27,6 +27,9 @@ public class BecaService extends GenericService<Beca, Integer> {
     @Autowired
     private BecaDao becaDao;
 
+//    @Autowired
+//    HenryMailServiceInterface mailService;
+
     @Override
     public GenericDao<Beca, Integer> getDao() {
         return becaDao;
@@ -59,4 +62,8 @@ public class BecaService extends GenericService<Beca, Integer> {
     public List<BecasGestionadasPojo> getDataBecasGestionadasGroupOrganismos(Integer desde, Integer hasta) {
         return becaDao.getDataBecasGestionadasGroupOrganismos(desde, hasta);
     }
+
+//    public void sendOrderConfirmation(PojoBeca beca) {
+//        mailService.sendEmail(beca);
+//    }
 }
