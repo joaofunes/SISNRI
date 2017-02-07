@@ -6,6 +6,7 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.SsMenus;
+import com.sisrni.model.SsOpciones;
 import com.sisrni.model.SsRoles;
 
 import com.sisrni.security.AppUserDetails;
@@ -45,10 +46,11 @@ public class MenusOpcionesMB implements Serializable{
     @Qualifier(value = "ssRolesService")
     private SsRolesService ssRolesService;
     
-    
-    
-    private boolean actualizar;
+   
+ 
     private List<SsMenus> listadoMenus;
+    private List<SsOpciones> listadOpciones;
+    
    
     private SsMenus ssMenus;
     private SsRoles roles;
@@ -62,35 +64,21 @@ public class MenusOpcionesMB implements Serializable{
     public void init() {
         try {
             user = new CurrentUserSessionBean();
-            ssMenus = new SsMenus();
-            setActualizar(false);
-            getMenus();
+            ssMenus = new SsMenus(); 
+            listadoMenus=menusService.findAll();
+            
         } catch (Exception e) {
         }
     }
     
     
-    public void getMenus(){
-        try { 
-            roles = new SsRoles();
-            
-              usuario = user.getSessionUser();
-            
-             for(SsRoles iter: usuario.getUsuario().getSsRolesList()){
-                listadoMenus = menusService.getMenusByrol(iter);
-                  
-             }
+    public void llenarMapa(){
+        try {
+             
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally{
+          e.printStackTrace();
         }
     }
-
-    
-    
-    
-    
-    
     
     /***
 	 * 
@@ -101,7 +89,6 @@ public class MenusOpcionesMB implements Serializable{
 	public void preEditar(SsMenus ssMenus) throws Exception {
 		try {
 			this.ssMenus = ssMenus;
-                        setActualizar(true);
                         RequestContext.getCurrentInstance().update("formAdmin");
 			RequestContext.getCurrentInstance().update("formMenu");
 		} catch (Exception e) {
@@ -130,7 +117,6 @@ public class MenusOpcionesMB implements Serializable{
 	public void editar() throws Exception{
 		try {
 			menusService.getDao().merge(ssMenus);
-			getMenus();
 			RequestContext.getCurrentInstance().update("formAdmin");
 			RequestContext.getCurrentInstance().update("formMenu");
 		} catch (Exception e) {
@@ -139,7 +125,7 @@ public class MenusOpcionesMB implements Serializable{
 		}finally{
 			this.ssMenus = null;
                         this.ssMenus = new SsMenus();
-                        setActualizar(false);
+
 		}
 	}
 	
@@ -151,7 +137,6 @@ public class MenusOpcionesMB implements Serializable{
                         getSsMenus().setSsRolesList(usuario.getUsuario().getSsRolesList());
                 
 		        menusService.getDao().save(getSsMenus());
-			getMenus();
 			RequestContext.getCurrentInstance().update("formAdmin");
 			RequestContext.getCurrentInstance().update("formMenu");
 			JsfUtil.addSuccessMessage("Guardado Exitosamente");
@@ -168,8 +153,7 @@ public class MenusOpcionesMB implements Serializable{
     
         public void cancelar() throws Exception{
 		try {
-			this.ssMenus = null;                        
-                        setActualizar(false);
+			this.ssMenus = null;                                                
                         RequestContext.getCurrentInstance().update("formAdmin");
 			RequestContext.getCurrentInstance().update("formMenu");
 		} catch (Exception e) {
@@ -214,16 +198,12 @@ public class MenusOpcionesMB implements Serializable{
         this.ssMenus = ssMenus;
     }
 
-    
-    public boolean isActualizar() {
-        return actualizar;
+    public List<SsOpciones> getListadOpciones() {
+        return listadOpciones;
     }
 
-    public void setActualizar(boolean actualizar) {
-        this.actualizar = actualizar;
+    public void setListadOpciones(List<SsOpciones> listadOpciones) {
+        this.listadOpciones = listadOpciones;
     }
-
-  
-
-   
+ 
 }

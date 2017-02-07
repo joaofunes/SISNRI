@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" 
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+        
+    
+    <ui:define name="content">
+        <h:form id="formAdmin">
+            <p:panelGrid >
+                
+                <p:row>
+                    
+                        <p:column>
+                            <p:commandButton rendered="#{!opcionesAdmMB.actualizar}"
+                                             actionListener="#{opcionesAdmMB.guardar()}" update=":formAdmin :formMenu" process="@this :formAdmin"
+                                             value="Guardar" />
+                            <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
+                                             actionListener="#{opcionesAdmMB.editar()}" update=":formAdmin"
+                                             value="Actulizar" />
+                            <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
+                                             actionListener="#{opcionesAdmMB.cancelar()}" immediate="true" update=":formAdmin"
+                                             value="Cancelar" />
+                             <p:commandButton 
+                                           title="Agregar Opcion" value="Agregar Opcion"
+                                           process="@this"                                           
+                                           oncomplete="PF('NuevoOpcionDialog').show();"/>
+                        </p:column>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>
+        <h:outputLabel style="margin-bottom: 20px;"/>
+        <h:form id="formMenu">
+            
+            
+            <ol>
+                <li></li>
+                <li></li>
+            </ol>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Menu</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+
+                        
+                        
+                            <c:forEach items="#{menusOpcionesMB.listadoMenus}" var="opcion"> 
+                               <tr>
+                                    <td>  -------------#{opcion.nombreMenu}------------------</td>
+                                    <td>
+                                <c:forEach items="#{opcion.ssOpcionesList}" var="lts"> 
+                                    <h:outputText value="#{lts.nombreOpcion}" /><br/> 
+                                </c:forEach><br/><br/>
+                                     </td>
+                               </tr>
+                            </c:forEach><br/>
+                       
+                   
+
+                </tbody>
+            </table>
+
+           
+
+            <p:dataTable var="menu" value="#{menusOpcionesMB.listadoMenus}" paginator="true" rows="5"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="5,10,15"                       
+                        >
+                
+               
+                <p:column headerText="Nombre Menu" sortBy="#{menu.nombreMenu}" filterBy="#{menu.nombreMenu}">
+                    <h:outputText value="#{menu.nombreMenu}" />
+                </p:column>
+                <p:column headerText="Opciones" >                    
+                     <c:forEach items="#{menu.ssOpcionesList}" var="lts"> 
+                             <h:outputText value="#{lts.nombreOpcion}" />
+                     </c:forEach><br/>
+                </p:column>
+                
+                
+                <p:column headerText="Opciones">
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar"
+                                       value="Editar" />
+                    </div>
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                       title="Eliminar" value="Eliminar"
+                                        />
+                    </div>
+                </p:column>
+            </p:dataTable>
+ 
+            
+        </h:form>
+        
+        
+             
+        
+    </ui:define>    
+ </ui:composition> 
