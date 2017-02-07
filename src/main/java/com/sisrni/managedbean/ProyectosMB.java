@@ -363,6 +363,14 @@ public class ProyectosMB {
 
     public void guardarProyecto() {
         try {
+            // validando fecha
+            if (fechaI.compareTo(fechaF) < 0) {
+                proyecto.setFechaInicio(fechaI);
+                proyecto.setFechaFin(fechaF);
+            } else if (fechaI.compareTo(fechaF) > 0) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!", "Las fechas de inicio debe ser menor que la fecha de finalización"));
+                return;
+            }
             //guardar persona solicitante
             String facultadArregloSol[] = facultadSelectedPojoSol.split(",");
             if (facultadArregloSol[1].equals("1")) {
@@ -449,15 +457,7 @@ public class ProyectosMB {
             //Guardando datos del proyecto
             SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
             formateador.format(fechaActual);
-            proyecto.setFechoIngreso(fechaActual);
-            if (fechaI.compareTo(fechaF) < 0) {
-                proyecto.setFechaInicio(fechaI);
-                proyecto.setFechaFin(fechaF);
-            } else if (fechaI.compareTo(fechaF) > 0) {
-                System.out.println("fecha inicio mayor a fecha fin");
-            } else {
-                System.out.println("Both Dates are equal");
-            }
+            proyecto.setFechoIngreso(fechaActual); 
         proyecto.setIdTipoProyecto(tipoProyectoService.findById(proyectoSelected.getIdTipoProyecto()));
         PropuestaConvenio propuesta;
         if (propuestaConvenioSelected.getIdPropuesta() == null) {
@@ -823,16 +823,16 @@ private List<PojoFacultadesUnidades> getListFacultadesUnidades(List<Facultad> fa
                 }
                 personaExterna = getPersonaProyecto(proyecto.getPersonaProyectoList(), "REFERENTE EXTERNO");
                 organismoSelectedRefExt = personaExterna.getIdOrganismo();
-                Organismo orgExt = organismoService.findById(personaExterna.getIdOrganismo().getIdOrganismo());
-                orRefExt = orgExt.getNombreOrganismo();
+//                Organismo orgExt = organismoService.findById(personaExterna.getIdOrganismo().getIdOrganismo());
+//                orRefExt = orgExt.getNombreOrganismo();
                 if (proyecto.getIdFacultad() == null) {
                     facultadSelectedPojoP = proyecto.getIdUnidad() + ",2";
-                    Unidad unidadProyecto = unidadService.findById(proyecto.getIdUnidad());
-                    fu = unidadProyecto.getNombreUnidad();
+//                    Unidad unidadProyecto = unidadService.findById(proyecto.getIdUnidad());
+//                    fu = unidadProyecto.getNombreUnidad();
                 } else {
                     facultadSelectedPojoP = proyecto.getIdFacultad().getIdFacultad() + ",1";
-                    Facultad facultadProyecto = facultadService.findById(proyecto.getIdFacultad().getIdFacultad());
-                    fu = facultadProyecto.getNombreFacultad();
+//                    Facultad facultadProyecto = facultadService.findById(proyecto.getIdFacultad().getIdFacultad());
+//                    fu = facultadProyecto.getNombreFacultad();
                 }
                 searchByDocInterno(persona.getDuiPersona());
                 searchByDocAsistente(personaAsistente.getDuiPersona());
