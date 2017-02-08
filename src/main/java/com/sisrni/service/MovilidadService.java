@@ -4,6 +4,14 @@ import com.sisrni.dao.MovilidadDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Movilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
+import com.sisrni.pojo.rpt.RptMovilidadEntranteFactBeneficiadaPojo;
+import com.sisrni.pojo.rpt.RptMovilidadEntranteMesEjecucionPojo;
+import com.sisrni.pojo.rpt.RptMovilidadEntrantePaisPojo;
+import com.sisrni.pojo.rpt.RptMovilidadSalienteFactBeneficiadaPojo;
+import com.sisrni.pojo.rpt.RptMovilidadSalienteMesPojo;
+import com.sisrni.pojo.rpt.RptMovilidadSalientePaisDestinoPojo;
+import com.sisrni.pojo.rpt.RptMovilidadesMesPojo;
+import com.sisrni.pojo.rpt.RptMovilidadesPorFacultadEjecutadasAnioPojo;
 import com.sisrni.pojo.rpt.RptMovilidadesSegunEtapaPojo;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
@@ -15,23 +23,57 @@ import org.springframework.stereotype.Service;
  * @author Usuario
  */
 @Service(value = "movilidadService")
-public class MovilidadService  extends GenericService<Movilidad, Integer>{
+public class MovilidadService extends GenericService<Movilidad, Integer> {
+
     @Autowired
     private MovilidadDao movilidadDao;
-    
+
     @Override
     public GenericDao<Movilidad, Integer> getDao() {
-      return movilidadDao;
+        return movilidadDao;
     }
-    
-    
-    
-     public List<PojoMovilidadAdm> getMovilidadAdm(Integer idMovSearch){
+
+    public List<PojoMovilidadAdm> getMovilidadAdm(Integer idMovSearch) {
         return movilidadDao.getMovilidadAdm(idMovSearch);
     }
-     
-     
-    public List<RptMovilidadesSegunEtapaPojo> getCantidadMovilidadesSegunEtapa(Integer anio){
+
+    public List<RptMovilidadesSegunEtapaPojo> getCantidadMovilidadesSegunEtapa(Integer anio) {
         return movilidadDao.getCantidadMovilidadesSegunEtapa(anio);
     }
+
+    public List<RptMovilidadesPorFacultadEjecutadasAnioPojo> getCantidadMovilidadesFacultad(Integer anio) {
+        return movilidadDao.getCantidadMovilidadesFacultad(anio);
+    }
+
+    public List<RptMovilidadesMesPojo> getMovilidadesMes(Integer anio) {
+        return movilidadDao.getMovilidadesMes(anio);
+    }
+
+    public List<RptMovilidadSalientePaisDestinoPojo> getMovilidadesSalientesPaisDestino(Integer anio) {
+        return movilidadDao.getMovilidadesSalientesPaisDestino(anio);
+    }
+
+    public List<RptMovilidadSalienteMesPojo> getMovilidadesSalientesMes(Integer anio) {
+        return movilidadDao.getMovilidadesSalientesMes(anio);
+    }
+
+    public List<RptMovilidadSalienteFactBeneficiadaPojo> getMoviSalientesFactBenef(Integer anio) {
+        return movilidadDao.getMoviSalientesFactBenef(anio);
+    }
+    
+     public List<RptMovilidadEntrantePaisPojo> getMovilEntrantesPaisOrigen(Integer anio){
+         return movilidadDao.getMovilEntrantesPaisOrigen(anio);
+     }
+     
+      public List<RptMovilidadEntranteMesEjecucionPojo> getMovilidadEntranteMes(Integer anio){
+          return movilidadDao.getMovilidadEntranteMes(anio);
+      }
+      
+      public List<RptMovilidadEntranteFactBeneficiadaPojo> getMovilidadEntranteFactBenef(Integer anio){
+          return movilidadDao.getMovilidadEntranteFactBenef(anio);
+      }
+      
+       public List<Movilidad> getMovilidadesAnio(Integer anio){
+           return movilidadDao.getMovilidadesAnio(anio);
+       }
 }
