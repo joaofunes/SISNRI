@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:poue="http://primefaces.org/ui/extensions">
+    
+    <ui:define name="content">
+         <center> 
+            <p:panel style="width: 70%" header="Gestión de Tipos de Cambios">  
+        <h:form id="formAdmin">
+               
+                <p:panelGrid id="idGrilPrincipal" columns="2" >
+               
+                    <p:column>
+                        <h:outputText value="Nombre de la Divisa:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombreDivisa" value="#{tipoCambioMB.tipoCambio.nombreDivisa}" required="true" size="20" />
+                    </p:column>
+                    
+                     <p:column>
+                        <h:outputText value="Código de Divisa:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="codigoDivisa" value="#{tipoCambioMB.tipoCambio.codigoDivisa}" required="true" size="20" />
+                    </p:column>
+                    
+                    <p:column>
+                        <h:outputText value="Dolares por Unidad($):" />
+                    </p:column>
+                    <p:column>
+                        <poue:inputNumber  id="dolares" value="#{tipoCambioMB.tipoCambio.dolaresPorUnidad}" style="width: 100%"  required="true"/>
+                    </p:column>
+                    
+                    <p:column>
+                        <p:commandButton rendered="#{!tipoCambioMB.actualizar}"  styleClass="boton"
+                                         actionListener="#{tipoCambioMB.guardarTipoCambio()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
+                                         value="Guardar" />
+                       
+                        <p:commandButton rendered="#{tipoCambioMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoCambioMB.updateTipoCambio()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" />
+                       
+                        <p:commandButton rendered="#{tipoCambioMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoCambioMB.cancelarTipoCambio()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
+                        
+                          
+                       
+                    </p:column>
+                 
+                </p:panelGrid>
+        </h:form> 
+        <h:outputLabel style="margin-bottom: 20px;"/>
+      
+        <h:form id="formPrincipal">
+                <p:dataTable var="cambio" value="#{tipoCambioMB.listadoTipoCambio}"  rows="10"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"
+                             paginator="true">
+
+
+                    <p:column headerText="Nombre de la Divisa" sortBy="#{cambio.nombreDivisa}" filterBy="#{cambio.nombreDivisa}">
+                        <h:outputText value="#{cambio.nombreDivisa}" />
+                    </p:column>
+
+                    <p:column headerText="Código de Divisa" sortBy="#{cambio.codigoDivisa}" filterBy="#{cambio.codigoDivisa}">
+                        <h:outputText value="#{cambio.codigoDivisa}" />
+                    </p:column>
+                    
+                    <p:column headerText="Dólares por Unidad" sortBy="#{cambio.dolaresPorUnidad}" filterBy="#{cambio.dolaresPorUnidad}">
+                        <h:outputText value="$#{cambio.dolaresPorUnidad}" />
+                    </p:column>
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{tipoCambioMB.preUpdate(cambio)}" update=":formAdmin" process="@form :formPrincipal"/>
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                           title="Eliminar" value="Eliminar"
+                                           actionListener="#{tipoCambioMB.preDeleteTipoCambio(cambio)}" update=":idEliminacion" />
+                        </div>
+                      
+                    </p:column>
+                </p:dataTable>  
+        </h:form>
+
+         </p:panel>     
+        </center> 
+        
+        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el Tipo de Cambio?" header="Eliminar Tipo de Cambio"  global="true">
+            <h:form id="idEliminacion"> 
+             
+                 <h:outputText value="Nombre de la Divisa: "  style="font-weight:bold"/>
+                 <h:outputText value="#{tipoCambioMB.delTipoCambio.nombreDivisa}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Código de Divisa: "  style="font-weight:bold" />
+                 <h:outputText value="#{tipoCambioMB.delTipoCambio.codigoDivisa}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Dólares por Unidad: "  style="font-weight:bold" />
+                 <h:outputText value="$#{tipoCambioMB.delTipoCambio.dolaresPorUnidad}" />
+             
+            </h:form>    
+            
+            <p:separator />
+            <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoCambioMB.deleteTipoCambio()}" process="@this" update=":formPrincipal"/>
+               <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+
+    </ui:define>
+</ui:composition>

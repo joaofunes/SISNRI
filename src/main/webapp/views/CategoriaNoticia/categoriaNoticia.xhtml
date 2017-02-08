@@ -44,8 +44,8 @@
                 <h:form id="formTablaCategoriaNoticiaes">
                     <p:dataTable var="categoriaNoticia" value="#{categoriaNoticiaMB.listCategoriaNoticia}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen categoriaNoticiaes registrados actualmente" >                       
-                        <p:column headerText="Nombre CategoriaNoticia"  filterBy="#{categoriaNoticia.categoriaNoticia}"  style="width: 20%">
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen categorias de Noticias registradas actualmente" >                       
+                        <p:column headerText="Nombre Categoría de Noticia"  filterBy="#{categoriaNoticia.categoriaNoticia}"  style="width: 20%">
                             <h:outputText value="#{categoriaNoticia.categoriaNoticia}"/>
                         </p:column>
                         <p:column headerText="Opciones" style="width: 15%">
@@ -71,7 +71,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteCategoriaNoticiaDlg" header="Borrar CategoriaNoticia" message="Confirma la eliminacion de la CategoriaNoticia?" 
+        <p:confirmDialog widgetVar="confirmDeleteCategoriaNoticiaDlg" header="Borrar Categoría de Noticia" message="¿Confirma la eliminación de la Categoria de Noticia?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
@@ -81,7 +81,7 @@
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{categoriaNoticiaMB.borrarCategoriaNoticia()}" update=":formTablaCategoriaNoticiaes"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>

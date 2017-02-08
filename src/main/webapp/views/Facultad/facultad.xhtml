@@ -24,6 +24,18 @@
                             <p:watermark for="nombreFacultad" value="Nombre facultad" id="watermarkNombreFacultad"/>
                         </p:column>
                         <p:column>
+                            <h:outputLabel for="paisFacultad" value="País:"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="paisFacultad" value="#{facultadMB.paisSelected.idPais}"  style="width: 100%" required="true" >
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                             <p:ajax listener="#{facultadMB.onchangePais()}" update="organismoFacultad" />
+                                <c:forEach var="pais" items="#{facultadMB.paisesList}">
+                                    <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                                 </c:forEach>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
                             <h:outputLabel for="organismoFacultad" value="Universidad:"/>
                         </p:column>
                         <p:column>
@@ -61,14 +73,17 @@
                         <p:column headerText="Universidad" filterBy="#{facultad.idOrganismo.nombreOrganismo}">
                             <h:outputText value="#{facultad.idOrganismo.nombreOrganismo}"/>
                         </p:column> 
+                        <p:column headerText="País">
+                                <h:outputText value="#{facultad.idOrganismo.idPais}" >
+                                    <f:converter converterId="nombrePaisConverter"/>
+                                </h:outputText>
+                            </p:column>
                         <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
                                                actionListener="#{facultadMB.preActualizarFacultad(facultad)}" update=":formFacultad" process="@form:formTablaFacultades">
                                 </p:commandLink>
                             </div>
-                            
-                            
                             
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-closethick"
@@ -84,19 +99,23 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteFacultadDlg" header="Borrar Facultad" message="¿Confirma la eliminación del Facultad?" 
+        <p:confirmDialog widgetVar="confirmDeleteFacultadDlg" header="Borrar Facultad" message="¿Confirma la eliminación de la Facultad?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
                     <h:outputLabel value="Nombre Facultad:"/>
                     <h:outputText value="#{facultadMB.facultad.nombreFacultad}"/>
-                    <h:outputLabel value="Organismo:"/>
+                    <h:outputLabel value="Universidad:"/>
                     <h:outputText value="#{facultadMB.facultad.idOrganismo.nombreOrganismo}"/>
+                     <h:outputLabel value="País:"/>
+                    <h:outputText value="#{facultadMB.facultad.idOrganismo.idPais}" >
+                        <f:converter converterId="nombrePaisConverter"/>
+                    </h:outputText>
                 </p:panelGrid>
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{facultadMB.borrarFacultad()}" update=":formTablaFacultades"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>

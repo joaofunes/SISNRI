@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestion de Ciudades">  
+            <p:panel style="width: 70%" header="Gestión de Ciudades">  
                 
                 <h:form id="formCiudad">
                     <p:panelGrid columns="2">
@@ -23,8 +23,20 @@
                             <p:inputText id="nombreCiudad" value="#{ciudadMB.ciudad.nombreCiudad}" required="true" size="50" />
                             <p:watermark for="nombreCiudad" value="Nombre de Ciudad" id="watermarkNombreCiudad"/>
                         </p:column>
+                         <p:column>
+                            <h:outputLabel for="pais" value="País:"/>
+                        </p:column>
                         <p:column>
-                            <h:outputLabel for="provinciaCiudad" value="Provincia:"/>
+                            <p:selectOneMenu id="pais" value="#{ciudadMB.paisSelected.idPais}"  style="width: 100%" required="true" >
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                             <p:ajax listener="#{ciudadMB.onchangePais()}" update="provinciaCiudad" />
+                             <c:forEach var="pais" items="#{ciudadMB.paisesList}">
+                                    <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                                 </c:forEach>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <h:outputLabel for="provinciaCiudad" value="Estado/Departamento/Provincia:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="provinciaCiudad" value="#{ciudadMB.provincia.idProvincia}"  style="width: 100%" required="true">
@@ -58,8 +70,11 @@
                         <p:column headerText="Ciudad"  filterBy="#{ciudad.nombreCiudad}">
                             <h:outputText value="#{ciudad.nombreCiudad}"/>
                         </p:column>
-                        <p:column headerText="Provincia" filterBy="#{ciudad.idProvincia.nombreProvincia}">
+                        <p:column headerText="Estado/Departamento/Provincia" filterBy="#{ciudad.idProvincia.nombreProvincia}">
                             <h:outputText value="#{ciudad.idProvincia.nombreProvincia}"/>
+                        </p:column>
+                        <p:column headerText="País" filterBy="#{ciudad.idProvincia.idPais.nombrePais}">
+                            <h:outputText value="#{ciudad.idProvincia.idPais.nombrePais}"/>
                         </p:column> 
                         <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
@@ -90,8 +105,10 @@
                 <p:panelGrid columns="2">
                     <h:outputLabel value="Nombre Ciudad:"/>
                     <h:outputText value="#{ciudadMB.ciudad.nombreCiudad}"/>
-                    <h:outputLabel value="Provincia:"/>
+                    <h:outputLabel value="Estado/Departamento/Provincia:"/>
                     <h:outputText value="#{ciudadMB.ciudad.idProvincia.nombreProvincia}"/>
+                     <h:outputLabel value="Pais:"/>
+                     <h:outputText value="#{ciudadMB.ciudad.idProvincia.idPais.nombrePais}"/>
                 </p:panelGrid>
                 <br/>
                 <br/>

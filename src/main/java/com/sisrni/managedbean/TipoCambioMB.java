@@ -6,9 +6,9 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.managedbean.generic.GenericManagedBean;
-import com.sisrni.managedbean.lazymodel.TipoOrganismoLazyModel;
-import com.sisrni.model.TipoOrganismo;
-import com.sisrni.service.TipoOrganismoService;
+import com.sisrni.managedbean.lazymodel.TipoCambioLazyModel;
+import com.sisrni.model.TipoCambio;
+import com.sisrni.service.TipoCambioService;
 import com.sisrni.service.generic.GenericService;
 import com.sisrni.utils.JsfUtil;
 import java.util.List;
@@ -26,55 +26,55 @@ import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author Joao
+ * @author Luis
  */
-@Named("tipoOrganismoMB")
+@Named("tipoCambioMB")
 @ViewScoped
-public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer> {
+public class TipoCambioMB  extends GenericManagedBean<TipoCambio, Integer> {
     
     /**para errores*/
     
-    private final static Log log = LogFactory.getLog(TipoOrganismoMB.class);
+    private final static Log log = LogFactory.getLog(TipoCambioMB.class);
     
      /*dependecias  tabla a la cual se le esta haciendo crud*/
     @Autowired
-    @Qualifier(value = "tipoOrganismoService")
-    private TipoOrganismoService tipoOrganismoService;
+    @Qualifier(value = "tipoCambioService")
+    private TipoCambioService tipoCambioService;
     
     /**listas a utulizar*/
     
-    private TipoOrganismo tipoOrganismo;
-    private TipoOrganismo delTipoOrganismo;    
-    private List<TipoOrganismo> listadoTipoOrganismo;
+    private TipoCambio tipoCambio;
+    private TipoCambio delTipoCambio;    
+    private List<TipoCambio> listadoTipoCambio;
     private boolean actualizar;
 
    /**implementacion de GenericManagedBen
     * 
     */
     @Override
-    public GenericService<TipoOrganismo, Integer> getService() {
-        return tipoOrganismoService;
+    public GenericService<TipoCambio, Integer> getService() {
+        return tipoCambioService;
     }
 
     @Override
-    public LazyDataModel<TipoOrganismo> getNewLazyModel() {
-        return new TipoOrganismoLazyModel(tipoOrganismoService);
+    public LazyDataModel<TipoCambio> getNewLazyModel() {
+        return new TipoCambioLazyModel(tipoCambioService);
     }
 
     @PostConstruct
     public void init() {
         //inicializacion de loadLazyModels
         loadLazyModels();
-        cargarTipoOrganismo();
+        cargarTipoCambio();
     }
     
     
     
-     private void cargarTipoOrganismo() {
+     private void cargarTipoCambio() {
         try {
             actualizar=false;
-            tipoOrganismo = new TipoOrganismo();
-            listadoTipoOrganismo = tipoOrganismoService.findAll();
+            tipoCambio = new TipoCambio();
+            listadoTipoCambio = tipoCambioService.findAll();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
 
@@ -83,53 +83,53 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
 
      
      /**
-      * Metodo para almacenar registro en Tipo Organismo
+      * Metodo para almacenar registro en Tipo Cambio
       * 
       */
-     public void guardarTipoOrganismo() {
-        String msg = "Tipo Organismo Almacenado Exitosamente!";       
+     public void guardarTipoCambio() {
+        String msg = "Tipo Cambio Almacenado Exitosamente!";       
         try {            
-            tipoOrganismoService.save(tipoOrganismo);                              
-            cargarTipoOrganismo();
+            tipoCambioService.save(tipoCambio);                              
+            cargarTipoCambio();
             RequestContext.getCurrentInstance().update(":formPrincipal");
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
             
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al guardar tipo de organismo");
+            JsfUtil.addErrorMessage("Error al guardar tipo de cambio");
             e.printStackTrace();
         }
-        cargarTipoOrganismo();
+        cargarTipoCambio();
     } 
      
      /**
-      * Metodo para Actualizar registro en Tipo Organismo
+      * Metodo para Actualizar registro en Tipo Cambio
       * 
       */
-     public void updateTipoOrganismo() {
-        String msg = "Tipo Organismo Actualizado Exitosamente!";       
+     public void updateTipoCambio() {
+        String msg = "Tipo Cambio Actualizado Exitosamente!";       
         try {            
-            tipoOrganismoService.merge(tipoOrganismo);
+            tipoCambioService.merge(tipoCambio);
             if (!isValidationFailed()) {
                 items = null;
             }
             actualizar=false;
-            cancelarTipoOrganismo();
-            cargarTipoOrganismo();
+            cancelarTipoCambio();
+            cargarTipoCambio();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!!", msg));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al actualziar tipo de organismo");
+            JsfUtil.addErrorMessage("Error al actualizar tipo de cambio");
         }
-        cargarTipoOrganismo();
+        cargarTipoCambio();
     } 
      
     /**
      * metodo para precarga registro a actualizar
-     * @param tipoOrganismo 
+     * @param tipoCambio 
      */
-    public void preUpdate(TipoOrganismo tipoOrganismo){
+    public void preUpdate(TipoCambio tipoCambio){
         try {        
-            this.tipoOrganismo = tipoOrganismo;            
+            this.tipoCambio = tipoCambio;            
             actualizar=true;      
         } catch (Exception e) {
              JsfUtil.addErrorMessage("Error al precargar registro para ser actualizado");
@@ -137,35 +137,35 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
     }
     
       /**
-      * Metodo para eliminar registro en Tipo Organismo
+      * Metodo para eliminar registro en Tipo Cambio
       * 
       */
-     public void deleteTipoOrganismo() {
-        String msg = "Tipo Organismo Eliminado Exitosamente!";       
+     public void deleteTipoCambio() {
+        String msg = "Tipo Cambio Eliminado Exitosamente!";       
         try {            
-            tipoOrganismoService.delete(this.delTipoOrganismo);                         
-            listadoTipoOrganismo = tipoOrganismoService.findAll(); 
+            tipoCambioService.delete(this.delTipoCambio);                         
+            listadoTipoCambio = tipoCambioService.findAll(); 
             RequestContext.getCurrentInstance().update(":formPrincipal");
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro tipo de organismo");
+            JsfUtil.addErrorMessage("Error al eliminar registro tipo de cambio");
         }finally{
              actualizar=false;
-            delTipoOrganismo = new TipoOrganismo();
+            delTipoCambio = new TipoCambio();
         }
        
     } 
      
      
      /**
-      * Metodo para precargar eliminacion de registro tipo organismo
-     * @param tipoOrganismo
+      * Metodo para precargar eliminacion de registro tipo cambio
+     * @param tipoCambio
       */
-     public void preDeleteTipoOrganismo(TipoOrganismo tipoOrganismo){
+     public void preDeleteTipoCambio(TipoCambio tipoCambio){
          try {
-             this.delTipoOrganismo=tipoOrganismo;
+             this.delTipoCambio=tipoCambio;
              RequestContext context = RequestContext.getCurrentInstance();              
              context.execute("PF('dataChangeDlg').show();");
          } catch (Exception e) {
@@ -174,40 +174,40 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
      
      
       /**
-      * Metodo para eliminar registro en Tipo Organismo
+      * Metodo para eliminar registro en Tipo Cambio
       * 
       */
-     public void cancelarTipoOrganismo() {
-        String msg = "Tipo Organismo cancelado!";       
+     public void cancelarTipoCambio() {
+        String msg = "Tipo Cambio cancelado!";       
         try {      
-            tipoOrganismo = null;
-            tipoOrganismo = new TipoOrganismo();
+            tipoCambio = null;
+            tipoCambio = new TipoCambio();
             RequestContext.getCurrentInstance().reset(":formAdmin");            
             if(actualizar)
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al cancelar registro tipo de organismo");
+            JsfUtil.addErrorMessage("Error al cancelar registro tipo de cambio");
         }
-        cargarTipoOrganismo();
+        cargarTipoCambio();
     } 
     
     
     
      
-    public TipoOrganismo getTipoOrganismo() {
-        return tipoOrganismo;
+    public TipoCambio getTipoCambio() {
+        return tipoCambio;
     }
 
-    public void setTipoOrganismo(TipoOrganismo tipoOrganismo) {
-        this.tipoOrganismo = tipoOrganismo;
+    public void setTipoCambio(TipoCambio tipoCambio) {
+        this.tipoCambio = tipoCambio;
     }
 
-    public List<TipoOrganismo> getListadoTipoOrganismo() {
-        return listadoTipoOrganismo;
+    public List<TipoCambio> getListadoTipoCambio() {
+        return listadoTipoCambio;
     }
 
-    public void setListadoTipoOrganismo(List<TipoOrganismo> listadoTipoOrganismo) {
-        this.listadoTipoOrganismo = listadoTipoOrganismo;
+    public void setListadoTipoCambio(List<TipoCambio> listadoTipoCambio) {
+        this.listadoTipoCambio = listadoTipoCambio;
     }
 
     public boolean isActualizar() {
@@ -218,11 +218,11 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
         this.actualizar = actualizar;
     }
 
-    public TipoOrganismo getDelTipoOrganismo() {
-        return delTipoOrganismo;
+    public TipoCambio getDelTipoCambio() {
+        return delTipoCambio;
     }
 
-    public void setDelTipoOrganismo(TipoOrganismo delTipoOrganismo) {
-        this.delTipoOrganismo = delTipoOrganismo;
+    public void setDelTipoCambio(TipoCambio delTipoCambio) {
+        this.delTipoCambio = delTipoCambio;
     }
 }
