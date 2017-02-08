@@ -14,19 +14,20 @@ import com.sisrni.service.SsMenusService;
 import com.sisrni.service.SsOpcionesService;
 import com.sisrni.service.SsRolesService;
 import com.sisrni.utils.JsfUtil;
+import java.io.IOException;
 
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -115,7 +116,9 @@ public class MenusOpcionesMB implements Serializable{
     
     
     
-    
+    /**
+     * Metodo encargado de eliminar las opciones en primer lugar y luego agrega las nuevas selecciones
+     */
     public void guardar(){
 		try {	
                     
@@ -148,73 +151,32 @@ public class MenusOpcionesMB implements Serializable{
     
     
     
-    /***
-	 * 
-	 * @param country
-	 * @throws Exception
-	 */
-
-	public void preEditar(SsMenus ssMenus) throws Exception {
-		try {
-			this.ssMenus = ssMenus;
-                        RequestContext.getCurrentInstance().update("formAdmin");
-			RequestContext.getCurrentInstance().update("formMenu");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("Error class MenusOpcionesMB - preEditar()\n" + e.getMessage(), e.getCause());
-		}finally{
-			
-			
-		}
-	}
-	
-	public void preEliminar(SsMenus ssMenus) throws Exception  {
-		try {
-			this.ssMenus = ssMenus;                       
-                        RequestContext.getCurrentInstance().update("formAdmin");
-			RequestContext.getCurrentInstance().update("formMenu");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("Error class MenusOpcionesMB - preEliminar()\n" + e.getMessage(), e.getCause());
-		}finally{
-		      
-            }
-	}
-	
-	
-	public void editar() throws Exception{
-		try {
-			menusService.getDao().merge(ssMenus);
-			RequestContext.getCurrentInstance().update("formAdmin");
-			RequestContext.getCurrentInstance().update("formMenu");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("Error class MenusOpcionesMB - Editar()\n" + e.getMessage(), e.getCause());
-		}finally{
-			this.ssMenus = null;
-                        this.ssMenus = new SsMenus();
-
-		}
-	}
-	
-	
-	
+    /**
+     * Metodo para redireccionar a opciones
+     */
+    public void redirectOpciones(){
+        try {
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            context.redirect(context.getRequestContextPath() + "/views/menus/opcionesAdm.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(MenusOpcionesMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     /**
+     * Metodo para redireccionar a menus
+     */
+    public void redirectMenu(){
+        try {
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            context.redirect(context.getRequestContextPath() + "/views/menus/menuAdm.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(MenusOpcionesMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }	
 	
     
-        public void cancelar() throws Exception{
-		try {
-			this.ssMenus = null;                                                
-                        RequestContext.getCurrentInstance().update("formAdmin");
-			RequestContext.getCurrentInstance().update("formMenu");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("Error class MenusOpcionesMB - Editar()\n" + e.getMessage(), e.getCause());
-		}finally{
-			this.ssMenus = new SsMenus();
-		}
-	}
-    
-    
+        
     
     
     

@@ -12,7 +12,23 @@
 
 
     <ui:define name="content">
-        
+        <h:form id="formAdmin">
+            <p:panelGrid >
+                <p:row>
+                  
+                    <p:column  >
+                            <p:commandButton styleClass="boton"
+                                             actionListener="#{menusOpcionesMB.redirectMenu()}"                                            
+                                             value="Agregar Menus" />
+                            <p:commandButton styleClass="boton"
+                                             actionListener="#{menusOpcionesMB.redirectOpciones()}" 
+                                             value="Agregar Opciones" />                           
+                    </p:column>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>
+        <h:outputLabel style="margin-bottom: 20px;"/>
         <h:form id="formMenu">
 
             <table border="1" id="tablaP">
@@ -39,11 +55,7 @@
                                                    oncomplete="PF('NuevoMenuDialog').show();"
                                                    update=":NuevoMenuDlg, formMenu"/>
                                 </div>
-                                <div style="float: left">
-                                    <p:commandLink styleClass="ui-icon ui-icon-closethick"
-                                                   title="Eliminar" value="Eliminar"
-                                                   />
-                                </div>
+                                
                             </td>
                         </tr>
                     </c:forEach>                      
@@ -68,11 +80,14 @@
 
                         <p:column>  
                           
-                               <h3 style="margin-top: 0">Basic PickList</h3>
+                               <h3 style="margin-top: 0">Seleccione Opcion</h3>
                         </p:column>                                         
                         <p:column>                                         
                                 <p:pickList id="pickList" value="#{menusOpcionesMB.opciones}" var="opc" 
-                                            itemLabel="#{opc.nombreOpcion}" itemValue="#{opc}"  converter="#{ssOpcionesConverter}" />
+                                            itemLabel="#{opc.nombreOpcion}" itemValue="#{opc}"  converter="#{ssOpcionesConverter}" >
+                                    <f:facet name="sourceCaption">Disponibles</f:facet>
+                                    <f:facet name="targetCaption">Seleccionados</f:facet>
+                                </p:pickList>    
                         </p:column>
 
 
