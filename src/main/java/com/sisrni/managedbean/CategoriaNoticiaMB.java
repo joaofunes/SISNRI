@@ -168,6 +168,7 @@ public class CategoriaNoticiaMB{
         categoriaNoticia = null;
         categoriaNoticia = new CategoriaNoticia();
         RequestContext.getCurrentInstance().reset(":formCategoriaNoticia");
+         if(actualizar)
         JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
              System.out.println(e.getMessage());

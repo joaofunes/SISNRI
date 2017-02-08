@@ -168,6 +168,7 @@ public class CategoriaMovilidadMB{
         categoriaMovilidad = null;
         categoriaMovilidad = new CategoriaMovilidad();
         RequestContext.getCurrentInstance().reset(":formCategoriaMovilidad");
+         if(actualizar)
         JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
              System.out.println(e.getMessage());

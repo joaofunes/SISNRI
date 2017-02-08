@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <center>
+            
+            <p:panel style="width: 70%" header="Gestión de Categorías de Beca">  
+                
+                <h:form id="formTipoBeca">
+                    <p:panelGrid columns="2">            
+                        <p:column>
+                            <h:outputLabel for="nombre" value="Nombre:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nombre" value="#{tipoBecaMB.tipoBeca.nombreTipoBeca}" required="true" size="50" />
+                            <p:watermark for="nombre" value="Nombre Categoría de Beca" id="watermarkNombreTipoBeca"/>
+                        </p:column>
+                        
+                        <p:column>
+                            <p:commandButton styleClass="boton" rendered="#{!tipoBecaMB.actualizar}"
+                                             actionListener="#{tipoBecaMB.guardarTipoBeca}" value="Guardar"  update="formTipoBeca :formTablaTipoBecaes" process="@this :formTipoBeca"/>
+
+                            <p:commandButton styleClass="boton" rendered="#{tipoBecaMB.actualizar}"
+                                             actionListener="#{tipoBecaMB.actualizarTipoBeca()}" update="formTipoBeca :formTablaTipoBecaes "
+                                             value="Actualizar" />
+
+                            <p:commandButton styleClass="boton" rendered="#{tipoBecaMB.actualizar}"
+                                             actionListener="#{tipoBecaMB.cancelarTipoBeca()}" immediate="true" value="Cancelar" update="formTipoBeca"  process="@this" />
+
+
+                        </p:column>
+                    </p:panelGrid>
+
+                </h:form>
+                <br></br>
+                <h:form id="formTablaTipoBecaes">
+                    <p:dataTable var="tipoBeca" value="#{tipoBecaMB.listTipoBeca}" rows="10" 
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen tipoBecaes registrados actualmente" >                       
+                        <p:column headerText="Nombre Tipo de Beca"  filterBy="#{tipoBeca.nombreTipoBeca}"  style="width: 20%">
+                            <h:outputText value="#{tipoBeca.nombreTipoBeca}"/>
+                        </p:column>
+                        <p:column headerText="Opciones" style="width: 15%">
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
+                                               actionListener="#{tipoBecaMB.preActualizarTipoBeca(tipoBeca)}" update=":formTipoBeca" process="@form:formTablaTipoBecaes">
+                                </p:commandLink>
+                            </div>
+                            
+                            
+                            
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                               title="Eliminar" value="Eliminar"
+                                               actionListener="#{tipoBecaMB.preBorradoTipoBeca(tipoBeca)}" update=":idEliminacion" />
+                            </div> 
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </p:panel>     
+        </center> 
+        
+        
+        <!--'Dialog de confirmacion de la operacion de Borrado'-->
+        <p:confirmDialog widgetVar="confirmDeleteTipoBecaDlg" header="Borrar Tipo de Beca" message="¿Confirma la eliminación del Tipo de Beca?" 
+                         global="true" showEffect="fade" hideEffect="fade">
+            <h:form id="idEliminacion">
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="Nombre Tipo de Beca:"/>
+                    <h:outputText value="#{tipoBecaMB.tipoBeca.nombreTipoBeca}"/>
+                </p:panelGrid>
+                <br/>
+                <br/>
+            </h:form>
+             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+                              actionListener="#{tipoBecaMB.borrarTipoBeca()}" update=":formTablaTipoBecaes"/>
+             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>

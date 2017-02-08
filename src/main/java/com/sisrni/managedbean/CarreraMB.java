@@ -9,9 +9,11 @@ package com.sisrni.managedbean;
 import com.sisrni.model.Carrera;
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
+import com.sisrni.model.Pais;
 import com.sisrni.service.CarreraService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PaisService;
 import com.sisrni.utils.JsfUtil;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -43,7 +45,9 @@ public class CarreraMB{
     private List<Facultad> listFacultad;
     private List<Carrera> listCarrera;
     private List<Organismo> organismosList;
+    private List<Pais> paisesList;
     private Organismo organismoSelected;
+    private Pais paisSelected;
     private boolean actualizar;
     
     
@@ -60,6 +64,10 @@ public class CarreraMB{
     @Autowired
     @Qualifier(value = "organismoService")
     private OrganismoService organismoService;
+    
+    @Autowired
+    @Qualifier(value = "paisService")
+    private PaisService paisService;
     
     /*Constructor*/
     public CarreraMB(){
@@ -83,8 +91,10 @@ public class CarreraMB{
         carrera = new Carrera();
         facultad = new Facultad();
         organismoSelected = new Organismo();
-        organismosList = organismoService.findAll();
-        listFacultad = facultadService.findAll();
+        paisSelected = new Pais();
+        paisesList = paisService.findAll();
+       // organismosList = organismoService.findAll();
+       // listFacultad = facultadService.findAll();
         listCarrera = carreraService.findAll();
         actualizar = false;
     }
@@ -95,7 +105,7 @@ public class CarreraMB{
      * correspondiente de la base de datos
      */
     public void guardarCarrera(){
-        String msg ="Carrera Almacenado Exitosamente!";
+        String msg ="Carrera Almacenada Exitosamente!";
         try{
            carrera.setIdCarrera(Integer.MIN_VALUE);
            carrera.setIdFacultad(facultadService.findById(facultad.getIdFacultad()));
@@ -117,6 +127,7 @@ public class CarreraMB{
        try{ 
         actualizar = true;
         this.carrera = carrera;
+        this.paisSelected.setIdPais(carrera.getIdFacultad().getIdOrganismo().getIdPais());
         this.organismoSelected.setIdOrganismo(carrera.getIdFacultad().getIdOrganismo().getIdOrganismo());
         this.facultad.setIdFacultad(carrera.getIdFacultad().getIdFacultad());
        }catch(Exception e){
@@ -129,7 +140,7 @@ public class CarreraMB{
      * seleccionada
      */
     public void actualizarCarrera(){
-        String msg ="Carrera Actualizado Exitosamente!";
+        String msg ="Carrera Actualizada Exitosamente!";
         try{
             carrera.setIdFacultad(facultadService.findById(facultad.getIdFacultad()));
             //actualizando la instancia
@@ -144,6 +155,17 @@ public class CarreraMB{
         cargarCarrera(); 
     }
     
+     public void onchangePais() {
+        try {
+            if (paisSelected.getIdPais()!= null && !paisSelected.getIdPais().equals("")) {
+               organismosList = organismoService.getOrganismosPorPaisYTipo(paisSelected.getIdPais(),1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     
      public void onchangeOrganismo() {
         try {
             if (organismoSelected.getIdOrganismo()!= null && !organismoSelected.getIdOrganismo().equals("")) {
@@ -174,7 +196,7 @@ public class CarreraMB{
      * Metodo que borra una instancia de 'Carrera' de la Base de datos
      */
     public void borrarCarrera(){ 
-        String msg ="Carrera Eliminado Exitosamente!";
+        String msg ="Carrera Eliminada Exitosamente!";
         try{
             //Borrando la instancia de carrera
             carreraService.delete(carrera);
@@ -198,14 +220,16 @@ public class CarreraMB{
      * actualizacion de Carrera
      */
     public void cancelarCarrera(){
-        String msg ="Carrera cancelado";
+        String msg ="Carrera cancelada";
         try{
         carrera = null;
         carrera = new Carrera();
         facultad=null;
         facultad = new Facultad();
         RequestContext.getCurrentInstance().reset(":formCarrera");
+        if(actualizar)
         JsfUtil.addSuccessMessage(msg);
+        
         }catch(Exception e){
              System.out.println(e.getMessage());
         }
@@ -249,6 +273,21 @@ public class CarreraMB{
 
     public void setFacultad(Facultad facultad) {
         this.facultad = facultad;
+    }
+    public List<Pais> getPaisesList() {
+        return paisesList;
+    }
+
+    public void setPaisesList(List<Pais> paisesList) {
+        this.paisesList = paisesList;
+    }
+
+    public Pais getPaisSelected() {
+        return paisSelected;
+    }
+
+    public void setPaisSelected(Pais paisSelected) {
+        this.paisSelected = paisSelected;
     }
 
     

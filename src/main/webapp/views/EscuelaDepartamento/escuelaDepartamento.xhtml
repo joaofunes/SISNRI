@@ -23,6 +23,24 @@
                             <p:inputText id="nombreEscuelaDepto" value="#{escuelaDepartamentoMB.escuelaDepartamento.nombreEscuelaDepto}" required="true" size="40" />
                             <p:watermark for="nombreEscuelaDepto" value="Nombre de Escuela o Departamento" id="watermarkNombreEscuelaDepartamento"/>
                         </p:column>
+                        
+                         <h:outputLabel value="País: "/>
+                        <p:selectOneMenu id="pais" value="#{escuelaDepartamentoMB.paisSelected.idPais}" style="width: 100%" required="true">
+                      <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                      <p:ajax listener="#{escuelaDepartamentoMB.onchangePais()}" update="organismo" />
+                      <c:forEach var="pais" items="#{escuelaDepartamentoMB.paisesList}">
+                        <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                        </c:forEach>
+                       </p:selectOneMenu>
+                        <h:outputLabel value="Universidad: "/>
+                        <p:selectOneMenu id="organismo" value="#{escuelaDepartamentoMB.organismoSelected.idOrganismo}" style="width: 100%" required="true">
+                      <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                      <p:ajax listener="#{escuelaDepartamentoMB.onchangeOrganismo()}" update="facultadEscuelaDepartamento" />
+                      <c:forEach var="organismo" items="#{escuelaDepartamentoMB.organismosList}">
+                        <f:selectItem itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo.idOrganismo}"/>
+                    </c:forEach>
+                     </p:selectOneMenu>
+                        
                         <p:column>
                             <h:outputLabel for="facultadEscuelaDepartamento" value="Facultad:"/>
                         </p:column>
@@ -39,14 +57,17 @@
                             <h:outputLabel for="identificadorEscuelaDepartamento" value="Tipo:"/>
                         </p:column>
                          <p:column>
-                             <p:inputText id="identificadorEscuelaDepartamento" value="#{escuelaDepartamentoMB.escuelaDepartamento.identificador}" required="true" size="40" />
-                            <p:watermark for="identificadorEscuelaDepartamento" value="Tipo de Escuela o Departamento" id="watermarkIdentificadorEscuelaDepartamento"/>
+                              <p:selectOneMenu id="identificadorEscuelaDepartamento" value="#{escuelaDepartamentoMB.escuelaDepartamento.identificador}"  style="width: 100%" required="true" >
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Departamento" itemValue="#{false}" />
+                                <f:selectItem itemLabel="Escuela" itemValue="#{true}" />
+                            </p:selectOneMenu>
                         </p:column>   
                          <p:column>
                             <h:outputLabel for="descripcionEscuelaDepto" value="Descripción:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="descripcionEscuelaDepto" value="#{escuelaDepartamentoMB.escuelaDepartamento.descripcion}" required="true" size="40" />
+                            <p:inputTextarea id="descripcionEscuelaDepto" value="#{escuelaDepartamentoMB.escuelaDepartamento.descripcion}" rows="2" maxlength="300" style="width: 100%" required="true" />
                             <p:watermark for="descripcionEscuelaDepto" value="Descripción de Escuela o Departamento" id="watermarkDescripcionEscuelaDepartamento"/>
                         </p:column>
                         <p:column>
@@ -73,9 +94,22 @@
                         <p:column headerText="Nombre"  filterBy="#{escuelaDepartamento.nombreEscuelaDepto}">
                             <h:outputText value="#{escuelaDepartamento.nombreEscuelaDepto}"/>
                         </p:column>
+                        <p:column headerText="País">
+                                <h:outputText value="#{escuelaDepartamento.idFacultad.idOrganismo.idPais}" >
+                                    <f:converter converterId="nombrePaisConverter"/>
+                                </h:outputText>
+                        </p:column>
+                        <p:column headerText="Universidad" filterBy="#{escuelaDepartamento.idFacultad.idOrganismo.nombreOrganismo}">
+                            <h:outputText value="#{escuelaDepartamento.idFacultad.idOrganismo.nombreOrganismo}"/>
+                        </p:column>
                         <p:column headerText="Facultad" filterBy="#{escuelaDepartamento.idFacultad.nombreFacultad}">
                             <h:outputText value="#{escuelaDepartamento.idFacultad.nombreFacultad}"/>
                         </p:column> 
+                        <p:column headerText="Tipo">
+                            <h:outputText value="#{escuelaDepartamento.identificador}" >
+                                    <f:converter converterId="tipoEscuelaDepartamentoConverter"/>
+                                </h:outputText>
+                        </p:column>
                         <p:column headerText="Descripción"  filterBy="#{escuelaDepartamento.descripcion}">
                             <h:outputText value="#{escuelaDepartamento.descripcion}"/>
                         </p:column>
@@ -102,14 +136,26 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteEscuelaDepartamentoDlg" header="Borrar EscuelaDepartamento" message="¿Confirma la eliminación del registro?" 
+        <p:confirmDialog widgetVar="confirmDeleteEscuelaDepartamentoDlg" header="Borrar Escuela o Departamento" message="¿Confirma la eliminación del registro?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
-                    <h:outputLabel value="Nombre EscuelaDepartamento:"/>
+                    <h:outputLabel value="Nombre Escuela o Departamento:"/>
                     <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.nombreEscuelaDepto}"/>
+                     <h:outputLabel value="País:"/>
+                    <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.idFacultad.idOrganismo.idPais}" >
+                        <f:converter converterId="nombrePaisConverter"/>
+                    </h:outputText>
+                    <h:outputLabel value="Universidad:"/>
+                    <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.idFacultad.idOrganismo.nombreOrganismo}"/>
                     <h:outputLabel value="Facultad:"/>
                     <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.idFacultad.nombreFacultad}"/>
+                    <h:outputLabel value="Tipo:"/>
+                    <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.identificador}" >
+                        <f:converter converterId="tipoEscuelaDepartamentoConverter"/>
+                    </h:outputText>
+                    <h:outputLabel value="Descripción:"/>
+                    <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.descripcion}"/>
                 </p:panelGrid>
                 <br/>
                 <br/>

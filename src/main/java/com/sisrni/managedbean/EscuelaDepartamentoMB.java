@@ -8,8 +8,12 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.Facultad;
+import com.sisrni.model.Organismo;
+import com.sisrni.model.Pais;
 import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.FacultadService;
+import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PaisService;
 import com.sisrni.utils.JsfUtil;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -39,6 +43,10 @@ public class EscuelaDepartamentoMB{
     private EscuelaDepartamento escuelaDepartamento;
     private Facultad facultad;
     private List<Facultad> listFacultad;
+    private List<Organismo> organismosList;
+    private List<Pais> paisesList;
+    private Organismo organismoSelected;
+    private Pais paisSelected;
     private List<EscuelaDepartamento> listEscuelaDepartamento;
     private boolean actualizar;
     
@@ -47,11 +55,18 @@ public class EscuelaDepartamentoMB{
     @Autowired
     @Qualifier(value = "escuelaDepartamentoService")
     private EscuelaDepartamentoService escuelaDepartamentoService;
-    
-    
+
     @Autowired
     @Qualifier(value = "facultadService")
     private FacultadService facultadService;
+    
+    @Autowired
+    @Qualifier(value = "organismoService")
+    private OrganismoService organismoService;
+    
+    @Autowired
+    @Qualifier(value = "paisService")
+    private PaisService paisService;
     
     
     /*Constructor*/
@@ -75,6 +90,10 @@ public class EscuelaDepartamentoMB{
     public void cargarEscuelaDepartamento(){
         escuelaDepartamento = new EscuelaDepartamento();
         facultad = new Facultad();
+        organismoSelected = new Organismo();
+        paisSelected = new Pais();
+        paisesList = paisService.findAll();
+        organismosList = organismoService.findAll();
         listFacultad = facultadService.findAll();
         listEscuelaDepartamento = escuelaDepartamentoService.findAll();
         actualizar = false;
@@ -108,6 +127,8 @@ public class EscuelaDepartamentoMB{
        try{ 
         actualizar = true;
         this.escuelaDepartamento = escuelaDepartamento;
+        this.paisSelected.setIdPais(escuelaDepartamento.getIdFacultad().getIdOrganismo().getIdPais());
+        this.organismoSelected.setIdOrganismo(escuelaDepartamento.getIdFacultad().getIdOrganismo().getIdOrganismo());
         this.facultad.setIdFacultad(escuelaDepartamento.getIdFacultad().getIdFacultad());
        }catch(Exception e){
            System.out.println(e.getMessage());
@@ -119,7 +140,7 @@ public class EscuelaDepartamentoMB{
      * seleccionada
      */
     public void actualizarEscuelaDepartamento(){
-        String msg ="EscuelaDepartamento Actualizado Exitosamente!";
+        String msg ="Escuela o Departamento Actualizado Exitosamente!";
         try{
             escuelaDepartamento.setIdFacultad(facultadService.findById(facultad.getIdFacultad()));
             //actualizando la instancia
@@ -128,12 +149,33 @@ public class EscuelaDepartamentoMB{
             cancelarEscuelaDepartamento(); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Actualizar EscuelaDepartamento");
+            JsfUtil.addErrorMessage("Error al Actualizar Escuela o Departamento");
             e.printStackTrace();
         }
         cargarEscuelaDepartamento(); 
     }
     
+     public void onchangePais() {
+        try {
+            if (paisSelected.getIdPais()!= null && !paisSelected.getIdPais().equals("")) {
+               organismosList = organismoService.getOrganismosPorPaisYTipo(paisSelected.getIdPais(),1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     
+     public void onchangeOrganismo() {
+        try {
+            if (organismoSelected.getIdOrganismo()!= null && !organismoSelected.getIdOrganismo().equals("")) {
+               listFacultad = facultadService.getFacultadesByUniversidad(organismoSelected.getIdOrganismo());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     /**
      * Metodo  de Pre- borrado, que obtiene una instancia de la Entity a Borrar
@@ -153,7 +195,7 @@ public class EscuelaDepartamentoMB{
      * Metodo que borra una instancia de 'EscuelaDepartamento' de la Base de datos
      */
     public void borrarEscuelaDepartamento(){ 
-        String msg ="EscuelaDepartamento Eliminado Exitosamente!";
+        String msg ="Escuela o Departamento Eliminado Exitosamente!";
         try{
             //Borrando la instancia de escuelaDepartamento
             escuelaDepartamentoService.delete(escuelaDepartamento);
@@ -162,7 +204,7 @@ public class EscuelaDepartamentoMB{
             context.execute("PF('confirmDeleteEscuelaDepartamentoDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar EscuelaDepartamento!");
+            JsfUtil.addErrorMessage("Error al Eliminar Escuela o Departamento!");
             e.printStackTrace();
         }finally{
             actualizar = false;
@@ -177,13 +219,14 @@ public class EscuelaDepartamentoMB{
      * actualizacion de EscuelaDepartamento
      */
     public void cancelarEscuelaDepartamento(){
-        String msg ="EscuelaDepartamento cancelado";
+        String msg ="Escuela o Departamento cancelado";
         try{
         escuelaDepartamento = null;
         escuelaDepartamento = new EscuelaDepartamento();
         facultad=null;
         facultad = new Facultad();
         RequestContext.getCurrentInstance().reset(":formEscuelaDepartamento");
+         if(actualizar)
         JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
              System.out.println(e.getMessage());
@@ -221,6 +264,38 @@ public class EscuelaDepartamentoMB{
 
     public void setListFacultad(List<Facultad> listFacultad) {
         this.listFacultad = listFacultad;
+    }
+    
+    public List<Organismo> getOrganismosList() {
+        return organismosList;
+    }
+
+    public void setOrganismosList(List<Organismo> organismosList) {
+        this.organismosList = organismosList;
+    }
+
+    public List<Pais> getPaisesList() {
+        return paisesList;
+    }
+
+    public void setPaisesList(List<Pais> paisesList) {
+        this.paisesList = paisesList;
+    }
+
+    public Organismo getOrganismoSelected() {
+        return organismoSelected;
+    }
+
+    public void setOrganismoSelected(Organismo organismoSelected) {
+        this.organismoSelected = organismoSelected;
+    }
+
+    public Pais getPaisSelected() {
+        return paisSelected;
+    }
+
+    public void setPaisSelected(Pais paisSelected) {
+        this.paisSelected = paisSelected;
     }
 
     public List<EscuelaDepartamento> getListEscuelaDepartamento() {

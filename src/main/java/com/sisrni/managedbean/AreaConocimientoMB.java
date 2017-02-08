@@ -168,9 +168,8 @@ public class AreaConocimientoMB{
         areaConocimiento = null;
         areaConocimiento = new AreaConocimiento();
         RequestContext.getCurrentInstance().reset(":formAreaConocimiento");
-         if(actualizar){
-        JsfUtil.addSuccessMessage(msg);
-         }
+        if(actualizar)
+          JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
              System.out.println(e.getMessage());
         }

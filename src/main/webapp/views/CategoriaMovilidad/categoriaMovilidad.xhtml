@@ -71,17 +71,17 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteCategoriaMovilidadDlg" header="Borrar CategoriaMovilidad" message="Confirma la eliminacion de la CategoriaMovilidad?" 
+        <p:confirmDialog widgetVar="confirmDeleteCategoriaMovilidadDlg" header="Borrar Categoria de Movilidad" message="¿Confirma la eliminación de esta Categoria de Movilidad?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
-                    <h:outputLabel value="Nombre CategoriaMovilidad:"/>
+                    <h:outputLabel value="Nombre Categoria de Movilidad:"/>
                     <h:outputText value="#{categoriaMovilidadMB.categoriaMovilidad.nombreCategoria}"/>
                 </p:panelGrid>
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{categoriaMovilidadMB.borrarCategoriaMovilidad()}" update=":formTablaCategoriaMovilidades"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
