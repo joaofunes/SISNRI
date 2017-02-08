@@ -83,7 +83,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "INNER JOIN ESTADO STA\n" +
                     "ON P_ESTADO.ID_ESTADO=STA.ID_ESTADO\n" +
                     "WHERE  P_CONVENIO.VIGENCIA IS NULL\n" +
-                    "AND STA.NOMBRE_ESTADO <> 'FIRMADO'  ORDER BY FECHA_INGRESO DESC;  ) TB_CONVENIO\n" +
+                    "AND STA.NOMBRE_ESTADO <> 'FIRMADO'  ORDER BY FECHA_INGRESO DESC ) TB_CONVENIO\n" +
                     "\n" +
                     "LEFT JOIN\n" +
                     "\n" +
@@ -165,7 +165,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "INNER JOIN ESTADO STA\n" +
                     "ON P_ESTADO.ID_ESTADO=STA.ID_ESTADO\n" +
                     "WHERE  P_CONVENIO.VIGENCIA IS NOT NULL\n" +
-                    "AND STA.NOMBRE_ESTADO = 'FIRMADO'  ORDER BY FECHA_INGRESO DESC;  ) TB_CONVENIO\n" +
+                    "AND STA.NOMBRE_ESTADO = 'FIRMADO'  ORDER BY FECHA_INGRESO DESC  ) TB_CONVENIO\n" +
                     "\n" +
                     "LEFT JOIN\n" +
                     "\n" +
