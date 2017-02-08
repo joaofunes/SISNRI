@@ -11,18 +11,23 @@ import com.sisrni.model.SsRoles;
 
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.SsMenusService;
+import com.sisrni.service.SsOpcionesService;
 import com.sisrni.service.SsRolesService;
 import com.sisrni.utils.JsfUtil;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -46,11 +51,21 @@ public class MenusOpcionesMB implements Serializable{
     @Qualifier(value = "ssRolesService")
     private SsRolesService ssRolesService;
     
+    @Autowired
+    @Qualifier(value = "ssOpcionesService")
+    private SsOpcionesService opcionesService;
+    
    
  
     private List<SsMenus> listadoMenus;
     private List<SsOpciones> listadOpciones;
     
+    
+     private DualListModel<SsOpciones> opciones;
+    
+    private List<SsOpciones> opcionesSource;
+    private List<SsOpciones> opcionesTarget;
+    private List<SsOpciones> opcionesTargetTemp;
    
     private SsMenus ssMenus;
     private SsRoles roles;
@@ -66,19 +81,72 @@ public class MenusOpcionesMB implements Serializable{
             user = new CurrentUserSessionBean();
             ssMenus = new SsMenus(); 
             listadoMenus=menusService.findAll();
-            
+             opcionesSource = new ArrayList<SsOpciones>();
+             opcionesTarget = new ArrayList<SsOpciones>();                
+             opciones = new DualListModel<SsOpciones>(opcionesSource, opcionesTarget);
         } catch (Exception e) {
         }
     }
     
     
-    public void llenarMapa(){
+    public void llenarOpciones(SsMenus ssMenus){
         try {
+            
+             this.ssMenus=ssMenus;
+             opcionesSource = new ArrayList<SsOpciones>();
+             opcionesTarget = new ArrayList<SsOpciones>(); 
+             opcionesTargetTemp = new ArrayList<SsOpciones>(); 
+             opcionesSource=opcionesService.findAll();
+           
+             for(SsMenus us: listadoMenus){                 
+                 if(us.getIdMenu()==ssMenus.getIdMenu()){
+                     opcionesTarget=us.getSsOpcionesList();                    
+                     opcionesTargetTemp=us.getSsOpcionesList();                    
+                 }
+             }     
+             
+             opcionesSource.removeAll(opcionesTarget);//elimina las opciones ya seleccionadas para menu             
+             opciones = new DualListModel<SsOpciones>(opcionesSource, opcionesTarget);
              
         } catch (Exception e) {
           e.printStackTrace();
         }
     }
+    
+    
+    
+    
+    public void guardar(){
+		try {	
+                    
+                        for(SsOpciones us:opcionesTargetTemp){
+                            int deleteMenuOpciones = menusService.deleteMenuOpciones(ssMenus.getIdMenu(), us.getIdOpcion());
+                        }
+                        
+                    List<SsOpciones> target = opciones.getTarget();
+                    
+                    
+                     for(SsOpciones it: target){
+                         menusService.guardarMenuOpciones(ssMenus.getIdMenu(),it.getIdOpcion());
+                     }
+                    
+                         listadoMenus=menusService.findAll();
+                         
+                         FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("formMenu");
+                         
+			JsfUtil.addSuccessMessage("Guardado Exitosamente");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JsfUtil.addErrorMessage(e,"Erro al Guardar--- CountryMB");
+		}finally {
+			this.ssMenus = null;
+                        this.ssMenus = new SsMenus();
+                        opciones = new DualListModel<SsOpciones>();
+		}
+	}
+    
+    
     
     /***
 	 * 
@@ -130,25 +198,7 @@ public class MenusOpcionesMB implements Serializable{
 	}
 	
 	
-	public void guardar(){
-		try {	
-                        getSsMenus().setFechaRegistro(new Date());
-                        getSsMenus().setUsuarioRegistro("UsuarioPrueba");
-                        getSsMenus().setSsRolesList(usuario.getUsuario().getSsRolesList());
-                
-		        menusService.getDao().save(getSsMenus());
-			RequestContext.getCurrentInstance().update("formAdmin");
-			RequestContext.getCurrentInstance().update("formMenu");
-			JsfUtil.addSuccessMessage("Guardado Exitosamente");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			JsfUtil.addErrorMessage(e,"Erro al Guardar--- CountryMB");
-		}finally {
-			this.ssMenus = null;
-                        this.ssMenus = new SsMenus();
-		}
-	}
+	
 	
     
         public void cancelar() throws Exception{
@@ -204,6 +254,38 @@ public class MenusOpcionesMB implements Serializable{
 
     public void setListadOpciones(List<SsOpciones> listadOpciones) {
         this.listadOpciones = listadOpciones;
+    }
+
+    public DualListModel<SsOpciones> getOpciones() {
+        return opciones;
+    }
+
+    public void setOpciones(DualListModel<SsOpciones> opciones) {
+        this.opciones = opciones;
+    }
+
+    public List<SsOpciones> getOpcionesSource() {
+        return opcionesSource;
+    }
+
+    public void setOpcionesSource(List<SsOpciones> opcionesSource) {
+        this.opcionesSource = opcionesSource;
+    }
+
+    public List<SsOpciones> getOpcionesTarget() {
+        return opcionesTarget;
+    }
+
+    public void setOpcionesTarget(List<SsOpciones> opcionesTarget) {
+        this.opcionesTarget = opcionesTarget;
+    }
+
+    public List<SsOpciones> getOpcionesTargetTemp() {
+        return opcionesTargetTemp;
+    }
+
+    public void setOpcionesTargetTemp(List<SsOpciones> opcionesTargetTemp) {
+        this.opcionesTargetTemp = opcionesTargetTemp;
     }
  
 }

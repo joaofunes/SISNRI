@@ -18,4 +18,32 @@ public class SsMenusDao extends GenericDao<SsMenus, Integer> {
         q.setParameter("rol", rol.getIdRol());
         return q.list();
     }
+    
+    
+    
+    public int deleteMenuOpciones(Integer menu, Integer opcion) {
+        try {
+            String sql = "DELETE FROM SS_MENUS_OPCIONES WHERE ID_MENU=:menu AND ID_OPCION=:opcion";
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+            q.setParameter("menu", menu);
+            q.setParameter("opcion", opcion);
+            int executeUpdate = q.executeUpdate();
+            return executeUpdate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    
+    
+    public void guardarMenuOpciones(Integer menu, Integer opcion){
+        try {
+            String sql="INSERT INTO SS_MENUS_OPCIONES (ID_MENU,ID_OPCION) VALUES ("+menu+","+opcion+")";
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);            
+            q.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }
