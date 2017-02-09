@@ -16,6 +16,8 @@ import com.sisrni.model.PersonaBeca;
 import com.sisrni.model.PersonaBecaPK;
 import com.sisrni.model.ProgramaBeca;
 import com.sisrni.model.Telefono;
+import com.sisrni.model.TipoBeca;
+import com.sisrni.model.TipoCambio;
 import com.sisrni.model.TipoModalidaBeca;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoBeca;
@@ -30,6 +32,7 @@ import com.sisrni.service.PersonaService;
 import com.sisrni.service.ProgramaBecaService;
 import com.sisrni.service.ProyectoService;
 import com.sisrni.service.TelefonoService;
+import com.sisrni.service.TipoCambioService;
 import com.sisrni.service.TipoModalidadBecaService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoProyectoService;
@@ -142,6 +145,13 @@ public class BecaConsultarMB implements Serializable {
     private String fechaFinString;
     private String otorgadaString;
 
+    private Organismo organismoCooperanteSelected;
+    private List<Organismo> organismoCooperanteList;
+    private TipoBeca tipoBecaSelected;
+    private List<TipoBeca> tipoBecaList;
+    private TipoCambio tipoCambioSelected;
+    private List<TipoCambio> tipoCambioList;
+
     @Autowired
     FacultadService facultadService;
 
@@ -189,6 +199,9 @@ public class BecaConsultarMB implements Serializable {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    TipoCambioService tipoCambioService;
 
     public BecaConsultarMB() {
     }
@@ -263,6 +276,13 @@ public class BecaConsultarMB implements Serializable {
 
         tabExternoBoolean = Boolean.FALSE;
         mostrarTabExterno = Boolean.FALSE;
+
+        organismoCooperanteSelected = new Organismo();
+        organismoCooperanteList = organismoService.findAll();
+        tipoBecaSelected = new TipoBeca();
+        tipoBecaList = new ArrayList<TipoBeca>();
+        tipoCambioSelected = new TipoCambio();
+        tipoCambioList = new ArrayList<TipoCambio>();
 
     }
 
@@ -465,6 +485,18 @@ public class BecaConsultarMB implements Serializable {
                     asesorExterno = new Persona();
                 }
 
+                organismoCooperanteSelected = beca.getIdOrganismoCooperante();
+                organismoCooperanteList.clear();
+                organismoCooperanteList.add(organismoCooperanteSelected);
+
+                tipoBecaSelected = beca.getIdTipoBeca();
+                tipoBecaList.clear();
+                tipoBecaList.add(tipoBecaSelected);
+
+                tipoCambioSelected = tipoCambioService.findById(2);
+                tipoCambioList.clear();
+                tipoCambioList.add(tipoCambioSelected);
+
                 paisCooperanteSelected = paisService.findById(beca.getIdPaisCooperante());
                 paisList.clear();
                 paisList.add(paisCooperanteSelected);
@@ -640,7 +672,7 @@ public class BecaConsultarMB implements Serializable {
                         }
                         facultadesUnidadesList.clear();
                         facultadesUnidadesList.add(j);
-                        
+
                         escuelaDeptoInterno = asesorInterno.getIdEscuelaDepto();
                         escuelaDepartamentoList.clear();
                         escuelaDepartamentoList.add(escuelaDeptoInterno);
@@ -1124,6 +1156,54 @@ public class BecaConsultarMB implements Serializable {
 
     public void setOtorgadaString(String otorgadaString) {
         this.otorgadaString = otorgadaString;
+    }
+
+    public Organismo getOrganismoCooperanteSelected() {
+        return organismoCooperanteSelected;
+    }
+
+    public void setOrganismoCooperanteSelected(Organismo organismoCooperanteSelected) {
+        this.organismoCooperanteSelected = organismoCooperanteSelected;
+    }
+
+    public List<Organismo> getOrganismoCooperanteList() {
+        return organismoCooperanteList;
+    }
+
+    public void setOrganismoCooperanteList(List<Organismo> organismoCooperanteList) {
+        this.organismoCooperanteList = organismoCooperanteList;
+    }
+
+    public TipoCambio getTipoCambioSelected() {
+        return tipoCambioSelected;
+    }
+
+    public void setTipoCambioSelected(TipoCambio tipoCambioSelected) {
+        this.tipoCambioSelected = tipoCambioSelected;
+    }
+
+    public List<TipoCambio> getTipoCambioList() {
+        return tipoCambioList;
+    }
+
+    public void setTipoCambioList(List<TipoCambio> tipoCambioList) {
+        this.tipoCambioList = tipoCambioList;
+    }
+
+    public TipoBeca getTipoBecaSelected() {
+        return tipoBecaSelected;
+    }
+
+    public void setTipoBecaSelected(TipoBeca tipoBecaSelected) {
+        this.tipoBecaSelected = tipoBecaSelected;
+    }
+
+    public List<TipoBeca> getTipoBecaList() {
+        return tipoBecaList;
+    }
+
+    public void setTipoBecaList(List<TipoBeca> tipoBecaList) {
+        this.tipoBecaList = tipoBecaList;
     }
 
 }

@@ -86,12 +86,12 @@
                                 <p:panelGrid>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Pais cooperante:"/>
+                                            <p:outputLabel value="Tipo Beca:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="paiscooperantebeca" value="#{becaConsultarMB.paisCooperanteSelected.idPais}"  style="width:180px">
-                                                <c:forEach var="pais" items="#{becaConsultarMB.paisList}">
-                                                    <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                                            <p:selectOneMenu id="tipoBecaId" value="#{becaConsultarMB.tipoBecaSelected}"  style="width:180px">
+                                                <c:forEach var="tipobeca" items="#{becaConsultarMB.tipoBecaList}">
+                                                    <f:selectItem itemLabel="#{tipobeca.nombreTipoBeca}" itemValue="#{tipobeca.idTipoBeca}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
@@ -108,6 +108,16 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
+                                            <p:outputLabel value="Organismo Cooperante:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="organismoId" value="#{becaConsultarMB.organismoCooperanteSelected.idOrganismo}"  style="width:180px">
+                                                <c:forEach var="organismo" items="#{becaConsultarMB.organismoCooperanteList}">
+                                                    <f:selectItem itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo.idOrganismo}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
                                             <p:outputLabel value="Pais destino"/>
                                         </p:column>
                                         <p:column>
@@ -117,6 +127,8 @@
                                                 </c:forEach>
                                             </p:selectOneMenu>
                                         </p:column>
+                                    </p:row>
+                                    <p:row>
                                         <p:column>
                                             <p:outputLabel value="Universidad Destino"/>
                                         </p:column>
@@ -126,14 +138,6 @@
                                                     <f:selectItem itemLabel="#{universidad.nombreOrganismo}" itemValue="#{universidad.idOrganismo}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <p:outputLabel value="Tipo Modalidad"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText readonly="true" value="#{becaConsultarMB.modalidad}" />
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel  value="A&ntilde;o de Gesti&oacute;n: " />
@@ -150,10 +154,28 @@
                                             <p:inputText readonly="true" value="#{becaConsultarMB.fechaInicioString}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Fecha Fin:"/>
+                                            <p:outputLabel value="Fecha Finalizacion:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText readonly="true" value="#{becaConsultarMB.fechaFinString}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel value="Tipo Financiamiento"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText readonly="true" value="#{becaConsultarMB.modalidad}" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Tipo de Moneda Externo:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu  id="tipoCambio" value="#{becaConsultarMB.tipoCambioSelected.idTipoCambio}"  style="width:180px">
+                                                <c:forEach var="tipoCambio" items="#{becaConsultarMB.tipoCambioList}">
+                                                    <f:selectItem itemLabel="#{tipoCambio.nombreDivisa}" itemValue="#{tipoCambio.idTipoCambio}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
                                         </p:column>
                                     </p:row>
                                     <p:row>
