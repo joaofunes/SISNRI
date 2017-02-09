@@ -184,6 +184,7 @@ public class PaisMB{
         region=null;
         region = new Region();
         RequestContext.getCurrentInstance().reset(":formPais");
+         if(actualizar)
         JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
              System.out.println(e.getMessage());

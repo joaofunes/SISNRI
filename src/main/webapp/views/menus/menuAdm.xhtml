@@ -84,23 +84,7 @@
         </h:form>
 
 
-        <p:dialog header="Agregar Opciones" widgetVar="dlg2"  modal="true" height="100">
-            <h:outputText value="This is a Modal Dialog." />
-
-            <h:form>
-              
-                
-                <h3 style="margin-top: 0">Seleccionar opciones del menu</h3>
-              
-               
-                <p:pickList id="pick" value="#{menusOpcionesAdmMB.options}" var="city" itemLabel="#{city.nombreOpcion}" itemValue="#{city}" />
-
-                <!--<p:commandButton id="citySubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />-->
-
-            </h:form>
-                    
-                    
-        </p:dialog> 
+       
         
         <p:dialog id="NuevoMenuDlg" widgetVar="NuevoMenuDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Nuevo Menu" closeOnEscape="true">
             
@@ -123,13 +107,7 @@
                         </p:column>                                         
                         <p:column>                                         
                             
-<!--                            <p:selectManyMenu id="idRoles" value="#{menusOpcionesAdmMB.selectedlistRoles}" converter="#{rolesConverter}"
-                                              var="t" filter="true" filterMatchMode="contains" showCheckbox="true">
-                                <f:selectItem itemLabel="Seleccione Rol" itemValue="null" noSelectionOption="true" />  
-                                <f:selectItems value="#{menusOpcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol}" />
-                                
-                            </p:selectManyMenu>-->
-                            
+
                             <p:selectCheckboxMenu id="idRoles" value="#{menusOpcionesAdmMB.selectedArrayRoles}" label="Cities"
                                                   filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
                                 <f:selectItems value="#{menusOpcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" />

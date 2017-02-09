@@ -23,4 +23,12 @@ public class SsMenusService extends GenericService<SsMenus, Integer> {
     public List<SsMenus> getMenusByrol(SsRoles rol) {
         return this.ssMenusDao.getMenusByrol(rol);
     }
+    
+     public int deleteMenuOpciones(Integer menu, Integer opcion){
+         return this.ssMenusDao.deleteMenuOpciones(menu, opcion);
+     }
+     
+     public void guardarMenuOpciones(Integer menu, Integer opcion){
+          this.ssMenusDao.guardarMenuOpciones(menu, opcion);
+     }
 }

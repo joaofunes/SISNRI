@@ -116,7 +116,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
             actualizar=false;
             cancelarTipoOrganismo();
             cargarTipoOrganismo();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar tipo de organismo");
         }
@@ -183,6 +183,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
             tipoOrganismo = null;
             tipoOrganismo = new TipoOrganismo();
             RequestContext.getCurrentInstance().reset(":formAdmin");            
+            if(actualizar)
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al cancelar registro tipo de organismo");

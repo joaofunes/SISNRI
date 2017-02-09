@@ -808,19 +808,21 @@ public class PropuestaConvenioMB implements Serializable {
             persPropuesta.getPersonaPropuestaPK().setIdPersona(solicitante.getIdPersona());
             personaPropuestaService.updatePersonaPropuesta(solicitante.getIdPersona(), persPropuesta.getPropuestaConvenio().getIdPropuesta(), persPropuesta.getTipoPersona().getIdTipoPersona());
 
-            // persona REFERENTE_INTERNO             
-            PersonaPropuesta persPropuestaRefInterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_INTERNO);
-            persPropuestaRefInterno.setPersona(referenteInterno);
-            persPropuestaRefInterno.getPersonaPropuestaPK().setIdPersona(referenteInterno.getIdPersona());
-            personaPropuestaService.updatePersonaPropuesta(referenteInterno.getIdPersona(), persPropuestaRefInterno.getPropuestaConvenio().getIdPropuesta(), persPropuestaRefInterno.getTipoPersona().getIdTipoPersona());
-
+            // persona REFERENTE_INTERNO  
+            if (referenteInterno.getDuiPersona() != null && referenteInterno.getNombrePersona() != null && referenteInterno.getApellidoPersona() != null && referenteInterno.getEmailPersona() != null) {
+                PersonaPropuesta persPropuestaRefInterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_INTERNO);
+                persPropuestaRefInterno.setPersona(referenteInterno);
+                persPropuestaRefInterno.getPersonaPropuestaPK().setIdPersona(referenteInterno.getIdPersona());
+                personaPropuestaService.updatePersonaPropuesta(referenteInterno.getIdPersona(), persPropuestaRefInterno.getPropuestaConvenio().getIdPropuesta(), persPropuestaRefInterno.getTipoPersona().getIdTipoPersona());
+            }
             // persona REFERENTE_EXTERNO
-            PersonaPropuesta persPropuestaRefExterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_EXTERNO);
-            persPropuestaRefExterno.setPersona(referenteExterno);
-            persPropuestaRefExterno.getPersonaPropuestaPK().setIdPersona(referenteExterno.getIdPersona());
-
-            personaPropuestaService.updatePersonaPropuesta(referenteExterno.getIdPersona(), persPropuestaRefExterno.getPropuestaConvenio().getIdPropuesta(), persPropuestaRefExterno.getTipoPersona().getIdTipoPersona());
-
+            if (referenteExterno.getPasaporte() != null && referenteExterno.getNombrePersona() != null && referenteExterno.getApellidoPersona() != null && referenteExterno.getEmailPersona() != null) {
+                PersonaPropuesta persPropuestaRefExterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_EXTERNO);
+                persPropuestaRefExterno.setPersona(referenteExterno);
+                persPropuestaRefExterno.getPersonaPropuestaPK().setIdPersona(referenteExterno.getIdPersona());
+                personaPropuestaService.updatePersonaPropuesta(referenteExterno.getIdPersona(), persPropuestaRefExterno.getPropuestaConvenio().getIdPropuesta(), persPropuestaRefExterno.getTipoPersona().getIdTipoPersona());
+            }
+             
             FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().getFlash().setKeepMessages(true);
 

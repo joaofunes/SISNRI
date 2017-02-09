@@ -7,8 +7,10 @@ package com.sisrni.managedbean;
 
 
 import com.sisrni.model.Ciudad;
+import com.sisrni.model.Pais;
 import com.sisrni.model.Provincia;
 import com.sisrni.service.CiudadService;
+import com.sisrni.service.PaisService;
 import com.sisrni.service.ProvinciaService;
 import com.sisrni.utils.JsfUtil;
 import java.util.List;
@@ -40,10 +42,15 @@ public class CiudadMB{
     private Provincia provincia;
     private List<Provincia> listProvincia;
     private List<Ciudad> listCiudad;
+    private List<Pais> paisesList;
+    private Pais paisSelected;
     private boolean actualizar;
     
     
-    
+     @Autowired
+    @Qualifier(value = "paisService")
+    private PaisService paisService;
+     
     @Autowired
     @Qualifier(value = "ciudadService")
     private CiudadService ciudadService;
@@ -77,6 +84,8 @@ public class CiudadMB{
         provincia = new Provincia();
         listProvincia = provinciaService.findAll();
         listCiudad = ciudadService.findAll();
+        paisSelected = new Pais();
+        paisesList = paisService.findAll();
         actualizar = false;
     }
     
@@ -86,7 +95,7 @@ public class CiudadMB{
      * correspondiente de la base de datos
      */
     public void guardarCiudad(){
-        String msg ="Ciudad Almacenado Exitosamente!";
+        String msg ="Ciudad Almacenada Exitosamente!";
         try{
            ciudad.setIdCiudad(Integer.MIN_VALUE);
            ciudad.setIdProvincia(provinciaService.findById(provincia.getIdProvincia()));
@@ -126,7 +135,7 @@ public class CiudadMB{
             ciudadService.merge(ciudad);
             actualizar = false;
             cancelarCiudad(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Ciudad");
             e.printStackTrace();
@@ -134,6 +143,16 @@ public class CiudadMB{
         cargarCiudad(); 
     }
     
+     public void onchangePais() {
+        try {
+            if (paisSelected.getIdPais()!= null && !paisSelected.getIdPais().equals("")) {
+               listProvincia = provinciaService.getProvinciasByPaisId(paisSelected.getIdPais());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     /**
      * Metodo  de Pre- borrado, que obtiene una instancia de la Entity a Borrar
@@ -153,7 +172,7 @@ public class CiudadMB{
      * Metodo que borra una instancia de 'Ciudad' de la Base de datos
      */
     public void borrarCiudad(){ 
-        String msg ="Ciudad Eliminado Exitosamente!";
+        String msg ="Ciudad Eliminada Exitosamente!";
         try{
             //Borrando la instancia de ciudad
             ciudadService.delete(ciudad);
@@ -177,13 +196,14 @@ public class CiudadMB{
      * actualizacion de Ciudad
      */
     public void cancelarCiudad(){
-        String msg ="Ciudad cancelado";
+        String msg ="Ciudad cancelada";
         try{
         ciudad = null;
         ciudad = new Ciudad();
         provincia=null;
         provincia = new Provincia();
         RequestContext.getCurrentInstance().reset(":formCiudad");
+         if(actualizar)
         JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
              System.out.println(e.getMessage());
@@ -230,11 +250,27 @@ public class CiudadMB{
     public void setListCiudad(List<Ciudad> listCiudad) {
         this.listCiudad = listCiudad;
     }
+    
+       public List<Pais> getPaisesList() {
+        return paisesList;
+    }
+
+    public void setPaisesList(List<Pais> paisesList) {
+        this.paisesList = paisesList;
+    }
+
+    public Pais getPaisSelected() {
+        return paisSelected;
+    }
+
+    public void setPaisSelected(Pais paisSelected) {
+        this.paisSelected = paisSelected;
+    }
 
     public boolean isActualizar() {
         return actualizar;
     }
-
+    
     public void setActualizar(boolean actualizar) {
         this.actualizar = actualizar;
     }

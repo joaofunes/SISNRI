@@ -24,14 +24,22 @@
                             <p:watermark for="nombreCarrera" value="Nombre de la Carrera" id="watermarkNombreCarrera"/>
                         </p:column>
                         
+                         <h:outputLabel value="País: "/>
+                        <p:selectOneMenu id="pais" value="#{carreraMB.paisSelected.idPais}" style="width: 100%" required="true">
+                      <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                      <p:ajax listener="#{carreraMB.onchangePais()}" update="organismo" />
+                      <c:forEach var="pais" items="#{carreraMB.paisesList}">
+                        <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                        </c:forEach>
+                       </p:selectOneMenu>
                         <h:outputLabel value="Universidad: "/>
-                        <p:selectOneMenu id="organismo" value="#{carreraMB.organismoSelected.idOrganismo}" style="width: 100%">
+                        <p:selectOneMenu id="organismo" value="#{carreraMB.organismoSelected.idOrganismo}" style="width: 100%" required="true">
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <p:ajax listener="#{carreraMB.onchangeOrganismo()}" update="facultadCarrera" />
                       <c:forEach var="organismo" items="#{carreraMB.organismosList}">
                         <f:selectItem itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo.idOrganismo}"/>
                     </c:forEach>
-                </p:selectOneMenu>
+                     </p:selectOneMenu>
                         <p:column>
                             <h:outputLabel for="facultadCarrera" value="Facultad:"/>
                         </p:column>
@@ -67,6 +75,11 @@
                         <p:column headerText="Carrera"  filterBy="#{carrera.nombreCarrera}">
                             <h:outputText value="#{carrera.nombreCarrera}"/>
                         </p:column>
+                          <p:column headerText="País">
+                                <h:outputText value="#{carrera.idFacultad.idOrganismo.idPais}" >
+                                    <f:converter converterId="nombrePaisConverter"/>
+                                </h:outputText>
+                            </p:column>
                         <p:column headerText="Universidad" filterBy="#{carrera.idFacultad.idOrganismo.nombreOrganismo}">
                             <h:outputText value="#{carrera.idFacultad.idOrganismo.nombreOrganismo}"/>
                         </p:column> 
@@ -96,19 +109,25 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteCarreraDlg" header="Borrar Carrera" message="Confirma la eliminacion del Carrera?" 
+        <p:confirmDialog widgetVar="confirmDeleteCarreraDlg" header="Borrar Carrera" message="¿Confirma la eliminación de la Carrera?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
                     <h:outputLabel value="Nombre Carrera:"/>
                     <h:outputText value="#{carreraMB.carrera.nombreCarrera}"/>
+                    <h:outputLabel value="País:"/>
+                    <h:outputText value="#{carreraMB.carrera.idFacultad.idOrganismo.idPais}" >
+                        <f:converter converterId="nombrePaisConverter"/>
+                    </h:outputText>
+                    <h:outputLabel value="Universidad:"/>
+                    <h:outputText value="#{carreraMB.carrera.idFacultad.idOrganismo.nombreOrganismo}"/>
                     <h:outputLabel value="Facultad:"/>
                     <h:outputText value="#{carreraMB.carrera.idFacultad.nombreFacultad}"/>
                 </p:panelGrid>
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{carreraMB.borrarCarrera()}" update=":formTablaCarreraes"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
