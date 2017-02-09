@@ -15,6 +15,7 @@
                 <center>
                     <p:panel style="width: 80%">
                         <h:form id="formRegistrarMovilidad">
+                            <p:growl id="growlMov" showDetail="true" sticky="false"/>
                             <p:tab>
                                 <p:column>
                                     <p:row>
@@ -151,7 +152,7 @@
                                             <p:outputLabel for="escuelaDepartamentoPersona" value="Escuela/Departamento"/>   
                                         </p:column>   
                                         <p:column>
-                                            <p:selectOneMenu id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDepartamentoPersonaMovilidad}" style="width: 180px" disabled="#{registrarMovilidadMB.mostrarEscuelaDocente}">
+                                            <p:selectOneMenu id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDepartamentoPersonaMovilidad}" style="width: 180px" disabled="#{registrarMovilidadMB.mostrarEscuelaDocente}" required="#{registrarMovilidadMB.escuelaDocenteRequerido}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoPersonaMovilidad}" var="escDptoPersona" itemLabel="#{escDptoPersona.nombreEscuelaDepto}" itemValue="#{escDptoPersona.idEscuelaDepto}"/>
                                             </p:selectOneMenu>
@@ -160,7 +161,9 @@
                                             <p:outputLabel for="emailPersona" value="Correo Electronico"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="emailPersona" label="emailPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.emailPersona}" />
+                                            <p:inputText id="emailPersona" label="emailPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.emailPersona}">
+                                                <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="telPersona" value="Telefono"/>
@@ -229,13 +232,18 @@
                                             <p:outputLabel for="desdeMovilidad" value="Fecha de inicio"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="desdeMovilidad" value="#{registrarMovilidadMB.fechaInicioSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10"/>
+                                            <p:calendar id="desdeMovilidad" value="#{registrarMovilidadMB.fechaInicioSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
+                                              <p:ajax event="dateSelect" update="hastaMovilidad" />
+                                            </p:calendar>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="hastaMovilidad" value="Fecha de finalizacion"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="hastaMovilidad" value="#{registrarMovilidadMB.fechaFinSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10"/>
+                                            <p:calendar id="hastaMovilidad" value="#{registrarMovilidadMB.fechaFinSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
+                                                <f:attribute name="desdeMovilidad" value="#{registrarMovilidadMB.fechaInicioSelected}"/>
+                                                <f:validator validatorId="fechaMayorValidator"/>
+                                            </p:calendar>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="viaticos" value="Monto de viaticos"/>
@@ -385,7 +393,9 @@
                                             <p:outputLabel for="emailPersonaFacultad" value="Correo Electronico"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="emailPersonaFacultad" label="emailPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" />
+                                            <p:inputText id="emailPersonaFacultad" label="emailPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}">
+                                              <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="telPersonaFacultad" value="Telefono institucional"/>

@@ -66,6 +66,7 @@ public class registrarMovilidadMB {
     private Boolean isEditable;
     private Boolean mostrarEscuelaDocente;
     private Boolean mostrarEscuelaReferente;
+    private Boolean escuelaDocenteRequerido;
 
     private float totalViaticosCurso;
     private float totalViaticosCursoBoletoAereo;
@@ -277,6 +278,7 @@ public class registrarMovilidadMB {
         isEditable = true;
         mostrarEscuelaDocente = false;
         mostrarEscuelaReferente = false;
+        escuelaDocenteRequerido = false;
 
         programaMovilidadSelected = new ProgramaMovilidad();
         movilidad = new Movilidad();
@@ -402,9 +404,13 @@ public class registrarMovilidadMB {
         int result = -1;
         if ((result = facultadPersonaMovilidad.indexOf(",2")) > -1) {
             mostrarEscuelaDocente = true;
+            escuelaDocenteRequerido = false;
+            onchangeListFacultadPersonaMovilidad();
         } else {
             mostrarEscuelaDocente = false;
+            escuelaDocenteRequerido = true;
             onchangeListFacultadPersonaMovilidad();
+
         }
 
     }
@@ -413,8 +419,10 @@ public class registrarMovilidadMB {
         int result = -1;
         if ((result = facultadDeReferente.indexOf(",2")) > -1) {
             mostrarEscuelaReferente = true;
+            onchangeListFacultadReferente();
         } else {
             mostrarEscuelaReferente = false;
+
             onchangeListFacultadReferente();
         }
     }
@@ -584,7 +592,7 @@ public class registrarMovilidadMB {
                     if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                         telCelPersonaMovilidad = tlfx;
                     }
-                 //   if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                    //   if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
                     //       faxPersonaMovilidad = tlfx;
                     //   }
                 }
@@ -627,7 +635,7 @@ public class registrarMovilidadMB {
                     if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                         telCelPersonaMovilidad = tlfx;
                     }
-                //    if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                    //    if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
                     //        faxPersonaMovilidad = tlfx;
                     //    }
                 }
@@ -673,7 +681,7 @@ public class registrarMovilidadMB {
                         if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                             telCelPersonaFacultad = tlfx;
                         }
-                      //  if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                        //  if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
                         //      faxPersonaFacultad = tlfx;
                         //  }
                     }
@@ -982,7 +990,7 @@ public class registrarMovilidadMB {
                 personaMovilidadGenerico.getTelefonoList().add(telCelPersonaMovilidad);
                 //telefonoService.save(telCelPersonaMovilidad);
 
-             //   faxPersonaMovilidad.setIdPersona(personaMovilidadGenerico);
+                //   faxPersonaMovilidad.setIdPersona(personaMovilidadGenerico);
                 //   faxPersonaMovilidad.setIdTipoTelefono(tipoTelefonoFax);
                 //   personaMovilidadGenerico.getTelefonoList().add(faxPersonaMovilidad);
                 //telefonoService.save(faxPersonaMovilidad);
@@ -1009,7 +1017,7 @@ public class registrarMovilidadMB {
                 telCelPersonaMovilidad.setIdTipoTelefono(tipoTelefonoCel);
                 personaMovilidadGenerico.getTelefonoList().add(telCelPersonaMovilidad);
 
-           //     faxPersonaMovilidad.setIdPersona(personaMovilidadGenerico);
+                //     faxPersonaMovilidad.setIdPersona(personaMovilidadGenerico);
                 //     faxPersonaMovilidad.setIdTipoTelefono(tipoTelefonoFax);
                 //     personaMovilidadGenerico.getTelefonoList().add(faxPersonaMovilidad);
                 personaService.merge(personaMovilidadGenerico);
@@ -1041,7 +1049,7 @@ public class registrarMovilidadMB {
                 telCelPersonaFacultad.setIdTipoTelefono(tipoTelefonoCel);
                 personaFacultadGenerico.getTelefonoList().add(telCelPersonaFacultad);
 
-            //    faxPersonaFacultad.setIdPersona(personaFacultadGenerico);
+                //    faxPersonaFacultad.setIdPersona(personaFacultadGenerico);
                 //    faxPersonaFacultad.setIdTipoTelefono(tipoTelefonoFax);
                 //    personaFacultadGenerico.getTelefonoList().add(faxPersonaFacultad);
                 personaService.save(personaFacultadGenerico);
@@ -1067,7 +1075,7 @@ public class registrarMovilidadMB {
                 telCelPersonaFacultad.setIdTipoTelefono(tipoTelefonoCel);
                 personaFacultadGenerico.getTelefonoList().add(telCelPersonaFacultad);
 
-              //  faxPersonaFacultad.setIdPersona(personaFacultadGenerico);
+                //  faxPersonaFacultad.setIdPersona(personaFacultadGenerico);
                 //  faxPersonaFacultad.setIdTipoTelefono(tipoTelefonoFax);
                 //  personaFacultadGenerico.getTelefonoList().add(faxPersonaFacultad);
                 //Actualizando la persona 
@@ -1212,7 +1220,7 @@ public class registrarMovilidadMB {
                     if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                         telCelPersonaMovilidad = tlfx;
                     }
-                //    if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                    //    if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
                     //        faxPersonaMovilidad = tlfx;
                     //    }
                 }
@@ -1238,7 +1246,7 @@ public class registrarMovilidadMB {
                     if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                         telCelPersonaFacultad = tlfx;
                     }
-                  //  if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                    //  if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
                     //      faxPersonaFacultad = tlfx;
                     //  }
                 }
@@ -1395,7 +1403,7 @@ public class registrarMovilidadMB {
                     if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                         telCelPersonaMovilidad = tlfx;
                     }
-                //    if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                    //    if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
                     //        faxPersonaMovilidad = tlfx;
                     //    }
                 }
@@ -1419,7 +1427,7 @@ public class registrarMovilidadMB {
                     if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
                         telCelPersonaFacultad = tlfx;
                     }
-                  //  if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
+                    //  if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
                     //      faxPersonaFacultad = tlfx;
                     //  }
                 }
@@ -1975,6 +1983,14 @@ public class registrarMovilidadMB {
 
     public void setMostrarEscuelaReferente(Boolean mostrarEscuelaReferente) {
         this.mostrarEscuelaReferente = mostrarEscuelaReferente;
+    }
+
+    public Boolean getEscuelaDocenteRequerido() {
+        return escuelaDocenteRequerido;
+    }
+
+    public void setEscuelaDocenteRequerido(Boolean escuelaDocenteRequerido) {
+        this.escuelaDocenteRequerido = escuelaDocenteRequerido;
     }
 
 }
