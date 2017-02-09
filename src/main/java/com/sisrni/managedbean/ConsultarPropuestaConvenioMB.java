@@ -100,12 +100,24 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     public void preEditar(PojoPropuestaConvenio pj){
         try {
             propuestaConvenioMB.inicializador();
-            propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));            
-            propuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
-            propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));  
             propuestaConvenioMB.postInit();
+            
+            if (pj.getID_SOLICITANTE() != null) {
+                propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));
+            }
+            if (pj.getID_REF_INTERNO() != null) {
+                propuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
+                propuestaConvenioMB.setTabAsisMostrar(Boolean.TRUE);
+            }
+            if (pj.getID_REF_EXTERNO() != null) {
+                propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));
+                propuestaConvenioMB.setTabAsisMostrarExterno(Boolean.TRUE);
+            }
+            
             propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());   
             
+            
+            propuestaConvenioMB.onTipoConvenioChange();
             
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
            
