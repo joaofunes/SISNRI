@@ -248,7 +248,7 @@
                                             <p:outputLabel  for="idFacultadUnidadInterno" value="Facultad/Unidad"  />
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu  id="idFacultadUnidadInterno"  value="#{propuestaConvenioMB.facultadesUnidadesInterno}" converter="#{facultadUnidadConverter}" style="width:160px" >                                              
+                                            <p:selectOneMenu  id="idFacultadUnidadInterno" disabled="#{propuestaConvenioMB.mismoSolicitante}" value="#{propuestaConvenioMB.facultadesUnidadesInterno}" converter="#{facultadUnidadConverter}" style="width:160px" >                                              
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
                                                 <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
                                                 <p:ajax event="change" listener="#{propuestaConvenioMB.actualizarEscuelaDeptInterno()}" update="idEscuelaDeptInter" process="@this" partialSubmit="true"/>
@@ -430,7 +430,7 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="idTipoPropuesta" required="true"  value="#{propuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >                                            
-                                                <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="idNamePropuesta"  process="@this" />
+                                                <p:ajax  listener="#{propuestaConvenioMB.onTipoConvenioChange}" update="idConvenioPropuesta"  process="@this" />
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Tipo Propuesta" noSelectionOption="true" />                                            
                                                 <f:selectItems value="#{propuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />       
                                             </p:selectOneMenu>
@@ -440,7 +440,7 @@
                                     <p:row>
 
                                         <p:column>
-                                            <p:outputLabel id="idNamePropuesta" value="Convenio"  />
+                                            <p:outputLabel  value="Convenio"  />
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu disabled="#{propuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{propuestaConvenioMB.propuestaConvenioTemp}" converter="#{propuestaConvenioConverter}"  style="width:160px" >                                              

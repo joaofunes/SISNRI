@@ -21,7 +21,7 @@ public class PersonaPropuestaDao extends GenericDao<PersonaPropuesta, Integer> {
     
     public PersonaPropuesta getPersonaPropuestaByPropuestaTipoPersona(int propuesta,String tipoPersona){
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PersonaPropuesta p JOIN FETCH p.propuestaConvenio prop JOIN FETCH p.tipoPersona tipo WHERE tipo.nombre =:tipo AND prop.idPropuesta=:propuesta");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PersonaPropuesta p JOIN FETCH p.propuestaConvenio prop JOIN FETCH p.tipoPersona tipo WHERE tipo.nombreTipoPersona =:tipo AND prop.idPropuesta=:propuesta");
             q.setParameter("propuesta", propuesta);
             q.setParameter("tipo", tipoPersona);
             return (PersonaPropuesta) q.uniqueResult();
