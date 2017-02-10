@@ -122,6 +122,29 @@
                             </h:panelGroup>
                         </p:tab>
                         <p:tab title="Datos Solicitante Interno">
+                            
+                            <p:column>
+                                <p:outputLabel  for="idFacultadUnidadInterno2" value="Facultad/Unidad"  />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu  id="idFacultadUnidadInterno2" editable="#{propuestaConvenioMB.mismoSolicitante}"  value="#{propuestaConvenioMB.facultadesUnidadesInterno}" converter="#{facultadUnidadConverter}" style="width:160px" >                                              
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
+                                    <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
+                                    <p:ajax event="change" listener="#{propuestaConvenioMB.actualizarEscuelaDeptInterno()}" update="idEscuelaDeptInter" process="@this" partialSubmit="true"/>
+                                </p:selectOneMenu>                                            
+                            </p:column>                        
+                            <p:column>
+                                <p:outputLabel  for="idEscuelaDeptInter2" value="Escuela/Departamento" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu  id="idEscuelaDeptInter2" editable="#{propuestaConvenioMB.mismoSolicitante}" disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno}"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
+                                    <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
+                                </p:selectOneMenu>
+                            </p:column>
+
+                            
+                            
                             <h:panelGroup id="grup1" > 
                                 <p:panelGrid id="grid" rendered="#{propuestaConvenioMB.tabAsis}" >     
                                     <p:column>
@@ -140,7 +163,7 @@
                                         <p:outputLabel  value="Busqueda" />     
                                     </p:column>
                                     <p:column> 
-                                        <p:autoComplete id="searchDui" minQueryLength="8" size="8" rendered="#{propuestaConvenioMB.flagSearchDuiInterno}"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
+                                        <p:autoComplete id="searchDui" minQueryLength="9" size="9" rendered="#{propuestaConvenioMB.flagSearchDuiInterno}"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
                                                         var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
                                                         forceSelection="true">                                            
                                             <p:column>
@@ -179,12 +202,11 @@
                                         <p:column>
                                             <h:outputLabel value="Mismo Solicitante:" />
                                         </p:column>
-                                        <p:column>
-                                            <p:selectBooleanCheckbox value="#{propuestaConvenioMB.mismoSolicitante}">
-                                                <p:ajax update="msg,GroupSolicitanteInterno" listener="#{propuestaConvenioMB.mismoSolicitante()}" />
-                                            </p:selectBooleanCheckbox>
+                                        <p:column>                                                                                  
+                                            <p:selectBooleanButton id="btnMismoInterno" value="#{propuestaConvenioMB.mismoSolicitante}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                                <p:ajax update="GroupSolicitanteInterno" process="@this" listener="#{propuestaConvenioMB.mismoSolicitantes()}" />
+                                            </p:selectBooleanButton>                                    
                                         </p:column>
-
                                     </p:row>
                                     <p:row>
                                         <p:column>
@@ -203,14 +225,13 @@
                                             <p:watermark for="idSolicinateApellidoInterno" value="Apellido Solicitante"/>                                           
                                         </p:column>
                                     </p:row>                            
-
                                     <p:row>
                                         <p:column>
                                             <p:outputLabel for="idDui" value="N&deg; DUI" />     
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="idDui"   value="#{propuestaConvenioMB.referenteInterno.duiPersona}" mask="99999999-9"/>
-                                            <p:watermark for="idDui" value="99999999-9" />
+                                            <p:inputMask id="idDui"   value="#{propuestaConvenioMB.referenteInterno.duiPersona}" mask="99999999-9"/>                                           
+                                            <p:watermark for="idDui" value="999999999-9" />
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="email" value="Correo Electr&oacute;nico" />     
@@ -222,7 +243,6 @@
                                             <p:message for="email" display="tooltip" />  
                                             <p:watermark for="email" value="correo@email.com"/>
                                         </p:column>
-
 
                                     </p:row>   
                                     <p:row>
@@ -248,23 +268,21 @@
                                             <p:outputLabel  for="idFacultadUnidadInterno" value="Facultad/Unidad"  />
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu  id="idFacultadUnidadInterno" disabled="#{propuestaConvenioMB.mismoSolicitante}" value="#{propuestaConvenioMB.facultadesUnidadesInterno}" converter="#{facultadUnidadConverter}" style="width:160px" >                                              
+                                            <p:selectOneMenu  id="idFacultadUnidadInterno" editable="#{propuestaConvenioMB.mismoSolicitante}"  value="#{propuestaConvenioMB.facultadesUnidadesInterno}" converter="#{facultadUnidadConverter}" style="width:160px" >                                              
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
                                                 <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
                                                 <p:ajax event="change" listener="#{propuestaConvenioMB.actualizarEscuelaDeptInterno()}" update="idEscuelaDeptInter" process="@this" partialSubmit="true"/>
-                                            </p:selectOneMenu>
-
+                                            </p:selectOneMenu>                                            
                                         </p:column>                        
                                         <p:column>
                                             <p:outputLabel  for="idEscuelaDeptInter" value="Escuela/Departamento" />
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu  id="idEscuelaDeptInter" disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno}"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
+                                            <p:selectOneMenu  id="idEscuelaDeptInter" editable="#{propuestaConvenioMB.mismoSolicitante}" disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno}"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
                                                 <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
                                             </p:selectOneMenu>
                                         </p:column>
-
                                     </p:row>   
                                     <p:row>
                                         <p:column>
