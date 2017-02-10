@@ -101,7 +101,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
         try {
             propuestaConvenioMB.inicializador();
             propuestaConvenioMB.postInit();
-            
+
             if (pj.getID_SOLICITANTE() != null) {
                 propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));
             }
@@ -115,7 +115,6 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
             }
             
             propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());   
-            
             
             propuestaConvenioMB.onTipoConvenioChange();
             
