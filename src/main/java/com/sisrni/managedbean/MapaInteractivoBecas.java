@@ -8,6 +8,7 @@ package com.sisrni.managedbean;
 import com.sisrni.model.Beca;
 import com.sisrni.model.Pais;
 import com.sisrni.model.TipoBeca;
+import com.sisrni.pojo.rpt.PojoBecasByTipo;
 import com.sisrni.pojo.rpt.PojoMapaInteractivoBecas;
 import com.sisrni.service.BecaService;
 import com.sisrni.service.PaisService;
@@ -125,7 +126,7 @@ public class MapaInteractivoBecas implements Serializable {
             if (!becasListToChart.isEmpty()) {
                 crearMapa();
                 createPieModel();
-                //createPieTipo();
+                createPieTipo();
                 noHayRegistros = Boolean.FALSE;
             } else {
                 noHayRegistros = Boolean.TRUE;
@@ -169,18 +170,6 @@ public class MapaInteractivoBecas implements Serializable {
             }
         }
     }
-//    public void llenarTipos() {
-//        for (TipoProyecto tp : tipoProyectosList) {
-//            tipoProyectoSelected.add(tp.getIdTipoProyecto() + "");
-//        }
-//    }
-//    public void onCountryChange() {
-//        mostrarGraficos = true;
-//        createBarModel();
-//        createPieModel();
-//        crearMapa();
-//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "PrimeFaces Rocks." + mostrarGraficos));
-//    }
 
     private void createPieModel() {
         pieModel = new PieChartModel();
@@ -192,16 +181,17 @@ public class MapaInteractivoBecas implements Serializable {
         pieModel.setShowDataLabels(true);
     }
 
-//    private void createPieTipo() {
-//        pieModelType = new PieChartModel();
-//        List<PojoProyectosByTipo> series = projectListToChart.get(0).getSeries();
-//        for (PojoProyectosByTipo pj : series) {
-//            pieModelType.set(pj.getNombreTipoProyecto(), pj.getCantidadProyectos());
-//        }
-//        pieModelType.setTitle("Cantidad y Tipos de Proyecto");
-//        pieModelType.setLegendPosition("w");
-//        pieModelType.setShowDataLabels(true);
-//    }
+    private void createPieTipo() {
+        pieModelType = new PieChartModel();
+        List<PojoBecasByTipo> series = becasListToChart.get(0).getSeries();
+        for (PojoBecasByTipo pj : series) {
+            pieModelType.set(pj.getNombreTipoBeca(), pj.getCantidad());
+        }
+        pieModelType.setTitle("Cantidad y Tipos de Beca");
+        pieModelType.setLegendPosition("w");
+        pieModelType.setShowDataLabels(true);
+    }
+
     public void inicializarPieUno() {
 
         pieModel = new PieChartModel();
@@ -213,7 +203,7 @@ public class MapaInteractivoBecas implements Serializable {
 
     private void inicializarPieDos() {
         pieModelType = new PieChartModel();
-        pieModelType.setTitle("Cantidad y Tipos de Proyecto");
+        pieModelType.setTitle("Cantidad y Tipos de Becas");
         pieModelType.setLegendPosition("w");
         pieModelType.setShowDataLabels(true);
     }
