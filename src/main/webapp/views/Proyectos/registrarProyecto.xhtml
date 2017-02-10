@@ -18,10 +18,10 @@
                             <p:tab title="Datos del Proyecto">
                                 <p:panelGrid columns="4">
                                     <p:column>
-                                        <p:outputLabel value="Tipo de Proyecto:" />
+                                        <p:outputLabel for="tipoproyecto" value="Tipo de Proyecto:" />
                                     </p:column>
                                     <p:column >
-                                        <p:selectOneMenu id="tipoproyecto" value="#{proyectosMB.proyectoSelected.idTipoProyecto}" style="width:180px" >
+                                        <p:selectOneMenu id="tipoproyecto" value="#{proyectosMB.proyectoSelected.idTipoProyecto}" style="width:180px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <c:forEach var="reg" items="#{proyectosMB.tipoproyectolist}">
                                                 <f:selectItem itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg.idTipoProyecto}"/>
@@ -104,14 +104,17 @@
                                         <p:outputLabel value="Fecha Inicio:"/>
                                     </p:column>
                                     <p:column>
-                                        <p:calendar id="fechainicio" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaI}" />
+                                        <p:calendar id="desdeMovilidad" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaI}">
+                                            <p:ajax event="dateSelect" update="fechafin" />
+                                        </p:calendar>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Fecha Finalizaci&oacute;n:"/>
                                     </p:column>
                                     <p:column>
                                         <p:calendar id="fechafin" pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaF}">
-
+                                            <f:attribute name="desdeMovilidad" value="#{proyectosMB.fechaI}"/>
+                                            <f:validator validatorId="fechaMayorValidator"/>
                                         </p:calendar>
                                     </p:column>
                                     <p:column>
@@ -170,7 +173,7 @@
                                             <p:selectOneMenu id="tipoBusquedaInt" value="#{proyectosMB.tipoBusquedaInterna}"  style="width:125px">  
                                                 <p:ajax  listener="#{proyectosMB.habilitarAutoInterno}" update="grup1,GroupSolicitanteInterno"  process="tipoBusquedaInt" />
                                                 <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
-                                                <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
+                                                <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
                                                 <f:selectItem itemLabel="E-mail" itemValue="email" />
                                                 <f:selectItem itemLabel="Documento" itemValue="doc" />  
                                             </p:selectOneMenu>
@@ -191,14 +194,14 @@
 
                                             <p:autoComplete id="idNombreInterno" value="#{proyectosMB.persona}" rendered="#{proyectosMB.flagSearchNombreInterno}"
                                                             completeMethod="#{proyectosMB.methodSearch}" disabled="#{proyectosMB.disableAutoInterno}"
-                                                            var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                            var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
                                                 <p:column>
-                                                    <h:outputText value="#{theme.nombrePersona}" />
+                                                    <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                 </p:column>
                                                 <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
                                             </p:autoComplete>
-                                            <p:watermark for="idNombreInterno" value="Nombre"/> 
+                                            <p:watermark for="idNombreInterno" value="Nombre/Apellido"/> 
                                             <p:autoComplete id="idEmailInterno" value="#{proyectosMB.persona}" rendered="#{proyectosMB.flagSearchEmailInterno}"
                                                             completeMethod="#{proyectosMB.methodSearch}" disabled="#{proyectosMB.disableAutoInterno}"
                                                             var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
@@ -237,7 +240,9 @@
                                             <p:outputLabel for="correosolicitante" value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true"/>                                       
+                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true">
+                                            <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Cargo:"/>
@@ -301,7 +306,7 @@
                                             <p:selectOneMenu id="tipoBusquedaAsis" value="#{proyectosMB.tipoBusquedaAsistente}"  style="width:125px">  
                                                 <p:ajax  listener="#{proyectosMB.habilitarAutoAsistente()}" update="idTabAsis,GroupSolicitanteAsistente"  process="tipoBusquedaAsis" />
                                                 <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
-                                                <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
+                                                <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
                                                 <f:selectItem itemLabel="E-mail" itemValue="email" />
                                                 <f:selectItem itemLabel="Documento" itemValue="doc" />  
                                             </p:selectOneMenu>
@@ -322,14 +327,14 @@
 
                                             <p:autoComplete id="idNombreAsistente" value="#{proyectosMB.personaAsistente}" rendered="#{proyectosMB.flagSearchNombreAsistente}"
                                                             completeMethod="#{proyectosMB.methodSearchAsistente}" disabled="#{proyectosMB.disableAutoAsistente}"
-                                                            var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                            var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
                                                 <p:column>
-                                                    <h:outputText value="#{theme.nombrePersona}" />
+                                                    <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                 </p:column>
                                                 <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliAsistente()}" process="@this" update="GroupSolicitanteAsistente"/>
                                             </p:autoComplete>
-                                            <p:watermark for="idNombreAsistente" value="Nombre"/> 
+                                            <p:watermark for="idNombreAsistente" value="Nombre/Apellido"/> 
                                             <p:autoComplete id="idEmailAsistente" value="#{proyectosMB.personaAsistente}" rendered="#{proyectosMB.flagSearchEmailAsistente}"
                                                             completeMethod="#{proyectosMB.methodSearchAsistente}" disabled="#{proyectosMB.disableAutoAsistente}"
                                                             var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
@@ -368,7 +373,9 @@
                                             <p:outputLabel for="correoasistente" value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}"/>                                       
+                                            <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}">
+                                            <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                            </p:inputText>
                                         </p:column> 
                                         <p:column>
                                             <p:outputLabel value="Cargo:"/>
@@ -425,7 +432,7 @@
                                             <p:selectOneMenu id="tipoBusquedaExt" value="#{proyectosMB.tipoBusquedaExterna}"  style="width:125px">  
                                                 <p:ajax  listener="#{proyectosMB.habilitarAutoExterno}" update="grup2,GroupSolicitanteExterno"  process="tipoBusquedaExt" />
                                                 <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
-                                                <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
+                                                <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
                                                 <f:selectItem itemLabel="E-mail" itemValue="email" />
                                             </p:selectOneMenu>
                                         </p:column>
@@ -435,14 +442,14 @@
                                         <p:column>
                                             <p:autoComplete id="idNombreExterno" value="#{proyectosMB.personaExterna}" rendered="#{proyectosMB.flagSearchNombreExterno}"
                                                             completeMethod="#{proyectosMB.methodSearchExterno}" disabled="#{proyectosMB.disableAutoExterno}"
-                                                            var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                            var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
                                                 <p:column>
-                                                    <h:outputText value="#{theme.nombrePersona}"/>
+                                                    <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}"/>
                                                 </p:column>
                                                 <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliExterno()}" process="@this" update="GroupSolicitanteExterno"/>
                                             </p:autoComplete>
-                                            <p:watermark for="idNombreExterno" value="Nombre"/> 
+                                            <p:watermark for="idNombreExterno" value="Nombre/Apellido"/>
                                             <p:autoComplete id="idEmailExterno" value="#{proyectosMB.personaExterna}" rendered="#{proyectosMB.flagSearchEmailExterno}"
                                                             completeMethod="#{proyectosMB.methodSearchExterno}" disabled="#{proyectosMB.disableAutoExterno}"
                                                             var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
@@ -481,7 +488,9 @@
                                             <p:outputLabel for="correoexterna" value="Correo Electronico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}" rendered="true"/>                                       
+                                            <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}" rendered="true">
+                                            <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Cargo:"/>
@@ -490,10 +499,10 @@
                                             <p:inputText id="cargoexterna" value="#{proyectosMB.personaExterna.cargoPersona}"/>
                                         </p:column>
                                         <p:column >
-                                            <p:outputLabel value="Entidad/Instituci&oacute;n"/>
+                                            <p:outputLabel for="unidadext" value="Entidad/Instituci&oacute;n"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="unidadext" value="#{proyectosMB.organismoSelectedRefExt.idOrganismo}"  style="width:180px">
+                                            <p:selectOneMenu id="unidadext" value="#{proyectosMB.organismoSelectedRefExt.idOrganismo}"  style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" />
                                                 <c:forEach var="org" items="#{proyectosMB.organismoList}">
                                                     <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
