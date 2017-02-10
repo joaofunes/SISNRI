@@ -189,7 +189,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
 
     }
 
-    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected, String desde, String hasta) {//List<String> tipoBecaSelected,
+    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected,List<String> tipoBecaSelected, String desde, String hasta) {//List<String> tipoBecaSelected,
         String wherePais = "";
         String whereTipoBeca = "";
         String groupBy = " GROUP BY b.ID_PAIS_DESTINO";
@@ -202,9 +202,10 @@ public class BecaDao extends GenericDao<Beca, Integer> {
             limite += " LIMIT 5";
         }
 
-//        if (tipoBecaSelected.size() > 0) {
-//            whereTipoBeca += " AND b.ID_TIPO_BECA IN (" + String.join(",", tipoBecaSelected) + ")";
-//        }
+        if (tipoBecaSelected.size() > 0) {
+            whereTipoBeca += " AND b.ID_TIPO_BECA IN (" + String.join(",", tipoBecaSelected) + ")";
+        }
+        
         String query = "SELECT pa.ID_PAIS idPais,\n"
                 + "  pa.CODIGO_PAIS codigoPais,\n"
                 + "  pa.NOMBRE_PAIS nombrePais,\n"
@@ -212,7 +213,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 + "  SUM(b.MONTO_TOTAL) montoCooperacion\n"
                 + "FROM beca b INNER  JOIN pais pa   ON b.ID_PAIS_DESTINO= pa.ID_PAIS\n"
                 + "WHERE b.OTORGADA=1 AND b.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta) + "\n"
-                + wherePais + groupBy;//+whereTipoBeca
+                + wherePais + whereTipoBeca+ groupBy;//
 
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("idPais", new IntegerType())

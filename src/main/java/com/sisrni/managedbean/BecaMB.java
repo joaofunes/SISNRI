@@ -117,14 +117,14 @@ public class BecaMB implements Serializable {
     private List<EscuelaDepartamento> escuelaDepartamentoList;
     private List<TipoBeca> tipoBecaList;
     private List<TipoCambio> tipoCambioList;
-    
+
     private boolean mostrarmonto;
 
     //para buscar personas
     private String docBecarioSearch;
     private String docInternoSearch;
     private String docExternoSearch;
-    
+
     private boolean existeBecario;
     private boolean existeInterno;
     private boolean existeExterno;
@@ -138,75 +138,77 @@ public class BecaMB implements Serializable {
     //para ocultar o mostrar tab
     private boolean tabInternoBoolean;
     private boolean mostrarTabInterno;
-    
+
     private boolean tabExternoBoolean;
     private boolean mostrarTabExterno;
-    
+
     private boolean noEstabaInterno;
     private boolean noEstabaExterno;
-    
+
+    private boolean esFacultad;
+
     @Autowired
     FacultadService facultadService;
-    
+
     @Autowired
     PaisService paisService;
-    
+
     @Autowired
     ProgramaBecaService programaBecaService;
-    
+
     @Autowired
     OrganismoService organismoService;
-    
+
     @Autowired
     TipoModalidadBecaService tipoModalidadBecaService;
-    
+
     @Autowired
     TipoProyectoService tipoProyectoService;
-    
+
     @Autowired
     PersonaService personaService;
-    
+
     @Autowired
     ProyectoService proyectoService;
-    
+
     @Autowired
     CarreraService carreraService;
-    
+
     @Autowired
     TipoTelefonoService tipoTelefonoService;
-    
+
     @Autowired
     UnidadService unidadService;
-    
+
     @Autowired
     TelefonoService telefonoService;
-    
+
     @Autowired
     TipoPersonaService tipoPersonaService;
-    
+
     @Autowired
     BecaService becaService;
-    
+
     @Autowired
     EscuelaDepartamentoService escuelaDepartamentoService;
-    
+
     @Autowired
     TipoCambioService tipoCambioService;
-    
+
     @Autowired
     TipoBecaService tipoBecaService;
-    
+
     @Autowired
     private SessionFactory sessionFactory;
-    
+
     public BecaMB() {
     }
-    
+
     @PostConstruct
     public void init() {
         inicializador();
     }
-    
+
     public void inicializador() {
         //para el becario
         becario = new Persona();
@@ -257,7 +259,7 @@ public class BecaMB implements Serializable {
         organismoCooperanteSelected = new Organismo();
         tipoBecaList = tipoBecaService.findAll();
         tipoCambioList = tipoCambioService.findAll();
-        
+
         mostrarmonto = true;
         //para buscar personas
         docBecarioSearch = "";
@@ -274,10 +276,11 @@ public class BecaMB implements Serializable {
         actualizar = Boolean.FALSE;
         tabInternoBoolean = Boolean.FALSE;
         mostrarTabInterno = Boolean.FALSE;
-        
+
         tabExternoBoolean = Boolean.FALSE;
         mostrarTabExterno = Boolean.FALSE;
-        
+        esFacultad = Boolean.FALSE;
+
     }
 
 //registra la informacion conserniente a una beca
@@ -313,7 +316,7 @@ public class BecaMB implements Serializable {
                     asesorInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDeptoInterno.getIdEscuelaDepto()));
                     asesorInterno.setIdOrganismo(organismoService.findById(1));
                 } else {
-                    
+
                     asesorInterno.setIdUnidad(unidadService.findById(Integer.parseInt(partes[0])));
                     //asesorInterno.setIdCarrera(new Carrera());
                     //asesorInterno.setIdEscuelaDepto(new EscuelaDepartamento());
@@ -362,7 +365,7 @@ public class BecaMB implements Serializable {
             if (auxtb != null) {
                 beca.setIdTipoBeca(auxtb);
             }
-            
+
             Organismo aux = organismoService.findById(organismoCooperanteSelected.getIdOrganismo());
             if (aux != null) {
                 beca.setIdOrganismoCooperante(aux);
@@ -373,11 +376,11 @@ public class BecaMB implements Serializable {
             beca.setIdUniversidad(organismoService.findById(universidadSelected.getIdOrganismo()));
             beca.setIdTipoModalidad(tipoModalidadBecaService.findById(tipoModalidaBecaSelected.getIdTipoModalidad()));
             beca.setAnioGestion(Integer.parseInt(anio.trim()));
-            
+
             TipoCambio auxTc = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
             beca.setMontoExterno(auxTc.getDolaresPorUnidad().multiply(beca.getMontoExterno()));
             beca.setMontoTotal(beca.getMontoExterno().add(beca.getMontoInterno()));
-            
+
             if (actualizar == true) {
                 becaService.merge(beca);
             } else {
@@ -389,7 +392,7 @@ public class BecaMB implements Serializable {
                 PersonaBecaPK personaBecaPKbecario = new PersonaBecaPK();
                 personaBecaPKbecario.setIdBeca(beca.getIdBeca());
                 personaBecaPKbecario.setIdPersona(becario.getIdPersona());
-                
+
                 PersonaBeca personaBecaBecario = new PersonaBeca();
                 personaBecaBecario.setPersona(becario);
                 personaBecaBecario.setBeca(beca);
@@ -402,7 +405,7 @@ public class BecaMB implements Serializable {
                 PersonaBecaPK personaBecaPKAsistenteI = new PersonaBecaPK();
                 personaBecaPKAsistenteI.setIdBeca(beca.getIdBeca());
                 personaBecaPKAsistenteI.setIdPersona(asesorInterno.getIdPersona());
-                
+
                 PersonaBeca personaBecaAsistenteI = new PersonaBeca();
                 personaBecaAsistenteI.setPersona(asesorInterno);
                 personaBecaAsistenteI.setBeca(beca);
@@ -415,7 +418,7 @@ public class BecaMB implements Serializable {
                 PersonaBecaPK personaBecaPKAsistenteE = new PersonaBecaPK();
                 personaBecaPKAsistenteE.setIdBeca(beca.getIdBeca());
                 personaBecaPKAsistenteE.setIdPersona(asesorExterno.getIdPersona());
-                
+
                 PersonaBeca personaBecaAsistenteE = new PersonaBeca();
                 personaBecaAsistenteE.setPersona(asesorExterno);
                 personaBecaAsistenteE.setBeca(beca);
@@ -426,7 +429,7 @@ public class BecaMB implements Serializable {
 
             //actualizando beca
             becaService.merge(beca);
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Los datos han sido registrados con exito."));
             inicializador();
             FacesContext.getCurrentInstance().getExternalContext().redirect("becaAdm.xhtml");
@@ -434,25 +437,25 @@ public class BecaMB implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "error."));
         }
     }
-    
+
     public void changeInterno() {
         mostrarTabInterno = tabInternoBoolean ? Boolean.TRUE : Boolean.FALSE;
     }
-    
+
     public void changeExterno() {
         mostrarTabExterno = tabExternoBoolean ? Boolean.TRUE : Boolean.FALSE;
     }
-    
+
     public void cancelar() throws IOException {
         inicializador();
         FacesContext.getCurrentInstance().getExternalContext().redirect("becaAdm.xhtml");
     }
-    
+
     public void crearNuevo() throws IOException {
         inicializador();
         FacesContext.getCurrentInstance().getExternalContext().redirect("registrarBeca.xhtml");
     }
-    
+
     public void preUpdate(Integer id) {
         try {
             Beca aux = becaService.findById(id);
@@ -485,16 +488,16 @@ public class BecaMB implements Serializable {
                 } else {
                     asesorInterno = new Persona();
                 }
-                
+
                 if (asesorExterno != null) {
                     buscarExterno(asesorExterno.getPasaporte());
                 } else {
                     asesorExterno = new Persona();
                 }
-                
-                organismoCooperanteSelected=beca.getIdOrganismoCooperante();
-                tipoBecaSelected=beca.getIdTipoBeca();
-                tipoCambioSelected=tipoCambioService.findById(2);
+
+                organismoCooperanteSelected = beca.getIdOrganismoCooperante();
+                tipoBecaSelected = beca.getIdTipoBeca();
+                tipoCambioSelected = tipoCambioService.findById(2);
                 paisCooperanteSelected = paisService.findById(beca.getIdPaisCooperante());
                 programaBecaSelected.setIdPrograma(beca.getIdProgramaBeca().getIdPrograma());
                 paisDestinoSelected.setIdPais(beca.getIdPaisDestino());
@@ -506,26 +509,26 @@ public class BecaMB implements Serializable {
                 } else {
                     mostrarmonto = Boolean.TRUE;
                 }
-                
+
                 actualizar = Boolean.TRUE;
                 FacesContext.getCurrentInstance().getExternalContext().redirect("registrarBeca.xhtml");
             }
         } catch (Exception e) {
         }
-        
+
     }
-    
+
     public Persona getPersonaBeca(List<PersonaBeca> lista, String tipo) {
         Persona p = null;
         for (PersonaBeca per : lista) {
             if (per.getIdTipoPersona().getNombreTipoPersona().equalsIgnoreCase(tipo)) {
                 return personaService.getByID(per.getPersona().getIdPersona());
-                
+
             }
         }
         return p;
     }
-    
+
     public void mostrarCampo() {
         if (tipoModalidaBecaSelected.getIdTipoModalidad() == 1) {
             mostrarmonto = false;
@@ -534,34 +537,34 @@ public class BecaMB implements Serializable {
             this.beca.setMontoInterno(BigDecimal.ZERO);
         }
     }
-    
+
     public void getCarrerasByFacultad() {
         try {
             carreraList = carreraService.getCarrerasByFacultad(facultadSelectedBecario.getIdFacultad());
         } catch (Exception e) {
             carreraList = new ArrayList<Carrera>();
         }
-        
+
     }
-    
+
     public void getUniversidadesPorPais(Integer idPais) {
         try {
             universidadList = organismoService.getOrganismosPorPaisYTipo(idPais, 1);
         } catch (Exception e) {
             universidadList = new ArrayList<Organismo>();
         }
-        
+
     }
-    
+
     private Integer getYearOfDate(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         Integer year = cal.get(Calendar.YEAR);
         return year;
     }
-    
+
     private List<PojoFacultadesUnidades> getListFacultadesUnidades(List<Facultad> facs, List<Unidad> unidades) {
-        
+
         List<PojoFacultadesUnidades> lista = new ArrayList<PojoFacultadesUnidades>();
         for (Facultad fac : facs) {
             PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
@@ -577,28 +580,30 @@ public class BecaMB implements Serializable {
         }
         return lista;
     }
-    
+
     public void onFacUniChange() {
         if (facuniSelectded != "") {
             String[] partes = facuniSelectded.split(",");
             if ("1".equals(partes[1])) {
+                esFacultad = Boolean.TRUE;
                 escuelaDepartamentoList = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(partes[0]));
             } else {
+                esFacultad = Boolean.FALSE;
                 escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
             }
         } else {
             escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
         }
-        
+
     }
-    
+
     public void cambiarMontoBeca() {
         BigDecimal montoInterno = this.beca.getMontoInterno();
         BigDecimal montoExterno = this.beca.getMontoExterno();
         this.beca.setMontoTotal(montoInterno.add(montoExterno));
-        
+
     }
-    
+
     public void buscarBecario(String valior) {
         try {
             if (!valior.equalsIgnoreCase("")) {
@@ -624,7 +629,7 @@ public class BecaMB implements Serializable {
         } catch (Exception e) {
         }
     }
-    
+
     public void buscarInterno(String valior) {
         try {
             if (!valior.equalsIgnoreCase("")) {
@@ -649,7 +654,7 @@ public class BecaMB implements Serializable {
                         escuelaDepartamentoList = new ArrayList<EscuelaDepartamento>();
                     }
                     existeInterno = Boolean.TRUE;
-                    
+
                 } else {
                     asesorInterno = new Persona();
                     telefonoFijoAsesorInterno = new Telefono();
@@ -663,7 +668,7 @@ public class BecaMB implements Serializable {
         } catch (Exception e) {
         }
     }
-    
+
     public void buscarExterno(String valior) {
         try {
             if (!valior.equalsIgnoreCase("")) {
@@ -674,7 +679,7 @@ public class BecaMB implements Serializable {
                     telefonoCelularAsesorExterno = getTelefono(asesorExterno.getTelefonoList(), CELULAR);
                     entidadInstitucionSelected = asesorExterno.getIdOrganismo();
                     existeExterno = Boolean.TRUE;
-                    
+
                 } else {
                     asesorExterno = new Persona();
                     telefonoFijoAsesorExterno = new Telefono();
@@ -686,7 +691,7 @@ public class BecaMB implements Serializable {
         } catch (Exception e) {
         }
     }
-    
+
     public Telefono getTelefono(List<Telefono> lista, String tipo) {
         Telefono r = new Telefono();
         for (Telefono tel : lista) {
@@ -696,429 +701,437 @@ public class BecaMB implements Serializable {
         }
         return r;
     }
-    
+
     public Persona getBecario() {
         return becario;
     }
-    
+
     public boolean isNoEstabaInterno() {
         return noEstabaInterno;
     }
-    
+
     public void setNoEstabaInterno(boolean noEstabaInterno) {
         this.noEstabaInterno = noEstabaInterno;
     }
-    
+
     public boolean isNoEstabaExterno() {
         return noEstabaExterno;
     }
-    
+
     public void setNoEstabaExterno(boolean noEstabaExterno) {
         this.noEstabaExterno = noEstabaExterno;
     }
-    
+
     public void setBecario(Persona becario) {
         this.becario = becario;
     }
-    
+
     public Persona getAsesorExterno() {
         return asesorExterno;
     }
-    
+
     public void setAsesorExterno(Persona asesorExterno) {
         this.asesorExterno = asesorExterno;
     }
-    
+
     public Persona getAsesorInterno() {
         return asesorInterno;
     }
-    
+
     public void setAsesorInterno(Persona asesorInterno) {
         this.asesorInterno = asesorInterno;
     }
-    
+
     public Facultad getFacultadSelectedBecario() {
         return facultadSelectedBecario;
     }
-    
+
     public void setFacultadSelectedBecario(Facultad facultadSelectedBecario) {
         this.facultadSelectedBecario = facultadSelectedBecario;
     }
-    
+
     public Telefono getTelefonoFijoBecario() {
         return telefonoFijoBecario;
     }
-    
+
     public void setTelefonoFijoBecario(Telefono telefonoFijoBecario) {
         this.telefonoFijoBecario = telefonoFijoBecario;
     }
-    
+
     public Telefono getTelefonoCelularBecario() {
         return telefonoCelularBecario;
     }
-    
+
     public void setTelefonoCelularBecario(Telefono telefonoCelularBecario) {
         this.telefonoCelularBecario = telefonoCelularBecario;
     }
-    
+
     public ProgramaBeca getProgramaBecaSelected() {
         return programaBecaSelected;
     }
-    
+
     public void setProgramaBecaSelected(ProgramaBeca programaBecaSelected) {
         this.programaBecaSelected = programaBecaSelected;
     }
-    
+
     public Pais getPaisCooperanteSelected() {
         return paisCooperanteSelected;
     }
-    
+
     public void setPaisCooperanteSelected(Pais paisCooperanteSelected) {
         this.paisCooperanteSelected = paisCooperanteSelected;
     }
-    
+
     public Pais getPaisDestinoSelected() {
         return paisDestinoSelected;
     }
-    
+
     public void setPaisDestinoSelected(Pais paisDestinoSelected) {
         this.paisDestinoSelected = paisDestinoSelected;
     }
-    
+
     public Organismo getUniversidadSelected() {
         return universidadSelected;
     }
-    
+
     public void setUniversidadSelected(Organismo universidadSelected) {
         this.universidadSelected = universidadSelected;
     }
-    
+
     public Organismo getEntidadInstitucionSelected() {
         return entidadInstitucionSelected;
     }
-    
+
     public void setEntidadInstitucionSelected(Organismo entidadInstitucionSelected) {
         this.entidadInstitucionSelected = entidadInstitucionSelected;
     }
-    
+
     public List<Facultad> getFacultadList() {
         return facultadList;
     }
-    
+
     public void setFacultadList(List<Facultad> facultadList) {
         this.facultadList = facultadList;
     }
-    
+
     public Beca getBeca() {
         return beca;
     }
-    
+
     public void setBeca(Beca beca) {
         this.beca = beca;
     }
-    
+
     public List<Pais> getPaisList() {
         return paisList;
     }
-    
+
     public void setPaisList(List<Pais> paisList) {
         this.paisList = paisList;
     }
-    
+
     public List<ProgramaBeca> getProgramaBecaList() {
         return programaBecaList;
     }
-    
+
     public void setProgramaBecaList(List<ProgramaBeca> programaBecaList) {
         this.programaBecaList = programaBecaList;
     }
-    
+
     public List<Organismo> getUniversidadList() {
         return universidadList;
     }
-    
+
     public void setUniversidadList(List<Organismo> universidadList) {
         this.universidadList = universidadList;
     }
-    
+
     public List<Organismo> getOrganismoList() {
         return organismoList;
     }
-    
+
     public void setOrganismoList(List<Organismo> organismoList) {
         this.organismoList = organismoList;
     }
-    
+
     public TipoModalidaBeca getTipoModalidaBecaSelected() {
         return tipoModalidaBecaSelected;
     }
-    
+
     public void setTipoModalidaBecaSelected(TipoModalidaBeca tipoModalidaBecaSelected) {
         this.tipoModalidaBecaSelected = tipoModalidaBecaSelected;
     }
-    
+
     public List<TipoModalidaBeca> getTipoModalidadBecaList() {
         return tipoModalidadBecaList;
     }
-    
+
     public void setTipoModalidadBecaList(List<TipoModalidaBeca> tipoModalidadBecaList) {
         this.tipoModalidadBecaList = tipoModalidadBecaList;
     }
-    
+
     public String getAnio() {
         return anio;
     }
-    
+
     public void setAnio(String anio) {
         this.anio = anio;
     }
-    
+
     public int getYearActual() {
         return yearActual;
     }
-    
+
     public void setYearActual(int yearActual) {
         this.yearActual = yearActual;
     }
-    
+
     public Facultad getFacultadSelectedAsesorInterno() {
         return facultadSelectedAsesorInterno;
     }
-    
+
     public void setFacultadSelectedAsesorInterno(Facultad facultadSelectedAsesorInterno) {
         this.facultadSelectedAsesorInterno = facultadSelectedAsesorInterno;
     }
-    
+
     public EscuelaDepartamento getEscuelaDeptoInterno() {
         return escuelaDeptoInterno;
     }
-    
+
     public void setEscuelaDeptoInterno(EscuelaDepartamento escuelaDeptoInterno) {
         this.escuelaDeptoInterno = escuelaDeptoInterno;
     }
-    
+
     public List<Unidad> getUnidadListAsesorInterno() {
         return unidadListAsesorInterno;
     }
-    
+
     public void setUnidadListAsesorInterno(List<Unidad> unidadListAsesorInterno) {
         this.unidadListAsesorInterno = unidadListAsesorInterno;
     }
-    
+
     public Telefono getTelefonoFijoAsesorInterno() {
         return telefonoFijoAsesorInterno;
     }
-    
+
     public void setTelefonoFijoAsesorInterno(Telefono telefonoFijoAsesorInterno) {
         this.telefonoFijoAsesorInterno = telefonoFijoAsesorInterno;
     }
-    
+
     public Telefono getTelefonoCelularAsesorInterno() {
         return telefonoCelularAsesorInterno;
     }
-    
+
     public void setTelefonoCelularAsesorInterno(Telefono telefonoCelularAsesorInterno) {
         this.telefonoCelularAsesorInterno = telefonoCelularAsesorInterno;
     }
-    
+
     public Telefono getTelefonoFijoAsesorExterno() {
         return telefonoFijoAsesorExterno;
     }
-    
+
     public void setTelefonoFijoAsesorExterno(Telefono telefonoFijoAsesorExterno) {
         this.telefonoFijoAsesorExterno = telefonoFijoAsesorExterno;
     }
-    
+
     public Telefono getTelefonoCelularAsesorExterno() {
         return telefonoCelularAsesorExterno;
     }
-    
+
     public void setTelefonoCelularAsesorExterno(Telefono telefonoCelularAsesorExterno) {
         this.telefonoCelularAsesorExterno = telefonoCelularAsesorExterno;
     }
-    
+
     public boolean isMostrarmonto() {
         return mostrarmonto;
     }
-    
+
     public void setMostrarmonto(boolean mostrarmonto) {
         this.mostrarmonto = mostrarmonto;
     }
-    
+
     public List<Carrera> getCarreraList() {
         return carreraList;
     }
-    
+
     public void setCarreraList(List<Carrera> carreraList) {
         this.carreraList = carreraList;
     }
-    
+
     public Carrera getCarreraSelected() {
         return carreraSelected;
     }
-    
+
     public void setCarreraSelected(Carrera carreraSelected) {
         this.carreraSelected = carreraSelected;
     }
-    
+
     public List<PojoFacultadesUnidades> getFacultadesUnidadesList() {
         return facultadesUnidadesList;
     }
-    
+
     public void setFacultadesUnidadesList(List<PojoFacultadesUnidades> facultadesUnidadesList) {
         this.facultadesUnidadesList = facultadesUnidadesList;
     }
-    
+
     public String getFacuniSelectded() {
         return facuniSelectded;
     }
-    
+
     public void setFacuniSelectded(String facuniSelectded) {
         this.facuniSelectded = facuniSelectded;
     }
-    
+
     public List<EscuelaDepartamento> getEscuelaDepartamentoList() {
         return escuelaDepartamentoList;
     }
-    
+
     public void setEscuelaDepartamentoList(List<EscuelaDepartamento> escuelaDepartamentoList) {
         this.escuelaDepartamentoList = escuelaDepartamentoList;
     }
-    
+
     public String getDocBecarioSearch() {
         return docBecarioSearch;
     }
-    
+
     public void setDocBecarioSearch(String docBecarioSearch) {
         this.docBecarioSearch = docBecarioSearch;
     }
-    
+
     public String getDocInternoSearch() {
         return docInternoSearch;
     }
-    
+
     public void setDocInternoSearch(String docInternoSearch) {
         this.docInternoSearch = docInternoSearch;
     }
-    
+
     public String getDocExternoSearch() {
         return docExternoSearch;
     }
-    
+
     public void setDocExternoSearch(String docExternoSearch) {
         this.docExternoSearch = docExternoSearch;
     }
-    
+
     public boolean isExisteBecario() {
         return existeBecario;
     }
-    
+
     public void setExisteBecario(boolean existeBecario) {
         this.existeBecario = existeBecario;
     }
-    
+
     public boolean isExisteInterno() {
         return existeInterno;
     }
-    
+
     public void setExisteInterno(boolean existeInterno) {
         this.existeInterno = existeInterno;
     }
-    
+
     public boolean isExisteExterno() {
         return existeExterno;
     }
-    
+
     public void setExisteExterno(boolean existeExterno) {
         this.existeExterno = existeExterno;
     }
-    
+
     public List<PojoBeca> getBecaTableList() {
         return becaTableList;
     }
-    
+
     public void setBecaTableList(List<PojoBeca> becaTableList) {
         this.becaTableList = becaTableList;
     }
-    
+
     public Boolean getActualizar() {
         return actualizar;
     }
-    
+
     public void setActualizar(Boolean actualizar) {
         this.actualizar = actualizar;
     }
-    
+
     public boolean isTabInternoBoolean() {
         return tabInternoBoolean;
     }
-    
+
     public void setTabInternoBoolean(boolean tabInternoBoolean) {
         this.tabInternoBoolean = tabInternoBoolean;
     }
-    
+
     public boolean isMostrarTabInterno() {
         return mostrarTabInterno;
     }
-    
+
     public void setMostrarTabInterno(boolean mostrarTabInterno) {
         this.mostrarTabInterno = mostrarTabInterno;
     }
-    
+
     public boolean isTabExternoBoolean() {
         return tabExternoBoolean;
     }
-    
+
     public void setTabExternoBoolean(boolean tabExternoBoolean) {
         this.tabExternoBoolean = tabExternoBoolean;
     }
-    
+
     public boolean isMostrarTabExterno() {
         return mostrarTabExterno;
     }
-    
+
     public void setMostrarTabExterno(boolean mostrarTabExterno) {
         this.mostrarTabExterno = mostrarTabExterno;
     }
-    
+
     public Organismo getOrganismoCooperanteSelected() {
         return organismoCooperanteSelected;
     }
-    
+
     public void setOrganismoCooperanteSelected(Organismo organismoCooperanteSelected) {
         this.organismoCooperanteSelected = organismoCooperanteSelected;
     }
-    
+
     public TipoCambio getTipoCambioSelected() {
         return tipoCambioSelected;
     }
-    
+
     public void setTipoCambioSelected(TipoCambio tipoCambioSelected) {
         this.tipoCambioSelected = tipoCambioSelected;
     }
-    
+
     public TipoBeca getTipoBecaSelected() {
         return tipoBecaSelected;
     }
-    
+
     public void setTipoBecaSelected(TipoBeca tipoBecaSelected) {
         this.tipoBecaSelected = tipoBecaSelected;
     }
-    
+
     public List<TipoBeca> getTipoBecaList() {
         return tipoBecaList;
     }
-    
+
     public void setTipoBecaList(List<TipoBeca> tipoBecaList) {
         this.tipoBecaList = tipoBecaList;
     }
-    
+
     public List<TipoCambio> getTipoCambioList() {
         return tipoCambioList;
     }
-    
+
     public void setTipoCambioList(List<TipoCambio> tipoCambioList) {
         this.tipoCambioList = tipoCambioList;
     }
-    
+
+    public boolean isEsFacultad() {
+        return esFacultad;
+    }
+
+    public void setEsFacultad(boolean esFacultad) {
+        this.esFacultad = esFacultad;
+    }
+
 }

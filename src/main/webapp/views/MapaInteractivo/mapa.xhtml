@@ -14,13 +14,13 @@
         <h:form>
             <p:growl id="msgs" showDetail="true" />
             <p:panel header="Parametros de Busqueda">
-                <h:panelGrid columns="8" style="height:10px;position:relative;">
+                <p:panelGrid>
                     <p:row> 
                         <p:column>
-                            <p:outputLabel  value="Pais  :" />
+                            <p:outputLabel  value="Pais:" />
                         </p:column>
                         <p:column>
-                            <p:selectCheckboxMenu id="pais" value="#{mapaInteractivo.paisSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith" style="width: 170px;padding-right: 10px">
+                            <p:selectCheckboxMenu id="pais" value="#{mapaInteractivo.paisSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith">
                                 <p:ajax event="change" listener="#{mapaInteractivo.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
                                 <p:ajax event="toggleSelect" listener="#{mapaInteractivo.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
                                 <c:forEach var="pa" items="#{mapaInteractivo.paisList}">
@@ -29,10 +29,10 @@
                             </p:selectCheckboxMenu> 
                         </p:column>
                         <p:column>
-                            <p:outputLabel value="Tipo de Proyecto" />
+                            <p:outputLabel value="Tipo de Proyecto:" />
                         </p:column>
                         <p:column>
-                            <p:selectCheckboxMenu id="tipoProyecto" value="#{mapaInteractivo.tipoProyectoSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith" style="width: 200px">
+                            <p:selectCheckboxMenu id="tipoProyecto" value="#{mapaInteractivo.tipoProyectoSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith">
                                 <p:ajax event="change" listener="#{mapaInteractivo.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
                                 <p:ajax event="toggleSelect" listener="#{mapaInteractivo.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
                                 <c:forEach var="ti" items="#{mapaInteractivo.tipoProyectosList}">
@@ -41,7 +41,7 @@
                             </p:selectCheckboxMenu>
                         </p:column>
                         <p:column>
-                            <p:outputLabel for="desde" value="Desde " />
+                            <p:outputLabel for="desde" value="Desde:" />
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="desde" value="#{mapaInteractivo.yearDesde}" style="width:175px">
@@ -53,7 +53,7 @@
                             </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                            <p:outputLabel for="hasta" value="Hasta " />
+                            <p:outputLabel for="hasta" value="Hasta:" />
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="hasta" value="#{mapaInteractivo.yearHasta}" style="width:175px">
@@ -65,7 +65,7 @@
                             </p:selectOneMenu>
                         </p:column>
                     </p:row>
-                </h:panelGrid>
+                </p:panelGrid>
             </p:panel>
         </h:form> 
 
