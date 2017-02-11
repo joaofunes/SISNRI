@@ -720,6 +720,7 @@ public class PropuestaConvenioMB implements Serializable {
             solicitante.setIdUnidad(null);
             solicitante.setIdCarrera(null);
             solicitante.setIdEscuelaDepto(null);
+          
             if (facultadesUnidades.getUnidadFacultad() == 'U') {
                 solicitante.setIdUnidad(unidadService.findById(facultadesUnidades.getId()));
             } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
@@ -750,7 +751,7 @@ public class PropuestaConvenioMB implements Serializable {
             referenteInterno.setIdEscuelaDepto(null);
 
             if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
-                referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getId()));
+                referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getPrimary()));
             } else if (facultadesUnidadesInterno.getUnidadFacultad() == 'F') {
                 referenteInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoInterno.getIdEscuelaDepto()));
             }
