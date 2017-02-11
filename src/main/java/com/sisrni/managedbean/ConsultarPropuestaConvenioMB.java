@@ -104,13 +104,17 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
 
             if (pj.getID_SOLICITANTE() != null) {
                 propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));
+                propuestaConvenioMB.cargarUnidadesFacultadesSolicitante();
             }
             if (pj.getID_REF_INTERNO() != null) {
                 propuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
+                propuestaConvenioMB.cargarTelefonosInternos();
+                propuestaConvenioMB.cargarUnidadesFacultadesSolicitanteInterno();
                 propuestaConvenioMB.setTabAsisMostrar(Boolean.TRUE);
             }
             if (pj.getID_REF_EXTERNO() != null) {
                 propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));
+                propuestaConvenioMB.cargarTelefonosExterno();
                 propuestaConvenioMB.setTabAsisMostrarExterno(Boolean.TRUE);
             }
             
