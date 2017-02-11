@@ -53,8 +53,7 @@ public class EscuelaDepartamentoConverter implements Converter{
 
    @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-        if (object == null
-                || (object instanceof String && ((String) object).length() == 0)) {
+        if (object == null|| (object instanceof String && ((String) object).length() == 0)) {
             return null;
         }
         if (object instanceof EscuelaDepartamento) {

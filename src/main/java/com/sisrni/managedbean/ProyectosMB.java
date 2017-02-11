@@ -51,8 +51,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import static org.apache.lucene.store.FSDirectory.listAll;
-import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
@@ -251,14 +249,6 @@ public class ProyectosMB {
     private String tipoBusquedaAsistente;
     private String tipoBusquedaExterna;
     private List<Persona> listAll;
-
-    private Persona referenteInterno;
-    private Persona referenteExterno;
-    private Telefono telFijoInterno;
-    private Telefono telCelularInterno;
-
-    private Telefono telFijoExterno;
-    private Telefono telCelularExterno;
     private List<PojoFacultadesUnidades> listaFacultadUnidad;
 
     /**
@@ -401,13 +391,14 @@ public class ProyectosMB {
         flagSearchDuiExterno = Boolean.FALSE;
         flagSearchNombreExterno = Boolean.FALSE;
         flagSearchEmailExterno = Boolean.FALSE;
-
-        referenteInterno = new Persona();
-        referenteExterno = new Persona();
-        telFijoInterno = new Telefono();
-        telCelularInterno = new Telefono();
-        telFijoExterno = new Telefono();
-        telCelularExterno = new Telefono();
+        
+        tipoBusquedaInterna=null;
+        tipoBusquedaAsistente=null;
+        tipoBusquedaExterna=null;
+        
+        organismoProySelected=new String[0];
+        areaConocimientoSelected=new String[0];
+        facultadBeneficiadaSelected=new String[0];
     }
 
     public void mostrarTab() {
@@ -416,14 +407,6 @@ public class ProyectosMB {
 
     public void guardarProyecto() {
         try {
-            // validando fecha
-            if (fechaI.compareTo(fechaF) < 0) {
-                proyecto.setFechaInicio(fechaI);
-                proyecto.setFechaFin(fechaF);
-            } else if (fechaI.compareTo(fechaF) > 0) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Las fechas de inicio debe ser menor que la fecha de finalización"));
-                return;
-            }
             //guardar persona solicitante
             String facultadArregloSol[] = facultadSelectedPojoSol.split(",");
             if (facultadArregloSol[1].equals("1")) {
@@ -508,6 +491,8 @@ public class ProyectosMB {
                 personaService.save(personaExterna);
             }
             //Guardando datos del proyecto
+            proyecto.setFechaInicio(fechaI);
+            proyecto.setFechaFin(fechaF);
             SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
             formateador.format(fechaActual);
             proyecto.setFechoIngreso(fechaActual);
@@ -1013,63 +998,63 @@ public class ProyectosMB {
      *
      * @param query
      */
-    public void completeBusquedaDui(String query) {
-
-        try {
-            query = query.substring(0, 8) + "-" + query.substring(9);
-            persona = personaService.getPersonaByDui(query);
-
-            if (persona == null) {
-                persona = new Persona();
-            }
-
-            persona.setDuiPersona(query);
-
-            if (persona.getIdPersona() != null) {
-
-                List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(persona);
-
-                for (Telefono tel : telefonosByPersona) {
-                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
-                        telFijoInterno = tel;
-                    }
-                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
-                        telCelularInterno = tel;
-                    }
-                }
-
-                if (persona.getIdEscuelaDepto() != null) {
-                    facultadSelectedPojoSol = persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
-                    //para consultar facultad
-                    Facultad facSol = facultadService.findById(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
-                    fuSol = facSol.getNombreFacultad();
-                    escuelaDeptoListSol = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
-                    escuelaDeptoSelectedSol = persona.getIdEscuelaDepto();
-                    EscuelaDepartamento escDepSol = escuelaDepartamentoService.findById(persona.getIdEscuelaDepto().getIdEscuelaDepto());
-                    fuSol = escDepSol.getNombreEscuelaDepto();
-                }
-                if (persona.getIdUnidad() != null) {
-                    facultadSelectedPojoSol = persona.getIdUnidad().getIdUnidad() + ",2";
-                    Unidad unidadSol = unidadService.findById(persona.getIdUnidad().getIdUnidad());
-                    fuSol = unidadSol.getNombreUnidad();
-                    escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
-                }
-//                RequestContext context = RequestContext.getCurrentInstance();
-//                context.update("formAdmin:nombresolicitante");
-//                context.update("formAdmin:apellidosolicitante");
-//                context.update("formAdmin:correosolicitante");
-//                context.update("formAdmin:cargosolicitante");
-//                context.update("formAdmin:facultadsolicitante");
-//                context.update("formAdmin:unidadsolicitante");
-//                context.update("formAdmin:telefonosolicitante");
-//                context.update("formAdmin:celularsolicitante");
-//                context.update("formAdmin:duisolicitante");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void completeBusquedaDui(String query) {
+//
+//        try {
+//            query = query.substring(0, 8) + "-" + query.substring(9);
+//            persona = personaService.getPersonaByDui(query);
+//
+//            if (persona == null) {
+//                persona = new Persona();
+//            }
+//
+//            persona.setDuiPersona(query);
+//
+//            if (persona.getIdPersona() != null) {
+//
+//                List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(persona);
+//
+//                for (Telefono tel : telefonosByPersona) {
+//                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
+//                        telFijoInterno = tel;
+//                    }
+//                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
+//                        telCelularInterno = tel;
+//                    }
+//                }
+//
+//                if (persona.getIdEscuelaDepto() != null) {
+//                    facultadSelectedPojoSol = persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
+//                    //para consultar facultad
+//                    Facultad facSol = facultadService.findById(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
+//                    fuSol = facSol.getNombreFacultad();
+//                    escuelaDeptoListSol = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
+//                    escuelaDeptoSelectedSol = persona.getIdEscuelaDepto();
+//                    EscuelaDepartamento escDepSol = escuelaDepartamentoService.findById(persona.getIdEscuelaDepto().getIdEscuelaDepto());
+//                    fuSol = escDepSol.getNombreEscuelaDepto();
+//                }
+//                if (persona.getIdUnidad() != null) {
+//                    facultadSelectedPojoSol = persona.getIdUnidad().getIdUnidad() + ",2";
+//                    Unidad unidadSol = unidadService.findById(persona.getIdUnidad().getIdUnidad());
+//                    fuSol = unidadSol.getNombreUnidad();
+//                    escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
+//                }
+////                RequestContext context = RequestContext.getCurrentInstance();
+////                context.update("formAdmin:nombresolicitante");
+////                context.update("formAdmin:apellidosolicitante");
+////                context.update("formAdmin:correosolicitante");
+////                context.update("formAdmin:cargosolicitante");
+////                context.update("formAdmin:facultadsolicitante");
+////                context.update("formAdmin:unidadsolicitante");
+////                context.update("formAdmin:telefonosolicitante");
+////                context.update("formAdmin:celularsolicitante");
+////                context.update("formAdmin:duisolicitante");
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * Metodo para setear entidad persona en base al nombre solicitado de la

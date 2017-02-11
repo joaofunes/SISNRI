@@ -26,7 +26,7 @@ import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author Joao
+ * @author Luis
  */
 @Named("tipoFacultadMB")
 @ViewScoped
@@ -87,7 +87,7 @@ public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
       * 
       */
      public void guardarTipoFacultad() {
-        String msg = "Tipo Facultad Almacenado Exitosamente!";       
+        String msg = "Tipo de Facultad Almacenado Exitosamente!";       
         try {            
             tipoFacultadService.save(tipoFacultad);                              
             cargarTipoFacultad();
@@ -107,7 +107,7 @@ public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
       * 
       */
      public void updateTipoFacultad() {
-        String msg = "Tipo Facultad Actualizado Exitosamente!";       
+        String msg = "Tipo de Facultad Actualizado Exitosamente!";       
         try {            
             tipoFacultadService.merge(tipoFacultad);
             if (!isValidationFailed()) {
@@ -116,7 +116,7 @@ public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
             actualizar=false;
             cancelarTipoFacultad();
             cargarTipoFacultad();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar tipo de facultad");
         }
@@ -141,7 +141,7 @@ public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
       * 
       */
      public void deleteTipoFacultad() {
-        String msg = "Tipo Facultad Eliminado Exitosamente!";       
+        String msg = "Tipo de Facultad Eliminado Exitosamente!";       
         try {            
             tipoFacultadService.delete(this.delTipoFacultad);                         
             listadoTipoFacultad = tipoFacultadService.findAll(); 
@@ -178,11 +178,12 @@ public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
       * 
       */
      public void cancelarTipoFacultad() {
-        String msg = "Tipo Facultad cancelado!";       
+        String msg = "Tipo de Facultad cancelado!";       
         try {      
             tipoFacultad = null;
             tipoFacultad = new TipoFacultad();
             RequestContext.getCurrentInstance().reset(":formAdmin");            
+            if(actualizar)
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al cancelar registro tipo de facultad");

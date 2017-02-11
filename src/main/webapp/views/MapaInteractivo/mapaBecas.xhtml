@@ -11,10 +11,9 @@
                  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="content">
-        <h:form>
-            <p:growl id="msgs" showDetail="true" />
+        <h:form id="formAdmin">
             <p:panel header="Parametros de Busqueda">
-                <h:panelGrid columns="8" style="height:10px;position:relative;">
+                <p:panelGrid>
                     <p:row> 
                         <p:column>
                             <p:outputLabel  value="Pais  :" />
@@ -27,7 +26,19 @@
                                     <f:selectItem itemLabel="#{pa.nombrePais}" itemValue="#{pa.idPais}"/>
                                 </c:forEach>
                             </p:selectCheckboxMenu> 
-                        </p:column>                    
+                        </p:column>  
+                        <p:column>
+                            <p:outputLabel value="Tipo de Beca:"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectCheckboxMenu id="tbId" value="#{mapaInteractivoBecas.tipoBecaSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith">
+                                <p:ajax event="change" listener="#{mapaInteractivoBecas.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
+                                <p:ajax event="toggleSelect" listener="#{mapaInteractivoBecas.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
+                                <c:forEach var="tb" items="#{mapaInteractivoBecas.tipoBecaList}">
+                                    <f:selectItem itemValue="#{tb.idTipoBeca}" itemLabel="#{tb.nombreTipoBeca}"/> 
+                                </c:forEach>
+                            </p:selectCheckboxMenu>
+                        </p:column>
                         <p:column>
                             <p:outputLabel for="desde" value="Desde " />
                         </p:column>
@@ -53,7 +64,7 @@
                             </p:selectOneMenu>
                         </p:column>
                     </p:row>
-                </h:panelGrid>
+                </p:panelGrid>
             </p:panel>
         </h:form> 
 
@@ -72,7 +83,7 @@
                             <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')" style="padding-left: 5px"/>
                         </p:panelGrid>
                     </p:column>
-                    <p:column rendered="false">
+                    <p:column>
                         <p:panelGrid columns="2">
                             <p:chart type="pie" model="#{mapaInteractivoBecas.pieModelType}" style="width:350px;height:300px" widgetVar="pieType"/>
                             <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pieType')"/>
@@ -153,14 +164,14 @@
                 <p:column headerText="A&ntilde;o Gestion">
                     <h:outputText value="#{p.anioGestion}" />
                 </p:column>
-                 <p:column headerText="Inicio">
-                     <h:outputText value="#{p.fechaInicio}">
-                      <f:convertDateTime pattern="dd/MM/yyyy" />
+                <p:column headerText="Inicio">
+                    <h:outputText value="#{p.fechaInicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputText>
                 </p:column>
-                 <p:column headerText="Finalizacion">
-                     <h:outputText value="#{p.fechaFin}">
-                         <f:convertDateTime pattern="dd/MM/yyyy" />
+                <p:column headerText="Finalizacion">
+                    <h:outputText value="#{p.fechaFin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputText>
                 </p:column>
                 <p:column headerText="Monto($)">

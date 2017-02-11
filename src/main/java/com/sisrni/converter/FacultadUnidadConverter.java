@@ -6,6 +6,7 @@
 package com.sisrni.converter;
 
 import com.sisrni.managedbean.PropuestaConvenioMB;
+import com.sisrni.model.Estado;
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
@@ -13,6 +14,8 @@ import com.sisrni.service.FacultadService;
 import com.sisrni.service.UnidadService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.el.ELContext;
 import javax.faces.convert.FacesConverter;
 import javax.faces.application.FacesMessage;
@@ -57,7 +60,7 @@ public class FacultadUnidadConverter implements Converter{
                 }
 
             } catch(NumberFormatException exception) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid player"));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Error FacultadUnidadConverter "));
             }
         }
 
@@ -65,12 +68,33 @@ public class FacultadUnidadConverter implements Converter{
     }
 
     @Override
-    public String getAsString(FacesContext fc, UIComponent uic, Object value) {
-       if (value == null || value.equals("")) {
-            return "";
-        } else {
-            return String.valueOf(((PojoFacultadesUnidades) value).getId());
+    public String getAsString(FacesContext fc, UIComponent uic, Object object) {
+//       if (value == null || value.equals("")) {
+//            return "";
+//        } else {
+//            System.out.println("return__"+String.valueOf(((PojoFacultadesUnidades) value).getLabel()));
+//            return String.valueOf(((PojoFacultadesUnidades) value).getLabel());
+//        }
+       
+       
+       if (object == null|| (object instanceof String && ((String) object).length() == 0)) {
+            return null;
         }
+        if (object instanceof PojoFacultadesUnidades) {
+            PojoFacultadesUnidades o = (PojoFacultadesUnidades) object;
+            return getStringKey(o.getId());
+        } else {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), PojoFacultadesUnidades.class.getName()});
+            return null;
+        }
+       
+       
+    }
+    
+     String getStringKey(java.lang.Integer value) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(value);
+        return sb.toString();
     }
 
     public List<PojoFacultadesUnidades> getListaFacultadUnidad() {

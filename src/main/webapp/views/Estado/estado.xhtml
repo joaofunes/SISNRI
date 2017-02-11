@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+         <center> 
+            <p:panel style="width: 70%" header="Gestión de Estados">  
+        <h:form id="formAdmin">
+               
+                <p:panelGrid id="idGrilPrincipal" columns="2" >
+               
+                    <p:column>
+                        <h:outputText value="Nombre del Estado:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombreEstado" value="#{estadoMB.estado.nombreEstado}" required="true" size="50" />
+                    </p:column>
+               
+                    <p:column>
+                        <h:outputText value="Tipo de Estado:" />
+                    </p:column>
+                         <p:column>
+                             <p:selectOneMenu id="tipo" value="#{estadoMB.estado.tipoEstado}"  style="width: 100%" required="true" >
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="1" itemValue="1" />
+                                <f:selectItem itemLabel="2" itemValue="2" />
+                            </p:selectOneMenu>
+                        </p:column>  
+
+                           
+                    <p:column  >
+                        <p:commandButton rendered="#{!estadoMB.actualizar}"  styleClass="boton"
+                                         actionListener="#{estadoMB.guardarEstado()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
+                                         value="Guardar" />
+                       
+                        <p:commandButton rendered="#{estadoMB.actualizar}" styleClass="boton"
+                                         actionListener="#{estadoMB.updateEstado()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" />
+                       
+                        <p:commandButton rendered="#{estadoMB.actualizar}" styleClass="boton"
+                                         actionListener="#{estadoMB.cancelarEstado()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
+                        
+                          
+                       
+                    </p:column>
+                 
+                </p:panelGrid>
+        </h:form> 
+        <h:outputLabel style="margin-bottom: 20px;"/>
+      
+        <h:form id="formPrincipal">
+                <p:dataTable var="estado" value="#{estadoMB.listadoEstado}"  rows="10"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"
+                             paginator="true">
+
+
+                    <p:column headerText="Nombre Estado" sortBy="#{estado.nombreEstado}" filterBy="#{estado.nombreEstado}">
+                        <h:outputText value="#{estado.nombreEstado}" />
+                    </p:column>
+                    
+                    <p:column headerText="Tipo Estado" sortBy="#{estado.tipoEstado}" filterBy="#{estado.tipoEstado}">
+                        <h:outputText value="#{estado.tipoEstado}" />
+                    </p:column>
+                    
+                    <p:column headerText="Fecha de Ingreso" sortBy="#{estado.fechaIngresoEstado}" filterBy="#{estado.fechaIngresoEstado}">
+                        <h:outputText value="#{estado.fechaIngresoEstado}" />
+                    </p:column>
+
+                     
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{estadoMB.preUpdate(estado)}" update=":formAdmin" process="@form :formPrincipal"/>
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                           title="Eliminar" value="Eliminar"
+                                           actionListener="#{estadoMB.preDeleteEstado(estado)}" update=":idEliminacion" />
+                        </div>
+                      
+                    </p:column>
+                </p:dataTable>  
+        </h:form>
+
+         </p:panel>     
+        </center> 
+        
+        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el Estado?" header="Eliminar Estado"  global="true">
+            <h:form id="idEliminacion"> 
+             
+                 <h:outputText value="Nombre del Estado: "  style="font-weight:bold"/>
+                 <h:outputText value="#{estadoMB.delEstado.nombreEstado}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Descripción del Estado: "  style="font-weight:bold" />
+                 <h:outputText value="#{estadoMB.delEstado.tipoEstado}" />
+                 <h:outputText value="Fecha de Ingreso: "  style="font-weight:bold" />
+                 <h:outputText value="#{estadoMB.delEstado.fechaIngresoEstado}" />
+                 
+            </h:form>    
+            
+            <p:separator />
+            <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{estadoMB.deleteEstado()}" process="@this" update=":formPrincipal"/>
+               <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+
+    </ui:define>
+</ui:composition>

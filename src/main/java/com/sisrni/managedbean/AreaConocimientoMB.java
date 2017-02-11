@@ -114,7 +114,7 @@ public class AreaConocimientoMB{
             cancelarAreaConocimiento(); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Actualizar AreaConocimiento");
+            JsfUtil.addErrorMessage("Error al Actualizar Area de Conocimiento");
             e.printStackTrace();
         }
         cargarAreaConocimiento(); 

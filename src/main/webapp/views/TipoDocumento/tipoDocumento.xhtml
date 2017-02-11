@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <center>
+            
+            <p:panel style="width: 70%" header="Gestión de Tipos de Documento">  
+                
+                <h:form id="formTipoDocumento">
+                    <p:panelGrid columns="2">
+                        <p:column>
+                            <h:outputLabel for="nombreTipoDocumento" value="Nombre:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nombreTipoDocumento" value="#{tipoDocumentoMB.tipoDocumento.nombreDocumento}" required="true" size="50" />
+                            <p:watermark for="nombreTipoDocumento" value="Nombre del Tipo de Documento" id="watermarkNombreTipoDocumento"/>
+                        </p:column>
+                    
+                        <p:column>
+                            <h:outputLabel for="categoriaDocumentoTipoDocumento" value="Categoría de Documento:"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="categoriaDocumentoTipoDocumento" value="#{tipoDocumentoMB.categoriaDocumento.idCategoriaDoc}"  style="width: 100%" required="true">
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                <c:forEach var="reg" items="#{tipoDocumentoMB.listCategoriaDocumento}">
+                                    <f:selectItem itemLabel="#{reg.nombreCategoria}" itemValue="#{reg.idCategoriaDoc}"/>
+                                </c:forEach>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton styleClass="boton" rendered="#{!tipoDocumentoMB.actualizar}"
+                                             actionListener="#{tipoDocumentoMB.guardarTipoDocumento}" value="Guardar"  update="formTipoDocumento :formTablaTipoDocumentoes" process="@this :formTipoDocumento"/>
+
+                            <p:commandButton styleClass="boton" rendered="#{tipoDocumentoMB.actualizar}"
+                                             actionListener="#{tipoDocumentoMB.actualizarTipoDocumento()}" update="formTipoDocumento :formTablaTipoDocumentoes "
+                                             value="Actualizar" />
+
+                            <p:commandButton styleClass="boton" rendered="#{tipoDocumentoMB.actualizar}"
+                                             actionListener="#{tipoDocumentoMB.cancelarTipoDocumento()}" immediate="true" value="Cancelar" update="formTipoDocumento"  process="@this" />
+
+
+                        </p:column>
+                    </p:panelGrid>
+
+                </h:form>
+                <br></br>
+                <h:form id="formTablaTipoDocumentoes">
+                    <p:dataTable var="tipoDocumento" value="#{tipoDocumentoMB.listTipoDocumento}" rows="10" 
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen tipoDocumentoes registrados actualmente" >
+                        <p:column headerText="Tipo de Documento"  filterBy="#{tipoDocumento.nombreDocumento}">
+                            <h:outputText value="#{tipoDocumento.nombreDocumento}"/>
+                        </p:column>
+                        <p:column headerText="Categoría de Documento" filterBy="#{tipoDocumento.idCategoriaDoc.nombreCategoria}">
+                            <h:outputText value="#{tipoDocumento.idCategoriaDoc.nombreCategoria}"/>
+                        </p:column> 
+                        <p:column headerText="Opciones" style="width: 15%">
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
+                                               actionListener="#{tipoDocumentoMB.preActualizarTipoDocumento(tipoDocumento)}" update=":formTipoDocumento" process="@form:formTablaTipoDocumentoes">
+                                </p:commandLink>
+                            </div>
+                            
+                            
+                            
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                               title="Eliminar" value="Eliminar"
+                                               actionListener="#{tipoDocumentoMB.preBorradoTipoDocumento(tipoDocumento)}" update=":idEliminacion" />
+                            </div> 
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </p:panel>     
+        </center> 
+        
+        
+        <!--'Dialog de confirmacion de la operacion de Borrado'-->
+        <p:confirmDialog widgetVar="confirmDeleteTipoDocumentoDlg" header="Borrar TipoDocumento" message="¿Confirma la eliminación del Tipo de Documento?" 
+                         global="true" showEffect="fade" hideEffect="fade">
+            <h:form id="idEliminacion">
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="Nombre Tipo de Documento:"/>
+                    <h:outputText value="#{tipoDocumentoMB.tipoDocumento.nombreDocumento}"/>
+                    <h:outputLabel value="Categoría Documento:"/>
+                    <h:outputText value="#{tipoDocumentoMB.tipoDocumento.idCategoriaDoc.nombreCategoria}"/>
+                </p:panelGrid>
+                <br/>
+                <br/>
+            </h:form>
+             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+                              actionListener="#{tipoDocumentoMB.borrarTipoDocumento()}" update=":formTablaTipoDocumentoes"/>
+             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>
