@@ -231,5 +231,54 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         }
         return null;
     }
+    
+    
+    public List<Persona> getPersonaMovilidadSalienteByName(String query) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true");
+            q.setParameter("name", '%' + query.toLowerCase() + '%');
+            return q.list();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+     public List<Persona> getPersonaMovilidadSalienteByEmail(String email) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is false");
+            //q.setParameter("email",email);
+            q.setParameter("email", '%' + email.toLowerCase() + '%');
+            return  q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+     
+     public List<Persona> getPersonaMovilidadReferenteByName(String query) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true");
+            q.setParameter("name", '%' + query.toLowerCase() + '%');
+            return q.list();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+     
+     public List<Persona> getPersonaMovilidadReferenteByEmail(String email) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is false");
+            //q.setParameter("email",email);
+            q.setParameter("email", '%' + email.toLowerCase() + '%');
+            return  q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

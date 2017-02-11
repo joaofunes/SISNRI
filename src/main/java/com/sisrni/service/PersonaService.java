@@ -83,4 +83,20 @@ public class PersonaService extends GenericService<Persona, Integer> {
      public Persona getRfteFacultadBeneficiadaByDoc(String doc){
          return personaDao.getRfteFacultadBeneficiadaByDoc(doc);
      }
+     
+     public List<Persona> getPersonaMovilidadSalienteByName(String query){
+         return personaDao.getPersonaMovilidadSalienteByName(query);
+     }
+     
+     public List<Persona> getPersonaMovilidadSalienteByEmail(String email){
+         return personaDao.getPersonaMovilidadSalienteByEmail(email);
+     }
+     
+     public List<Persona> getPersonaMovilidadReferenteByName(String query){
+         return personaDao.getPersonaMovilidadReferenteByName(query);
+     }
+     
+      public List<Persona> getPersonaMovilidadReferenteByEmail(String email){
+          return personaDao.getPersonaMovilidadReferenteByEmail(email);
+      }
 }

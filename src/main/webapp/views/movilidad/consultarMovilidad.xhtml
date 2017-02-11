@@ -114,19 +114,28 @@
                                             <p:outputLabel for="InstitucionPersona" value="Institucion"/>
                                         </p:column>
                                         <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
-                                            <p:inputTextarea id="InstitucionPersona" value="#{registrarMovilidadMB.institucionPersonaMovConsultar}" style="width:180px" readonly="true"/>
+                                            <p:selectOneMenu id="InstitucionPersona" value="#{registrarMovilidadMB.institucionPersonaMovConsultar}" style="width:180px" editable="false">
+                                                <f:selectItem itemLabel="#{registrarMovilidadMB.institucionPersonaMovConsultar}"/>
+                                            </p:selectOneMenu>
+                                          <!--  <p:inputTextarea id="InstitucionPersona" value="#{registrarMovilidadMB.institucionPersonaMovConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>    
                                         <p:column>
                                             <p:outputLabel for="facultadPersona" value="Facultad/Unidad"/>  
                                         </p:column>
                                         <p:column>
-                                            <p:inputTextarea id="facultadPersona" value="#{registrarMovilidadMB.facultadPersonaMovConsultar}" style="width:180px" readonly="true"/>
+                                            <p:selectOneMenu id="facultadPersona" value="#{registrarMovilidadMB.facultadPersonaMovConsultar}" style="width:180px" editable="false">
+                                                <f:selectItem itemLabel="#{registrarMovilidadMB.facultadPersonaMovConsultar}"/>
+                                            </p:selectOneMenu>
+                                          <!--  <p:inputTextarea id="facultadPersona" value="#{registrarMovilidadMB.facultadPersonaMovConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="escuelaDepartamentoPersona" value="Escuela/Departamento"/>   
                                         </p:column>   
                                         <p:column>
-                                            <p:inputTextarea id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDeptoPersonaMovConsultar}" style="width:180px" readonly="true"/>
+                                            <p:selectOneMenu id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDeptoPersonaMovConsultar}" style="width:180px" editable="false">
+                                                <f:selectItem itemLabel="#{registrarMovilidadMB.escuelaDeptoPersonaMovConsultar}"/>
+                                            </p:selectOneMenu>
+                                           <!-- <p:inputTextarea id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDeptoPersonaMovConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>   
                                         <p:column>
                                             <p:outputLabel for="emailPersona" value="Correo Electronico"/>
@@ -161,26 +170,38 @@
                                             <p:outputLabel for="paisOrigen" value="Pais origen"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="paisOrigen" value="#{registrarMovilidadMB.paisOrigenConsultar}" style="width:180px" readonly="true"/>
+                                            <p:selectOneMenu id="paisOrigen" value="#{registrarMovilidadMB.paisOrigenConsultar}" style="width:180px" editable="false">
+                                                <f:selectItem itemLabel="#{registrarMovilidadMB.paisOrigenConsultar}"/>
+                                            </p:selectOneMenu> 
+                                            <!--<p:inputText id="paisOrigen" value="#{registrarMovilidadMB.paisOrigenConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>
 
                                         <p:column>
                                             <p:outputLabel for="institucionOrigen" value="Institucion origen"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenConsultar}" style="width:180px" readonly="true"/>
+                                            <p:selectOneMenu id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenConsultar}" style="width:180px" editable="false">
+                                                <f:selectItem itemLabel="#{registrarMovilidadMB.institucionOrigenConsultar}"/>
+                                            </p:selectOneMenu>
+                                            <!--<p:inputText id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="paisDestino" value="Pais destino"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="paisDestino" value="#{registrarMovilidadMB.paisDestinoconsultar}" style="width:180px" readonly="true"/>
+                                            <p:selectOneMenu id="paisDestino" value="#{registrarMovilidadMB.paisDestinoconsultar}"  style="width:180px" editable="false">
+                                                <f:selectItem itemLabel="#{registrarMovilidadMB.paisDestinoconsultar}"/>
+                                            </p:selectOneMenu>
+                                          <!--  <p:inputText id="paisDestino" value="#{registrarMovilidadMB.paisDestinoconsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="institucionDestino" value="Institucion destino"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputTextarea id="institucionDestino" value="#{registrarMovilidadMB.institucionDestinoConsultar}" style="width:180px" readonly="true"/>
+                                            <p:selectOneMenu id="institucionDestino" value="#{registrarMovilidadMB.institucionDestinoConsultar}" style="width:180px" editable="false">
+                                                <f:selectItem itemLabel="#{registrarMovilidadMB.institucionDestinoConsultar}"/>
+                                            </p:selectOneMenu>
+                                            <!--<p:inputTextarea id="institucionDestino" value="#{registrarMovilidadMB.institucionDestinoConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>
 
                                         <p:column>
@@ -195,6 +216,15 @@
                                         <p:column>
                                             <p:inputText id="hastaMovilidad" value="#{registrarMovilidadMB.fFinConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="tipoMoneda" value="Tipo de moneda"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="tipoMoneda" value="#{registrarMovilidadMB.tipoCambioSelected.idTipoCambio}" style="width: 180px" editable="false">
+                                                <f:selectItems value="#{registrarMovilidadMB.listTipoCambio}" var="tipoCambio" itemLabel="#{tipoCambio.nombreDivisa}" itemValue="#{tipoCambio.idTipoCambio}"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        
                                         <p:column>
                                             <p:outputLabel for="viaticos" value="Monto de viaticos"/>
                                         </p:column>
@@ -322,13 +352,19 @@
                                             <p:outputLabel for="facultadBeneficiadaPersona" value="Facultad/unidad"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:inputTextarea id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadPersonaRefConsultar}" style="width:180px" readonly="true"/>
+                                            <p:selectOneMenu id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadPersonaRefConsultar}" style="width:180px" editable="false">
+                                                <f:selectItem itemLabel="#{registrarMovilidadMB.facultadPersonaRefConsultar}"/>
+                                            </p:selectOneMenu>
+                                            <!--<p:inputTextarea id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadPersonaRefConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="escuelaDepartamentoReferenteFactBnf" value="Escuela/Departamento"/> 
                                         </p:column>   
                                         <p:column>
-                                            <p:inputTextarea id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoRefConsultar}" style="width:180px" readonly="true"/>
+                                            <p:selectOneMenu id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoRefConsultar}" style="width:180px" editable="false">
+                                                <f:selectItem itemLabel="#{registrarMovilidadMB.escuelaDepartamentoRefConsultar}"/>
+                                            </p:selectOneMenu>
+                                            <!--<p:inputTextarea id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoRefConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>   
                                         <p:column>
                                             <p:outputLabel for="emailPersonaFacultad" value="Correo electronico"/>
@@ -363,7 +399,7 @@
                                         <h:panelGroup/>
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton styleClass="boton"    value="Regresar" actionListener="#{registrarMovilidadMB.regresar()}"  id="btnRegresar" title="Regresar" />
+                                        <p:commandButton styleClass="boton"    value="Regresar" actionListener="#{registrarMovilidadMB.regresar()}" process="@this"  id="btnRegresar" title="Regresar" />
                                     </p:column>
                                     <p:column>
                                         <h:panelGroup/>  
