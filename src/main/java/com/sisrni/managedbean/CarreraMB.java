@@ -93,8 +93,8 @@ public class CarreraMB{
         organismoSelected = new Organismo();
         paisSelected = new Pais();
         paisesList = paisService.findAll();
-       // organismosList = organismoService.findAll();
-       // listFacultad = facultadService.findAll();
+        organismosList = organismoService.findAll();
+        listFacultad = facultadService.findAll();
         listCarrera = carreraService.findAll();
         actualizar = false;
     }
@@ -147,7 +147,7 @@ public class CarreraMB{
             carreraService.merge(carrera);
             actualizar = false;
             cancelarCarrera(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Carrera");
             e.printStackTrace();

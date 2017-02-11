@@ -87,7 +87,7 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
       * 
       */
      public void guardarProgramaMovilidad() {
-        String msg = "Tipo Persona Almacenado Exitosamente!";       
+        String msg = "Programa de Movilidad Almacenado Exitosamente!";       
         try {            
             programaMovilidadService.save(programaMovilidad);                              
             cargarProgramaMovilidad();
@@ -96,7 +96,7 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
             
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al guardar tipo de persona");
+            JsfUtil.addErrorMessage("Error al guardar Programa de Movilidad");
             e.printStackTrace();
         }
         cargarProgramaMovilidad();
@@ -107,7 +107,7 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
       * 
       */
      public void updateProgramaMovilidad() {
-        String msg = "Tipo Persona Actualizado Exitosamente!";       
+        String msg = "Programa de Movilidad Actualizado Exitosamente!";       
         try {            
             programaMovilidadService.merge(programaMovilidad);
             if (!isValidationFailed()) {
@@ -116,9 +116,9 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
             actualizar=false;
             cancelarProgramaMovilidad();
             cargarProgramaMovilidad();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!!", msg));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al actualziar tipo de persona");
+            JsfUtil.addErrorMessage("Error al actualziar Programa de Movilidad");
         }
         cargarProgramaMovilidad();
     } 
@@ -141,7 +141,7 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
       * 
       */
      public void deleteProgramaMovilidad() {
-        String msg = "Tipo Persona Eliminado Exitosamente!";       
+        String msg = "Programa de Movilidad Eliminado Exitosamente!";       
         try {            
             programaMovilidadService.delete(this.delProgramaMovilidad);                         
             listadoProgramaMovilidad = programaMovilidadService.findAll(); 
@@ -150,7 +150,7 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro tipo de persona");
+            JsfUtil.addErrorMessage("Error al eliminar registro Programa de Movilidad");
         }finally{
              actualizar=false;
             delProgramaMovilidad = new ProgramaMovilidad();
@@ -178,14 +178,15 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
       * 
       */
      public void cancelarProgramaMovilidad() {
-        String msg = "Tipo Persona cancelado!";       
+        String msg = "Programa de Movilidad cancelado!";       
         try {      
             programaMovilidad = null;
             programaMovilidad = new ProgramaMovilidad();
             RequestContext.getCurrentInstance().reset(":formAdmin");            
+            if(actualizar)
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al cancelar registro tipo de persona");
+            JsfUtil.addErrorMessage("Error al cancelar registro Programa de Movilidad");
         }
         cargarProgramaMovilidad();
     } 

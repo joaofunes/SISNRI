@@ -99,7 +99,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteCiudadDlg" header="Borrar Ciudad" message="Confirma la eliminacion del Ciudad?" 
+        <p:confirmDialog widgetVar="confirmDeleteCiudadDlg" header="Borrar Ciudad" message="¿Confirma la eliminación de la Ciudad?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
@@ -107,13 +107,13 @@
                     <h:outputText value="#{ciudadMB.ciudad.nombreCiudad}"/>
                     <h:outputLabel value="Estado/Departamento/Provincia:"/>
                     <h:outputText value="#{ciudadMB.ciudad.idProvincia.nombreProvincia}"/>
-                     <h:outputLabel value="Pais:"/>
+                     <h:outputLabel value="País:"/>
                      <h:outputText value="#{ciudadMB.ciudad.idProvincia.idPais.nombrePais}"/>
                 </p:panelGrid>
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{ciudadMB.borrarCiudad()}" update=":formTablaCiudades"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
