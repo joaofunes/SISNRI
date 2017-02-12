@@ -56,7 +56,7 @@
                                                 <p:column>
                                                     <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" process="@this" update=""/>
+                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" process="@this" update="panelBecario"/>
                                             </p:autoComplete>
                                             <p:watermark for="searchNombre" value="Nombre/Apellido"/>
                                             <p:autoComplete id="searchMail" value="#{becaMB.becario}" rendered="#{becaMB.flagSearchEmailBecario}"
@@ -66,7 +66,7 @@
                                                 <p:column>
                                                     <h:outputText value="#{theme.emailPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" process="@this" update=""/>
+                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" process="@this" update="panelBecario"/>
                                             </p:autoComplete>
                                             <p:watermark for="searchMail" value="E-mail"/> 
                                         </p:column>
