@@ -515,9 +515,7 @@ public class PropuestaConvenioMB implements Serializable {
                 this.referenteInterno = solicitante;
                 this.facultadesUnidadesInterno = getFacultadesUnidades();
                 this.escuelaDepartamentoInterno = getEscuelaDepartamento();
-
                 cargarTelefonosInternos();
-
             } else {
                 referenteInterno = new Persona();
                 telFijoInterno = new Telefono();
@@ -720,6 +718,7 @@ public class PropuestaConvenioMB implements Serializable {
             solicitante.setIdUnidad(null);
             solicitante.setIdCarrera(null);
             solicitante.setIdEscuelaDepto(null);
+          
             if (facultadesUnidades.getUnidadFacultad() == 'U') {
                 solicitante.setIdUnidad(unidadService.findById(facultadesUnidades.getId()));
             } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
@@ -750,7 +749,7 @@ public class PropuestaConvenioMB implements Serializable {
             referenteInterno.setIdEscuelaDepto(null);
 
             if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
-                referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getId()));
+                referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getPrimary()));
             } else if (facultadesUnidadesInterno.getUnidadFacultad() == 'F') {
                 referenteInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoInterno.getIdEscuelaDepto()));
             }
@@ -759,7 +758,7 @@ public class PropuestaConvenioMB implements Serializable {
             referenteInterno.setActivo(Boolean.TRUE);//esta activo
             referenteInterno.setPasaporte("0");
 
-            personaService.saveOrUpdate(referenteInterno);
+            personaService.save(referenteInterno);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -773,13 +772,17 @@ public class PropuestaConvenioMB implements Serializable {
             PersonaPropuestaPK personaPropuestaPK;
             PersonaPropuesta prsRefInterno = new PersonaPropuesta();
             listadoTelefonoReferenteInterno = new ArrayList<Telefono>();
-
             telFijoInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
             telFijoInterno.setIdPersona(referenteInterno);
+            listadoTelefonoReferenteInterno.add(telFijoInterno);
+            
             telCelularInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
-            telCelularInterno.setIdPersona(referenteInterno);
-            telefonoService.saveOrUpdate(telFijoInterno);
-            telefonoService.saveOrUpdate(telCelularInterno);
+            telCelularInterno.setIdPersona(referenteInterno); 
+            listadoTelefonoReferenteInterno.add(telCelularInterno);
+            referenteInterno.setTelefonoList(listadoTelefonoReferenteInterno);
+//            telefonoService.merge(telFijoInterno);
+//            telefonoService.merge(telCelularInterno);
+            personaService.merge(referenteInterno);
 
             prsRefInterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_INTERNO));
             prsRefInterno.setPersona(referenteInterno);
@@ -804,14 +807,17 @@ public class PropuestaConvenioMB implements Serializable {
             referenteExterno.setActivo(Boolean.TRUE);//esta activo
             referenteExterno.setDuiPersona("0");
             listadoTelefonoReferenteExterno = new ArrayList<Telefono>();
+            telFijoExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+            telFijoExterno.setIdPersona(referenteExterno);
+            telCelularExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+            telCelularExterno.setIdPersona(referenteExterno);
+            listadoTelefonoReferenteExterno.add(telFijoInterno);
             listadoTelefonoReferenteExterno.add(telFijoExterno);
-            listadoTelefonoReferenteExterno.add(telCelularExterno);
+            referenteExterno.setTelefonoList(listadoTelefonoReferenteInterno);
+//            telefonoService.merge(telFijoExterno);
+//            telefonoService.merge(telCelularExterno);          
+            personaService.merge(referenteExterno);
 
-            referenteExterno.setTelefonoList(listadoTelefonoReferenteExterno);
-            personaService.saveOrUpdate(referenteExterno);
-
-//                telefonoService.saveOrUpdate(telCelularExterno);
-//                telefonoService.saveOrUpdate(telFijoExterno);
             prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
             prsRefExterno.setPersona(referenteExterno);
             personaPropuestaPK = new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta());

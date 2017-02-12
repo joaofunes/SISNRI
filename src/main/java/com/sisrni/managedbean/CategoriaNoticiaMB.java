@@ -75,14 +75,14 @@ public class CategoriaNoticiaMB{
      * correspondiente de la base de datos
      */
     public void guardarCategoriaNoticia(){
-        String msg ="CategoriaNoticia Almacenado Exitosamente!";
+        String msg ="Categoría de Noticia Almacenada Exitosamente!";
         try{
            categoriaNoticia.setIdCategoria(Integer.MIN_VALUE);
            categoriaNoticiaService.save(categoriaNoticia);
-          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardada!!", msg));
            
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Guardar CategoriaNoticia!");
+            JsfUtil.addErrorMessage("Error al Guardar Categoría de Noticia!");
             e.printStackTrace();
         }
         cargarCategoriaNoticia();
@@ -106,15 +106,15 @@ public class CategoriaNoticiaMB{
      * seleccionada
      */
     public void actualizarCategoriaNoticia(){
-        String msg ="CategoriaNoticia Actualizado Exitosamente!";
+        String msg ="Categoría de Noticia Actualizada Exitosamente!";
         try{
             //actualizando la instancia
             categoriaNoticiaService.merge(categoriaNoticia);
             actualizar = false;
             cancelarCategoriaNoticia(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Actualizar CategoriaNoticia");
+            JsfUtil.addErrorMessage("Error al Actualizar Categoría de Noticia");
             e.printStackTrace();
         }
         cargarCategoriaNoticia(); 
@@ -139,16 +139,16 @@ public class CategoriaNoticiaMB{
      * Metodo que borra una instancia de 'CategoriaNoticia' de la Base de datos
      */
     public void borrarCategoriaNoticia(){ 
-        String msg ="CategoriaNoticia Eliminado Exitosamente!";
+        String msg ="Categoría de Noticia Eliminada Exitosamente!";
         try{
             //Borrando la instancia de categoriaNoticia
             categoriaNoticiaService.delete(categoriaNoticia);
             cargarCategoriaNoticia();
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('confirmDeleteCategoriaNoticiaDlg').hide();"); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminada!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar CategoriaNoticia!");
+            JsfUtil.addErrorMessage("Error al Eliminar Categoria de Noticia!");
             e.printStackTrace();
         }finally{
             actualizar = false;
@@ -163,7 +163,7 @@ public class CategoriaNoticiaMB{
      * actualizacion de CategoriaNoticia
      */
     public void cancelarCategoriaNoticia(){
-        String msg ="CategoriaNoticia cancelado";
+        String msg ="Categoria de Noticia cancelada";
         try{
         categoriaNoticia = null;
         categoriaNoticia = new CategoriaNoticia();

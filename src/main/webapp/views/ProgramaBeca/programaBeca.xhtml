@@ -83,20 +83,20 @@
           </center> 
      
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar tipo programaBeca?" header="Eliminar Tipo ProgramaBeca"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el Programa de Beca?" header="Eliminar Programa de Beca"  global="true">
             <h:form id="idEliminacion"> 
              
-                 <h:outputText value="Nombre de ProgramaBeca : "  style="font-weight:bold"/>
+                 <h:outputText value="Nombre de Programa de Beca : "  style="font-weight:bold"/>
                  <h:outputText value="#{programaBecaMB.delProgramaBeca.nombrePrograma}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripción de ProgramaBeca : "  style="font-weight:bold" />
+                 <h:outputText value="Descripción de Programa de Beca : "  style="font-weight:bold" />
                  <h:outputText value="#{programaBecaMB.delProgramaBeca.descripcion}" />
              
             </h:form>    
             
             <p:separator />
-            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{programaBecaMB.deleteProgramaBeca()}" process="@this" update=":formPrincipal"/>
+            <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{programaBecaMB.deleteProgramaBeca()}" process="@this" update=":formPrincipal"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 

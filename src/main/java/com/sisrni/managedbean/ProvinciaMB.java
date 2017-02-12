@@ -86,7 +86,7 @@ public class ProvinciaMB{
      * correspondiente de la base de datos
      */
     public void guardarProvincia(){
-        String msg ="Provincia Almacenado Exitosamente!";
+        String msg ="Estado/Departamento/Provincia Almacenado Exitosamente!";
         try{
            provincia.setIdProvincia(Integer.MIN_VALUE);
            provincia.setIdPais(paisService.findById(pais.getIdPais()));
@@ -94,7 +94,7 @@ public class ProvinciaMB{
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
            
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Guardar Provincia!");
+            JsfUtil.addErrorMessage("Error al Guardar Estado/Departamento/Provincia!");
             e.printStackTrace();
         }
         cargarProvincia();
@@ -119,16 +119,16 @@ public class ProvinciaMB{
      * seleccionada
      */
     public void actualizarProvincia(){
-        String msg ="Provincia Actualizado Exitosamente!";
+        String msg ="Estado/Departamento/Provincia Actualizado Exitosamente!";
         try{
             provincia.setIdPais(paisService.findById(pais.getIdPais()));
             //actualizando la instancia
             provinciaService.merge(provincia);
             actualizar = false;
             cancelarProvincia(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Actualizar Provincia");
+            JsfUtil.addErrorMessage("Error al Actualizar Estado/Departamento/Provincia");
             e.printStackTrace();
         }
         cargarProvincia(); 
@@ -153,7 +153,7 @@ public class ProvinciaMB{
      * Metodo que borra una instancia de 'Provincia' de la Base de datos
      */
     public void borrarProvincia(){ 
-        String msg ="Provincia Eliminado Exitosamente!";
+        String msg ="Estado/Departamento/Provincia Eliminado Exitosamente!";
         try{
             //Borrando la instancia de provincia
             provinciaService.delete(provincia);
@@ -162,7 +162,7 @@ public class ProvinciaMB{
             context.execute("PF('confirmDeleteProvinciaDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Provincia!");
+            JsfUtil.addErrorMessage("Error al Eliminar Estado/Departamento/Provincia!");
             e.printStackTrace();
         }finally{
             actualizar = false;
@@ -177,13 +177,14 @@ public class ProvinciaMB{
      * actualizacion de Provincia
      */
     public void cancelarProvincia(){
-        String msg ="Provincia cancelado";
+        String msg ="Estado/Departamento/Provincia cancelado";
         try{
         provincia = null;
         provincia = new Provincia();
         pais=null;
         pais = new Pais();
         RequestContext.getCurrentInstance().reset(":formProvincia");
+        if(actualizar)
         JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
              System.out.println(e.getMessage());

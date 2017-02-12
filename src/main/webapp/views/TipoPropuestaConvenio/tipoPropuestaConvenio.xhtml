@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+         <center> 
+            <p:panel style="width: 70%" header="Gestión de Tipos de Propuesta de Convenios">  
+        <h:form id="formAdmin">
+               
+                <p:panelGrid id="idGrilPrincipal" columns="2" >
+               
+                    <p:column>
+                        <h:outputText value="Nombre del Tipo de Propuesta de Convenio:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombrePropuestaConvenio" value="#{tipoPropuestaConvenioMB.tipoPropuestaConvenio.nombrePropuestaConvenio}" required="true" size="50" />
+                    </p:column>
+               
+                    <p:column>
+                        <h:outputText value="Descripción del Tipo de Propuesta de Convenio:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputTextarea id="descri" value="#{tipoPropuestaConvenioMB.tipoPropuestaConvenio.descripcion}" rows="2" maxlength="300" style="width: 100%" required="true" />
+                    </p:column>
+                    
+                    <p:column  >
+                        <p:commandButton rendered="#{!tipoPropuestaConvenioMB.actualizar}"  styleClass="boton"
+                                         actionListener="#{tipoPropuestaConvenioMB.guardarTipoPropuestaConvenio()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
+                                         value="Guardar" />
+                       
+                        <p:commandButton rendered="#{tipoPropuestaConvenioMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoPropuestaConvenioMB.updateTipoPropuestaConvenio()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" />
+                       
+                        <p:commandButton rendered="#{tipoPropuestaConvenioMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoPropuestaConvenioMB.cancelarTipoPropuestaConvenio()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
+                        
+                          
+                       
+                    </p:column>
+                 
+                </p:panelGrid>
+        </h:form> 
+        <h:outputLabel style="margin-bottom: 20px;"/>
+      
+        <h:form id="formPrincipal">
+                <p:dataTable var="organismo" value="#{tipoPropuestaConvenioMB.listadoTipoPropuestaConvenio}"  rows="10"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15"
+                             paginator="true">
+
+
+                    <p:column headerText="Nombre Tipo de Propuesta de Convenio" sortBy="#{organismo.nombrePropuestaConvenio}" filterBy="#{organismo.nombrePropuestaConvenio}">
+                        <h:outputText value="#{organismo.nombrePropuestaConvenio}" />
+                    </p:column>
+
+                    <p:column headerText="Descripción" sortBy="#{organismo.descripcion}" filterBy="#{organismo.descripcion}">
+                        <h:outputText value="#{organismo.descripcion}" />
+                    </p:column>
+                    <p:column headerText="Opciones" >
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                           value="Editar" actionListener="#{tipoPropuestaConvenioMB.preUpdate(organismo)}" update=":formAdmin" process="@form :formPrincipal"/>
+                        </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                           title="Eliminar" value="Eliminar"
+                                           actionListener="#{tipoPropuestaConvenioMB.preDeleteTipoPropuestaConvenio(organismo)}" update=":idEliminacion" />
+                        </div>
+                      
+                    </p:column>
+                </p:dataTable>  
+        </h:form>
+
+         </p:panel>     
+        </center> 
+        
+        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el Tipo de Propuesta de Convenio?" header="Eliminar Tipo Propuesta de Convenio"  global="true">
+            <h:form id="idEliminacion"> 
+             
+                 <h:outputText value="Nombre del Tipo de Propuesta de Convenio : "  style="font-weight:bold"/>
+                 <h:outputText value="#{tipoPropuestaConvenioMB.delTipoPropuestaConvenio.nombrePropuestaConvenio}" />
+                 <br/>
+                 <br/>
+                 <h:outputText value="Descripción del Tipo de Propuesta de Convenio : "  style="font-weight:bold" />
+                 <h:outputText value="#{tipoPropuestaConvenioMB.delTipoPropuestaConvenio.descripcion}" />
+             
+            </h:form>    
+            
+            <p:separator />
+            <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoPropuestaConvenioMB.deleteTipoPropuestaConvenio()}" process="@this" update=":formPrincipal"/>
+               <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+
+    </ui:define>
+</ui:composition>

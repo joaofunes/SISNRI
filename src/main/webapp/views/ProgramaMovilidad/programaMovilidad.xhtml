@@ -12,21 +12,21 @@
     <ui:define name="content">
      <center>  
         
-         <p:panel style="width: 70%" header="Gestión de Programas Movilidad">  
+         <p:panel style="width: 70%" header="Gestión de Programas de Movilidad">  
          
              <h:form id="formAdmin">
                
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
                
                     <p:column>
-                        <h:outputText value="Nombre de Programa Movilidad:" />
+                        <h:outputText value="Nombre de Programa de Movilidad:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="nombreProgramaMovilidad" value="#{programaMovilidadMB.programaMovilidad.nombreProgramaMovilidad}" required="true" size="50" />
                     </p:column>
                
                     <p:column>
-                        <h:outputText value="Descripción de Programa Movilidad:" />
+                        <h:outputText value="Descripción de Programa de Movilidad:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="descri" value="#{programaMovilidadMB.programaMovilidad.descripcion}" required="true" size="50" />
@@ -83,14 +83,14 @@
           </center> 
      
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el  Programa Movilidad?" header="Eliminar Programa Movilidad"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el Programa de Movilidad?" header="Eliminar Programa de Movilidad"  global="true">
             <h:form id="idEliminacion"> 
              
-                 <h:outputText value="Nombre de ProgramaMovilidad : "  style="font-weight:bold"/>
+                 <h:outputText value="Nombre de Programa de Movilidad : "  style="font-weight:bold"/>
                  <h:outputText value="#{programaMovilidadMB.delProgramaMovilidad.nombreProgramaMovilidad}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripcion de ProgramaMovilidad : "  style="font-weight:bold" />
+                 <h:outputText value="Descripcion de Programa de Movilidad : "  style="font-weight:bold" />
                  <h:outputText value="#{programaMovilidadMB.delProgramaMovilidad.descripcion}" />
              
             </h:form>    

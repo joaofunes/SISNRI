@@ -14,10 +14,7 @@
 
     <ui:define name="content">
 
-        <h:form>
-
-        </h:form>
-
+       
         <h:form id="formAdmin">
 
             <center>
@@ -460,7 +457,7 @@
                                             <p:outputLabel for="idDescripcionPropuesta" value="Descripci&oacute;n" />
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="idDescripcionPropuesta"  required="true" label="descripcion" value="#{propuestaConvenioMB.propuestaConvenio.finalidadPropuesta}"/>
+                                            <p:inputTextarea id="idDescripcionPropuesta" required="true" label="descripcion" maxlength="300" value="#{propuestaConvenioMB.propuestaConvenio.finalidadPropuesta}" rows="6" style="width: 300px;" />
                                             <p:message for="idDescripcionPropuesta" /> 
                                             <p:watermark for="idDescripcionPropuesta" value="Descripcion" id="descripcionProp" />
                                         </p:column>

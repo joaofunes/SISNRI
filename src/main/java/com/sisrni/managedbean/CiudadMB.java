@@ -100,7 +100,7 @@ public class CiudadMB{
            ciudad.setIdCiudad(Integer.MIN_VALUE);
            ciudad.setIdProvincia(provinciaService.findById(provincia.getIdProvincia()));
            ciudadService.save(ciudad);
-          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardada!!", msg));
            
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Guardar Ciudad!");
@@ -117,6 +117,7 @@ public class CiudadMB{
        try{ 
         actualizar = true;
         this.ciudad = ciudad;
+        this.paisSelected.setIdPais(ciudad.getIdProvincia().getIdPais().getIdPais());
         this.provincia.setIdProvincia(ciudad.getIdProvincia().getIdProvincia());
        }catch(Exception e){
            System.out.println(e.getMessage());
@@ -128,7 +129,7 @@ public class CiudadMB{
      * seleccionada
      */
     public void actualizarCiudad(){
-        String msg ="Ciudad Actualizado Exitosamente!";
+        String msg ="Ciudad Actualizada Exitosamente!";
         try{
             ciudad.setIdProvincia(provinciaService.findById(provincia.getIdProvincia()));
             //actualizando la instancia
@@ -179,7 +180,7 @@ public class CiudadMB{
             cargarCiudad();
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('confirmDeleteCiudadDlg').hide();"); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminada!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Eliminar Ciudad!");
             e.printStackTrace();
