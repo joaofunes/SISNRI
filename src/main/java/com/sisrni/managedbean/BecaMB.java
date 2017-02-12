@@ -51,6 +51,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.hibernate.SessionFactory;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
@@ -146,6 +147,17 @@ public class BecaMB implements Serializable {
     private boolean noEstabaExterno;
 
     private boolean esFacultad;
+
+    //variables para buscadores
+    private String tipoBusquedaBecario;
+    private String tipoBusquedaAsesorInterno;
+    private String tipoBusquedaAsesorExterno;
+
+    private Boolean disableAutoBecario;
+    private Boolean flagSearchDuiBecario;
+    private Boolean flagSearchNombreBecario;
+    private Boolean flagSearchEmailBecario;
+    private List<Persona> listAll;
 
     @Autowired
     FacultadService facultadService;
@@ -280,7 +292,13 @@ public class BecaMB implements Serializable {
         tabExternoBoolean = Boolean.FALSE;
         mostrarTabExterno = Boolean.FALSE;
         esFacultad = Boolean.FALSE;
+        listAll = new ArrayList<Persona>();
 
+        //variables de buscadores
+        tipoBusquedaBecario = "";
+        flagSearchDuiBecario = Boolean.FALSE;
+        flagSearchEmailBecario = Boolean.FALSE;
+        flagSearchNombreBecario = Boolean.FALSE;
     }
 
 //registra la informacion conserniente a una beca
@@ -436,6 +454,31 @@ public class BecaMB implements Serializable {
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "error."));
         }
+    }
+
+    //Busca de persona interna
+    public void habilitarAutoBecario() {
+        limpiarBecario();
+        banderasBecarioFalsas();
+//        if (disableAutoBecario) {
+//            disableAutoBecario = Boolean.FALSE;
+//        }
+        if (tipoBusquedaBecario.equalsIgnoreCase("doc")) {
+            flagSearchDuiBecario = Boolean.TRUE;
+        }
+        if (tipoBusquedaBecario.equalsIgnoreCase("nombre")) {
+            flagSearchNombreBecario = Boolean.TRUE;
+        }
+        if (tipoBusquedaBecario.equalsIgnoreCase("email")) {
+            flagSearchEmailBecario = Boolean.TRUE;
+        }
+
+    }
+
+    public void banderasBecarioFalsas() {
+        flagSearchDuiBecario = Boolean.FALSE;
+        flagSearchNombreBecario = Boolean.FALSE;
+        flagSearchEmailBecario = Boolean.FALSE;
     }
 
     public void changeInterno() {
@@ -630,6 +673,29 @@ public class BecaMB implements Serializable {
         }
     }
 
+    public void buscarBecarioSinParametro() {
+        try {
+            if (becario != null) {
+                telefonoFijoBecario = getTelefono(becario.getTelefonoList(), FIJO);
+                telefonoCelularBecario = getTelefono(becario.getTelefonoList(), CELULAR);
+                facultadSelectedBecario = becario.getIdCarrera().getIdFacultad();
+                carreraList = carreraService.getCarrerasByFacultad(facultadSelectedBecario.getIdFacultad());
+                carreraSelected = becario.getIdCarrera();
+                this.existeBecario = Boolean.TRUE;
+            } else {
+                becario = new Persona();
+                telefonoFijoBecario = new Telefono();
+                telefonoCelularBecario = new Telefono();
+                facultadSelectedBecario = new Facultad();
+                carreraList = new ArrayList<Carrera>();
+                carreraSelected = new Carrera();
+                this.existeBecario = Boolean.FALSE;
+            }
+
+        } catch (Exception e) {
+        }
+    }
+
     public void buscarInterno(String valior) {
         try {
             if (!valior.equalsIgnoreCase("")) {
@@ -692,6 +758,40 @@ public class BecaMB implements Serializable {
         }
     }
 
+    //buscar persona interna
+    public List<Persona> methodSearch(String query) {
+        try {
+            List<Persona> list = new ArrayList<Persona>();
+            if (tipoBusquedaBecario.equalsIgnoreCase("nombre")) {
+                listAll = personaService.getReferenteInternoByName(query);
+                for (Persona us : listAll) {
+                    list.add(us);
+                }
+                return list;
+            } else if (tipoBusquedaBecario.equalsIgnoreCase("email")) {
+                listAll = personaService.getReferenteInternoByEmail(query);
+                for (Persona us : listAll) {
+                    list.add(us);
+                }
+                return list;
+            } else if (tipoBusquedaBecario.equalsIgnoreCase("doc")) {
+                query = query.substring(0, 8) + "-" + query.substring(9);
+                becario = personaService.getPersonaByDui(query);
+                if (becario == null) {
+                    limpiarBecario();
+                } else {
+                    boolean add = list.add(becario);
+                }
+                RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+                return list;
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Telefono getTelefono(List<Telefono> lista, String tipo) {
         Telefono r = new Telefono();
         for (Telefono tel : lista) {
@@ -700,6 +800,14 @@ public class BecaMB implements Serializable {
             }
         }
         return r;
+    }
+
+    public void limpiarBecario() {
+        becario = new Persona();
+        telefonoFijoBecario = new Telefono();
+        telefonoCelularBecario = new Telefono();
+        facultadSelectedBecario = new Facultad();
+        carreraSelected = new Carrera();
     }
 
     public Persona getBecario() {
@@ -1132,6 +1240,62 @@ public class BecaMB implements Serializable {
 
     public void setEsFacultad(boolean esFacultad) {
         this.esFacultad = esFacultad;
+    }
+
+    public String getTipoBusquedaBecario() {
+        return tipoBusquedaBecario;
+    }
+
+    public void setTipoBusquedaBecario(String tipoBusquedaBecario) {
+        this.tipoBusquedaBecario = tipoBusquedaBecario;
+    }
+
+    public String getTipoBusquedaAsesorInterno() {
+        return tipoBusquedaAsesorInterno;
+    }
+
+    public void setTipoBusquedaAsesorInterno(String tipoBusquedaAsesorInterno) {
+        this.tipoBusquedaAsesorInterno = tipoBusquedaAsesorInterno;
+    }
+
+    public String getTipoBusquedaAsesorExterno() {
+        return tipoBusquedaAsesorExterno;
+    }
+
+    public void setTipoBusquedaAsesorExterno(String tipoBusquedaAsesorExterno) {
+        this.tipoBusquedaAsesorExterno = tipoBusquedaAsesorExterno;
+    }
+
+    public boolean isFlagSearchDuiBecario() {
+        return flagSearchDuiBecario;
+    }
+
+    public void setFlagSearchDuiBecario(boolean flagSearchDuiBecario) {
+        this.flagSearchDuiBecario = flagSearchDuiBecario;
+    }
+
+    public boolean isFlagSearchNombreBecario() {
+        return flagSearchNombreBecario;
+    }
+
+    public void setFlagSearchNombreBecario(boolean flagSearchNombreBecario) {
+        this.flagSearchNombreBecario = flagSearchNombreBecario;
+    }
+
+    public boolean isFlagSearchEmailBecario() {
+        return flagSearchEmailBecario;
+    }
+
+    public void setFlagSearchEmailBecario(boolean flagSearchEmailBecario) {
+        this.flagSearchEmailBecario = flagSearchEmailBecario;
+    }
+
+    public Boolean getDisableAutoBecario() {
+        return disableAutoBecario;
+    }
+
+    public void setDisableAutoBecario(Boolean disableAutoBecario) {
+        this.disableAutoBecario = disableAutoBecario;
     }
 
 }

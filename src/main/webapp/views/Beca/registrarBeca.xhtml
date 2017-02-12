@@ -21,6 +21,76 @@
                                     <p:inputText value="#{becaMB.docBecarioSearch}" id="idDocBecario"/>
                                     <p:commandButton value="Buscar" actionListener="#{becaMB.buscarBecario(becaMB.docBecarioSearch)}" process="idDocBecario @this" icon="ui-icon-search" update="panelBecario"/>
                                 </h:panelGroup>
+                                <h:panelGroup id="pgroupBuscadorBecario">
+                                    <p:panelGrid id="pGridBuscadorBecario">
+                                        <p:column>
+                                            <p:outputLabel for="tipoBusquedaBecarioId" value="Tipo de Busqueda:" />
+                                        </p:column>
+                                        <p:column>                                        
+                                            <p:selectOneMenu id="tipoBusquedaBecarioId" value="#{becaMB.tipoBusquedaBecario}"  style="width:125px">  
+                                                <p:ajax  listener="#{becaMB.habilitarAutoBecario}" update="pgroupBuscadorBecario,panelBecario"  process="tipoBusquedaBecarioId"/>
+                                                <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true" />                                                                           
+                                                <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
+                                                <f:selectItem itemLabel="E-mail" itemValue="email" />
+                                                <f:selectItem itemLabel="Documento" itemValue="doc" />  
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel  value="Busqueda" />     
+                                        </p:column>
+                                        <p:column>
+                                            <p:autoComplete id="searchDui" minQueryLength="10" size="10" rendered="#{becaMB.flagSearchDuiBecario}"  value="#{becaMB.becario}" completeMethod="#{becaMB.methodSearch}"
+                                                            var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
+                                                            forceSelection="true">                                            
+                                                <p:column>
+                                                    <h:outputText value="#{name.duiPersona}" />
+                                                </p:column>
+                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" update="panelBecario" process="@this"/>
+                                            </p:autoComplete>
+                                            <p:watermark for="searchDui" value="DUI"/> 
+
+                                            <p:autoComplete id="searchNombre" value="#{becaMB.becario}" rendered="#{becaMB.flagSearchNombreBecario}"
+                                                            completeMethod="#{becaMB.methodSearch}"
+                                                            var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                            forceSelection="true">                                           
+                                                <p:column>
+                                                    <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
+                                                </p:column>
+                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" process="@this" update=""/>
+                                            </p:autoComplete>
+                                            <p:watermark for="searchNombre" value="Nombre/Apellido"/>
+                                            <p:autoComplete id="searchMail" value="#{becaMB.becario}" rendered="#{becaMB.flagSearchEmailBecario}"
+                                                            completeMethod="#{becaMB.methodSearch}"
+                                                            var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                            forceSelection="true">                                           
+                                                <p:column>
+                                                    <h:outputText value="#{theme.emailPersona}" />
+                                                </p:column>
+                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" process="@this" update=""/>
+                                            </p:autoComplete>
+                                            <p:watermark for="searchMail" value="E-mail"/> 
+                                        </p:column>
+                                    </p:panelGrid>
+                                </h:panelGroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                 <p:separator/>
                                 <p:panelGrid id="panelBecario">
