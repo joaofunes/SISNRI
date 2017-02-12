@@ -60,17 +60,26 @@
                                             <p:message for="idSolicinateApellido" />   
                                             <p:watermark for="idSolicinateApellido" value="Apellido Solicitante"  />                                           
                                         </p:column>
-                                    </p:row>     
+                                    </p:row> 
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel for="idCargo" value="Cargo Solicitante" />
+                                            <p:outputLabel for="idTelFijoSolicitante" value="Tel:" />
+                                        </p:column>
+                                        <p:column>                                                               
+                                            <p:inputMask id="idTelFijoSolicitante"  mask="9999-9999" value="#{propuestaConvenioMB.telFijoSolicitante.numeroTelefono}" />
+                                            <p:watermark for="idTelFijoSolicitante" value="xxxx-xxxx"  /> 
+                                            <p:message for="idTelFijoSolicitante" />
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="idCargo"  required="true" label="cargo" value="#{propuestaConvenioMB.solicitante.cargoPersona}"/>
-                                            <p:message for="idCargo" />
-                                            <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
+                                            <p:outputLabel for="idCelSolicitante" value="Cel:" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="idCelSolicitante"  mask="9999-9999" value="#{propuestaConvenioMB.telCelularSolicitante.numeroTelefono}" />
+                                            <p:watermark for="idCelSolicitante" value="xxxx-xxxx"  /> 
+                                            <p:message for="idCelSolicitante" />
                                         </p:column>
                                     </p:row>
+                                    
 
                                     <p:row>
 
@@ -95,6 +104,16 @@
                                             </p:selectOneMenu>
                                         </p:column>
 
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="idCargo" value="Cargo Solicitante" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="idCargo"  required="true" label="cargo" value="#{propuestaConvenioMB.solicitante.cargoPersona}"/>
+                                            <p:message for="idCargo" />
+                                            <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
+                                        </p:column>
                                     </p:row>
                                     <p:row>
                                         <p:column>

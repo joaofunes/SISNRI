@@ -132,6 +132,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                      .addScalar("ID_REF_INTERNO",new IntegerType())
                      .addScalar("ID_REF_EXTERNO",new IntegerType())
                      .addScalar("ID_ESTADO",new IntegerType())                   
+                     .addScalar("FECHA_INGRESO",new DateType())                   
                      .setResultTransformer(Transformers.aliasToBean(PojoPropuestaConvenio.class));
                
              return q.list();
@@ -213,7 +214,8 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                      .addScalar("ID_SOLICITANTE",new IntegerType())
                      .addScalar("ID_REF_INTERNO",new IntegerType())
                      .addScalar("ID_REF_EXTERNO",new IntegerType())
-                     .addScalar("ID_ESTADO",new IntegerType())                   
+                     .addScalar("ID_ESTADO",new IntegerType()) 
+                     .addScalar("FECHA_INGRESO",new DateType())    
                      .setResultTransformer(Transformers.aliasToBean(PojoPropuestaConvenio.class));
                
              return q.list();
