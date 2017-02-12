@@ -17,7 +17,7 @@
 
                 <p:dataTable var="pconvenios" value="#{consultarPropuestaConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
+                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                              
                              >    
                     <p:column filterBy="#{pconvenios.NOMBRE_PROPUESTA}"  headerText="Nombre Propuesta">
                         <h:outputText value="#{pconvenios.NOMBRE_PROPUESTA}" />
