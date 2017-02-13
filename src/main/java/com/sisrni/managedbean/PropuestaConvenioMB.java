@@ -139,8 +139,7 @@ public class PropuestaConvenioMB implements Serializable {
 
     private List<TipoPersona> listadoTipoPersona;
 
-    private List<Telefono> listadoTelefonoReferenteInterno;
-    private List<Telefono> listadoTelefonoReferenteExterno;
+    
 
     private List<TipoPropuestaConvenio> listadoTipoPrpouestaConvenio;
     private List<PropuestaConvenio> listadoPropuestaConvenio;
@@ -161,7 +160,14 @@ public class PropuestaConvenioMB implements Serializable {
     private Persona solicitante;
     private Persona referenteInterno;
     private Persona referenteExterno;
+    
+    private List<Telefono> listadoTelefonoReferenteSolicitante;
+    private List<Telefono> listadoTelefonoReferenteInterno;
+    private List<Telefono> listadoTelefonoReferenteExterno;
 
+    private Telefono telFijoSolicitante;
+    private Telefono telCelularSolicitante;
+    
     private Telefono telFijoInterno;
     private Telefono telCelularInterno;
 
@@ -242,6 +248,8 @@ public class PropuestaConvenioMB implements Serializable {
             telCelularInterno = new Telefono();
             telFijoExterno = new Telefono();
             telCelularExterno = new Telefono();
+            telFijoSolicitante = new Telefono();
+            telCelularSolicitante = new Telefono();
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
             personaEdit = new Persona();
@@ -303,6 +311,7 @@ public class PropuestaConvenioMB implements Serializable {
             solicitante = personaService.findById(usuario.getUsuario().getIdPersona());
             if (solicitante != null) {
                 cargarUnidadesFacultadesSolicitante();
+                cargarTelefonosSolicitante();
             }
 
         } catch (Exception e) {
@@ -532,43 +541,6 @@ public class PropuestaConvenioMB implements Serializable {
         }
     }
 
-    /**
-     * Metodo para almacenar una nueva persona
-     */
-    public void preEditarPropuestaInterno() {
-        try {
-
-            if (numDocumentoInterno != null && !numDocumentoInterno.equals("")) {
-                personaEdit = new Persona();
-                personaEdit = personaService.getPersonaByID(referenteInterno.getIdPersona());
-                if (personaEdit != null) {
-                    RequestContext context = RequestContext.getCurrentInstance();
-                    context.execute("PF('EditDialog').show();");
-                } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Editado", "Persona no encontrada"));
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Metodo para almacenar una nueva persona
-     */
-    public void editar() {
-        try {
-            String msg = "Persona Editada Exitosamente!";
-            personaService.merge(personaEdit);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado", msg));
-            RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('EditDialog').hide();");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Metodo para alamacenar nueva propuesta de convenio
@@ -724,6 +696,16 @@ public class PropuestaConvenioMB implements Serializable {
             } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
                 solicitante.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamento.getIdEscuelaDepto()));
             }
+            
+            listadoTelefonoReferenteSolicitante = new ArrayList<Telefono>(); 
+            telFijoSolicitante.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+            telFijoSolicitante.setIdPersona(solicitante); 
+            listadoTelefonoReferenteSolicitante.add(telFijoSolicitante);
+            
+            telCelularSolicitante.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+            telCelularSolicitante.setIdPersona(solicitante); 
+            listadoTelefonoReferenteSolicitante.add(telCelularSolicitante);
+            solicitante.setTelefonoList(listadoTelefonoReferenteSolicitante);
             personaService.merge(solicitante);
 
             //Guardar solicitante en persona de propuesta
@@ -738,6 +720,7 @@ public class PropuestaConvenioMB implements Serializable {
         }
     }
 
+    
     /**
      * Metodo que guarda nuevas personas referentes internos
      */
@@ -757,20 +740,8 @@ public class PropuestaConvenioMB implements Serializable {
             referenteInterno.setExtranjero(Boolean.FALSE);//no es extrajero
             referenteInterno.setActivo(Boolean.TRUE);//esta activo
             referenteInterno.setPasaporte("0");
-
-            personaService.save(referenteInterno);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Metodo que almacena telefono , el tipo de persona para referente interno
-     */
-    private void guardarReferenteInternoComplemento() {
-        try {
-            PersonaPropuestaPK personaPropuestaPK;
-            PersonaPropuesta prsRefInterno = new PersonaPropuesta();
+            
+            //telefonos
             listadoTelefonoReferenteInterno = new ArrayList<Telefono>();
             telFijoInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
             telFijoInterno.setIdPersona(referenteInterno);
@@ -780,15 +751,24 @@ public class PropuestaConvenioMB implements Serializable {
             telCelularInterno.setIdPersona(referenteInterno); 
             listadoTelefonoReferenteInterno.add(telCelularInterno);
             referenteInterno.setTelefonoList(listadoTelefonoReferenteInterno);
-//            telefonoService.merge(telFijoInterno);
-//            telefonoService.merge(telCelularInterno);
-            personaService.merge(referenteInterno);
+            personaService.saveOrUpdate(referenteInterno);
+            //personaService.save(referenteInterno);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Metodo que complementa el almacenamiento de referente interno, el tipo de persona para referente interno
+     */
+    private void guardarReferenteInternoComplemento() {
+        try {
+
+            PersonaPropuesta prsRefInterno = new PersonaPropuesta();
+           
             prsRefInterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_INTERNO));
             prsRefInterno.setPersona(referenteInterno);
-
-            personaPropuestaPK = new PersonaPropuestaPK(referenteInterno.getIdPersona(), prsRefInterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta());
-            prsRefInterno.setPersonaPropuestaPK(personaPropuestaPK);
+            prsRefInterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteInterno.getIdPersona(), prsRefInterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
             personaPropuestaService.save(prsRefInterno);
         } catch (Exception e) {
             e.printStackTrace();
@@ -816,7 +796,7 @@ public class PropuestaConvenioMB implements Serializable {
             referenteExterno.setTelefonoList(listadoTelefonoReferenteInterno);
 //            telefonoService.merge(telFijoExterno);
 //            telefonoService.merge(telCelularExterno);          
-            personaService.merge(referenteExterno);
+            personaService.saveOrUpdate(referenteExterno);
 
             prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
             prsRefExterno.setPersona(referenteExterno);
@@ -898,6 +878,25 @@ public class PropuestaConvenioMB implements Serializable {
                 }
                 if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
                     telCelularInterno = tel;
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    /**
+     * Metodo Utilizado para cargar Telefonos de Solicitante al momento de
+     * ediitar una propuesta
+     */
+    public void cargarTelefonosSolicitante() {
+        try {
+            List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(solicitante);
+            for (Telefono tel : telefonosByPersona) {
+                if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
+                    telFijoSolicitante = tel;
+                }
+                if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
+                    telCelularSolicitante = tel;
                 }
             }
         } catch (Exception e) {
@@ -1572,6 +1571,30 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setMismoSol(boolean mismoSol) {
         this.mismoSol = mismoSol;
+    }
+
+    public List<Telefono> getListadoTelefonoReferenteSolicitante() {
+        return listadoTelefonoReferenteSolicitante;
+    }
+
+    public void setListadoTelefonoReferenteSolicitante(List<Telefono> listadoTelefonoReferenteSolicitante) {
+        this.listadoTelefonoReferenteSolicitante = listadoTelefonoReferenteSolicitante;
+    }
+
+    public Telefono getTelFijoSolicitante() {
+        return telFijoSolicitante;
+    }
+
+    public void setTelFijoSolicitante(Telefono telFijoSolicitante) {
+        this.telFijoSolicitante = telFijoSolicitante;
+    }
+
+    public Telefono getTelCelularSolicitante() {
+        return telCelularSolicitante;
+    }
+
+    public void setTelCelularSolicitante(Telefono telCelularSolicitante) {
+        this.telCelularSolicitante = telCelularSolicitante;
     }
 
 }
