@@ -234,7 +234,8 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "(SELECT P_CONVENIO.NOMBRE_PROPUESTA,P_CONVENIO.FINALIDAD_PROPUESTA,\n" +
                     "T_PRO_CONVE.NOMBRE_PROPUESTA_CONVENIO AS TIPO_CONVENIO,STA.NOMBRE_ESTADO,P_CONVENIO.VIGENCIA,\n" +
                     "P_CONVENIO.ID_PROPUESTA,\n" +
-                    "P_ESTADO.ID_ESTADO\n" +
+                    "P_ESTADO.ID_ESTADO,\n" +
+                    "P_CONVENIO.FECHA_INGRESO FECHA_INGRESO\n" +
                     "FROM PROPUESTA_CONVENIO P_CONVENIO\n" +
                     "INNER JOIN TIPO_PROPUESTA_CONVENIO T_PRO_CONVE\n" +
                     "ON P_CONVENIO.ID_TIPO_PROPUESTA_CONVENIO = T_PRO_CONVE.ID_TIPO_PROPUESTA \n" +
@@ -290,8 +291,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                      .addScalar("ID_REF_INTERNO",new IntegerType())
                      .addScalar("ID_REF_EXTERNO",new IntegerType())
                      .addScalar("ID_ESTADO",new IntegerType())  
-                   
-                   
+                     .addScalar("FECHA_INGRESO",new DateType())                                          
                      .setResultTransformer(Transformers.aliasToBean(PojoPropuestaConvenio.class));
                
              return (PojoPropuestaConvenio) q.uniqueResult();

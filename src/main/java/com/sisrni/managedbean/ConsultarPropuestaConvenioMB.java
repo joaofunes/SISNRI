@@ -111,15 +111,16 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
                 propuestaConvenioMB.cargarTelefonosInternos();
                 propuestaConvenioMB.cargarUnidadesFacultadesSolicitanteInterno();
                 propuestaConvenioMB.setTabAsisMostrar(Boolean.TRUE);
+                propuestaConvenioMB.mostrarTab();
             }
             if (pj.getID_REF_EXTERNO() != null) {
                 propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));
                 propuestaConvenioMB.cargarTelefonosExterno();
                 propuestaConvenioMB.setTabAsisMostrarExterno(Boolean.TRUE);
+                propuestaConvenioMB.mostrarTabExterno();
             }
             
-            propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());   
-            
+            propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());               
             propuestaConvenioMB.onTipoConvenioChange();
             
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  

@@ -48,6 +48,7 @@
                             <p:commandLink styleClass="ui-icon swap-horiz"
                                            title="Detalle de Propuesta" value="Detalle de Propuesta"
                                            actionListener="#{consultarPropuestaConvenioMB.preEliminar(pconvenios)}"
+                                           update=":idInfoConvenio"
                                            oncomplete="PF('dlgInfoConvenio').show();"/>
                                
                         </div>                        
@@ -65,135 +66,175 @@
              
         <p:dialog header="Cambiar Estado" widgetVar="dlgEstado" modal="true" appendTo="@(body)" >                         
             <h:form id="idCambiarEstado"> 
-                <p:panelGrid columns="2" id="display" >
-                    <p:column>
-                         <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Descripción: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Solicitante: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.SOLICITANTE}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Referente Interno: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.INTERNO}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Referente Externo: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.EXTERNO}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="Estado:" style="font-weight:bold"/>
-                    </p:column>
-                    <p:column>
-                        <p:selectOneMenu id="idEstado" value="#{consultarPropuestaConvenioMB.estado}" converter="#{estadoConverter}" panelStyle="width:250px" style="width:200px">
-                            <f:selectItems value="#{consultarPropuestaConvenioMB.listadoEstados}" var="theme" itemLabel="#{theme.nombreEstado}" itemValue="#{theme}" />                      
-                        </p:selectOneMenu>
-                    </p:column>                        
-                    <p:column>                        
-                        <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.eliminarConvenio()}" process="idCambiarEstado" update=":formAdmin" onclick="PF('dlgEstado').hide();" />
-                         <p:commandButton value="No"  icon="ui-icon-close" onclick="PF('dlgEstado').hide();" process="@this" />
-                    </p:column>
-                    <p:column></p:column>
+                <p:panelGrid id="display" >
+                    <p:row>                                        
+                        <p:column>
+                            <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
+                        </p:column>
+                    </p:row>
+                    <p:row> 
+                        <p:column>
+                            <h:outputText value="Descripci&oacute;n: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Solicitante: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.SOLICITANTE}" />
+                        </p:column>
+                    </p:row>
+                    <p:row> 
+                        <p:column>
+                            <h:outputText value="Referente Interno: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.INTERNO}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>  
+                        <p:column>
+                            <h:outputText value="Referente Externo: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.EXTERNO}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column> 
+                            <h:outputText value="Estado:" style="font-weight:bold"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="idEstado" value="#{consultarPropuestaConvenioMB.estado}" converter="#{estadoConverter}" panelStyle="width:250px" style="width:200px">
+                                <f:selectItems value="#{consultarPropuestaConvenioMB.listadoEstados}" var="theme" itemLabel="#{theme.nombreEstado}" itemValue="#{theme}" />                      
+                            </p:selectOneMenu>
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>                        
+                            <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.eliminarConvenio()}" process="idCambiarEstado" update=":formAdmin" onclick="PF('dlgEstado').hide();" />
+                            <p:commandButton value="No"  icon="ui-icon-close" onclick="PF('dlgEstado').hide();" process="@this" />
+                        </p:column>
+                        <p:column></p:column>
+                    </p:row>
+
                 </p:panelGrid>
             </h:form>      
         </p:dialog>   
-        
-        
+
+
         <p:dialog header="Informacion Convenio" widgetVar="dlgInfoConvenio" modal="true" appendTo="@(body)" >                         
             <h:form id="idInfoConvenio"> 
-                <p:panelGrid columns="2" id="display" >
-                    <p:column>
-                         <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Descripción: "  style="font-weight:bold" />
-                    </p:column>
+                <p:panelGrid  id="display" >
+
+                    <p:row>                                        
+                        <p:column>
+                            <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>  
+                        <p:column>
+                            <h:outputText value="Descripci&oacute;n: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" />
+                        </p:column>
+                    </p:row>
                     <p:column>
                         <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
                     </p:column>
                     <p:column>
                         <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
                     </p:column>
-                    <p:column> 
-                        <h:outputText value="Estado:" style="font-weight:bold"/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Solicitante: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.SOLICITANTE}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Referente Interno: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.INTERNO}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Referente Externo: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.EXTERNO}" />
-                    </p:column>
-                    
-                    <p:column>
-                        <h:outputText value="Fecha de Ingreso: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FECHA_INGRESO}" />
-                    </p:column>                                    
-                    <p:column>                        
-                        <p:commandButton value="OK"  icon="ui-icon-check" update=":formAdmin" onclick="PF('dlgInfoConvenio').hide();" />                                                
-                    </p:column>
-                    <p:column></p:column>
+                    <p:row> 
+                        <p:column> 
+                            <h:outputText value="Estado:" style="font-weight:bold"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.estado.nombreEstado}" />
+                        </p:column>
+                    </p:row>
+                    <p:row> 
+                        <p:column>
+                            <h:outputText value="Solicitante: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.SOLICITANTE}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Referente Interno: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.INTERNO}" />
+                        </p:column>
+                    </p:row>    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Referente Externo: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.EXTERNO}" />
+                        </p:column>
+                    </p:row>    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Fecha de Ingreso: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FECHA_INGRESO}" />
+                        </p:column>  
+                    </p:row>    
+                    <p:row>
+                        <p:column>                        
+                            <p:commandButton value="OK"  icon="ui-icon-check" update=":formAdmin" onclick="PF('dlgInfoConvenio').hide();" />                                                
+                        </p:column>
+                        <p:column></p:column>
+                    </p:row>
+
                 </p:panelGrid>
             </h:form>      
         </p:dialog>        
-             
-             
+
+
         <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar convenio?" header="Eliminar Convenio"  global="true">
             <h:form id="idEliminacion">              
-                 <br/>
-                 <br/>
-                 <h:outputText value="Estado Propuesta: "  style="font-weight:bold" />
-                 <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_ESTADO}" />
-                 <br/>
-                 <br/>
-                 <h:outputText value="VIGENCIA: "  style="font-weight:bold" />
-                 <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.VIGENCIA}" />             
+                <br/>
+                <br/>
+                <h:outputText value="Estado Propuesta: "  style="font-weight:bold" />
+                <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_ESTADO}" />
+                <br/>
+                <br/>
+                <h:outputText value="VIGENCIA: "  style="font-weight:bold" />
+                <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.VIGENCIA}" />             
             </h:form>                
             <p:separator />
             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.eliminarConvenio()}" process="@this" update=":formAdmin"/>
-               <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
-        
+
     </ui:define>
     
     
