@@ -767,6 +767,8 @@ public class BecaMB implements Serializable {
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                limpiarBecario();
+                 RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
                 return list;
             } else if (tipoBusquedaBecario.equalsIgnoreCase("email")) {
                 listAll = personaService.getReferenteInternoByEmail(query);
@@ -782,7 +784,7 @@ public class BecaMB implements Serializable {
                 } else {
                     boolean add = list.add(becario);
                 }
-                RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+               
                 return list;
             }
             return list;
