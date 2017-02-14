@@ -72,7 +72,9 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
     }
 
     /**
-     * Metodo para relaizar busquedas de referente internos por medio de su email
+     * Metodo para relaizar busquedas de referente internos por medio de su
+     * email
+     *
      * @param persona
      * @return
      */
@@ -81,7 +83,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is false");
             //q.setParameter("email",email);
             q.setParameter("email", '%' + email.toLowerCase() + '%');
-            return  q.list();
+            return q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,7 +91,9 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
     }
 
     /**
-     * Metodo para relaizar busquedas de referente externos por medio de su email
+     * Metodo para relaizar busquedas de referente externos por medio de su
+     * email
+     *
      * @param persona
      * @return
      */
@@ -97,15 +101,13 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is true");
             q.setParameter("email", '%' + email.toLowerCase() + '%');
-            return  q.list();
+            return q.list();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-
-  
 
     /**
      * Mentodo para obtener una persona en base a el proyecto al que pertenece y
@@ -164,44 +166,43 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         return null;
     }
 
-    
-     /**
+    /**
      * Metodo para relaizar por DUI de personas
+     *
      * @param dui
      * @param persona
-     * @return 
+     * @return
      */
     public Persona getPersonaByDui(String dui) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE a.duiPersona =:num  AND a.activo is true");
-             q.setParameter("num",dui);                    
-             return (Persona) q.uniqueResult();
-       
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE a.duiPersona =:num  AND a.activo is true");
+            q.setParameter("num", dui);
+            return (Persona) q.uniqueResult();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
-    
-     /**
+
+    /**
      * Metodo para relaizar por Pasaporte de personas
+     *
      * @param pasaporte
      * @param persona
-     * @return 
+     * @return
      */
     public Persona getPersonaByPasaporte(String pasaporte) {
         try {
-             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE a.pasaporte =:num  AND a.activo is true");
-             q.setParameter("num",pasaporte);                    
-             return (Persona) q.uniqueResult();
-       
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE a.pasaporte =:num  AND a.activo is true");
+            q.setParameter("num", pasaporte);
+            return (Persona) q.uniqueResult();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
 
     public Persona getBecarioByDoc(String doc) {
         String query = "Select b FROM Persona b where b.duiPersona=:doc";
@@ -210,16 +211,17 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         return (Persona) q.uniqueResult();
     }
 
-    public Persona getRfteFacultadBeneficiadaByDoc(String doc){
+    public Persona getRfteFacultadBeneficiadaByDoc(String doc) {
         Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM Persona p WHERE p.duiPersona=:dui AND p.activo is true");
         q.setParameter("dui", doc);
         return (Persona) q.uniqueResult();
-}
+    }
 
     /**
      * Metodo para obtener personas que pertenecen a un organismo especificado
+     *
      * @param idOrg
-     * @return 
+     * @return
      */
     public List<Persona> getPersonasByIdOrganismo(Integer idOrg) {
         try {
@@ -231,8 +233,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         }
         return null;
     }
-    
-    
+
     public List<Persona> getPersonaMovilidadSalienteByName(String query) {
         try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true");
@@ -244,20 +245,20 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         }
         return null;
     }
-    
-     public List<Persona> getPersonaMovilidadSalienteByEmail(String email) {
+
+    public List<Persona> getPersonaMovilidadSalienteByEmail(String email) {
         try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is false");
             //q.setParameter("email",email);
             q.setParameter("email", '%' + email.toLowerCase() + '%');
-            return  q.list();
+            return q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-     
-     public List<Persona> getPersonaMovilidadReferenteByName(String query) {
+
+    public List<Persona> getPersonaMovilidadReferenteByName(String query) {
         try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true");
             q.setParameter("name", '%' + query.toLowerCase() + '%');
@@ -268,13 +269,44 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         }
         return null;
     }
-     
-     public List<Persona> getPersonaMovilidadReferenteByEmail(String email) {
+
+    public List<Persona> getPersonaMovilidadReferenteByEmail(String email) {
         try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is false");
             //q.setParameter("email",email);
             q.setParameter("email", '%' + email.toLowerCase() + '%');
-            return  q.list();
+            return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Metodo para realizar busquedas personas que contenga
+     * nombre,apellido,email
+     *
+     * @param name
+     * @param lastName
+     * @param email
+     * @return
+     */
+    public Persona existePersona(String name, String lastName, String email) {
+        try {
+            Persona persona;
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name AND lower(a.apellidoPersona) LIKE :lastName AND lower(a.emailPersona)=:email");
+            q.setParameter("name", '%' + name.toLowerCase() + '%');
+            q.setParameter("lastName", '%' + lastName.toLowerCase() + '%');
+            q.setParameter("email",email.toLowerCase());
+           
+            persona=(Persona) q.uniqueResult();
+            
+            if(persona != null){
+                return persona;
+            }else{
+                return null;
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -13,6 +13,8 @@ import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -77,7 +79,16 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
         try {
             propuestaConvenio = new PropuestaConvenio();    
             estado = new Estado();
-            listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();            
+            listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();    
+
+            
+            Collections.sort(listadoPropuestaConvenio, new Comparator<PojoPropuestaConvenio>() {
+                @Override
+                public int compare(PojoPropuestaConvenio lhs, PojoPropuestaConvenio rhs) {
+                    return rhs.getFECHA_INGRESO().compareTo(lhs.getFECHA_INGRESO());
+                }
+            });
+            
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,6 +154,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
             e.printStackTrace();
         }
     }
+    
     
     
     public PropuestaConvenio getPropuestaConvenio() {
