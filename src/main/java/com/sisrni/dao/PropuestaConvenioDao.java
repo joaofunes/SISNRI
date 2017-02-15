@@ -254,7 +254,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "INNER JOIN TIPO_PERSONA TP_PRS\n" +
                     "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
                     "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='SOLICITANTE') TB_SOLICITANTE\n" +
-                    "INNER JOIN\n" +
+                    "LEFT JOIN\n" +
                     "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS INTERNO,PRS_PROP.ID_PROPUESTA AS PROPUESTA, PRS.ID_PERSONA AS ID_REF_INTERNO\n" +
                     "FROM PERSONA_PROPUESTA PRS_PROP \n" +
                     "INNER JOIN PERSONA PRS\n" +
@@ -263,7 +263,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
                     "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='REFERENTE INTERNO') TB_INTERNO\n" +
                     "ON TB_SOLICITANTE.PROPUESTA=TB_INTERNO.PROPUESTA\n" +
-                    "INNER JOIN\n" +
+                    "LEFT JOIN\n" +
                     "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS EXTERNO,PRS_PROP.ID_PROPUESTA AS PROPUESTA,PRS.ID_PERSONA AS ID_REF_EXTERNO\n" +
                     "FROM PERSONA_PROPUESTA PRS_PROP \n" +
                     "INNER JOIN PERSONA PRS\n" +

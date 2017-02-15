@@ -18,7 +18,7 @@
                 <p:dataTable var="pconvenios" value="#{consultarPropuestaConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"  
-                             sortBy="#{pconvenios.FECHA_INGRESO}" sortOrder="ascending"
+                            
                              >    
                     <p:column filterBy="#{pconvenios.NOMBRE_PROPUESTA}"  headerText="Nombre Propuesta">
                         <h:outputText value="#{pconvenios.NOMBRE_PROPUESTA}" />
@@ -45,22 +45,23 @@
                                            value="Editar" actionListener="#{consultarPropuestaConvenioMB.preEditar(pconvenios)}" />
                         </div>
                        
+                                               
                         <div style="float: left">
-                            <p:commandLink styleClass="ui-icon swap-horiz"
-                                           title="Detalle de Propuesta" value="Detalle de Propuesta"
-                                           actionListener="#{consultarPropuestaConvenioMB.preEliminar(pconvenios)}"
-                                           update=":idInfoConvenio"
-                                           oncomplete="PF('dlgInfoConvenio').show();"/>
-                               
-                        </div>                        
-                        <div style="float: left">
-                            <p:commandLink styleClass="ui-icon swap-horiz"
+                            <p:commandLink styleClass="ui-icon ui-icon-transferthick-e-w"
                                            title="Cambiar estado" value="Cambiar estado"
                                            update=":idCambiarEstado"
                                            actionListener="#{consultarPropuestaConvenioMB.preEliminar(pconvenios)}"
                                            oncomplete="PF('dlgEstado').show();"/>
                                
-                        </div>                        
+                        </div>     
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-circle-zoomin"
+                                           title="Detalle de Propuesta" value="Detalle de Propuesta"
+                                           actionListener="#{consultarPropuestaConvenioMB.preEliminar(pconvenios)}"
+                                           update=":idInfoConvenio"
+                                           oncomplete="PF('dlgInfoConvenio').show();"/>
+                               
+                        </div> 
                     </p:column>
                 </p:dataTable>
             </h:form>   
@@ -159,7 +160,7 @@
                             <h:outputText value="Descripci&oacute;n: "  style="font-weight:bold" />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" />
+                            <p:inputTextarea maxlength="300" disabled="true" value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}"  rows="6" style="width: 300px;"/>
                         </p:column>
                     </p:row>
                     <p:column>

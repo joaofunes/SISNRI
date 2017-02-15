@@ -95,27 +95,19 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
         }
     }
 
-    public void preEliminar(PojoPropuestaConvenio pojo){
-        try {
-            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
-            estado=estadoService.findById(pojo.getID_ESTADO());
-           // RequestContext context = RequestContext.getCurrentInstance();              
-           // context.execute("PF('dataChangeDlg').show();");
-           //RequestContext.getCurrentInstance().update(":formPrincipal");
-        } catch (Exception e) {
-         e.printStackTrace();
-        }
-    }
+   
 
     
     public void preEditar(PojoPropuestaConvenio pj){
         try {
-            propuestaConvenioMB.inicializador();
+            
             propuestaConvenioMB.postInit();
-
+            
             if (pj.getID_SOLICITANTE() != null) {
+                //settea solicitante
                 propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));
                 propuestaConvenioMB.cargarUnidadesFacultadesSolicitante();
+                propuestaConvenioMB.cargarTelefonosSolicitante();
             }
             if (pj.getID_REF_INTERNO() != null) {
                 propuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
@@ -134,8 +126,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
             propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());               
             propuestaConvenioMB.onTipoConvenioChange();
             
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
-           
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();             
             String outcome = "propuestaCovenio.xhtml";
             FacesContext.getCurrentInstance().getExternalContext().redirect("propuestaCovenio.xhtml");
             
@@ -145,6 +136,20 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
         }
     
     }
+    
+    
+     public void preEliminar(PojoPropuestaConvenio pojo){
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            estado=estadoService.findById(pojo.getID_ESTADO());
+           // RequestContext context = RequestContext.getCurrentInstance();              
+           // context.execute("PF('dataChangeDlg').show();");
+           //RequestContext.getCurrentInstance().update(":formPrincipal");
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+    
     
     public void eliminarConvenio(){
         try {                    
