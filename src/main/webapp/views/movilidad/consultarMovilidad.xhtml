@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:poue="http://primefaces.org/ui/extensions">
 
     <body>
 
@@ -229,31 +230,31 @@
                                             <p:outputLabel for="viaticos" value="Monto de viaticos"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="viaticos"  value="#{registrarMovilidadMB.movilidad.viaticos}" style="width:180px" readonly="true"/>
+                                            <poue:inputNumber id="viaticos"  value="#{registrarMovilidadMB.movilidad.viaticos}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="pagoCurso" value="Pago de curso"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="pagoCurso"  value="#{registrarMovilidadMB.movilidad.pagoDeCurso}" style="width:180px" readonly="true"/>
+                                            <poue:inputNumber id="pagoCurso"  value="#{registrarMovilidadMB.movilidad.pagoDeCurso}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="totalViaticosCurso" value="Total (Viaticos + curso)"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="totalViaticosCurso" value="#{registrarMovilidadMB.totalViaticosCurso}" style="width:180px" readonly="true"/>
+                                            <poue:inputNumber id="totalViaticosCurso" value="#{registrarMovilidadMB.totalViaticosCurso}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="boletoAereo" value="Boleto aereo"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="boletoAereo"  value="#{registrarMovilidadMB.movilidad.voletoAereo}" style="width:180px" readonly="true"/>
+                                            <poue:inputNumber id="boletoAereo"  value="#{registrarMovilidadMB.movilidad.voletoAereo}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="totalViaticosCursoBoleto" value="Total (viaticos + Curso + Boleto aereo)"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="totalViaticosCursoBoleto"  value="#{registrarMovilidadMB.totalViaticosCursoBoletoAereo}" style="width:180px" readonly="true"/>
+                                            <poue:inputNumber id="totalViaticosCursoBoleto"  value="#{registrarMovilidadMB.totalViaticosCursoBoletoAereo}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         
                                         <p:column>

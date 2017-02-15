@@ -236,7 +236,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
 
     public List<Persona> getPersonaMovilidadSalienteByName(String query) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true AND a.extranjero is false");
             q.setParameter("name", '%' + query.toLowerCase() + '%');
             return q.list();
 
@@ -251,7 +251,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is false");
             //q.setParameter("email",email);
             q.setParameter("email", '%' + email.toLowerCase() + '%');
-            return q.list();
+            return  q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -260,7 +260,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
 
     public List<Persona> getPersonaMovilidadReferenteByName(String query) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true AND a.extranjero is false");
             q.setParameter("name", '%' + query.toLowerCase() + '%');
             return q.list();
 
@@ -270,17 +270,41 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         return null;
     }
 
-    public List<Persona> getPersonaMovilidadReferenteByEmail(String email) {
+   public List<Persona> getPersonaMovilidadReferenteByEmail(String email) {
         try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is false");
             //q.setParameter("email",email);
             q.setParameter("email", '%' + email.toLowerCase() + '%');
-            return q.list();
+            return  q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+   
+    public List<Persona> getPersonaMovilidadEntranteByName(String query) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true AND a.extranjero is true");
+            q.setParameter("name", '%' + query.toLowerCase() + '%');
+            return q.list();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public List<Persona> getPersonaMovilidadEntranteByEmail(String email) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is true");
+            //q.setParameter("email",email);
+            q.setParameter("email", '%' + email.toLowerCase() + '%');
+            return  q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    } 
 
     /**
      * Metodo para realizar busquedas personas que contenga

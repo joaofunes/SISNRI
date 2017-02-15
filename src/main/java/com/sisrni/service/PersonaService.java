@@ -99,6 +99,14 @@ public class PersonaService extends GenericService<Persona, Integer> {
     public List<Persona> getPersonaMovilidadReferenteByEmail(String email) {
         return personaDao.getPersonaMovilidadReferenteByEmail(email);
     }
+    
+    public List<Persona> getPersonaMovilidadEntranteByName(String query) {
+        return personaDao.getPersonaMovilidadEntranteByName(query);
+    }
+    
+    public List<Persona> getPersonaMovilidadEntranteByEmail(String email) {
+        return personaDao.getPersonaMovilidadEntranteByEmail(email);
+    }
 
     public Persona existePersona(String name, String lastName, String email) {
         return personaDao.existePersona(name, lastName, email);
