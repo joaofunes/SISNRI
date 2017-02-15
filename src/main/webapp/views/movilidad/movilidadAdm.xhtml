@@ -28,19 +28,19 @@
                         <p:column headerText="Programa Movilidad" filterBy="#{movilidades.nombrePrograma}" style="width: 25%">
                             <h:outputText value="#{movilidades.nombrePrograma}"/>
                         </p:column>
-                        <p:column headerText="Docente en movilidad" filterBy="#{movilidades.apellidoPersona}" style="width: 18%">
+                        <p:column headerText="Docente en movilidad" filterBy="#{movilidades.nombrePersona}" style="width: 18%">
                             <h:outputText value="#{movilidades.nombrePersona} #{movilidades.apellidoPersona}"/>
                         </p:column>
                         <p:column headerText="Tipo movilidad" filterBy="#{movilidades.nombreTipoMovilidad}" style="width: 12%">
                             <h:outputText value="#{movilidades.nombreTipoMovilidad}"/>
                         </p:column>
-                         <p:column headerText="Pais origen" filterBy="#{movilidades.paisOrigen}" style="width: 12%">
+                        <p:column headerText="Pais origen" filterBy="#{movilidades.paisOrigen}" sortBy="#{movilidades.paisOrigen}" style="width: 12%">
                              <h:outputText value="#{movilidades.paisOrigen}"/>
                         </p:column>
-                         <p:column headerText="Pais destino" filterBy="#{movilidades.paisDestino}" style="width: 13%">
+                        <p:column headerText="Pais destino" filterBy="#{movilidades.paisDestino}" sortBy="#{movilidades.paisOrigen}" style="width: 13%">
                              <h:outputText value="#{movilidades.paisDestino}"/>
                         </p:column>
-                        <p:column headerText="Fecha entrada" filterBy="#{movilidades.fechaEntrada}" style="width: 10%">
+                        <p:column headerText="Fecha entrada" filterBy="#{movilidades.fechaEntrada}" sortBy="#{movilidades.fechaEntrada}" style="width: 10%">
                             <h:outputText value="#{movilidades.fechaEntrada}"> <f:convertDateTime pattern="dd/MM/yyyy"/> </h:outputText>
                         </p:column>
                        

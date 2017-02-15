@@ -234,7 +234,8 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "(SELECT P_CONVENIO.NOMBRE_PROPUESTA,P_CONVENIO.FINALIDAD_PROPUESTA,\n" +
                     "T_PRO_CONVE.NOMBRE_PROPUESTA_CONVENIO AS TIPO_CONVENIO,STA.NOMBRE_ESTADO,P_CONVENIO.VIGENCIA,\n" +
                     "P_CONVENIO.ID_PROPUESTA,\n" +
-                    "P_ESTADO.ID_ESTADO\n" +
+                    "P_ESTADO.ID_ESTADO,\n" +
+                    "P_CONVENIO.FECHA_INGRESO FECHA_INGRESO\n" +
                     "FROM PROPUESTA_CONVENIO P_CONVENIO\n" +
                     "INNER JOIN TIPO_PROPUESTA_CONVENIO T_PRO_CONVE\n" +
                     "ON P_CONVENIO.ID_TIPO_PROPUESTA_CONVENIO = T_PRO_CONVE.ID_TIPO_PROPUESTA \n" +
@@ -253,7 +254,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "INNER JOIN TIPO_PERSONA TP_PRS\n" +
                     "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
                     "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='SOLICITANTE') TB_SOLICITANTE\n" +
-                    "INNER JOIN\n" +
+                    "LEFT JOIN\n" +
                     "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS INTERNO,PRS_PROP.ID_PROPUESTA AS PROPUESTA, PRS.ID_PERSONA AS ID_REF_INTERNO\n" +
                     "FROM PERSONA_PROPUESTA PRS_PROP \n" +
                     "INNER JOIN PERSONA PRS\n" +
@@ -262,7 +263,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n" +
                     "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='REFERENTE INTERNO') TB_INTERNO\n" +
                     "ON TB_SOLICITANTE.PROPUESTA=TB_INTERNO.PROPUESTA\n" +
-                    "INNER JOIN\n" +
+                    "LEFT JOIN\n" +
                     "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS EXTERNO,PRS_PROP.ID_PROPUESTA AS PROPUESTA,PRS.ID_PERSONA AS ID_REF_EXTERNO\n" +
                     "FROM PERSONA_PROPUESTA PRS_PROP \n" +
                     "INNER JOIN PERSONA PRS\n" +
@@ -290,8 +291,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                      .addScalar("ID_REF_INTERNO",new IntegerType())
                      .addScalar("ID_REF_EXTERNO",new IntegerType())
                      .addScalar("ID_ESTADO",new IntegerType())  
-                   
-                   
+                     .addScalar("FECHA_INGRESO",new DateType())                                          
                      .setResultTransformer(Transformers.aliasToBean(PojoPropuestaConvenio.class));
                
              return (PojoPropuestaConvenio) q.uniqueResult();

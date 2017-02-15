@@ -79,24 +79,36 @@ public class PersonaService extends GenericService<Persona, Integer> {
     public List<Persona> getPersonasByIdOrganismo(Integer idOrg) {
         return personaDao.getPersonasByIdOrganismo(idOrg);
     }
+
+    public Persona getRfteFacultadBeneficiadaByDoc(String doc) {
+        return personaDao.getRfteFacultadBeneficiadaByDoc(doc);
+    }
+
+    public List<Persona> getPersonaMovilidadSalienteByName(String query) {
+        return personaDao.getPersonaMovilidadSalienteByName(query);
+    }
+
+    public List<Persona> getPersonaMovilidadSalienteByEmail(String email) {
+        return personaDao.getPersonaMovilidadSalienteByEmail(email);
+    }
+
+    public List<Persona> getPersonaMovilidadReferenteByName(String query) {
+        return personaDao.getPersonaMovilidadReferenteByName(query);
+    }
+
+    public List<Persona> getPersonaMovilidadReferenteByEmail(String email) {
+        return personaDao.getPersonaMovilidadReferenteByEmail(email);
+    }
     
-     public Persona getRfteFacultadBeneficiadaByDoc(String doc){
-         return personaDao.getRfteFacultadBeneficiadaByDoc(doc);
-     }
-     
-     public List<Persona> getPersonaMovilidadSalienteByName(String query){
-         return personaDao.getPersonaMovilidadSalienteByName(query);
-     }
-     
-     public List<Persona> getPersonaMovilidadSalienteByEmail(String email){
-         return personaDao.getPersonaMovilidadSalienteByEmail(email);
-     }
-     
-     public List<Persona> getPersonaMovilidadReferenteByName(String query){
-         return personaDao.getPersonaMovilidadReferenteByName(query);
-     }
-     
-      public List<Persona> getPersonaMovilidadReferenteByEmail(String email){
-          return personaDao.getPersonaMovilidadReferenteByEmail(email);
-      }
+    public List<Persona> getPersonaMovilidadEntranteByName(String query) {
+        return personaDao.getPersonaMovilidadEntranteByName(query);
+    }
+    
+    public List<Persona> getPersonaMovilidadEntranteByEmail(String email) {
+        return personaDao.getPersonaMovilidadEntranteByEmail(email);
+    }
+
+    public Persona existePersona(String name, String lastName, String email) {
+        return personaDao.existePersona(name, lastName, email);
+    }
 }

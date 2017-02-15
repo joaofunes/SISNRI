@@ -13,6 +13,8 @@ import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -77,53 +79,54 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
         try {
             propuestaConvenio = new PropuestaConvenio();    
             estado = new Estado();
-            listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();            
+            listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();    
+
+            
+            Collections.sort(listadoPropuestaConvenio, new Comparator<PojoPropuestaConvenio>() {
+                @Override
+                public int compare(PojoPropuestaConvenio lhs, PojoPropuestaConvenio rhs) {
+                    return rhs.getFECHA_INGRESO().compareTo(lhs.getFECHA_INGRESO());
+                }
+            });
+            
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void preEliminar(PojoPropuestaConvenio pojo){
-        try {
-            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
-            estado=estadoService.findById(pojo.getID_ESTADO());
-           // RequestContext context = RequestContext.getCurrentInstance();              
-           // context.execute("PF('dataChangeDlg').show();");
-           //RequestContext.getCurrentInstance().update(":formPrincipal");
-        } catch (Exception e) {
-         e.printStackTrace();
-        }
-    }
+   
 
     
     public void preEditar(PojoPropuestaConvenio pj){
         try {
-            propuestaConvenioMB.inicializador();
+            
             propuestaConvenioMB.postInit();
-
+            
             if (pj.getID_SOLICITANTE() != null) {
+                //settea solicitante
                 propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));
                 propuestaConvenioMB.cargarUnidadesFacultadesSolicitante();
+                propuestaConvenioMB.cargarTelefonosSolicitante();
             }
             if (pj.getID_REF_INTERNO() != null) {
                 propuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
                 propuestaConvenioMB.cargarTelefonosInternos();
                 propuestaConvenioMB.cargarUnidadesFacultadesSolicitanteInterno();
                 propuestaConvenioMB.setTabAsisMostrar(Boolean.TRUE);
+                propuestaConvenioMB.mostrarTab();
             }
             if (pj.getID_REF_EXTERNO() != null) {
                 propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));
                 propuestaConvenioMB.cargarTelefonosExterno();
                 propuestaConvenioMB.setTabAsisMostrarExterno(Boolean.TRUE);
+                propuestaConvenioMB.mostrarTabExterno();
             }
             
-            propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());   
-            
+            propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());               
             propuestaConvenioMB.onTipoConvenioChange();
             
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
-           
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();             
             String outcome = "propuestaCovenio.xhtml";
             FacesContext.getCurrentInstance().getExternalContext().redirect("propuestaCovenio.xhtml");
             
@@ -134,6 +137,20 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     
     }
     
+    
+     public void preEliminar(PojoPropuestaConvenio pojo){
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            estado=estadoService.findById(pojo.getID_ESTADO());
+           // RequestContext context = RequestContext.getCurrentInstance();              
+           // context.execute("PF('dataChangeDlg').show();");
+           //RequestContext.getCurrentInstance().update(":formPrincipal");
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+    
+    
     public void eliminarConvenio(){
         try {                    
             propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(),estado.getIdEstado());                    
@@ -142,6 +159,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
             e.printStackTrace();
         }
     }
+    
     
     
     public PropuestaConvenio getPropuestaConvenio() {
