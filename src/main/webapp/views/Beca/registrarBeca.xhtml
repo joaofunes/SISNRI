@@ -39,7 +39,7 @@
                                             <p:outputLabel  value="Busqueda" />     
                                         </p:column>
                                         <p:column>
-                                            <p:autoComplete id="searchDui" minQueryLength="10" size="10" rendered="#{becaMB.flagSearchDuiBecario}"  value="#{becaMB.becario}" completeMethod="#{becaMB.methodSearch}"
+                                            <p:autoComplete id="searchDui" minQueryLength="10" size="10" rendered="#{becaMB.flagSearchDuiBecario}"  value="#{becaMB.becarioAux}" completeMethod="#{becaMB.methodSearch}"
                                                             var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
                                                             forceSelection="true">                                            
                                                 <p:column>
@@ -49,7 +49,7 @@
                                             </p:autoComplete>
                                             <p:watermark for="searchDui" value="DUI"/> 
 
-                                            <p:autoComplete id="searchNombre" value="#{becaMB.becario}" rendered="#{becaMB.flagSearchNombreBecario}"
+                                            <p:autoComplete id="searchNombre" value="#{becaMB.becarioAux}" rendered="#{becaMB.flagSearchNombreBecario}"
                                                             completeMethod="#{becaMB.methodSearch}"
                                                             var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
@@ -59,7 +59,7 @@
                                                 <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" process="@this" update="panelBecario"/>
                                             </p:autoComplete>
                                             <p:watermark for="searchNombre" value="Nombre/Apellido"/>
-                                            <p:autoComplete id="searchMail" value="#{becaMB.becario}" rendered="#{becaMB.flagSearchEmailBecario}"
+                                            <p:autoComplete id="searchMail" value="#{becaMB.becarioAux}" rendered="#{becaMB.flagSearchEmailBecario}"
                                                             completeMethod="#{becaMB.methodSearch}"
                                                             var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
@@ -72,7 +72,7 @@
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
-                               <p:separator/>
+                                <p:separator/>
                                 <p:panelGrid id="panelBecario">
                                     <p:row>
                                         <p:column>
@@ -320,6 +320,58 @@
                                         <p:inputText value="#{becaMB.docInternoSearch}" id="idDocInter"/>
                                         <p:commandButton value="Buscar" actionListener="#{becaMB.buscarInterno(becaMB.docInternoSearch)}" process="idDocInter @this" icon="ui-icon-search" update="panelInterno"/>
                                     </h:panelGroup>
+                                    <h:panelGroup id="pgroupBuscadorAsesorInterno">
+                                        <p:panelGrid id="pGridBuscadorAsesorInterno">
+                                            <p:column>
+                                                <p:outputLabel for="tipoBusquedaAsesorInternoId" value="Tipo de Busqueda:" />
+                                            </p:column>
+                                            <p:column>                                        
+                                                <p:selectOneMenu id="tipoBusquedaAsesorInternoId" value="#{becaMB.tipoBusquedaAsesorInterno}"  style="width:125px">  
+                                                    <p:ajax  listener="#{becaMB.habilitarAutoAsesorInterno()}" update="pgroupBuscadorAsesorInterno,panelInterno"  process="tipoBusquedaAsesorInternoId"/>
+                                                    <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true" />                                                                           
+                                                    <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
+                                                    <f:selectItem itemLabel="E-mail" itemValue="email" />
+                                                    <f:selectItem itemLabel="Documento" itemValue="doc" />  
+                                                </p:selectOneMenu>
+                                            </p:column>
+                                            <p:column>
+                                                <p:outputLabel  value="Busqueda" />     
+                                            </p:column>
+                                            <p:column>
+                                                <p:autoComplete id="searchDuiAsesorInterno" minQueryLength="10" size="10" rendered="#{becaMB.flagSearchDuiAsesorInterno}"  value="#{becaMB.asesorInternoAux}" completeMethod="#{becaMB.methodSearchAsesorInterno}"
+                                                                var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
+                                                                forceSelection="true">                                            
+                                                    <p:column>
+                                                        <h:outputText value="#{name.duiPersona}" />
+                                                    </p:column>
+                                                    <p:ajax event="itemSelect" listener="#{becaMB.buscarInternoSinParametro()}" update="panelInterno" process="@this"/>
+                                                </p:autoComplete>
+                                                <p:watermark for="searchDuiAsesorInterno" value="DUI"/> 
+
+                                                <p:autoComplete id="searchNombreAsesorInterno" value="#{becaMB.asesorInternoAux}" rendered="#{becaMB.flagSearchNombreAsesorInterno}"
+                                                                completeMethod="#{becaMB.methodSearchAsesorInterno}"
+                                                                var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                                forceSelection="true">                                           
+                                                    <p:column>
+                                                        <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
+                                                    </p:column>
+                                                    <p:ajax event="itemSelect" listener="#{becaMB.buscarInternoSinParametro()}" process="@this" update="panelInterno"/>
+                                                </p:autoComplete>
+                                                <p:watermark for="searchNombreAsesorInterno" value="Nombre/Apellido"/>
+                                                <p:autoComplete id="searchMailAsesorInterno" value="#{becaMB.asesorInternoAux}" rendered="#{becaMB.flagSearchEmailAsesorInterno}"
+                                                                completeMethod="#{becaMB.methodSearchAsesorInterno}"
+                                                                var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                                forceSelection="true">                                           
+                                                    <p:column>
+                                                        <h:outputText value="#{theme.emailPersona}" />
+                                                    </p:column>
+                                                    <p:ajax event="itemSelect" listener="#{becaMB.buscarInternoSinParametro()}" process="@this" update="panelInterno"/>
+                                                </p:autoComplete>
+                                                <p:watermark for="searchMailAsesorInterno" value="E-mail"/> 
+                                            </p:column>
+                                        </p:panelGrid>
+                                    </h:panelGroup>
+
                                     <p:separator rendered="#{becaMB.mostrarTabInterno}"/>
                                     <p:panelGrid id="panelInterno" rendered="#{becaMB.mostrarTabInterno}">
                                         <p:row>
