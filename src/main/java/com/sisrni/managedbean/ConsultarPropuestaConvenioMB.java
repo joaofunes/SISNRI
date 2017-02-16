@@ -13,6 +13,7 @@ import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -62,6 +63,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     private PropuestaConvenio propuestaConvenio;
     private PojoPropuestaConvenio pojoPropuestaConvenio;
     private List<Estado> listadoEstados;
+    private List<Estado> listadoEstadosTemp;
     private Estado estado;
     
     
@@ -137,7 +139,47 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     
     }
     
-    
+    /**
+     * Metodo que actualiza el listado de estado seleccionable por cada
+     * propuesta convenio
+     *
+     * @param pojo
+     */
+    public void preCambiarEstado(PojoPropuestaConvenio pojo) {
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            estado = estadoService.findById(pojo.getID_ESTADO());
+            listadoEstadosTemp = new ArrayList<Estado>();
+            int[] intArray = new int[3];
+            intArray[0] = (estado.getOrdenEstado() - 1);
+            intArray[1] = estado.getOrdenEstado();
+            intArray[2] = (estado.getOrdenEstado() + 1);
+
+            for (int i = 0; i < intArray.length; i++) {
+                llenarListadoEstados(intArray[i]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Metodo para agregar estados a listado de estados
+     *
+     * @param orden
+     */
+    private void llenarListadoEstados(int orden) {
+        try {
+            for (Estado std : listadoEstados) {
+                if (std.getTipoEstado() == 1 && std.getOrdenEstado() == orden) {
+                    listadoEstadosTemp.add(std);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+         
      public void preEliminar(PojoPropuestaConvenio pojo){
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
@@ -200,5 +242,13 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public List<Estado> getListadoEstadosTemp() {
+        return listadoEstadosTemp;
+    }
+
+    public void setListadoEstadosTemp(List<Estado> listadoEstadosTemp) {
+        this.listadoEstadosTemp = listadoEstadosTemp;
     }
 }
