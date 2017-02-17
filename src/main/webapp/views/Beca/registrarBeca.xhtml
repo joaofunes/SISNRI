@@ -8,13 +8,11 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
-
         <ui:define name="content">
             <h:form id="formAdmin">
                 <center>
                     <p:panel style="width: 80%">
                         <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
-
                             <p:tab title="Datos del Becario">
                                 <h:panelGroup rendered="#{!becaMB.actualizar}">
                                     <p:outputLabel value="Documento" />
@@ -460,7 +458,57 @@
                                         <p:inputText value="#{becaMB.docExternoSearch}" id="idDocExt"/>
                                         <p:commandButton value="Buscar" actionListener="#{becaMB.buscarExterno(becaMB.docExternoSearch)}" process="idDocExt @this" icon="ui-icon-search" update="panelExt"/>
                                     </h:panelGroup>
+                                    <h:panelGroup id="pgroupBuscadorAsesorExterno">
+                                        <p:panelGrid id="pGridBuscadorAsesorExterno">
+                                            <p:column>
+                                                <p:outputLabel for="tipoBusquedaAsesorExternoId" value="Tipo de Busqueda:" />
+                                            </p:column>
+                                            <p:column>                                        
+                                                <p:selectOneMenu id="tipoBusquedaAsesorExternoId" value="#{becaMB.tipoBusquedaAsesorExterno}"  style="width:125px">  
+                                                    <p:ajax  listener="#{becaMB.habilitarAutoAsesorExterno()}" update="pgroupBuscadorAsesorExterno,panelExt"  process="tipoBusquedaAsesorExternoId"/>
+                                                    <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true" />                                                                           
+                                                    <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
+                                                    <f:selectItem itemLabel="E-mail" itemValue="email" />
+                                                    <f:selectItem itemLabel="Documento" itemValue="doc" />  
+                                                </p:selectOneMenu>
+                                            </p:column>
+                                            <p:column>
+                                                <p:outputLabel  value="Busqueda" />     
+                                            </p:column>
+                                            <p:column>
+                                                <p:autoComplete id="searchDuiAsesorExterno" minQueryLength="10" size="10" rendered="#{becaMB.flagSearchDuiAsesorExterno}"  value="#{becaMB.asesorExternoAux}" completeMethod="#{becaMB.methodSearchAsesorExterno}"
+                                                                var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
+                                                                forceSelection="true">                                            
+                                                    <p:column>
+                                                        <h:outputText value="#{name.duiPersona}" />
+                                                    </p:column>
+                                                    <p:ajax event="itemSelect" listener="#{becaMB.buscarExternoSinParametro()}" update="panelExt" process="@this"/>
+                                                </p:autoComplete>
+                                                <p:watermark for="searchDuiAsesorExterno" value="DUI"/> 
 
+                                                <p:autoComplete id="searchNombreAsesorExterno" value="#{becaMB.asesorExternoAux}" rendered="#{becaMB.flagSearchNombreAsesorExterno}"
+                                                                completeMethod="#{becaMB.methodSearchAsesorExterno}"
+                                                                var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                                forceSelection="true">                                           
+                                                    <p:column>
+                                                        <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
+                                                    </p:column>
+                                                    <p:ajax event="itemSelect" listener="#{becaMB.buscarExternoSinParametro()}" process="@this" update="panelExt"/>
+                                                </p:autoComplete>
+                                                <p:watermark for="searchNombreAsesorExterno" value="Nombre/Apellido"/>
+                                                <p:autoComplete id="searchMailAsesorExterno" value="#{becaMB.asesorExternoAux}" rendered="#{becaMB.flagSearchEmailAsesorExterno}"
+                                                                completeMethod="#{becaMB.methodSearchAsesorExterno}"
+                                                                var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                                forceSelection="true">                                           
+                                                    <p:column>
+                                                        <h:outputText value="#{theme.emailPersona}" />
+                                                    </p:column>
+                                                    <p:ajax event="itemSelect" listener="#{becaMB.buscarExternoSinParametro()}" process="@this" update="panelExt"/>
+                                                </p:autoComplete>
+                                                <p:watermark for="searchMailAsesorExterno" value="E-mail"/> 
+                                            </p:column>
+                                        </p:panelGrid>
+                                    </h:panelGroup>
                                     <p:separator rendered="#{becaMB.mostrarTabExterno}"/>
                                     <p:panelGrid id="panelExt" rendered="#{becaMB.mostrarTabExterno}">
                                         <p:row>
