@@ -47,7 +47,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +58,9 @@ import org.springframework.web.context.WebApplicationContext;
  *
  * @author Joao
  */
-@Named("propuestaConvenioMB")
+@Named("actualizacionPropuestaConvenioMB")
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
-public class PropuestaConvenioMB implements Serializable {
+public class ActualizacionPropuestaConvenioMB implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -506,64 +505,64 @@ public class PropuestaConvenioMB implements Serializable {
         }
     }
 
-    /**
-     * Metodo para alamacenar nueva propuesta de convenio
-     */
-    public void guardarPropuestaConvenio() {
-        try {
-
-            // guardar propuesta convenio
-            savePropuestaConvenio();
-
-            //Estado de propuesta de convenio
-            guardarEstado();
-
-            // persona solicitante            
-            guardarSolicitante();
-
-            // persona REFERENTE_INTERNO
-            if (referenteInterno.getDuiPersona() != null && referenteInterno.getNombrePersona() != null && referenteInterno.getApellidoPersona() != null && referenteInterno.getEmailPersona() != null) {
-                //verfifico si la persona ya existe en entidad persona
-                if (referenteInterno.getIdPersona() == null) {
-                    Persona existePersona = personaService.existePersona(referenteInterno.getNombrePersona(), referenteInterno.getApellidoPersona(), referenteInterno.getEmailPersona());
-                    if (existePersona != null && existePersona.getIdPersona() != null) {
-                        referenteInterno.setIdPersona(existePersona.getIdPersona());
-                    }
-                }
-                if (!mismoSolicitante) { //verfico que la persona exista, si true entonces
-                    if (referenteInterno.getIdPersona() != null) {
-                        actualizarReferenteInterno();
-                    } else {
-                        guardarReferenteInterno();                        
-                    }
-                }
-                guardarReferenteInternoComplemento();
-            }
-
-            // persona REFERENTE_EXTERNO
-            if (referenteExterno.getPasaporte() != null && referenteExterno.getNombrePersona() != null && referenteExterno.getApellidoPersona() != null && referenteExterno.getEmailPersona() != null) {
-                
-                if (referenteExterno.getIdPersona() == null) {
-                    Persona existePersona = personaService.existePersona(referenteExterno.getNombrePersona(), referenteExterno.getApellidoPersona(), referenteExterno.getEmailPersona());
-                    if (existePersona != null && existePersona.getIdPersona() != null) {
-                        referenteExterno.setIdPersona(existePersona.getIdPersona());
-                    }
-                }                
-                if (referenteExterno.getIdPersona() != null) {
-                        actualizarReferenteExterno();
-                    } else {
-                        guardarReferenteExterno();
-                    }                
-            }
-            
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", "Propuesta Convenio almacenada"));
-            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-            context.redirect(context.getRequestContextPath() + "/views/convenio/consultarPropuestaConvenio.xhtml");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    /**
+//     * Metodo para alamacenar nueva propuesta de convenio
+//     */
+//    public void guardarPropuestaConvenio() {
+//        try {
+//
+//            // guardar propuesta convenio
+//            savePropuestaConvenio();
+//
+//            //Estado de propuesta de convenio
+//            guardarEstado();
+//
+//            // persona solicitante            
+//            guardarSolicitante();
+//
+//            // persona REFERENTE_INTERNO
+//            if (referenteInterno.getDuiPersona() != null && referenteInterno.getNombrePersona() != null && referenteInterno.getApellidoPersona() != null && referenteInterno.getEmailPersona() != null) {
+//                //verfifico si la persona ya existe en entidad persona
+//                if (referenteInterno.getIdPersona() == null) {
+//                    Persona existePersona = personaService.existePersona(referenteInterno.getNombrePersona(), referenteInterno.getApellidoPersona(), referenteInterno.getEmailPersona());
+//                    if (existePersona != null && existePersona.getIdPersona() != null) {
+//                        referenteInterno.setIdPersona(existePersona.getIdPersona());
+//                    }
+//                }
+//                if (!mismoSolicitante) { //verfico que la persona exista, si true entonces
+//                    if (referenteInterno.getIdPersona() != null) {
+//                        actualizarReferenteInterno();
+//                    } else {
+//                        guardarReferenteInterno();                        
+//                    }
+//                }
+//                guardarReferenteInternoComplemento();
+//            }
+//
+//            // persona REFERENTE_EXTERNO
+//            if (referenteExterno.getPasaporte() != null && referenteExterno.getNombrePersona() != null && referenteExterno.getApellidoPersona() != null && referenteExterno.getEmailPersona() != null) {
+//                
+//                if (referenteExterno.getIdPersona() == null) {
+//                    Persona existePersona = personaService.existePersona(referenteExterno.getNombrePersona(), referenteExterno.getApellidoPersona(), referenteExterno.getEmailPersona());
+//                    if (existePersona != null && existePersona.getIdPersona() != null) {
+//                        referenteExterno.setIdPersona(existePersona.getIdPersona());
+//                    }
+//                }                
+//                if (referenteExterno.getIdPersona() != null) {
+//                        actualizarReferenteExterno();
+//                    } else {
+//                        guardarReferenteExterno();
+//                    }                
+//            }
+//            
+//            
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", "Propuesta Convenio almacenada"));
+//            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+//            context.redirect(context.getRequestContextPath() + "/views/convenio/consultarPropuestaConvenio.xhtml");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * Metodo para actualizar propuesta de convenio.
@@ -1113,7 +1112,7 @@ public class PropuestaConvenioMB implements Serializable {
      * metodo habilita el autoComplete para ingreso de busquedas de personas
      * internas
      */
-    public void habilitarAutoInterno(AjaxBehaviorEvent event) {
+    public void habilitarAutoInterno() {
 
         flagSearchDuiInterno = Boolean.FALSE;
         flagSearchNombreInterno = Boolean.FALSE;
@@ -1138,7 +1137,7 @@ public class PropuestaConvenioMB implements Serializable {
      * metodo habilita el autoComplete para ingreso de busquedas de personas
      * Externas
      */
-    public void habilitarAutoExterno(AjaxBehaviorEvent event) {
+    public void habilitarAutoExterno() {
 
         flagSearchDuiExterno = Boolean.FALSE;
         flagSearchNombreExterno = Boolean.FALSE;
