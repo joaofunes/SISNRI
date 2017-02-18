@@ -508,8 +508,9 @@ public class PropuestaConvenioMB implements Serializable {
 
     /**
      * Metodo para alamacenar nueva propuesta de convenio
+     * @throws java.lang.Exception
      */
-    public void guardarPropuestaConvenio() {
+    public void guardarPropuestaConvenio()  throws Exception   {
         try {
 
             // guardar propuesta convenio
@@ -521,39 +522,56 @@ public class PropuestaConvenioMB implements Serializable {
             // persona solicitante            
             guardarSolicitante();
 
-            // persona REFERENTE_INTERNO
-            if (referenteInterno.getDuiPersona() != null && referenteInterno.getNombrePersona() != null && referenteInterno.getApellidoPersona() != null && referenteInterno.getEmailPersona() != null) {
-                //verfifico si la persona ya existe en entidad persona
-                if (referenteInterno.getIdPersona() == null) {
-                    Persona existePersona = personaService.existePersona(referenteInterno.getNombrePersona(), referenteInterno.getApellidoPersona(), referenteInterno.getEmailPersona());
-                    if (existePersona != null && existePersona.getIdPersona() != null) {
-                        referenteInterno.setIdPersona(existePersona.getIdPersona());
-                    }
+          ////////////////////////////////////
+          //// PERSONA REFERENTE_INTERNO/////
+          ////////////////////////////////////  
+            if (mismoSolicitante) { //verfico que la persona exista, si true entonces
+                guardarReferenteInternoComplemento();
+            } else if (referenteInterno.getEmailPersona() != null) {
+                Persona existePersona = personaService.existePersonaByMail(referenteInterno.getEmailPersona());
+                if (existePersona != null && existePersona.getIdPersona() != null) {
+                    referenteInterno.setIdPersona(existePersona.getIdPersona());
                 }
-                if (!mismoSolicitante) { //verfico que la persona exista, si true entonces
-                    if (referenteInterno.getIdPersona() != null) {
-                        actualizarReferenteInterno();
-                    } else {
-                        guardarReferenteInterno();                        
-                    }
+                if (referenteInterno.getIdPersona() != null) {
+                    actualizarReferenteInterno();
+                } else {
+                    guardarReferenteInterno();
                 }
                 guardarReferenteInternoComplemento();
             }
+            
+            
+//            if (referenteInterno.getDuiPersona() != null && referenteInterno.getNombrePersona() != null && referenteInterno.getApellidoPersona() != null && referenteInterno.getEmailPersona() != null) {
+//                //verfifico si la persona ya existe en entidad persona
+//                if (referenteInterno.getIdPersona() == null) {
+//                    Persona existePersona = personaService.existePersona(referenteInterno.getNombrePersona(), referenteInterno.getApellidoPersona(), );
+//                    if (existePersona != null && existePersona.getIdPersona() != null) {
+//                        referenteInterno.setIdPersona(existePersona.getIdPersona());
+//                    }
+//                }
+//                if (!mismoSolicitante) { //verfico que la persona exista, si true entonces
+//                    if (referenteInterno.getIdPersona() != null) {
+//                        actualizarReferenteInterno();
+//                    } else {
+//                        guardarReferenteInterno();                        
+//                    }
+//                }
+//                guardarReferenteInternoComplemento();
+//            }
+            //////////////////////////////////
+            //// PERSONA REFERENTE_EXTERNO////
+            //////////////////////////////////
+            if (referenteExterno.getEmailPersona() != null) {
+                Persona existePersona = personaService.existePersonaByMail(referenteExterno.getEmailPersona());
+                if (existePersona != null && existePersona.getIdPersona() != null) {
+                    referenteExterno.setIdPersona(existePersona.getIdPersona());
+                }
 
-            // persona REFERENTE_EXTERNO
-            if (referenteExterno.getPasaporte() != null && referenteExterno.getNombrePersona() != null && referenteExterno.getApellidoPersona() != null && referenteExterno.getEmailPersona() != null) {
-                
-                if (referenteExterno.getIdPersona() == null) {
-                    Persona existePersona = personaService.existePersona(referenteExterno.getNombrePersona(), referenteExterno.getApellidoPersona(), referenteExterno.getEmailPersona());
-                    if (existePersona != null && existePersona.getIdPersona() != null) {
-                        referenteExterno.setIdPersona(existePersona.getIdPersona());
-                    }
-                }                
                 if (referenteExterno.getIdPersona() != null) {
-                        actualizarReferenteExterno();
-                    } else {
-                        guardarReferenteExterno();
-                    }                
+                    actualizarReferenteExterno();
+                } else {
+                    guardarReferenteExterno();
+                }
             }
             
             

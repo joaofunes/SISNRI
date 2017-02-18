@@ -111,4 +111,8 @@ public class PersonaService extends GenericService<Persona, Integer> {
     public Persona existePersona(String name, String lastName, String email) {
         return personaDao.existePersona(name, lastName, email);
     }
+    
+    public Persona existePersonaByMail(String email) {
+        return personaDao.existePersonaByMail(email);
+    }
 }

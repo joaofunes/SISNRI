@@ -336,5 +336,32 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         }
         return null;
     }
+    
+    
+    
+    /**
+     * Metodo para realizar busquedas por email
+     *
+     * @param email
+     * @return
+     */
+    public Persona existePersonaByMail(String email) {
+        try {
+            Persona persona;
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.emailPersona)=:email");
+            q.setParameter("email",email.toLowerCase());           
+            persona=(Persona) q.uniqueResult();
+            
+            if(persona != null){
+                return persona;
+            }else{
+                return null;
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
