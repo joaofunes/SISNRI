@@ -318,7 +318,7 @@
                                         <p:inputText value="#{becaMB.docInternoSearch}" id="idDocInter"/>
                                         <p:commandButton value="Buscar" actionListener="#{becaMB.buscarInterno(becaMB.docInternoSearch)}" process="idDocInter @this" icon="ui-icon-search" update="panelInterno"/>
                                     </h:panelGroup>
-                                    <h:panelGroup id="pgroupBuscadorAsesorInterno">
+                                    <h:panelGroup id="pgroupBuscadorAsesorInterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno}">
                                         <p:panelGrid id="pGridBuscadorAsesorInterno">
                                             <p:column>
                                                 <p:outputLabel for="tipoBusquedaAsesorInternoId" value="Tipo de Busqueda:" />
@@ -458,7 +458,7 @@
                                         <p:inputText value="#{becaMB.docExternoSearch}" id="idDocExt"/>
                                         <p:commandButton value="Buscar" actionListener="#{becaMB.buscarExterno(becaMB.docExternoSearch)}" process="idDocExt @this" icon="ui-icon-search" update="panelExt"/>
                                     </h:panelGroup>
-                                    <h:panelGroup id="pgroupBuscadorAsesorExterno">
+                                    <h:panelGroup id="pgroupBuscadorAsesorExterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabExterno}">
                                         <p:panelGrid id="pGridBuscadorAsesorExterno">
                                             <p:column>
                                                 <p:outputLabel for="tipoBusquedaAsesorExternoId" value="Tipo de Busqueda:" />
