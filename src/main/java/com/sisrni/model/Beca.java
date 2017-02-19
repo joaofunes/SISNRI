@@ -37,6 +37,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Beca.findAll", query = "SELECT b FROM Beca b")})
 public class Beca implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,14 +67,14 @@ public class Beca implements Serializable {
     @Column(name = "MONTO_TOTAL", precision = 13, scale = 2)
     private BigDecimal montoTotal;
     @Column(name = "OTORGADA")
-    private Short otorgada;
+    private Boolean otorgada;
     @Basic(optional = false)
     @NotNull
     @Column(name = "FECHA_INGRESO", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaIngreso;
     @OneToMany(mappedBy = "idBeca")
-    private List<Documento> documentoList=new ArrayList<Documento>();
+    private List<Documento> documentoList = new ArrayList<Documento>();
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idUniversidad;
@@ -90,7 +91,7 @@ public class Beca implements Serializable {
     @ManyToOne
     private TipoModalidaBeca idTipoModalidad;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
-    private List<PersonaBeca> personaBecaList=new ArrayList<PersonaBeca>();
+    private List<PersonaBeca> personaBecaList = new ArrayList<PersonaBeca>();
 
     public Beca() {
     }
@@ -184,14 +185,6 @@ public class Beca implements Serializable {
         this.montoTotal = montoTotal;
     }
 
-    public Short getOtorgada() {
-        return otorgada;
-    }
-
-    public void setOtorgada(Short otorgada) {
-        this.otorgada = otorgada;
-    }
-
     public Date getFechaIngreso() {
         return fechaIngreso;
     }
@@ -280,5 +273,13 @@ public class Beca implements Serializable {
     public String toString() {
         return "com.sisrni.model.Beca[ idBeca=" + idBeca + " ]";
     }
-    
+
+    public Boolean getOtorgada() {
+        return otorgada;
+    }
+
+    public void setOtorgada(Boolean otorgada) {
+        this.otorgada = otorgada;
+    }
+
 }
