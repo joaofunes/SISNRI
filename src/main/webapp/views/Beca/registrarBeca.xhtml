@@ -284,10 +284,10 @@
                                             <p:outputLabel value="Otorgada?" for="idOtorgada"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="idOtorgada" value="#{becaMB.beca.otorgada}" style="width: 180px" required="true">
-                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItem itemValue="1" itemLabel="Si" />
-                                                <f:selectItem itemValue="0" itemLabel="No" />
+                                            <p:selectOneMenu id="idOtorgada" value="#{becaMB.beca.otorgada}" style="width: 180px" required="true" validatorMessage="esto es requerido">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItem itemValue="#{true}" itemLabel="Si" />
+                                                <f:selectItem itemValue="#{false}" itemLabel="No" />
                                             </p:selectOneMenu>
                                         </p:column>
                                     </p:row>
