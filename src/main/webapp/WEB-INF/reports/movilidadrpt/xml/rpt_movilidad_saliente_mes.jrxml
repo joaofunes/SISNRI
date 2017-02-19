@@ -164,7 +164,9 @@
 		<band height="220" splitType="Stretch">
 			<areaChart>
 				<chart isShowLegend="false">
-					<reportElement uuid="381db5a4-5850-4eab-9455-c961e57e6576" x="0" y="32" width="528" height="188"/>
+					<reportElement uuid="381db5a4-5850-4eab-9455-c961e57e6576" x="0" y="32" width="528" height="188">
+						<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+					</reportElement>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -177,7 +179,7 @@
 					</categorySeries>
 				</categoryDataset>
 				<areaPlot>
-					<plot/>
+					<plot labelRotation="-25.0"/>
 				</areaPlot>
 			</areaChart>
 			<textField>

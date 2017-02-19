@@ -176,7 +176,7 @@
 					</categorySeries>
 				</categoryDataset>
 				<bar3DPlot isShowLabels="true">
-					<plot/>
+					<plot labelRotation="-25.0"/>
 					<itemLabel/>
 				</bar3DPlot>
 			</bar3DChart>

@@ -167,7 +167,7 @@
 		<band height="273" splitType="Stretch">
 			<bar3DChart>
 				<chart>
-					<reportElement uuid="7c8b10a0-bc7e-4b4c-a49c-ff049cedbbdf" x="70" y="29" width="352" height="242">
+					<reportElement uuid="7c8b10a0-bc7e-4b4c-a49c-ff049cedbbdf" x="29" y="29" width="469" height="242">
 						<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
 					</reportElement>
 					<chartTitle/>
@@ -182,7 +182,7 @@
 					</categorySeries>
 				</categoryDataset>
 				<bar3DPlot isShowLabels="true">
-					<plot/>
+					<plot labelRotation="-30.0"/>
 					<itemLabel/>
 					<valueAxisFormat>
 						<axisFormat>

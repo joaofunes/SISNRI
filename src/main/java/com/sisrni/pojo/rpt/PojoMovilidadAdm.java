@@ -12,8 +12,8 @@ import java.util.Date;
  *
  * @author Usuario
  */
-public class PojoMovilidadAdm implements  Serializable{
-    
+public class PojoMovilidadAdm implements Serializable {
+
     private Integer idMovilidad;
     private String nombrePrograma;
     private String nombrePersona;
@@ -23,6 +23,9 @@ public class PojoMovilidadAdm implements  Serializable{
     private String paisDestino;
     private Date fechaEntrada;
     private Date fechaSalida;
+    private String nombreEtapa;
+
+    ;
     
     
     
@@ -98,6 +101,14 @@ public class PojoMovilidadAdm implements  Serializable{
     public void setFechaSalida(Date fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
-        
+
+    public String getNombreEtapa() {
+        return nombreEtapa;
+    }
+
+    public void setNombreEtapa(String nombreEtapa) {
+        this.nombreEtapa = nombreEtapa;
+    }
+    
     
 }

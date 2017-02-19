@@ -34,18 +34,19 @@ import org.springframework.stereotype.Repository;
 public class MovilidadDao extends GenericDao<Movilidad, Integer> {
 
     public List<PojoMovilidadAdm> getMovilidadAdm(Integer idMovSearch) {
-        String query = "SELECT mv.ID_MOVILIDAD idMovilidad, pm.NOMBRE_PROGRAMA_MOVILIDAD nombrePrograma,per.NOMBRE_PERSONA nombrePersona,per.APELLIDO_PERSONA apellidoPersona,tpmv.NOMBRE_TIPO_MOVILIDAD nombreTipoMovilidad,pa.NOMBRE_PAIS paisOrigen, pai.NOMBRE_PAIS paisDestino,mv.FECHA_INICIO fechaEntrada,mv.FECHA_FIN fechaSalida   \n"
+        String query = "SELECT mv.ID_MOVILIDAD idMovilidad, pm.NOMBRE_PROGRAMA_MOVILIDAD nombrePrograma,per.NOMBRE_PERSONA nombrePersona,per.APELLIDO_PERSONA apellidoPersona,tpmv.NOMBRE_TIPO_MOVILIDAD nombreTipoMovilidad,pa.NOMBRE_PAIS paisOrigen, pai.NOMBRE_PAIS paisDestino,mv.FECHA_INICIO fechaEntrada,mv.FECHA_FIN fechaSalida ,etm.NOMBRE_ETAPA nombreEtapa  \n"
                 + "FROM movilidad mv INNER JOIN programa_movilidad pm ON mv.ID_PROGRAMA_MOVILIDAD = pm.ID_PROGRAMA_MOVILIDAD\n"
                 + "INNER JOIN persona_movilidad prmov  ON mv.ID_MOVILIDAD =prmov.ID_MOVILIDAD\n"
                 + "INNER JOIN persona per  ON prmov.ID_PERSONA = per.ID_PERSONA\n"
                 + "INNER JOIN tipo_movilidad tpmv ON mv.ID_TIPO_MOVILIDAD = tpmv.ID_TIPO_MOVILIDAD\n"
                 + "INNER JOIN pais pa ON mv.ID_PAIS_ORIGEN = pa.ID_PAIS\n"
-                + "INNER JOIN pais pai ON mv.ID_PAIS_DESTINO = pai.ID_PAIS   \n"
+                + "INNER JOIN pais pai ON mv.ID_PAIS_DESTINO = pai.ID_PAIS "
+                + "INNER JOIN etapa_movilidad etm ON mv.ID_ETAPA_MOVILIDAD = etm.ID_ETAPA   \n"
                 + "WHERE prmov.ID_TIPO_PERSONA = 10  ";
         if (idMovSearch > 0) {
             query = query + " AND mv.ID_MOVILIDAD =" + idMovSearch;
         }
-
+        query = query + " ORDER BY mv.FECHA_INGRESO DESC";
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                     .addScalar("idMovilidad", new IntegerType())
@@ -57,6 +58,7 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
                     .addScalar("paisDestino", new StringType())
                     .addScalar("fechaEntrada", new DateType())
                     .addScalar("fechaSalida", new DateType())
+                    .addScalar("nombreEtapa", new StringType())
                     .setResultTransformer(Transformers.aliasToBean(PojoMovilidadAdm.class));
 
             return q.list();

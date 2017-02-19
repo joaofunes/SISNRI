@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidad_entrante_pais_origen" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.1000000000000132"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="88"/>
+	<property name="ireport.y" value="184"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -175,8 +175,8 @@
 						<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
-				<bar3DPlot>
-					<plot/>
+				<bar3DPlot isShowLabels="true">
+					<plot labelRotation="-40.0"/>
 					<itemLabel/>
 				</bar3DPlot>
 			</bar3DChart>
