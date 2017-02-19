@@ -60,4 +60,7 @@ public class BecaService extends GenericService<Beca, Integer> {
         return becaDao.getDataBecasGestionadasGroupOrganismos(desde, hasta);
     }
 
+    public void desvincularInterno(Integer becaId, Integer personaId) {
+        becaDao.desvincularInterno(becaId, personaId);
+    }
 }

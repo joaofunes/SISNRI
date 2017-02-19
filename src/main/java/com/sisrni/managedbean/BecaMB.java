@@ -655,6 +655,19 @@ public class BecaMB implements Serializable {
 
     }
 
+    public void desvincularInterno() {
+        try {
+            becaService.desvincularInterno(beca.getIdBeca(), asesorInterno.getIdPersona());
+//            tabInternoBoolean = Boolean.FALSE;
+//            mostrarTabInterno = Boolean.FALSE;
+//            noEstabaInterno = true;
+            preUpdate(beca.getIdBeca());
+            
+        } catch (Exception e) {
+
+        }
+    }
+
     public void getUniversidadesPorPais(Integer idPais) {
         try {
             universidadList = organismoService.getOrganismosPorPaisYTipo(idPais, 1);
