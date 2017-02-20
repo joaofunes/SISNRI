@@ -11,20 +11,20 @@
     
     <ui:define name="content">
          <center> 
-            <p:panel style="width: 70%" header="Gestión de Tipos de Organismos">  
+            <p:panel style="width: 70%" header="GestiÃ³n de Tipos de Organismos">  
         <h:form id="formAdmin">
                
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
                
                     <p:column>
-                        <h:outputText value="Nombre del Tipo de Organismo:" />
+                        <p:outputLabel for="nombreOrganismo" value="Nombre del Tipo de Organismo:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="nombreOrganismo" value="#{tipoOrganismoMB.tipoOrganismo.nombreTipo}" required="true" size="50" />
                     </p:column>
                
                     <p:column>
-                        <h:outputText value="Descripción del Tipo de Organismo:" />
+                        <p:outputLabel for="descri" value="DescripciÃ³n del Tipo de Organismo:" />
                     </p:column>
                     <p:column>
                         <p:inputTextarea id="descri" value="#{tipoOrganismoMB.tipoOrganismo.descripcionTipo}" rows="2" maxlength="300" style="width: 100%" required="true" />
@@ -61,7 +61,7 @@
                         <h:outputText value="#{organismo.nombreTipo}" />
                     </p:column>
 
-                    <p:column headerText="Descripción" sortBy="#{organismo.descripcionTipo}" filterBy="#{organismo.descripcionTipo}">
+                    <p:column headerText="DescripciÃ³n" sortBy="#{organismo.descripcionTipo}" filterBy="#{organismo.descripcionTipo}">
                         <h:outputText value="#{organismo.descripcionTipo}" />
                     </p:column>
                     <p:column headerText="Opciones" >
@@ -82,20 +82,20 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el Tipo de Organismo?" header="Eliminar Tipo Organismo"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Â¿EstÃ¡ seguro que desea eliminar el Tipo de Organismo?" header="Eliminar Tipo Organismo"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre del Tipo de Organismo : "  style="font-weight:bold"/>
                  <h:outputText value="#{tipoOrganismoMB.delTipoOrganismo.nombreTipo}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripción del Tipo de Organismo : "  style="font-weight:bold" />
+                 <h:outputText value="DescripciÃ³n del Tipo de Organismo : "  style="font-weight:bold" />
                  <h:outputText value="#{tipoOrganismoMB.delTipoOrganismo.descripcionTipo}" />
              
             </h:form>    
             
             <p:separator />
-            <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoOrganismoMB.deleteTipoOrganismo()}" process="@this" update=":formPrincipal"/>
+            <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoOrganismoMB.deleteTipoOrganismo()}" process="@this" update=":formPrincipal"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 

@@ -12,21 +12,21 @@
     <ui:define name="content">
      <center>  
         
-         <p:panel style="width: 70%" header="Gestión de Programas de Movilidad">  
+         <p:panel style="width: 70%" header="GestiÃ³n de Programas de Movilidad">  
          
              <h:form id="formAdmin">
                
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
                
                     <p:column>
-                        <h:outputText value="Nombre de Programa de Movilidad:" />
+                        <p:outputLabel for="nombreProgramaMovilidad" value="Nombre de Programa de Movilidad:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="nombreProgramaMovilidad" value="#{programaMovilidadMB.programaMovilidad.nombreProgramaMovilidad}" required="true" size="50" />
                     </p:column>
                
                     <p:column>
-                        <h:outputText value="Descripción de Programa de Movilidad:" />
+                        <p:outputLabel for="nombreProgramaMovilidad" value="DescripciÃ³n de Programa de Movilidad:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="descri" value="#{programaMovilidadMB.programaMovilidad.descripcion}" required="true" size="50" />
@@ -58,11 +58,11 @@
                              paginator="true">
 
 
-                    <p:column headerText="Nombre Menú" sortBy="#{programaMovilidad.nombreProgramaMovilidad}" filterBy="#{programaMovilidad.nombreProgramaMovilidad}">
+                    <p:column headerText="Nombre MenÃº" sortBy="#{programaMovilidad.nombreProgramaMovilidad}" filterBy="#{programaMovilidad.nombreProgramaMovilidad}">
                         <h:outputText value="#{programaMovilidad.nombreProgramaMovilidad}" />
                     </p:column>
 
-                    <p:column headerText="Descripción" sortBy="#{programaMovilidad.descripcion}" filterBy="#{programaMovilidad.descripcion}">
+                    <p:column headerText="DescripciÃ³n" sortBy="#{programaMovilidad.descripcion}" filterBy="#{programaMovilidad.descripcion}">
                         <h:outputText value="#{programaMovilidad.descripcion}" />
                     </p:column>
                     <p:column headerText="Opciones" >
@@ -83,7 +83,7 @@
           </center> 
      
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el Programa de Movilidad?" header="Eliminar Programa de Movilidad"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Â¿EstÃ¡ seguro que desea eliminar el Programa de Movilidad?" header="Eliminar Programa de Movilidad"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre de Programa de Movilidad : "  style="font-weight:bold"/>
@@ -96,7 +96,7 @@
             </h:form>    
             
             <p:separator />
-            <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{programaMovilidadMB.deleteProgramaMovilidad()}" process="@this" update=":formPrincipal"/>
+            <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{programaMovilidadMB.deleteProgramaMovilidad()}" process="@this" update=":formPrincipal"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 

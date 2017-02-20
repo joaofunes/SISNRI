@@ -11,20 +11,20 @@
     
     <ui:define name="content">
          <center> 
-            <p:panel style="width: 70%" header="Gestión de Estados">  
+            <p:panel style="width: 70%" header="GestiÃ³n de Estados">  
         <h:form id="formAdmin">
                
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
                
                     <p:column>
-                        <h:outputText value="Nombre del Estado:" />
+                        <p:outputLabel for="nombreEstado" value="Nombre del Estado:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="nombreEstado" value="#{estadoMB.estado.nombreEstado}" required="true" size="50" />
                     </p:column>
                
                     <p:column>
-                        <h:outputText value="Tipo de Estado:" />
+                        <p:outputLabel for="tipo" value="Tipo de Estado:" />
                     </p:column>
                          <p:column>
                              <p:selectOneMenu id="tipo" value="#{estadoMB.estado.tipoEstado}"  style="width: 100%" required="true" >
@@ -93,14 +93,14 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el Estado?" header="Eliminar Estado"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Â¿EstÃ¡ seguro que desea eliminar el Estado?" header="Eliminar Estado"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre del Estado: "  style="font-weight:bold"/>
                  <h:outputText value="#{estadoMB.delEstado.nombreEstado}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripción del Estado: "  style="font-weight:bold" />
+                 <h:outputText value="DescripciÃ³n del Estado: "  style="font-weight:bold" />
                  <h:outputText value="#{estadoMB.delEstado.tipoEstado}" />
                  <h:outputText value="Fecha de Ingreso: "  style="font-weight:bold" />
                  <h:outputText value="#{estadoMB.delEstado.fechaIngresoEstado}" />
@@ -108,7 +108,7 @@
             </h:form>    
             
             <p:separator />
-            <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{estadoMB.deleteEstado()}" process="@this" update=":formPrincipal"/>
+            <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{estadoMB.deleteEstado()}" process="@this" update=":formPrincipal"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 
