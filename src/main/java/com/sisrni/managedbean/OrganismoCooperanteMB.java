@@ -14,6 +14,7 @@ import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PaisService;
 import com.sisrni.service.RegionService;
 import com.sisrni.service.TipoOrganismoService;
+import com.sisrni.utils.JsfUtil;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -71,7 +72,7 @@ public class OrganismoCooperanteMB {
     tipoOrganismoList = tipoOrganismoService.findAll();
     organismoSelected=new TipoOrganismo();
     organismosList=organismoService.findAll();
-    //paisList = paisService.findAll();
+    paisList = paisService.findAll();
     regionSelected = new Region();
     paisSelected = new Pais();
     regionList = regionService.findAll();
@@ -91,7 +92,7 @@ public class OrganismoCooperanteMB {
             organismoCooperante.setIdOrganismo(Integer.MIN_VALUE);
             organismoService.save(organismoCooperante);
             inicializarVariables();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Informacion se ha registrado correctamente!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Información se ha registrado correctamente!"));
             
                     
         } catch (Exception e) {
@@ -99,14 +100,14 @@ public class OrganismoCooperanteMB {
         }
     }
     public void updateorganismo() {
-        String msg = " Organismo Actualizado Exitosamente!";       
+        String msg = "Organismo Actualizado Exitosamente!";       
         try { 
             organismoCooperante.setIdTipoOrganismo(tipoOrganismoService.findById(organismoSelected.getIdTipoOrganismo()));
             organismoCooperante.setIdRegion(regionSelected.getIdRegion());
             organismoCooperante.setIdPais(paisSelected.getIdPais());
             organismoService.merge(organismoCooperante);
             actualizar=false;
-            //cancelarTipoOrganismo();
+            cancelarOrganismo();
             inicializarVariables();
             RequestContext.getCurrentInstance().update(":formAdmin");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", msg));
@@ -140,6 +141,20 @@ public class OrganismoCooperanteMB {
         }
     }
       
+     public void cancelarOrganismo(){
+        String msg ="Organismo cancelado";
+        try{
+        organismoCooperante = null;
+        organismoCooperante = new Organismo();
+        RequestContext.getCurrentInstance().reset(":formOrganismo");
+         if(actualizar)
+        JsfUtil.addSuccessMessage(msg);
+        }catch(Exception e){
+             System.out.println(e.getMessage());
+        }
+      inicializarVariables();
+    }
+     
     public List<TipoOrganismo> getTipoOrganismoList() {
         return tipoOrganismoList;
     }

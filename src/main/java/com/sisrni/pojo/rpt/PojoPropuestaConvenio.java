@@ -6,6 +6,7 @@
 package com.sisrni.pojo.rpt;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  *
@@ -28,6 +29,7 @@ public class PojoPropuestaConvenio implements Serializable{
     private Integer ID_REF_INTERNO;
     private Integer ID_REF_EXTERNO;
     private Integer ID_ESTADO;
+    private Date FECHA_INGRESO;
 
     public String getNOMBRE_PROPUESTA() {
         return NOMBRE_PROPUESTA;
@@ -143,6 +145,14 @@ public class PojoPropuestaConvenio implements Serializable{
 
     public void setID_REF_EXTERNO(Integer ID_REF_EXTERNO) {
         this.ID_REF_EXTERNO = ID_REF_EXTERNO;
+    }
+
+    public Date getFECHA_INGRESO() {
+        return FECHA_INGRESO;
+    }
+
+    public void setFECHA_INGRESO(Date FECHA_INGRESO) {
+        this.FECHA_INGRESO = FECHA_INGRESO;
     }
     
    

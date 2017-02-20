@@ -27,9 +27,6 @@ public class BecaService extends GenericService<Beca, Integer> {
     @Autowired
     private BecaDao becaDao;
 
-//    @Autowired
-//    HenryMailServiceInterface mailService;
-
     @Override
     public GenericDao<Beca, Integer> getDao() {
         return becaDao;
@@ -55,15 +52,15 @@ public class BecaService extends GenericService<Beca, Integer> {
         return becaDao.getDetalleBecas(desde, hasta);
     }
 
-    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected, String desde, String hasta) { //    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected,  String desde, String hasta) { //
-        return becaDao.getBecastListToCharts(paisSelected, desde, hasta);//tipoBecaSelected
+    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected, List<String> tipoBecaSelected, String desde, String hasta) { //    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected,  String desde, String hasta) { //
+        return becaDao.getBecastListToCharts(paisSelected, tipoBecaSelected, desde, hasta);//tipoBecaSelected
     }
 
     public List<BecasGestionadasPojo> getDataBecasGestionadasGroupOrganismos(Integer desde, Integer hasta) {
         return becaDao.getDataBecasGestionadasGroupOrganismos(desde, hasta);
     }
 
-//    public void sendOrderConfirmation(PojoBeca beca) {
-//        mailService.sendEmail(beca);
-//    }
+    public void desvincularInterno(Integer becaId, Integer personaId) {
+        becaDao.desvincularInterno(becaId, personaId);
+    }
 }

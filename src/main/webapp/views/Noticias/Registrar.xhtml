@@ -17,8 +17,8 @@
                 <h:form id="formNoticia">
                     <p:panel header="Entrada de Datos">
                         <h:panelGrid columns="2">
-                            <h:outputLabel value="Titulo:" />
-                            <p:inputText value="#{noticiaMB.noticia.tituloNoticia}" size="75"/>
+                            <h:outputLabel value="Titulo:"  for="tituloId"/>
+                            <p:inputText id="tituloId" value="#{noticiaMB.noticia.tituloNoticia}" size="75" required="true"/>
 
                             <p:outputLabel for="categoria" value="Categoria:" style="size: 30"/>
                             <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelected.idCategoria}" style="width:125px">
@@ -42,7 +42,8 @@
                                           update="editor, growl">
                             </p:fileUpload>
                             <p:outputLabel for="estado" value="Estado:" />
-                            <p:selectOneMenu id="estado" value="#{noticiaMB.noticia.estadoNoticia}" style="width:125px">
+                            <p:selectOneMenu id="estado" value="#{noticiaMB.noticia.estadoNoticia}" style="width:125px" required="true">
+                                <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />
                                 <f:selectItem itemLabel="Activa" itemValue="true" />
                                 <f:selectItem itemLabel="Inactiva" itemValue="false" />
                             </p:selectOneMenu>

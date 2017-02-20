@@ -7,9 +7,12 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Beca;
 import com.sisrni.model.Pais;
+import com.sisrni.model.TipoBeca;
+import com.sisrni.pojo.rpt.PojoBecasByTipo;
 import com.sisrni.pojo.rpt.PojoMapaInteractivoBecas;
 import com.sisrni.service.BecaService;
 import com.sisrni.service.PaisService;
+import com.sisrni.service.TipoBecaService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,6 +47,7 @@ public class MapaInteractivoBecas implements Serializable {
     private final static Log log = LogFactory.getLog(MapaInteractivoBecas.class);
     //parametros de busqueda
     private List<String> paisSelected;
+    private List<String> tipoBecaSelected;
     //private List<String> tipoProyectoSelected;
     //private boolean mostrarGraficos = false;
     private String yearDesde;
@@ -51,6 +55,7 @@ public class MapaInteractivoBecas implements Serializable {
     Integer yearActual;
     //Listados
     private List<Pais> paisList;
+    private List<TipoBeca> tipoBecaList;
     //List<TipoProyecto> tipoProyectosList;
     private List<PojoMapaInteractivoBecas> becasListToChart;
     //graficos
@@ -68,6 +73,9 @@ public class MapaInteractivoBecas implements Serializable {
     @Autowired
     @Qualifier(value = "paisService")
     PaisService paisService;
+
+    @Autowired
+    TipoBecaService tipoBecaService;
 
     @Autowired
     //TipoProyectoService tipoProyectoService;
@@ -103,18 +111,22 @@ public class MapaInteractivoBecas implements Serializable {
         becasListToChart = new ArrayList<PojoMapaInteractivoBecas>();
         becasListToPopUp = new ArrayList<Beca>();
 
+        tipoBecaSelected = new ArrayList<String>();
+        tipoBecaList = tipoBecaService.findAll();
+        llenarTipos();
+
         noHayRegistros = Boolean.FALSE;
         graficar();
     }
 
     public void graficar() {
-        if (!paisSelected.isEmpty()) { //&& !tipoProyectoSelected.isEmpty()
-            becasListToChart = becaService.getBecastListToCharts(paisSelected, yearDesde.trim(), yearHasta.trim());//tipoProyectoSelected, 
+        if (!paisSelected.isEmpty() && !tipoBecaSelected.isEmpty()) {
+            becasListToChart = becaService.getBecastListToCharts(paisSelected, tipoBecaSelected, yearDesde.trim(), yearHasta.trim());//tipoProyectoSelected, 
             montoBecas = calcularMonto(becasListToChart);
             if (!becasListToChart.isEmpty()) {
                 crearMapa();
                 createPieModel();
-                //createPieTipo();
+                createPieTipo();
                 noHayRegistros = Boolean.FALSE;
             } else {
                 noHayRegistros = Boolean.TRUE;
@@ -127,9 +139,9 @@ public class MapaInteractivoBecas implements Serializable {
             if (paisSelected.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un Pais"));
             }
-//            if (tipoProyectoSelected.isEmpty()) {
-//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un tipo de proyecto"));
-//            }
+            if (tipoBecaSelected.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un tipo de beca"));
+            }
             noHayRegistros = Boolean.TRUE;
             inicializarMapa();
             inicializarPieUno();
@@ -143,6 +155,13 @@ public class MapaInteractivoBecas implements Serializable {
             paisSelected.add(p.getIdPais() + "");
         }
     }
+
+    public void llenarTipos() {
+        for (TipoBeca tb : tipoBecaList) {
+            tipoBecaSelected.add(tb.getIdTipoBeca() + "");
+        }
+    }
+
     public void fillPopUp(Integer pais) {
         for (PojoMapaInteractivoBecas pj : becasListToChart) {
             if (pj.getIdPais() == pais) {
@@ -151,18 +170,7 @@ public class MapaInteractivoBecas implements Serializable {
             }
         }
     }
-//    public void llenarTipos() {
-//        for (TipoProyecto tp : tipoProyectosList) {
-//            tipoProyectoSelected.add(tp.getIdTipoProyecto() + "");
-//        }
-//    }
-//    public void onCountryChange() {
-//        mostrarGraficos = true;
-//        createBarModel();
-//        createPieModel();
-//        crearMapa();
-//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "PrimeFaces Rocks." + mostrarGraficos));
-//    }
+
     private void createPieModel() {
         pieModel = new PieChartModel();
         for (PojoMapaInteractivoBecas pj : becasListToChart) {
@@ -173,16 +181,17 @@ public class MapaInteractivoBecas implements Serializable {
         pieModel.setShowDataLabels(true);
     }
 
-//    private void createPieTipo() {
-//        pieModelType = new PieChartModel();
-//        List<PojoProyectosByTipo> series = projectListToChart.get(0).getSeries();
-//        for (PojoProyectosByTipo pj : series) {
-//            pieModelType.set(pj.getNombreTipoProyecto(), pj.getCantidadProyectos());
-//        }
-//        pieModelType.setTitle("Cantidad y Tipos de Proyecto");
-//        pieModelType.setLegendPosition("w");
-//        pieModelType.setShowDataLabels(true);
-//    }
+    private void createPieTipo() {
+        pieModelType = new PieChartModel();
+        List<PojoBecasByTipo> series = becasListToChart.get(0).getSeries();
+        for (PojoBecasByTipo pj : series) {
+            pieModelType.set(pj.getNombreTipoBeca(), pj.getCantidad());
+        }
+        pieModelType.setTitle("Cantidad y Tipos de Beca");
+        pieModelType.setLegendPosition("w");
+        pieModelType.setShowDataLabels(true);
+    }
+
     public void inicializarPieUno() {
 
         pieModel = new PieChartModel();
@@ -194,11 +203,10 @@ public class MapaInteractivoBecas implements Serializable {
 
     private void inicializarPieDos() {
         pieModelType = new PieChartModel();
-        pieModelType.setTitle("Cantidad y Tipos de Proyecto");
+        pieModelType.setTitle("Cantidad y Tipos de Becas");
         pieModelType.setLegendPosition("w");
         pieModelType.setShowDataLabels(true);
     }
-
 
 //    private void createBarModel() {
 //        barModel = initBarModel();
@@ -453,6 +461,22 @@ public class MapaInteractivoBecas implements Serializable {
 
     public void setBecasListToPopUp(List<Beca> becasListToPopUp) {
         this.becasListToPopUp = becasListToPopUp;
+    }
+
+    public List<String> getTipoBecaSelected() {
+        return tipoBecaSelected;
+    }
+
+    public void setTipoBecaSelected(List<String> tipoBecaSelected) {
+        this.tipoBecaSelected = tipoBecaSelected;
+    }
+
+    public List<TipoBeca> getTipoBecaList() {
+        return tipoBecaList;
+    }
+
+    public void setTipoBecaList(List<TipoBeca> tipoBecaList) {
+        this.tipoBecaList = tipoBecaList;
     }
 
 }

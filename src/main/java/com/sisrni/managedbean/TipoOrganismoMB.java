@@ -26,7 +26,7 @@ import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author Joao
+ * @author Luis
  */
 @Named("tipoOrganismoMB")
 @ViewScoped
@@ -87,7 +87,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
       * 
       */
      public void guardarTipoOrganismo() {
-        String msg = "Tipo Organismo Almacenado Exitosamente!";       
+        String msg = "Tipo de Organismo Almacenado Exitosamente!";       
         try {            
             tipoOrganismoService.save(tipoOrganismo);                              
             cargarTipoOrganismo();
@@ -107,7 +107,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
       * 
       */
      public void updateTipoOrganismo() {
-        String msg = "Tipo Organismo Actualizado Exitosamente!";       
+        String msg = "Tipo de Organismo Actualizado Exitosamente!";       
         try {            
             tipoOrganismoService.merge(tipoOrganismo);
             if (!isValidationFailed()) {
@@ -141,7 +141,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
       * 
       */
      public void deleteTipoOrganismo() {
-        String msg = "Tipo Organismo Eliminado Exitosamente!";       
+        String msg = "Tipo de Organismo Eliminado Exitosamente!";       
         try {            
             tipoOrganismoService.delete(this.delTipoOrganismo);                         
             listadoTipoOrganismo = tipoOrganismoService.findAll(); 
@@ -178,7 +178,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
       * 
       */
      public void cancelarTipoOrganismo() {
-        String msg = "Tipo Organismo cancelado!";       
+        String msg = "Tipo de Organismo cancelado!";       
         try {      
             tipoOrganismo = null;
             tipoOrganismo = new TipoOrganismo();

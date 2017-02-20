@@ -521,10 +521,10 @@ public class BecaConsultarMB implements Serializable {
                 anio = beca.getAnioGestion() + "";
                 fechaInicioString = DateFormatUtils.format(beca.getFechaInicio(), "dd/MM/yyyy");
                 fechaFinString = DateFormatUtils.format(beca.getFechaFin(), "dd/MM/yyyy");
-                if (beca.getOtorgada() == 1) {
+                if (beca.getOtorgada() == true) {
                     otorgadaString = "SI";
                 }
-                if (beca.getOtorgada() == 0) {
+                if (beca.getOtorgada() == false) {
                     otorgadaString = "NO";
                 }
                 actualizar = Boolean.TRUE;

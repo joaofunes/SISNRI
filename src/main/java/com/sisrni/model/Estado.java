@@ -52,6 +52,10 @@ public class Estado implements Serializable {
     @NotNull
     @Column(name = "TIPO_ESTADO", nullable = false)
     private int tipoEstado;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ORDEN_ESTADO", nullable = false)
+    private int ordenEstado;
     @JoinTable(name = "proyecto_estado", joinColumns = {
         @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)})
@@ -67,10 +71,12 @@ public class Estado implements Serializable {
         this.idEstado = idEstado;
     }
 
-    public Estado(Integer idEstado, int tipoEstado) {
+    public Estado(Integer idEstado, int tipoEstado, int ordenEstado) {
         this.idEstado = idEstado;
         this.tipoEstado = tipoEstado;
+        this.ordenEstado = ordenEstado;
     }
+
 
     public Integer getIdEstado() {
         return idEstado;
@@ -120,6 +126,14 @@ public class Estado implements Serializable {
         this.propuestaEstadoList = propuestaEstadoList;
     }
 
+    public int getOrdenEstado() {
+        return ordenEstado;
+    }
+
+    public void setOrdenEstado(int ordenEstado) {
+        this.ordenEstado = ordenEstado;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -13,6 +13,9 @@ import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -36,7 +39,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     private static final long serialVersionUID = 1L;  
     
     @Inject
-    PropuestaConvenioMB propuestaConvenioMB;
+    ActualizacionPropuestaConvenioMB actualizacionPropuestaConvenioMB;
     
     
     @Autowired
@@ -60,6 +63,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     private PropuestaConvenio propuestaConvenio;
     private PojoPropuestaConvenio pojoPropuestaConvenio;
     private List<Estado> listadoEstados;
+    private List<Estado> listadoEstadosTemp;
     private Estado estado;
     
     
@@ -77,14 +81,110 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
         try {
             propuestaConvenio = new PropuestaConvenio();    
             estado = new Estado();
-            listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();            
+            listadoPropuestaConvenio= propuestaConvenioService.getAllPropuestaConvenioSQL();    
+
+            
+            Collections.sort(listadoPropuestaConvenio, new Comparator<PojoPropuestaConvenio>() {
+                @Override
+                public int compare(PojoPropuestaConvenio lhs, PojoPropuestaConvenio rhs) {
+                    return rhs.getFECHA_INGRESO().compareTo(lhs.getFECHA_INGRESO());
+                }
+            });
+            
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void preEliminar(PojoPropuestaConvenio pojo){
+   
+
+    
+    public void preEditar(PojoPropuestaConvenio pj){
+        try {
+            
+            actualizacionPropuestaConvenioMB.postInit();
+            
+            if (pj.getID_SOLICITANTE() != null) {
+                //settea solicitante
+                actualizacionPropuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));
+                actualizacionPropuestaConvenioMB.cargarUnidadesFacultadesSolicitante();
+                actualizacionPropuestaConvenioMB.cargarTelefonosSolicitante();
+            }
+            if (pj.getID_REF_INTERNO() != null) {                
+                actualizacionPropuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
+                actualizacionPropuestaConvenioMB.cargarTelefonosInternos();
+                actualizacionPropuestaConvenioMB.cargarUnidadesFacultadesSolicitanteInterno();
+                actualizacionPropuestaConvenioMB.setTabAsisMostrar(Boolean.TRUE);
+                actualizacionPropuestaConvenioMB.mostrarTab();
+            }else{
+                actualizacionPropuestaConvenioMB.setFlagEdicionInterno(Boolean.FALSE);
+            }
+            if (pj.getID_REF_EXTERNO() != null) {                
+                actualizacionPropuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));
+                actualizacionPropuestaConvenioMB.cargarTelefonosExterno();
+                actualizacionPropuestaConvenioMB.setTabAsisMostrarExterno(Boolean.TRUE);
+                actualizacionPropuestaConvenioMB.mostrarTabExterno();
+            }else{
+                actualizacionPropuestaConvenioMB.setFlagEdicionExterno(Boolean.FALSE);
+            }
+            
+            actualizacionPropuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());               
+            actualizacionPropuestaConvenioMB.onTipoConvenioChange();
+            
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();             
+           // String outcome = "propuestaCovenio.xhtml";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("actualizarPropuestaCovenio.xhtml");
+            
+            //context.redirect(context.getRequestContextPath() + "/views/convenio/propuestaCovenio.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+    }
+    
+    /**
+     * Metodo que actualiza el listado de estado seleccionable por cada
+     * propuesta convenio
+     *
+     * @param pojo
+     */
+    public void preCambiarEstado(PojoPropuestaConvenio pojo) {
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            estado = estadoService.findById(pojo.getID_ESTADO());
+            listadoEstadosTemp = new ArrayList<Estado>();
+            int[] intArray = new int[3];
+            intArray[0] = (estado.getOrdenEstado() - 1);
+            intArray[1] = estado.getOrdenEstado();
+            intArray[2] = (estado.getOrdenEstado() + 1);
+
+            for (int i = 0; i < intArray.length; i++) {
+                llenarListadoEstados(intArray[i]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Metodo para agregar estados a listado de estados
+     *
+     * @param orden
+     */
+    private void llenarListadoEstados(int orden) {
+        try {
+            for (Estado std : listadoEstados) {
+                if (std.getTipoEstado() == 1 && std.getOrdenEstado() == orden) {
+                    listadoEstadosTemp.add(std);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+         
+     public void preEliminar(PojoPropuestaConvenio pojo){
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
             estado=estadoService.findById(pojo.getID_ESTADO());
@@ -95,40 +195,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
          e.printStackTrace();
         }
     }
-
     
-    public void preEditar(PojoPropuestaConvenio pj){
-        try {
-            propuestaConvenioMB.inicializador();
-            propuestaConvenioMB.postInit();
-
-            if (pj.getID_SOLICITANTE() != null) {
-                propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));
-            }
-            if (pj.getID_REF_INTERNO() != null) {
-                propuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
-                propuestaConvenioMB.setTabAsisMostrar(Boolean.TRUE);
-            }
-            if (pj.getID_REF_EXTERNO() != null) {
-                propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));
-                propuestaConvenioMB.setTabAsisMostrarExterno(Boolean.TRUE);
-            }
-            
-            propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());   
-            
-            propuestaConvenioMB.onTipoConvenioChange();
-            
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
-           
-            String outcome = "propuestaCovenio.xhtml";
-            FacesContext.getCurrentInstance().getExternalContext().redirect("propuestaCovenio.xhtml");
-            
-            //context.redirect(context.getRequestContextPath() + "/views/convenio/propuestaCovenio.xhtml");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-    }
     
     public void eliminarConvenio(){
         try {                    
@@ -138,6 +205,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
             e.printStackTrace();
         }
     }
+    
     
     
     public PropuestaConvenio getPropuestaConvenio() {
@@ -178,5 +246,13 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public List<Estado> getListadoEstadosTemp() {
+        return listadoEstadosTemp;
+    }
+
+    public void setListadoEstadosTemp(List<Estado> listadoEstadosTemp) {
+        this.listadoEstadosTemp = listadoEstadosTemp;
     }
 }

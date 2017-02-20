@@ -87,7 +87,7 @@ public class ProgramaBecaMB  extends GenericManagedBean<ProgramaBeca, Integer> {
       * 
       */
      public void guardarProgramaBeca() {
-        String msg = "Tipo Persona Almacenado Exitosamente!";       
+        String msg = "Programa de Beca Almacenado Exitosamente!";       
         try {            
             programaBecaService.save(programaBeca);                              
             cargarProgramaBeca();
@@ -96,7 +96,7 @@ public class ProgramaBecaMB  extends GenericManagedBean<ProgramaBeca, Integer> {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
             
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al guardar tipo de persona");
+            JsfUtil.addErrorMessage("Error al guardar Programa de Beca");
             e.printStackTrace();
         }
         cargarProgramaBeca();
@@ -107,7 +107,7 @@ public class ProgramaBecaMB  extends GenericManagedBean<ProgramaBeca, Integer> {
       * 
       */
      public void updateProgramaBeca() {
-        String msg = "Tipo Persona Actualizado Exitosamente!";       
+        String msg = "Programa de Beca Actualizado Exitosamente!";       
         try {            
             programaBecaService.merge(programaBeca);
             if (!isValidationFailed()) {
@@ -116,9 +116,9 @@ public class ProgramaBecaMB  extends GenericManagedBean<ProgramaBeca, Integer> {
             actualizar=false;
             cancelarProgramaBeca();
             cargarProgramaBeca();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!!", msg));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al actualziar tipo de persona");
+            JsfUtil.addErrorMessage("Error al actualziar Programa de Beca");
         }
         cargarProgramaBeca();
     } 
@@ -141,7 +141,7 @@ public class ProgramaBecaMB  extends GenericManagedBean<ProgramaBeca, Integer> {
       * 
       */
      public void deleteProgramaBeca() {
-        String msg = "Tipo Persona Eliminado Exitosamente!";       
+        String msg = "Programa de Beca Eliminado Exitosamente!";       
         try {            
             programaBecaService.delete(this.delProgramaBeca);                         
             listadoProgramaBeca = programaBecaService.findAll(); 
@@ -150,7 +150,7 @@ public class ProgramaBecaMB  extends GenericManagedBean<ProgramaBeca, Integer> {
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro tipo de persona");
+            JsfUtil.addErrorMessage("Error al eliminar registro Programa de Beca");
         }finally{
              actualizar=false;
             delProgramaBeca = new ProgramaBeca();
@@ -178,14 +178,15 @@ public class ProgramaBecaMB  extends GenericManagedBean<ProgramaBeca, Integer> {
       * 
       */
      public void cancelarProgramaBeca() {
-        String msg = "Tipo Persona cancelado!";       
+        String msg = "Programa de Beca cancelado!";       
         try {      
             programaBeca = null;
             programaBeca = new ProgramaBeca();
             RequestContext.getCurrentInstance().reset(":formAdmin");            
+            if(actualizar)
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al cancelar registro tipo de persona");
+            JsfUtil.addErrorMessage("Error al cancelar registro de Programa de Beca");
         }
         cargarProgramaBeca();
     } 

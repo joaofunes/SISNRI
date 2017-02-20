@@ -9,6 +9,7 @@ import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Beca;
 import com.sisrni.pojo.rpt.BecasGestionadasPojo;
 import com.sisrni.pojo.rpt.PojoBeca;
+import com.sisrni.pojo.rpt.PojoBecasByTipo;
 import com.sisrni.pojo.rpt.PojoMapaInteractivoBecas;
 import com.sisrni.pojo.rpt.RptDetalleBecasPojo;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                     .addScalar("programaBeca", new StringType())
                     .addScalar("nombreBecario", new StringType())
                     .addScalar("apellidoBecario", new StringType())
-                    .addScalar("correoBecario",new StringType())
+                    .addScalar("correoBecario", new StringType())
                     .addScalar("facultad", new StringType())
                     .addScalar("paisDestino", new StringType())
                     .addScalar("universidadDestino", new StringType())
@@ -189,7 +190,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
 
     }
 
-    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected, String desde, String hasta) {//List<String> tipoBecaSelected,
+    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected, List<String> tipoBecaSelected, String desde, String hasta) {
         String wherePais = "";
         String whereTipoBeca = "";
         String groupBy = " GROUP BY b.ID_PAIS_DESTINO";
@@ -202,9 +203,10 @@ public class BecaDao extends GenericDao<Beca, Integer> {
             limite += " LIMIT 5";
         }
 
-//        if (tipoBecaSelected.size() > 0) {
-//            whereTipoBeca += " AND b.ID_TIPO_BECA IN (" + String.join(",", tipoBecaSelected) + ")";
-//        }
+        if (tipoBecaSelected.size() > 0) {
+            whereTipoBeca += " AND b.ID_TIPO_BECA IN (" + String.join(",", tipoBecaSelected) + ")";
+        }
+
         String query = "SELECT pa.ID_PAIS idPais,\n"
                 + "  pa.CODIGO_PAIS codigoPais,\n"
                 + "  pa.NOMBRE_PAIS nombrePais,\n"
@@ -212,28 +214,64 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 + "  SUM(b.MONTO_TOTAL) montoCooperacion\n"
                 + "FROM beca b INNER  JOIN pais pa   ON b.ID_PAIS_DESTINO= pa.ID_PAIS\n"
                 + "WHERE b.OTORGADA=1 AND b.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta) + "\n"
-                + wherePais + groupBy;//+whereTipoBeca
+                + wherePais + whereTipoBeca + groupBy;//
+        try {
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                    .addScalar("idPais", new IntegerType())
+                    .addScalar("codigoPais", new StringType())
+                    .addScalar("nombrePais", new StringType())
+                    .addScalar("montoCooperacion", new DoubleType())
+                    .addScalar("cantidadBecas", new IntegerType())
+                    .setResultTransformer(Transformers.aliasToBean(PojoMapaInteractivoBecas.class));
 
-        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
-                .addScalar("idPais", new IntegerType())
-                .addScalar("codigoPais", new StringType())
-                .addScalar("nombrePais", new StringType())
-                .addScalar("montoCooperacion", new DoubleType())
-                .addScalar("cantidadBecas", new IntegerType())
-                .setResultTransformer(Transformers.aliasToBean(PojoMapaInteractivoBecas.class));
+            List<PojoMapaInteractivoBecas> listPojos = q.list();
 
-        List<PojoMapaInteractivoBecas> listPojos = q.list();
+            if (listPojos.size() > 0) {
+                for (PojoMapaInteractivoBecas pj : listPojos) {
+                    paisesFinales.add(pj.getIdPais() + "");
+                }
+                String qt = "SELECT  tb.ID_TIPO_BECA idTipoBeca,\n"
+                        + "  tb.NOMBRE_TIPO_BECA nombreTipoBeca,\n"
+                        + "  count(b.ID_BECA) cantidad\n"
+                        + "from beca b INNER JOIN tipo_beca tb\n"
+                        + "ON b.ID_TIPO_BECA = tb.ID_TIPO_BECA\n"
+                        + "WHERE b.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta) + "\n"
+                        + "  AND b.ID_PAIS_DESTINO IN (" + String.join(",", paisesFinales) + ")\n"
+                        + "AND b.ID_TIPO_BECA IN (" + String.join(",", tipoBecaSelected) + ")\n"
+                        + "      AND b.OTORGADA=1\n"
+                        + "GROUP BY b.ID_TIPO_BECA";
+                Query rtp = getSessionFactory().getCurrentSession().createSQLQuery(qt)
+                        .addScalar("idTipoBeca", new IntegerType())
+                        .addScalar("nombreTipoBeca", new StringType())
+                        .addScalar("cantidad", new IntegerType())
+                        .setResultTransformer(Transformers.aliasToBean(PojoBecasByTipo.class));
+                List<PojoBecasByTipo> listTipos = rtp.list();
 
-        for (PojoMapaInteractivoBecas pj : listPojos) {
-            String qp = "SELECT * FROM BECA pr \n"
-                    + " WHERE pr.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta) + "\n"
-                    + "AND pr.OTORGADA=1 AND pr.ID_PAIS_DESTINO=" + pj.getIdPais();
+                for (PojoMapaInteractivoBecas pj : listPojos) {
+                    String qp = "SELECT * FROM BECA pr \n"
+                            + " WHERE pr.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta) + "\n"
+                            + "AND pr.OTORGADA=1 AND pr.ID_PAIS_DESTINO=" + pj.getIdPais();
 
-            //String qp = "from Proyect pr Where pr.idPaisCooperante='" + pj.getCodigoPais() + "' and pr.idTipoProyecto in (" + String.join(",", tipoProyectoSelected) + ") and pr.anioGestion between " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta);
-            Query r = getSessionFactory().getCurrentSession().createSQLQuery(qp).addEntity(Beca.class);
-            pj.setBecastList(r.list());
+                    //String qp = "from Proyect pr Where pr.idPaisCooperante='" + pj.getCodigoPais() + "' and pr.idTipoProyecto in (" + String.join(",", tipoProyectoSelected) + ") and pr.anioGestion between " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta);
+                    Query r = getSessionFactory().getCurrentSession().createSQLQuery(qp).addEntity(Beca.class);
+                    pj.setBecastList(r.list());
+                    pj.setSeries(listTipos);
+                }
+            }
+            return listPojos;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void desvincularInterno(Integer becaId, Integer personaId) {
+        try {
+            String query = "Delete from PERSONA_BECA WHERE ID_PERSONA=" + personaId + " AND ID_BECA=" + becaId;
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+            q.executeUpdate();
+        } catch (Exception e) {
         }
 
-        return listPojos;
     }
 }
