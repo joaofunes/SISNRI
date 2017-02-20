@@ -7,7 +7,6 @@ package com.sisrni.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -33,11 +32,10 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "beca", catalog = "sisrni", schema = "")
+@Table(name = "BECA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Beca.findAll", query = "SELECT b FROM Beca b")})
 public class Beca implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,7 +72,9 @@ public class Beca implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaIngreso;
     @OneToMany(mappedBy = "idBeca")
-    private List<Documento> documentoList = new ArrayList<Documento>();
+    private List<Documento> documentoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
+    private List<PersonaBeca> personaBecaList;
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idUniversidad;
@@ -90,8 +90,6 @@ public class Beca implements Serializable {
     @JoinColumn(name = "ID_TIPO_MODALIDAD", referencedColumnName = "ID_TIPO_MODALIDAD")
     @ManyToOne
     private TipoModalidaBeca idTipoModalidad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
-    private List<PersonaBeca> personaBecaList = new ArrayList<PersonaBeca>();
 
     public Beca() {
     }
@@ -185,6 +183,14 @@ public class Beca implements Serializable {
         this.montoTotal = montoTotal;
     }
 
+    public Boolean getOtorgada() {
+        return otorgada;
+    }
+
+    public void setOtorgada(Boolean otorgada) {
+        this.otorgada = otorgada;
+    }
+
     public Date getFechaIngreso() {
         return fechaIngreso;
     }
@@ -199,6 +205,14 @@ public class Beca implements Serializable {
 
     public void setDocumentoList(List<Documento> documentoList) {
         this.documentoList = documentoList;
+    }
+
+    public List<PersonaBeca> getPersonaBecaList() {
+        return personaBecaList;
+    }
+
+    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
+        this.personaBecaList = personaBecaList;
     }
 
     public Organismo getIdUniversidad() {
@@ -241,14 +255,6 @@ public class Beca implements Serializable {
         this.idTipoModalidad = idTipoModalidad;
     }
 
-    public List<PersonaBeca> getPersonaBecaList() {
-        return personaBecaList;
-    }
-
-    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
-        this.personaBecaList = personaBecaList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -273,13 +279,5 @@ public class Beca implements Serializable {
     public String toString() {
         return "com.sisrni.model.Beca[ idBeca=" + idBeca + " ]";
     }
-
-    public Boolean getOtorgada() {
-        return otorgada;
-    }
-
-    public void setOtorgada(Boolean otorgada) {
-        this.otorgada = otorgada;
-    }
-
+    
 }

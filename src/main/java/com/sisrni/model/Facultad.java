@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
  * @author Cortez
  */
 @Entity
-@Table(name = "facultad", catalog = "sisrni", schema = "")
+@Table(name = "FACULTAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Facultad.findAll", query = "SELECT f FROM Facultad f")})
 public class Facultad implements Serializable {
@@ -42,18 +42,18 @@ public class Facultad implements Serializable {
     @Column(name = "NOMBRE_FACULTAD", length = 100)
     private String nombreFacultad;
     @ManyToMany(mappedBy = "facultadList")
-    private List<Movilidad> movilidadList;
-    @ManyToMany(mappedBy = "facultadList")
     private List<Proyecto> proyectoList;
+    @ManyToMany(mappedBy = "facultadList")
+    private List<Movilidad> movilidadList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFacultad")
+    private List<Carrera> carreraList;
+    @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
+    @ManyToOne
+    private Organismo idOrganismo;
     @OneToMany(mappedBy = "idFacultad")
     private List<Proyecto> proyectoList1;
     @OneToMany(mappedBy = "idFacultad")
     private List<EscuelaDepartamento> escuelaDepartamentoList;
-    @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO")
-    @ManyToOne
-    private Organismo idOrganismo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFacultad")
-    private List<Carrera> carreraList;
 
     public Facultad() {
     }
@@ -78,6 +78,14 @@ public class Facultad implements Serializable {
         this.nombreFacultad = nombreFacultad;
     }
 
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
+    }
+
     public List<Movilidad> getMovilidadList() {
         return movilidadList;
     }
@@ -86,12 +94,20 @@ public class Facultad implements Serializable {
         this.movilidadList = movilidadList;
     }
 
-    public List<Proyecto> getProyectoList() {
-        return proyectoList;
+    public List<Carrera> getCarreraList() {
+        return carreraList;
     }
 
-    public void setProyectoList(List<Proyecto> proyectoList) {
-        this.proyectoList = proyectoList;
+    public void setCarreraList(List<Carrera> carreraList) {
+        this.carreraList = carreraList;
+    }
+
+    public Organismo getIdOrganismo() {
+        return idOrganismo;
+    }
+
+    public void setIdOrganismo(Organismo idOrganismo) {
+        this.idOrganismo = idOrganismo;
     }
 
     public List<Proyecto> getProyectoList1() {
@@ -108,22 +124,6 @@ public class Facultad implements Serializable {
 
     public void setEscuelaDepartamentoList(List<EscuelaDepartamento> escuelaDepartamentoList) {
         this.escuelaDepartamentoList = escuelaDepartamentoList;
-    }
-
-    public Organismo getIdOrganismo() {
-        return idOrganismo;
-    }
-
-    public void setIdOrganismo(Organismo idOrganismo) {
-        this.idOrganismo = idOrganismo;
-    }
-
-    public List<Carrera> getCarreraList() {
-        return carreraList;
-    }
-
-    public void setCarreraList(List<Carrera> carreraList) {
-        this.carreraList = carreraList;
     }
 
     @Override

@@ -110,8 +110,8 @@
                         <h:outputText value="#{organismo.direccionOrganismo}" />
                     </p:column>
                     
-                            <p:column headerText="Pais">
-                                <h:outputText value="#{organismo.idPais}" >
+                        <p:column headerText="Pais" sortBy="#{organismo.idPais}" filterBy="#{textoid}">
+                            <h:outputText value="#{organismo.idPais}" id="textoid">
                                     <f:converter converterId="nombrePaisConverter"/>
                                 </h:outputText>
                             </p:column>
