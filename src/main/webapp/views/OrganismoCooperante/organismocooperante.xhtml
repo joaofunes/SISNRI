@@ -91,6 +91,24 @@
 
                 </h:form>
                 <br></br>
+                <center>
+                <p:panelGrid>
+                  <p:row>
+                        <p:column>
+                            <p:outputLabel for="categoria" value="Filtrar:" style="size: 30px"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="categoria" value="#{organismoCooperanteMB.tipoOrganismoList}" style="width:125px">
+                                <f:selectItem itemValue="0" itemLabel="--Todas--"/>
+                                <c:forEach var="cat" items="#{organismoCooperanteMB.tipoOrganismoList}">
+                                    <f:selectItem itemLabel="#{cat.nombreTipo}" itemValue="#{cat.idTipoOrganismo}" />        
+                                </c:forEach>
+<!--                                <p:ajax event="change" update="idDataScroll" listener="#{organismoCooperanteMB.listarOnCatChange()}" process="@this"/>-->
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </center>
                 <h:form id="formTablaOrganismos">
                     <p:dataTable var="organismo" value="#{organismoCooperanteMB.organismosList}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
