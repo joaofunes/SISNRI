@@ -17,14 +17,14 @@
                 <h:form id="formCiudad">
                     <p:panelGrid columns="2">
                         <p:column>
-                            <h:outputLabel for="nombreCiudad" value="Nombre:"/>
+                            <p:outputLabel for="nombreCiudad" value="Nombre:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="nombreCiudad" value="#{ciudadMB.ciudad.nombreCiudad}" required="true" size="50" />
                             <p:watermark for="nombreCiudad" value="Nombre de Ciudad" id="watermarkNombreCiudad"/>
                         </p:column>
                          <p:column>
-                            <h:outputLabel for="pais" value="País:"/>
+                            <p:outputLabel for="pais" value="País:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="pais" value="#{ciudadMB.paisSelected.idPais}"  style="width: 100%" required="true" >
@@ -36,7 +36,7 @@
                             </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                            <h:outputLabel for="provinciaCiudad" value="Estado/Departamento/Provincia:"/>
+                            <p:outputLabel for="provinciaCiudad" value="Estado/Departamento/Provincia:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="provinciaCiudad" value="#{ciudadMB.provincia.idProvincia}"  style="width: 100%" required="true">

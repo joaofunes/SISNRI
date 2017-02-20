@@ -31,6 +31,7 @@
                                     </p:column>
                                     <p:column>
                                         <p:selectOneMenu id="propuesta" value="#{proyectoConsultarMB.propuestaConvenioSelected.idPropuesta}" style="width:180px">
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <c:forEach var="pro" items="#{proyectoConsultarMB.propuestaConvenioList}">
                                                 <f:selectItem itemLabel="#{pro.nombrePropuesta}" itemValue="#{pro.idPropuesta}"/>
                                             </c:forEach>

@@ -188,14 +188,14 @@
                                                 <p:outputLabel for="nombrePersona" value="Nombres"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="nombrePersona" label="nombrePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nombrePersona}" validatorMessage="Este campo solo admite letras" required="true"/>
+                                                <p:inputText id="nombrePersona" label="nombrePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nombrePersona}" validatorMessage="Este campo solo admite letras" required="true" readonly="#{registrarMovilidadMB.isHabilidado}"/>
 
                                             </p:column>
                                             <p:column>
                                                 <p:outputLabel for="apellidoPersona" value="Apellidos"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="apellidoPersona" label="apellidoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.apellidoPersona}" validatorMessage="Este campo solo admite letras" required="true"/>
+                                                <p:inputText id="apellidoPersona" label="apellidoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.apellidoPersona}" validatorMessage="Este campo solo admite letras" required="true" readonly="#{registrarMovilidadMB.isHabilidado}"/>
 
                                             </p:column>                        
                                             <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
@@ -257,7 +257,7 @@
                                                 <p:outputLabel for="emailPersona" value="Correo Electronico"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="emailPersona" label="emailPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.emailPersona}">
+                                                <p:inputText id="emailPersona" label="emailPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.emailPersona}" readonly="#{registrarMovilidadMB.isHabilidado}">
                                                     <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                                 </p:inputText>
                                             </p:column>
@@ -506,14 +506,14 @@
                                                 <p:outputLabel for="nombrePersonaFacultad" value="Nombres"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="nombrePersonaFacultad" label="nombrePersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nombrePersona}" validatorMessage="Este campo solo admite letras" required="true"/>
+                                                <p:inputText id="nombrePersonaFacultad" label="nombrePersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nombrePersona}" validatorMessage="Este campo solo admite letras" required="true" readonly="#{registrarMovilidadMB.isHabilidado}"/>
 
                                             </p:column>
                                             <p:column>
                                                 <p:outputLabel for="apellidoPersonaFacultad" value="Apellidos"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="apellidoPersonaFacultad" label="apellidoPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.apellidoPersona}" validatorMessage="Este campo solo admite letras" required="true"/>
+                                                <p:inputText id="apellidoPersonaFacultad" label="apellidoPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.apellidoPersona}" validatorMessage="Este campo solo admite letras" required="true" readonly="#{registrarMovilidadMB.isHabilidado}"/>
 
                                             </p:column>                        
                                             <p:column>
@@ -557,7 +557,7 @@
                                                 <p:outputLabel for="emailPersonaFacultad" value="Correo Electronico"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="emailPersonaFacultad" label="emailPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}">
+                                                <p:inputText id="emailPersonaFacultad" label="emailPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" required="true" readonly="#{registrarMovilidadMB.isHabilidado}">
                                                     <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                                 </p:inputText>
                                             </p:column>

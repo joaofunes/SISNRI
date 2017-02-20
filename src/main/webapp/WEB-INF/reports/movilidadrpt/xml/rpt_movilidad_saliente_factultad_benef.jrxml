@@ -46,7 +46,7 @@
 				</textElement>
 				<text><![CDATA[Reporte de movilidades salientes segun facultad beneficiada]]></text>
 			</staticText>
-			<textField pattern="MM/dd/yyyy">
+			<textField pattern="d/M/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="119" width="264" height="20" forecolor="#786C6C"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>

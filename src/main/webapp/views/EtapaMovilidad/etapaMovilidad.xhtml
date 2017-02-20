@@ -11,20 +11,20 @@
     
     <ui:define name="content">
          <center> 
-            <p:panel style="width: 70%" header="Gestión de Etapas de Movilidad">  
+            <p:panel style="width: 70%" header="GestiÃ³n de Etapas de Movilidad">  
         <h:form id="formAdmin">
                
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
                
                     <p:column>
-                        <h:outputText value="Nombre de la Etapa de Movilidad:" />
+                        <p:outputLabel for="nombreMovilidad" value="Nombre de la Etapa de Movilidad:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="nombreMovilidad" value="#{etapaMovilidadMB.etapaMovilidad.nombreEtapa}" required="true" size="50" />
                     </p:column>
                
                     <p:column>
-                        <h:outputText value="Descripción de la Etapa de Movilidad:" />
+                        <p:outputLabel for="descri" value="DescripciÃ³n de la Etapa de Movilidad:" />
                     </p:column>
                     <p:column>
                         <p:inputTextarea id="descri" value="#{etapaMovilidadMB.etapaMovilidad.descripcion}" rows="2" maxlength="300" style="width: 100%" required="true" />
@@ -61,7 +61,7 @@
                         <h:outputText value="#{movilidad.nombreEtapa}" />
                     </p:column>
 
-                    <p:column headerText="Descripción" sortBy="#{movilidad.descripcion}" filterBy="#{movilidad.descripcion}">
+                    <p:column headerText="DescripciÃ³n" sortBy="#{movilidad.descripcion}" filterBy="#{movilidad.descripcion}">
                         <h:outputText value="#{movilidad.descripcion}" />
                     </p:column>
                     <p:column headerText="Opciones" >
@@ -82,20 +82,20 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar la Etapa de Movilidad?" header="Eliminar Etapa de Movilidad"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Â¿EstÃ¡ seguro que desea eliminar la Etapa de Movilidad?" header="Eliminar Etapa de Movilidad"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre de la Etapa de Movilidad : "  style="font-weight:bold"/>
                  <h:outputText value="#{etapaMovilidadMB.delEtapaMovilidad.nombreEtapa}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripción de la Etapa de Movilidad : "  style="font-weight:bold" />
+                 <h:outputText value="DescripciÃ³n de la Etapa de Movilidad : "  style="font-weight:bold" />
                  <h:outputText value="#{etapaMovilidadMB.delEtapaMovilidad.descripcion}" />
              
             </h:form>    
             
             <p:separator />
-            <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{etapaMovilidadMB.deleteEtapaMovilidad()}" process="@this" update=":formPrincipal"/>
+            <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{etapaMovilidadMB.deleteEtapaMovilidad()}" process="@this" update=":formPrincipal"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 

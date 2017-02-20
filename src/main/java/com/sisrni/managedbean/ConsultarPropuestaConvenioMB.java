@@ -39,7 +39,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     private static final long serialVersionUID = 1L;  
     
     @Inject
-    PropuestaConvenioMB propuestaConvenioMB;
+    ActualizacionPropuestaConvenioMB actualizacionPropuestaConvenioMB;
     
     
     @Autowired
@@ -103,34 +103,38 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     public void preEditar(PojoPropuestaConvenio pj){
         try {
             
-            propuestaConvenioMB.postInit();
+            actualizacionPropuestaConvenioMB.postInit();
             
             if (pj.getID_SOLICITANTE() != null) {
                 //settea solicitante
-                propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));
-                propuestaConvenioMB.cargarUnidadesFacultadesSolicitante();
-                propuestaConvenioMB.cargarTelefonosSolicitante();
+                actualizacionPropuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));
+                actualizacionPropuestaConvenioMB.cargarUnidadesFacultadesSolicitante();
+                actualizacionPropuestaConvenioMB.cargarTelefonosSolicitante();
             }
-            if (pj.getID_REF_INTERNO() != null) {
-                propuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
-                propuestaConvenioMB.cargarTelefonosInternos();
-                propuestaConvenioMB.cargarUnidadesFacultadesSolicitanteInterno();
-                propuestaConvenioMB.setTabAsisMostrar(Boolean.TRUE);
-                propuestaConvenioMB.mostrarTab();
+            if (pj.getID_REF_INTERNO() != null) {                
+                actualizacionPropuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
+                actualizacionPropuestaConvenioMB.cargarTelefonosInternos();
+                actualizacionPropuestaConvenioMB.cargarUnidadesFacultadesSolicitanteInterno();
+                actualizacionPropuestaConvenioMB.setTabAsisMostrar(Boolean.TRUE);
+                actualizacionPropuestaConvenioMB.mostrarTab();
+            }else{
+                actualizacionPropuestaConvenioMB.setFlagEdicionInterno(Boolean.FALSE);
             }
-            if (pj.getID_REF_EXTERNO() != null) {
-                propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));
-                propuestaConvenioMB.cargarTelefonosExterno();
-                propuestaConvenioMB.setTabAsisMostrarExterno(Boolean.TRUE);
-                propuestaConvenioMB.mostrarTabExterno();
+            if (pj.getID_REF_EXTERNO() != null) {                
+                actualizacionPropuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));
+                actualizacionPropuestaConvenioMB.cargarTelefonosExterno();
+                actualizacionPropuestaConvenioMB.setTabAsisMostrarExterno(Boolean.TRUE);
+                actualizacionPropuestaConvenioMB.mostrarTabExterno();
+            }else{
+                actualizacionPropuestaConvenioMB.setFlagEdicionExterno(Boolean.FALSE);
             }
             
-            propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());               
-            propuestaConvenioMB.onTipoConvenioChange();
+            actualizacionPropuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());               
+            actualizacionPropuestaConvenioMB.onTipoConvenioChange();
             
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();             
-            String outcome = "propuestaCovenio.xhtml";
-            FacesContext.getCurrentInstance().getExternalContext().redirect("propuestaCovenio.xhtml");
+           // String outcome = "propuestaCovenio.xhtml";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("actualizarPropuestaCovenio.xhtml");
             
             //context.redirect(context.getRequestContextPath() + "/views/convenio/propuestaCovenio.xhtml");
         } catch (Exception e) {

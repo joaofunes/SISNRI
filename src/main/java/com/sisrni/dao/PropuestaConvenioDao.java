@@ -10,6 +10,7 @@ import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoConvenioEstado;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.pojo.rpt.RptConveniosPorAnioPojo;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
@@ -411,4 +412,17 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         }
         return null;
    }
+    public List<RptConveniosPorAnioPojo>getconveniosPorAnio(Integer desde, Integer hasta){
+        String query = "SELECT tp.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio,p.NOMBRE_PROPUESTA as nombreConvenio, p.FINALIDAD_PROPUESTA as finalidad, FECHA_INGRESO as fechaIngreso,VIGENCIA as vigencia from propuesta_convenio p join tipo_propuesta_convenio tp on (p.idTipoPropuestaConvenio=tp.idTipoPropuesta) where p.ANIO_GESTION BETWEEN \n" 
+                + desde + " AND " + hasta +  " GROUP BY p.FECHA_INGRESO \n" 
+                + " ORDER BY p.FECHA_INGRESO asc ";
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("tipoConvenio", new StringType())
+                .addScalar("nombreConvenio", new StringType())
+                .addScalar("finalidad", new StringType())
+                .addScalar("fechaIngreso", new DateType())
+                .addScalar("vigencia", new DateType())
+                .setResultTransformer(Transformers.aliasToBean(RptConveniosPorAnioPojo.class));
+        return q.list();
+    }
 }

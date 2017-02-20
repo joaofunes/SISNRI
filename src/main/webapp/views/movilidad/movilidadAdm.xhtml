@@ -25,10 +25,10 @@
                     <p:dataTable var="movilidades" value="#{registrarMovilidadMB.listPojoMovilidadAdm}" rows="15"
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                         rowsPerPageTemplate="5,10,15,20" paginator="true" >
-                        <p:column headerText="Programa Movilidad" filterBy="#{movilidades.nombrePrograma}" style="width: 25%">
+                        <p:column headerText="Programa Movilidad" filterBy="#{movilidades.nombrePrograma}" style="width: 20%">
                             <h:outputText value="#{movilidades.nombrePrograma}"/>
                         </p:column>
-                        <p:column headerText="Docente en movilidad" filterBy="#{movilidades.nombrePersona}" style="width: 18%">
+                        <p:column headerText="Docente en movilidad" filterBy="#{movilidades.nombrePersona}" style="width: 15%">
                             <h:outputText value="#{movilidades.nombrePersona} #{movilidades.apellidoPersona}"/>
                         </p:column>
                         <p:column headerText="Tipo movilidad" filterBy="#{movilidades.nombreTipoMovilidad}" style="width: 12%">
@@ -41,10 +41,13 @@
                              <h:outputText value="#{movilidades.paisDestino}"/>
                         </p:column>
                         <p:column headerText="Fecha entrada" filterBy="#{movilidades.fechaEntrada}" sortBy="#{movilidades.fechaEntrada}" style="width: 10%">
-                            <h:outputText value="#{movilidades.fechaEntrada}"> <f:convertDateTime pattern="dd/MM/yyyy"/> </h:outputText>
+                            <h:outputText value="#{movilidades.fechaEntrada}"/> 
+                        </p:column>
+                        <p:column headerText="Etapa" filterBy="#{movilidades.nombreEtapa}" sortBy="#{movilidades.nombreEtapa}" style="width: 10%">
+                            <h:outputText value="#{movilidades.nombreEtapa}"/>
                         </p:column>
                        
-                        <p:column headerText="Opciones" style="width: 10%">
+                        <p:column headerText="Opciones" style="width: 8%">
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
                                                actionListener="#{registrarMovilidadMB.preActualizar(movilidades.idMovilidad)}">

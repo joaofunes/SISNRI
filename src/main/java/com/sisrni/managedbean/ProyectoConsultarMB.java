@@ -382,7 +382,7 @@ public class ProyectoConsultarMB {
             telefonoSolFax.setIdPersona(persona);
             telefonoSolFax.setIdTipoTelefono(tipoTelefonoFax);
             persona.getTelefonoList().add(telefonoSolFax);
-            if (existeSol == 1 || actualizar == true) {
+            if (existeSol == 1 || actualizar == true || personaService.getReferenteInternoByEmail(persona.getEmailPersona())!=null) {
                 personaService.merge(persona);
             } else {
                 personaService.save(persona);
@@ -856,6 +856,7 @@ public class ProyectoConsultarMB {
                 fechaInicio=DateFormatUtils.format(proyecto.getFechaInicio(), "dd/MM/yyyy");
                 fechaFin=DateFormatUtils.format(proyecto.getFechaFin(), "dd/MM/yyyy");
                 if (proyecto.getIdPropuestaConvenio() == null) {
+                    propuestaConvenioList.clear();
                 } else {
                     propuestaConvenioSelected = propuestaConvenioService.getByID(proyecto.getIdPropuestaConvenio().getIdPropuesta());
                     propuestaConvenioList.clear();

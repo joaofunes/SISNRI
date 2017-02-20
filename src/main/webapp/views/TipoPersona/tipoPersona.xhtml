@@ -20,14 +20,14 @@
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
                
                     <p:column>
-                        <h:outputText value="Nombre Persona:" />
+                        <p:outputLabel for="nombrePersona" value="Nombre Persona:" />
                     </p:column>
                     <p:column>
-                        <p:inputText id="nombrePersona" value="#{tipoPersonaMB.tipoPersona.nombre}" required="true" size="50" />
+                        <p:inputText id="nombrePersona" value="#{tipoPersonaMB.tipoPersona.nombreTipoPersona}" required="true" size="50" />
                     </p:column>
                
                     <p:column>
-                        <h:outputText value="Descripcion Persona:" />
+                        <p:outputLabel for="descri" value="Descripcion Persona:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="descri" value="#{tipoPersonaMB.tipoPersona.descripcion}" required="true" size="50" />
@@ -59,8 +59,8 @@
                              paginator="true">
 
 
-                    <p:column headerText="Nombre Menu" sortBy="#{persona.nombre}" filterBy="#{persona.nombre}">
-                        <h:outputText value="#{persona.nombre}" />
+                    <p:column headerText="Nombre Menu" sortBy="#{persona.nombreTipoPersona}" filterBy="#{persona.nombreTipoPersona}">
+                        <h:outputText value="#{persona.nombreTipoPersona}" />
                     </p:column>
 
                     <p:column headerText="Descripcion" sortBy="#{persona.descripcion}" filterBy="#{persona.descripcion}">
@@ -88,7 +88,7 @@
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre de Persona : "  style="font-weight:bold"/>
-                 <h:outputText value="#{tipoPersonaMB.delTipoPersona.nombre}" />
+                 <h:outputText value="#{tipoPersonaMB.delTipoPersona.nombreTipoPersona}" />
                  <br/>
                  <br/>
                  <h:outputText value="Descripcion de Persona : "  style="font-weight:bold" />

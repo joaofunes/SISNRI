@@ -12,33 +12,34 @@
     
     <ui:define name="content">
          <center> 
-            <p:panel style="width: 70%" header="Gestión de Tipos de Cambios">  
+            <p:panel style="width: 70%" header="GestiÃ³n de Tipos de Cambios">  
         <h:form id="formAdmin">
                
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
                
                     <p:column>
-                        <h:outputText value="Nombre de la Divisa:" />
+                        <p:outputLabel value="Nombre de la Divisa:" for="nombreDivisa" />
                     </p:column>
                     <p:column>
                         <p:inputText id="nombreDivisa" value="#{tipoCambioMB.tipoCambio.nombreDivisa}" required="true" size="20" />
                     </p:column>
                     
                      <p:column>
-                        <h:outputText value="Código de Divisa:" />
+                        <p:outputLabel for="codigoDivisa" value="CÃ³digo de Divisa:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="codigoDivisa" value="#{tipoCambioMB.tipoCambio.codigoDivisa}" required="true" size="20" />
                     </p:column>
                     
                     <p:column>
-                        <h:outputText value="Dolares por Unidad($):" />
+                        <p:outputLabel for="dolares" value="Dolares por Unidad($):" />
                     </p:column>
                     <p:column>
                         <poue:inputNumber  id="dolares" value="#{tipoCambioMB.tipoCambio.dolaresPorUnidad}" style="width: 100%"  required="true"/>
                     </p:column>
-                    
                     <p:column>
+                    </p:column>
+                    <p:column>   
                         <p:commandButton rendered="#{!tipoCambioMB.actualizar}"  styleClass="boton"
                                          actionListener="#{tipoCambioMB.guardarTipoCambio()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
                                          value="Guardar" />
@@ -50,8 +51,6 @@
                         <p:commandButton rendered="#{tipoCambioMB.actualizar}" styleClass="boton"
                                          actionListener="#{tipoCambioMB.cancelarTipoCambio()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
-                          
-                       
                     </p:column>
                  
                 </p:panelGrid>
@@ -69,11 +68,11 @@
                         <h:outputText value="#{cambio.nombreDivisa}" />
                     </p:column>
 
-                    <p:column headerText="Código de Divisa" sortBy="#{cambio.codigoDivisa}" filterBy="#{cambio.codigoDivisa}">
+                    <p:column headerText="CÃ³digo de Divisa" sortBy="#{cambio.codigoDivisa}" filterBy="#{cambio.codigoDivisa}">
                         <h:outputText value="#{cambio.codigoDivisa}" />
                     </p:column>
                     
-                    <p:column headerText="Dólares por Unidad" sortBy="#{cambio.dolaresPorUnidad}" filterBy="#{cambio.dolaresPorUnidad}">
+                    <p:column headerText="DÃ³lares por Unidad" sortBy="#{cambio.dolaresPorUnidad}" filterBy="#{cambio.dolaresPorUnidad}">
                         <h:outputText value="$#{cambio.dolaresPorUnidad}" />
                     </p:column>
                     <p:column headerText="Opciones" >
@@ -94,24 +93,24 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el Tipo de Cambio?" header="Eliminar Tipo de Cambio"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Â¿EstÃ¡ seguro que desea eliminar el Tipo de Cambio?" header="Eliminar Tipo de Cambio"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre de la Divisa: "  style="font-weight:bold"/>
                  <h:outputText value="#{tipoCambioMB.delTipoCambio.nombreDivisa}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Código de Divisa: "  style="font-weight:bold" />
+                 <h:outputText value="CÃ³digo de Divisa: "  style="font-weight:bold" />
                  <h:outputText value="#{tipoCambioMB.delTipoCambio.codigoDivisa}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Dólares por Unidad: "  style="font-weight:bold" />
+                 <h:outputText value="DÃ³lares por Unidad: "  style="font-weight:bold" />
                  <h:outputText value="$#{tipoCambioMB.delTipoCambio.dolaresPorUnidad}" />
              
             </h:form>    
             
             <p:separator />
-            <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoCambioMB.deleteTipoCambio()}" process="@this" update=":formPrincipal"/>
+            <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoCambioMB.deleteTipoCambio()}" process="@this" update=":formPrincipal"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 
