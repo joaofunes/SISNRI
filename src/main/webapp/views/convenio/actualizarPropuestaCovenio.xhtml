@@ -186,6 +186,9 @@
                                         </p:autoComplete>
                                         <p:watermark for="idEmailInterno" value="E-mail"/> 
                                     </p:column>
+                                    <p:column>
+                                        <p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.cambiarSolicitanteInterno()}" process="@this" update="GroupSolicitanteInterno" value="Cambiar" id="btnCambiarInterno" icon="ui-icon-disk" title="Cambiar Referente Interno" />                                 
+                                    </p:column>
                                 </p:panelGrid >   
                             </h:panelGroup> 
                             <h:panelGroup id="GroupSolicitanteInterno" >  
@@ -342,6 +345,9 @@
                                             <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="GroupSolicitanteExterno"/>
                                         </p:autoComplete>
                                         <p:watermark for="idEmailExterno" value="E-mail"/> 
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.cambiarSolicitanteExterno()}" process="@this" update="GroupSolicitanteExterno" value="Cambiar" id="btnCambiarExterno" icon="ui-icon-disk" title="Cambiar Referente Externo" />                                 
                                     </p:column>
                                 </p:panelGrid>
                             </h:panelGroup>  

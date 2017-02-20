@@ -270,8 +270,8 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
             flagSearchNombreExterno = Boolean.FALSE;
             flagSearchEmailExterno = Boolean.FALSE;
             
-            flagEdicionInterno = false;
-            flagEdicionExterno = false;
+            flagEdicionInterno = true;
+            flagEdicionExterno = true;
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -1111,59 +1111,30 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
     
     
      /**
-     * metodo habilita tab de solicitante interno
+     * metodo para iniciar cambio de referente interno
      */
-//    public void mostrarTab() {
-//        tabAsis = tabAsisMostrar ? Boolean.TRUE : Boolean.FALSE;
-//    }
-    
-    
-    
-    
-
-    /// test de email
-    public void FileRead() {
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-        String to = "";
-        String subject = "Test Send Email";
-        String messages = "Henrry Culeu";
-        ArrayList<String> listado = new ArrayList<String>();
-
-//    SAXBuilder sax;
-//    Document dconfig1=null;
-        String MailAccount = "tgraduacion01@gmail.com";
-        String PassMailAccount = "";
-        String rootFileContent = "";
-
-        try {
-            mail = new JCMail();
-
-            mail.setFrom(MailAccount);
-            mail.setPassword("tragra01");
-            mail.setTo(solicitante.getEmailPersona());
-            mail.setSubject("Test GAMIL");
-            mail.setMessage(messages);
-            mail.SEND();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // En el finally cerramos el fichero, para asegurarnos
-            // que se cierra tanto si todo va bien como si salta 
-            // una excepcion.
-            try {
-                if (null != fr) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
+    public void cambiarSolicitanteInterno() {
+        flagEdicionInterno=false;
+        referenteInterno= new Persona();
+        telFijoInterno = new Telefono();
+        telCelularInterno = new Telefono();
+        facultadesUnidadesInterno = new PojoFacultadesUnidades();
+        numDocumentoInterno = null;
+        escuelaDepartamentoInterno = new EscuelaDepartamento();
+       
     }
-
-/// test de email
+     /**
+     * metodo para iniciar cambio de referente externo
+     */
+    public void cambiarSolicitanteExterno() {
+        flagEdicionExterno=false;
+        referenteExterno= new Persona();
+        telFijoExterno = new Telefono();
+        telCelularExterno = new Telefono();       
+        numDocumentoExterno = null;       
+    }
+    
+    
     public Persona getReferenteInterno() {
         return referenteInterno;
     }

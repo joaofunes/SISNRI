@@ -893,6 +893,42 @@ public class PropuestaConvenioMB implements Serializable {
         }
     }
 
+    
+    
+    
+        /**
+     * Metodo para setear entidad persona en base al nombre solicitado de la
+     * persona solicitante interna
+     */
+    public void cargarNombreSoliInterno() {
+        try {
+            if (referenteInterno.getIdPersona() != null) {
+                cargarTelefonosInternos();
+                cargarUnidadesFacultadesSolicitanteInterno();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Metodo para setear entidad persona en base al nombre solicitado de la
+     * persona solicitante interna
+     */
+    public void cargarNombreSoliExterno() {
+        try {
+
+            if (referenteExterno == null) {
+                referenteExterno = new Persona();
+            }
+            if (referenteExterno.getIdPersona() != null) {
+                cargarTelefonosExterno();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * Metodo para precargar facultad / unidad o Escuela/Departamento
      * Solicitante
