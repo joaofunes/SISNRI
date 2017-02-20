@@ -182,7 +182,7 @@
                                             <p:outputLabel  value="Busqueda" />     
                                         </p:column>
                                         <p:column> 
-                                            <p:autoComplete id="searchDui" minQueryLength="10" size="10" rendered="#{proyectosMB.flagSearchDuiInterno}"  value="#{proyectosMB.persona}" completeMethod="#{proyectosMB.methodSearch}"
+                                            <p:autoComplete id="searchDui" minQueryLength="10" size="10" rendered="#{proyectosMB.flagSearchDuiInterno}"  value="#{proyectosMB.personaAux}" completeMethod="#{proyectosMB.methodSearch}"
                                                             var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" disabled="#{proyectosMB.disableAutoInterno}" converter="#{personaConverter}"
                                                             forceSelection="true">                                            
                                                 <p:column>
@@ -192,7 +192,7 @@
                                             </p:autoComplete>
                                             <p:watermark for="searchDui" value="DUI"/> 
 
-                                            <p:autoComplete id="idNombreInterno" value="#{proyectosMB.persona}" rendered="#{proyectosMB.flagSearchNombreInterno}"
+                                            <p:autoComplete id="idNombreInterno" value="#{proyectosMB.personaAux}" rendered="#{proyectosMB.flagSearchNombreInterno}"
                                                             completeMethod="#{proyectosMB.methodSearch}" disabled="#{proyectosMB.disableAutoInterno}"
                                                             var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
@@ -202,7 +202,7 @@
                                                 <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
                                             </p:autoComplete>
                                             <p:watermark for="idNombreInterno" value="Nombre/Apellido"/> 
-                                            <p:autoComplete id="idEmailInterno" value="#{proyectosMB.persona}" rendered="#{proyectosMB.flagSearchEmailInterno}"
+                                            <p:autoComplete id="idEmailInterno" value="#{proyectosMB.personaAux}" rendered="#{proyectosMB.flagSearchEmailInterno}"
                                                             completeMethod="#{proyectosMB.methodSearch}" disabled="#{proyectosMB.disableAutoInterno}"
                                                             var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
@@ -315,7 +315,7 @@
                                             <p:outputLabel  value="Busqueda" />     
                                         </p:column>
                                         <p:column> 
-                                            <p:autoComplete id="searchDuiAsis" minQueryLength="10" size="10" rendered="#{proyectosMB.flagSearchDuiAsistente}"  value="#{proyectosMB.personaAsistente}" completeMethod="#{proyectosMB.methodSearchAsistente}"
+                                            <p:autoComplete id="searchDuiAsis" minQueryLength="10" size="10" rendered="#{proyectosMB.flagSearchDuiAsistente}"  value="#{proyectosMB.personaAsistenteAux}" completeMethod="#{proyectosMB.methodSearchAsistente}"
                                                             var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" disabled="#{proyectosMB.disableAutoAsistente}" converter="#{personaConverter}"
                                                             forceSelection="true">                                            
                                                 <p:column>
@@ -325,7 +325,7 @@
                                             </p:autoComplete>
                                             <p:watermark for="searchDuiAsis" value="DUI"/> 
 
-                                            <p:autoComplete id="idNombreAsistente" value="#{proyectosMB.personaAsistente}" rendered="#{proyectosMB.flagSearchNombreAsistente}"
+                                            <p:autoComplete id="idNombreAsistente" value="#{proyectosMB.personaAsistenteAux}" rendered="#{proyectosMB.flagSearchNombreAsistente}"
                                                             completeMethod="#{proyectosMB.methodSearchAsistente}" disabled="#{proyectosMB.disableAutoAsistente}"
                                                             var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
@@ -335,7 +335,7 @@
                                                 <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliAsistente()}" process="@this" update="GroupSolicitanteAsistente"/>
                                             </p:autoComplete>
                                             <p:watermark for="idNombreAsistente" value="Nombre/Apellido"/> 
-                                            <p:autoComplete id="idEmailAsistente" value="#{proyectosMB.personaAsistente}" rendered="#{proyectosMB.flagSearchEmailAsistente}"
+                                            <p:autoComplete id="idEmailAsistente" value="#{proyectosMB.personaAsistenteAux}" rendered="#{proyectosMB.flagSearchEmailAsistente}"
                                                             completeMethod="#{proyectosMB.methodSearchAsistente}" disabled="#{proyectosMB.disableAutoAsistente}"
                                                             var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
@@ -440,7 +440,7 @@
                                             <p:outputLabel value="Busqueda" />
                                         </p:column>
                                         <p:column>
-                                            <p:autoComplete id="idNombreExterno" value="#{proyectosMB.personaExterna}" rendered="#{proyectosMB.flagSearchNombreExterno}"
+                                            <p:autoComplete id="idNombreExterno" value="#{proyectosMB.personaExternaAux}" rendered="#{proyectosMB.flagSearchNombreExterno}"
                                                             completeMethod="#{proyectosMB.methodSearchExterno}" disabled="#{proyectosMB.disableAutoExterno}"
                                                             var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
@@ -450,7 +450,7 @@
                                                 <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliExterno()}" process="@this" update="GroupSolicitanteExterno"/>
                                             </p:autoComplete>
                                             <p:watermark for="idNombreExterno" value="Nombre/Apellido"/>
-                                            <p:autoComplete id="idEmailExterno" value="#{proyectosMB.personaExterna}" rendered="#{proyectosMB.flagSearchEmailExterno}"
+                                            <p:autoComplete id="idEmailExterno" value="#{proyectosMB.personaExternaAux}" rendered="#{proyectosMB.flagSearchEmailExterno}"
                                                             completeMethod="#{proyectosMB.methodSearchExterno}" disabled="#{proyectosMB.disableAutoExterno}"
                                                             var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           

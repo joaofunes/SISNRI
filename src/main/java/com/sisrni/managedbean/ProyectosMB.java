@@ -251,6 +251,14 @@ public class ProyectosMB {
     private List<Persona> listAll;
     private List<PojoFacultadesUnidades> listaFacultadUnidad;
 
+    private Persona personaAux;
+    private Persona personaAsistenteAux;
+    private Persona personaExternaAux;
+
+    private List<Persona> personaSinBuscar;
+    private List<Persona> personaAsistenteSinBuscar;
+    private List<Persona> personaExternaSinBuscar;
+
     /**
      * Creates a new instance of ProyectosMB
      */
@@ -391,14 +399,22 @@ public class ProyectosMB {
         flagSearchDuiExterno = Boolean.FALSE;
         flagSearchNombreExterno = Boolean.FALSE;
         flagSearchEmailExterno = Boolean.FALSE;
-        
-        tipoBusquedaInterna=null;
-        tipoBusquedaAsistente=null;
-        tipoBusquedaExterna=null;
-        
-        organismoProySelected=new String[0];
-        areaConocimientoSelected=new String[0];
-        facultadBeneficiadaSelected=new String[0];
+
+        tipoBusquedaInterna = null;
+        tipoBusquedaAsistente = null;
+        tipoBusquedaExterna = null;
+
+        organismoProySelected = new String[0];
+        areaConocimientoSelected = new String[0];
+        facultadBeneficiadaSelected = new String[0];
+
+        personaAux = new Persona();
+        personaAsistenteAux = new Persona();
+        personaExternaAux = new Persona();
+
+        personaSinBuscar = new ArrayList<Persona>();
+        personaAsistenteSinBuscar = new ArrayList<Persona>();
+        personaExternaSinBuscar = new ArrayList<Persona>();
     }
 
     public void mostrarTab() {
@@ -408,87 +424,102 @@ public class ProyectosMB {
     public void guardarProyecto() {
         try {
             //guardar persona solicitante
-            String facultadArregloSol[] = facultadSelectedPojoSol.split(",");
-            if (facultadArregloSol[1].equals("1")) {
-                EscuelaDepartamento escuelaselec = escuelaDepartamentoService.findById(escuelaDeptoSelectedSol.getIdEscuelaDepto());
-                persona.setIdEscuelaDepto(escuelaselec);
+            if (existeSol == 0) {
+                personaSinBuscar = personaService.getReferenteInternoByEmail(persona.getEmailPersona());
+                if (personaSinBuscar != null) {
+                    persona = personaSinBuscar.get(0);
+                    existeSol = 1;
+                    personaService.merge(persona);
+                }
             } else {
-                Unidad unidadSelectedSoli = unidadService.findById(Integer.parseInt(facultadArregloSol[0]));
-                persona.setIdUnidad(unidadSelectedSoli);
-            }
-            persona.setPasaporte("-");
-            persona.setExtranjero(Boolean.FALSE);
-            persona.setActivo(Boolean.TRUE);
-            //guardar telefono fijo solicitante
-            telefonoSolFijo.setIdPersona(persona);
-            telefonoSolFijo.setIdTipoTelefono(tipoTelefonoFijo);
-            persona.getTelefonoList().add(telefonoSolFijo);
-            //guardar telefono celular solicitante
-            telefonoSolCel.setIdPersona(persona);
-            telefonoSolCel.setIdTipoTelefono(tipoTelefonoCel);
-            persona.getTelefonoList().add(telefonoSolCel);
-            //guardar telefono fax solicitante
-//            telefonoSolFax.setIdPersona(persona);
-//            telefonoSolFax.setIdTipoTelefono(tipoTelefonoFax);
-//            persona.getTelefonoList().add(telefonoSolFax);
-            if (existeSol == 1 || actualizar == true) {
-                personaService.merge(persona);
-            } else {
-                personaService.save(persona);
+                String facultadArregloSol[] = facultadSelectedPojoSol.split(",");
+                if (facultadArregloSol[1].equals("1")) {
+                    EscuelaDepartamento escuelaselec = escuelaDepartamentoService.findById(escuelaDeptoSelectedSol.getIdEscuelaDepto());
+                    persona.setIdEscuelaDepto(escuelaselec);
+                } else {
+                    Unidad unidadSelectedSoli = unidadService.findById(Integer.parseInt(facultadArregloSol[0]));
+                    persona.setIdUnidad(unidadSelectedSoli);
+                }
+                persona.setPasaporte("-");
+                persona.setExtranjero(Boolean.FALSE);
+                persona.setActivo(Boolean.TRUE);
+                //guardar telefono fijo solicitante
+                telefonoSolFijo.setIdPersona(persona);
+                telefonoSolFijo.setIdTipoTelefono(tipoTelefonoFijo);
+                persona.getTelefonoList().add(telefonoSolFijo);
+                //guardar telefono celular solicitante
+                telefonoSolCel.setIdPersona(persona);
+                telefonoSolCel.setIdTipoTelefono(tipoTelefonoCel);
+                persona.getTelefonoList().add(telefonoSolCel);
+                if (existeSol == 1 || actualizar == true) {
+                    personaService.merge(persona);
+                } else {
+                    personaService.save(persona);
+                }
             }
             //guardar persona Asistente
             if (tabAsis == true) {
-                String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
-                if (facultadArregloAsis[1].equals("1")) {
-                    EscuelaDepartamento escuelaselecAsis = escuelaDepartamentoService.findById(escuelaDeptoSelectedAsis.getIdEscuelaDepto());
-                    personaAsistente.setIdEscuelaDepto(escuelaselecAsis);
+                if (existeAsis == 0) {
+                    personaAsistenteSinBuscar = personaService.getReferenteInternoByEmail(personaAsistente.getEmailPersona());
+                    if (personaAsistenteSinBuscar != null) {
+                        personaAsistente = personaAsistenteSinBuscar.get(0);
+                        existeAsis = 1;
+                        personaService.merge(personaAsistente);
+                    }
                 } else {
-                    Unidad unidadSelectedAsist = unidadService.findById(Integer.parseInt(facultadArregloAsis[0]));
-                    personaAsistente.setIdUnidad(unidadSelectedAsist);
-                }
-                personaAsistente.setPasaporte("-");
-                personaAsistente.setExtranjero(Boolean.FALSE);
-                personaAsistente.setActivo(Boolean.TRUE);
-                //guardar telefono fijo asistente
-                telefonoAsisFijo.setIdPersona(personaAsistente);
-                telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoFijo);
-                personaAsistente.getTelefonoList().add(telefonoAsisFijo);
-                //guardar telefono celular asistente
-                telefonoAsisCel.setIdPersona(personaAsistente);
-                telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
-                personaAsistente.getTelefonoList().add(telefonoAsisCel);
-                // guardar fax Asistente
-//                telefonoAsisFax.setIdPersona(personaAsistente);
-//                telefonoAsisFax.setIdTipoTelefono(tipoTelefonoFax);
-//                personaAsistente.getTelefonoList().add(telefonoAsisFax);
-                if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
-                    personaService.merge(personaAsistente);
-                } else {
-                    personaService.save(personaAsistente);
+                    String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
+                    if (facultadArregloAsis[1].equals("1")) {
+                        EscuelaDepartamento escuelaselecAsis = escuelaDepartamentoService.findById(escuelaDeptoSelectedAsis.getIdEscuelaDepto());
+                        personaAsistente.setIdEscuelaDepto(escuelaselecAsis);
+                    } else {
+                        Unidad unidadSelectedAsist = unidadService.findById(Integer.parseInt(facultadArregloAsis[0]));
+                        personaAsistente.setIdUnidad(unidadSelectedAsist);
+                    }
+                    personaAsistente.setPasaporte("-");
+                    personaAsistente.setExtranjero(Boolean.FALSE);
+                    personaAsistente.setActivo(Boolean.TRUE);
+                    //guardar telefono fijo asistente
+                    telefonoAsisFijo.setIdPersona(personaAsistente);
+                    telefonoAsisFijo.setIdTipoTelefono(tipoTelefonoFijo);
+                    personaAsistente.getTelefonoList().add(telefonoAsisFijo);
+                    //guardar telefono celular asistente
+                    telefonoAsisCel.setIdPersona(personaAsistente);
+                    telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
+                    personaAsistente.getTelefonoList().add(telefonoAsisCel);
+                    if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
+                        personaService.merge(personaAsistente);
+                    } else {
+                        personaService.save(personaAsistente);
+                    }
                 }
             }
-            //Guardar informacion de referente externo 
-            Organismo organismoExt = organismoService.findById(organismoSelectedRefExt.getIdOrganismo());
-            personaExterna.setIdOrganismo(organismoExt);
-            personaExterna.setDuiPersona("-");
-            personaExterna.setExtranjero(Boolean.TRUE);
-            personaExterna.setActivo(Boolean.TRUE);
-            //guardar telefono fijo persona externa
-            telefonoRefextFijo.setIdPersona(personaExterna);
-            telefonoRefextFijo.setIdTipoTelefono(tipoTelefonoFijo);
-            personaExterna.getTelefonoList().add(telefonoRefextFijo);
-            //guardar telefono fijo persona externa
-            telefonoRefextCel.setIdPersona(personaExterna);
-            telefonoRefextCel.setIdTipoTelefono(tipoTelefonoCel);
-            personaExterna.getTelefonoList().add(telefonoRefextCel);
-            //guardar fax persona externa
-//            telefonoRefextFax.setIdPersona(personaExterna);
-//            telefonoRefextFax.setIdTipoTelefono(tipoTelefonoFax);
-//            personaExterna.getTelefonoList().add(telefonoRefextFax);
-            if (existeRefExt == 1 || actualizar == true) {
-                personaService.merge(personaExterna);
+            //Guardar informacion de referente externo
+            if (existeRefExt == 0) {
+                personaExternaSinBuscar = personaService.getReferenteInternoByEmail(personaExterna.getEmailPersona());
+                if (personaExternaSinBuscar != null) {
+                    personaExterna = personaExternaSinBuscar.get(0);
+                    existeRefExt = 1;
+                    personaService.merge(personaExterna);
+                }
             } else {
-                personaService.save(personaExterna);
+                Organismo organismoExt = organismoService.findById(organismoSelectedRefExt.getIdOrganismo());
+                personaExterna.setIdOrganismo(organismoExt);
+                personaExterna.setDuiPersona("-");
+                personaExterna.setExtranjero(Boolean.TRUE);
+                personaExterna.setActivo(Boolean.TRUE);
+                //guardar telefono fijo persona externa
+                telefonoRefextFijo.setIdPersona(personaExterna);
+                telefonoRefextFijo.setIdTipoTelefono(tipoTelefonoFijo);
+                personaExterna.getTelefonoList().add(telefonoRefextFijo);
+                //guardar telefono fijo persona externa
+                telefonoRefextCel.setIdPersona(personaExterna);
+                telefonoRefextCel.setIdTipoTelefono(tipoTelefonoCel);
+                personaExterna.getTelefonoList().add(telefonoRefextCel);
+                if (existeRefExt == 1 || actualizar == true) {
+                    personaService.merge(personaExterna);
+                } else {
+                    personaService.save(personaExterna);
+                }
             }
             //Guardando datos del proyecto
             proyecto.setFechaInicio(fechaI);
@@ -591,6 +622,17 @@ public class ProyectosMB {
                         proyectoService.merge(proyecto);
                     } else {
                     }
+                } else {
+                    //guardar en tabla intermedia persona_proyecto Asistente          
+                    personaProyectoAsisPK.setIdPersona(personaAsistente.getIdPersona());
+                    personaProyectoAsisPK.setIdProyecto(proyecto.getIdProyecto());
+                    personaProyectoAsis.setProyecto(proyecto);
+                    personaProyectoAsis.setPersona(personaAsistente);
+                    personaProyectoAsis.setIdTipoPersona(tipoPersonaAsis);
+                    personaProyectoAsis.setPersonaProyectoPK(personaProyectoAsisPK);
+                    proyecto.getPersonaProyectoList().add(personaProyectoAsis);
+
+                    proyectoService.merge(proyecto);
                 }
             } else {
                 proyectoService.save(proyecto);
@@ -832,8 +874,8 @@ public class ProyectosMB {
         persona = new Persona();
         telefonoSolFijo = new Telefono();
         telefonoSolCel = new Telefono();
-        facultadSelectedPojoSol="";
-        escuelaDeptoSelectedSol=new EscuelaDepartamento();
+        facultadSelectedPojoSol = "";
+        escuelaDeptoSelectedSol = new EscuelaDepartamento();
 
         if (disableAutoInterno) {
             disableAutoInterno = Boolean.FALSE;
@@ -859,8 +901,8 @@ public class ProyectosMB {
         personaAsistente = new Persona();
         telefonoAsisFijo = new Telefono();
         telefonoAsisCel = new Telefono();
-        facultadSelectedPojoAsis="";
-        escuelaDeptoSelectedAsis=new EscuelaDepartamento();
+        facultadSelectedPojoAsis = "";
+        escuelaDeptoSelectedAsis = new EscuelaDepartamento();
 
         if (disableAutoAsistente) {
             disableAutoAsistente = Boolean.FALSE;
@@ -920,8 +962,8 @@ public class ProyectosMB {
                 return list;
             } else if (tipoBusquedaInterna.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
-                persona = personaService.getPersonaByDui(query);
-                boolean add = list.add(persona);
+                personaAux = personaService.getPersonaByDui(query);
+                boolean add = list.add(personaAux);
 
                 return list;
             }
@@ -950,8 +992,8 @@ public class ProyectosMB {
                 return list;
             } else if (tipoBusquedaAsistente.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
-                personaAsistente = personaService.getPersonaByDui(query);
-                boolean add = list.add(personaAsistente);
+                personaAsistenteAux = personaService.getPersonaByDui(query);
+                boolean add = list.add(personaAsistenteAux);
 
                 return list;
             }
@@ -979,8 +1021,8 @@ public class ProyectosMB {
                 return list;
             } else if (tipoBusquedaExterna.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
-                personaExterna = personaService.getPersonaByDui(query);
-                boolean add = list.add(personaExterna);
+                personaExternaAux = personaService.getPersonaByDui(query);
+                boolean add = list.add(personaExternaAux);
 
                 return list;
             }
@@ -992,81 +1034,16 @@ public class ProyectosMB {
     }
 
     /**
-     * *
-     * Metodo para realizar busquedas por medio del DUI agrega guion al final
-     * del 7 digito para compara con el alamcenado
-     *
-     * @param query
-     */
-//    public void completeBusquedaDui(String query) {
-//
-//        try {
-//            query = query.substring(0, 8) + "-" + query.substring(9);
-//            persona = personaService.getPersonaByDui(query);
-//
-//            if (persona == null) {
-//                persona = new Persona();
-//            }
-//
-//            persona.setDuiPersona(query);
-//
-//            if (persona.getIdPersona() != null) {
-//
-//                List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(persona);
-//
-//                for (Telefono tel : telefonosByPersona) {
-//                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)) {
-//                        telFijoInterno = tel;
-//                    }
-//                    if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
-//                        telCelularInterno = tel;
-//                    }
-//                }
-//
-//                if (persona.getIdEscuelaDepto() != null) {
-//                    facultadSelectedPojoSol = persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad() + ",1";
-//                    //para consultar facultad
-//                    Facultad facSol = facultadService.findById(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
-//                    fuSol = facSol.getNombreFacultad();
-//                    escuelaDeptoListSol = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(persona.getIdEscuelaDepto().getIdFacultad().getIdFacultad());
-//                    escuelaDeptoSelectedSol = persona.getIdEscuelaDepto();
-//                    EscuelaDepartamento escDepSol = escuelaDepartamentoService.findById(persona.getIdEscuelaDepto().getIdEscuelaDepto());
-//                    fuSol = escDepSol.getNombreEscuelaDepto();
-//                }
-//                if (persona.getIdUnidad() != null) {
-//                    facultadSelectedPojoSol = persona.getIdUnidad().getIdUnidad() + ",2";
-//                    Unidad unidadSol = unidadService.findById(persona.getIdUnidad().getIdUnidad());
-//                    fuSol = unidadSol.getNombreUnidad();
-//                    escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
-//                }
-////                RequestContext context = RequestContext.getCurrentInstance();
-////                context.update("formAdmin:nombresolicitante");
-////                context.update("formAdmin:apellidosolicitante");
-////                context.update("formAdmin:correosolicitante");
-////                context.update("formAdmin:cargosolicitante");
-////                context.update("formAdmin:facultadsolicitante");
-////                context.update("formAdmin:unidadsolicitante");
-////                context.update("formAdmin:telefonosolicitante");
-////                context.update("formAdmin:celularsolicitante");
-////                context.update("formAdmin:duisolicitante");
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    /**
      * Metodo para setear entidad persona en base al nombre solicitado de la
      * persona solicitante interna
      */
     public void cargarNombreSoliInterno() {
         try {
 
-            if (persona.getIdPersona() != null) {
-
+            if (personaAux.getIdPersona() != null) {
+                persona = personaAux;
                 listadoTelefonoSol = persona.getTelefonoList();
-
+                existeSol = 1;
                 for (Telefono us : listadoTelefonoSol) {
 
                     if (us.getIdTipoTelefono().getNombre().equals(FIJO)) {
@@ -1108,8 +1085,10 @@ public class ProyectosMB {
      */
     public void cargarNombreSoliAsistente() {
         try {
-            if (personaAsistente.getIdPersona() != null) {
-
+            if (personaAsistenteAux.getIdPersona() != null) {
+                personaAsistente = personaAsistenteAux;
+                existeAsis = 1;
+                asistenteNull = false;
                 listadoTelefonoAsis = personaAsistente.getTelefonoList();
 
                 for (Telefono us : listadoTelefonoAsis) {
@@ -1143,11 +1122,13 @@ public class ProyectosMB {
 
     public void cargarNombreSoliExterno() {
         try {
-            if (personaExterna == null) {
-                personaExterna = new Persona();
+            if (personaExternaAux == null) {
+                personaExternaAux = new Persona();
             }
 
-            if (personaExterna.getIdPersona() != null) {
+            if (personaExternaAux.getIdPersona() != null) {
+                personaExterna = personaExternaAux;
+                existeRefExt = 1;
                 List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(personaExterna);
                 organismoSelectedRefExt = personaExterna.getIdOrganismo();
                 for (Telefono tel : telefonosByPersona) {
@@ -1216,6 +1197,8 @@ public class ProyectosMB {
                 searchByDocReferenteExterno(personaExterna.getPasaporte());
                 proyectoSelected = proyecto.getIdTipoProyecto();
                 tipoCambioSelected.setIdTipoCambio(2);
+                fechaI = proyecto.getFechaInicio();
+                fechaF = proyecto.getFechaFin();
                 if (proyecto.getIdPropuestaConvenio() == null) {
                 } else {
                     propuestaConvenioSelected = proyecto.getIdPropuestaConvenio();
@@ -1224,6 +1207,7 @@ public class ProyectosMB {
                 cargarOrganismos(proyecto.getOrganismoList());
                 cargarAreas(proyecto.getAreaConocimientoList());
                 cargarFacultadesBeneficiadas(proyecto.getFacultadList());
+                anio = proyecto.getAnioGestion().toString() + " ";
                 actualizar = Boolean.TRUE;
                 if (consultar != true) {
                     FacesContext.getCurrentInstance().getExternalContext().redirect("registrarProyecto.xhtml");
@@ -2245,4 +2229,28 @@ public class ProyectosMB {
         this.tipoBusquedaAsistente = tipoBusquedaAsistente;
     }
 
+    public Persona getPersonaAux() {
+        return personaAux;
+    }
+
+    public void setPersonaAux(Persona personaAux) {
+        this.personaAux = personaAux;
+    }
+
+    public Persona getPersonaAsistenteAux() {
+        return personaAsistenteAux;
+    }
+
+    public void setPersonaAsistenteAux(Persona personaAsistenteAux) {
+        this.personaAsistenteAux = personaAsistenteAux;
+    }
+
+    public Persona getPersonaExternaAux() {
+        return personaExternaAux;
+    }
+
+    public void setPersonaExternaAux(Persona personaExternaAux) {
+        this.personaExternaAux = personaExternaAux;
+    }
+    
 }

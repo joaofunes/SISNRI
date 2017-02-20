@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="uesImageUrl" class="java.lang.String"/>
+	<parameter name="srniImageUrl" class="java.lang.String"/>
+	<parameter name="desde" class="java.lang.String"/>
+	<parameter name="hasta" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="fechaIngreso" class="java.util.Date">
+		<fieldDescription><![CDATA[fechaIngreso]]></fieldDescription>
+	</field>
+	<field name="nombreConvenio" class="java.lang.String">
+		<fieldDescription><![CDATA[nombreConvenio]]></fieldDescription>
+	</field>
+	<field name="vigencia" class="java.util.Date">
+		<fieldDescription><![CDATA[vigencia]]></fieldDescription>
+	</field>
+	<field name="finalidad" class="java.lang.String">
+		<fieldDescription><![CDATA[finalidad]]></fieldDescription>
+	</field>
+	<field name="tipoConvenio" class="java.lang.String">
+		<fieldDescription><![CDATA[tipoConvenio]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="170" splitType="Stretch">
+			<elementGroup>
+				<staticText>
+					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="0" y="0" width="528" height="32"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Universidad de El Salvador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="0" y="32" width="528" height="20"/>
+					<textElement textAlignment="Center">
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Secretaria de Relaciones Nacionales e Internacionales]]></text>
+				</staticText>
+			</elementGroup>
+			<staticText>
+				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="75" width="528" height="25" forecolor="#5B63B1"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Convenios Gestionados por Año ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="100" width="264" height="20" forecolor="#786C6C"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="100" width="264" height="20" forecolor="#786C6C"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Fecha de creacion: "]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="0" y="0" width="65" height="65"/>
+				<imageExpression><![CDATA[$P{uesImageUrl}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="463" y="0" width="65" height="65"/>
+				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="302ee8e8-4c72-46af-a7e1-030d6e34e5c7" x="0" y="132" width="528" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Periodo de consulta Desde : " +$P{desde} + " Hasta: "+$P{hasta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="2c902999-1d46-4047-a748-151aec259735" mode="Opaque" x="4" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Convenio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eb43a84d-b8e8-4209-8ca7-7cab1dd9eec9" mode="Opaque" x="105" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Convenio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cace1b29-ba73-4707-9f8f-ab39b7e33f19" mode="Opaque" x="207" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Finalidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="15f111eb-36fb-438e-bc94-e4dc2d60e118" mode="Opaque" x="408" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Ingreso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="45f3ba90-17b5-4d7b-a240-2aba5fd77b39" mode="Opaque" x="307" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vigencia]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="935f62d7-cbcd-4002-b6ef-fc51e5e6cb20" x="4" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipoConvenio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="041163f9-5f52-436e-b46f-a28b349d14a5" x="105" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombreConvenio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="a1b133ed-6b17-479c-8bc7-c64bce8f3280" x="207" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{finalidad}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="295ce786-2228-481e-84f3-a9248ba5f3a5" x="408" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fechaIngreso}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="b3668535-bec7-4d37-b1ed-a7db79f6a4b1" x="307" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{vigencia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="26" splitType="Stretch">
+			<line>
+				<reportElement uuid="52c1682d-a761-425b-adee-0c857f0badbb" x="0" y="1" width="528" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="21" splitType="Stretch">
+			<elementGroup/>
+			<textField>
+				<reportElement uuid="227203dc-ff24-41a3-b203-dbba6aa5c282" x="200" y="1" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="1b93b870-288d-480c-9925-8bc53d2347dc" x="280" y="1" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="259" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -11,6 +11,7 @@ import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoConvenioEstado;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.pojo.rpt.RptConveniosPorAnioPojo;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,7 @@ public class PropuestaConvenioService extends GenericService<PropuestaConvenio, 
      public List<PojoPropuestaConvenio> getAllConvenioSQL() {
          return propuestaConvenioDao.getAllConvenioSQL();
      }
-    
+    public List<RptConveniosPorAnioPojo>getconveniosPorAnio(Integer desde, Integer hasta){
+        return propuestaConvenioDao.getconveniosPorAnio(desde, hasta);
+    }
 }
