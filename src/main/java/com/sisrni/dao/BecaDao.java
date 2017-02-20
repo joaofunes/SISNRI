@@ -264,4 +264,14 @@ public class BecaDao extends GenericDao<Beca, Integer> {
         }
         return null;
     }
+
+    public void desvincularInterno(Integer becaId, Integer personaId) {
+        try {
+            String query = "Delete from PERSONA_BECA WHERE ID_PERSONA=" + personaId + " AND ID_BECA=" + becaId;
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+            q.executeUpdate();
+        } catch (Exception e) {
+        }
+
+    }
 }
