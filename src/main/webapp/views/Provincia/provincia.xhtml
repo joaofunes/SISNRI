@@ -17,14 +17,14 @@
                 <h:form id="formProvincia">
                     <p:panelGrid columns="2">
                         <p:column>
-                            <h:outputLabel for="nombreProvincia" value="Nombre:"/>
+                            <p:outputLabel for="nombreProvincia" value="Nombre:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="nombreProvincia" value="#{provinciaMB.provincia.nombreProvincia}" required="true" size="50" />
                             <p:watermark for="nombreProvincia" value="Nombre Estado/Departamento/Provincia" id="watermarkNombreProvincia"/>
                         </p:column>
                         <p:column>
-                            <h:outputLabel for="paisProvincia" value="País:"/>
+                            <p:outputLabel for="paisProvincia" value="País:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="paisProvincia" value="#{provinciaMB.pais.idPais}"  style="width: 100%" required="true">

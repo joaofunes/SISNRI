@@ -17,21 +17,21 @@
                 <h:form id="formPais">
                     <p:panelGrid columns="2">
                         <p:column>
-                            <h:outputLabel for="codigoPais" value="Código de País:"/>
+                            <p:outputLabel for="codigoPais" value="Código de País:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="codigoPais" value="#{paisMB.pais.codigoPais}"  size="50"/>
+                            <p:inputText id="codigoPais" value="#{paisMB.pais.codigoPais}"  required="true" size="50"/>
                             <p:watermark for="codigoPais" value="Código" id="watermarkCodigoPais"/>
                         </p:column>
                         <p:column>
-                            <h:outputLabel for="nombrePais" value="Nombre:"/>
+                            <p:outputLabel for="nombrePais" value="Nombre:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="nombrePais" value="#{paisMB.pais.nombrePais}" required="true" size="50" />
                             <p:watermark for="nombrePais" value="Nombre país" id="watermarkNombrePais"/>
                         </p:column>
                         <p:column>
-                            <h:outputLabel for="regionPais" value="Región:"/>
+                            <p:outputLabel for="regionPais" value="Región:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="regionPais" value="#{paisMB.region.idRegion}"  style="width: 100%" required="true">

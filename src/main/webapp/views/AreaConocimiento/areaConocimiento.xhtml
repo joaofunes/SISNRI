@@ -17,10 +17,10 @@
                 <h:form id="formAreaConocimiento">
                     <p:panelGrid columns="2">            
                         <p:column>
-                            <h:outputLabel for="nombre" value="Nombre:"/>
+                            <p:outputLabel for="nombre" value="Nombre:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nombre" value="#{areaConocimientoMB.areaConocimiento.nombreArea}" required="true" size="40" />
+                            <p:inputText id="nombre" value="#{areaConocimientoMB.areaConocimiento.nombreArea}" required="true" size="40" requiredMessage="Nombre requerido" />
                             <p:watermark for="nombre" value="Nombre Area de Conocimiento" id="watermarkNombreAreaConocimiento"/>
                         </p:column>
                         
@@ -55,8 +55,6 @@
                                 </p:commandLink>
                             </div>
                             
-                            
-                            
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                                title="Eliminar" value="Eliminar"
@@ -81,7 +79,7 @@
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{areaConocimientoMB.borrarAreaConocimiento()}" update=":formTablaAreaConocimientoes"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>

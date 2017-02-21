@@ -17,14 +17,14 @@
                 <h:form id="formFacultad">
                     <p:panelGrid columns="2">
                         <p:column>
-                            <h:outputLabel for="nombreFacultad" value="Nombre de la Facultad:"/>
+                            <p:outputLabel for="nombreFacultad" value="Nombre de la Facultad:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="nombreFacultad" value="#{facultadMB.facultad.nombreFacultad}" required="true" size="50" />
                             <p:watermark for="nombreFacultad" value="Nombre facultad" id="watermarkNombreFacultad"/>
                         </p:column>
                         <p:column>
-                            <h:outputLabel for="paisFacultad" value="País:"/>
+                            <p:outputLabel for="paisFacultad" value="País:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="paisFacultad" value="#{facultadMB.paisSelected.idPais}"  style="width: 100%" required="true" >
@@ -36,7 +36,7 @@
                             </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                            <h:outputLabel for="organismoFacultad" value="Universidad:"/>
+                            <p:outputLabel for="organismoFacultad" value="Universidad:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="organismoFacultad" value="#{facultadMB.organismo.idOrganismo}"  style="width: 100%" required="true" >
