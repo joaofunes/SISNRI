@@ -449,7 +449,7 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:commandButton value="Desvincular asesor Interno" actionListener="#{becaMB.desvincularInterno()}" process="@this" rendered="#{becaMB.mostrarTabInterno}"/>
+                                                <p:commandButton value="Desvincular asesor Interno" actionListener="#{becaMB.desvincularInterno()}" process="@this" rendered="#{becaMB.mostrarTabInterno and !becaMB.asesorInterno.idPersona==null}"/>
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
