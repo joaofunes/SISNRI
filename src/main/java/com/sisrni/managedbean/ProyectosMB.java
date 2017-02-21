@@ -51,6 +51,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
@@ -258,6 +259,8 @@ public class ProyectosMB {
     private List<Persona> personaSinBuscar;
     private List<Persona> personaAsistenteSinBuscar;
     private List<Persona> personaExternaSinBuscar;
+    
+    private Boolean reemplazarSol;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -415,20 +418,45 @@ public class ProyectosMB {
         personaSinBuscar = new ArrayList<Persona>();
         personaAsistenteSinBuscar = new ArrayList<Persona>();
         personaExternaSinBuscar = new ArrayList<Persona>();
+        reemplazarSol=Boolean.FALSE;
     }
 
     public void mostrarTab() {
         tabAsis = tabAsisMostrar ? Boolean.TRUE : Boolean.FALSE;
     }
 
+    public void preGuardarProyecto() {
+        personaSinBuscar = personaService.getReferenteInternoByEmail(persona.getEmailPersona());
+        if (personaSinBuscar != null && !personaSinBuscar.isEmpty()) {
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dataChangeDlg').show();");
+        }
+    }
+
+    //metodo que se utiliza para reemplazar los datos de la vista a los ya existentes de una persona
+    public void reemplazarPersona() {
+        persona = personaSinBuscar.get(0);
+        reemplazarSol = Boolean.TRUE;
+        RequestContext.getCurrentInstance().update(":formAdmin");
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeDlg').hide();");
+        guardarProyecto();
+    }
+
+    public void noReemplazarPersona() {
+        reemplazarSol=Boolean.FALSE;
+        RequestContext.getCurrentInstance().update(":formAdmin");
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeDlg').hide();");
+        guardarProyecto();
+    }
+
     public void guardarProyecto() {
         try {
             //guardar persona solicitante
-            if (existeSol == 0) {
-                personaSinBuscar = personaService.getReferenteInternoByEmail(persona.getEmailPersona());
-                if (personaSinBuscar != null && !personaSinBuscar.isEmpty() ){
+            if (reemplazarSol==Boolean.FALSE) {
+                if (personaSinBuscar != null && !personaSinBuscar.isEmpty()) {
                     persona = personaSinBuscar.get(0);
-                    existeSol = 1;
                     personaService.merge(persona);
                 }
             } else {
@@ -452,6 +480,9 @@ public class ProyectosMB {
                 telefonoSolCel.setIdTipoTelefono(tipoTelefonoCel);
                 persona.getTelefonoList().add(telefonoSolCel);
                 if (existeSol == 1 || actualizar == true) {
+                    if(reemplazarSol==Boolean.TRUE){
+                        persona.setIdPersona(personaSinBuscar.get(0).getIdPersona());
+                    }
                     personaService.merge(persona);
                 } else {
                     personaService.save(persona);
@@ -2252,5 +2283,5 @@ public class ProyectosMB {
     public void setPersonaExternaAux(Persona personaExternaAux) {
         this.personaExternaAux = personaExternaAux;
     }
-    
+
 }

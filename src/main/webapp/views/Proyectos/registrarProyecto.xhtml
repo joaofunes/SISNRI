@@ -241,7 +241,7 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true">
-                                            <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                                <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -374,7 +374,7 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}">
-                                            <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                                <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column> 
                                         <p:column>
@@ -489,7 +489,7 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}" rendered="true">
-                                            <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                                <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -527,9 +527,18 @@
                         </p:accordionPanel>                                                                         
                     </p:panel>
                     <p:commandButton styleClass="boton" value="Regresar"  id="btnRegresar" title="Regresar" actionListener="#{proyectosMB.regresar()}" process="@this"/>
-                    <p:commandButton styleClass="boton" actionListener="#{proyectosMB.guardarProyecto()}" process="formAdmin" update="formAdmin" value="guardar" id="btnguardarProyecto" title="Guardar Proyecto"/>
+                    <p:commandButton styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin" update="formAdmin" value="guardar" id="btnguardarProyecto" title="Guardar Proyecto"/>
                 </center>
             </h:form>
+            <p:confirmDialog widgetVar="dataChangeDlg" message="Â¿EstÃ¡ seguro que desea eliminar el Tipo de Cambio?" header="Eliminar Tipo de Cambio"  global="true">
+                <h:form id="idEliminacion"> 
+
+                </h:form>    
+
+                <p:separator />
+                <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersona()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{proyectosMB.guardarProyecto()}" process="@this" update=":formAdmin"/>
+            </p:confirmDialog>
         </ui:define>
     </ui:composition>
 
