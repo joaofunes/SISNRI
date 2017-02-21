@@ -426,7 +426,7 @@ public class ProyectosMB {
             //guardar persona solicitante
             if (existeSol == 0) {
                 personaSinBuscar = personaService.getReferenteInternoByEmail(persona.getEmailPersona());
-                if (personaSinBuscar != null) {
+                if (personaSinBuscar != null && !personaSinBuscar.isEmpty() ){
                     persona = personaSinBuscar.get(0);
                     existeSol = 1;
                     personaService.merge(persona);
@@ -461,7 +461,7 @@ public class ProyectosMB {
             if (tabAsis == true) {
                 if (existeAsis == 0) {
                     personaAsistenteSinBuscar = personaService.getReferenteInternoByEmail(personaAsistente.getEmailPersona());
-                    if (personaAsistenteSinBuscar != null) {
+                    if (personaAsistenteSinBuscar != null && !personaAsistenteSinBuscar.isEmpty()) {
                         personaAsistente = personaAsistenteSinBuscar.get(0);
                         existeAsis = 1;
                         personaService.merge(personaAsistente);
@@ -496,7 +496,7 @@ public class ProyectosMB {
             //Guardar informacion de referente externo
             if (existeRefExt == 0) {
                 personaExternaSinBuscar = personaService.getReferenteInternoByEmail(personaExterna.getEmailPersona());
-                if (personaExternaSinBuscar != null) {
+                if (personaExternaSinBuscar != null && !personaExternaSinBuscar.isEmpty()) {
                     personaExterna = personaExternaSinBuscar.get(0);
                     existeRefExt = 1;
                     personaService.merge(personaExterna);
