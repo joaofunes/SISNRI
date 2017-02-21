@@ -11,20 +11,20 @@
     
     <ui:define name="content">
          <center> 
-            <p:panel style="width: 70%" header="Gestión de Tipos de Propuesta de Convenios">  
+            <p:panel style="width: 70%" header="GestiÃ³n de Tipos de Propuesta de Convenios">  
         <h:form id="formAdmin">
                
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
                
                     <p:column>
-                        <h:outputText value="Nombre del Tipo de Propuesta de Convenio:" />
+                        <p:outputLabel for="nombrePropuestaConvenio" value="Nombre del Tipo de Propuesta de Convenio:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="nombrePropuestaConvenio" value="#{tipoPropuestaConvenioMB.tipoPropuestaConvenio.nombrePropuestaConvenio}" required="true" size="50" />
                     </p:column>
                
                     <p:column>
-                        <h:outputText value="Descripción del Tipo de Propuesta de Convenio:" />
+                        <p:outputLabel for="descri" value="DescripciÃ³n del Tipo de Propuesta de Convenio:" />
                     </p:column>
                     <p:column>
                         <p:inputTextarea id="descri" value="#{tipoPropuestaConvenioMB.tipoPropuestaConvenio.descripcion}" rows="2" maxlength="300" style="width: 100%" required="true" />
@@ -61,7 +61,7 @@
                         <h:outputText value="#{organismo.nombrePropuestaConvenio}" />
                     </p:column>
 
-                    <p:column headerText="Descripción" sortBy="#{organismo.descripcion}" filterBy="#{organismo.descripcion}">
+                    <p:column headerText="DescripciÃ³n" sortBy="#{organismo.descripcion}" filterBy="#{organismo.descripcion}">
                         <h:outputText value="#{organismo.descripcion}" />
                     </p:column>
                     <p:column headerText="Opciones" >
@@ -82,20 +82,20 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="¿Está seguro que desea eliminar el Tipo de Propuesta de Convenio?" header="Eliminar Tipo Propuesta de Convenio"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Â¿EstÃ¡ seguro que desea eliminar el Tipo de Propuesta de Convenio?" header="Eliminar Tipo Propuesta de Convenio"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre del Tipo de Propuesta de Convenio : "  style="font-weight:bold"/>
                  <h:outputText value="#{tipoPropuestaConvenioMB.delTipoPropuestaConvenio.nombrePropuestaConvenio}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripción del Tipo de Propuesta de Convenio : "  style="font-weight:bold" />
+                 <h:outputText value="DescripciÃ³n del Tipo de Propuesta de Convenio : "  style="font-weight:bold" />
                  <h:outputText value="#{tipoPropuestaConvenioMB.delTipoPropuestaConvenio.descripcion}" />
              
             </h:form>    
             
             <p:separator />
-            <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoPropuestaConvenioMB.deleteTipoPropuestaConvenio()}" process="@this" update=":formPrincipal"/>
+            <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoPropuestaConvenioMB.deleteTipoPropuestaConvenio()}" process="@this" update=":formPrincipal"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 

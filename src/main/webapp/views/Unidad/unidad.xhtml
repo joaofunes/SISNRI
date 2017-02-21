@@ -17,14 +17,14 @@
                 <h:form id="formUnidad">
                     <p:panelGrid columns="2">            
                         <p:column>
-                            <h:outputLabel for="nombre" value="Nombre:"/>
+                            <p:outputLabel for="nombre" value="Nombre:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="nombre" value="#{unidadMB.unidad.nombreUnidad}" required="true" size="20" />
                             <p:watermark for="nombre" value="Nombre unidad" id="watermarkNombreUnidad"/>
                         </p:column>
                         <p:column>
-                            <h:outputLabel for="organismo" value="Organismo:"/>
+                            <p:outputLabel for="organismo" value="Organismo:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="organismo" value="#{unidadMB.organismo.idOrganismo}"  style="width:180px" required="true">

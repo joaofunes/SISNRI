@@ -17,14 +17,14 @@
                 <h:form id="formEscuelaDepartamento">
                     <p:panelGrid columns="2">
                         <p:column>
-                            <h:outputLabel for="nombreEscuelaDepto" value="Nombre Escuela o Departamento:"/>
+                            <p:outputLabel for="nombreEscuelaDepto" value="Nombre Escuela o Departamento:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="nombreEscuelaDepto" value="#{escuelaDepartamentoMB.escuelaDepartamento.nombreEscuelaDepto}" required="true" size="40" />
                             <p:watermark for="nombreEscuelaDepto" value="Nombre de Escuela o Departamento" id="watermarkNombreEscuelaDepartamento"/>
                         </p:column>
                         
-                         <h:outputLabel value="País: "/>
+                         <p:outputLabel for="pais" value="País: "/>
                         <p:selectOneMenu id="pais" value="#{escuelaDepartamentoMB.paisSelected.idPais}" style="width: 100%" required="true">
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <p:ajax listener="#{escuelaDepartamentoMB.onchangePais()}" update="organismo" />
@@ -32,7 +32,7 @@
                         <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
                         </c:forEach>
                        </p:selectOneMenu>
-                        <h:outputLabel value="Universidad: "/>
+                        <p:outputLabel for="organismo" value="Universidad: "/>
                         <p:selectOneMenu id="organismo" value="#{escuelaDepartamentoMB.organismoSelected.idOrganismo}" style="width: 100%" required="true">
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <p:ajax listener="#{escuelaDepartamentoMB.onchangeOrganismo()}" update="facultadEscuelaDepartamento" />
@@ -42,7 +42,7 @@
                      </p:selectOneMenu>
                         
                         <p:column>
-                            <h:outputLabel for="facultadEscuelaDepartamento" value="Facultad:"/>
+                            <p:outputLabel for="facultadEscuelaDepartamento" value="Facultad:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="facultadEscuelaDepartamento" value="#{escuelaDepartamentoMB.facultad.idFacultad}"  style="width: 100%" required="true" >
@@ -54,7 +54,7 @@
                         </p:column>
                     
                        <p:column>
-                            <h:outputLabel for="identificadorEscuelaDepartamento" value="Tipo:"/>
+                            <p:outputLabel for="identificadorEscuelaDepartamento" value="Tipo:"/>
                         </p:column>
                          <p:column>
                               <p:selectOneMenu id="identificadorEscuelaDepartamento" value="#{escuelaDepartamentoMB.escuelaDepartamento.identificador}"  style="width: 100%" required="true" >
@@ -64,7 +64,7 @@
                             </p:selectOneMenu>
                         </p:column>   
                          <p:column>
-                            <h:outputLabel for="descripcionEscuelaDepto" value="Descripción:"/>
+                            <p:outputLabel for="descripcionEscuelaDepto" value="Descripción:"/>
                         </p:column>
                         <p:column>
                             <p:inputTextarea id="descripcionEscuelaDepto" value="#{escuelaDepartamentoMB.escuelaDepartamento.descripcion}" rows="2" maxlength="300" style="width: 100%" required="true" />
