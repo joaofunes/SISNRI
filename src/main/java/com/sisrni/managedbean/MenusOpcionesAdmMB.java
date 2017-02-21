@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
@@ -39,6 +41,7 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(WebApplicationContext.SCOPE_SESSION)
 public class MenusOpcionesAdmMB implements Serializable{
     
+    private static final long serialVersionUID = 1L;
     @Autowired
     @Qualifier(value = "ssMenuService")
     private SsMenusService menusService;
@@ -51,6 +54,8 @@ public class MenusOpcionesAdmMB implements Serializable{
     @Qualifier(value = "ssOpcionesService")
     private SsOpcionesService opcionesService;
     
+    @Inject
+    MenusOpcionesMB menusOpcionesMB;
     
     //listado ListPicker
     private DualListModel<SsOpciones> options;
@@ -213,14 +218,15 @@ public class MenusOpcionesAdmMB implements Serializable{
     
     
         public void addOpciones (SsMenus ssMenus){
-            try {
+            try {                             
+              
+                FacesContext.getCurrentInstance().getExternalContext().redirect("menuOpcionesAdm.xhtml");
+//               menusOpcionesMB.init();
+//               menusOpcionesMB.llenarOpciones(ssMenus);
                
-                optionsSource = new ArrayList<SsOpciones>();
-                optionsTarget = new ArrayList<SsOpciones>();
-                optionsSource = opcionesService.getOpcionesNotMenu();
-                optionsTarget = opcionesService.getOpcionestMenu(ssMenus.getIdMenu());
-                options = new DualListModel<SsOpciones>(optionsSource, optionsTarget);
-         
+//               RequestContext context = RequestContext.getCurrentInstance();
+//               context.execute("PF('NuevoMenuDialog').show();");
+               
             } catch (Exception e) {
                 e.printStackTrace();
             }

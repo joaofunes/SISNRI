@@ -44,6 +44,7 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(WebApplicationContext.SCOPE_SESSION)
 public class MenusOpcionesMB implements Serializable{
     
+    private static final long serialVersionUID = 1L;
     @Autowired
     @Qualifier(value = "ssMenuService")
     private SsMenusService menusService;
