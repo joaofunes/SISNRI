@@ -592,7 +592,7 @@
                                         <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.regresar()}"  process="@this"   value="Regresar"  id="btnRegresar" title="Regresar" />
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.guardarMovilidadPersona()}" process="formRegistrarMovilidad" update="formRegistrarMovilidad"  value="Guardar"  id="btnModificar"  title="Guardar Movilidad" />                                 
+                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.preGuardarMovilidad()}" process="formRegistrarMovilidad" update="formRegistrarMovilidad"  value="Guardar"  id="btnModificar"  title="Guardar Movilidad" />                                 
                                     </p:column>
                                     <p:column>
                                         <h:panelGroup/>
@@ -603,6 +603,10 @@
                         </h:form>
                     </p:panel>
                 </center>
+                
+           
+                
+                
             </ui:define>
 
         </ui:composition>

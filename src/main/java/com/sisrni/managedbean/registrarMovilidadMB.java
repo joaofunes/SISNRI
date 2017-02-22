@@ -1377,10 +1377,35 @@ public class registrarMovilidadMB {
 
     }
 
+    public void preGuardarMovilidad() {
+        Boolean existeDocente = false;
+        Boolean existeReferente = false;
+       
+        if (usadoBuscadorPersonaMov == false && existePersonaMovilidad == false) {  //se esta digitando la persona directamente
+            if ((comprobarEmail(personaMovilidadGenerico.getEmailPersona())) != null) { //existe la persona que se digito
+                existeDocente = true;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Persona en Movilidad ya existe", "Ya existe una persona registrada con el correo: " + personaMovilidadGenerico.getEmailPersona()));
+            }
+        }
+        if (usadoBuscadorPersonaRefte == false && existeReferente == false) { //se esta digitando el referente directamente
+            if ((comprobarEmail(personaFacultadGenerico.getEmailPersona())) != null) {
+                existeReferente = true;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Persona Referente ya existe", "Ya existe una persona registrada con el correo: " + personaFacultadGenerico.getEmailPersona()));
+            }
+        }
+        
+        if(existeDocente ==false && existeReferente == false){ // si ninguno de los dos existe previamente en la base
+            guardarMovilidadPersona();
+        }
+
+    }
+
     public void guardarMovilidadPersona() {
         String msg = "Movilidad guardada exitosamente!!";
-        Persona personaMovAux =null;
-        Persona personaReftaux = null;
+     //   Persona personaMovAux = null;
+    //    Persona personaReftaux = null;
+     //   Boolean sobreEscribirDocente = false;
+     //   Boolean sobreEscribirReferent = false;
         try {
             crearMovilidad();
         //     if(usadoBuscadorPersonaMov == false && existePersonaMovilidad == false){ //se esta digitando la persona directamente
@@ -1415,24 +1440,12 @@ public class registrarMovilidadMB {
             //   personaMovilidadGenerico.getTelefonoList().add(faxPersonaMovilidad);
             //telefonoService.save(faxPersonaMovilidad);
             if (usadoBuscadorPersonaMov == false && existePersonaMovilidad == false) { //se esta digitando la persona directamente
-                if ((personaMovAux = comprobarEmail(personaMovilidadGenerico.getEmailPersona()))!=null) {
-                    personaMovilidadGenerico.setIdPersona(personaMovAux.getIdPersona());
-                    personaService.merge(personaMovilidadGenerico);
-                } else {
-                    //Guardado de persona en Movilidad
-                    personaService.save(personaMovilidadGenerico);
-                }
+              personaService.save(personaMovilidadGenerico);
             } else {
                 personaService.merge(personaMovilidadGenerico);
             }
 
-     //       if (existePersonaMovilidad == false) {
-            //           //Guardado de persona en Movilidad
-            //           personaService.save(personaMovilidadGenerico);
-            //       } else {
-            //modificando la persona
-            //            personaService.merge(personaMovilidadGenerico);
-            //        }
+            
             //Guardando en tabla intermedia de persona movilidad
             PersonaMovilidadPK personaEnMovilidadPK = new PersonaMovilidadPK();
             personaEnMovilidadPK.setIdPersona(personaMovilidadGenerico.getIdPersona());
@@ -1460,26 +1473,17 @@ public class registrarMovilidadMB {
             //    faxPersonaFacultad.setIdPersona(personaFacultadGenerico);
             //    faxPersonaFacultad.setIdTipoTelefono(tipoTelefonoFax);
             //    personaFacultadGenerico.getTelefonoList().add(faxPersonaFacultad);
-            
-            if(usadoBuscadorPersonaRefte == false && existeReferente == false){             
-                if((personaReftaux = comprobarEmail(personaFacultadGenerico.getEmailPersona()))!= null){
-                    personaFacultadGenerico.setIdPersona(personaReftaux.getIdPersona());
-                    personaService.merge(personaFacultadGenerico);
-                }else{
-                    personaService.save(personaFacultadGenerico);
-                }
-            }else{
+            if (usadoBuscadorPersonaRefte == false && existeReferente == false) {
+               personaService.save(personaFacultadGenerico);
+            } else {
                 personaService.merge(personaFacultadGenerico);
             }
-            
-            
-            
-       //     if (existeReferente == false) {
-       //         personaService.save(personaFacultadGenerico);
-       //     } else {
-       //         personaService.merge(personaFacultadGenerico);
-       //     }
 
+            //     if (existeReferente == false) {
+            //         personaService.save(personaFacultadGenerico);
+            //     } else {
+            //         personaService.merge(personaFacultadGenerico);
+            //     }
             //Guardando en la tabla intermedia persona_movilidad para el referente de la facultad beneficiada
             PersonaMovilidadPK personaMovilidadReferenteFactPK = new PersonaMovilidadPK();
             personaMovilidadReferenteFactPK.setIdPersona(personaFacultadGenerico.getIdPersona());
@@ -1499,9 +1503,9 @@ public class registrarMovilidadMB {
             //      }
             movilidadService.merge(movilidad);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardar!!", msg));
-    //    } catch (MailExisteException e) {
-    //        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Esta persona ya existe", "Esta persona ya existe"));
-    //        e.printStackTrace();
+            //    } catch (MailExisteException e) {
+            //        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Esta persona ya existe", "Esta persona ya existe"));
+            //        e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -1523,10 +1527,10 @@ public class registrarMovilidadMB {
 //          throw new  MailExisteException("Ya existe una persona registrada con este Email");
 //      }
 //    } 
-    public Persona comprobarEmail(String emailIngresado){
+    public Persona comprobarEmail(String emailIngresado) {
         Persona persona = null;
         if ((persona = personaService.existePersonaByMail(emailIngresado)) != null) {
-           
+
             return persona;
         }
         return null;
