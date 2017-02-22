@@ -530,14 +530,17 @@
                     <p:commandButton styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin" update="formAdmin" value="guardar" id="btnguardarProyecto" title="Guardar Proyecto"/>
                 </center>
             </h:form>
-            <p:confirmDialog widgetVar="dataChangeDlg" message="Â¿EstÃ¡ seguro que desea eliminar el Tipo de Cambio?" header="Eliminar Tipo de Cambio"  global="true">
-                <h:form id="idEliminacion"> 
-
-                </h:form>    
-
-                <p:separator />
+            <p:confirmDialog widgetVar="dataChangeDlg" message="Ya exixte el coordinador interno que desea ingresar, Â¿EstÃ¡ seguro que desea reemplazar los datos?" header="Existe Coordinador Interno"  global="true">
                 <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersona()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{proyectosMB.guardarProyecto()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{proyectosMB.noReemplazarPersona()}" process="@this" update=":formAdmin"/>
+            </p:confirmDialog>
+            <p:confirmDialog widgetVar="dataChangeDlgAsistente" message="Ya exixte el coordinador tecnico que desea ingresar, Â¿EstÃ¡ seguro que desea reemplazar los datos?" header="Existe Coordinador tecnico"  global="true">
+                <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{proyectosMB.noReemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
+            </p:confirmDialog>
+            <p:confirmDialog widgetVar="dataChangeDlgExterno" message="Ya exixte el coordinador Externo que desea ingresar, Â¿EstÃ¡ seguro que desea reemplazar los datos?" header="Existe Coordinador externo"  global="true">
+                <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{proyectosMB.noReemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
         </ui:define>
     </ui:composition>
