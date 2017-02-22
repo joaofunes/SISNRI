@@ -259,8 +259,10 @@ public class ProyectosMB {
     private List<Persona> personaSinBuscar;
     private List<Persona> personaAsistenteSinBuscar;
     private List<Persona> personaExternaSinBuscar;
-    
+
     private Boolean reemplazarSol;
+    private Boolean reemplazarAsis;
+    private Boolean reemplazarRefExt;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -418,7 +420,6 @@ public class ProyectosMB {
         personaSinBuscar = new ArrayList<Persona>();
         personaAsistenteSinBuscar = new ArrayList<Persona>();
         personaExternaSinBuscar = new ArrayList<Persona>();
-        reemplazarSol=Boolean.FALSE;
     }
 
     public void mostrarTab() {
@@ -426,16 +427,32 @@ public class ProyectosMB {
     }
 
     public void preGuardarProyecto() {
+        //Buscar persona Coordinador
         personaSinBuscar = personaService.getReferenteInternoByEmail(persona.getEmailPersona());
         if (personaSinBuscar != null && !personaSinBuscar.isEmpty()) {
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').show();");
+        } else {
+            //Buscar persona asistente
+            personaAsistenteSinBuscar = personaService.getReferenteInternoByEmail(personaAsistente.getEmailPersona());
+            if (personaAsistenteSinBuscar != null && !personaAsistenteSinBuscar.isEmpty()) {
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('dataChangeDlgAsistente').show();");
+            } else {
+                //Buscar persona externa
+                personaExternaSinBuscar = personaService.getReferenteInternoByEmail(personaExterna.getEmailPersona());
+                if (personaExternaSinBuscar != null && !personaExternaSinBuscar.isEmpty()) {
+                    RequestContext context = RequestContext.getCurrentInstance();
+                    context.execute("PF('dataChangeDlgExterno').show();");
+                } else {
+                    guardarProyecto();
+                }
+            }
         }
     }
-
     //metodo que se utiliza para reemplazar los datos de la vista a los ya existentes de una persona
+
     public void reemplazarPersona() {
-        persona = personaSinBuscar.get(0);
         reemplazarSol = Boolean.TRUE;
         RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
@@ -444,21 +461,54 @@ public class ProyectosMB {
     }
 
     public void noReemplazarPersona() {
-        reemplazarSol=Boolean.FALSE;
+        persona = personaSinBuscar.get(0);
+        reemplazarSol = Boolean.FALSE;
         RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlg').hide();");
         guardarProyecto();
     }
 
+    public void reemplazarPersonaAsistente() {
+        reemplazarAsis = Boolean.TRUE;
+        RequestContext.getCurrentInstance().update(":formAdmin");
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeDlgAsistente').hide();");
+        guardarProyecto();
+    }
+
+    public void noReemplazarPersonaAsistente() {
+        personaAsistente = personaAsistenteSinBuscar.get(0);
+        reemplazarAsis = Boolean.FALSE;
+        RequestContext.getCurrentInstance().update(":formAdmin");
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeDlgAsistente').hide();");
+        guardarProyecto();
+    }
+
+    public void reemplazarPersonaExterno() {
+        reemplazarRefExt = Boolean.TRUE;
+        RequestContext.getCurrentInstance().update(":formAdmin");
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeDlgExterno').hide();");
+        guardarProyecto();
+    }
+
+    public void noReemplazarPersonaExterno() {
+        personaExterna = personaExternaSinBuscar.get(0);
+        reemplazarRefExt = Boolean.FALSE;
+        RequestContext.getCurrentInstance().update(":formAdmin");
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeDlgExterno').hide();");
+        guardarProyecto();
+    }
+
     public void guardarProyecto() {
         try {
             //guardar persona solicitante
-            if (reemplazarSol==Boolean.FALSE) {
-                if (personaSinBuscar != null && !personaSinBuscar.isEmpty()) {
-                    persona = personaSinBuscar.get(0);
-                    personaService.merge(persona);
-                }
+            if (reemplazarSol = Boolean.FALSE) {
+                personaService.merge(persona);
+
             } else {
                 String facultadArregloSol[] = facultadSelectedPojoSol.split(",");
                 if (facultadArregloSol[1].equals("1")) {
@@ -480,7 +530,7 @@ public class ProyectosMB {
                 telefonoSolCel.setIdTipoTelefono(tipoTelefonoCel);
                 persona.getTelefonoList().add(telefonoSolCel);
                 if (existeSol == 1 || actualizar == true) {
-                    if(reemplazarSol==Boolean.TRUE){
+                    if (reemplazarSol = Boolean.TRUE) {
                         persona.setIdPersona(personaSinBuscar.get(0).getIdPersona());
                     }
                     personaService.merge(persona);
@@ -490,13 +540,8 @@ public class ProyectosMB {
             }
             //guardar persona Asistente
             if (tabAsis == true) {
-                if (existeAsis == 0) {
-                    personaAsistenteSinBuscar = personaService.getReferenteInternoByEmail(personaAsistente.getEmailPersona());
-                    if (personaAsistenteSinBuscar != null && !personaAsistenteSinBuscar.isEmpty()) {
-                        personaAsistente = personaAsistenteSinBuscar.get(0);
-                        existeAsis = 1;
-                        personaService.merge(personaAsistente);
-                    }
+                if (reemplazarAsis = Boolean.FALSE) {
+                    personaService.merge(personaAsistente);
                 } else {
                     String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
                     if (facultadArregloAsis[1].equals("1")) {
@@ -518,6 +563,9 @@ public class ProyectosMB {
                     telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
                     personaAsistente.getTelefonoList().add(telefonoAsisCel);
                     if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
+                        if (reemplazarAsis = Boolean.TRUE) {
+                            personaAsistente.setIdPersona(personaAsistenteSinBuscar.get(0).getIdPersona());
+                        }
                         personaService.merge(personaAsistente);
                     } else {
                         personaService.save(personaAsistente);
@@ -525,13 +573,8 @@ public class ProyectosMB {
                 }
             }
             //Guardar informacion de referente externo
-            if (existeRefExt == 0) {
-                personaExternaSinBuscar = personaService.getReferenteInternoByEmail(personaExterna.getEmailPersona());
-                if (personaExternaSinBuscar != null && !personaExternaSinBuscar.isEmpty()) {
-                    personaExterna = personaExternaSinBuscar.get(0);
-                    existeRefExt = 1;
-                    personaService.merge(personaExterna);
-                }
+            if (reemplazarRefExt = Boolean.FALSE) {
+                personaService.merge(personaExterna);
             } else {
                 Organismo organismoExt = organismoService.findById(organismoSelectedRefExt.getIdOrganismo());
                 personaExterna.setIdOrganismo(organismoExt);
@@ -547,6 +590,9 @@ public class ProyectosMB {
                 telefonoRefextCel.setIdTipoTelefono(tipoTelefonoCel);
                 personaExterna.getTelefonoList().add(telefonoRefextCel);
                 if (existeRefExt == 1 || actualizar == true) {
+                    if (reemplazarRefExt = Boolean.TRUE) {
+                        personaExterna.setIdPersona(personaExternaSinBuscar.get(0).getIdPersona());
+                    }
                     personaService.merge(personaExterna);
                 } else {
                     personaService.save(personaExterna);
