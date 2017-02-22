@@ -45,14 +45,14 @@
     </h:head>
 
     <h:body>
-        <div id="page">  
-
+          <div id="page"> 
             <div id="header">
                 <ui:insert name="header" >
-                    <ui:include src="/WEB-INF/templates/commonHeader.xhtml" />
+                    <ui:include src="/auth/templates/loginheader.xhtml" />
                 </ui:insert>
             </div>
-            <div id="content">
+        
+           <div id="content">
                 <div class="container" style="background:white; border: 1px dotted #f0f0f0">
                     <div class="content_info">
                         <!--                        <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">  
@@ -86,7 +86,7 @@
             }
                         </script>
                         <ui:insert name="content" >
-                            <ui:include src="/WEB-INF/templates/commonContent.xhtml" />
+                            <!--<ui:include src="views/noticias/index.xhtml" />-->
                         </ui:insert>
                     </div>
 
@@ -95,13 +95,14 @@
 
             <div id="footer">
                 <ui:insert name="footer" >
-                    <ui:include src="/WEB-INF/templates/commonFooter.xhtml" />
+                    <ui:include src="/auth/templates/loginfooter.xhtml" />
                 </ui:insert>
             </div>
 
-        </div>
 
+
+
+
+          </div>  
     </h:body>
-
 </html>
-

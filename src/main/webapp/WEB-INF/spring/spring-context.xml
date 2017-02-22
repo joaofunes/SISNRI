@@ -23,7 +23,7 @@
 
     
     <bean id="authEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <property name="loginFormUrl" value="/auth/login.xhtml"/>
+        <property name="loginFormUrl" value="/auth/template/login.xhtml"/>
     </bean>    
     
     <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
@@ -132,6 +132,13 @@
             <security:filter-chain pattern="/report/report/**"  filters="none" />  
             <security:filter-chain pattern="/javax.faces.resource/**"  filters="none" />
             <security:filter-chain pattern="/auth/**"  filters="
+                   securityContextPersistenceFilter,
+                   logoutFilter,
+                   authenticationProcessingFilter,
+                   anonymousFilter,
+                   exceptionTranslationFilter,
+                   filterSecurityInterceptorNotSecure" />   
+             <security:filter-chain pattern="/views/Noticias/Index.xhtml"  filters="
                    securityContextPersistenceFilter,
                    logoutFilter,
                    authenticationProcessingFilter,
