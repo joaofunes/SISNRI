@@ -318,7 +318,7 @@
                                         <p:inputText value="#{becaMB.docInternoSearch}" id="idDocInter"/>
                                         <p:commandButton value="Buscar" actionListener="#{becaMB.buscarInterno(becaMB.docInternoSearch)}" process="idDocInter @this" icon="ui-icon-search" update="panelInterno"/>
                                     </h:panelGroup>
-                                    <h:panelGroup id="pgroupBuscadorAsesorInterno" rendered="#{becaMB.actualizar and becaMB.mostrarTabInterno}">
+                                    <h:panelGroup id="pgroupBuscadorAsesorInterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno}">
                                         <p:panelGrid id="pGridBuscadorAsesorInterno">
                                             <p:column>
                                                 <p:outputLabel for="tipoBusquedaAsesorInternoId" value="Tipo de Busqueda:" />
@@ -449,7 +449,7 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:commandButton value="Desvincular asesor Interno" actionListener="#{becaMB.desvincularInterno()}" process="@this" rendered="#{becaMB.mostrarTabInterno}"/>
+                                                <p:commandButton value="Desvincular asesor Interno" actionListener="#{becaMB.desvincularInterno()}" process="@this" rendered="#{becaMB.mostrarTabInterno and !becaMB.noEstabaInterno}"/>
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
