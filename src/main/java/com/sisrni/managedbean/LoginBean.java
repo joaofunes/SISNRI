@@ -48,7 +48,7 @@ public class LoginBean implements Serializable {
 
     public void calculateMenuTest() {
         if (getForm().getOptions() == null || getForm().getOptions().isEmpty()) {
-            SsRoles rol = ssRolesService.getRolByName("ADM");
+            SsRoles rol = ssRolesService.getRolByName("NO_PRIV");
             List<SsMenus> mns = ssMenusService.getMenusByrol(rol);
             getForm().setMenusLst(MenuList.GenerarMenu(mns));
             for (MenuList menu : getForm().getMenusLst()) {

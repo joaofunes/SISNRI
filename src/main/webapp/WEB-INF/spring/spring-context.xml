@@ -23,14 +23,14 @@
 
     
     <bean id="authEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <property name="loginFormUrl" value="/auth/template/login.xhtml"/>
+        <property name="loginFormUrl" value="/auth/templates/index.xhtml"/>
     </bean>    
     
     <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
         <property name="authenticationEntryPoint" ref="authEntryPoint" />
         <property name="accessDeniedHandler">
             <bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
-                <property name="errorPage" value="/auth/login.xhtml?error=true"/>
+                <property name="errorPage" value="/auth/templates/index.xhtml?error=true"/>
             </bean>
         </property>
         <property name="requestCache">
@@ -39,7 +39,7 @@
     </bean>
 
     <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
-        <constructor-arg value="/auth/login.xhtml"/>
+        <constructor-arg value="/auth/templates/index.xhtml"/>
         <constructor-arg>
             <list>
                 <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
@@ -48,7 +48,7 @@
     </bean>
     
     <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-        <property name="defaultFailureUrl" value="/auth/login.xhtml?error=true"/>
+        <property name="defaultFailureUrl" value="/auth/templates/index.xhtml?error=true"/>
     </bean>
     
     <bean id="successHandler" class="com.sisrni.security.CustomAuthenticationSuccessHandler">
