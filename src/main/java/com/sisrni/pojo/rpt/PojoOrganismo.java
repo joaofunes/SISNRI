@@ -23,7 +23,7 @@ public class PojoOrganismo implements Serializable {
     private String direccion;
     private String correo;
     private Integer codigo;
-    private String telf;
+    private String tel;
     
     public Integer getIdOrg() {
         return idOrg;
@@ -88,13 +88,13 @@ public class PojoOrganismo implements Serializable {
     public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
-
-    public String getTelf() {
-        return telf;
+    
+    public String getTel() {
+        return tel;
     }
 
-    public void setTelf(String telf) {
-        this.telf = telf;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
    
 }
