@@ -78,7 +78,7 @@ public class NoticiaMB implements Serializable {
         noticia = new Noticia();
         categoriaSelected = new CategoriaNoticia();
         categoriaNoticiaList = categoriaNoticiaService.findAll();
-        noticiasList = noticiaService.findAll();
+        noticiasList = noticiaService.getAllNoticiasOrderDescDate();
         categoriaSelectedPublicas = 0;
         noticiasListPublicas = noticiaService.getActiveNews(categoriaSelectedPublicas);
         actualizar = false;

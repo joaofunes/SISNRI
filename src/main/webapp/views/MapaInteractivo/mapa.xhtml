@@ -11,13 +11,16 @@
                  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="content">
+        <center>
+             <h1 style="background: #cc0000;color: white;border-radius: 10px">Mapa Interactivo de Proyectos</h1>
+        </center>    
         <h:form>
             <p:growl id="msgs" showDetail="true" />
-            <p:panel header="Parametros de Busqueda">
+            <p:panel header="Par&aacute;metros de B&uacute;squeda">
                 <p:panelGrid>
                     <p:row> 
                         <p:column>
-                            <p:outputLabel  value="Pais:" />
+                            <p:outputLabel  value="Pa&iacute;s:" />
                         </p:column>
                         <p:column>
                             <p:selectCheckboxMenu id="pais" value="#{mapaInteractivo.paisSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith">
@@ -70,13 +73,13 @@
         </h:form> 
 
         <p:outputPanel id="mapaPanel">
-            <p:panel header="Mapa de Cooperacion" toggleable="true" >
+            <p:panel header="Mapa de Cooperaci&oacute;n" toggleable="true" >
                 <pe:gChart value="#{mapaInteractivo.chartModel}" title="Mapa de Cooperacion" rendered="#{!mapaInteractivo.noHayRegistros}" widgetVar="map"/>
             </p:panel>
         </p:outputPanel>
 
         <p:outputPanel id="graficosPanel">
-            <p:panel header="Graficos de Pastel" toggleable="true">
+            <p:panel header="Gr&aacute;ficos de Pastel" toggleable="true">
                 <p:panelGrid columns="2" rendered="#{!mapaInteractivo.noHayRegistros}">
                     <p:column>
                         <p:panelGrid columns="2">
@@ -104,13 +107,13 @@
         </script>
 
         <p:outputPanel id="tblProyectosSumary">
-            <p:panel header="Datos por Pais" toggleable="true">
+            <p:panel header="Datos Por Pa&iacute;s" toggleable="true">
                 <p:dataTable id="tblr" var="r" value="#{mapaInteractivo.projectListToChart}"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                              paginator="true" rows="10" style="margin-bottom:20px" rendered="#{!mapaInteractivo.noHayRegistros}">
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Pais Cooperante" />
+                            <h:outputText value="Pa&iacute;s Cooperante" />
                         </f:facet>
                         <h:outputText value="#{r.nombrePais}" />
                     </p:column>
@@ -122,7 +125,7 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Monto Cooperacion" />
+                            <h:outputText value="Monto Cooperaci&oacute;n" />
                         </f:facet>
                         <h:outputText value="#{r.montoCooperacion}">
                             <f:convertNumber type="currency" currencySymbol="$" />
@@ -162,7 +165,7 @@
                 <p:column headerText="Tipo">
                     <h:outputText value="#{p.idTipoProyecto.nombreTipoProyecto}" />
                 </p:column>
-                <p:column headerText="A&ntilde;o Gestion">
+                <p:column headerText="A&ntilde;o Gesti&oacute;n">
                     <h:outputText value="#{p.anioGestion}" />
                 </p:column>
                 <p:column headerText="Monto($)">
@@ -172,7 +175,7 @@
                 </p:column>
             </p:dataTable>
         </p:dialog>
-        <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Imagen del grafico" resizable="true" appendTo="@(body)">
+        <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Imagen del gr&aacute;fico" resizable="true" appendTo="@(body)">
             <center> <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/></center>
         </p:dialog>
     </ui:define>
