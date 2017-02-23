@@ -24,13 +24,13 @@
                                 <p:outputLabel  value="Desde: " />
                             </p:column>
                             <p:column>
-                                <p:calendar id="germanDesde" value="#{reporteNoticias.desde}" locale="de" navigator="true" pattern="dd/MM/yyyy" />
+                                <p:calendar id="germanDesde" value="#{reporteNoticias.desde}" locale="de" navigator="true" pattern="dd/MM/yyyy" maxdate="#{reporteNoticias.currentDate}"/>
                             </p:column>
                             <p:column>
                                 <p:outputLabel  value="Hasta: " />
                             </p:column>
                             <p:column>
-                                <p:calendar id="germanHasta" value="#{reporteNoticias.hasta}" locale="de" navigator="true" pattern="dd/MM/yyyy" />
+                                <p:calendar id="germanHasta" value="#{reporteNoticias.hasta}" locale="de" navigator="true" pattern="dd/MM/yyyy" maxdate="#{reporteNoticias.currentDate}" />
                             </p:column>
                         </p:row>
                     </p:panelGrid>
