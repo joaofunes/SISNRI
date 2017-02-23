@@ -432,22 +432,32 @@ public class ProyectosMB {
         if (personaSinBuscar != null && !personaSinBuscar.isEmpty()) {
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').show();");
+        } else if (tabAsis == true) {
+            preGuardarProyectoAsistente();
         } else {
-            //Buscar persona asistente
-            personaAsistenteSinBuscar = personaService.getReferenteInternoByEmail(personaAsistente.getEmailPersona());
-            if (personaAsistenteSinBuscar != null && !personaAsistenteSinBuscar.isEmpty()) {
-                RequestContext context = RequestContext.getCurrentInstance();
-                context.execute("PF('dataChangeDlgAsistente').show();");
-            } else {
-                //Buscar persona externa
-                personaExternaSinBuscar = personaService.getReferenteInternoByEmail(personaExterna.getEmailPersona());
-                if (personaExternaSinBuscar != null && !personaExternaSinBuscar.isEmpty()) {
-                    RequestContext context = RequestContext.getCurrentInstance();
-                    context.execute("PF('dataChangeDlgExterno').show();");
-                } else {
-                    guardarProyecto();
-                }
-            }
+            preGuardarProyectoExterno();
+        }
+    }
+
+    public void preGuardarProyectoAsistente() {
+        //Buscar persona asistente
+        personaAsistenteSinBuscar = personaService.getReferenteInternoByEmail(personaAsistente.getEmailPersona());
+        if (personaAsistenteSinBuscar != null && !personaAsistenteSinBuscar.isEmpty()) {
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dataChangeDlgAsistente').show();");
+        } else {
+            preGuardarProyectoExterno();
+        }
+    }
+
+    public void preGuardarProyectoExterno() {
+        //Buscar persona externa
+        personaExternaSinBuscar = personaService.getReferenteExternoByEmail(personaExterna.getEmailPersona());
+        if (personaExternaSinBuscar != null && !personaExternaSinBuscar.isEmpty()) {
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dataChangeDlgExterno').show();");
+        } else {
+            guardarProyecto();
         }
     }
     //metodo que se utiliza para reemplazar los datos de la vista a los ya existentes de una persona
@@ -457,7 +467,7 @@ public class ProyectosMB {
         RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlg').hide();");
-        guardarProyecto();
+        preGuardarProyectoAsistente();
     }
 
     public void noReemplazarPersona() {
@@ -466,15 +476,15 @@ public class ProyectosMB {
         RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlg').hide();");
-        guardarProyecto();
+        preGuardarProyectoAsistente();
     }
 
     public void reemplazarPersonaAsistente() {
         reemplazarAsis = Boolean.TRUE;
         RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('dataChangeDlgAsistente').hide();");
-        guardarProyecto();
+        context.execute("PF('dataChangeDlgAsistente').hide();"); 
+        preGuardarProyectoExterno();
     }
 
     public void noReemplazarPersonaAsistente() {
@@ -483,7 +493,7 @@ public class ProyectosMB {
         RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlgAsistente').hide();");
-        guardarProyecto();
+        preGuardarProyectoExterno();
     }
 
     public void reemplazarPersonaExterno() {
@@ -506,7 +516,7 @@ public class ProyectosMB {
     public void guardarProyecto() {
         try {
             //guardar persona solicitante
-            if (reemplazarSol = Boolean.FALSE) {
+            if (reemplazarSol == false) {
                 personaService.merge(persona);
 
             } else {
@@ -530,9 +540,9 @@ public class ProyectosMB {
                 telefonoSolCel.setIdTipoTelefono(tipoTelefonoCel);
                 persona.getTelefonoList().add(telefonoSolCel);
                 if (existeSol == 1 || actualizar == true) {
-                    if (reemplazarSol = Boolean.TRUE) {
-                        persona.setIdPersona(personaSinBuscar.get(0).getIdPersona());
-                    }
+                    personaService.merge(persona);
+                } else if (reemplazarSol = Boolean.TRUE && !personaSinBuscar.isEmpty()) {
+                    persona.setIdPersona(personaSinBuscar.get(0).getIdPersona());
                     personaService.merge(persona);
                 } else {
                     personaService.save(persona);
@@ -540,7 +550,7 @@ public class ProyectosMB {
             }
             //guardar persona Asistente
             if (tabAsis == true) {
-                if (reemplazarAsis = Boolean.FALSE) {
+                if (reemplazarAsis == false) {
                     personaService.merge(personaAsistente);
                 } else {
                     String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
@@ -563,9 +573,9 @@ public class ProyectosMB {
                     telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
                     personaAsistente.getTelefonoList().add(telefonoAsisCel);
                     if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
-                        if (reemplazarAsis = Boolean.TRUE) {
-                            personaAsistente.setIdPersona(personaAsistenteSinBuscar.get(0).getIdPersona());
-                        }
+                        personaService.merge(personaAsistente);
+                    } else if (reemplazarAsis = Boolean.TRUE && !personaAsistenteSinBuscar.isEmpty()) {
+                        personaAsistente.setIdPersona(personaAsistenteSinBuscar.get(0).getIdPersona());
                         personaService.merge(personaAsistente);
                     } else {
                         personaService.save(personaAsistente);
@@ -573,7 +583,7 @@ public class ProyectosMB {
                 }
             }
             //Guardar informacion de referente externo
-            if (reemplazarRefExt = Boolean.FALSE) {
+            if (reemplazarRefExt == false) {
                 personaService.merge(personaExterna);
             } else {
                 Organismo organismoExt = organismoService.findById(organismoSelectedRefExt.getIdOrganismo());
@@ -590,9 +600,9 @@ public class ProyectosMB {
                 telefonoRefextCel.setIdTipoTelefono(tipoTelefonoCel);
                 personaExterna.getTelefonoList().add(telefonoRefextCel);
                 if (existeRefExt == 1 || actualizar == true) {
-                    if (reemplazarRefExt = Boolean.TRUE) {
-                        personaExterna.setIdPersona(personaExternaSinBuscar.get(0).getIdPersona());
-                    }
+                    personaService.merge(personaExterna);
+                } else if (reemplazarRefExt = Boolean.TRUE && !personaExternaSinBuscar.isEmpty()) {
+                    personaExterna.setIdPersona(personaExternaSinBuscar.get(0).getIdPersona());
                     personaService.merge(personaExterna);
                 } else {
                     personaService.save(personaExterna);
