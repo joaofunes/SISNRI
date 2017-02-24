@@ -57,4 +57,7 @@ public class ProyectoService extends GenericService<Proyecto, Integer> {
     public List<RptProyectosFinanciadosPojo> getDataProyectosTotales(Integer desde, Integer hasta) {
         return proyectoDao.getDataProyectosTotales(desde, hasta);
     }
+    public void desvincularInterno(Integer proyectoId, Integer personaId) {
+        proyectoDao.desvincularInterno(proyectoId, personaId);
+    }
 }
