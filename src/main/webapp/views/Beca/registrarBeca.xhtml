@@ -87,7 +87,9 @@
                                             <p:outputLabel value="#{lbecas.nombreBecario}" for="nombrebecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" required="true"/>
+                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" required="true">
+                                                <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="#{lbecas.apellidos}" for="apellidobecario"/>
@@ -107,7 +109,9 @@
                                             <p:outputLabel value="#{lbecas.correo}" for="correobecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correobecario" value="#{becaMB.becario.emailPersona}" required="true"/>
+                                            <p:inputText id="correobecario" value="#{becaMB.becario.emailPersona}" required="true">
+                                                <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                            </p:inputText>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -231,13 +235,18 @@
                                             <p:outputLabel value="#{lbecas.fechaInicio}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:calendar pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaInicio}"/>
+                                            <p:calendar id="desdeMovilidad" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaInicio}">
+                                                <p:ajax event="dateSelect" update="fechafin" />
+                                            </p:calendar>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="#{lbecas.fechaFinalizacion}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:calendar pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaFin}"/>
+                                            <p:calendar id="fechafin" pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaFin}">
+                                                <f:attribute name="desdeMovilidad" value="#{becaMB.beca.fechaInicio}"/>
+                                                <f:validator validatorId="fechaMayorValidator"/>
+                                            </p:calendar>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -407,7 +416,9 @@
                                                 <p:outputLabel value="#{lbecas.correo}" for="correoAsosorInterno"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="correoAsosorInterno" value="#{becaMB.asesorInterno.emailPersona}" required="true"/>
+                                                <p:inputText id="correoAsosorInterno" value="#{becaMB.asesorInterno.emailPersona}" required="true">
+                                                    <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                                </p:inputText>
                                             </p:column>
                                         </p:row>
                                         <p:row>
@@ -551,7 +562,9 @@
                                                 <p:outputLabel value="#{lbecas.correo}" for="correoAsesorExterno"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="correoAsesorExterno" value="#{becaMB.asesorExterno.emailPersona}" required="true"/>
+                                                <p:inputText id="correoAsesorExterno" value="#{becaMB.asesorExterno.emailPersona}" required="true">
+                                                    <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                                </p:inputText>
                                             </p:column>
                                         </p:row>
                                         <p:row>
