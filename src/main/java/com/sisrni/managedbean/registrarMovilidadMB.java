@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -147,6 +148,9 @@ public class registrarMovilidadMB {
     private String tipoBusquedaSaliente;
     private String tipoBusquedaEntrante;
     private String tipoBusquedaReferente;
+    
+    private String msgPersonaMovExiste;
+    private String msgPersonaRefExiste;
 
     private Boolean mostrarSaliente, mostrarEntrante;
 
@@ -168,6 +172,9 @@ public class registrarMovilidadMB {
     //  private PersonaMovilidadPK personaEnMovilidadPK;
     //private Persona personaFacultadSelected;
     private Persona personaFacultadGenerico;
+    
+    private  Persona personaMovAux;
+    private  Persona personaReftAux;
 
     private TipoPersona tipoPersonaReferenteFact;
 
@@ -341,7 +348,7 @@ public class registrarMovilidadMB {
         flagSearchNombreEntrante = Boolean.FALSE;
         disableAutoEntrante = Boolean.TRUE;
 
-        actualizar = true;
+        actualizar = false;
         usadoBuscadorPersonaMov = false;
         usadoBuscadorPersonaRefte = false;
 
@@ -363,6 +370,9 @@ public class registrarMovilidadMB {
 
         //personaFacultadSelected = new Persona();
         personaFacultadGenerico = new Persona();
+        
+        personaMovAux = new Persona();
+        personaReftAux = new Persona();
 
         //personaMovilidadReferenteFact = new PersonaMovilidad();
         //personaMovilidadReferenteFactPK = new PersonaMovilidadPK();
@@ -469,6 +479,9 @@ public class registrarMovilidadMB {
         tipoBusquedaSaliente = "";
         tipoBusquedaEntrante = "";
         tipoBusquedaReferente = "";
+        
+        msgPersonaMovExiste = "";
+        msgPersonaRefExiste = "";
     }
 
     public void mostrarEscuelaDocenteMovilidad() {
@@ -1380,17 +1393,29 @@ public class registrarMovilidadMB {
     public void preGuardarMovilidad() {
         Boolean existeDocente = false;
         Boolean existeReferente = false;
+        personaMovAux = null;
+        personaReftAux = null;
+        msgPersonaMovExiste ="";
+        msgPersonaRefExiste ="";
        
-        if (usadoBuscadorPersonaMov == false && existePersonaMovilidad == false) {  //se esta digitando la persona directamente
-            if ((comprobarEmail(personaMovilidadGenerico.getEmailPersona())) != null) { //existe la persona que se digito
+        if (usadoBuscadorPersonaMov == false && existePersonaMovilidad == false && actualizar ==false) {  //se esta digitando la persona directamente
+            if ((personaMovAux = comprobarEmail(personaMovilidadGenerico.getEmailPersona())) != null) { //existe la persona que se digito
                 existeDocente = true;
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Persona en Movilidad ya existe", "Ya existe una persona registrada con el correo: " + personaMovilidadGenerico.getEmailPersona()));
+                msgPersonaMovExiste = "Ya existe una persona en el sistema registrada <br/>con el correo: <b>" + personaMovAux.getEmailPersona()+"</b>";
+                RequestContext context = RequestContext.getCurrentInstance();
+                RequestContext.getCurrentInstance().update("dialogopermov");
+                context.execute("PF('dlgExistePersonaMov').show();");
+               
             }
         }
-        if (usadoBuscadorPersonaRefte == false && existeReferente == false) { //se esta digitando el referente directamente
-            if ((comprobarEmail(personaFacultadGenerico.getEmailPersona())) != null) {
+        if (usadoBuscadorPersonaRefte == false && existeReferente == false && actualizar == false) { //se esta digitando el referente directamente
+            if ((personaReftAux = comprobarEmail(personaFacultadGenerico.getEmailPersona())) != null) {
                 existeReferente = true;
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Persona Referente ya existe", "Ya existe una persona registrada con el correo: " + personaFacultadGenerico.getEmailPersona()));
+                msgPersonaRefExiste = "Ya existe una persona en el sistema registrada <br/> con el correo: <b>"+ personaReftAux.getEmailPersona()+"</b>";
+                RequestContext contextRf = RequestContext.getCurrentInstance();
+                RequestContext.getCurrentInstance().update("dialogoperref");
+                contextRf.execute("PF('dlgExisteReferente').show();");
+                
             }
         }
         
@@ -1399,19 +1424,23 @@ public class registrarMovilidadMB {
         }
 
     }
+    
+    public void closeDlgPersonaMov(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dlgExistePersonaMov').hide();");
+    }
+    
+    public void closeDlgPersonaReft(){
+         RequestContext context = RequestContext.getCurrentInstance();
+         context.execute("PF('dlgExisteReferente').hide();");
+    }
 
     public void guardarMovilidadPersona() {
         String msg = "Movilidad guardada exitosamente!!";
-     //   Persona personaMovAux = null;
-    //    Persona personaReftaux = null;
-     //   Boolean sobreEscribirDocente = false;
-     //   Boolean sobreEscribirReferent = false;
+    
         try {
             crearMovilidad();
-        //     if(usadoBuscadorPersonaMov == false && existePersonaMovilidad == false){ //se esta digitando la persona directamente
-            //             comprobarEmail(personaMovilidadGenerico.getEmailPersona()); 
-            //         }
-
+       
             if (existeMovilidad == true) {
                 movilidadService.merge(movilidad);
             } else {
@@ -2606,4 +2635,37 @@ public class registrarMovilidadMB {
         this.isHabilidado = isHabilidado;
     }
 
+    public String getMsgPersonaMovExiste() {
+        return msgPersonaMovExiste;
+    }
+
+    public void setMsgPersonaMovExiste(String msgPersonaMovExiste) {
+        this.msgPersonaMovExiste = msgPersonaMovExiste;
+    }
+
+    public String getMsgPersonaRefExiste() {
+        return msgPersonaRefExiste;
+    }
+
+    public void setMsgPersonaRefExiste(String msgPersonaRefExiste) {
+        this.msgPersonaRefExiste = msgPersonaRefExiste;
+    }
+
+    public Persona getPersonaMovAux() {
+        return personaMovAux;
+    }
+
+    public void setPersonaMovAux(Persona personaMovAux) {
+        this.personaMovAux = personaMovAux;
+    }
+
+    public Persona getPersonaReftAux() {
+        return personaReftAux;
+    }
+
+    public void setPersonaReftAux(Persona personaReftAux) {
+        this.personaReftAux = personaReftAux;
+    }
+
+    
 }
