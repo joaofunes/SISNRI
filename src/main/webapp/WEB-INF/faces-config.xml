@@ -16,5 +16,9 @@
             <base-name>crudbundle</base-name>
             <var>crudbundle</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>LabelsBeca</base-name>
+            <var>lbecas</var>
+        </resource-bundle>
     </application>
 </faces-config>

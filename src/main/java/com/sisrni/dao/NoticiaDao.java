@@ -26,11 +26,18 @@ public class NoticiaDao extends GenericDao<Noticia, Integer> {
         if (categoria != 0) {
             query += "and n.idCategoria.idCategoria=:categoria ";
         }
+        query += "order by n.fechaNoticia desc";
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
         if (categoria != 0) {
             q.setParameter("categoria", categoria);
         }
-        query += "order by n.fechaNoticia desc";
+        return q.list();
+    }
+
+    public List<Noticia> getAllNoticiasOrderDescDate() {
+        String query = "Select n from Noticia n";
+        query += " order by n.fechaNoticia desc";
+        Query q = getSessionFactory().getCurrentSession().createQuery(query);
         return q.list();
     }
 

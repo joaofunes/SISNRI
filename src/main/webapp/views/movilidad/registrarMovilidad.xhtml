@@ -67,8 +67,8 @@
                                     </p:panelGrid>
                                 </p:tab>
                                 <p:tab title="Datos docente en movilidad">
-                                 <!--Docente Saliente -->
-                                 <h:panelGroup id="grup1" rendered="#{registrarMovilidadMB.mostrarBuscadorSaliente}">
+                                    <!--Docente Saliente -->
+                                    <h:panelGroup id="grup1" rendered="#{registrarMovilidadMB.mostrarBuscadorSaliente}">
                                         <p:panelGrid id="grid">
                                             <p:column>
                                                 <p:outputLabel for="tipoBusquedaSal" value="Tipo de Busqueda:" />
@@ -147,8 +147,8 @@
                                                     <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaEntrante()}" process="@this" update="groupPersonaMovilidad"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="searchDuiEnt" value="DUI"/> 
-                                           -->
-                                           <p:autoComplete id="idNombreEntrante" value="#{registrarMovilidadMB.personaMovilidadGenerico}" rendered="#{registrarMovilidadMB.flagSearchNombreEntrante}"
+                                                -->
+                                                <p:autoComplete id="idNombreEntrante" value="#{registrarMovilidadMB.personaMovilidadGenerico}" rendered="#{registrarMovilidadMB.flagSearchNombreEntrante}"
                                                                 completeMethod="#{registrarMovilidadMB.methodSearchEntrante}" disabled="#{registrarMovilidadMB.disableAutoEntrante}"
                                                                 var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                                 forceSelection="true">                                           
@@ -172,13 +172,13 @@
                                         </p:panelGrid>
                                     </h:panelGroup>
 
-     
-                                    
+
+
                                     <!--  <p:outputLabel value="Documento"/>
                                         <p:inputText id="searchDocPersonaMovilidad" value="#{registrarMovilidadMB.docSearchPersonaMovilidad}" />
                                         <p:commandButton value="Buscar" actionListener="#{registrarMovilidadMB.buscarPersonaEnMovilidadEntrante()}"  icon="ui-icon-search" process="searchDocPersonaMovilidad @this" update="panelPersonaEnMovilidad" rendered="#{registrarMovilidadMB.mostrarEntrante}"/>
                                         <p:commandButton value="Buscar" actionListener="#{registrarMovilidadMB.buscarPersonaEnMovilidadSaliente()}"  icon="ui-icon-search" process="searchDocPersonaMovilidad @this" update="panelPersonaEnMovilidad" rendered="#{registrarMovilidadMB.mostrarSaliente}"/>
-                                     -->
+                                    -->
 
                                     <p:separator/>
                                     <h:panelGroup id="groupPersonaMovilidad">
@@ -604,9 +604,53 @@
                     </p:panel>
                 </center>
                 
-           
                 
+                <!--Dialog persona en movilidad-->
+                <p:confirmDialog widgetVar="dlgExistePersonaMov" id="dialogopermov" header="Persona ya existe en el sistema"  
+                                 global="true" showEffect="fade" hideEffect="fade">
+                    <f:facet name="message" >
+                        <h:outputText value="#{registrarMovilidadMB.msgPersonaMovExiste}" escape="false"/>
+                    </f:facet>
+                    
+                    <h:form id="dialogPersonaMovExiste">
+                        <p:panelGrid columns="2">
+                            <h:outputLabel value="Nombre: "/>
+                            <h:outputText value="#{registrarMovilidadMB.personaMovAux.nombrePersona}"/>
+                            <h:outputLabel value="Apellidos: "/>
+                            <h:outputText value="#{registrarMovilidadMB.personaMovAux.apellidoPersona}"/>
+                            <h:outputLabel value="Cargo: "/>
+                            <h:outputText value="#{registrarMovilidadMB.personaMovAux.cargoPersona}"/>
+                            <h:outputLabel value="Institucion: "/>
+                            <h:outputText value="#{registrarMovilidadMB.personaMovAux.idOrganismo.nombreOrganismo}"/>
+                            <h:outputLabel value="Email: "/>
+                            <h:outputText value="#{registrarMovilidadMB.personaMovAux.emailPersona}"/>
+                        </p:panelGrid>
+                    </h:form>     
+                    <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaMov()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
                 
+                <!--Dialog persona referente-->
+                <p:confirmDialog widgetVar="dlgExisteReferente" id="dialogoperref" header="Persona ya existe en el sistema"
+                    global="true" showEffect="fade" hideEffect="fade">
+                    <f:facet name="message">
+                        <h:outputText value="#{registrarMovilidadMB.msgPersonaRefExiste}" escape="false"/>
+                    </f:facet>
+                    <h:form id="dialogPersonaRefExiste">
+                        <p:panelGrid columns="2">
+                            <h:outputLabel value="Nombre: "/>
+                            <h:outputText value="#{registrarMovilidadMB.personaReftAux.nombrePersona}"/>
+                            <h:outputLabel value="Apellidos: "/>
+                            <h:outputText value="#{registrarMovilidadMB.personaReftAux.apellidoPersona}"/>
+                            <h:outputLabel value="Cargo: "/>
+                            <h:outputText value="#{registrarMovilidadMB.personaReftAux.cargoPersona}"/>
+                            <h:outputLabel value="Institucion: "/>
+                            <h:outputText value="#{registrarMovilidadMB.personaReftAux.idOrganismo.nombreOrganismo}"/>
+                            <h:outputLabel value="Email: "/>
+                            <h:outputText value="#{registrarMovilidadMB.personaReftAux.emailPersona}"/>
+                        </p:panelGrid>
+                    </h:form>
+                    <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaReft()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>     
             </ui:define>
 
         </ui:composition>
