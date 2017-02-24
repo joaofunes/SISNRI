@@ -39,7 +39,7 @@ public class ReporteNoticias {
 
     private Date desde;
     private Date hasta;
-
+    private Date currentDate = new Date();
     private String reportName;
 
     private List<CategoriaNoticia> categoriaList;
@@ -185,6 +185,14 @@ public class ReporteNoticias {
 
     public void setCategoriaList(List<CategoriaNoticia> categoriaList) {
         this.categoriaList = categoriaList;
+    }
+
+    public Date getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
     }
 
 }

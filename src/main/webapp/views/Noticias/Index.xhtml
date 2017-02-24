@@ -11,6 +11,7 @@
     <ui:define name="content">
         <h:form> 
             <center>
+                <h1 style="background: #cc0000;color: white;border-radius: 10px">Noticias Recientes</h1>
                 <p:panelGrid>
                     <p:row>
                         <p:column>
@@ -18,7 +19,7 @@
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelectedPublicas}" style="width:125px">
-                                <f:selectItem itemValue="0" itemLabel="--Todas--"/>
+                                <f:selectItem itemValue="0" itemLabel="-- Todas --"/>
                                 <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
                                     <f:selectItem itemLabel="#{cat.categoriaNoticia}" itemValue="#{cat.idCategoria}" />        
                                 </c:forEach>
@@ -31,14 +32,14 @@
 
 
             <p:dataScroller id="idDataScroll" value="#{noticiaMB.noticiasListPublicas}" var="car" chunkSize="10">
-                <f:facet name="header">
-                    <p:outputLabel value="Noticias Recientes" style="font-size: 25px"/>
-                </f:facet>
+                <!--                <f:facet name="header">
+                                    <p:outputLabel value="Noticias Recientes" style="font-size: 25px"/>
+                                </f:facet>-->
                 <f:facet name="loader">
-                    <p:commandButton type="button" value="Ver Mas" icon="ui-icon-circle-triangle-s"/>
+                    <p:commandButton type="button" value="Ver M&aacute;s" icon="ui-icon-circle-triangle-s"/>
                 </f:facet>
                 <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                    <p:panel id="custom" header="Titulo: #{car.tituloNoticia}" style="margin-bottom:20px">
+                    <p:panel id="custom" header="T&Iacute;tulo: #{car.tituloNoticia}" style="margin-bottom:20px">
                         <h:panelGrid columns="2" cellpadding="10">
                             <h:outputText id="display" value="#{car.descripcionNoticia}" escape="false"/>
                         </h:panelGrid>
@@ -53,15 +54,15 @@
             <p:panelGrid>
                 <p:row>
                     <p:column>
-                        <h:outputText value="Titulo:" style="font-size: 25px"/>
+                        <h:outputText value="T&Iacute;tulo:" style="font-size: 25px"/>
                         <h:outputText value="#{noticiaMB.noticiaPopUp.tituloNoticia}" style="text-align: left;font-size: 25px"/>
                     </p:column>
                 </p:row>
                 <p:row>
                     <p:column>
-                        <h:outputText value="Fecha Creacion:" style="font-size: 14px"/>
+                        <h:outputText value="Fecha Creaci&oacute;n:" style="font-size: 14px"/>
                         <h:outputText value="#{noticiaMB.noticiaPopUp.fechaNoticia}" style="text-align: left">
-                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                         <p:separator/>
                     </p:column>

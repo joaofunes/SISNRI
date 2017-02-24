@@ -9,6 +9,16 @@
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
         <ui:define name="content">
+            <p:outputPanel id="pageTituloRegistrar" rendered="#{!becaMB.actualizar}">
+                <center>
+                    <h1 style="background: #cc0000;color: white;border-radius: 10px">Registro de Beca</h1>
+                </center>   
+            </p:outputPanel>
+            <p:outputPanel id="pageTituloActualizar" rendered="#{becaMB.actualizar}">
+                <center>
+                    <h1 style="background: #cc0000;color: white;border-radius: 10px">Actualizacion de Beca</h1>
+                </center>   
+            </p:outputPanel>
             <h:form id="formAdmin">
                 <center>
                     <p:panel style="width: 80%">
@@ -74,13 +84,15 @@
                                 <p:panelGrid id="panelBecario">
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Nombre de Becario:" for="nombrebecario"/>
+                                            <p:outputLabel value="#{lbecas.nombreBecario}" for="nombrebecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" required="true"/>
+                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" required="true">
+                                                <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Apellidos:" for="apellidobecario"/>
+                                            <p:outputLabel value="#{lbecas.apellidos}" for="apellidobecario"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="apellidobecario" value="#{becaMB.becario.apellidoPersona}" required="true"/>
@@ -88,21 +100,23 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="DUI:"/>
+                                            <p:outputLabel value="#{lbecas.dui}"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="duibecario" mask="99999999-9" value="#{becaMB.becario.duiPersona}" />
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Correo Electronico:" for="correobecario"/>
+                                            <p:outputLabel value="#{lbecas.correo}" for="correobecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correobecario" value="#{becaMB.becario.emailPersona}" required="true"/>
+                                            <p:inputText id="correobecario" value="#{becaMB.becario.emailPersona}" required="true">
+                                                <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                            </p:inputText>
                                         </p:column>
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Facultad:" for="facultadbecario"/>
+                                            <p:outputLabel value="#{lbecas.facultad}" for="facultadbecario"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="facultadbecario" value="#{becaMB.facultadSelectedBecario.idFacultad}"  style="width:180px" required="true">
@@ -114,7 +128,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Carrera" for="carreraBecario"/>
+                                            <p:outputLabel value="#{lbecas.carrera}" for="carreraBecario"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="carreraBecario" value="#{becaMB.carreraSelected.idCarrera}"  style="width:180px" required="true">
@@ -127,13 +141,13 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Telefono Fijo:"/>
+                                            <p:outputLabel value="#{lbecas.telefonoFijo}"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="telefonobecario" value="#{becaMB.telefonoFijoBecario.numeroTelefono}" mask="(503)-9999-9999"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Telefono Celular:"/>
+                                            <p:outputLabel value="#{lbecas.telefonoCelular}"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="telefonoCelular" value="#{becaMB.telefonoCelularBecario.numeroTelefono}" mask="(503)-9999-9999" />
@@ -145,7 +159,7 @@
                                 <p:panelGrid>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Tipo Beca:" for="tipoBeca"/>
+                                            <p:outputLabel value="#{lbecas.tipoBeca}" for="tipoBeca"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="tipoBeca" value="#{becaMB.tipoBecaSelected.idTipoBeca}"  style="width:180px" required="true">
@@ -156,7 +170,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Programa de Becas:" for="programaBecas"/>
+                                            <p:outputLabel value="#{lbecas.programaBeca}" for="programaBecas"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="programaBecas" value="#{becaMB.programaBecaSelected.idPrograma}"  style="width:180px" required="true">
@@ -169,7 +183,7 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Organismo cooperante:" for="idOrganismoCop"/>
+                                            <p:outputLabel value="#{lbecas.organismoCooperante}" for="idOrganismoCop"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="idOrganismoCop" value="#{becaMB.organismoCooperanteSelected.idOrganismo}"  style="width:180px" required="true">
@@ -180,7 +194,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Pais destino" for="paisdestino"/>
+                                            <p:outputLabel value="#{lbecas.paisDestino}" for="paisdestino"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="paisdestino" value="#{becaMB.paisDestinoSelected.idPais}"  style="width:180px" required="true">
@@ -194,7 +208,7 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Universidad Destino" for="universidadDestino"/>
+                                            <p:outputLabel value="#{lbecas.universidadDestino}" for="universidadDestino"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="universidadDestino" value="#{becaMB.universidadSelected.idOrganismo}"  style="width:180px" required="true">
@@ -205,7 +219,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel  value="A&ntilde;o de Gesti&oacute;n: " for="aniogestionbeca" />
+                                            <p:outputLabel  value="#{lbecas.anioGestion}" for="aniogestionbeca" />
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="aniogestionbeca" value="#{becaMB.anio}" style="width:180px" required="true">
@@ -218,21 +232,26 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Fecha Inicio:"/>
+                                            <p:outputLabel value="#{lbecas.fechaInicio}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:calendar pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaInicio}"/>
+                                            <p:calendar id="desdeMovilidad" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaInicio}">
+                                                <p:ajax event="dateSelect" update="fechafin" />
+                                            </p:calendar>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Fecha Finalizacion:"/>
+                                            <p:outputLabel value="#{lbecas.fechaFinalizacion}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:calendar pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaFin}"/>
+                                            <p:calendar id="fechafin" pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{becaMB.beca.fechaFin}">
+                                                <f:attribute name="desdeMovilidad" value="#{becaMB.beca.fechaInicio}"/>
+                                                <f:validator validatorId="fechaMayorValidator"/>
+                                            </p:calendar>
                                         </p:column>
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Tipo Financiamiento" for="tipoFinanciamiento"/>
+                                            <p:outputLabel value="#{lbecas.tipoFinanciamiento}" for="tipoFinanciamiento"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu  id="tipoFinanciamiento" value="#{becaMB.tipoModalidaBecaSelected.idTipoModalidad}"  style="width:180px" required="true">
@@ -244,7 +263,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Tipo de Moneda Externo:" for="tipoCambio"/>
+                                            <p:outputLabel value="#{lbecas.tipoMonedaExterna}" for="tipoCambio"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu  id="tipoCambio" value="#{becaMB.tipoCambioSelected.idTipoCambio}"  style="width:180px" required="true">
@@ -257,7 +276,7 @@
                                     </p:row>
                                     <p:row>
                                         <p:column >
-                                            <p:outputLabel  value="Monto externo" for="montoexterno"/>
+                                            <p:outputLabel  value="#{lbecas.montoExterno}" for="montoexterno"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText value="#{becaMB.beca.montoExterno}" id="montoexterno" required="true">
@@ -265,7 +284,7 @@
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel  value="Monto interno" for="montointerno" id="mint"/>
+                                            <p:outputLabel  value="#{lbecas.montoInterno}" for="montointerno" id="mint"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText value="#{becaMB.beca.montoInterno}" disabled="#{becaMB.mostrarmonto}" id="montointerno" required="#{!becaMB.mostrarmonto}">
@@ -275,13 +294,13 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Monto Total:"/>
+                                            <p:outputLabel value="#{lbecas.montoTotal}"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText value="#{becaMB.beca.montoTotal}" id="montototal" readonly="true" />
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Otorgada?" for="idOtorgada"/>
+                                            <p:outputLabel value="#{lbecas.otorgada}" for="idOtorgada"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="idOtorgada" value="#{becaMB.beca.otorgada}" style="width: 180px" required="true" validatorMessage="esto es requerido">
@@ -374,13 +393,13 @@
                                     <p:panelGrid id="panelInterno" rendered="#{becaMB.mostrarTabInterno}">
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Nombre:" for="nombreAsesorInterno"/>
+                                                <p:outputLabel value="#{lbecas.nombre}" for="nombreAsesorInterno"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="nombreAsesorInterno" value="#{becaMB.asesorInterno.nombrePersona}" required="true"/>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel value="Apellido:" for="apellidoAsesorInterno"/>
+                                                <p:outputLabel value="#{lbecas.apellidos}" for="apellidoAsesorInterno"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="apellidoAsesorInterno" value="#{becaMB.asesorInterno.apellidoPersona}" required="true"/>
@@ -388,27 +407,29 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Dui:"/>
+                                                <p:outputLabel value="#{lbecas.dui}"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputMask id="duiAsesorInterno" mask="99999999-9" value="#{becaMB.asesorInterno.duiPersona}" />
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel value="Correo Electronico:" for="correoAsosorInterno"/>
+                                                <p:outputLabel value="#{lbecas.correo}" for="correoAsosorInterno"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="correoAsosorInterno" value="#{becaMB.asesorInterno.emailPersona}" required="true"/>
+                                                <p:inputText id="correoAsosorInterno" value="#{becaMB.asesorInterno.emailPersona}" required="true">
+                                                    <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                                </p:inputText>
                                             </p:column>
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Cargo:"/>
+                                                <p:outputLabel value="#{lbecas.cargo}"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="cargoAsesorInterno" value="#{becaMB.asesorInterno.cargoPersona}"/>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel value="Facultad/Unidad:" for="facultadUnidadAI"/>
+                                                <p:outputLabel value="#{lbecas.facultadUnidad}" for="facultadUnidadAI"/>
                                             </p:column>
                                             <p:column>
                                                 <p:selectOneMenu id="facultadUnidadAI" value="#{becaMB.facuniSelectded}"  style="width:180px" required="true">
@@ -422,7 +443,7 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Escuela/Departamento" for="escuelaDep" id="edId"/>
+                                                <p:outputLabel value="#{lbecas.escuelaDepartamento}" for="escuelaDep" id="edId"/>
                                             </p:column>
                                             <p:column>
                                                 <p:selectOneMenu id="escuelaDep" value="#{becaMB.escuelaDeptoInterno.idEscuelaDepto}"  style="width:180px" required="#{becaMB.esFacultad}">
@@ -433,7 +454,7 @@
                                                 </p:selectOneMenu>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel value="Telefono Fijo:"/>
+                                                <p:outputLabel value="#{lbecas.telefonoInstitucional}"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputMask id="telefonoFijoAsesorInterno" value="#{becaMB.telefonoFijoAsesorInterno.numeroTelefono}" mask="(503)-9999-9999"/>
@@ -441,7 +462,7 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Telefono Celular :  "/>
+                                                <p:outputLabel value="#{lbecas.telefonoCelular}"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputMask id="telefonoCelularAsesorInterno" value="#{becaMB.telefonoCelularAsesorInterno.numeroTelefono}" mask="(503)-9999-9999"/>
@@ -518,13 +539,13 @@
                                     <p:panelGrid id="panelExt" rendered="#{becaMB.mostrarTabExterno}">
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Nombre:" for="nombreAsesorExterno"/>
+                                                <p:outputLabel value="#{lbecas.nombre}" for="nombreAsesorExterno"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="nombreAsesorExterno" value="#{becaMB.asesorExterno.nombrePersona}" required="true"/>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel value="Apellido:" for="apellidoAsesorExterno"/>
+                                                <p:outputLabel value="#{lbecas.apellidos}" for="apellidoAsesorExterno"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="apellidoAsesorExterno" value="#{becaMB.asesorExterno.apellidoPersona}" required="true"/>
@@ -532,27 +553,29 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Pasaporte:"/>
+                                                <p:outputLabel value="#{lbecas.pasaporte}"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="pasaporteAsesorExterno" value="#{becaMB.asesorExterno.pasaporte}"/>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel value="Correo Electronico:" for="correoAsesorExterno"/>
+                                                <p:outputLabel value="#{lbecas.correo}" for="correoAsesorExterno"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="correoAsesorExterno" value="#{becaMB.asesorExterno.emailPersona}" required="true"/>
+                                                <p:inputText id="correoAsesorExterno" value="#{becaMB.asesorExterno.emailPersona}" required="true">
+                                                    <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                                </p:inputText>
                                             </p:column>
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Cargo:"/>
+                                                <p:outputLabel value="#{lbecas.cargo}"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="cargoAsesorExterno" value="#{becaMB.asesorExterno.cargoPersona}"/>
                                             </p:column>
                                             <p:column >
-                                                <p:outputLabel value="Entidad/Institucion" for="entidadAsesorExterno"/>
+                                                <p:outputLabel value="#{lbecas.entidadInstitucion}" for="entidadAsesorExterno"/>
                                             </p:column>
                                             <p:column>
                                                 <p:selectOneMenu id="entidadAsesorExterno" value="#{becaMB.entidadInstitucionSelected.idOrganismo}"  style="width:180px" required="true">
@@ -565,13 +588,13 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Telefono  Fijo :"/>
+                                                <p:outputLabel value="#{lbecas.telefonoInstitucional}"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="telefonoFijoAsesorExterno" value="#{becaMB.telefonoFijoAsesorExterno.numeroTelefono}" />
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel value="Telefono Celular"/>
+                                                <p:outputLabel value="#{lbecas.telefonoCelular}"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="telefonoCelularAsesorExterno" value="#{becaMB.telefonoCelularAsesorExterno.numeroTelefono}"/>

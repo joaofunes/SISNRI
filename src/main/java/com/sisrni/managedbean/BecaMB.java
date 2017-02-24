@@ -174,6 +174,9 @@ public class BecaMB implements Serializable {
 
     private Persona asesorExternoAux;
 
+   
+
+   
     @Autowired
     FacultadService facultadService;
 
@@ -662,7 +665,7 @@ public class BecaMB implements Serializable {
 //            mostrarTabInterno = Boolean.FALSE;
 //            noEstabaInterno = true;
             preUpdate(beca.getIdBeca());
-            
+
         } catch (Exception e) {
 
         }
@@ -1040,6 +1043,7 @@ public class BecaMB implements Serializable {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Sets and Getters">
+
     public Persona getBecario() {
         return becario;
     }

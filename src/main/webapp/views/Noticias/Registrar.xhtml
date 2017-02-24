@@ -14,24 +14,26 @@
         <center>
             <div style="width: 600">
                 <p:growl autoUpdate="true" id="msj" showDetail="true"/>
+                  <h1 style="background: #cc0000;color: white;border-radius: 10px">Administraci&oacute;n de Noticias</h1>
                 <h:form id="formNoticia">
                     <p:panel header="Entrada de Datos">
                         <h:panelGrid columns="2">
-                            <h:outputLabel value="Titulo:"  for="tituloId"/>
-                            <p:inputText id="tituloId" value="#{noticiaMB.noticia.tituloNoticia}" size="75" required="true"/>
+                            <p:outputLabel value="T&iacute;tulo:"  for="titulo"/>
+                            <p:inputText id="titulo" value="#{noticiaMB.noticia.tituloNoticia}" size="75" required="true"/>
 
                             <p:outputLabel for="categoria" value="Categoria:" style="size: 30"/>
-                            <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelected.idCategoria}" style="width:125px">
+                            <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelected.idCategoria}" style="width:125px" required="true">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--" noSelectionOption="true"/>
                                 <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
                                     <f:selectItem itemLabel="#{cat.categoriaNoticia}" itemValue="#{cat.idCategoria}" />        
                                 </c:forEach>
                             </p:selectOneMenu>
 
-                            <h:outputLabel value="Descripcion:"/>
-                            <p:editor id="editorDescripcion" widgetVar="descripcionWidget" value="#{noticiaMB.noticia.descripcionNoticia}" height="100" controls="bold font size italic underline strikethrough" maxlength="1000000" />
+                            <p:outputLabel for="descripcion" value="Descripci&oacute;n:"/>
+                            <p:editor id="descripcion" widgetVar="descripcionWidget" value="#{noticiaMB.noticia.descripcionNoticia}" required="true" height="100" controls="bold font size italic underline strikethrough" maxlength="1000000" />
 
 
-                            <h:outputLabel value="Contenido"/>
+                            <h:outputLabel value="Contenido:"/>
                             <p:editor id="editor" widgetVar="editorWidget" value="#{noticiaMB.noticia.contenido}" maxlength="100000" />
                             <p:outputLabel value="Carga de Imagenes/Archivos:"/>
                             <p:fileUpload id="upload" 
@@ -54,19 +56,19 @@
                     </p:panel>
                 </h:form>
 
-                <p:panel header="Historico de Noticias">
+                <p:panel header="Hist&oacute;rico de Noticias">
                     <h:panelGroup id="administracion">
                         <p:dataTable var="n" value="#{noticiaMB.noticiasList}" paginator="true" rows="5"                             
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                      rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
                                      >    
-                            <p:column headerText="Titulo">
+                            <p:column headerText="T&iacute;tulo">
                                 <h:outputText value="#{n.tituloNoticia}" />
                             </p:column>
-                            <p:column headerText="Categoria">
+                            <p:column headerText="Categor&iacute;a">
                                 <h:outputText value="#{n.idCategoria.categoriaNoticia}" />
                             </p:column>
-                            <p:column headerText="Fecha Creacion">
+                            <p:column headerText="Fecha Creaci&oacute;n">
                                 <h:outputText value="#{n.fechaNoticia}">
                                     <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                                 </h:outputText>    
@@ -78,7 +80,7 @@
                             </p:column>
                             <p:column headerText="Opciones" >
                                 <div style="float: left">
-                                    <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar" actionListener="#{noticiaMB.preEditar(n.idNoticia)}" update=":formNoticia" />
+                                    <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar" actionListener="#{noticiaMB.preEditar(n.idNoticia)}" update=":formNoticia" process="@this"/>
                                 </div>                       
                             </p:column>
                         </p:dataTable>

@@ -8,6 +8,7 @@ package com.sisrni.service;
 import com.sisrni.dao.OrganismoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Organismo;
+import com.sisrni.pojo.rpt.PojoOrganismo;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,8 @@ public class OrganismoService extends GenericService<Organismo, Integer> {
 
     public List<Organismo> getOrganismosPorPaisYTipo(Integer idPais, Integer idTipo) {
         return organismoDao.getOrganismosPorPaisYTipo(idPais, idTipo);
+    }
+     public List<PojoOrganismo> getOrganismosPorPaisYTipo2(Integer idPais, Integer idTipo) {
+        return organismoDao.getOrganismosPorPaisYTipo2(idPais, idTipo);
     }
 }

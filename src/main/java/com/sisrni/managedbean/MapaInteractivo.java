@@ -118,7 +118,11 @@ public class MapaInteractivo implements Serializable {
     }
 
     public void graficar() {
-        if (!paisSelected.isEmpty() && !tipoProyectoSelected.isEmpty()) {
+        Boolean badyears = false;
+        if (Integer.parseInt(yearDesde.trim()) > Integer.parseInt(yearHasta.trim())) {
+            badyears = true;
+        }
+        if (!paisSelected.isEmpty() && !tipoProyectoSelected.isEmpty()&& !badyears) {
             projectListToChart = proyectoService.getProjectListToCharts(paisSelected, tipoProyectoSelected, yearDesde.trim(), yearHasta.trim());
             montoProyectos = calcularMonto(projectListToChart);
             if (!projectListToChart.isEmpty()) {
@@ -135,10 +139,13 @@ public class MapaInteractivo implements Serializable {
 
         } else {
             if (paisSelected.isEmpty()) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un Pais" + mostrarGraficos));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un Pais"));
             }
             if (tipoProyectoSelected.isEmpty()) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un tipo de proyecto" + mostrarGraficos));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un tipo de proyecto"));
+            }
+            if (badyears) {
+                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Parametro Desde no puede ser mayor al parametro Hasta"));
             }
             noHayRegistros = Boolean.TRUE;
             inicializarMapa();
@@ -192,7 +199,7 @@ public class MapaInteractivo implements Serializable {
     public void inicializarPieUno() {
 
         pieModel = new PieChartModel();
-        pieModel.setTitle("Pais y Porcejaje de cooperacion");
+        pieModel.setTitle("País y Porcetaje de Cooperación");
         pieModel.setLegendPosition("w");
         pieModel.setShowDataLabels(true);
 

@@ -120,7 +120,11 @@ public class MapaInteractivoBecas implements Serializable {
     }
 
     public void graficar() {
-        if (!paisSelected.isEmpty() && !tipoBecaSelected.isEmpty()) {
+        Boolean badyears = false;
+        if (Integer.parseInt(yearDesde.trim()) > Integer.parseInt(yearHasta.trim())) {
+            badyears = true;
+        }
+        if (!paisSelected.isEmpty() && !tipoBecaSelected.isEmpty() && !badyears) {
             becasListToChart = becaService.getBecastListToCharts(paisSelected, tipoBecaSelected, yearDesde.trim(), yearHasta.trim());//tipoProyectoSelected, 
             montoBecas = calcularMonto(becasListToChart);
             if (!becasListToChart.isEmpty()) {
@@ -141,6 +145,9 @@ public class MapaInteractivoBecas implements Serializable {
             }
             if (tipoBecaSelected.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un tipo de beca"));
+            }
+            if (badyears) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Parametro Desde no puede ser mayor al parametro Hasta"));
             }
             noHayRegistros = Boolean.TRUE;
             inicializarMapa();

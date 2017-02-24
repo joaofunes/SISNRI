@@ -64,8 +64,7 @@
                          <p:column>
                 <h:outputLabel value="Dirección:"/>
                         </p:column>
-                         <p:column>
-                            
+                         <p:column>  
                              <p:inputText value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}" size="40"/>
                         </p:column>
                          <p:column>
@@ -92,34 +91,60 @@
 
                 </h:form>
                 <br></br>
+                <center>
+                <p:panelGrid>
+                  <p:row>
+                        <p:column>
+                            <p:outputLabel for="categoria" value="Filtrar:" style="size: 30px"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="categoria" value="#{organismoCooperanteMB.tipoOrganismoList}" style="width:125px">
+                                <f:selectItem itemValue="0" itemLabel="--Todas--"/>
+                                <c:forEach var="cat" items="#{organismoCooperanteMB.tipoOrganismoList}">
+                                    <f:selectItem itemLabel="#{cat.nombreTipo}" itemValue="#{cat.idTipoOrganismo}" />        
+                                </c:forEach>
+<!--                                <p:ajax event="change" update="idDataScroll" listener="#{organismoCooperanteMB.listarOnCatChange()}" process="@this"/>-->
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </center>
                 <h:form id="formTablaOrganismos">
-                    <p:dataTable var="organismo" value="#{organismoCooperanteMB.organismosList}" rows="10" 
+                    <p:dataTable var="organismo" value="#{organismoCooperanteMB.organismoPojoList}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen Organismos Registrados actualmente" >
-                      <p:column headerText="Nombre" sortBy="#{organismo.nombreOrganismo}" filterBy="#{organismo.nombreOrganismo}">
-                        <h:outputText value="#{organismo.nombreOrganismo}" />
+                        <p:column headerText="Nombre" sortBy="#{organismo.nombre}" filterBy="#{organismo.nombre}" style="width: 14%">
+                            <h:outputText value="#{organismo.nombre}" />
                     </p:column>
-                        <p:column headerText="Tipo" sortBy="#{organismo.idTipoOrganismo.nombreTipo}" filterBy="#{organismo.idTipoOrganismo.nombreTipo}">
-                        <h:outputText value="#{organismo.idTipoOrganismo.nombreTipo}" />
-                    </p:column>
-                         <p:column headerText="Correo" sortBy="#{organismo.correoOrganismo}" filterBy="#{organismo.correoOrganismo}">
-                        <h:outputText value="#{organismo.correoOrganismo}" />
+                        <p:column headerText="Tipo" sortBy="#{organismo.tipo}" filterBy="#{organismo.tipo}" style="width: 14%">
+                            <h:outputText value="#{organismo.tipo}" />
                     </p:column>
                     
-                    <p:column headerText="Dirección" sortBy="#{organismo.direccionOrganismo}" filterBy="#{organismo.direccionOrganismo}">
-                        <h:outputText value="#{organismo.direccionOrganismo}" />
+<!--                     <p:column headerText="Región" sortBy="#{organismo.nRegion}" filterBy="#{organismo.nRegion}" >
+                        <h:outputText value="#{organismo.nRegion}" />
+                    </p:column> 
+                        -->
+                     <p:column headerText="País" sortBy="#{organismo.nPais}" filterBy="#{organismo.nPais}" style="width: 14%">
+                        <h:outputText value="#{organismo.nPais}" />
+                    </p:column> 
+                        
+                    <p:column headerText="Correo" >
+                        <h:outputText value="#{organismo.correo}" />
                     </p:column>
                     
-                        <p:column headerText="Pais" sortBy="#{organismo.idPais}" filterBy="#{textoid}">
-                            <h:outputText value="#{organismo.idPais}" id="textoid">
-                                    <f:converter converterId="nombrePaisConverter"/>
-                                </h:outputText>
-                            </p:column>
-                    <p:column headerText="Código Postal" sortBy="#{organismo.codigoPostal}" filterBy="#{organismo.codigoPostal}">
-                        <h:outputText value="#{organismo.codigoPostal}" />
+                    <p:column headerText="Dirección" >
+                        <h:outputText value="#{organismo.direccion}" />
+                    </p:column>
+                        
+                        <p:column headerText="Teléfono" >
+                        <h:outputText value="#{organismo.tel}" />
+                    </p:column>    
+                       
+                    <p:column headerText="Código Postal" >
+                        <h:outputText value="#{organismo.codigo}" />
                     </p:column>
                     
-                        <p:column headerText="Opciones" style="width: 15%">
+                        <p:column headerText="Opciones" style="width: 12%">
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
                                                actionListener="#{organismoCooperanteMB.preUpdate(organismo)}" update=":formOrganismo" process="@form:formTablaOrganismos">

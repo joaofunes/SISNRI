@@ -9,6 +9,7 @@ import com.sisrni.model.Organismo;
 import com.sisrni.model.Pais;
 import com.sisrni.model.Region;
 import com.sisrni.model.TipoOrganismo;
+import com.sisrni.pojo.rpt.PojoOrganismo;
 import com.sisrni.pojo.rpt.PojoPais;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PaisService;
@@ -27,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author Lillian
+ * @author Luis
  */
 @Named(value = "organismoCooperanteMB")
 @ViewScoped
@@ -57,7 +58,7 @@ public class OrganismoCooperanteMB {
     private PojoPais pojoPaisSelected;
     private PojoPais pojoToShow;
     private List<PojoPais> paisPojoList;
-    
+    private List<PojoOrganismo> organismoPojoList;
     @Autowired
     OrganismoService organismoService;
 
@@ -77,6 +78,7 @@ public class OrganismoCooperanteMB {
     paisSelected = new Pais();
     regionList = regionService.findAll();
     paisPojoList = paisService.getPaises(0);
+    organismoPojoList=organismoService.getOrganismosPorPaisYTipo2(1, 2);
     pojoPaisSelected = new PojoPais();
     pojoToShow = new PojoPais();
     actualizar=false;
@@ -236,6 +238,15 @@ public class OrganismoCooperanteMB {
     public PojoPais getPojoPaisSelected() {
         return pojoPaisSelected;
     }
+    
+       public List<PojoOrganismo> getOrganismoPojoList() {
+        return organismoPojoList;
+    }
+
+    public void setOrganismoPojoList(List<PojoOrganismo> organismoPojoList) {
+        this.organismoPojoList = organismoPojoList;
+    }
+ 
 
     public void setPojoPaisSelected(PojoPais pojoPaisSelected) {
         this.pojoPaisSelected = pojoPaisSelected;

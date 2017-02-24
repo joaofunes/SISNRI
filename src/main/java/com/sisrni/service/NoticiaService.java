@@ -33,6 +33,10 @@ public class NoticiaService extends GenericService<Noticia, Integer> {
         return noticiaDao.getActiveNews(categoria);
     }
 
+    public List<Noticia> getAllNoticiasOrderDescDate() {
+        return noticiaDao.getAllNoticiasOrderDescDate();
+    }
+
     public Long getCountNoticiasByCat(String cat, Date desde, Date hasta) {
         return noticiaDao.getCountNoticiasByCat(cat, desde, hasta);
     }
