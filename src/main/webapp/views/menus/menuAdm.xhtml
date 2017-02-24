@@ -2,95 +2,110 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition  template="/WEB-INF/templates/layout.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:pe="http://primefaces.org/ui/extensions" 
-    >
-        
-    
-    
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:pe="http://primefaces.org/ui/extensions" 
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 >
+
+
+
     <ui:define name="content">
         <h:form id="formAdmin">
             <p:panelGrid >
                 <p:row>
-                  
-                        <p:column>
-                            Nombre Menu
-                            <p:inputText id="namemenu"   value="#{menusOpcionesAdmMB.ssMenus.nombreMenu}" required="true" size="50" />
-                        </p:column>
-                    <p:column  >
-                            <p:commandButton rendered="#{!menusOpcionesAdmMB.actualizar}"  styleClass="boton"
-                                             actionListener="#{menusOpcionesAdmMB.guardar()}" update=":formAdmin :formMenu" process="@this :formAdmin"
-                                             value="Guardar" />
-                            <p:commandButton rendered="#{menusOpcionesAdmMB.actualizar}" styleClass="boton"
-                                             actionListener="#{menusOpcionesAdmMB.editar()}" update=":formAdmin"
-                                             value="Actulizar" />
-                            <p:commandButton rendered="#{menusOpcionesAdmMB.actualizar}" styleClass="boton"
-                                             actionListener="#{menusOpcionesAdmMB.cancelar()}" immediate="true" update=":formAdmin"
-                                             value="Cancelar" />
-                            <p:commandButton 
-                                           title="Agregar Menu" value="Agregar Menu"
-                                           process="@this"                                           
-                                           oncomplete="PF('NuevoMenuDialog').show();"/>
-                        </p:column>
+
+                    <p:column rendered="#{menusOpcionesAdmMB.actualizar}">
+                        <p:outputLabel value="Nombre Menu"/>
+                        <p:inputText id="namemenu"   value="#{menusOpcionesAdmMB.ssMenus.nombreMenu}" required="true" size="50" />
+                    </p:column>
+                    <p:column  >                           
+                        <p:commandButton rendered="#{menusOpcionesAdmMB.actualizar}" styleClass="boton"
+                                         actionListener="#{menusOpcionesAdmMB.editar()}" update=":formAdmin"
+                                         value="Actulizar" />
+                        <p:commandButton rendered="#{menusOpcionesAdmMB.actualizar}" styleClass="boton"
+                                         actionListener="#{menusOpcionesAdmMB.cancelar()}" immediate="true" update=":formAdmin"
+                                         value="Cancelar" />
+                        <p:commandButton 
+                            title="Agregar Menu" value="Agregar Menu"
+                            process="@this"                                           
+                            oncomplete="PF('NuevoMenuDialog').show();"/>
+                    </p:column>
                 </p:row>
 
             </p:panelGrid>
         </h:form>
         <h:outputLabel style="margin-bottom: 20px;"/>
         <h:form id="formMenu">
-            <p:dataTable var="menu" value="#{menusOpcionesAdmMB.listadoMenus}" paginator="true" rows="15"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="5,10,15"                       
-                        >
-                
-                <p:column headerText="Id" sortBy="#{menu.idMenu}" filterBy="#{menu.idMenu}">
-                    <h:outputText value="#{menu.idMenu}" />
-                </p:column>
-                <p:column headerText="Nombre Menu" sortBy="#{menu.nombreMenu}" filterBy="#{menu.nombreMenu}">
-                    <h:outputText value="#{menu.nombreMenu}" />
-                </p:column>
-                <p:column headerText="Fecha" sortBy="#{menu.fechaRegistro}" filterBy="#{menu.fechaRegistro}">
-                    <h:outputText value="#{menu.fechaRegistro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                    </h:outputText>    
-                </p:column>
-                <p:column headerText="Color" sortBy="#{menu.usuarioRegistro}" filterBy="#{menu.usuarioRegistro}">
-                    <h:outputText value="#{menu.usuarioRegistro}" />
-                </p:column>
-                <p:column headerText="Opciones" >
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       value="Editar" actionListener="#{menusOpcionesAdmMB.preEditar(menu)}" />
-                    </div>
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-closethick"
-                                       title="Eliminar" value="Eliminar"
-                                       actionListener="#{menusOpcionesAdmMB.preEliminar(menu)}" />
-                    </div>
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-document-b"
-                                       title="Opciones" value="Agregar Opciones a Menu"                                       
-                                       actionListener="#{menusOpcionesAdmMB.addOpciones(menu)}" />
-                    </div>
-                </p:column>
-            </p:dataTable>
- 
+            
+
+            <table border="1" id="tablaP">
+                <thead>
+                    <tr>
+                        <th class="ui-state-default ui-sortable-column ui-filter-column ui-state-active" role="columnheader">Nombre Menu</th>
+                        <th>Fecha</th>
+                        <th>Usuario</th>
+                        <th>Roles</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>                    
+                    <c:forEach  items="#{menusOpcionesAdmMB.listadoMenus}" var="opcion"> 
+                        <tr>
+                            <td><h:outputText value="#{opcion.nombreMenu}" /></td>
+                            <td>
+                                <h:outputText value="#{opcion.fechaRegistro}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>    
+                            </td>
+                            <td> <h:outputText value="#{opcion.usuarioRegistro}" /></td>
+                            <td>
+                                <c:forEach items="#{opcion.ssRolesList}" var="lts"> 
+                                    <h:outputText value="#{lts.nombreRol} (#{lts.codigoRol})" /><br/> 
+                                </c:forEach><br/><br/>
+                            </td>
+                            <td>
+                                <div style="float: left">
+                                    <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar"
+                                                   value="Editar" actionListener="#{menusOpcionesMB.llenarOpciones(opcion)}"
+                                                   oncomplete="PF('NuevoMenuDialog').show();"
+                                                   update=":NuevoMenuDlg, formMenu"/>
+                                </div>
+                                <div style="float: left">
+                                    <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                                   value="Editar" actionListener="#{menusOpcionesAdmMB.preEditar(menu)}" />
+                                </div>
+                                <div style="float: left">
+                                    <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                                   title="Eliminar" value="Eliminar"
+                                                   actionListener="#{menusOpcionesAdmMB.preEliminar(menu)}" />
+                                </div>
+                                <div style="float: left">
+                                    <p:commandLink styleClass="ui-icon ui-icon-document-b"
+                                                   title="Opciones" value="Agregar Opciones a Menu"                                       
+                                                   actionListener="#{menusOpcionesAdmMB.addOpciones(menu)}" />
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>                      
+                </tbody>
+            </table>
+
 
         </h:form>
 
 
-       
-        
+
+
         <p:dialog id="NuevoMenuDlg" widgetVar="NuevoMenuDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Nuevo Menu" closeOnEscape="true">
-            
+
             <h:form id="formNuevoMenu">
                 <center>                  
                     <h:panelGrid columns="2" >
-                        
+
                         <p:column>
                             <p:outputLabel for="idNombreMenu" value="Nombre Menu" />
                         </p:column>                                         
@@ -99,22 +114,22 @@
                             <p:watermark for="idNombreMenu" value="Nombre Menu" />
                             <p:message for="idNombreMenu" />
                         </p:column> 
-                        
-                       
+
+
                         <p:column>  
                             <p:outputLabel for="idRoles" value="Roles" />
                         </p:column>                                         
                         <p:column>                                         
-                            
+
 
                             <p:selectCheckboxMenu id="idRoles" value="#{menusOpcionesAdmMB.selectedArrayRoles}" label="Cities"
                                                   filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
                                 <f:selectItems value="#{menusOpcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" />
                             </p:selectCheckboxMenu>
-                           
+
                         </p:column>
-                       
-                                               
+
+
                         <p:column> 
                             <p:commandButton value="Guardar" id="idGuardarMenu" actionListener="#{menusOpcionesAdmMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('NuevoMenuDialog').hide();" />
                             <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('NuevoMenuDialog').close();" />
@@ -124,7 +139,7 @@
             </h:form>  
         </p:dialog>
 
-        
+
     </ui:define>
-    
- </ui:composition> 
+
+</ui:composition> 
