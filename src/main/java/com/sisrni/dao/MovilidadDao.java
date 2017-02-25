@@ -335,4 +335,15 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
         return null;
     }
 
+    public void desvincularReferente(Integer idMovilidad, Integer idPersona) {
+        try {
+            String query = "DELETE FROM PERSONA_MOVILIDAD WHERE ID_MOVILIDAD = " + idMovilidad + " AND ID_PERSONA = " + idPersona;
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+            q.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

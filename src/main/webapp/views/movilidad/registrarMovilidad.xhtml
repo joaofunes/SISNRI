@@ -573,6 +573,9 @@
                                             <p:column>
                                                 <p:inputMask id="celPersonaFacultad" label="celPersonaFacultad" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}"/>
                                             </p:column>
+                                            <p:column>
+                                                <p:commandButton value="Desvincular referente" actionListener="#{registrarMovilidadMB.desvincularReferente()}" process="@this"/>
+                                            </p:column>
                                             <!--    <p:column>
                                                     <p:outputLabel for="faxPersonaFacultad" value="Fax"/>
                                                 </p:column>
@@ -626,7 +629,8 @@
                             <h:outputText value="#{registrarMovilidadMB.personaMovAux.emailPersona}"/>
                         </p:panelGrid>
                     </h:form>     
-                    <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaMov()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.sobreEscribirPersonaEnmovilidad()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="Cancelar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaMov}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
                 
                 <!--Dialog persona referente-->
@@ -649,7 +653,8 @@
                             <h:outputText value="#{registrarMovilidadMB.personaReftAux.emailPersona}"/>
                         </p:panelGrid>
                     </h:form>
-                    <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaReft()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.sobreEscribirPersonaReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="Cancelar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaReft()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>     
             </ui:define>
 
