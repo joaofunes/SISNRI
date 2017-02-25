@@ -43,7 +43,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getReferenteInternoByName(String query) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true AND a.extranjero is false");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo=1 AND a.extranjero=0");
             q.setParameter("name", '%' + query.toLowerCase() + '%');
             return q.list();
 
@@ -61,7 +61,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getReferenteExternoByName(String query) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo is true AND a.extranjero is true");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name AND a.activo=1 AND a.extranjero=1");
             q.setParameter("name", '%' + query.toLowerCase() + '%');
             return q.list();
 

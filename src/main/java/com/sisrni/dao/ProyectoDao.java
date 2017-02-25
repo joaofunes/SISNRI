@@ -155,4 +155,13 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                 .setResultTransformer(Transformers.aliasToBean(RptProyectosFinanciadosPojo.class));
         return q.list();
     }
+    public void desvincularInterno(Integer proyectoId, Integer personaId) {
+        try {
+            String query = "Delete from PERSONA_PROYECTO WHERE ID_PERSONA=" + personaId + " AND ID_PROYECTO=" + proyectoId;
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+            q.executeUpdate();
+        } catch (Exception e) {
+        }
+
+    }
 }
