@@ -11,12 +11,18 @@ import org.springframework.stereotype.Repository;
 public class SsMenusDao extends GenericDao<SsMenus, Integer> {
 
     public List<SsMenus> getMenusByrol(SsRoles rol) {
-        Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o "
+        try {
+              Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o "
                 + " FROM SsMenus o "
                 + " LEFT OUTER JOIN FETCH o.ssRolesList  ssRoles "
-                + " WHERE ssRoles.idRol=:rol ");
+                + " WHERE ssRoles.idRol=:rol "
+                + " order by o.ordenMenu asc");
         q.setParameter("rol", rol.getIdRol());
         return q.list();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return null;
     }
     
     

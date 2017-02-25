@@ -56,6 +56,8 @@ public class SsMenus implements Serializable {
     @Column(name = "FECHA_ULTIMAMODIFICACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaUltimamodificacion;
+    @Column(name = "ORDEN_MENU")
+    private Integer ordenMenu;
     @JoinTable(name = "ss_roles_menu", joinColumns = {
         @JoinColumn(name = "ID_MENU", referencedColumnName = "ID_MENU", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL", nullable = false)})
@@ -126,7 +128,13 @@ public class SsMenus implements Serializable {
     public void setFechaUltimamodificacion(Date fechaUltimamodificacion) {
         this.fechaUltimamodificacion = fechaUltimamodificacion;
     }
+    public Integer getOrdenMenu() {
+        return ordenMenu;
+    }
 
+    public void setOrdenMenu(Integer ordenMenu) {
+        this.ordenMenu = ordenMenu;
+    }
     public List<SsRoles> getSsRolesList() {
         return ssRolesList;
     }

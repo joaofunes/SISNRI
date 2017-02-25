@@ -11,6 +11,8 @@ import com.sisrni.service.SsRolesService;
 import com.sisrni.utils.MenuList;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.inject.Named;
 import org.apache.commons.logging.Log;
@@ -66,6 +68,14 @@ public class CurrentUserSessionBean implements Serializable{
                 getForm().setMenusLst(new ArrayList<MenuList>());
                 for (SsRoles rol : usuario.getUsuario().getSsRolesList()) {
                     List<SsMenus> mns = ssMenusService.getMenusByrol(rol);
+                    
+                    Collections.sort(mns, new Comparator<SsMenus>() {
+                        @Override
+                        public int compare(SsMenus lhs, SsMenus rhs) {
+                            return lhs.getOrdenMenu(). compareTo(rhs.getOrdenMenu());
+                        }
+                    });
+                    
                     getForm().setMenusLst(MenuList.GenerarMenu(mns));
                     for (MenuList menu : getForm().getMenusLst()) {
                         List<SsOpciones> opcionesMenu = obtenerMenuOpcion(rol, menu.getSsMenu());
@@ -81,19 +91,7 @@ public class CurrentUserSessionBean implements Serializable{
 //        return getForm().getOptions();
     }
     
-    public void calculateMenuTest() {
-        SsRoles rol = ssRolesService.getRolByName("EOP");
-        List<SsMenus> mns = ssMenusService.getMenusByrol(rol);
-        getForm().setMenusLst(MenuList.GenerarMenu(mns));
-        for (MenuList menu : getForm().getMenusLst()) {
-            List<SsOpciones> opcionesMenu = obtenerMenuOpcion(rol, menu.getSsMenu());
-            menu.setSsOpciones(opcionesMenu);
-            for (MenuList subMenu : menu.getSubMenu()) {
-                List<SsOpciones> opcionesSubMenu = obtenerMenuOpcion(rol, subMenu.getSsMenu());
-                subMenu.setSsOpciones(opcionesSubMenu);
-            }
-        }
-    }
+    
 
     public CurrentUserSessionForm getForm() {
         if (currentUserSessionForm == null) {

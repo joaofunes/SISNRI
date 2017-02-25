@@ -48,7 +48,7 @@
                                     <p:column>
                                         <p:selectOneMenu id="facultadproyecto" value="#{proyectosMB.facultadSelectedPojoP}" style="width:180px" required="true">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            
+
                                             <c:forEach var="fac" items="#{proyectosMB.facultadesUnidadesList}">
                                                 <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
                                             </c:forEach>
@@ -295,6 +295,9 @@
                                         <p:ajax update="idTabAsis,GroupSolicitanteAsistente" listener="#{proyectosMB.mostrarTab()}" />
                                     </p:selectBooleanButton>
                                 </p:column>
+                                <p:column>
+                                    <p:commandButton value="Desvincular Coordinador Interno" actionListener="#{proyectosMB.desvincularInterno()}" process="@this" rendered="#{proyectosMB.actualizar}" update="GroupSolicitanteInterno"/>
+                                </p:column>
                             </p:tab>
                             <p:tab title="Datos del Coordinador t&eacute;cnico del proyecto">
                                 <h:panelGroup id="idTabAsis" >
@@ -420,6 +423,9 @@
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
+                                <p:column>
+                                    <p:commandButton value="Desvincular Coordinador T&eacute;cnico" actionListener="#{proyectosMB.desvincularAsistente()}" process="@this" update="GroupSolicitanteAsistente" rendered="#{proyectosMB.actualizar and proyectosMB.tabAsis and !proyectosMB.asistenteNull}"/>
+                                </p:column>
                             </p:tab>
                             <p:tab title="Datos del Coordinador Externo">
                                 <h:panelGroup id="grup2" > 
@@ -523,22 +529,25 @@
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
+                                <p:column>
+                                    <p:commandButton value="Desvincular Coordinador Externo" actionListener="#{proyectosMB.desvincularExterno()}" process="@this" update="GroupSolicitanteExterno" rendered="#{proyectosMB.actualizar}"/>
+                                </p:column>
                             </p:tab>
                         </p:accordionPanel>                                                                         
                     </p:panel>
-                    <p:commandButton styleClass="boton" value="Regresar"  id="btnRegresar" title="Regresar" actionListener="#{proyectosMB.regresar()}" process="@this"/>
+                    <p:commandButton styleClass="boton" value="Regresar"  id="btnRegresar" title="Regresar" actionListener="#{proyectosMB.regresar()}" process="@this" />
                     <p:commandButton styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin" update="formAdmin" value="guardar" id="btnguardarProyecto" title="Guardar Proyecto"/>
                 </center>
             </h:form>
-            <p:confirmDialog widgetVar="dataChangeDlg" message="Ya exixte el coordinador interno que desea ingresar, Â¿Esta seguro que desea reemplazar los datos?" header="Existe Coordinador Interno"  global="true">
+            <p:confirmDialog widgetVar="dataChangeDlg" message="Ya existe el coordinador interno que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersona()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersona()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="dataChangeDlgAsistente" message="Ya exixte el coordinador tecnico que desea ingresar, Â¿EstÃ¡ seguro que desea reemplazar los datos?" header="Existe Coordinador tecnico"  global="true">
+            <p:confirmDialog widgetVar="dataChangeDlgAsistente" message="Ya existe el coordinador tecnico que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador tecnico"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="dataChangeDlgExterno" message="Ya exixte el coordinador Externo que desea ingresar, Â¿EstÃ¡ seguro que desea reemplazar los datos?" header="Existe Coordinador externo"  global="true">
+            <p:confirmDialog widgetVar="dataChangeDlgExterno" message="Ya existe el coordinador Externo que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador externo"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
