@@ -17,25 +17,25 @@
                 <h:form id="formOrganismo">
                     <p:panelGrid columns="2">
                         <p:column>
-                            <h:outputLabel for="nombreOrganismo" value="Nombre:"/>
+                            <p:outputLabel for="nombreOrganismo" value="Nombre:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="nombreOrganismo" value="#{organismoCooperanteMB.organismoCooperante.nombreOrganismo}" required="true" size="40" />
                             <p:watermark for="nombreOrganismo" value="Nombre del Organismo" id="watermarkNombreOrganismo"/>
                         </p:column>
                         
-                        <h:outputLabel value="Tipo de Organismo: "/>
-                        <p:selectOneMenu id="tipoorganismo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}" style="width: 100%" >
+                        <h:outputLabel for="tipo" value="Tipo de Organismo: "/>
+                        <p:selectOneMenu id="tipo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}" style="width: 100%" >
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <c:forEach var="tipoOrg" items="#{organismoCooperanteMB.tipoOrganismoList}">
                         <f:selectItem itemLabel="#{tipoOrg.nombreTipo}" itemValue="#{tipoOrg.idTipoOrganismo}"/>
                     </c:forEach>
                 </p:selectOneMenu>
                         <p:column>
-                            <h:outputLabel for="region" value="Región:"/>
+                            <p:outputLabel for="region" value="Región:"/>
                              </p:column>
                         <p:column>
-                             <p:selectOneMenu id="region" value="#{organismoCooperanteMB.regionSelected.idRegion}" style="width: 100%">
+                             <p:selectOneMenu id="region" value="#{organismoCooperanteMB.regionSelected.idRegion}" style="width: 100%" required="true">
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <p:ajax listener="#{organismoCooperanteMB.onchangeRegion()}" update="pais" />
                     <c:forEach var="region" items="#{organismoCooperanteMB.regionList}">
@@ -44,11 +44,11 @@
                 </p:selectOneMenu>
                  </p:column>
                         <p:column>
-                 <h:outputLabel for="pais" value="País"/>
+                 <p:outputLabel for="pais" value="País"/>
                
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="pais" value="#{organismoCooperanteMB.paisSelected.idPais}" style="width: 100%">
+                            <p:selectOneMenu id="pais" value="#{organismoCooperanteMB.paisSelected.idPais}" required="true" style="width: 100%">
                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                     <c:forEach var="pais" items="#{organismoCooperanteMB.paisList}">
                         <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
@@ -56,24 +56,29 @@
                 </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                         <h:outputLabel value="Correo:"/>
+                         <p:outputLabel for="correo" value="Correo:"/>
                          </p:column>
                         <p:column>
-                            <p:inputText value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}" size="40"/>
+                            <p:inputText id="correo" value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}" required="true" size="40"/>
                         </p:column>
                          <p:column>
-                <h:outputLabel value="Dirección:"/>
+                <p:outputLabel for="direccion" value="Dirección:"/>
                         </p:column>
                          <p:column>  
-                             <p:inputText value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}" size="40"/>
+                             <p:inputText id="direccion" value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}" required="true" size="40"/>
+                        </p:column>
+                         <p:column>
+                <p:outputLabel for="tel" value="Teléfono:"/>
+                        </p:column>
+                         <p:column>  
+                             <p:inputText id="tel" value="#{organismoCooperanteMB.telefonoFijo.numeroTelefono}" required="true" size="40"/>
                         </p:column>
                          <p:column>
                              
-                <h:outputLabel value="Código Postal:"/>
+                <p:outputLabel for="codigo" value="Código Postal:"/>
                         </p:column>
                             <p:column>
-                                
-                                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}" size="40"/> 
+                                <p:inputText id="codigo" value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}" required="true" size="40"/> 
                                </p:column>
                          <p:column> 
                              <p:commandButton styleClass="boton" rendered="#{!organismoCooperanteMB.actualizar}"
@@ -91,24 +96,6 @@
 
                 </h:form>
                 <br></br>
-                <center>
-                <p:panelGrid>
-                  <p:row>
-                        <p:column>
-                            <p:outputLabel for="categoria" value="Filtrar:" style="size: 30px"/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="categoria" value="#{organismoCooperanteMB.tipoOrganismoList}" style="width:125px">
-                                <f:selectItem itemValue="0" itemLabel="--Todas--"/>
-                                <c:forEach var="cat" items="#{organismoCooperanteMB.tipoOrganismoList}">
-                                    <f:selectItem itemLabel="#{cat.nombreTipo}" itemValue="#{cat.idTipoOrganismo}" />        
-                                </c:forEach>
-<!--                                <p:ajax event="change" update="idDataScroll" listener="#{organismoCooperanteMB.listarOnCatChange()}" process="@this"/>-->
-                            </p:selectOneMenu>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
-            </center>
                 <h:form id="formTablaOrganismos">
                     <p:dataTable var="organismo" value="#{organismoCooperanteMB.organismoPojoList}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -165,9 +152,9 @@
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
                     <h:outputLabel value="Nombre Organismo:"/>
-                    <h:outputText value="#{organismo.nombreOrganismo}"/>
+                    <h:outputText value="#{organismo.nombre}"/>
                     <h:outputLabel value="Tipo:"/>
-                    <h:outputText value="#{organismo.idTipoOrganismo.nombreTipo}"/>
+                    <h:outputText value="#{organismo.tipo}"/>
                 </p:panelGrid>
                 <br/>
                 <br/>

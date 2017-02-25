@@ -13,19 +13,19 @@
 
     <ui:define name="content">
         <h:form> 
-            <center>
+                      <center>
                 <p:panelGrid>
-                    <p:row>
+                  <p:row>
                         <p:column>
-                            <p:outputLabel for="categoria" value="Filtrar:" style="size: 30px"/>
+                            <p:outputLabel for="categoria" value="Filtrar por Tipo:" style="size: 30px"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelectedPublicas}" style="width:125px">
+                            <p:selectOneMenu id="categoria" value="#{organismoCooperanteMB.tipoSelected}" style="width:125px">
                                 <f:selectItem itemValue="0" itemLabel="--Todas--"/>
-                                <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
-                                    <f:selectItem itemLabel="#{cat.categoriaNoticia}" itemValue="#{cat.idCategoria}" />        
+                                <c:forEach var="cat" items="#{organismoCooperanteMB.tipoOrganismoList}">
+                                    <f:selectItem itemLabel="#{cat.nombreTipo}" itemValue="#{cat.idTipoOrganismo}" />        
                                 </c:forEach>
-                                <p:ajax event="change" update="idDataScroll" listener="#{noticiaMB.listarOnCatChange()}" process="@this"/>
+                               <p:ajax event="change" update="idDataScroll" listener="#{organismoCooperanteMB.listarOnCatChange()}" process="@this"/>
                             </p:selectOneMenu>
                         </p:column>
                     </p:row>
@@ -33,17 +33,17 @@
             </center>
 
 
-            <p:dataScroller id="idDataScroll" value="#{noticiaMB.noticiasListPublicas}" var="car" chunkSize="10">
+            <p:dataScroller id="idDataScroll" value="#{organismoCooperanteMB.organismoPojoList}" var="car" chunkSize="10">
                 <f:facet name="header">
-                    <p:outputLabel value="Noticias Recientes" style="font-size: 25px"/>
+                    <p:outputLabel value="Organismos de Cooperación" style="font-size: 25px"/>
                 </f:facet>
                 <f:facet name="loader">
-                    <p:commandButton type="button" value="Ver Mas" icon="ui-icon-circle-triangle-s"/>
+                    <p:commandButton type="button" value="Ver Más" icon="ui-icon-circle-triangle-s"/>
                 </f:facet>
                 <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                    <p:panel id="custom" header="Titulo: #{car.tituloNoticia}" style="margin-bottom:20px">
+                    <p:panel id="custom" header="Nombre: #{car.nombre}" style="margin-bottom:20px">
                         <h:panelGrid columns="2" cellpadding="10">
-                            <h:outputText id="display" value="#{car.descripcionNoticia}" escape="false"/>
+                            <h:outputText id="display" value="#{car.direccion}" escape="false"/>
                         </h:panelGrid>
                         <f:facet name="actions">
                             <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" actionListener="#{noticiaMB.cargarNoticiaPopUp(car.idNoticia)}" oncomplete="PF('noticiaWV').show();" update=":noticiaPopUpId"><h:outputText styleClass="ui-icon ui-icon-search" /></p:commandLink>

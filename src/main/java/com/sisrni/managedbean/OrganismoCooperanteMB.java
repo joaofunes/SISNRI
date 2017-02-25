@@ -8,18 +8,21 @@ package com.sisrni.managedbean;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Pais;
 import com.sisrni.model.Region;
+import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoOrganismo;
+import com.sisrni.model.TipoTelefono;
 import com.sisrni.pojo.rpt.PojoOrganismo;
 import com.sisrni.pojo.rpt.PojoPais;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PaisService;
 import com.sisrni.service.RegionService;
+import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoOrganismoService;
+import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.utils.JsfUtil;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -44,6 +47,14 @@ public class OrganismoCooperanteMB {
     PaisService paisService;
     @Autowired
     RegionService regionService;
+    @Autowired
+    OrganismoService organismoService;
+    @Autowired
+    TipoTelefonoService tipoTelefonoService;
+    @Autowired
+    TelefonoService telefonoService;
+    
+    private static final String FIJO="FIJO";
     
     private List<TipoOrganismo> tipoOrganismoList;
     private TipoOrganismo organismoSelected;
@@ -53,14 +64,16 @@ public class OrganismoCooperanteMB {
     private Region regionSelected;
     private List<Organismo> organismosList;
     private boolean actualizar;
-    
+    private Telefono telefonoFijo;
+    private TipoTelefono tipoTelefono;
      //listas de pais
     private PojoPais pojoPaisSelected;
     private PojoPais pojoToShow;
     private List<PojoPais> paisPojoList;
     private List<PojoOrganismo> organismoPojoList;
-    @Autowired
-    OrganismoService organismoService;
+    private Integer tipoSelected;
+    private Integer npaisSelected;
+    
 
     public OrganismoCooperanteMB() {    
     }
@@ -70,6 +83,8 @@ public class OrganismoCooperanteMB {
     }
     public void inicializarVariables(){
     organismoCooperante =new Organismo();
+    telefonoFijo = new Telefono();
+    pojoOrganismo = new PojoOrganismo();
     tipoOrganismoList = tipoOrganismoService.findAll();
     organismoSelected=new TipoOrganismo();
     organismosList=organismoService.findAll();
@@ -78,7 +93,7 @@ public class OrganismoCooperanteMB {
     paisSelected = new Pais();
     regionList = regionService.findAll();
     paisPojoList = paisService.getPaises(0);
-    organismoPojoList=organismoService.getOrganismosPorPaisYTipo2(1, 2);
+    organismoPojoList=organismoService.getOrganismos();
     pojoPaisSelected = new PojoPais();
     pojoToShow = new PojoPais();
     actualizar=false;
@@ -93,6 +108,10 @@ public class OrganismoCooperanteMB {
             organismoCooperante.setIdPais(paisSelected.getIdPais());
             organismoCooperante.setIdOrganismo(Integer.MIN_VALUE);
             organismoService.save(organismoCooperante);
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdOrganismo(organismoCooperante);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoFijo);
             inicializarVariables();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Información se ha registrado correctamente!"));
             
@@ -108,6 +127,9 @@ public class OrganismoCooperanteMB {
             organismoCooperante.setIdRegion(regionSelected.getIdRegion());
             organismoCooperante.setIdPais(paisSelected.getIdPais());
             organismoService.merge(organismoCooperante);
+            telefonoFijo.setIdOrganismo(organismoCooperante);            
+            telefonoFijo.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));           
+            telefonoService.saveOrUpdate(telefonoFijo);
             actualizar=false;
             cancelarOrganismo();
             inicializarVariables();
@@ -120,12 +142,22 @@ public class OrganismoCooperanteMB {
         inicializarVariables();
     }
    
-    public void preUpdate(Organismo organismoCooperante){
-        try {        
-            this.organismoCooperante = organismoCooperante; 
-            this.organismoSelected.setIdTipoOrganismo(organismoCooperante.getIdTipoOrganismo().getIdTipoOrganismo());
-            this.regionSelected.setIdRegion(organismoCooperante.getIdRegion());
-            this.paisSelected.setIdPais(organismoCooperante.getIdPais());
+    public void preUpdate(PojoOrganismo pojoOrganismoCooperante){
+        try {
+            this.pojoOrganismo = pojoOrganismoCooperante;
+            this.organismoCooperante = organismoService.findById(pojoOrganismoCooperante.getIdOrg()); 
+            this.organismoSelected.setIdTipoOrganismo(this.organismoCooperante.getIdTipoOrganismo().getIdTipoOrganismo());
+            this.regionSelected.setIdRegion(this.organismoCooperante.getIdRegion());
+            this.paisSelected.setIdPais(this.organismoCooperante.getIdPais());
+            telefonoFijo = new Telefono();
+            List<Telefono> telefonosByOrganismo = telefonoService.getTelefonosByOrganismo(this.organismoCooperante);
+            
+            for(Telefono tel: telefonosByOrganismo){
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)){
+                     telefonoFijo=tel;
+                }
+            }
+            
             actualizar=true;      
         } catch (Exception e) {
               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Al precargar registro para ser actualizado"));
@@ -157,6 +189,22 @@ public class OrganismoCooperanteMB {
       inicializarVariables();
     }
      
+     public void listarOnCatChange() {
+        try {
+            organismoPojoList = organismoService.getOrganismosPorTipo(tipoSelected);
+        } catch (Exception e) {
+        }
+
+    }
+     
+    
+    public Integer getTipoSelected() {
+        return tipoSelected;
+    }
+
+    public void setTipoSelected(Integer tipoSelected) {
+        this.tipoSelected = tipoSelected;
+    } 
     public List<TipoOrganismo> getTipoOrganismoList() {
         return tipoOrganismoList;
     }
@@ -239,6 +287,17 @@ public class OrganismoCooperanteMB {
         return pojoPaisSelected;
     }
     
+    public PojoOrganismo getPojoOrganismo() {
+        return pojoOrganismo;
+    }
+
+    public void setPojoOrganismo(PojoOrganismo pojoOrganismo) {
+        this.pojoOrganismo = pojoOrganismo;
+    }
+    private PojoOrganismo pojoOrganismo;
+   
+
+    
        public List<PojoOrganismo> getOrganismoPojoList() {
         return organismoPojoList;
     }
@@ -260,5 +319,19 @@ public class OrganismoCooperanteMB {
         this.pojoToShow = pojoToShow;
     }
 
-    
+     public Telefono getTelefonoFijo() {
+        return telefonoFijo;
+    }
+
+    public void setTelefonoFijo(Telefono telefonoFijo) {
+        this.telefonoFijo = telefonoFijo;
+    }
+
+    public TipoTelefono getTipoTelefono() {
+        return tipoTelefono;
+    }
+
+    public void setTipoTelefono(TipoTelefono tipoTelefono) {
+        this.tipoTelefono = tipoTelefono;
+    }
 }

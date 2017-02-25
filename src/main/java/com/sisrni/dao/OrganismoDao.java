@@ -41,7 +41,7 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
         return q.list();
     }
     
-     public List<PojoOrganismo> getOrganismosPorPaisYTipo2(Integer idPais, Integer idTipo) {
+    public List<PojoOrganismo> getOrganismos() {
         String query = "SELECT org.ID_ORGANISMO AS idOrg, org.NOMBRE_ORGANISMO as nombre, "
                 + "tipoOrg.NOMBRE_TIPO AS tipo, pais.NOMBRE_PAIS as nPais, "
                 + "reg.NOMBRE_REGION AS nRegion, org.DIRECCION_ORGANISMO AS direccion, "
@@ -51,8 +51,31 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
                 + "tipoOrg.ID_TIPO_ORGANISMO INNER JOIN telefono AS telefon ON org.ID_ORGANISMO = "
                 + "telefon.ID_ORGANISMO INNER JOIN pais as pais ON org.ID_PAIS = pais.ID_PAIS INNER JOIN "
                 + "region AS reg ON org.ID_REGION = reg.ID_REGION ";
-               // + "WHERE pais.ID_PAIS = "
-                //+ idPais + " AND tipoOrg.ID_TIPO_ORGANISMO = " + idTipo;
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("idOrg", new IntegerType())
+                .addScalar("nombre", new StringType())
+                .addScalar("tipo", new StringType())
+                .addScalar("nPais", new StringType())
+                .addScalar("nRegion", new StringType())
+                .addScalar("direccion", new StringType())
+                .addScalar("correo", new StringType())
+                .addScalar("codigo", new IntegerType())
+                .addScalar("tel", new StringType())
+                .setResultTransformer(Transformers.aliasToBean(PojoOrganismo.class));
+        return q.list();
+    }
+                
+    public List<PojoOrganismo> getOrganismosPorTipo(Integer idTipo) {
+        String query = "SELECT org.ID_ORGANISMO AS idOrg, org.NOMBRE_ORGANISMO as nombre, "
+                + "tipoOrg.NOMBRE_TIPO AS tipo, pais.NOMBRE_PAIS as nPais, "
+                + "reg.NOMBRE_REGION AS nRegion, org.DIRECCION_ORGANISMO AS direccion, "
+                + "org.CORREO_ORGANISMO as correo, telefon.NUMERO_TELEFONO as tel, "
+                + "org.CODIGO_POSTAL as codigo FROM organismo AS org "
+                + "INNER JOIN tipo_organismo AS tipoOrg ON org.ID_TIPO_ORGANISMO = "
+                + "tipoOrg.ID_TIPO_ORGANISMO INNER JOIN telefono AS telefon ON org.ID_ORGANISMO = "
+                + "telefon.ID_ORGANISMO INNER JOIN pais as pais ON org.ID_PAIS = pais.ID_PAIS INNER JOIN "
+                + "region AS reg ON org.ID_REGION = reg.ID_REGION "
+                + "WHERE tipoOrg.ID_TIPO_ORGANISMO = " + idTipo;
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("idOrg", new IntegerType())
                 .addScalar("nombre", new StringType())
