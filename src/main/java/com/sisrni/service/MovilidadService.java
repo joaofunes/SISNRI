@@ -76,4 +76,8 @@ public class MovilidadService extends GenericService<Movilidad, Integer> {
        public List<Movilidad> getMovilidadesAnio(Integer anio){
            return movilidadDao.getMovilidadesAnio(anio);
        }
+       
+        public void desvincularReferente(Integer idMovilidad, Integer idPersona){
+            movilidadDao.desvincularReferente(idMovilidad, idPersona);
+        }
 }

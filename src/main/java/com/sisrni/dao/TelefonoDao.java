@@ -6,6 +6,7 @@
 package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
+import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.Telefono;
 import java.util.List;
@@ -32,5 +33,19 @@ public class TelefonoDao extends GenericDao<Telefono, Integer> {
         }
         return null;
     }
+    
+        public List<Telefono> getTelefonosByOrganismo(Organismo organismo) {
+        try {
+             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM  Telefono a JOIN FETCH  a.idTipoTelefono tipo WHERE a.idOrganismo.idOrganismo = :idOrganismo ");
+             q.setParameter("idOrganismo",organismo.getIdOrganismo());
+       
+             return q.list();
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
 
 }
