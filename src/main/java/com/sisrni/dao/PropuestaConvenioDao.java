@@ -429,4 +429,39 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                 .setResultTransformer(Transformers.aliasToBean(RptConveniosPorAnioPojo.class));
         return q.list();
     }
+    public List<PojoConvenioEstado> getPropuestasConvenioWithEstado(Integer desde, Integer hasta){
+        try {
+            String sql="SELECT \n" +
+                        "P_CONV.ID_PROPUESTA id_propuesta,\n" +
+                        "P_CONV.NOMBRE_PROPUESTA nombre_propuesta,\n" +
+                        "P_CONV.VIGENCIA vigencia,\n" +
+                        "P_ESTAD.FECHA fecha_cambio_estado,\n" +
+                        "EST.ID_ESTADO id_estado,\n" +
+                        "EST.NOMBRE_ESTADO nombre_estado,\n" +
+                        "EST.TIPO_ESTADO tipo_estado\n" +
+                        "FROM PROPUESTA_CONVENIO P_CONV \n" +
+                        "INNER JOIN PROPUESTA_ESTADO P_ESTAD \n" +
+                        "ON P_ESTAD.ID_PROPUESTA=P_CONV.ID_PROPUESTA\n" +
+                        "INNER JOIN ESTADO EST\n" +
+                        "ON P_ESTAD.ID_ESTADO=EST.ID_ESTADO\n "+
+                        "AND P_CONV.VIGENCIA IS NULL";
+            Query q= getSessionFactory().getCurrentSession().createSQLQuery(sql)                      
+                     .addScalar("id_propuesta",new IntegerType())
+                     .addScalar("nombre_propuesta",new StringType())
+                     .addScalar("vigencia",new DateType())
+                     .addScalar("fecha_cambio_estado",new DateType())
+                     .addScalar("id_estado",new IntegerType())                    
+                     .addScalar("nombre_estado",new StringType())                    
+                     .addScalar("tipo_estado",new IntegerType())
+                     .setResultTransformer(Transformers.aliasToBean(PojoConvenioEstado.class));
+            if(q.list()!=null){
+                return  q.list();
+            }else{
+                return null;
+            }  
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+   }
 }
