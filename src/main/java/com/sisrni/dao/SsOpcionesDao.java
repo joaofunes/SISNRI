@@ -59,4 +59,34 @@ public class SsOpcionesDao extends GenericDao<SsOpciones, Integer> {
             return null;
         }
     }
+    
+    
+    public int deleteOpcionesRoles(Integer opcion, Integer rol) {
+        try {
+            String sql = "DELETE FROM SS_ROLES_OPCIONES WHERE ID_OPCION=:opcion AND ID_ROL=:rol";
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+            q.setParameter("opcion", opcion);
+            q.setParameter("rol", rol);
+            int executeUpdate = q.executeUpdate();
+            return executeUpdate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    
+    
+    public int gurdarRolesOpciones(Integer idRol,Integer idOpcion){
+        try {
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery("INSERT INTO SS_ROLES_OPCIONES (ID_ROL,ID_OPCION) VALUES(:idRol,:idOpcion)");
+            q.setParameter("idRol", idRol);
+            q.setParameter("idOpcion", idOpcion);
+            int executeInsert = q.executeUpdate();
+            return executeInsert;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         return 0;
+    }
+    
 }

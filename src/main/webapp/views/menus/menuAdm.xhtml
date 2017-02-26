@@ -8,6 +8,7 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:pe="http://primefaces.org/ui/extensions" 
+                 xmlns:poue="http://primefaces.org/ui/extensions"
                  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                  >
 
@@ -40,6 +41,7 @@
                         <th>Usuario</th>
                         <th>Roles</th>
                         <th>Opciones</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>                    
@@ -59,17 +61,26 @@
                                 </c:forEach><br/><br/>
                             </td>
                             <td>
+                                <c:forEach items="#{menu.ssOpcionesList}" var="lts"> 
+                                    <h:outputText value="#{lts.nombreOpcion}" /><br/> 
+                                </c:forEach><br/><br/>
+                            </td>
+                            <td>
                                 <div style="float: left">
                                     <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar"
                                                    value="Editar" actionListener="#{menusOpcionesAdmMB.preEditar(menu)}"
                                                    oncomplete="PF('EditarMenuDialog').show();"
-                                                   update=":EditMenuDlg, formMenu"/>
-                                </div>                                
+                                                   update=":EditMenuDlg, :formEditarMenu"/>
+                                </div> 
                                 <div style="float: left">
                                     <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                                    title="Eliminar" value="Eliminar"
-                                                   actionListener="#{menusOpcionesAdmMB.preEliminar(menu)}" />
+                                                   rendered="#{menu.ssOpcionesList == null || menu.ssOpcionesList.size()==0 }"
+                                                   actionListener="#{menusOpcionesAdmMB.preEliminar(menu)}"
+                                                   oncomplete="PF('DeleteMenuDialog').show();"
+                                                   update=":DeletMenuDlg, :formDeletMenu"/>
                                 </div>
+                                
                                 <div style="float: left">
                                     <p:commandLink styleClass="ui-icon ui-icon-document-b"
                                                    title="Opciones" value="Agregar Opciones a Menu"                                       
@@ -101,22 +112,24 @@
                             <p:watermark for="idNombreMenu" value="Nombre Menu" />
                             <p:message for="idNombreMenu" />
                         </p:column> 
-
+                         <p:column>  
+                            <p:outputLabel for="idOrdenMenu" value="Orden" />
+                        </p:column>                                         
+                        <p:column>
+                            <poue:inputNumber id="idOrdenMenu" maxlength="2" value="#{menusOpcionesAdmMB.ssMenus.ordenMenu}" required="true" />                              
+                            <p:watermark for="idOrdenMenu" value="Nombre Menu" />
+                            <p:message for="idOrdenMenu" />
+                        </p:column>
 
                         <p:column>  
                             <p:outputLabel for="idRoles" value="Roles" />
                         </p:column>                                         
                         <p:column>                                         
-
-
-                            <p:selectCheckboxMenu id="idRoles" value="#{menusOpcionesAdmMB.selectedArrayRoles}" label="Cities"
-                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                            <p:selectCheckboxMenu id="idRoles" value="#{menusOpcionesAdmMB.selectedArrayRoles}" label="Roles"
+                                                   panelStyle="width:350px">
                                 <f:selectItems value="#{menusOpcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" />
                             </p:selectCheckboxMenu>
-
                         </p:column>
-
-
                         <p:column> 
                             <p:commandButton value="Guardar" id="idGuardarMenu" actionListener="#{menusOpcionesAdmMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('NuevoMenuDialog').hide();" />
                             <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('NuevoMenuDialog').close();" />
@@ -142,24 +155,67 @@
                             <p:message for="idNombreMenu" />
                         </p:column> 
 
-
+                        <p:column>  
+                            <p:outputLabel for="idOrdenMenu" value="Orden" />
+                        </p:column>                                         
+                        <p:column>
+                            <poue:inputNumber id="idOrdenMenu" maxlength="2" value="#{menusOpcionesAdmMB.ssMenus.ordenMenu}" required="true" />                              
+                            <p:watermark for="idOrdenMenu" value="Nombre Menu" />
+                            <p:message for="idOrdenMenu" />
+                        </p:column>
                         <p:column>  
                             <p:outputLabel for="idRoles" value="Roles" />
                         </p:column>                                         
                         <p:column>                                         
-                            <p:selectCheckboxMenu id="idRoles" value="#{menusOpcionesAdmMB.selectedArrayRoles}" label="Cities"
-                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                            <p:selectCheckboxMenu id="idRoles" value="#{menusOpcionesAdmMB.selectedArrayRoles}" label="Roles"
+                                                   panelStyle="width:350px">
                                 <f:selectItems value="#{menusOpcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" />
                             </p:selectCheckboxMenu>
                         </p:column>
 
+                        <p:column> 
+                            <p:commandButton value="Actualizar" id="idEditarMenu" action="#{menusOpcionesAdmMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('EditarMenuDialog').hide();" />                            
+                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('EditarMenuDialog').close();" />
+                        </p:column>
+                    </h:panelGrid>
+                </center>    
+            </h:form>  
+        </p:dialog>
+        
+        
+        <p:dialog id="DeletMenuDlg" widgetVar="DeleteMenuDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Editar Menu" closeOnEscape="true">
+
+            <h:form id="formDeletMenu">
+                <center>                  
+                    <h:panelGrid columns="2" >
+
+                        <p:column>
+                            <p:outputLabel for="idNombreMenu" value="Nombre Menu" />
+                        </p:column>                                         
+                        <p:column>                             
+                            <p:outputLabel id="idNombreMenu"   value="#{menusOpcionesAdmMB.ssMenus.nombreMenu}" />                           
+                        </p:column> 
+
+                        <p:column>  
+                            <p:outputLabel for="idOrdenMenu" value="Orden" />
+                        </p:column>                                         
+                        <p:column>
+                            <p:outputLabel id="idOrdenMenu" value="#{menusOpcionesAdmMB.ssMenus.ordenMenu}"  />                                                          
+                        </p:column>
+                        <p:column>  
+                            <p:outputLabel for="idRoles" value="Roles" />
+                        </p:column>                                         
+                        <p:column> 
+                            
+                            <p:selectCheckboxMenu id="idRoles" value="#{menusOpcionesAdmMB.selectedArrayRoles}" label="Roles"
+                                                   panelStyle="width:450px">
+                                <f:selectItems value="#{menusOpcionesAdmMB.listRoles}" var="rol" itemDisabled="true" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" noSelectionValue="true" />
+                            </p:selectCheckboxMenu>
+                        </p:column>
 
                         <p:column> 
-                            <p:commandButton value="Actualizar" id="idGuardarMenu" actionListener="#{menusOpcionesAdmMB.actualizar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('EditarMenuDialog').hide();" />
-                             <p:commandButton  styleClass="boton"
-                                         actionListener="#{menusOpcionesAdmMB.cancelar()}" immediate="true" update=":formAdmin"
-                                         value="Cancelar" />
-                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('EditarMenuDialog').close();" />
+                            <p:commandButton value="Eliminar" id="idEliminarMenu" action="#{menusOpcionesAdmMB.eliminar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('DeleteMenuDialog').hide();" />                            
+                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('DeleteMenuDialog').close();" />
                         </p:column>
                     </h:panelGrid>
                 </center>    
