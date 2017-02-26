@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.464100000000019"/>
 	<property name="ireport.x" value="7"/>
-	<property name="ireport.y" value="168"/>
+	<property name="ireport.y" value="360"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -46,7 +46,7 @@
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
-					<text><![CDATA[Secretaria de Relaciones Nacionales e Internacionales]]></text>
+					<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>
 				</staticText>
 			</elementGroup>
 			<staticText>
@@ -69,7 +69,7 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Agrupadas por Pais Destino]]></text>
+				<text><![CDATA[Agrupadas por País Destino]]></text>
 			</staticText>
 			<textField pattern="MM/dd/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="119" width="528" height="20" forecolor="#786C6C"/>
@@ -117,7 +117,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ Pais Destino]]></text>
+				<text><![CDATA[ País Destino]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="4591de44-19ac-4ff4-931f-e681ad845686" mode="Opaque" x="318" y="0" width="105" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
@@ -248,7 +248,7 @@
 			<textField>
 				<reportElement uuid="69ff43d5-6b7e-4c5e-b818-884e147097f9" x="200" y="1" width="80" height="20"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement uuid="9d4f7ba7-e54b-4df8-9cb0-a303bf80d11f" x="280" y="1" width="40" height="20"/>
@@ -263,7 +263,7 @@
 				<chart>
 					<reportElement uuid="b056c4c8-0858-4f53-b3c8-f257e20f8c3c" x="0" y="33" width="264" height="247"/>
 					<chartTitle color="#5B63B1">
-						<titleExpression><![CDATA["Becas Gestionadas"]]></titleExpression>
+						<titleExpression><![CDATA["Gráfico de Becas Gestionadas"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend>
@@ -304,7 +304,7 @@
 				<chart>
 					<reportElement uuid="810f3741-2f34-4d5b-80c7-abbfa3b5351e" x="264" y="33" width="264" height="247"/>
 					<chartTitle color="#5B63B1">
-						<titleExpression><![CDATA["Becas Otorgadas"]]></titleExpression>
+						<titleExpression><![CDATA["Gráfico de Becas Otorgadas"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend>

@@ -21,9 +21,21 @@
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="categoria" value="#{organismoCooperanteMB.tipoSelected}" style="width:125px">
-                                <f:selectItem itemValue="0" itemLabel="--Todas--"/>
+                                <f:selectItem itemValue="0" itemLabel="--Todos--"/>
                                 <c:forEach var="cat" items="#{organismoCooperanteMB.tipoOrganismoList}">
                                     <f:selectItem itemLabel="#{cat.nombreTipo}" itemValue="#{cat.idTipoOrganismo}" />        
+                                </c:forEach>
+                               <p:ajax event="change" update="idDataScroll" listener="#{organismoCooperanteMB.listarOnCatChange()}" process="@this"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                      <p:column>
+                            <p:outputLabel for="catPais" value="Filtrar por Pais:" style="size: 30px"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="catPais" value="#{organismoCooperanteMB.nPaisSelected}" style="width:125px">
+                                <f:selectItem itemValue="0" itemLabel="--Todos--"/>
+                                <c:forEach var="catPais" items="#{organismoCooperanteMB.paisList}">
+                                    <f:selectItem itemLabel="#{catPais.nombrePais}" itemValue="#{catPais.idPais}" />        
                                 </c:forEach>
                                <p:ajax event="change" update="idDataScroll" listener="#{organismoCooperanteMB.listarOnCatChange()}" process="@this"/>
                             </p:selectOneMenu>
@@ -33,49 +45,43 @@
             </center>
 
 
-            <p:dataScroller id="idDataScroll" value="#{organismoCooperanteMB.organismoPojoList}" var="car" chunkSize="10">
+            <p:dataScroller id="idDataScroll" value="#{organismoCooperanteMB.organismoPojoList}" var="organismo" chunkSize="10">
                 <f:facet name="header">
                     <p:outputLabel value="Organismos de Cooperación" style="font-size: 25px"/>
                 </f:facet>
-                <f:facet name="loader">
-                    <p:commandButton type="button" value="Ver Más" icon="ui-icon-circle-triangle-s"/>
-                </f:facet>
-                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                    <p:panel id="custom" header="Nombre: #{car.nombre}" style="margin-bottom:20px">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <h:outputText id="display" value="#{car.direccion}" escape="false"/>
-                        </h:panelGrid>
-                        <f:facet name="actions">
-                            <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" actionListener="#{noticiaMB.cargarNoticiaPopUp(car.idNoticia)}" oncomplete="PF('noticiaWV').show();" update=":noticiaPopUpId"><h:outputText styleClass="ui-icon ui-icon-search" /></p:commandLink>
-                        </f:facet>
+                <h:panelGrid  style="width:100%" columnClasses="logo,detail">
+                    <p:panel id="custom" header="Nombre: #{organismo.nombre}" style="margin-bottom:20px">
+                        <p:panelGrid columns="3" layout="grid">            
+                        <p:column>
+                            <p:outputLabel value="Tipo: "/>
+                            <h:outputText id="tipo" value="#{organismo.tipo}" escape="false"/>
+                        </p:column> 
+                         <p:column>
+                            <p:outputLabel value="País:"/>
+                            <h:outputText id="pais" value="#{organismo.nPais}" escape="false"/>
+                         </p:column>
+                         <p:column>
+                          <p:outputLabel value="Correo:"/>
+                          <h:outputText id="correo" value="#{organismo.correo}" escape="false"/>
+                          </p:column>
+                          <p:column>
+                          <p:outputLabel value="Dirección:"/>   
+                            <h:outputText id="direccion" value="#{organismo.direccion}" escape="false"/>
+                            </p:column>
+                            <p:column>
+                            <p:outputLabel value="Teléfono:"/>
+                              <h:outputText id="tel" value="#{organismo.tel}" escape="false"/>
+                            </p:column>
+                            <p:column>
+                            <p:outputLabel value="Código:"/>
+                            <h:outputText id="codigo" value="#{organismo.codigo}" escape="false"/>
+                            </p:column>
+                              
+                        </p:panelGrid>
                     </p:panel>
                 </h:panelGrid>
             </p:dataScroller>
         </h:form>
-        <p:dialog header="Noticia" id="noticiaPopUpId" widgetVar="noticiaWV" modal="true" appendTo="@(body)" width="1100" height="500">
-            <p:panelGrid>
-                <p:row>
-                    <p:column>
-                        <h:outputText value="Titulo:" style="font-size: 25px"/>
-                        <h:outputText value="#{noticiaMB.noticiaPopUp.tituloNoticia}" style="text-align: left;font-size: 25px"/>
-                    </p:column>
-                </p:row>
-                <p:row>
-                    <p:column>
-                        <h:outputText value="Fecha Creacion:" style="font-size: 14px"/>
-                        <h:outputText value="#{noticiaMB.noticiaPopUp.fechaNoticia}" style="text-align: left">
-                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                        </h:outputText>
-                        <p:separator/>
-                    </p:column>
-                </p:row>
-                <p:row>
-                    <p:column>
-                        <h:outputText value="#{noticiaMB.noticiaPopUp.contenido}" escape="false" />
-                    </p:column>
-                </p:row>
-            </p:panelGrid>
-        </p:dialog>
     </ui:define>
 
 </ui:composition> 

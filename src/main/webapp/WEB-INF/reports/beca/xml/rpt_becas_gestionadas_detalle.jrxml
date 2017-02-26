@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="708" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.0533250172243194"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="22"/>
+	<property name="ireport.y" value="4"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -52,7 +52,7 @@
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
-					<text><![CDATA[Secretaria de Relaciones Nacionales e Internacionales]]></text>
+					<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>
 				</staticText>
 			</elementGroup>
 			<staticText>
@@ -82,7 +82,7 @@
 			</image>
 			<staticText>
 				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="100" width="708" height="25" forecolor="#5B63B1"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Detalle]]></text>
@@ -301,7 +301,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
-					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{montoBeca}]]></textFieldExpression>
@@ -317,13 +317,17 @@
 	</columnFooter>
 	<pageFooter>
 		<band height="21" splitType="Stretch">
-			<elementGroup>
-				<textField>
-					<reportElement uuid="ca85c37e-d9a9-4449-a43d-95c36d307209" x="0" y="1" width="707" height="20"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"+ " " + $V{PAGE_NUMBER}]]></textFieldExpression>
-				</textField>
-			</elementGroup>
+			<elementGroup/>
+			<textField>
+				<reportElement uuid="aa12c0a4-4d63-4370-89e3-7e164a7294a1" x="290" y="1" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página"+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="74d86d0f-d709-420c-8419-a271ebd64a53" x="370" y="1" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 	<summary>

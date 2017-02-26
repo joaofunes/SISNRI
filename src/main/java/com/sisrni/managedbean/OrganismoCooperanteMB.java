@@ -72,7 +72,9 @@ public class OrganismoCooperanteMB {
     private List<PojoPais> paisPojoList;
     private List<PojoOrganismo> organismoPojoList;
     private Integer tipoSelected;
-    private Integer npaisSelected;
+    private Integer nPaisSelected;
+    private PojoOrganismo pojoOrganismo;
+
     
 
     public OrganismoCooperanteMB() {    
@@ -97,6 +99,8 @@ public class OrganismoCooperanteMB {
     pojoPaisSelected = new PojoPais();
     pojoToShow = new PojoPais();
     actualizar=false;
+    tipoSelected = 0;
+    nPaisSelected =0;
     
     }
     
@@ -197,7 +201,6 @@ public class OrganismoCooperanteMB {
 
     }
      
-    
     public Integer getTipoSelected() {
         return tipoSelected;
     }
@@ -268,6 +271,14 @@ public class OrganismoCooperanteMB {
         this.regionSelected = regionSelected;
     }
     
+    public Integer getnPaisSelected() {
+        return nPaisSelected;
+    }
+
+    public void setnPaisSelected(Integer nPaisSelected) {
+        this.nPaisSelected = nPaisSelected;
+    }
+    
     public boolean isActualizar() {
         return actualizar;
     }
@@ -293,10 +304,7 @@ public class OrganismoCooperanteMB {
 
     public void setPojoOrganismo(PojoOrganismo pojoOrganismo) {
         this.pojoOrganismo = pojoOrganismo;
-    }
-    private PojoOrganismo pojoOrganismo;
-   
-
+    }   
     
        public List<PojoOrganismo> getOrganismoPojoList() {
         return organismoPojoList;

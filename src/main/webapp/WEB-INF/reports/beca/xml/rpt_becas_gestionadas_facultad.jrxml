@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.3310000000000162"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="452"/>
+	<property name="ireport.y" value="451"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -43,7 +43,7 @@
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
-					<text><![CDATA[Secretaria de Relaciones Nacionales e Internacionales]]></text>
+					<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>
 				</staticText>
 			</elementGroup>
 			<staticText>
@@ -245,7 +245,7 @@
 			<textField>
 				<reportElement uuid="bb874dc6-e1a3-44db-9186-4cf1f8075882" x="204" y="1" width="80" height="20"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement uuid="e0cd84d4-93a9-4c21-a1bc-5d4042a9815c" x="284" y="1" width="40" height="20"/>
@@ -260,7 +260,7 @@
 				<chart theme="default">
 					<reportElement uuid="b056c4c8-0858-4f53-b3c8-f257e20f8c3c" stretchType="RelativeToBandHeight" x="0" y="30" width="264" height="247"/>
 					<chartTitle color="#5B63B1">
-						<titleExpression><![CDATA["Becas Gestionadas"]]></titleExpression>
+						<titleExpression><![CDATA["Gráfico de Becas Gestionadas"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend>
@@ -301,7 +301,7 @@
 				<chart theme="default">
 					<reportElement uuid="810f3741-2f34-4d5b-80c7-abbfa3b5351e" stretchType="RelativeToBandHeight" x="264" y="30" width="264" height="247"/>
 					<chartTitle color="#5B63B1">
-						<titleExpression><![CDATA["Becas Otorgadas"]]></titleExpression>
+						<titleExpression><![CDATA["Gráfico de Becas Otorgadas"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend>
