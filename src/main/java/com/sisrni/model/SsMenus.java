@@ -25,6 +25,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -62,11 +64,13 @@ public class SsMenus implements Serializable {
         @JoinColumn(name = "ID_MENU", referencedColumnName = "ID_MENU", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL", nullable = false)})
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.TRUE)
     private List<SsRoles> ssRolesList;
     @JoinTable(name = "ss_menus_opciones", joinColumns = {
         @JoinColumn(name = "ID_MENU", referencedColumnName = "ID_MENU", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_OPCION", referencedColumnName = "ID_OPCION", nullable = false)})
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.TRUE)
     private List<SsOpciones> ssOpcionesList;
     @OneToMany(mappedBy = "ssIdMenu")
     private List<SsMenus> ssMenusList;

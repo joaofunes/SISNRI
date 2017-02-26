@@ -2,138 +2,126 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition  template="/WEB-INF/templates/layout.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:pe="http://primefaces.org/ui/extensions" 
-    >
-        
-    
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:pe="http://primefaces.org/ui/extensions" 
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 >
+
+
     <ui:define name="content">
         <h:form id="formAdmin">
-            <p:panelGrid >
-                <p:row>
-                  
-                        <p:column>
-                            Nombre Opciones                            
-                        </p:column>
-                        <p:column>                           
-                            <p:inputText id="namemenu"   value="#{opcionesAdmMB.ssOpciones.nombreOpcion}" required="true" size="80" />
-                        </p:column>
-                       
+            <p:panelGrid >               
+                <p:row>                         
+                    <p:column>   
+                        <p:commandButton rendered="#{!opcionesAdmMB.actualizar}"
+                                         actionListener="#{opcionesAdmMB.guardar()}" update=":formAdmin :formMenu" process="@this :formAdmin"
+                                         value="Guardar" />
+                        <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
+                                         actionListener="#{opcionesAdmMB.editar()}" update=":formAdmin"
+                                         value="Actulizar" />
+                        <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
+                                         actionListener="#{opcionesAdmMB.cancelar()}" immediate="true" update=":formAdmin"
+                                         value="Cancelar" />
+                        <p:commandButton 
+                            title="Agregar Opcion" value="Agregar Opcion"
+                            process="@this"                                           
+                            oncomplete="PF('NuevoOpcionDialog').show();"/>
+                    </p:column>
                 </p:row>
-                <p:row>
-                       <p:column>
-                            Url                           
-                        </p:column>                    
-                       <p:column>
-                            <p:inputText id="idUrl"   value="#{opcionesAdmMB.ssOpciones.url}" required="true" size="80" />
-                        </p:column>                    
-                </p:row>
-                <p:row>
-                        <p:column>
-                            Visible
-                        </p:column>                       
-                        <p:column>
-                            <h:selectBooleanCheckbox id="idVisible" value="#{opcionesAdmMB.ssOpciones.visible}"  />
-                        </p:column>                       
-                </p:row>
-                <p:row>
-                    
-                        <p:column>
-                            <p:commandButton rendered="#{!opcionesAdmMB.actualizar}"
-                                             actionListener="#{opcionesAdmMB.guardar()}" update=":formAdmin :formMenu" process="@this :formAdmin"
-                                             value="Guardar" />
-                            <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
-                                             actionListener="#{opcionesAdmMB.editar()}" update=":formAdmin"
-                                             value="Actulizar" />
-                            <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
-                                             actionListener="#{opcionesAdmMB.cancelar()}" immediate="true" update=":formAdmin"
-                                             value="Cancelar" />
-                             <p:commandButton 
-                                           title="Agregar Opcion" value="Agregar Opcion"
-                                           process="@this"                                           
-                                           oncomplete="PF('NuevoOpcionDialog').show();"/>
-                        </p:column>
-                </p:row>
-
             </p:panelGrid>
         </h:form>
         <h:outputLabel style="margin-bottom: 20px;"/>
         <h:form id="formMenu">
-            <p:dataTable var="menu" value="#{opcionesAdmMB.listadoOpciones}" paginator="true" rows="5"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="5,10,15"                       
-                        >
-                
-                <p:column headerText="Id" sortBy="#{menu.idOpcion}" filterBy="#{menu.idOpcion}">
-                    <h:outputText value="#{menu.idOpcion}" />
-                </p:column>
-                <p:column headerText="Nombre Opcion" sortBy="#{menu.nombreOpcion}" filterBy="#{menu.nombreOpcion}">
-                    <h:outputText value="#{menu.nombreOpcion}" />
-                </p:column>
-                <p:column headerText="Url" sortBy="#{menu.url}" filterBy="#{menu.url}">
-                    <h:outputText value="#{menu.url}" />
-                </p:column>
-                <p:column headerText="Visible" >
-                    <h:outputText value="#{menu.visible? 'Si':'No'}" />
-                </p:column>
-                <p:column headerText="Fecha" sortBy="#{menu.fechaRegistro}" filterBy="#{menu.fechaRegistro}">
-                    <h:outputText value="#{menu.fechaRegistro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                    </h:outputText>    
-                </p:column>
-                
-                <p:column headerText="Opciones">
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar"
-                                       value="Editar" actionListener="#{opcionesAdmMB.preEditar(menu)}" />
-                    </div>
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-closethick"
-                                       title="Eliminar" value="Eliminar"
-                                       actionListener="#{opcionesAdmMB.preEliminar(menu)}" />
-                    </div>
-                </p:column>
-            </p:dataTable>
- 
-            
+
+            <table border="1" id="tablaP">
+                <thead>
+                    <tr>
+                        <th class="ui-state-default ui-sortable-column ui-filter-column ui-state-active" role="columnheader">Nombre Opcion</th>
+                        <th>URL</th>
+                        <th>Visible</th>                  
+                        <th>Roles</th>                       
+                        <th>Menu</th>                       
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>                    
+                    <c:forEach  items="#{opcionesAdmMB.listadoOpciones}" var="menu"> 
+                        <tr>
+                            <td><h:outputText value="#{menu.nombreOpcion}" /></td>
+                            <td><h:outputText value="#{menu.url}" /></td>
+                            <td>  <h:outputText value="#{menu.visible? 'No':'Si'}" /></td>                                                        
+                            <td>
+                                <c:forEach items="#{menu.ssRolesList}" var="lts"> 
+                                    <h:outputText value="#{lts.nombreRol} (#{lts.codigoRol})" /><br/> 
+                                </c:forEach><br/><br/>
+                            </td>                            
+                            <td>
+                                <c:forEach items="#{menu.ssMenusList}" var="lts"> 
+                                    <h:outputText value="#{lts.nombreMenu} " /><br/> 
+                                </c:forEach><br/><br/>
+                            </td>                            
+                            <td>
+                                <div style="float: left">
+                                    <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar"
+                                                   value="Editar" actionListener="#{opcionesAdmMB.preEditar(menu)}" 
+                                                   oncomplete="PF('EditarOpcionDialog').show();"
+                                                   update=":EditarMenuDlg, :formEditarMenu"/>
+                                </div>
+                                <div style="float: left">
+                                    <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                                   title="Eliminar" value="Eliminar"
+                                                   actionListener="#{opcionesAdmMB.preEliminar(menu)}"
+                                                   oncomplete="PF('EliminarOpcionDialog').show();"
+                                                   update=":EliminarMenuDlg, :formEliminarMenu"/>
+                                </div>
+                                <div style="float: left">
+                                    <p:commandLink styleClass="ui-icon ui-icon-document-b"
+                                                   title="Opciones" value="Agregar Opciones a Menu"                                       
+                                                   actionListener="#{opcionesAdmMB.addOpciones(menu)}" />
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>                      
+                </tbody>
+            </table>
         </h:form>
-        
-        
-          <p:dialog id="NuevoMenuDlg" widgetVar="NuevoOpcionDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Nuevo Opcion" closeOnEscape="true">
-            
+
+
+        <p:dialog id="NuevoMenuDlg" widgetVar="NuevoOpcionDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Nuevo Opcion" closeOnEscape="true">
+
             <h:form id="formNuevoMenu">
                 <center>                  
                     <h:panelGrid columns="2" >
-                        
+
                         <p:column>
-                             <p:outputLabel for="idNombreOpcion" value="Nombre Opciones" />                            
+                            <p:outputLabel for="idNombreOpcion" value="Nombre Opciones" />                            
                         </p:column>
                         <p:column>                           
                             <p:inputText id="idNombreOpcion"  value="#{opcionesAdmMB.ssOpciones.nombreOpcion}" required="true" size="80" />
                             <p:watermark for="idNombreOpcion" value="Nombre Opcion" />
                             <p:message for="idNombreOpcion" />
                         </p:column>
-                        
+
                         <p:column>
-                              <p:outputLabel for="idUrl" value="Url" /> 
-                              <p:watermark for="idUrl" value="Url" />
-                              <p:message for="idUrl" />
+                            <p:outputLabel for="idUrl" value="Url" /> 
+                            <p:watermark for="idUrl" value="Url" />
+                            <p:message for="idUrl" />
                         </p:column>                    
-                       <p:column>
+                        <p:column>
                             <p:inputText id="idUrl"   value="#{opcionesAdmMB.ssOpciones.url}" required="true" size="80" />
                         </p:column>   
-                        
-                         <p:column>
+
+                        <p:column>
                             <p:outputLabel for="idVisible" value="Visible" />   
                         </p:column>                       
                         <p:column>
                             <h:selectBooleanCheckbox id="idVisible" value="#{opcionesAdmMB.visible}"  />
                         </p:column> 
-                        
+
                         <p:column>  
                             <p:outputLabel for="idRoles" value="Roles" />
                         </p:column>                                         
@@ -143,7 +131,7 @@
                                 <f:selectItems value="#{opcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" />
                             </p:selectCheckboxMenu> 
                         </p:column>
-                     
+
                         <p:column> 
                             <p:commandButton value="Guardar" id="idGuardarMenu" actionListener="#{opcionesAdmMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('NuevoOpcionDialog').hide();" />
                             <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('NuevoOpcionDialog').close();" />
@@ -153,8 +141,104 @@
             </h:form>  
         </p:dialog>
         
+        <p:dialog id="EditarMenuDlg" widgetVar="EditarOpcionDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Editar Opcion" closeOnEscape="true">
+
+            <h:form id="formEditarMenu">
+                <center>                  
+                    <h:panelGrid columns="2" >
+
+                        <p:column>
+                            <p:outputLabel for="idNombreOpcion" value="Nombre Opciones" />                            
+                        </p:column>
+                        <p:column>                           
+                            <p:inputText id="idNombreOpcion"  value="#{opcionesAdmMB.ssOpciones.nombreOpcion}" required="true" size="80" />
+                            <p:watermark for="idNombreOpcion" value="Nombre Opcion" />
+                            <p:message for="idNombreOpcion" />
+                        </p:column>
+
+                        <p:column>
+                            <p:outputLabel for="idUrl" value="Url" /> 
+                            <p:watermark for="idUrl" value="Url" />
+                            <p:message for="idUrl" />
+                        </p:column>                    
+                        <p:column>
+                            <p:inputText id="idUrl"   value="#{opcionesAdmMB.ssOpciones.url}" required="true" size="80" />
+                        </p:column>   
+
+                        <p:column>
+                            <p:outputLabel for="idVisible" value="Visible" />   
+                        </p:column>                       
+                        <p:column>
+                            <h:selectBooleanCheckbox id="idVisible" value="#{opcionesAdmMB.visible}"  />
+                        </p:column> 
+
+                        <p:column>  
+                            <p:outputLabel for="idRoles" value="Roles" />
+                        </p:column>                                         
+                        <p:column>                                                                     
+                            <p:selectCheckboxMenu id="idRoles" value="#{opcionesAdmMB.selectedArrayRoles}" label="Cities" panelStyle="width:350px">
+                                <f:selectItems value="#{opcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" />
+                            </p:selectCheckboxMenu> 
+                        </p:column>
+
+                        <p:column> 
+                            <p:commandButton value="Actualizar" id="idActualizarMenu" actionListener="#{opcionesAdmMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('EditarOpcionDialog').hide();" />
+                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('EditarOpcionDialog').close();" />
+                        </p:column>
+                    </h:panelGrid>
+                </center>    
+            </h:form>  
+        </p:dialog>
         
         
+        <p:dialog id="EliminarMenuDlg" widgetVar="EliminarOpcionDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Eliminar Opcion" closeOnEscape="true">
+
+            <h:form id="formEliminarMenu">
+                <center>                  
+                    <h:panelGrid columns="2" >
+
+                        <p:column>
+                            <p:outputLabel for="idNombreOpcion" value="Nombre Opciones" />                            
+                        </p:column>
+                        <p:column>                           
+                            <p:outputLabel id="idNombreOpcion"  value="#{opcionesAdmMB.ssOpciones.nombreOpcion}"  />                           
+                        </p:column>
+
+                        <p:column>
+                            <p:outputLabel for="idUrl" value="Url" />                            
+                        </p:column>                    
+                        <p:column>
+                            <p:outputLabel id="idUrl" value="#{opcionesAdmMB.ssOpciones.url}" />
+                        </p:column>   
+
+                        <p:column>
+                            <p:outputLabel for="idVisible" value="Visible" />   
+                        </p:column>                       
+                        <p:column>
+                            <h:selectBooleanCheckbox id="idVisible" readonly="true" value="#{opcionesAdmMB.visible}"  />
+                        </p:column> 
+
+                        <p:column>  
+                            <p:outputLabel for="idRoles" value="Roles" />
+                        </p:column>                                         
+                        <p:column>                                                                     
+                            <p:selectCheckboxMenu id="idRoles" value="#{opcionesAdmMB.selectedArrayRoles}" label="Cities"
+                                                 panelStyle="width:450px">
+                                <f:selectItems value="#{opcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" itemDisabled="true" />
+                            </p:selectCheckboxMenu> 
+                        </p:column>
+
+                        <p:column> 
+                            <p:commandButton value="Actualizar" id="idActualizarMenu" actionListener="#{opcionesAdmMB.eliminar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('EliminarOpcionDialog').hide();" />
+                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('EliminarOpcionDialog').close();" />
+                        </p:column>
+                    </h:panelGrid>
+                </center>    
+            </h:form>  
+        </p:dialog>
+
+
+
     </ui:define>
-    
- </ui:composition> 
+
+</ui:composition> 
