@@ -139,7 +139,7 @@ public class ConvenioReportesMB {
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             HttpServletRequest request = (HttpServletRequest) context.getRequest();
             HttpServletResponse response = (HttpServletResponse) context.getResponse();
-            Reporte reporte = new Reporte("convenio", "rpt_convenios_por_anio", request);
+            Reporte reporte = new Reporte("convenios", "rpt_convenios_por_anio", request);
             List<RptConveniosPorAnioPojo> conveniosPorAnio = propuestaConvenioService.getconveniosPorAnio(desdeYear, hastaYear);
             reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptConveniosPorAnioPojo>(conveniosPorAnio)));
             reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
