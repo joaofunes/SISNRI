@@ -413,9 +413,13 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         return null;
    }
     public List<RptConveniosPorAnioPojo>getconveniosPorAnio(Integer desde, Integer hasta){
-        String query = "SELECT tp.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio,p.NOMBRE_PROPUESTA as nombreConvenio, p.FINALIDAD_PROPUESTA as finalidad, FECHA_INGRESO as fechaIngreso,VIGENCIA as vigencia from propuesta_convenio p join tipo_propuesta_convenio tp on (p.idTipoPropuestaConvenio=tp.idTipoPropuesta) where p.ANIO_GESTION BETWEEN \n" 
+        String query = "SELECT tp.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio,p.NOMBRE_PROPUESTA as nombreConvenio, \n"
+                + "p.FINALIDAD_PROPUESTA as finalidad, p.FECHA_INGRESO as fechaIngreso, p.VIGENCIA as vigencia from \n"
+                + "propuesta_convenio p join tipo_propuesta_convenio tp on (p.ID_TIPO_PROPUESTA_CONVENIO=tp.ID_TIPO_PROPUESTA) \n"
+                + "join propuesta_estado pe on (p.ID_PROPUESTA=pe.ID_PROPUESTA) where p.VIGENCIA IS NOT NULL AND pe.ID_ESTADO=10 \n"
+                + "AND YEAR(p.FECHA_INGRESO) BETWEEN \n" 
                 + desde + " AND " + hasta +  " GROUP BY p.FECHA_INGRESO \n" 
-                + " ORDER BY p.FECHA_INGRESO asc ";
+                + " ORDER BY p.FECHA_INGRESO asc";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("tipoConvenio", new StringType())
                 .addScalar("nombreConvenio", new StringType())

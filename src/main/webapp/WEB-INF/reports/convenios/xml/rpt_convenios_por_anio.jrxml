@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="8"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -43,7 +43,7 @@
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
-					<text><![CDATA[Secretaria de Relaciones Nacionales e Internacionales]]></text>
+					<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>
 				</staticText>
 			</elementGroup>
 			<staticText>
@@ -51,7 +51,7 @@
 				<textElement textAlignment="Center">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reporte de Convenios Gestionados por Año ]]></text>
+				<text><![CDATA[Reporte de Convenios por Año]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="100" width="264" height="20" forecolor="#786C6C"/>
@@ -90,7 +90,7 @@
 				<text><![CDATA[Tipo Convenio]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="eb43a84d-b8e8-4209-8ca7-7cab1dd9eec9" mode="Opaque" x="105" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="eb43a84d-b8e8-4209-8ca7-7cab1dd9eec9" mode="Opaque" x="104" y="0" width="103" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -111,7 +111,7 @@
 				<text><![CDATA[Fecha Ingreso]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="45f3ba90-17b5-4d7b-a240-2aba5fd77b39" mode="Opaque" x="307" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="45f3ba90-17b5-4d7b-a240-2aba5fd77b39" mode="Opaque" x="307" y="0" width="101" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -121,29 +121,59 @@
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="935f62d7-cbcd-4002-b6ef-fc51e5e6cb20" x="4" y="0" width="100" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="935f62d7-cbcd-4002-b6ef-fc51e5e6cb20" stretchType="RelativeToTallestObject" x="4" y="0" width="100" height="20"/>
+				<box leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{tipoConvenio}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="041163f9-5f52-436e-b46f-a28b349d14a5" x="105" y="0" width="100" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="041163f9-5f52-436e-b46f-a28b349d14a5" stretchType="RelativeToTallestObject" x="104" y="0" width="103" height="20"/>
+				<box leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{nombreConvenio}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="a1b133ed-6b17-479c-8bc7-c64bce8f3280" x="207" y="0" width="100" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="a1b133ed-6b17-479c-8bc7-c64bce8f3280" stretchType="RelativeToTallestObject" x="207" y="0" width="100" height="20"/>
+				<box leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{finalidad}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="295ce786-2228-481e-84f3-a9248ba5f3a5" x="408" y="0" width="100" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="295ce786-2228-481e-84f3-a9248ba5f3a5" stretchType="RelativeToTallestObject" x="408" y="0" width="100" height="20"/>
+				<box leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fechaIngreso}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="b3668535-bec7-4d37-b1ed-a7db79f6a4b1" x="307" y="0" width="100" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="b3668535-bec7-4d37-b1ed-a7db79f6a4b1" stretchType="RelativeToTallestObject" x="307" y="0" width="101" height="20"/>
+				<box leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{vigencia}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -171,6 +201,6 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="259" splitType="Stretch"/>
+		<band height="155" splitType="Stretch"/>
 	</summary>
 </jasperReport>

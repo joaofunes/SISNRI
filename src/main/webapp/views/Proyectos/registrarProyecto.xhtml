@@ -10,7 +10,16 @@
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
         <ui:define name="content">
-            <p:outputLabel value="Registro de Proyectos Internacionales" id="titulo" style="display:block; text-align:center"/>
+            <p:outputPanel id="pageTituloRegistrar" rendered="#{!proyectosMB.actualizar}">
+                <center>
+                    <h1 style="background: #cc0000;color: white;border-radius: 10px">Registro de Proyectos Internacionales</h1>
+                </center>   
+            </p:outputPanel>
+            <p:outputPanel id="pageTituloActualizar" rendered="#{proyectosMB.actualizar}">
+                <center>
+                    <h1 style="background: #cc0000;color: white;border-radius: 10px">Actualizaci&oacute;n de Proyectos Internacionales</h1>
+                </center>   
+            </p:outputPanel>
             <h:form id="formAdmin">
                 <center> 
                     <p:panel style="width: 80%">  
@@ -92,13 +101,17 @@
                                         <p:outputLabel for="nombreproyecto" value="Nombre del Proyecto:"  />
                                     </p:column>
                                     <p:column>
-                                        <p:inputTextarea id="nombreproyecto" value="#{proyectosMB.proyecto.nombreProyecto}"  rows="2" maxlength="300" style="width:180px" required="true"/>
+                                        <p:inputTextarea id="nombreproyecto" value="#{proyectosMB.proyecto.nombreProyecto}"  rows="2" maxlength="300" style="width:180px" required="true">
+                                        <f:validateRegex pattern="[a-zA-Z]+"/>
+                                        </p:inputTextarea>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Objetivo del Proyecto:" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputTextarea value="#{proyectosMB.proyecto.objetivo}" rows="2" maxlength="1000" style="width:180px"/>
+                                        <p:inputTextarea value="#{proyectosMB.proyecto.objetivo}" rows="2" maxlength="1000" style="width:180px">
+                                        <f:validateRegex pattern="[a-zA-Z]+"/>
+                                        </p:inputTextarea>
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel value="Fecha Inicio:"/>
@@ -222,13 +235,17 @@
                                             <p:outputLabel for="nombresolicitante" value="Nombre:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" rendered="true"/>
+                                            <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" rendered="true" readonly="#{proyectosMB.actualizar}">
+                                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidosolicitante" value="Apellido:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" rendered="true"/>
+                                            <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" rendered="true" readonly="#{proyectosMB.actualizar}">
+                                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Dui:"/>
@@ -240,7 +257,7 @@
                                             <p:outputLabel for="correosolicitante" value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true">
+                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
@@ -248,7 +265,9 @@
                                             <p:outputLabel value="Cargo:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}"/>
+                                            <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}">
+                                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Facultad/Unidad:"/>
@@ -358,13 +377,17 @@
                                             <p:outputLabel for="nombreasistente" value="Nombre:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" />
+                                            <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" readonly="#{proyectosMB.actualizar}" >
+                                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidoasistente" value="Apellido:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" />
+                                            <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" readonly="#{proyectosMB.actualizar}">
+                                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Dui:"/>
@@ -376,7 +399,7 @@
                                             <p:outputLabel for="correoasistente" value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}">
+                                            <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}" readonly="#{proyectosMB.actualizar}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column> 
@@ -384,7 +407,9 @@
                                             <p:outputLabel value="Cargo:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}"/>
+                                            <p:inputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}">
+                                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Facultad/Unidad:"/>
@@ -476,13 +501,17 @@
                                             <p:outputLabel for="nombreexterna" value="Nombre:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombreexterna" value="#{proyectosMB.personaExterna.nombrePersona}" required="true"/>
+                                            <p:inputText id="nombreexterna" value="#{proyectosMB.personaExterna.nombrePersona}" required="true" readonly="#{proyectosMB.actualizar}">
+                                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidoexterna" value="Apellido:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidoexterna" value="#{proyectosMB.personaExterna.apellidoPersona}" required="true"/>
+                                            <p:inputText id="apellidoexterna" value="#{proyectosMB.personaExterna.apellidoPersona}" required="true" readonly="#{proyectosMB.actualizar}">
+                                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Documento de Identificaci&oacute;n:"/>
@@ -494,7 +523,7 @@
                                             <p:outputLabel for="correoexterna" value="Correo Electronico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}" rendered="true">
+                                            <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
@@ -502,7 +531,9 @@
                                             <p:outputLabel value="Cargo:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="cargoexterna" value="#{proyectosMB.personaExterna.cargoPersona}"/>
+                                            <p:inputText id="cargoexterna" value="#{proyectosMB.personaExterna.cargoPersona}">
+                                            <f:validateRegex pattern="[a-zA-Z]+"/>
+                                            </p:inputText>
                                         </p:column>
                                         <p:column >
                                             <p:outputLabel for="unidadext" value="Entidad/Instituci&oacute;n"/>
@@ -535,8 +566,10 @@
                             </p:tab>
                         </p:accordionPanel>                                                                         
                     </p:panel>
-                    <p:commandButton styleClass="boton" value="Regresar"  id="btnRegresar" title="Regresar" actionListener="#{proyectosMB.regresar()}" process="@this" />
-                    <p:commandButton styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin" update="formAdmin" value="guardar" id="btnguardarProyecto" title="Guardar Proyecto"/>
+                    <p:commandButton rendered="#{proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.regresar()}" process="@this" value="Cancelar" id="btnCancelar" title="Cancelar"/>
+                    <p:commandButton rendered="#{proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin " update="formAdmin" value="Actualizar" id="btnActualizar" title="Actualizar Proyecto"/>
+                    <p:commandButton rendered="#{!proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.regresar()}" process="@this" update="formAdmin" value="Cancelar" id="btnregresar" title="volver"/>
+                    <p:commandButton rendered="#{!proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin" update="formAdmin" value="Guardar" id="btnGuardarBeca" title="Guardar Proyecto"/>
                 </center>
             </h:form>
             <p:confirmDialog widgetVar="dataChangeDlg" message="Ya existe el coordinador interno que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador Interno"  global="true">
