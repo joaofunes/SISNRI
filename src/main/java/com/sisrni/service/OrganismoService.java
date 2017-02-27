@@ -39,7 +39,7 @@ public class OrganismoService extends GenericService<Organismo, Integer> {
     public List<Organismo> getOrganismosPorPaisYTipo(Integer idPais, Integer idTipo) {
         return organismoDao.getOrganismosPorPaisYTipo(idPais, idTipo);
     }
-     public List<PojoOrganismo> getOrganismosPorTipo(Integer idTipo) {
-        return organismoDao.getOrganismosPorTipo(idTipo);
+     public List<PojoOrganismo> getOrganismosPorTipoYPais(Integer idTipo, Integer idPais) {
+        return organismoDao.getOrganismosPorTipoYPais(idTipo, idPais);
     }
 }
