@@ -32,11 +32,14 @@ public class OrganismoService extends GenericService<Organismo, Integer> {
     public List<Integer> getOrganismosProyecto(Integer id) {
         return organismoDao.getOrganismosProyecto(id);
     }
-
+      public List<PojoOrganismo> getOrganismos() {
+        return organismoDao.getOrganismos();
+    }
+    
     public List<Organismo> getOrganismosPorPaisYTipo(Integer idPais, Integer idTipo) {
         return organismoDao.getOrganismosPorPaisYTipo(idPais, idTipo);
     }
-     public List<PojoOrganismo> getOrganismosPorPaisYTipo2(Integer idPais, Integer idTipo) {
-        return organismoDao.getOrganismosPorPaisYTipo2(idPais, idTipo);
+     public List<PojoOrganismo> getOrganismosPorTipoYPais(Integer idTipo, Integer idPais) {
+        return organismoDao.getOrganismosPorTipoYPais(idTipo, idPais);
     }
 }

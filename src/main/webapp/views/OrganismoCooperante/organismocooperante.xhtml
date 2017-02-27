@@ -12,30 +12,30 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestión de Organismos de Cooperación">  
+            <p:panel style="width: 90%" header="Gestión de Organismos de Cooperación">  
                 
                 <h:form id="formOrganismo">
                     <p:panelGrid columns="2">
                         <p:column>
-                            <h:outputLabel for="nombreOrganismo" value="Nombre:"/>
+                            <p:outputLabel for="nombreOrganismo" value="Nombre:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="nombreOrganismo" value="#{organismoCooperanteMB.organismoCooperante.nombreOrganismo}" required="true" size="40" />
                             <p:watermark for="nombreOrganismo" value="Nombre del Organismo" id="watermarkNombreOrganismo"/>
                         </p:column>
                         
-                        <h:outputLabel value="Tipo de Organismo: "/>
-                        <p:selectOneMenu id="tipoorganismo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}" style="width: 100%" >
+                        <h:outputLabel for="tipo" value="Tipo de Organismo: "/>
+                        <p:selectOneMenu id="tipo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}" style="width: 100%" >
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <c:forEach var="tipoOrg" items="#{organismoCooperanteMB.tipoOrganismoList}">
                         <f:selectItem itemLabel="#{tipoOrg.nombreTipo}" itemValue="#{tipoOrg.idTipoOrganismo}"/>
                     </c:forEach>
                 </p:selectOneMenu>
                         <p:column>
-                            <h:outputLabel for="region" value="Región:"/>
+                            <p:outputLabel for="region" value="Región:"/>
                              </p:column>
                         <p:column>
-                             <p:selectOneMenu id="region" value="#{organismoCooperanteMB.regionSelected.idRegion}" style="width: 100%">
+                             <p:selectOneMenu id="region" value="#{organismoCooperanteMB.regionSelected.idRegion}" style="width: 100%" required="true">
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <p:ajax listener="#{organismoCooperanteMB.onchangeRegion()}" update="pais" />
                     <c:forEach var="region" items="#{organismoCooperanteMB.regionList}">
@@ -44,11 +44,10 @@
                 </p:selectOneMenu>
                  </p:column>
                         <p:column>
-                 <h:outputLabel for="pais" value="País"/>
-               
+                 <p:outputLabel for="pais" value="País"/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="pais" value="#{organismoCooperanteMB.paisSelected.idPais}" style="width: 100%">
+                            <p:selectOneMenu id="pais" value="#{organismoCooperanteMB.paisSelected.idPais}" required="true" style="width: 100%">
                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                     <c:forEach var="pais" items="#{organismoCooperanteMB.paisList}">
                         <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
@@ -56,24 +55,29 @@
                 </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                         <h:outputLabel value="Correo:"/>
+                         <p:outputLabel for="correo" value="Correo:"/>
                          </p:column>
                         <p:column>
-                            <p:inputText value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}" size="40"/>
+                            <p:inputText id="correo" value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}" required="true" size="40"/>
                         </p:column>
                          <p:column>
-                <h:outputLabel value="Dirección:"/>
+                <p:outputLabel for="direccion" value="Dirección:"/>
                         </p:column>
                          <p:column>  
-                             <p:inputText value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}" size="40"/>
+                             <p:inputText id="direccion" value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}" required="true" size="40"/>
+                        </p:column>
+                         <p:column>
+                        <p:outputLabel for="tel" value="Teléfono:"/>
+                        </p:column>
+                         <p:column>  
+                             <p:inputText id="tel" value="#{organismoCooperanteMB.telefonoFijo.numeroTelefono}" required="true" size="40"/>
                         </p:column>
                          <p:column>
                              
-                <h:outputLabel value="Código Postal:"/>
+                <p:outputLabel for="codigo" value="Código Postal:"/>
                         </p:column>
                             <p:column>
-                                
-                                <p:inputText value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}" size="40"/> 
+                                <p:inputText id="codigo" value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}" required="true" size="40"/> 
                                </p:column>
                          <p:column> 
                              <p:commandButton styleClass="boton" rendered="#{!organismoCooperanteMB.actualizar}"
@@ -91,32 +95,14 @@
 
                 </h:form>
                 <br></br>
-                <center>
-                <p:panelGrid>
-                  <p:row>
-                        <p:column>
-                            <p:outputLabel for="categoria" value="Filtrar:" style="size: 30px"/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="categoria" value="#{organismoCooperanteMB.tipoOrganismoList}" style="width:125px">
-                                <f:selectItem itemValue="0" itemLabel="--Todas--"/>
-                                <c:forEach var="cat" items="#{organismoCooperanteMB.tipoOrganismoList}">
-                                    <f:selectItem itemLabel="#{cat.nombreTipo}" itemValue="#{cat.idTipoOrganismo}" />        
-                                </c:forEach>
-<!--                                <p:ajax event="change" update="idDataScroll" listener="#{organismoCooperanteMB.listarOnCatChange()}" process="@this"/>-->
-                            </p:selectOneMenu>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
-            </center>
                 <h:form id="formTablaOrganismos">
                     <p:dataTable var="organismo" value="#{organismoCooperanteMB.organismoPojoList}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen Organismos Registrados actualmente" >
-                        <p:column headerText="Nombre" sortBy="#{organismo.nombre}" filterBy="#{organismo.nombre}" style="width: 14%">
+                        <p:column headerText="Nombre" sortBy="#{organismo.nombre}" filterBy="#{organismo.nombre}" style="width: 20%">
                             <h:outputText value="#{organismo.nombre}" />
                     </p:column>
-                        <p:column headerText="Tipo" sortBy="#{organismo.tipo}" filterBy="#{organismo.tipo}" style="width: 14%">
+                        <p:column headerText="Tipo" sortBy="#{organismo.tipo}" filterBy="#{organismo.tipo}" style="width: 20%">
                             <h:outputText value="#{organismo.tipo}" />
                     </p:column>
                     
@@ -124,27 +110,27 @@
                         <h:outputText value="#{organismo.nRegion}" />
                     </p:column> 
                         -->
-                     <p:column headerText="País" sortBy="#{organismo.nPais}" filterBy="#{organismo.nPais}" style="width: 14%">
+                     <p:column headerText="País" sortBy="#{organismo.nPais}" filterBy="#{organismo.nPais}" style="width: 20%">
                         <h:outputText value="#{organismo.nPais}" />
                     </p:column> 
                         
-                    <p:column headerText="Correo" >
+                    <p:column headerText="Correo" style="width: 25%">
                         <h:outputText value="#{organismo.correo}" />
                     </p:column>
                     
-                    <p:column headerText="Dirección" >
-                        <h:outputText value="#{organismo.direccion}" />
+                    <p:column headerText="Dirección" style="width: 20%">
+                        <h:outputText value="#{organismo.direccion}"/>
                     </p:column>
                         
-                        <p:column headerText="Teléfono" >
+                    <p:column headerText="Teléfono" style="width: 20%">
                         <h:outputText value="#{organismo.tel}" />
                     </p:column>    
                        
-                    <p:column headerText="Código Postal" >
-                        <h:outputText value="#{organismo.codigo}" />
+                    <p:column headerText="Código Postal" style="width: 20%" >
+                        <h:outputText value="#{organismo.codigo}"/>
                     </p:column>
                     
-                        <p:column headerText="Opciones" style="width: 12%">
+                        <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
                                                actionListener="#{organismoCooperanteMB.preUpdate(organismo)}" update=":formOrganismo" process="@form:formTablaOrganismos">
@@ -156,18 +142,16 @@
                     </p:dataTable>
                 </h:form>
             </p:panel>     
-        </center> 
-        
-        
+        </center>    
         <!--'Dialog de confirmacin de la operacion de Borrado'-->
         <p:confirmDialog widgetVar="confirmDeleteOrganismo Dlg" header="Borrar Organismo Cooperante" message="¿Confirma la eliminación del Organismo Cooperante?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
                     <h:outputLabel value="Nombre Organismo:"/>
-                    <h:outputText value="#{organismo.nombreOrganismo}"/>
+                    <h:outputText value="#{organismo.nombre}"/>
                     <h:outputLabel value="Tipo:"/>
-                    <h:outputText value="#{organismo.idTipoOrganismo.nombreTipo}"/>
+                    <h:outputText value="#{organismo.tipo}"/>
                 </p:panelGrid>
                 <br/>
                 <br/>

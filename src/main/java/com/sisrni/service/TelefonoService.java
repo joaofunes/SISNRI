@@ -7,6 +7,7 @@ package com.sisrni.service;
 
 import com.sisrni.dao.TelefonoDao;
 import com.sisrni.dao.generic.GenericDao;
+import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
 import com.sisrni.model.Telefono;
 import com.sisrni.service.generic.GenericService;
@@ -35,5 +36,10 @@ public class TelefonoService extends GenericService<Telefono, Integer>{
     public List<Telefono> getTelefonosByPersona(Persona persona){
          return telefonoDao.getTelefonosByPersona(persona);
     }
+     
+    public List<Telefono> getTelefonosByOrganismo(Organismo organismo){
+         return telefonoDao.getTelefonosByOrganismo(organismo);
+    }
+    
     
 }

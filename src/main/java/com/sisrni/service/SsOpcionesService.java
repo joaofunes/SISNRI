@@ -33,5 +33,13 @@ public class SsOpcionesService extends GenericService<SsOpciones, Integer> {
     public List<SsOpciones> getOpcionestMenu(Integer idMenu) {
          return this.ssOpcionesDao.getOpcionestMenu(idMenu);
     }
+    
+    public int deleteOpcionesRoles(Integer opcion, Integer rol) {
+         return this.ssOpcionesDao.deleteOpcionesRoles(opcion, rol);
+    }
+    
+     public int gurdarRolesOpciones(Integer idRol,Integer idOpcion){
+         return this.ssOpcionesDao.gurdarRolesOpciones(idRol, idOpcion);
+     }
 
 }

@@ -10,6 +10,7 @@ import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.PersonaProyecto;
 import com.sisrni.model.Proyecto;
+import com.sisrni.pojo.rpt.PojoConvenioEstado;
 import com.sisrni.pojo.rpt.RptConveniosPorAnioPojo;
 import com.sisrni.pojo.rpt.RptProyectoPojo;
 import com.sisrni.pojo.rpt.RptProyectosFinanciadosPojo;
@@ -139,7 +140,7 @@ public class ConvenioReportesMB {
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             HttpServletRequest request = (HttpServletRequest) context.getRequest();
             HttpServletResponse response = (HttpServletResponse) context.getResponse();
-            Reporte reporte = new Reporte("convenio", "rpt_convenios_por_anio", request);
+            Reporte reporte = new Reporte("convenios", "rpt_convenios_por_anio", request);
             List<RptConveniosPorAnioPojo> conveniosPorAnio = propuestaConvenioService.getconveniosPorAnio(desdeYear, hastaYear);
             reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptConveniosPorAnioPojo>(conveniosPorAnio)));
             reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
@@ -158,16 +159,16 @@ public class ConvenioReportesMB {
         }
     }
 
-    public void printReportesProyectosPais(String formato) {
+    public void printReportesPropuestasConvenioWithEstado(String formato) {
         try {
             Integer desdeYear = Integer.parseInt(anioDesde.trim());
             Integer hastaYear = Integer.parseInt(anioHasta.trim());
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             HttpServletRequest request = (HttpServletRequest) context.getRequest();
             HttpServletResponse response = (HttpServletResponse) context.getResponse();
-            Reporte reporte = new Reporte("proyectos", "rpt_proyectos_gestionados_por_pais", request);
-            List<RptProyectosPorPaisPojo> dataProyectosPorPais = proyectoService.getDataProyectosPorPais(desdeYear, hastaYear);
-            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyectosPorPaisPojo>(dataProyectosPorPais)));
+            Reporte reporte = new Reporte("convenios", "rpt_propuestas_con_estado", request);
+            List<PojoConvenioEstado> dataPropuestasConvenioWithEstado = propuestaConvenioService.getPropuestasConvenioWithEstado(desdeYear, hastaYear);
+            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<PojoConvenioEstado>(dataPropuestasConvenioWithEstado)));
             reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
             reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
             reporte.addParameter("desde", anioDesde.trim());

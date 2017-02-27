@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui" 
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+          <center>
+                    <h1 style="background: #cc0000;color: white;border-radius: 10px">Reportes de Becas</h1>
+                </center>   
+        <h:form>
+            <p:panel style="width: 90%">
+                <f:facet name="header">
+                    <h:outputText value="Listado de Reportes"/>
+                </f:facet>
+                <p:menu style="width: 100%">
+                    <p:menuitem url="/views/ReportesBecas/reporteBecasGestionadasPeriodo.xhtml">
+                        <p:graphicImage url="/img/reporteIcon.png" style="width: 45px;height: 45px"/>
+                        <span>Reporte de Becas Internacionales Gestionadas - Agrupadas por Año</span>
+                    </p:menuitem>
+                    <p:menuitem url="/views/ReportesBecas/reporteBecasGestionadasPeriodo.xhtml">
+                        <p:graphicImage url="/img/reporteIcon.png" style="width: 45px;height: 45px"/>
+                        <span>Reporte de Becas Internacionales Gestionadas - Agrupadas por Facultad</span>
+                    </p:menuitem>
+                    <p:menuitem url="/views/ReportesBecas/reporteBecasGestionadasPeriodo.xhtml">
+                        <p:graphicImage url="/img/reporteIcon.png" style="width: 45px;height: 45px"/>
+                        <span>Reporte de Becas Internacionales Gestionadas - Agrupadas por Organismo Cooperante</span>
+                    </p:menuitem>
+                    <p:menuitem url="/views/ReportesBecas/reporteBecasGestionadasPeriodo.xhtml">
+                        <p:graphicImage url="/img/reporteIcon.png" style="width: 45px;height: 45px"/>
+                        <span>Reporte de Becas Internacionales Gestionadas - Agrupadas por País Destino</span>
+                    </p:menuitem>
+                    <p:menuitem url="/views/ReportesBecas/reporteBecasGestionadasPeriodo.xhtml">
+                        <p:graphicImage url="/img/reporteIcon.png" style="width: 45px;height: 45px"/>
+                        <span>Reporte de Becas Internacionales Gestionadas - Detalle de Becas</span>
+                    </p:menuitem>
+                </p:menu>
+            </p:panel>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition> 
