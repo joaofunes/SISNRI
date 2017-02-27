@@ -16,16 +16,7 @@
         <h:form id="formAdmin">
             <p:panelGrid >               
                 <p:row>                         
-                    <p:column>   
-                        <p:commandButton rendered="#{!opcionesAdmMB.actualizar}"
-                                         actionListener="#{opcionesAdmMB.guardar()}" update=":formAdmin :formMenu" process="@this :formAdmin"
-                                         value="Guardar" />
-                        <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
-                                         actionListener="#{opcionesAdmMB.editar()}" update=":formAdmin"
-                                         value="Actulizar" />
-                        <p:commandButton rendered="#{opcionesAdmMB.actualizar}"
-                                         actionListener="#{opcionesAdmMB.cancelar()}" immediate="true" update=":formAdmin"
-                                         value="Cancelar" />
+                    <p:column>                           
                         <p:commandButton 
                             title="Agregar Opcion" value="Agregar Opcion"
                             process="@this"                                           
@@ -53,7 +44,7 @@
                         <tr>
                             <td><h:outputText value="#{menu.nombreOpcion}" /></td>
                             <td><h:outputText value="#{menu.url}" /></td>
-                            <td>  <h:outputText value="#{menu.visible? 'No':'Si'}" /></td>                                                        
+                            <td>  <h:outputText value="#{menu.visible.equalsIgnoreCase('S')? 'Si':'No'}" /></td>                                                        
                             <td>
                                 <c:forEach items="#{menu.ssRolesList}" var="lts"> 
                                     <h:outputText value="#{lts.nombreRol} (#{lts.codigoRol})" /><br/> 
@@ -75,6 +66,7 @@
                                     <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                                    title="Eliminar" value="Eliminar"
                                                    actionListener="#{opcionesAdmMB.preEliminar(menu)}"
+                                                   rendered="#{menu.ssMenusList == null || menu.ssMenusList.size()==0 }"
                                                    oncomplete="PF('EliminarOpcionDialog').show();"
                                                    update=":EliminarMenuDlg, :formEliminarMenu"/>
                                 </div>
@@ -222,8 +214,7 @@
                             <p:outputLabel for="idRoles" value="Roles" />
                         </p:column>                                         
                         <p:column>                                                                     
-                            <p:selectCheckboxMenu id="idRoles" value="#{opcionesAdmMB.selectedArrayRoles}" label="Cities"
-                                                 panelStyle="width:450px">
+                            <p:selectCheckboxMenu id="idRoles" value="#{opcionesAdmMB.selectedArrayRoles}" label="Cities" panelStyle="width:450px">
                                 <f:selectItems value="#{opcionesAdmMB.listRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idRol}" itemDisabled="true" />
                             </p:selectCheckboxMenu> 
                         </p:column>

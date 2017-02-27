@@ -42,4 +42,7 @@ public class SsOpcionesService extends GenericService<SsOpciones, Integer> {
          return this.ssOpcionesDao.gurdarRolesOpciones(idRol, idOpcion);
      }
 
+      public List<SsOpciones> getListadoOpciones(){
+          return this.ssOpcionesDao.getListadoOpciones();
+      }
 }
