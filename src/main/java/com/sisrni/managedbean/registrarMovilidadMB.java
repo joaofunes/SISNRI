@@ -154,6 +154,8 @@ public class registrarMovilidadMB {
 
     private String msgPersonaMovExiste;
     private String msgPersonaRefExiste;
+    
+    private String tituloRegistroEdicion;
 
     private Boolean mostrarSaliente, mostrarEntrante;
 
@@ -488,6 +490,8 @@ public class registrarMovilidadMB {
 
         msgPersonaMovExiste = "";
         msgPersonaRefExiste = "";
+        
+        tituloRegistroEdicion = "";
     }
 
     public void mostrarEscuelaDocenteMovilidad() {
@@ -803,6 +807,7 @@ public class registrarMovilidadMB {
         telCelPersonaMovilidad = new Telefono();
         facultadPersonaMovilidad = "";
         escuelaDepartamentoPersonaMovilidad = null;
+        institucionPersonaMovilidadSelected = null;
 
         if (disableAutoSaliente) {
             disableAutoSaliente = Boolean.FALSE;
@@ -1002,6 +1007,7 @@ public class registrarMovilidadMB {
         telCelPersonaMovilidad = new Telefono();
         facultadPersonaMovilidad = "";
         escuelaDepartamentoPersonaMovilidad = null;
+        institucionPersonaMovilidadSelected = null;
 
         if (disableAutoEntrante) {
             disableAutoEntrante = Boolean.FALSE;
@@ -1589,6 +1595,7 @@ public class registrarMovilidadMB {
      */
     public void irnuevaMovilidad() throws IOException {
         cargarMovilidadPersona();
+        tituloRegistroEdicion="Registro de movilidad";
         FacesContext.getCurrentInstance().getExternalContext().redirect("registrarMovilidad.xhtml");
     }
 
@@ -1606,6 +1613,7 @@ public class registrarMovilidadMB {
         List<String> facultadesUnidadesTmp = new ArrayList<String>();
         EscuelaDepartamento escuelaDepto = null;
         EscuelaDepartamento escuelaDeptoReferente = null;
+        tituloRegistroEdicion = "Edici&oacute;n de movilidad";
 
         //deshabilita el selectOnmenu de tipo de movilidad
         isHabilidado = Boolean.TRUE;
@@ -2705,4 +2713,14 @@ public class registrarMovilidadMB {
         this.personaReftAux = personaReftAux;
     }
 
+    public String getTituloRegistroEdicion() {
+        return tituloRegistroEdicion;
+    }
+
+    public void setTituloRegistroEdicion(String tituloRegistroEdicion) {
+        this.tituloRegistroEdicion = tituloRegistroEdicion;
+    }
+
+    
+    
 }

@@ -15,6 +15,7 @@
                 <center>
                     <p:panel style="width: 80%">
                         <h:form id="formRegistrarMovilidad">
+                            <h1 class="title ui-widget-header ui-corner-all" align="center"><h:outputText value="#{registrarMovilidadMB.tituloRegistroEdicion}" escape="false"/></h1>
                             <p:growl id="growlMov" showDetail="true" sticky="false"/>
                             <p:tab>
                                 <p:column>
@@ -57,7 +58,7 @@
                                             <p:outputLabel for="categoriaMovilidad" value="Categoria movilidad"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="categoriaMovilidad" value="#{registrarMovilidadMB.categoriaMovilidadSelected}" style="width: 180px" >
+                                            <p:selectOneMenu id="categoriaMovilidad" value="#{registrarMovilidadMB.categoriaMovilidadSelected}" style="width: 180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listCategoriaMovilidad}" var="categMovilidad" itemLabel="#{categMovilidad.nombreCategoria}" itemValue="#{categMovilidad.idCategoriaMovilidad}"/>
                                                 <p:ajax listener="#{registrarMovilidadMB.onchangeCategoriaMovilidadList()}"/>
