@@ -14,7 +14,7 @@
 
     <ui:define name="content">
 
-       
+
         <h:form id="formAdmin">
 
             <center>
@@ -25,7 +25,7 @@
 
                             <h:panelGroup id="GroupSolicitante" > 
                                 <p:panelGrid >                           
-                                    <p:row>
+                                    <p:row rendered="#{propuestaConvenioMB.rol != null}">
                                         <p:column>
                                             <p:outputLabel for="idSolicinateNombreAuto" value="Buscar por Nombre Solicitante" />                                       
                                         </p:column>
@@ -79,7 +79,7 @@
                                             <p:message for="idCelSolicitante" />
                                         </p:column>
                                     </p:row>
-                                    
+
 
                                     <p:row>
 
@@ -138,7 +138,7 @@
                             </h:panelGroup>
                         </p:tab>
                         <p:tab title="Datos Solicitante Interno">
-                            
+
                             <h:panelGroup id="grup1" > 
                                 <p:panelGrid id="grid" rendered="#{propuestaConvenioMB.tabAsis}" >     
                                     <p:column>
@@ -239,7 +239,7 @@
                                         </p:column>
 
                                     </p:row>   
-                                    <p:row>
+                                    <p:row rendered="#{propuestaConvenioMB.rol != null}">
                                         <p:column>
                                             <p:outputLabel for="idTelFijoInterno" value="Tel:" />
                                         </p:column>
@@ -257,7 +257,7 @@
                                             <p:message for="idCelInterno" />
                                         </p:column>
                                     </p:row>
-                                    <p:row>                           
+                                    <p:row rendered="#{propuestaConvenioMB.rol != null}">                           
                                         <p:column>
                                             <p:outputLabel  for="idFacultadUnidadInterno" value="Facultad/Unidad"  />
                                         </p:column>
@@ -278,7 +278,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                     </p:row>   
-                                    <p:row>
+                                    <p:row rendered="#{propuestaConvenioMB.rol != null}">
                                         <p:column>
                                             <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
                                         </p:column>
@@ -390,7 +390,7 @@
                                             <p:watermark for="idDocumentoExterno" value="N&deg; Pasaporte/ID" />
                                         </p:column>
                                     </p:row>
-                                    <p:row>
+                                    <p:row rendered="#{propuestaConvenioMB.rol != null}">
                                         <p:column>
                                             <p:outputLabel for="idTelefonoExterno" value="Tel: " />
                                         </p:column>
@@ -408,7 +408,7 @@
                                             <p:message for="idCelExterno" />
                                         </p:column>
                                     </p:row>
-                                    <p:row>
+                                    <p:row rendered="#{propuestaConvenioMB.rol != null}">
                                         <p:column>
                                             <p:outputLabel for="idCargoExterno" value="Cargo" />
                                         </p:column>

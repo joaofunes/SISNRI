@@ -16,6 +16,7 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -27,6 +28,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Parametros.findAll", query = "SELECT p FROM Parametros p")})
 public class Parametros implements Serializable {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,9 +38,6 @@ public class Parametros implements Serializable {
     @Size(max = 200)
     @Column(name = "CUENTA_CORREO", length = 200)
     private String cuentaCorreo;
-    @Lob
-    @Column(name = "PASSWORD")
-    private byte[] password;
     @Column(name = "PUERTO")
     private Integer puerto;
     @Size(max = 100)
@@ -47,6 +46,13 @@ public class Parametros implements Serializable {
     @Size(max = 500)
     @Column(name = "ASUNTO", length = 500)
     private String asunto;
+    @Lob
+    @Column(name = "PASSWORD")
+    private byte[] password;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ACTIVO", nullable = false)
+    private boolean activo;
 
     public Parametros() {
     }
@@ -71,13 +77,6 @@ public class Parametros implements Serializable {
         this.cuentaCorreo = cuentaCorreo;
     }
 
-    public byte[] getPassword() {
-        return password;
-    }
-
-    public void setPassword(byte[] password) {
-        this.password = password;
-    }
 
     public Integer getPuerto() {
         return puerto;
@@ -126,6 +125,22 @@ public class Parametros implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.Parametros[ idParametro=" + idParametro + " ]";
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
+    }
+
+    public boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     
 }
