@@ -19,6 +19,7 @@ import com.sisrni.model.Facultad;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.PropuestaEstado;
 import com.sisrni.model.PropuestaEstadoPK;
+import com.sisrni.model.SsRoles;
 import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
@@ -72,6 +73,7 @@ public class PropuestaConvenioMB implements Serializable {
     private static final String REFERENTE_EXTERNO = "REFERENTE EXTERNO";
     private static final String CONVENIO_MARCO = "CONVENIO MARCO";
     private static final String ESTADO = "REVISION";
+    private static final String ROL = "ADM";
 
     @Autowired
     @Qualifier(value = "personaService")
@@ -197,6 +199,8 @@ public class PropuestaConvenioMB implements Serializable {
     private Boolean flagSearchEmailExterno;
 
     private List<Persona> listAll;
+    
+    private SsRoles rol;
 
     private JCMail mail;
 
@@ -309,6 +313,14 @@ public class PropuestaConvenioMB implements Serializable {
             if (solicitante != null) {
                 cargarUnidadesFacultadesSolicitante();
                 cargarTelefonosSolicitante();
+            }
+            if (usuario != null && usuario.getUsuario() != null) {
+                for (SsRoles rols : usuario.getUsuario().getSsRolesList()) {
+                    if (rols.getCodigoRol().equalsIgnoreCase(ROL)) {
+                        rol = new SsRoles();
+                        rol = rols;
+                    }
+                }
             }
 
         } catch (Exception e) {
@@ -1726,6 +1738,14 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setTelCelularSolicitante(Telefono telCelularSolicitante) {
         this.telCelularSolicitante = telCelularSolicitante;
+    }
+
+    public SsRoles getRol() {
+        return rol;
+    }
+
+    public void setRol(SsRoles rol) {
+        this.rol = rol;
     }
 
 }

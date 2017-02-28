@@ -79,6 +79,7 @@ public class registrarMovilidadMB {
     private Boolean mostrarBuscadorEntrante;
     private Boolean mostrarBuscadorSaliente;
     private Boolean isHabilidado;
+    private Boolean isHabilitadoRfte;
 
     private Boolean usadoBuscadorPersonaMov;   //<---------------------------------
     private boolean usadoBuscadorPersonaRefte;
@@ -101,6 +102,7 @@ public class registrarMovilidadMB {
     private Boolean actualizarPersonaMov;
     private Boolean actualizarRefte;
     private Boolean desvinculadoRfte;
+    private Boolean mostrarBotonDesvincular;
 
     private float totalViaticosCurso;
     private float totalViaticosCursoBoletoAereo;
@@ -154,6 +156,8 @@ public class registrarMovilidadMB {
 
     private String msgPersonaMovExiste;
     private String msgPersonaRefExiste;
+    
+    private String tituloRegistroEdicion;
 
     private Boolean mostrarSaliente, mostrarEntrante;
 
@@ -335,6 +339,7 @@ public class registrarMovilidadMB {
         mostrarBuscadorSaliente = false;
         mostrarBuscadorEntrante = false;
         isHabilidado = Boolean.FALSE;
+        isHabilitadoRfte = Boolean.FALSE;
 
         flagSearchDuiSaliente = Boolean.FALSE;
         flagSearchEmailSaliente = Boolean.FALSE;
@@ -357,6 +362,7 @@ public class registrarMovilidadMB {
         usadoBuscadorPersonaMov = false;
         usadoBuscadorPersonaRefte = false;
         desvinculadoRfte = true;
+        mostrarBotonDesvincular = false;
 
         programaMovilidadSelected = new ProgramaMovilidad();
         movilidad = new Movilidad();
@@ -488,6 +494,8 @@ public class registrarMovilidadMB {
 
         msgPersonaMovExiste = "";
         msgPersonaRefExiste = "";
+        
+        tituloRegistroEdicion = "";
     }
 
     public void mostrarEscuelaDocenteMovilidad() {
@@ -803,6 +811,7 @@ public class registrarMovilidadMB {
         telCelPersonaMovilidad = new Telefono();
         facultadPersonaMovilidad = "";
         escuelaDepartamentoPersonaMovilidad = null;
+        institucionPersonaMovilidadSelected = null;
 
         if (disableAutoSaliente) {
             disableAutoSaliente = Boolean.FALSE;
@@ -1002,6 +1011,7 @@ public class registrarMovilidadMB {
         telCelPersonaMovilidad = new Telefono();
         facultadPersonaMovilidad = "";
         escuelaDepartamentoPersonaMovilidad = null;
+        institucionPersonaMovilidadSelected = null;
 
         if (disableAutoEntrante) {
             disableAutoEntrante = Boolean.FALSE;
@@ -1589,6 +1599,7 @@ public class registrarMovilidadMB {
      */
     public void irnuevaMovilidad() throws IOException {
         cargarMovilidadPersona();
+        tituloRegistroEdicion="Registro de movilidad";
         FacesContext.getCurrentInstance().getExternalContext().redirect("registrarMovilidad.xhtml");
     }
 
@@ -1606,12 +1617,18 @@ public class registrarMovilidadMB {
         List<String> facultadesUnidadesTmp = new ArrayList<String>();
         EscuelaDepartamento escuelaDepto = null;
         EscuelaDepartamento escuelaDeptoReferente = null;
+        mostrarBotonDesvincular=true;
+        tituloRegistroEdicion = "Edici&oacute;n de movilidad";
 
         //deshabilita el selectOnmenu de tipo de movilidad
         isHabilidado = Boolean.TRUE;
+       
+        
         actualizar = true;
         actualizarPersonaMov = true;
         //actualizarRefte = true;
+        
+         
         try {
             if ((movilidad = movilidadService.findById(idMovilidad)) != null) {
                 existeMovilidad = true;
@@ -1715,6 +1732,7 @@ public class registrarMovilidadMB {
 
                 //Persona Referente Facultad
                 if ((personaFacultadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "REFERENTE FACULTAD BENEFICIADA")) != null) {;
+                    isHabilitadoRfte = true;
                     existeReferente = true;
                     desvinculadoRfte = false;
                     escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
@@ -1747,7 +1765,7 @@ public class registrarMovilidadMB {
                     escuelaDepartamentoReferenteFactBnfSelected = null;
                     telFijoPersonaFacultad = new Telefono();
                     telCelPersonaFacultad = new Telefono();
-                  
+                    isHabilitadoRfte = Boolean.FALSE; 
                 }
                 //Actualizando el Panel de la persona en movilidad
                 RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad");
@@ -2705,4 +2723,30 @@ public class registrarMovilidadMB {
         this.personaReftAux = personaReftAux;
     }
 
+    public String getTituloRegistroEdicion() {
+        return tituloRegistroEdicion;
+    }
+
+    public void setTituloRegistroEdicion(String tituloRegistroEdicion) {
+        this.tituloRegistroEdicion = tituloRegistroEdicion;
+    }
+
+    public Boolean getMostrarBotonDesvincular() {
+        return mostrarBotonDesvincular;
+    }
+
+    public void setMostrarBotonDesvincular(Boolean mostrarBotonDesvincular) {
+        this.mostrarBotonDesvincular = mostrarBotonDesvincular;
+    }
+
+    public Boolean getIsHabilitadoRfte() {
+        return isHabilitadoRfte;
+    }
+
+    public void setIsHabilitadoRfte(Boolean isHabilitadoRfte) {
+        this.isHabilitadoRfte = isHabilitadoRfte;
+    }
+
+    
+    
 }

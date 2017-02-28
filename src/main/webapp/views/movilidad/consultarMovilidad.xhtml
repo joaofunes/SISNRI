@@ -14,8 +14,10 @@
 
             <ui:define name="content">
                 <center>
+                     <h1 class="title ui-widget-header ui-corner-all" align="center">Consulta de movilidad</h1>
                     <p:panel style="width: 80%">
                         <h:form id="formRegistrarMovilidad">
+                            
                             <p:tab>
                                 <p:column>
                                     <p:row>
@@ -28,7 +30,7 @@
                             </p:tab>
 
                             <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
-                                <p:tab title="Informacion academica">
+                                <p:tab title="Informaci&oacute;n acad&eacute;mica">
                                     <p:panelGrid columns="4">
                                         <p:column>
                                             <p:outputLabel for="nombreMovilidad" value="Programa de movilidad: "/>
@@ -39,14 +41,14 @@
                                         </p:column>
 
                                         <p:column>
-                                            <p:outputLabel for="descripcionMovilidad" value="Descripcion"/>
+                                            <p:outputLabel for="descripcionMovilidad" value="Descripci&oacute;n"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputTextarea id="descripcionMovilidad" value="#{registrarMovilidadMB.programaMovilidad.descripcion}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                         <p:column>
-                                            <p:outputLabel for="categoriaMovilidad" value="Categoria movilidad: "/>
+                                            <p:outputLabel for="categoriaMovilidad" value="Categor&iacute;a movilidad: "/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="categoriaMovilidad" value="#{registrarMovilidadMB.categoriaMovilidadConsultar}" style="width:180px" readonly="true"/>
@@ -91,12 +93,12 @@
                                         <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
                                             <p:inputText id="duiPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.duiPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
-                                        <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}" >
+                                 <!--       <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}" >
                                             <p:outputLabel for="nitPersona" value="NIT"/>
                                         </p:column>
                                         <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
                                             <p:inputText id="nitPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nitPersona}" style="width:180px" readonly="true"/>
-                                        </p:column>
+                                        </p:column>  -->
                                         <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
                                             <p:outputLabel for="pasaportePersona" value="Pasaporte"/>
                                         </p:column>
@@ -112,7 +114,7 @@
                                         </p:column>
 
                                         <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
-                                            <p:outputLabel for="InstitucionPersona" value="Institucion"/>
+                                            <p:outputLabel for="InstitucionPersona" value="Instituci&oacute;n"/>
                                         </p:column>
                                         <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
                                             <p:selectOneMenu id="InstitucionPersona" value="#{registrarMovilidadMB.institucionPersonaMovConsultar}" style="width:180px" editable="false">
@@ -139,19 +141,19 @@
                                            <!-- <p:inputTextarea id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDeptoPersonaMovConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>   
                                         <p:column>
-                                            <p:outputLabel for="emailPersona" value="Correo Electronico"/>
+                                            <p:outputLabel for="emailPersona" value="Correo Electr&oacute;nico"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="emailPersona"  value="#{registrarMovilidadMB.personaMovilidadGenerico.emailPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="telPersona" value="Telefono Institucional"/>
+                                            <p:outputLabel for="telPersona" value="Tel&eacute;fono Institucional"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="telPersona"  value="#{registrarMovilidadMB.telFijoPersonaMovilidad.numeroTelefono}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="celPersona" value="Telefono movil"/>
+                                            <p:outputLabel for="celPersona" value="Tel&eacute;fono movil"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="celPersona"  value="#{registrarMovilidadMB.telCelPersonaMovilidad.numeroTelefono}" style="width:180px" readonly="true"/>
@@ -168,7 +170,7 @@
                                 <p:tab title="Detalle de Movilidad">
                                     <p:panelGrid columns="4">
                                         <p:column>
-                                            <p:outputLabel for="paisOrigen" value="Pais origen"/>
+                                            <p:outputLabel for="paisOrigen" value="Pa&iacute;s origen"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="paisOrigen" value="#{registrarMovilidadMB.paisOrigenConsultar}" style="width:180px" editable="false">
@@ -178,7 +180,7 @@
                                         </p:column>
 
                                         <p:column>
-                                            <p:outputLabel for="institucionOrigen" value="Institucion origen"/>
+                                            <p:outputLabel for="institucionOrigen" value="Instituci&oacute;n origen"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenConsultar}" style="width:180px" editable="false">
@@ -187,7 +189,7 @@
                                             <!--<p:inputText id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="paisDestino" value="Pais destino"/>
+                                            <p:outputLabel for="paisDestino" value="Pa&iacute;s destino"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="paisDestino" value="#{registrarMovilidadMB.paisDestinoconsultar}"  style="width:180px" editable="false">
@@ -196,7 +198,7 @@
                                           <!--  <p:inputText id="paisDestino" value="#{registrarMovilidadMB.paisDestinoconsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="institucionDestino" value="Institucion destino"/>
+                                            <p:outputLabel for="institucionDestino" value="Instituci&oacute;n destino"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="institucionDestino" value="#{registrarMovilidadMB.institucionDestinoConsultar}" style="width:180px" editable="false">
@@ -212,7 +214,7 @@
                                             <p:inputText id="desdeMovilidad" value="#{registrarMovilidadMB.fInicioConsultar}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="hastaMovilidad" value="Fecha de finalizacion"/> 
+                                            <p:outputLabel for="hastaMovilidad" value="Fecha de finalizaci&oacute;n"/> 
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="hastaMovilidad" value="#{registrarMovilidadMB.fFinConsultar}" style="width:180px" readonly="true"/>
@@ -245,13 +247,13 @@
                                             <poue:inputNumber id="totalViaticosCurso" value="#{registrarMovilidadMB.totalViaticosCurso}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="boletoAereo" value="Boleto aereo"/> 
+                                            <p:outputLabel for="boletoAereo" value="Boleto a&eacute;reo"/> 
                                         </p:column>
                                         <p:column>
                                             <poue:inputNumber id="boletoAereo"  value="#{registrarMovilidadMB.movilidad.voletoAereo}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="totalViaticosCursoBoleto" value="Total (viaticos + Curso + Boleto aereo)"/>
+                                            <p:outputLabel for="totalViaticosCursoBoleto" value="Total (viaticos + Curso + Boleto a&eacute;reo)"/>
                                         </p:column>
                                         <p:column>
                                             <poue:inputNumber id="totalViaticosCursoBoleto"  value="#{registrarMovilidadMB.totalViaticosCursoBoletoAereo}" style="width:180px" readonly="true"/>
@@ -337,12 +339,12 @@
                                         <p:column>
                                             <p:inputText id="duiPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.duiPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
-                                        <p:column>
+                                    <!--    <p:column>
                                             <p:outputLabel for="nitPersonaFacultad" value="NIT"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="nitPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nitPersona}" style="width:180px" readonly="true"/>
-                                        </p:column>
+                                        </p:column>  -->
                                         <p:column>
                                             <p:outputLabel for="cargoPersonaFacultad" value="Cargo"/>
                                         </p:column>
@@ -356,8 +358,8 @@
                                             <p:selectOneMenu id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadPersonaRefConsultar}" style="width:180px" editable="false">
                                                 <f:selectItem itemLabel="#{registrarMovilidadMB.facultadPersonaRefConsultar}"/>
                                             </p:selectOneMenu>
-                                            <!--<p:inputTextarea id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadPersonaRefConsultar}" style="width:180px" readonly="true"/>-->
-                                        </p:column>
+                                            <!--<p:inputTextarea id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadPersonaRefConsultar}" style="width:180px" readonly="true"/> -->
+                                        </p:column> 
                                         <p:column>
                                             <p:outputLabel for="escuelaDepartamentoReferenteFactBnf" value="Escuela/Departamento"/> 
                                         </p:column>   
@@ -368,19 +370,19 @@
                                             <!--<p:inputTextarea id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoRefConsultar}" style="width:180px" readonly="true"/>-->
                                         </p:column>   
                                         <p:column>
-                                            <p:outputLabel for="emailPersonaFacultad" value="Correo electronico"/>
+                                            <p:outputLabel for="emailPersonaFacultad" value="Correo electr&oacute;nico"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="emailPersonaFacultad"  value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="telPersonaFacultad" value="Telefono institucional"/>
+                                            <p:outputLabel for="telPersonaFacultad" value="Tel&eacute;fono institucional"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="telPersonaFacultad" value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}" style="width:180px" readonly="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="celPersonaFacultad" value="Telefono movil"/>
+                                            <p:outputLabel for="celPersonaFacultad" value="Tel&eacute;fono movil"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="celPersonaFacultad"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}" style="width:180px" readonly="true"/>

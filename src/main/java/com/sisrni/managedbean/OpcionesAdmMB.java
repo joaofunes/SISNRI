@@ -80,8 +80,7 @@ public class OpcionesAdmMB implements Serializable {
     public void getMenus() {
         try {
             roles = new SsRoles();
-            listadoOpciones = null;
-            listadoOpciones = opcionesService.findAll();
+            listadoOpciones = opcionesService.getListadoOpciones();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -103,6 +102,13 @@ public class OpcionesAdmMB implements Serializable {
                 selectedArrayRoles[i] = mn.getIdRol().toString();
                 i++;
             }
+            
+            if(ssOpciones.getVisible().equalsIgnoreCase("S")){
+                visible=true;
+            }else{
+                visible=false;
+            }
+           
             RequestContext.getCurrentInstance().update("formAdmin");
             RequestContext.getCurrentInstance().update("formMenu");
         } catch (Exception e) {
@@ -121,6 +127,11 @@ public class OpcionesAdmMB implements Serializable {
             for (SsRoles mn : ssOpciones.getSsRolesList()) {
                 selectedArrayRoles[i] = mn.getIdRol().toString();
                 i++;
+            }
+            if(ssOpciones.getVisible().equalsIgnoreCase("S")){
+                visible=true;
+            }else{
+                visible=false;
             }
 
         } catch (Exception e) {
@@ -145,9 +156,11 @@ public class OpcionesAdmMB implements Serializable {
                 opcionesService.gurdarRolesOpciones(Integer.parseInt(us.toString()), ssOpciones.getIdOpcion());
                 
             }
-//            ssOpciones.setSsRolesList(new ArrayList<SsRoles>());
-//            ssOpciones.setSsRolesList(selectedlistRoles);
-           // opcionesService.getDao().merge(ssOpciones);
+            if (visible) {
+                ssOpciones.setVisible(String.valueOf('S'));
+            } else {
+                ssOpciones.setVisible(String.valueOf('N'));
+            }
             opcionesService.merge(ssOpciones);
             getMenus();
             RequestContext.getCurrentInstance().update("formAdmin");
@@ -178,17 +191,17 @@ public class OpcionesAdmMB implements Serializable {
             for (String us : selectedArrayRoles) {
                 roles = new SsRoles();
                 roles = ssRolesService.findById(Integer.parseInt(us.toString()));
+                opcionesService.gurdarRolesOpciones(Integer.parseInt(us.toString()), ssOpciones.getIdOpcion());
                 selectedlistRoles.add(roles);
             }
 
-            ssOpciones.setSsRolesList(selectedlistRoles);
+           // ssOpciones.setSsRolesList(selectedlistRoles);
             opcionesService.getDao().save(ssOpciones);
             getMenus();
             this.ssOpciones = null;
             this.ssOpciones = new SsOpciones();
             RequestContext.getCurrentInstance().update("formAdmin");
             RequestContext.getCurrentInstance().update("formMenu");
-            JsfUtil.addSuccessMessage("Guardado Exitosamente");
             JsfUtil.showFacesMsg(null, "Guardado Exitosamente", "growMessage", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             e.printStackTrace();
@@ -308,10 +321,12 @@ public class OpcionesAdmMB implements Serializable {
     }
 
     public Boolean getVisible() {
-        return visible;
+        
+          return visible;  
+       
     }
 
-    public void setVisible(Boolean visible) {
+    public void setVisible(Boolean visible) {      
         this.visible = visible;
     }
 

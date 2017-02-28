@@ -89,4 +89,14 @@ public class SsOpcionesDao extends GenericDao<SsOpciones, Integer> {
          return 0;
     }
     
+    public List<SsOpciones> getListadoOpciones(){
+         Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o FROM SsOpciones o ");
+         getSessionFactory().getCurrentSession().flush();
+         getSessionFactory().getCurrentSession().clear();
+         return q.list();
+        
+        
+    }
+    
+    
 }

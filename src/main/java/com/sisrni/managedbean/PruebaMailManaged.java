@@ -31,7 +31,7 @@ public class PruebaMailManaged {
     }
 
     public void preSendMail() {
-        PojoBeca beca = becaService.getBecas(2).get(0);
+        PojoBeca beca = becaService.getBecas(1).get(0);
         enviarConfirmacion(beca);
     }
 

@@ -195,7 +195,7 @@ public class OrganismoCooperanteMB {
      
      public void listarOnCatChange() {
         try {
-            organismoPojoList = organismoService.getOrganismosPorTipo(tipoSelected);
+            organismoPojoList = organismoService.getOrganismosPorTipoYPais(tipoSelected, nPaisSelected);
         } catch (Exception e) {
         }
 

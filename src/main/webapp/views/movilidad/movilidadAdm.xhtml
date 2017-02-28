@@ -13,6 +13,7 @@
             
             <ui:define name="content">
                 <h:form id="formCrearMovilidad">
+                     <h1 class="title ui-widget-header ui-corner-all" align="center">Gesti&oacute;n de movilidades</h1>
                     <p:panelGrid>
                         <p:column>
                             <p:row>
@@ -34,10 +35,10 @@
                         <p:column headerText="Tipo movilidad" filterBy="#{movilidades.nombreTipoMovilidad}" style="width: 12%">
                             <h:outputText value="#{movilidades.nombreTipoMovilidad}"/>
                         </p:column>
-                        <p:column headerText="Pais origen" filterBy="#{movilidades.paisOrigen}" sortBy="#{movilidades.paisOrigen}" style="width: 12%">
+                        <p:column headerText="Pa&iacute;s origen" filterBy="#{movilidades.paisOrigen}" sortBy="#{movilidades.paisOrigen}" style="width: 12%">
                              <h:outputText value="#{movilidades.paisOrigen}"/>
                         </p:column>
-                        <p:column headerText="Pais destino" filterBy="#{movilidades.paisDestino}" sortBy="#{movilidades.paisOrigen}" style="width: 13%">
+                        <p:column headerText="Pa&iacute;s destino" filterBy="#{movilidades.paisDestino}" sortBy="#{movilidades.paisOrigen}" style="width: 13%">
                              <h:outputText value="#{movilidades.paisDestino}"/>
                         </p:column>
                         <p:column headerText="Fecha entrada" filterBy="#{movilidades.fechaEntrada}" sortBy="#{movilidades.fechaEntrada}" style="width: 10%">
