@@ -35,10 +35,10 @@ public class FreeMarkerConfig {
         
         
         //para gmail.
-        mailSender.setHost("smtp.gmail.com");
+        mailSender.setHost(parametrosMail.getSmtp());
         mailSender.setPort(parametrosMail.getPuerto());
-        mailSender.setUsername("tgraduacion01@gmail.com");
-        mailSender.setPassword("tragra01");
+        mailSender.setUsername(parametrosMail.getCuentaCorreo());
+        mailSender.setPassword(parametrosMail.getPassword().toString());
 
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.starttls.enable", "true");
