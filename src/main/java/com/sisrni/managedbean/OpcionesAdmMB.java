@@ -191,17 +191,17 @@ public class OpcionesAdmMB implements Serializable {
             for (String us : selectedArrayRoles) {
                 roles = new SsRoles();
                 roles = ssRolesService.findById(Integer.parseInt(us.toString()));
+                opcionesService.gurdarRolesOpciones(Integer.parseInt(us.toString()), ssOpciones.getIdOpcion());
                 selectedlistRoles.add(roles);
             }
 
-            ssOpciones.setSsRolesList(selectedlistRoles);
+           // ssOpciones.setSsRolesList(selectedlistRoles);
             opcionesService.getDao().save(ssOpciones);
             getMenus();
             this.ssOpciones = null;
             this.ssOpciones = new SsOpciones();
             RequestContext.getCurrentInstance().update("formAdmin");
             RequestContext.getCurrentInstance().update("formMenu");
-            JsfUtil.addSuccessMessage("Guardado Exitosamente");
             JsfUtil.showFacesMsg(null, "Guardado Exitosamente", "growMessage", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             e.printStackTrace();
