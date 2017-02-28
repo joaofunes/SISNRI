@@ -5,7 +5,11 @@
  */
 package com.sisrni.config;
 
+import com.sisrni.model.Parametros;
+import com.sisrni.service.ParametrosService;
 import java.util.Properties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,17 +22,23 @@ import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
  */
 @Configuration
 public class FreeMarkerConfig {
+    
+    @Autowired
+    @Qualifier(value = "parametrosService")
+    private ParametrosService parametrosService;
 
     //configuracion de datos del smtp
     @Bean
     public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-
+        Parametros parametrosMail = parametrosService.getParametrosMail();
+        
+        
         //para gmail.
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-        mailSender.setUsername("tgraduacion01@gmail.com");
-        mailSender.setPassword("tragra01");
+        mailSender.setHost(parametrosMail.getSmtp());
+        mailSender.setPort(parametrosMail.getPuerto());
+        mailSender.setUsername(parametrosMail.getCuentaCorreo());
+        mailSender.setPassword(parametrosMail.getPassword().toString());
 
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.starttls.enable", "true");

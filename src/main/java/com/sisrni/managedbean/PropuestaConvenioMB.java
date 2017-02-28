@@ -19,6 +19,7 @@ import com.sisrni.model.Facultad;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.PropuestaEstado;
 import com.sisrni.model.PropuestaEstadoPK;
+import com.sisrni.model.SsRoles;
 import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
@@ -26,6 +27,7 @@ import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.FacultadService;
+import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaPropuestaService;
 import com.sisrni.service.PersonaService;
@@ -72,6 +74,7 @@ public class PropuestaConvenioMB implements Serializable {
     private static final String REFERENTE_EXTERNO = "REFERENTE EXTERNO";
     private static final String CONVENIO_MARCO = "CONVENIO MARCO";
     private static final String ESTADO = "REVISION";
+    private static final String ROL = "ADM";
 
     @Autowired
     @Qualifier(value = "personaService")
@@ -124,6 +127,9 @@ public class PropuestaConvenioMB implements Serializable {
     @Autowired
     @Qualifier(value = "escuelaDepartamentoService")
     private EscuelaDepartamentoService escuelaDepartamentoService;
+    
+    @Autowired
+    FreeMarkerMailService mailService;
 
     private String numDocumentoInterno;
     private String numDocumentoExterno;
@@ -197,6 +203,8 @@ public class PropuestaConvenioMB implements Serializable {
     private Boolean flagSearchEmailExterno;
 
     private List<Persona> listAll;
+    
+    private SsRoles rol;
 
     private JCMail mail;
 
@@ -309,6 +317,14 @@ public class PropuestaConvenioMB implements Serializable {
             if (solicitante != null) {
                 cargarUnidadesFacultadesSolicitante();
                 cargarTelefonosSolicitante();
+            }
+            if (usuario != null && usuario.getUsuario() != null) {
+                for (SsRoles rols : usuario.getUsuario().getSsRolesList()) {
+                    if (rols.getCodigoRol().equalsIgnoreCase(ROL)) {
+                        rol = new SsRoles();
+                        rol = rols;
+                    }
+                }
             }
 
         } catch (Exception e) {
@@ -573,13 +589,13 @@ public class PropuestaConvenioMB implements Serializable {
                     guardarReferenteExterno();
                 }
             }
-            
+            mailService.sendEmail(propuestaConvenio,"Creacion de propuesta de convenio","joao.hfunes@gmail.com","propuesta_convenio_mailTemplat.txt");
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", "Propuesta Convenio almacenada"));
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             context.redirect(context.getRequestContextPath() + "/views/convenio/consultarPropuestaConvenio.xhtml");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
+             throw new Exception("Error class PropuestaConvenioMB - guardarPropuestaConvenio()\n" + e.getMessage(), e.getCause());
         }
     }
 
@@ -667,8 +683,7 @@ public class PropuestaConvenioMB implements Serializable {
             propuestaConvenio.setIdConvenio(propuestaConvenioTemp.getIdPropuesta());
             propuestaConvenio.setFechaIngreso(new Date());
             propuestaConvenioService.save(propuestaConvenio);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
         }
     }
 
@@ -685,8 +700,7 @@ public class PropuestaConvenioMB implements Serializable {
             estado.setEstado(stado);
             estado.setPropuestaEstadoPK(new PropuestaEstadoPK(propuestaConvenio.getIdPropuesta(), stado.getIdEstado()));
             propuestaEstadoService.save(estado);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
         }
     }
 
@@ -725,8 +739,7 @@ public class PropuestaConvenioMB implements Serializable {
             prsSolicitante.setPersonaPropuestaPK(new PersonaPropuestaPK(solicitante.getIdPersona(), prsSolicitante.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
             personaPropuestaService.save(prsSolicitante);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
         }
     }
 
@@ -762,8 +775,7 @@ public class PropuestaConvenioMB implements Serializable {
             referenteInterno.setTelefonoList(listadoTelefonoReferenteInterno);
             personaService.saveOrUpdate(referenteInterno);
             //personaService.save(referenteInterno);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
         }
     }
 
@@ -1213,49 +1225,6 @@ public class PropuestaConvenioMB implements Serializable {
 
     }
 
-    /// test de email
-    public void FileRead() {
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-        String to = "";
-        String subject = "Test Send Email";
-        String messages = "Henrry Culeu";
-        ArrayList<String> listado = new ArrayList<String>();
-
-//    SAXBuilder sax;
-//    Document dconfig1=null;
-        String MailAccount = "tgraduacion01@gmail.com";
-        String PassMailAccount = "";
-        String rootFileContent = "";
-
-        try {
-            mail = new JCMail();
-
-            mail.setFrom(MailAccount);
-            mail.setPassword("tragra01");
-            mail.setTo(solicitante.getEmailPersona());
-            mail.setSubject("Test GAMIL");
-            mail.setMessage(messages);
-            mail.SEND();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // En el finally cerramos el fichero, para asegurarnos
-            // que se cierra tanto si todo va bien como si salta 
-            // una excepcion.
-            try {
-                if (null != fr) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-    }
-
-/// test de email
     public Persona getReferenteInterno() {
         return referenteInterno;
     }
@@ -1726,6 +1695,14 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setTelCelularSolicitante(Telefono telCelularSolicitante) {
         this.telCelularSolicitante = telCelularSolicitante;
+    }
+
+    public SsRoles getRol() {
+        return rol;
+    }
+
+    public void setRol(SsRoles rol) {
+        this.rol = rol;
     }
 
 }
