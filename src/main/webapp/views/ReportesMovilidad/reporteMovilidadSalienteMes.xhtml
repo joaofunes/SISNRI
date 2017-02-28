@@ -40,7 +40,7 @@
                                     <p:commandButton id="reportButton" icon="ui-icon-print"  value="Pdf"  actionListener="#{reporteMovilidad.printMovilidadesSalientesMes('pdf')}" oncomplete="print(xhr, status, args)"/> 
                                     <p:commandButton id="reportButtonExcel" icon=""  value="Excel"  actionListener="#{reporteMovilidad.printMovilidadesSalientesMes('xlsx')}" oncomplete="prints(xhr, status, args)" />                   
                                     <p:commandButton id="reportButtonDoc" icon=""  value="World"  actionListener="#{reporteMovilidad.printMovilidadesSalientesMes('doc')}" oncomplete="prints(xhr, status, args)" />                   
-                                    <p:commandButton value="Cancelar"   icon="ui-icon-trash"    />
+                                    <p:button value="Regresar" href="listadoReportesMovilidad.xhtml"   icon="ui-icon-return"    />
                                 </div>
                             </f:facet>
                         </h:panelGrid>
