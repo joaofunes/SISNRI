@@ -52,8 +52,7 @@
                             <p:commandButton id="reportButton" icon="ui-icon-print"  value="Pdf"  actionListener="#{reporteBecas.printPaisDestino('pdf')}" oncomplete="print(xhr, status, args)"/>    
                             <p:commandButton id="reportButtonExcel" icon="ui-icon-print"  value="Excel"  actionListener="#{reporteBecas.printPaisDestino('xls')}" oncomplete="prints(xhr, status, args)"/>
                             <p:commandButton id="reportButtonDoc" icon="ui-icon-print"  value="Word"  actionListener="#{reporteBecas.printPaisDestino('doc')}" oncomplete="prints(xhr, status, args)"/>
-                            <p:commandButton value="Regresar" action="listadoReportesBecas"  icon="ui-icon-arrowreturnthick-1-w"/>
-
+                             <p:button value="Regresar" outcome="/views/ReportesBecas/listadoReportesBecas.xhtml" icon="ui-icon-arrowreturnthick-1-w"/>
                         </div>
                     </f:facet>
                 </h:panelGrid>
