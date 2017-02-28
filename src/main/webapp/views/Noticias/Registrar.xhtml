@@ -36,11 +36,11 @@
                             <h:outputLabel value="Contenido:"/>
                             <p:editor id="editor" widgetVar="editorWidget" value="#{noticiaMB.noticia.contenido}" maxlength="100000" />
                             <p:outputLabel value="Carga de Imagenes/Archivos:"/>
-                            <p:fileUpload id="upload" 
+                            <p:fileUpload id="upload" cancelLabel="Cancelar" uploadLabel="Subir" 
                                           fileUploadListener="#{noticiaMB.uploadListener}"
-                                          label="Insert image"
+                                          label="Seleccionar"
                                           mode="advanced"
-                                          allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc)$/"
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|docx)$/"
                                           update="editor, growl">
                             </p:fileUpload>
                             <p:outputLabel for="estado" value="Estado:" />
