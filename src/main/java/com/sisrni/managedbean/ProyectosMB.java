@@ -455,6 +455,10 @@ public class ProyectosMB {
             if (personaSinBuscar != null && !personaSinBuscar.isEmpty()) {
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('dataChangeDlg').show();");
+            } else if (tabAsis == true) {
+                preGuardarProyectoAsistente();
+            } else {
+                preGuardarProyectoExterno();
             }
         } else if (tabAsis == true) {
             preGuardarProyectoAsistente();
@@ -700,7 +704,7 @@ public class ProyectosMB {
             if (actualizar == true) {
                 proyectoService.merge(proyecto);
                 //
-                if ((tabAsis == true && asistenteNull == true) || ((tabAsis == true && reemplazarAsis==true && asistenteNull == true))) {
+                if ((tabAsis == true && asistenteNull == true) || ((tabAsis == true && reemplazarAsis == true && asistenteNull == true))) {
                     String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
                     if (facultadArregloAsis[1].equals("1")) {
                         EscuelaDepartamento escuelaselecAsis = escuelaDepartamentoService.findById(escuelaDeptoSelectedAsis.getIdEscuelaDepto());

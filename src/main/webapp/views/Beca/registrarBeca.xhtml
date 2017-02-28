@@ -24,11 +24,11 @@
                     <p:panel style="width: 80%">
                         <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
                             <p:tab title="Datos del Becario">
-                                <h:panelGroup rendered="#{!becaMB.actualizar}">
+<!--                                <h:panelGroup rendered="#{!becaMB.actualizar}">
                                     <p:outputLabel value="Documento" />
                                     <p:inputText value="#{becaMB.docBecarioSearch}" id="idDocBecario"/>
                                     <p:commandButton value="Buscar" actionListener="#{becaMB.buscarBecario(becaMB.docBecarioSearch)}" process="idDocBecario @this" icon="ui-icon-search" update="panelBecario"/>
-                                </h:panelGroup>
+                                </h:panelGroup>-->
                                 <h:panelGroup id="pgroupBuscadorBecario">
                                     <p:panelGrid id="pGridBuscadorBecario">
                                         <p:column>
@@ -332,11 +332,11 @@
                             </p:tab>
                             <p:tab title="Datos del Coordinador Academico Interno"  >
                                 <h:panelGroup id="aidiInterno">
-                                    <h:panelGroup rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno}">
+<!--                                    <h:panelGroup rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno}">
                                         <p:outputLabel value="Documento:" />
                                         <p:inputText value="#{becaMB.docInternoSearch}" id="idDocInter"/>
                                         <p:commandButton value="Buscar" actionListener="#{becaMB.buscarInterno(becaMB.docInternoSearch)}" process="idDocInter @this" icon="ui-icon-search" update="panelInterno"/>
-                                    </h:panelGroup>
+                                    </h:panelGroup>-->
                                     <h:panelGroup id="pgroupBuscadorAsesorInterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno}">
                                         <p:panelGrid id="pGridBuscadorAsesorInterno">
                                             <p:column>
@@ -479,11 +479,11 @@
                             </p:tab>
                             <p:tab title="Datos del Coordinador Academico Externo">
                                 <h:panelGroup id="aidiExterno">
-                                    <h:panelGroup rendered="#{!becaMB.actualizar and becaMB.mostrarTabExterno}">
-                                        <p:outputLabel value="Pasaporte: " />
-                                        <p:inputText value="#{becaMB.docExternoSearch}" id="idDocExt"/>
-                                        <p:commandButton value="Buscar" actionListener="#{becaMB.buscarExterno(becaMB.docExternoSearch)}" process="idDocExt @this" icon="ui-icon-search" update="panelExt"/>
-                                    </h:panelGroup>
+<!--                                    <h:panelGroup rendered="#{!becaMB.actualizar and becaMB.mostrarTabExterno}">
+        <p:outputLabel value="Pasaporte: " />
+        <p:inputText value="#{becaMB.docExternoSearch}" id="idDocExt"/>
+        <p:commandButton value="Buscar" actionListener="#{becaMB.buscarExterno(becaMB.docExternoSearch)}" process="idDocExt @this" icon="ui-icon-search" update="panelExt"/>
+    </h:panelGroup>-->
                                     <h:panelGroup id="pgroupBuscadorAsesorExterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabExterno}">
                                         <p:panelGrid id="pGridBuscadorAsesorExterno">
                                             <p:column>
