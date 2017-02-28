@@ -12,10 +12,11 @@
         <ui:composition template="/WEB-INF/templates/layout.xhtml">
 
             <ui:define name="content">
+                <h1 class="title ui-widget-header ui-corner-all" align="center"><h:outputText value="#{registrarMovilidadMB.tituloRegistroEdicion}" escape="false"/></h1>
                 <center>
                     <p:panel style="width: 80%">
                         <h:form id="formRegistrarMovilidad">
-                            <h1 class="title ui-widget-header ui-corner-all" align="center"><h:outputText value="#{registrarMovilidadMB.tituloRegistroEdicion}" escape="false"/></h1>
+                            
                             <p:growl id="growlMov" showDetail="true" sticky="false"/>
                             <p:tab>
                                 <p:column>
@@ -33,7 +34,7 @@
                             </p:tab>
 
                             <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
-                                <p:tab title="Informacion academica">
+                                <p:tab title="Informaci&oacute;n acad&eacute;mica">
                                     <p:panelGrid columns="4">
                                         <p:column>
                                             <p:outputLabel for="nombreMovilidad" value="Programa de movilidad"/>
@@ -48,14 +49,14 @@
                                         </p:column>
 
                                         <p:column>
-                                            <p:outputLabel for="descripcionMovilidad" value="Descripcion"/>
+                                            <p:outputLabel for="descripcionMovilidad" value="Descripci&oacute;n"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputTextarea id="descripcionMovilidad" value="#{registrarMovilidadMB.programaMovilidad.descripcion}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                         <p:column>
-                                            <p:outputLabel for="categoriaMovilidad" value="Categoria movilidad"/>
+                                            <p:outputLabel for="categoriaMovilidad" value="Categor&iacute;a movilidad"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="categoriaMovilidad" value="#{registrarMovilidadMB.categoriaMovilidadSelected}" style="width: 180px" required="true">
@@ -72,7 +73,7 @@
                                     <h:panelGroup id="grup1" rendered="#{registrarMovilidadMB.mostrarBuscadorSaliente}">
                                         <p:panelGrid id="grid">
                                             <p:column>
-                                                <p:outputLabel for="tipoBusquedaSal" value="Tipo de Busqueda:" />
+                                                <p:outputLabel for="tipoBusquedaSal" value="Tipo de B&uacute;squeda:" />
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaSal" value="#{registrarMovilidadMB.tipoBusquedaSaliente}"  style="width:125px">  
@@ -84,7 +85,7 @@
                                                 </p:selectOneMenu>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel  value="Busqueda" />     
+                                                <p:outputLabel  value="B&uacute;squeda" />     
                                             </p:column>
                                             <p:column> 
                                                 <p:autoComplete id="searchDui" minQueryLength="10" size="10" rendered="#{registrarMovilidadMB.flagSearchDuiSaliente}"  value="#{registrarMovilidadMB.personaMovilidadGenerico}" completeMethod="#{registrarMovilidadMB.methodSearchSaliente}"
@@ -108,7 +109,7 @@
                                                 </p:autoComplete>
                                                 <p:watermark for="idNombreInterno" value="Nombre"/> 
                                                 <p:autoComplete id="idEmailInterno" value="#{registrarMovilidadMB.personaMovilidadGenerico}" rendered="#{registrarMovilidadMB.flagSearchEmailSaliente}"
-                                                                completeMethod="#{registrarMovilidadMB.methodSearchSaliente(query)}" disabled="#{registrarMovilidadMB.disableAutoSaliente}"
+                                                                completeMethod="#{registrarMovilidadMB.methodSearchSaliente}" disabled="#{registrarMovilidadMB.disableAutoSaliente}"
                                                                 var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                                 forceSelection="true">                                           
                                                     <p:column>
@@ -125,7 +126,7 @@
                                     <h:panelGroup id="grup2"  rendered="#{registrarMovilidadMB.mostrarBuscadorEntrante}">
                                         <p:panelGrid id="grid2">
                                             <p:column>
-                                                <p:outputLabel for="tipoBusquedaEnt" value="Tipo de Busqueda:" />
+                                                <p:outputLabel for="tipoBusquedaEnt" value="Tipo de B&uacute;squeda:" />
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaEnt" value="#{registrarMovilidadMB.tipoBusquedaEntrante}"  style="width:125px">  
@@ -136,7 +137,7 @@
                                                 </p:selectOneMenu>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel  value="Busqueda" />     
+                                                <p:outputLabel  value="B&uacute;squeda" />     
                                             </p:column>
                                             <p:column> 
                                          <!--       <p:autoComplete id="searchDuiEnt" minQueryLength="10" size="10" rendered="#{registrarMovilidadMB.flagSearchDuiEntrante}"  value="#{registrarMovilidadMB.personaMovilidadGenerico}" completeMethod="#{registrarMovilidadMB.methodSearchEntrante}"
@@ -190,7 +191,7 @@
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="nombrePersona" label="nombrePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nombrePersona}" validatorMessage="Este campo solo admite letras" required="true" readonly="#{registrarMovilidadMB.isHabilidado}"/>
-
+                                               
                                             </p:column>
                                             <p:column>
                                                 <p:outputLabel for="apellidoPersona" value="Apellidos"/>
@@ -205,12 +206,12 @@
                                             <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
                                                 <p:inputMask id="duiPersona" mask="99999999-9" value="#{registrarMovilidadMB.personaMovilidadGenerico.duiPersona}" />
                                             </p:column>
-                                            <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}" >
+                                         <!--   <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}" >
                                                 <p:outputLabel for="nitPersona" value="NIT"/>
                                             </p:column>
                                             <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
                                                 <p:inputMask id="nitPersona" mask="99999999-9" value="#{registrarMovilidadMB.personaMovilidadGenerico.nitPersona}"/>
-                                            </p:column>
+                                            </p:column> -->
                                             <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
                                                 <p:outputLabel for="pasaportePersona" value="Pasaporte"/>
                                             </p:column>
@@ -226,7 +227,7 @@
                                             </p:column>
 
                                             <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
-                                                <p:outputLabel for="InstitucionPersona" value="Institucion"/>
+                                                <p:outputLabel for="InstitucionPersona" value="Instituci&oacute;n"/>
                                             </p:column>
                                             <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
                                                 <p:selectOneMenu id="InstitucionPersona" value="#{registrarMovilidadMB.institucionPersonaMovilidadSelected}" style="width: 180px" >
@@ -255,7 +256,7 @@
                                                 </p:selectOneMenu>
                                             </p:column>   
                                             <p:column>
-                                                <p:outputLabel for="emailPersona" value="Correo Electronico"/>
+                                                <p:outputLabel for="emailPersona" value="Correo Electr&oacute;nico"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="emailPersona" label="emailPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.emailPersona}" readonly="#{registrarMovilidadMB.isHabilidado}">
@@ -263,13 +264,13 @@
                                                 </p:inputText>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel for="telPersona" value="Telefono"/>
+                                                <p:outputLabel for="telPersona" value="Tel&eacute;fono"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputMask id="telPersona" label="telPersona" mask="#{registrarMovilidadMB.mascaraTelefonoMovilidad}"  value="#{registrarMovilidadMB.telFijoPersonaMovilidad.numeroTelefono}"/>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel for="celPersona" value="Telefono movil"/>
+                                                <p:outputLabel for="celPersona" value="Tel&eacute;fono movil"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputMask id="celPersona" label="celPersona" mask="#{registrarMovilidadMB.mascaraTelefonoMovilidad}"  value="#{registrarMovilidadMB.telCelPersonaMovilidad.numeroTelefono}"/>
@@ -288,7 +289,7 @@
                                 <p:tab title="Detalle de Movilidad">
                                     <p:panelGrid columns="4">
                                         <p:column>
-                                            <p:outputLabel for="paisOrigen" value="Pais origen"/>
+                                            <p:outputLabel for="paisOrigen" value="Pa&iacute;s origen"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="paisOrigen" value="#{registrarMovilidadMB.paisOrigenSelected}" style="width: 180px"  required="true">
@@ -299,7 +300,7 @@
                                         </p:column>
 
                                         <p:column>
-                                            <p:outputLabel for="institucionOrigen" value="Institucion origen"/>
+                                            <p:outputLabel for="institucionOrigen" value="Instituci&oacute;n origen"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenSelected}" style="width: 180px"  required="true">
@@ -308,7 +309,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="paisDestino" value="Pais destino"/>
+                                            <p:outputLabel for="paisDestino" value="Pa&iacute;s destino"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="paisDestino" value="#{registrarMovilidadMB.paisDestinoSelected}" style="width: 180px" required="true" >
@@ -318,7 +319,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="institucionDestino" value="Institucion destino"/>
+                                            <p:outputLabel for="institucionDestino" value="Instituci&oacute;n destino"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="institucionDestino" value="#{registrarMovilidadMB.institucionDestinoSelected}" style="width: 180px" required="true" >
@@ -336,7 +337,7 @@
                                             </p:calendar>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="hastaMovilidad" value="Fecha de finalizacion"/> 
+                                            <p:outputLabel for="hastaMovilidad" value="Fecha de finalizaci&oacute;n"/> 
                                         </p:column>
                                         <p:column>
                                             <p:calendar id="hastaMovilidad" value="#{registrarMovilidadMB.fechaFinSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
@@ -355,7 +356,7 @@
                                         </p:column>
 
                                         <p:column>
-                                            <p:outputLabel for="viaticos" value="Monto de viaticos"/>
+                                            <p:outputLabel for="viaticos" value="Monto de vi&aacute;ticos"/>
                                         </p:column>
                                         <p:column>
                                             <poue:inputNumber id="viaticos" label="viaticos" value="#{registrarMovilidadMB.movilidad.viaticos}" />
@@ -367,7 +368,7 @@
                                             <poue:inputNumber id="pagoCurso" label="pagoCurso" value="#{registrarMovilidadMB.movilidad.pagoDeCurso}" />
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="boletoAereo" value="Boleto aereo"/> 
+                                            <p:outputLabel for="boletoAereo" value="Boleto a&eacute;reo"/> 
                                         </p:column>
                                         <p:column>
                                             <poue:inputNumber id="boletoAereo" label="boletoAereo" value="#{registrarMovilidadMB.movilidad.voletoAereo}"/>
@@ -433,7 +434,7 @@
                                     <h:panelGroup id="grup3">
                                         <p:panelGrid id="gridRef">
                                             <p:column>
-                                                <p:outputLabel for="tipoBusquedaRef" value="Tipo de Busqueda:" />
+                                                <p:outputLabel for="tipoBusquedaRef" value="Tipo de B&uacute;squeda:" />
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaRef" value="#{registrarMovilidadMB.tipoBusquedaReferente}"  style="width:125px">  
@@ -445,7 +446,7 @@
                                                 </p:selectOneMenu>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel  value="Busqueda" />     
+                                                <p:outputLabel  value="B&uacute;squeda" />     
                                             </p:column>
                                             <p:column> 
                                                 <p:autoComplete id="searchDuiRef" minQueryLength="10" size="10" rendered="#{registrarMovilidadMB.flagSearchDuiReferente}"  value="#{registrarMovilidadMB.personaFacultadGenerico}" completeMethod="#{registrarMovilidadMB.methodSearchReferente}"
@@ -488,7 +489,7 @@
                                          <p:commandButton value="Buscar" actionListener="#{registrarMovilidadMB.buscarReferente()}"  icon="ui-icon-search" process="searchDocReferenteFact @this" update="panelReferente"/> -->
                                     <p:separator/>
                                     <h:panelGroup id="GroupReferente">
-                                        <p:panelGrid columns="4" id="panelReferente">
+                                        <p:panelGrid  id="panelReferente">
                                             <!--<p:column>
                                                    <p:outputLabel for="listaPersonaFacultad" value="Referente de la facultad"/> 
                                                </p:column>
@@ -502,81 +503,92 @@
                                                <p:column><h:panelGroup/></p:column>  
                                                <p:column><h:panelGroup/></p:column>-->
 
+                                            <p:row>
+                                                <p:column>
+                                                    <p:outputLabel for="nombrePersonaFacultad" value="Nombres"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:inputText id="nombrePersonaFacultad" label="nombrePersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nombrePersona}" validatorMessage="Este campo solo admite letras" required="true" readonly="#{registrarMovilidadMB.isHabilitadoRfte}"/>
 
-                                            <p:column>
-                                                <p:outputLabel for="nombrePersonaFacultad" value="Nombres"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:inputText id="nombrePersonaFacultad" label="nombrePersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.nombrePersona}" validatorMessage="Este campo solo admite letras" required="true" readonly="#{registrarMovilidadMB.isHabilidado}"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:outputLabel for="apellidoPersonaFacultad" value="Apellidos"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:inputText id="apellidoPersonaFacultad" label="apellidoPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.apellidoPersona}" validatorMessage="Este campo solo admite letras" required="true" readonly="#{registrarMovilidadMB.isHabilitadoRfte}"/>
 
+                                                </p:column> 
+                                            </p:row> 
+                                            <p:row>
+                                                <p:column>
+                                                    <p:outputLabel for="duiPersonaFacultad" value="DUI"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:inputMask id="duiPersonaFacultad" mask="99999999-9" value="#{registrarMovilidadMB.personaFacultadGenerico.duiPersona}"/>
+                                                </p:column>
+                                                <!--  <p:column>
+                                                          <p:outputLabel for="nitPersonaFacultad" value="NIT"/>
+                                                      </p:column>
+                                                      <p:column>
+                                                          <p:inputMask id="nitPersonaFacultad" mask="99999999-9" value="#{registrarMovilidadMB.personaFacultadGenerico.nitPersona}"/>
+                                                      </p:column>  -->
+                                                <p:column>
+                                                    <p:outputLabel for="cargoPersonaFacultad" value="Cargo"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:inputText id="cargoPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.cargoPersona}" required="true"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <p:outputLabel for="facultadBeneficiadaPersona" value="Facultad/unidad"/> 
+                                                </p:column>
+                                                <p:column>
+                                                    <p:selectOneMenu id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadDeReferente}" style="width: 180px" required="true">
+                                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{registrarMovilidadMB.listFacultadUnidadReferenteFactBnf}" var="facultadBenefPersona" itemLabel="#{facultadBenefPersona.label}" itemValue="#{facultadBenefPersona.value}"/>
+                                                        <p:ajax listener="#{registrarMovilidadMB.mostrarEscuelaReferenteFact()}" update="escuelaDepartamentoReferenteFactBnf" process="@this" partialSubmit="true"/>
+                                                    </p:selectOneMenu>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:outputLabel for="escuelaDepartamentoReferenteFactBnf" value="Escuela/Departamento"/> 
+                                                </p:column>   
+                                                <p:column>
+                                                    <p:selectOneMenu id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoReferenteFactBnfSelected}" style="width: 180px" disabled="#{registrarMovilidadMB.mostrarEscuelaReferente}" required="#{registrarMovilidadMB.escuelaReferenteRequerido}">
+                                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoRefFact}" var="unidadPersona" itemLabel="#{unidadPersona.nombreEscuelaDepto}" itemValue="#{unidadPersona.idEscuelaDepto}"/>
+                                                    </p:selectOneMenu>
+                                                </p:column> 
+                                            </p:row>
+                                            <p:row>
+                                            <p:column>
+                                                <p:outputLabel for="emailPersonaFacultad" value="Correo Electr&oacute;nico"/>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel for="apellidoPersonaFacultad" value="Apellidos"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:inputText id="apellidoPersonaFacultad" label="apellidoPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.apellidoPersona}" validatorMessage="Este campo solo admite letras" required="true" readonly="#{registrarMovilidadMB.isHabilidado}"/>
-
-                                            </p:column>                        
-                                            <p:column>
-                                                <p:outputLabel for="duiPersonaFacultad" value="DUI"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:inputMask id="duiPersonaFacultad" mask="99999999-9" value="#{registrarMovilidadMB.personaFacultadGenerico.duiPersona}"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:outputLabel for="nitPersonaFacultad" value="NIT"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:inputMask id="nitPersonaFacultad" mask="99999999-9" value="#{registrarMovilidadMB.personaFacultadGenerico.nitPersona}"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:outputLabel for="cargoPersonaFacultad" value="Cargo"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:inputText id="cargoPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.cargoPersona}" required="true"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:outputLabel for="facultadBeneficiadaPersona" value="Facultad/unidad"/> 
-                                            </p:column>
-                                            <p:column>
-                                                <p:selectOneMenu id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadDeReferente}" style="width: 180px" required="true">
-                                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                    <f:selectItems value="#{registrarMovilidadMB.listFacultadUnidadReferenteFactBnf}" var="facultadBenefPersona" itemLabel="#{facultadBenefPersona.label}" itemValue="#{facultadBenefPersona.value}"/>
-                                                    <p:ajax listener="#{registrarMovilidadMB.mostrarEscuelaReferenteFact()}" update="escuelaDepartamentoReferenteFactBnf" process="@this" partialSubmit="true"/>
-                                                </p:selectOneMenu>
-                                            </p:column>
-                                            <p:column>
-                                                <p:outputLabel for="escuelaDepartamentoReferenteFactBnf" value="Escuela/Departamento"/> 
-                                            </p:column>   
-                                            <p:column>
-                                                <p:selectOneMenu id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoReferenteFactBnfSelected}" style="width: 180px" disabled="#{registrarMovilidadMB.mostrarEscuelaReferente}" required="#{registrarMovilidadMB.escuelaReferenteRequerido}">
-                                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                    <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoRefFact}" var="unidadPersona" itemLabel="#{unidadPersona.nombreEscuelaDepto}" itemValue="#{unidadPersona.idEscuelaDepto}"/>
-                                                </p:selectOneMenu>
-                                            </p:column>   
-                                            <p:column>
-                                                <p:outputLabel for="emailPersonaFacultad" value="Correo Electronico"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:inputText id="emailPersonaFacultad" label="emailPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" required="true" readonly="#{registrarMovilidadMB.isHabilidado}">
+                                                <p:inputText id="emailPersonaFacultad" label="emailPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" required="true" readonly="#{registrarMovilidadMB.isHabilitadoRfte}">
                                                     <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                                 </p:inputText>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel for="telPersonaFacultad" value="Telefono institucional"/>
+                                                <p:outputLabel for="telPersonaFacultad" value="Tel&eacute;fono institucional"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputMask id="telPersonaFacultad" label="telPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}"/>
                                             </p:column>
+                                             </p:row>
+                                            <p:row>
                                             <p:column>
-                                                <p:outputLabel for="celPersonaFacultad" value="Telefono movil"/>
+                                                <p:outputLabel for="celPersonaFacultad" value="Tel&eacute;fono movil"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputMask id="celPersonaFacultad" label="celPersonaFacultad" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}"/>
                                             </p:column>
+                                            </p:row>
+                                            <p:row>
                                             <p:column>
-                                                <p:commandButton value="Desvincular referente" actionListener="#{registrarMovilidadMB.desvincularReferente()}" process="@this"/>
+                                                <p:commandButton value="Desvincular referente" actionListener="#{registrarMovilidadMB.desvincularReferente()}" process="@this" rendered="#{registrarMovilidadMB.mostrarBotonDesvincular}"/>
                                             </p:column>
+                                            </p:row>    
                                             <!--    <p:column>
                                                     <p:outputLabel for="faxPersonaFacultad" value="Fax"/>
                                                 </p:column>
@@ -607,15 +619,15 @@
                         </h:form>
                     </p:panel>
                 </center>
-                
-                
+
+
                 <!--Dialog persona en movilidad-->
                 <p:confirmDialog widgetVar="dlgExistePersonaMov" id="dialogopermov" header="Persona ya existe en el sistema"  
                                  global="true" showEffect="fade" hideEffect="fade">
                     <f:facet name="message" >
                         <h:outputText value="#{registrarMovilidadMB.msgPersonaMovExiste}" escape="false"/>
                     </f:facet>
-                    
+
                     <h:form id="dialogPersonaMovExiste">
                         <p:panelGrid columns="2">
                             <h:outputLabel value="Nombre: "/>
@@ -633,10 +645,10 @@
                     <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.sobreEscribirPersonaEnmovilidad()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                     <p:commandButton value="Cancelar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaMov}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
-                
+
                 <!--Dialog persona referente-->
                 <p:confirmDialog widgetVar="dlgExisteReferente" id="dialogoperref" header="Persona ya existe en el sistema"
-                    global="true" showEffect="fade" hideEffect="fade">
+                                 global="true" showEffect="fade" hideEffect="fade">
                     <f:facet name="message">
                         <h:outputText value="#{registrarMovilidadMB.msgPersonaRefExiste}" escape="false"/>
                     </f:facet>
