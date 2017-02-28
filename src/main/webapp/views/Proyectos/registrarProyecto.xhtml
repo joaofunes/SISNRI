@@ -102,7 +102,6 @@
                                     </p:column>
                                     <p:column>
                                         <p:inputTextarea id="nombreproyecto" value="#{proyectosMB.proyecto.nombreProyecto}"  rows="2" maxlength="300" style="width:180px" required="true">
-                                        <f:validateRegex pattern="[a-zA-Z]+"/>
                                         </p:inputTextarea>
                                     </p:column>
                                     <p:column>
@@ -110,7 +109,6 @@
                                     </p:column>
                                     <p:column>
                                         <p:inputTextarea value="#{proyectosMB.proyecto.objetivo}" rows="2" maxlength="1000" style="width:180px">
-                                        <f:validateRegex pattern="[a-zA-Z]+"/>
                                         </p:inputTextarea>
                                     </p:column>
                                     <p:column>
@@ -236,7 +234,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" rendered="true" readonly="#{proyectosMB.actualizar}">
-                                            <f:validateRegex pattern="[a-zA-Z]+"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -244,7 +241,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" rendered="true" readonly="#{proyectosMB.actualizar}">
-                                            <f:validateRegex pattern="[a-zA-Z]+"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -266,7 +262,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}">
-                                            <f:validateRegex pattern="[a-zA-Z]+"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -378,7 +373,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" readonly="#{proyectosMB.actualizar}" >
-                                            <f:validateRegex pattern="[a-zA-Z]+"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -386,7 +380,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" readonly="#{proyectosMB.actualizar}">
-                                            <f:validateRegex pattern="[a-zA-Z]+"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -408,7 +401,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}">
-                                            <f:validateRegex pattern="[a-zA-Z]+"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -502,7 +494,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="nombreexterna" value="#{proyectosMB.personaExterna.nombrePersona}" required="true" readonly="#{proyectosMB.actualizar}">
-                                            <f:validateRegex pattern="[a-zA-Z]+"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -510,7 +501,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="apellidoexterna" value="#{proyectosMB.personaExterna.apellidoPersona}" required="true" readonly="#{proyectosMB.actualizar}">
-                                            <f:validateRegex pattern="[a-zA-Z]+"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
@@ -532,7 +522,6 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="cargoexterna" value="#{proyectosMB.personaExterna.cargoPersona}">
-                                            <f:validateRegex pattern="[a-zA-Z]+"/>
                                             </p:inputText>
                                         </p:column>
                                         <p:column >
