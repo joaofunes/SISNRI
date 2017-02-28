@@ -13,6 +13,9 @@
 
     <ui:define name="content">
         <center>
+            <h1 style="background: #cc0000;color: white;border-radius: 10px">Documentaci&oacute;n Becas</h1>
+        </center>   
+        <center>
             <h:form id="formAdmin">
                 <p:panel style="width: 900px;">
                     <p:panelGrid>
@@ -79,8 +82,8 @@
                             </p:column>
                             <p:column>
                                 <h:outputText value="#{documentacionBecaMB.pojoToShow.montoBeca}">
-                        <f:convertNumber type="currency" currencySymbol="$" />
-                    </h:outputText>
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -179,7 +182,7 @@
                         </p:column>
                         <p:column>
                             <p:fileUpload fileUploadListener="#{documentacionBecaMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
-                                          sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" />
+                                          sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" label="Seleccione" cancelLabel="Cancelar" uploadLabel="Subir"/>
                         </p:column>
                         <p:column>
                             <p:commandButton  value="Agregar" id="idGuardarDocumento" actionListener="#{documentacionBecaMB.addDocument()}" process="@form"
