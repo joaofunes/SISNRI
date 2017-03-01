@@ -156,8 +156,9 @@
                                     <p:column>
                                         <p:outputLabel  value="Busqueda" />     
                                     </p:column>
-                                    <p:column> 
-                                        <p:autoComplete id="searchDui" minQueryLength="9" size="9" rendered="#{propuestaConvenioMB.flagSearchDuiInterno}"  value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
+                                    <p:column > 
+                                        <p:autoComplete id="searchDui" minQueryLength="9" size="9" rendered="#{propuestaConvenioMB.flagSearchDuiInterno}" 
+                                                        value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
                                                         var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
                                                         forceSelection="true">                                            
                                             <p:column>

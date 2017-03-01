@@ -29,7 +29,7 @@ public class SsMenusDao extends GenericDao<SsMenus, Integer> {
     
     public int deleteMenuOpciones(Integer menu, Integer opcion) {
         try {
-            String sql = "DELETE FROM SS_MENUS_OPCIONES WHERE ID_MENU=:menu AND ID_OPCION=:opcion";
+            String sql = "DELETE FROM ss_menus_opciones WHERE ID_MENU=:menu AND ID_OPCION=:opcion";
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
             q.setParameter("menu", menu);
             q.setParameter("opcion", opcion);
@@ -44,7 +44,7 @@ public class SsMenusDao extends GenericDao<SsMenus, Integer> {
     
     public void guardarMenuOpciones(Integer menu, Integer opcion){
         try {
-            String sql="INSERT INTO SS_MENUS_OPCIONES (ID_MENU,ID_OPCION) VALUES ("+menu+","+opcion+")";
+            String sql="INSERT INTO ss_menus_opciones (ID_MENU,ID_OPCION) VALUES ("+menu+","+opcion+")";
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);            
             q.executeUpdate();
         } catch (Exception e) {
@@ -56,7 +56,7 @@ public class SsMenusDao extends GenericDao<SsMenus, Integer> {
     
     public int deleteMenuRoles(Integer menu, Integer rol) {
         try {
-            String sql = "DELETE FROM SS_ROLES_MENU WHERE ID_MENU=:menu AND ID_ROL=:rol";
+            String sql = "DELETE FROM ss_roles_menu WHERE ID_MENU=:menu AND ID_ROL=:rol";
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
             q.setParameter("menu", menu);
             q.setParameter("rol", rol);

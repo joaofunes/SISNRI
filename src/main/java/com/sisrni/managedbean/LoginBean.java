@@ -37,6 +37,8 @@ public class LoginBean implements Serializable {
     private SsRolesService ssRolesService;
 
     private CurrentUserSessionForm currentUserSessionForm;
+    
+    private String ROL="ROL_PUBLICO";
 
     @PostConstruct
     public void init() {
@@ -50,7 +52,7 @@ public class LoginBean implements Serializable {
 
     public void calculateMenuTest() {
         if (getForm().getOptions() == null || getForm().getOptions().isEmpty()) {
-            SsRoles rol = ssRolesService.getRolByName("NO_PRIV");
+            SsRoles rol = ssRolesService.getRolByName(ROL);
             List<SsMenus> mns = ssMenusService.getMenusByrol(rol);
              Collections.sort(mns, new Comparator<SsMenus>() {
                         @Override

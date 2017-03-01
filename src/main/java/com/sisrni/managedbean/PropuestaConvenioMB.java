@@ -74,7 +74,7 @@ public class PropuestaConvenioMB implements Serializable {
     private static final String REFERENTE_EXTERNO = "REFERENTE EXTERNO";
     private static final String CONVENIO_MARCO = "CONVENIO MARCO";
     private static final String ESTADO = "REVISION";
-    private static final String ROL = "ADM";
+    private static final String ROL = "ROL_ADMI";
 
     @Autowired
     @Qualifier(value = "personaService")
