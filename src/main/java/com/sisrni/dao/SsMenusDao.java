@@ -10,6 +10,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SsMenusDao extends GenericDao<SsMenus, Integer> {
 
+    public List<SsMenus> getAllMenus() {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o  FROM SsMenus o "
+                    + " order by o.ordenMenu asc");
+            getSessionFactory().getCurrentSession().flush();
+            getSessionFactory().getCurrentSession().clear();
+            return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    
     public List<SsMenus> getMenusByrol(SsRoles rol) {
         try {
               Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o "

@@ -75,7 +75,7 @@ public class MenusOpcionesMB implements Serializable {
         try {
             user = new CurrentUserSessionBean();
             ssMenus = new SsMenus();
-            listadoMenus = menusService.findAll();
+            listadoMenus = menusService.getAllMenus();
             opcionesSource = new ArrayList<SsOpciones>();
             opcionesTarget = new ArrayList<SsOpciones>();
             opciones = new DualListModel<SsOpciones>(opcionesSource, opcionesTarget);
@@ -124,8 +124,7 @@ public class MenusOpcionesMB implements Serializable {
                 menusService.guardarMenuOpciones(ssMenus.getIdMenu(), it.getIdOpcion());
             }
 
-            listadoMenus = menusService.findAll();
-
+            listadoMenus = menusService.getAllMenus();
             FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("formMenu");
             JsfUtil.addSuccessMessage("Guardado Exitosamente");
 

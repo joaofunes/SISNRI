@@ -78,9 +78,9 @@ public class SsOpcionesDao extends GenericDao<SsOpciones, Integer> {
     
     public int gurdarRolesOpciones(Integer idRol,Integer idOpcion){
         try {
-            Query q = getSessionFactory().getCurrentSession().createSQLQuery("INSERT INTO ss_roles_opciones (ID_ROL,ID_OPCION) VALUES(:idRol,:idOpcion)");
-            q.setParameter("idRol", idRol);
-            q.setParameter("idOpcion", idOpcion);
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery("INSERT INTO ss_roles_opciones (ID_ROL,ID_OPCION) VALUES("+idRol+","+idOpcion+")");
+//            q.setParameter("idRol", idRol);
+//            q.setParameter("idOpcion", idOpcion);
             int executeInsert = q.executeUpdate();
             return executeInsert;
         } catch (Exception e) {
