@@ -70,11 +70,11 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
                 + "tipoOrg.NOMBRE_TIPO AS tipo, pais.NOMBRE_PAIS as nPais, "
                 + "reg.NOMBRE_REGION AS nRegion, org.DIRECCION_ORGANISMO AS direccion, "
                 + "org.CORREO_ORGANISMO as correo, telefon.NUMERO_TELEFONO as tel, "
-                + "org.CODIGO_POSTAL as codigo FROM organismo AS org "
-                + "INNER JOIN tipo_organismo AS tipoOrg ON org.ID_TIPO_ORGANISMO = "
-                + "tipoOrg.ID_TIPO_ORGANISMO INNER JOIN telefono AS telefon ON org.ID_ORGANISMO = "
-                + "telefon.ID_ORGANISMO INNER JOIN pais as pais ON org.ID_PAIS = pais.ID_PAIS INNER JOIN "
-                + "region AS reg ON org.ID_REGION = reg.ID_REGION ";
+                + "org.CODIGO_POSTAL as codigo FROM ORGANISMO AS org "
+                + "INNER JOIN TIPO_ORGANISMO AS tipoOrg ON org.ID_TIPO_ORGANISMO = "
+                + "tipoOrg.ID_TIPO_ORGANISMO INNER JOIN TELEFONO AS telefon ON org.ID_ORGANISMO = "
+                + "telefon.ID_ORGANISMO INNER JOIN PAIS as pais ON org.ID_PAIS = pais.ID_PAIS INNER JOIN "
+                + "REGION AS reg ON org.ID_REGION = reg.ID_REGION ";
                   if (idTipo != 0) {
                     query += "WHERE tipoOrg.ID_TIPO_ORGANISMO = " + idTipo;
                  }

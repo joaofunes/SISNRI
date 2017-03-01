@@ -15,7 +15,7 @@
                  <ui:include src="../common/Print.xhtml"/>
                 <h:form id="form">
                     <div align="center" style="border: 0px black solid">
-                        <h1 class="title ui-widget-header ui-corner-all" align="center">Reporte detalle movilidades</h1>
+                        <h1 class="title ui-widget-header ui-corner-all" align="center">Reporte detalle de movilidades academicas</h1>
                         <p:fieldset legend="Parametros de Entrada" style="font-size: 17px">
                             <p:panelGrid>
                                 <p:row> 
@@ -39,7 +39,7 @@
                                     <p:commandButton id="reportButton" icon="ui-icon-print"  value="Pdf"  actionListener="#{reporteMovilidad.llenarReporte('pdf')}" oncomplete="print(xhr, status, args)"/> 
                                     <p:commandButton id="reportButtonExcel" icon=""  value="Excel"  actionListener="#{reporteMovilidad.llenarReporte('xlsx')}" oncomplete="prints(xhr, status, args)" />                   
                                     <p:commandButton id="reportButtonDoc" icon=""  value="World"  actionListener="#{reporteMovilidad.llenarReporte('doc')}" oncomplete="prints(xhr, status, args)" />                   
-                                    <p:commandButton value="Cancelar"   icon="ui-icon-trash"    />
+                                    <p:button value="Regresar" href="listadoReportesMovilidad.xhtml"   icon="ui-icon-return"    />
                                 </div>
                             </f:facet>
                         </h:panelGrid>
