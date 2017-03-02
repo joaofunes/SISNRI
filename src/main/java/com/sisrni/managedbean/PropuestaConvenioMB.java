@@ -221,6 +221,19 @@ public class PropuestaConvenioMB implements Serializable {
             e.printStackTrace();
         }
     }
+    
+    public void onload() { 
+        try {            
+            inicializador();
+            inicializadorListados();
+            getListFacultadesUnidades();
+            cargarUsuario();
+
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }
+    
 
     public void postInit() {
         try {
