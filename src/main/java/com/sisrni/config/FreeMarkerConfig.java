@@ -38,7 +38,7 @@ public class FreeMarkerConfig {
         mailSender.setHost(parametrosMail.getSmtp());
         mailSender.setPort(parametrosMail.getPuerto());
         mailSender.setUsername(parametrosMail.getCuentaCorreo());
-        mailSender.setPassword(parametrosMail.getPassword().toString());
+        mailSender.setPassword("tragra01");
 
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.starttls.enable", "true");
