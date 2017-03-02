@@ -30,4 +30,12 @@ public class SsUsuariosService extends GenericService<SsUsuarios, Integer> {
     public List<SsUsuarios> getAllUser(){
        return this.ssUsuariosDao.getAllUser();
     }
+    
+    public int deleteUserRoles(Integer usuario, Integer rol) {
+        return this.ssUsuariosDao.deleteUserRoles(usuario, rol);
+    }
+    
+    public void guardarUserRol(Integer usuario, Integer rol){
+        ssUsuariosDao.guardarUserRol(usuario, rol);
+    }
 }

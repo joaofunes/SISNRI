@@ -7,11 +7,13 @@ import com.sisrni.model.SsUsuarios;
 import com.sisrni.service.SsRolesService;
 import com.sisrni.service.SsUsuariosService;
 import com.sisrni.service.generic.GenericService;
+import com.sisrni.utils.JsfUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import org.primefaces.model.DualListModel;
@@ -32,6 +34,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
     @Qualifier(value = "ssRolesService")
     private SsRolesService ssRolesService;
 
+    private List<SsUsuarios> listadoUsuarios;
     private SsUsuarios ssUsuariosRol;
     private List<SsRoles> listadoRoles;
 
@@ -47,6 +50,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
         rolesSource = new ArrayList<SsRoles>();
         rolesTarget = new ArrayList<SsRoles>();
         roles = new DualListModel<SsRoles>(rolesSource, rolesTarget);
+        listadoUsuarios=ssUsuarioService.getAllUser();
         loadLazyModels();
     }
 
@@ -57,7 +61,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
 
     @Override
     public LazyDataModel<SsUsuarios> getNewLazyModel() {
-        return new UsuarioLazyModel(ssUsuarioService.getAllUser(), ssUsuarioService);
+        return new UsuarioLazyModel(listadoUsuarios, ssUsuarioService);
     }
 
     @Override
@@ -80,6 +84,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
             items = null; // Invalidate list of items to trigger re-query.
         }
     }
+            
 
     public void preEditarRol() {
         try {
@@ -100,6 +105,25 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
         }
     }
 
+    
+    public void guardarWithRol(){
+        try {
+             for (SsRoles us : rolesTargetTemp) {
+                int deleteMenuOpciones = ssUsuarioService.deleteUserRoles(ssUsuariosRol.getIdUsuario(), us.getIdRol());
+            }
+            List<SsRoles> target = roles.getTarget();
+            for (SsRoles it : target) {
+                ssUsuarioService.guardarUserRol(ssUsuariosRol.getIdUsuario(), it.getIdRol());
+            }
+            listadoUsuarios=ssUsuarioService.getAllUser();
+            FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("formMenu");
+            JsfUtil.addSuccessMessage("Guardado Exitosamente");
+            //ssUsuarioService.merge(ssUsuariosRol)
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+    
     public SsUsuarios getSsUsuariosRol() {
         return ssUsuariosRol;
     }
@@ -146,6 +170,14 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
 
     public void setRolesTargetTemp(List<SsRoles> rolesTargetTemp) {
         this.rolesTargetTemp = rolesTargetTemp;
+    }
+
+    public List<SsUsuarios> getListadoUsuarios() {
+        return listadoUsuarios;
+    }
+
+    public void setListadoUsuarios(List<SsUsuarios> listadoUsuarios) {
+        this.listadoUsuarios = listadoUsuarios;
     }
 
 }

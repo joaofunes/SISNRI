@@ -42,14 +42,43 @@ public class SsUsuariosDao extends GenericDao<SsUsuarios, Integer> {
     
     public List<SsUsuarios> getAllUser() {
         SsUsuarios ret = null;
+        
         Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o "
                 + " FROM SsUsuarios o ");
         
         List<SsUsuarios> list = q.list();
+        getSessionFactory().getCurrentSession().flush();
+        getSessionFactory().getCurrentSession().clear();
         if (list != null && !list.isEmpty()) {
+            
            return list;
         }
         return null;
+    }
+    
+     public int deleteUserRoles(Integer usuario, Integer rol) {
+        try {
+            String sql = "DELETE FROM ss_roles_usuarios WHERE ID_USUARIO=:usuario AND ID_ROL=:rol";
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+            q.setParameter("usuario", usuario);
+            q.setParameter("rol", rol);
+            int executeUpdate = q.executeUpdate();
+            return executeUpdate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+     
+    
+     public void guardarUserRol(Integer usuario, Integer rol){
+        try {
+            String sql="INSERT INTO ss_roles_usuarios (ID_USUARIO,ID_ROL) VALUES ("+usuario+","+rol+")";
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);            
+            q.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -43,7 +43,7 @@
                        </p:row>    
                     </h:panelGrid>
                 
-                    <p:commandButton actionListener="#{usuarioMB.save}" value="Editar" update="display,:growl" oncomplete="handleSubmit(xhr,status,args,UsuarioEditRolDialog);"/>
+                    <p:commandButton actionListener="#{usuarioMB.guardarWithRol()}" value="Editar" update="display,:growl" oncomplete="handleSubmit(xhr,status,args,UsuarioEditRolDialog);"/>
                     <p:commandButton value="Cancelar" onclick="PF('UsuarioEditRolDialog').hide();"/>
                 </h:panelGroup>
 
