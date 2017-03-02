@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioViewDlg" widgetVar="UsuarioViewDialog" modal="true" resizable="false" appendTo="@(body)"  header="#{myBundle.ViewUsuarioTitle}" >
+
+            <h:form id="UsuarioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="UsuarioTabView">
+
+                        <p:tab id="UsuarioTab1" title="#{myBundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column" rendered="#{usuarioMB.selected != null}">
+                               
+                                <h:outputText value="Codigo de usuario"/>
+                                <h:outputText value="#{usuarioMB.selected.codigoUsuario}" title="#{myBundle.ViewUsuarioTitle_codigoUsuario}"/>
+
+                                <h:outputText value="Nombre Usuario"/>
+                                <h:outputText value="#{usuarioMB.selected.nombreUsuario}" title="#{myBundle.ViewUsuarioTitle_nombreUsuario}"/>
+                               
+                                <h:outputText value="Cargo"/>
+                                <h:outputText value="#{usuarioMB.selected.cargo}" title="#{myBundle.ViewUsuarioTitle_cargo}"/>
+
+                                <h:outputText value="Descripcion"/>
+                                <h:outputText value="#{usuarioMB.selected.descripcion}" title="#{myBundle.ViewUsuarioTitle_descripcion}"/>
+
+                                <h:outputText value="Bloqueo"/>
+                                <h:outputText value="#{usuarioMB.selected.bloqueado}" title="#{myBundle.ViewUsuarioTitle_bloqueado}"/>
+
+                                <h:outputText value="Clave"/>
+                                <h:outputText value="#{usuarioMB.selected.clave}" title="#{myBundle.ViewUsuarioTitle_clave}"/>
+
+                               
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton value="Cerrar" onclick="PF('UsuarioViewDialog').hide();"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
