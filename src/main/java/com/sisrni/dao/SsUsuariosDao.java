@@ -38,4 +38,18 @@ public class SsUsuariosDao extends GenericDao<SsUsuarios, Integer> {
         }
         return ret;
     }
+    
+    
+    public List<SsUsuarios> getAllUser() {
+        SsUsuarios ret = null;
+        Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o "
+                + " FROM SsUsuarios o ");
+        
+        List<SsUsuarios> list = q.list();
+        if (list != null && !list.isEmpty()) {
+           return list;
+        }
+        return null;
+    }
+
 }
