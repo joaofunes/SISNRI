@@ -38,9 +38,6 @@ import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoPropuestaConvenioService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -202,6 +199,11 @@ public class PropuestaConvenioMB implements Serializable {
     private Boolean flagSearchNombreExterno;
     private Boolean flagSearchEmailExterno;
 
+    //Variables boolean para forzar a busqueda
+    private boolean habilitarBusquedaInterna;
+    private boolean habilitarBusquedaExterna;
+    
+    
     private List<Persona> listAll;
     
     private SsRoles rol;
@@ -268,6 +270,7 @@ public class PropuestaConvenioMB implements Serializable {
             telCelularExterno = new Telefono();
             telFijoSolicitante = new Telefono();
             telCelularSolicitante = new Telefono();
+            usuario = null;
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
             personaEdit = new Persona();
@@ -287,6 +290,10 @@ public class PropuestaConvenioMB implements Serializable {
             flagSearchDuiExterno = Boolean.FALSE;
             flagSearchNombreExterno = Boolean.FALSE;
             flagSearchEmailExterno = Boolean.FALSE;
+            
+            //para forzar a busqueda
+            habilitarBusquedaInterna= true;
+            habilitarBusquedaExterna= true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -326,11 +333,7 @@ public class PropuestaConvenioMB implements Serializable {
      */
     private void cargarUsuario() {
         try {
-            solicitante = personaService.findById(usuario.getUsuario().getIdPersona());
-            if (solicitante != null) {
-                cargarUnidadesFacultadesSolicitante();
-                cargarTelefonosSolicitante();
-            }
+            rol = null;
             if (usuario != null && usuario.getUsuario() != null) {
                 for (SsRoles rols : usuario.getUsuario().getSsRolesList()) {
                     if (rols.getCodigoRol().equalsIgnoreCase(ROL)) {
@@ -340,6 +343,13 @@ public class PropuestaConvenioMB implements Serializable {
                 }
             }
 
+            if (rol == null || rol.getIdRol() == null) {
+                solicitante = personaService.findById(usuario.getUsuario().getIdPersona());
+                if (solicitante != null) {
+                    cargarUnidadesFacultadesSolicitante();
+                    cargarTelefonosSolicitante();
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -519,6 +529,7 @@ public class PropuestaConvenioMB implements Serializable {
                 this.facultadesUnidadesInterno = getFacultadesUnidades();
                 this.escuelaDepartamentoInterno = getEscuelaDepartamento();
                 cargarTelefonosInternos();
+                //habilitarBusquedaInterna=false;
             } else {
                 referenteInterno = new Persona();
                 telFijoInterno = new Telefono();
@@ -526,6 +537,7 @@ public class PropuestaConvenioMB implements Serializable {
                 facultadesUnidadesInterno = new PojoFacultadesUnidades();
                 numDocumentoInterno = null;
                 escuelaDepartamentoInterno = new EscuelaDepartamento();
+                habilitarBusquedaInterna=true;
             }
             RequestContext context = RequestContext.getCurrentInstance();
             context.update("formAdmin:acordion:idFacultadUnidadInterno");
@@ -1716,6 +1728,22 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setRol(SsRoles rol) {
         this.rol = rol;
+    }
+
+    public boolean isHabilitarBusquedaInterna() {
+        return habilitarBusquedaInterna;
+    }
+
+    public void setHabilitarBusquedaInterna(boolean habilitarBusquedaInterna) {
+        this.habilitarBusquedaInterna = habilitarBusquedaInterna;
+    }
+
+    public boolean isHabilitarBusquedaExterna() {
+        return habilitarBusquedaExterna;
+    }
+
+    public void setHabilitarBusquedaExterna(boolean habilitarBusquedaExterna) {
+        this.habilitarBusquedaExterna = habilitarBusquedaExterna;
     }
 
 }

@@ -144,10 +144,11 @@
                             <h:panelGroup id="grup1" > 
                                 <p:panelGrid id="grid" rendered="#{propuestaConvenioMB.tabAsis}" >     
                                     <p:column>
-                                        <p:outputLabel for="tipoBusquedaInt" value="Tipo de Busqueda:" />
+                                        <p:outputLabel for="tipoBusquedaInt" value="Busqueda:" />
                                     </p:column>
                                     <p:column>                                        
-                                        <p:selectOneMenu id="tipoBusquedaInt" value="#{propuestaConvenioMB.tipoBusquedaInterna}"  style="width:125px">  
+                                        <p:selectOneMenu id="tipoBusquedaInt" value="#{propuestaConvenioMB.tipoBusquedaInterna}"  style="width:125px"
+                                                         disabled="#{propuestaConvenioMB.mismoSolicitante}">  
                                             <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoInterno}" update="grup1"  process="@this" />
                                             <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                             <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
@@ -201,7 +202,7 @@
                                         </p:column>
                                         <p:column>                                                                                  
                                             <p:selectBooleanButton id="btnMismoInterno" value="#{propuestaConvenioMB.mismoSolicitante}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
-                                                <p:ajax update="GroupSolicitanteInterno" process="@this" listener="#{propuestaConvenioMB.mismoSolicitantes()}" />
+                                                <p:ajax update="GroupSolicitanteInterno,grup1" process="@this" listener="#{propuestaConvenioMB.mismoSolicitantes()}" />
                                             </p:selectBooleanButton>                                    
                                         </p:column>
                                     </p:row>
@@ -209,15 +210,19 @@
                                         <p:column>
                                             <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
                                         </p:column>
-                                        <p:column>                                            
-                                            <p:inputText id="idSolicinateNombreInterno" required="true"  label="Nombre" value="#{propuestaConvenioMB.referenteInterno.nombrePersona}" />                                
+                                        <p:column >                                            
+                                            <p:inputText id="idSolicinateNombreInterno" required="true"  label="Nombre" 
+                                                         value="#{propuestaConvenioMB.referenteInterno.nombrePersona}" 
+                                                         disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}"/>                                
                                             <p:watermark for="idSolicinateNombreInterno" value="Nombre Solicitante"/>                                           
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="idSolicinateApellidoInterno" value="Apellido Solicitante" />
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="idSolicinateApellidoInterno" required="true"  label="Apellido" value="#{propuestaConvenioMB.referenteInterno.apellidoPersona}" />
+                                            <p:inputText id="idSolicinateApellidoInterno" required="true"  label="Apellido" 
+                                                         value="#{propuestaConvenioMB.referenteInterno.apellidoPersona}" 
+                                                         disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}"/>
                                             <p:message for="idSolicinateApellidoInterno" />   
                                             <p:watermark for="idSolicinateApellidoInterno" value="Apellido Solicitante"/>                                           
                                         </p:column>
@@ -227,14 +232,16 @@
                                             <p:outputLabel for="idDui" value="N&deg; DUI" />     
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="idDui"   value="#{propuestaConvenioMB.referenteInterno.duiPersona}" mask="99999999-9"/>                                           
+                                            <p:inputMask id="idDui"  value="#{propuestaConvenioMB.referenteInterno.duiPersona}" mask="99999999-9"
+                                                         disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}"/>                                           
                                             <p:watermark for="idDui" value="999999999-9" />
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="email" value="Correo Electr&oacute;nico" />     
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="email" required="true" value="#{propuestaConvenioMB.referenteInterno.emailPersona}">
+                                            <p:inputText id="email" required="true" value="#{propuestaConvenioMB.referenteInterno.emailPersona}"
+                                                         disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                             </p:inputText>
                                             <p:message for="email" display="tooltip" />  
@@ -247,7 +254,8 @@
                                             <p:outputLabel for="idTelFijoInterno" value="Tel:" />
                                         </p:column>
                                         <p:column>                                                               
-                                            <p:inputMask id="idTelFijoInterno"  mask="9999-9999" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}" />
+                                            <p:inputMask id="idTelFijoInterno"  mask="9999-9999" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}" 
+                                                         disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}"/>
                                             <p:watermark for="idTelFijoInterno" value="xxxx-xxxx"  /> 
                                             <p:message for="idTelFijoInterno" />
                                         </p:column>
@@ -255,7 +263,8 @@
                                             <p:outputLabel for="idCelInterno" value="Cel:" />
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="idCelInterno"  mask="9999-9999" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}" />
+                                            <p:inputMask id="idCelInterno"  mask="9999-9999" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}" 
+                                                         disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}"/>
                                             <p:watermark for="idCelInterno" value="xxxx-xxxx"  /> 
                                             <p:message for="idCelInterno" />
                                         </p:column>
@@ -265,7 +274,9 @@
                                             <p:outputLabel  for="idFacultadUnidadInterno" value="Facultad/Unidad"  />
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu  id="idFacultadUnidadInterno" required="true" value="#{propuestaConvenioMB.facultadesUnidadesInterno}" converter="#{facultadUnidadConverter}" style="width:160px" editable="#{propuestaConvenioMB.mismoSol}" >                                              
+                                            <p:selectOneMenu  id="idFacultadUnidadInterno" required="true" value="#{propuestaConvenioMB.facultadesUnidadesInterno}" 
+                                                              converter="#{facultadUnidadConverter}" style="width:160px" 
+                                                              editable="#{propuestaConvenioMB.mismoSol}"  disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}">                                              
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
                                                 <f:selectItems  value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
                                                 <p:ajax event="change" listener="#{propuestaConvenioMB.actualizarEscuelaDeptInterno()}" update="idEscuelaDeptInter" process="@this" partialSubmit="true"/>
@@ -275,7 +286,9 @@
                                             <p:outputLabel  for="idEscuelaDeptInter" value="Escuela/Departamento" />
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu  id="idEscuelaDeptInter" required="true"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" converter="#{escuelaDepartamentoConverter}" disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno}"  style="width:160px" editable="#{propuestaConvenioMB.mismoSol}">                                              
+                                            <p:selectOneMenu  id="idEscuelaDeptInter" required="true"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" 
+                                                              converter="#{escuelaDepartamentoConverter}" disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno || propuestaConvenioMB.habilitarBusquedaInterna}"  
+                                                              style="width:160px" editable="#{propuestaConvenioMB.mismoSol}">                                              
                                                 <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" noSelectionOption="true" />                                            
                                                 <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamentoInter}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
                                             </p:selectOneMenu>
@@ -286,7 +299,8 @@
                                             <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="idCargoInterno"   label="cargo"  value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" />
+                                            <p:inputText id="idCargoInterno"   label="cargo"  value="#{propuestaConvenioMB.referenteInterno.cargoPersona}" 
+                                                         disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}"/>
                                             <p:watermark for="idCargoInterno" value="Cargo" id="waterCargo" />
                                             <p:message for="idCargoInterno" />
                                         </p:column>
