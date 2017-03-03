@@ -27,6 +27,7 @@ import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.FacultadService;
+import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaPropuestaService;
 import com.sisrni.service.PersonaService;
@@ -37,9 +38,6 @@ import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoPropuestaConvenioService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,7 +71,7 @@ public class PropuestaConvenioMB implements Serializable {
     private static final String REFERENTE_EXTERNO = "REFERENTE EXTERNO";
     private static final String CONVENIO_MARCO = "CONVENIO MARCO";
     private static final String ESTADO = "REVISION";
-    private static final String ROL = "ADM";
+    private static final String ROL = "ROL_ADMI";
 
     @Autowired
     @Qualifier(value = "personaService")
@@ -126,6 +124,9 @@ public class PropuestaConvenioMB implements Serializable {
     @Autowired
     @Qualifier(value = "escuelaDepartamentoService")
     private EscuelaDepartamentoService escuelaDepartamentoService;
+    
+    @Autowired
+    FreeMarkerMailService mailService;
 
     private String numDocumentoInterno;
     private String numDocumentoExterno;
@@ -198,6 +199,11 @@ public class PropuestaConvenioMB implements Serializable {
     private Boolean flagSearchNombreExterno;
     private Boolean flagSearchEmailExterno;
 
+    //Variables boolean para forzar a busqueda
+    private boolean habilitarBusquedaInterna;
+    private boolean habilitarBusquedaExterna;
+    
+    
     private List<Persona> listAll;
     
     private SsRoles rol;
@@ -217,6 +223,19 @@ public class PropuestaConvenioMB implements Serializable {
             e.printStackTrace();
         }
     }
+    
+    public void onload() { 
+        try {            
+            inicializador();
+            inicializadorListados();
+            getListFacultadesUnidades();
+            cargarUsuario();
+
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }
+    
 
     public void postInit() {
         try {
@@ -251,6 +270,7 @@ public class PropuestaConvenioMB implements Serializable {
             telCelularExterno = new Telefono();
             telFijoSolicitante = new Telefono();
             telCelularSolicitante = new Telefono();
+            usuario = null;
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
             personaEdit = new Persona();
@@ -270,6 +290,10 @@ public class PropuestaConvenioMB implements Serializable {
             flagSearchDuiExterno = Boolean.FALSE;
             flagSearchNombreExterno = Boolean.FALSE;
             flagSearchEmailExterno = Boolean.FALSE;
+            
+            //para forzar a busqueda
+            habilitarBusquedaInterna= true;
+            habilitarBusquedaExterna= true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -309,11 +333,7 @@ public class PropuestaConvenioMB implements Serializable {
      */
     private void cargarUsuario() {
         try {
-            solicitante = personaService.findById(usuario.getUsuario().getIdPersona());
-            if (solicitante != null) {
-                cargarUnidadesFacultadesSolicitante();
-                cargarTelefonosSolicitante();
-            }
+            rol = null;
             if (usuario != null && usuario.getUsuario() != null) {
                 for (SsRoles rols : usuario.getUsuario().getSsRolesList()) {
                     if (rols.getCodigoRol().equalsIgnoreCase(ROL)) {
@@ -323,6 +343,13 @@ public class PropuestaConvenioMB implements Serializable {
                 }
             }
 
+            if (rol == null || rol.getIdRol() == null) {
+                solicitante = personaService.findById(usuario.getUsuario().getIdPersona());
+                if (solicitante != null) {
+                    cargarUnidadesFacultadesSolicitante();
+                    cargarTelefonosSolicitante();
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -502,6 +529,7 @@ public class PropuestaConvenioMB implements Serializable {
                 this.facultadesUnidadesInterno = getFacultadesUnidades();
                 this.escuelaDepartamentoInterno = getEscuelaDepartamento();
                 cargarTelefonosInternos();
+                //habilitarBusquedaInterna=false;
             } else {
                 referenteInterno = new Persona();
                 telFijoInterno = new Telefono();
@@ -509,6 +537,7 @@ public class PropuestaConvenioMB implements Serializable {
                 facultadesUnidadesInterno = new PojoFacultadesUnidades();
                 numDocumentoInterno = null;
                 escuelaDepartamentoInterno = new EscuelaDepartamento();
+                habilitarBusquedaInterna=true;
             }
             RequestContext context = RequestContext.getCurrentInstance();
             context.update("formAdmin:acordion:idFacultadUnidadInterno");
@@ -585,13 +614,13 @@ public class PropuestaConvenioMB implements Serializable {
                     guardarReferenteExterno();
                 }
             }
-            
+            mailService.sendEmail(propuestaConvenio,"Creacion de propuesta de convenio","joao.hfunes@gmail.com","propuesta_convenio_mailTemplat.txt");
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", "Propuesta Convenio almacenada"));
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             context.redirect(context.getRequestContextPath() + "/views/convenio/consultarPropuestaConvenio.xhtml");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
+             throw new Exception("Error class PropuestaConvenioMB - guardarPropuestaConvenio()\n" + e.getMessage(), e.getCause());
         }
     }
 
@@ -679,8 +708,7 @@ public class PropuestaConvenioMB implements Serializable {
             propuestaConvenio.setIdConvenio(propuestaConvenioTemp.getIdPropuesta());
             propuestaConvenio.setFechaIngreso(new Date());
             propuestaConvenioService.save(propuestaConvenio);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
         }
     }
 
@@ -697,8 +725,7 @@ public class PropuestaConvenioMB implements Serializable {
             estado.setEstado(stado);
             estado.setPropuestaEstadoPK(new PropuestaEstadoPK(propuestaConvenio.getIdPropuesta(), stado.getIdEstado()));
             propuestaEstadoService.save(estado);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
         }
     }
 
@@ -737,8 +764,7 @@ public class PropuestaConvenioMB implements Serializable {
             prsSolicitante.setPersonaPropuestaPK(new PersonaPropuestaPK(solicitante.getIdPersona(), prsSolicitante.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
             personaPropuestaService.save(prsSolicitante);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
         }
     }
 
@@ -774,8 +800,7 @@ public class PropuestaConvenioMB implements Serializable {
             referenteInterno.setTelefonoList(listadoTelefonoReferenteInterno);
             personaService.saveOrUpdate(referenteInterno);
             //personaService.save(referenteInterno);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
         }
     }
 
@@ -1225,49 +1250,6 @@ public class PropuestaConvenioMB implements Serializable {
 
     }
 
-    /// test de email
-    public void FileRead() {
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-        String to = "";
-        String subject = "Test Send Email";
-        String messages = "Henrry Culeu";
-        ArrayList<String> listado = new ArrayList<String>();
-
-//    SAXBuilder sax;
-//    Document dconfig1=null;
-        String MailAccount = "tgraduacion01@gmail.com";
-        String PassMailAccount = "";
-        String rootFileContent = "";
-
-        try {
-            mail = new JCMail();
-
-            mail.setFrom(MailAccount);
-            mail.setPassword("tragra01");
-            mail.setTo(solicitante.getEmailPersona());
-            mail.setSubject("Test GAMIL");
-            mail.setMessage(messages);
-            mail.SEND();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // En el finally cerramos el fichero, para asegurarnos
-            // que se cierra tanto si todo va bien como si salta 
-            // una excepcion.
-            try {
-                if (null != fr) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-    }
-
-/// test de email
     public Persona getReferenteInterno() {
         return referenteInterno;
     }
@@ -1746,6 +1728,22 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setRol(SsRoles rol) {
         this.rol = rol;
+    }
+
+    public boolean isHabilitarBusquedaInterna() {
+        return habilitarBusquedaInterna;
+    }
+
+    public void setHabilitarBusquedaInterna(boolean habilitarBusquedaInterna) {
+        this.habilitarBusquedaInterna = habilitarBusquedaInterna;
+    }
+
+    public boolean isHabilitarBusquedaExterna() {
+        return habilitarBusquedaExterna;
+    }
+
+    public void setHabilitarBusquedaExterna(boolean habilitarBusquedaExterna) {
+        this.habilitarBusquedaExterna = habilitarBusquedaExterna;
     }
 
 }

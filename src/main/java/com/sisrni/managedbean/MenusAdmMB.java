@@ -35,9 +35,9 @@ import org.springframework.web.context.WebApplicationContext;
  *
  * @author Joao
  */
-@Named("menusOpcionesAdmMB")
+@Named("menusAdmMB")
 @Scope(WebApplicationContext.SCOPE_SESSION)
-public class MenusOpcionesAdmMB implements Serializable {
+public class MenusAdmMB implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Autowired
@@ -167,7 +167,7 @@ public class MenusOpcionesAdmMB implements Serializable {
                 selectedlistRoles.add(roles);
             }
             ssMenus.setSsRolesList(selectedlistRoles);
-            menusService.getDao().save(getSsMenus());
+            menusService.save(getSsMenus());
             getMenus();
             this.ssMenus = null;
             this.ssMenus = new SsMenus();

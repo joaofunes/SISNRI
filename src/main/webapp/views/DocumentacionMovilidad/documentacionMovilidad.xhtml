@@ -13,13 +13,16 @@
         <ui:composition template="/WEB-INF/templates/layout.xhtml">
 
             <ui:define name="content">
+                   <center>
+            <h1 style="background: #cc0000;color: white;border-radius: 10px">Documentaci&oacute;n Movilidad</h1>
+        </center>   
                 <center>
                     <h:form id="formAdmin">
                         <p:panel style="width: 900px;">
                             <p:panelGrid>
                                 <p:row >
                                     <p:column >
-                                        <p:outputLabel for="movilidadId" value="Programa de movilidad :" />
+                                        <p:outputLabel for="movilidadId" value="Movilidad :" />
                                         <p:selectOneMenu id="movilidadId" value="#{documentacionMovilidadMB.pojoMovilidadSelected.idMovilidad}" style="width:355px">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="-1" noSelectionOption="false" />
                                             <p:ajax event="itemSelect" listener="#{documentacionMovilidadMB.onMovilidadChange()}" process="movilidadId" update=":idDataMovilidad :formDocsTable"/>
@@ -44,7 +47,7 @@
                             <p:panelGrid  >
                                 <p:row>
                                     <p:column>
-                                        <h:outputText value="Codigo : "  style="font-weight:bold"/>
+                                        <h:outputText value="C&oacute;digo : "  style="font-weight:bold"/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="#{documentacionMovilidadMB.pojoToShow.idMovilidad}" />
@@ -73,13 +76,13 @@
                                 </p:row>
                                 <p:row>        
                                     <p:column>
-                                        <h:outputText value="Pais origen: "  style="font-weight:bold" />
+                                        <h:outputText value="Pa&iacute;s origen: "  style="font-weight:bold" />
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="#{documentacionMovilidadMB.pojoToShow.paisOrigen}" />
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="Pais destino: "  style="font-weight:bold" />
+                                        <h:outputText value="Pa&iacute;s destino: "  style="font-weight:bold" />
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="#{documentacionMovilidadMB.pojoToShow.paisDestino}" />
@@ -87,17 +90,25 @@
 
                                 </p:row>
                                 <p:row>
-                                    <p:column>
+                                  <p:column>
                                         <h:outputText value="Fecha de entrada:" style="font-weight:bold"/>
-                                    </p:column>
+                                    </p:column> 
                                     <p:column>
-                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.fechaEntrada}"> <f:convertDateTime pattern="dd/MM/yyyy"/> </h:outputText>
+                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.fechaEntrada}"> <f:convertDateTime pattern="dd/MM/yyyy"/> </h:outputText> 
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="Fecha de salida: "  style="font-weight:bold" />
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="#{documentacionMovilidadMB.pojoToShow.fechaSalida}"> <f:convertDateTime pattern="dd/MM/yyyy"/> </h:outputText>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Etapa: " style="font-weight:bold"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{documentacionMovilidadMB.pojoToShow.nombreEtapa}"/>
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
@@ -120,7 +131,7 @@
                                 <p:column headerText="Recibido por" sortBy="#{doc.usuarioRecibe}" filterBy="#{doc.usuarioRecibe}">
                                     <h:outputText value="#{doc.usuarioRecibe}" />
                                 </p:column>
-                                <p:column headerText="Fecha de recibido" sortBy="#{doc.fechaRecibido}" filterBy="#{doc.fechaRecibido}">
+                                <p:column headerText="Fecha Recibido" sortBy="#{doc.fechaRecibido}" filterBy="#{doc.fechaRecibido}">
                                     <h:outputText value="#{doc.fechaRecibido}">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </h:outputText>
@@ -182,7 +193,7 @@
                                 </p:column>
                                 <p:column>
                                     <p:fileUpload fileUploadListener="#{documentacionMovilidadMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
-                                                  sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" />
+                                                  sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccione"/>
                                 </p:column>
                                 <p:column>
                                     <p:commandButton  value="Agregar" id="idGuardarDocumento" actionListener="#{documentacionMovilidadMB.addDocument()}" process="@form"
@@ -218,7 +229,7 @@
                                 </p:column>
                                 <p:column>
                                     <p:fileUpload fileUploadListener="#{documentacionMovilidadMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
-                                                  sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" />
+                                                  sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccione"/>
                                 </p:column>
                                 <p:column>
                                     <p:commandButton value="Actualizar" id="idActualziarDocumento" actionListener="#{documentacionMovilidadMB.actualzarDocument()}" process="@form"

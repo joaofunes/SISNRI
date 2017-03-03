@@ -35,9 +35,9 @@ public class FreeMarkerConfig {
         
         
         //para gmail.
-        mailSender.setHost("smtp.gmail.com");
+        mailSender.setHost(parametrosMail.getSmtp());
         mailSender.setPort(parametrosMail.getPuerto());
-        mailSender.setUsername("tgraduacion01@gmail.com");
+        mailSender.setUsername(parametrosMail.getCuentaCorreo());
         mailSender.setPassword("tragra01");
 
         Properties javaMailProperties = new Properties();

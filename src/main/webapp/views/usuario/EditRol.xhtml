@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuarioEditRolDlg" widgetVar="UsuarioEditRolDialog" modal="true" resizable="true"  appendTo="@(body)" header="Editar ROL" >
+
+            <h:form id="UsuarioEditRolForm">
+
+                <h:panelGroup id="display">
+                    
+                    
+                     
+                    <h:panelGrid >
+                        <p:row>
+                        <p:column>                           
+                            <h3 style="margin-top: 0">Usuario:</h3>
+                        </p:column>                                         
+                        <p:column> 
+                             <h3 style="margin-top: 0"><p:outputLabel  value="#{usuarioMB.ssUsuariosRol.nombreUsuario}" /></h3>                            
+                        </p:column> 
+                        </p:row>    
+                        <p:row>    
+                        <p:column>                           
+                            <h3 style="margin-top: 0">Codigo de Usuario:</h3>
+                        </p:column>                                         
+                        <p:column> 
+                             <h3 style="margin-top: 0"><p:outputLabel  value="#{usuarioMB.ssUsuariosRol.codigoUsuario}" /></h3>                            
+                        </p:column> 
+                        </p:row>    
+                        <p:row>    
+                        <p:column >                                         
+                                <p:pickList id="pickList" value="#{usuarioMB.roles}" var="opc" 
+                                            itemLabel="#{opc.nombreRol}" itemValue="#{opc}"  converter="#{rolesConverter}" >
+                                    <f:facet name="sourceCaption">Disponibles</f:facet>
+                                    <f:facet name="targetCaption">Seleccionados</f:facet>
+                                </p:pickList>    
+                        </p:column>
+                       </p:row>    
+                    </h:panelGrid>
+                
+                    <p:commandButton actionListener="#{usuarioMB.guardarWithRol()}" value="Editar" update="display,:growl" oncomplete="handleSubmit(xhr,status,args,UsuarioEditRolDialog);"/>
+                    <p:commandButton value="Cancelar" onclick="PF('UsuarioEditRolDialog').hide();"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

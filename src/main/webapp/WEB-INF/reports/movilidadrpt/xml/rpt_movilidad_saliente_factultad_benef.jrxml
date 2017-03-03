@@ -120,7 +120,7 @@
 		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement uuid="501875ab-2809-4df2-8131-8dd6686dd5ea" x="70" y="0" width="208" height="20"/>
-				<box>
+				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>

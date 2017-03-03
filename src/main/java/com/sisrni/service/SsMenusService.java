@@ -20,6 +20,10 @@ public class SsMenusService extends GenericService<SsMenus, Integer> {
         return ssMenusDao;
     }
 
+    public List<SsMenus> getAllMenus(){
+      return this.ssMenusDao.getAllMenus();
+    }
+    
     public List<SsMenus> getMenusByrol(SsRoles rol) {
         return this.ssMenusDao.getMenusByrol(rol);
     }

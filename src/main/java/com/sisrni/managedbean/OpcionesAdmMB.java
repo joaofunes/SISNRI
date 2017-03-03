@@ -175,6 +175,11 @@ public class OpcionesAdmMB implements Serializable {
         }
     }
 
+    public void preGuardar(){
+       ssOpciones=new SsOpciones();
+    }
+    
+    
     public void guardar() {
         try {
             ssOpciones.setFechaRegistro(new Date());
@@ -187,16 +192,18 @@ public class OpcionesAdmMB implements Serializable {
                 ssOpciones.setVisible(String.valueOf('N'));
             }
 
+            opcionesService.save(ssOpciones);
+            
             selectedlistRoles = new ArrayList<SsRoles>();
             for (String us : selectedArrayRoles) {
-                roles = new SsRoles();
-                roles = ssRolesService.findById(Integer.parseInt(us.toString()));
+                //roles = new SsRoles();
+                //roles = ssRolesService.findById(Integer.parseInt(us.toString()));
                 opcionesService.gurdarRolesOpciones(Integer.parseInt(us.toString()), ssOpciones.getIdOpcion());
-                selectedlistRoles.add(roles);
+               // selectedlistRoles.add(roles);
             }
 
            // ssOpciones.setSsRolesList(selectedlistRoles);
-            opcionesService.getDao().save(ssOpciones);
+            
             getMenus();
             this.ssOpciones = null;
             this.ssOpciones = new SsOpciones();

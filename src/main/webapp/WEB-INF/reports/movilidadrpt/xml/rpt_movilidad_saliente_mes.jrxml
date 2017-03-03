@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidad_saliente_mes" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="105"/>
+	<property name="ireport.y" value="320"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -87,7 +87,7 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="278" y="0" width="144" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="274" y="0" width="144" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5" lineColor="#333333"/>
@@ -101,7 +101,7 @@
 				<text><![CDATA[Movilidades]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="104" y="0" width="174" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="117" y="0" width="157" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -119,8 +119,8 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="569d9f31-4752-4a78-8673-c2ce4e9d5d7b" x="104" y="0" width="174" height="20"/>
-				<box>
+				<reportElement uuid="569d9f31-4752-4a78-8673-c2ce4e9d5d7b" x="117" y="0" width="157" height="20"/>
+				<box leftPadding="9">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -130,7 +130,7 @@
 				<textFieldExpression><![CDATA[$F{nombreMes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b7f22a71-a70e-47e1-a1aa-06547bdc0003" x="278" y="0" width="144" height="20"/>
+				<reportElement uuid="b7f22a71-a70e-47e1-a1aa-06547bdc0003" x="274" y="0" width="144" height="20"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -183,7 +183,7 @@
 				</areaPlot>
 			</areaChart>
 			<textField>
-				<reportElement uuid="e231a149-1743-4ca6-a141-b78e7acbdcf3" x="278" y="0" width="144" height="20"/>
+				<reportElement uuid="e231a149-1743-4ca6-a141-b78e7acbdcf3" x="274" y="0" width="144" height="20"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -196,7 +196,7 @@
 				<textFieldExpression><![CDATA[$V{cantidad_1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="f3e55b92-565a-44d4-a5a3-186dcc28ce86" x="104" y="0" width="174" height="20"/>
+				<reportElement uuid="f3e55b92-565a-44d4-a5a3-186dcc28ce86" x="117" y="0" width="158" height="20"/>
 				<box>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>

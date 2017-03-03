@@ -40,8 +40,8 @@
                                 <div class="footer-section">
                                     <p:commandButton id="reportButton" icon="ui-icon-print"  value="Pdf"  actionListener="#{reporteMovilidad.printTipoEtapa('pdf')}" oncomplete="print(xhr, status, args)"/> 
                                     <p:commandButton id="reportButtonExcel" icon=""  value="Excel"  actionListener="#{reporteMovilidad.printTipoEtapa('xlsx')}" oncomplete="prints(xhr, status, args)" />                   
-                                    <p:commandButton id="reportButtonDoc" icon=""  value="World"  actionListener="#{reporteMovilidad.printTipoEtapa('doc')}" oncomplete="prints(xhr, status, args)" />                   
-                                    <p:commandButton value="Cancelar"   icon="ui-icon-trash"    />
+                                    <p:commandButton id="reportButtonDoc" icon=""  value="Word"  actionListener="#{reporteMovilidad.printTipoEtapa('doc')}" oncomplete="prints(xhr, status, args)" />                   
+                                    <p:button value="Regresar" href="listadoReportesMovilidad.xhtml"  icon="ui-icon-arrowreturnthick-1-w"/>
                                 </div>
                             </f:facet>
                         </h:panelGrid>

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidades_entrantes_mes" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.1000000000000132"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="182"/>
+	<property name="ireport.y" value="86"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -120,7 +120,7 @@
 		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement uuid="810910ab-e2a2-4a32-beb1-3b471a54f576" x="127" y="0" width="151" height="20"/>
-				<box>
+				<box leftPadding="5">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -196,7 +196,7 @@
 				<textFieldExpression><![CDATA[$V{cantidad_1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="09893e66-11f3-4cbd-b088-eacbbc31fb73" x="99" y="0" width="179" height="20"/>
+				<reportElement uuid="09893e66-11f3-4cbd-b088-eacbbc31fb73" x="127" y="0" width="151" height="20"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>

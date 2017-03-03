@@ -12,4 +12,6 @@ package com.sisrni.service;
 public interface FreeMarkerMailService {
 
     public void sendEmail(final Object object);
+    
+    public void sendEmail(Object object, String subJect, String setToMail, String nameTemplate);
 }
