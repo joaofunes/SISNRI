@@ -4,6 +4,7 @@ import com.sisrni.dao.MovilidadDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Movilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
+import com.sisrni.pojo.rpt.PojoMovilidadDocumentacion;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteFactBeneficiadaPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteMesEjecucionPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntrantePaisPojo;
@@ -79,5 +80,9 @@ public class MovilidadService extends GenericService<Movilidad, Integer> {
        
         public void desvincularReferente(Integer idMovilidad, Integer idPersona){
             movilidadDao.desvincularReferente(idMovilidad, idPersona);
+        }
+        
+        public List<PojoMovilidadDocumentacion> getMovilidadDocumentacion(Integer idMovSearch){
+            return movilidadDao.getMovilidadDocumentacion(idMovSearch);
         }
 }

@@ -8,6 +8,7 @@ package com.sisrni.dao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Movilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
+import com.sisrni.pojo.rpt.PojoMovilidadDocumentacion;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteFactBeneficiadaPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteMesEjecucionPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntrantePaisPojo;
@@ -261,29 +262,29 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
     }
 
     public List<RptMovilidadEntranteMesEjecucionPojo> getMovilidadEntranteMes(Integer anio) {
-        String query = "SELECT 'Enero' nombreMes,(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=1,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) cantidad FROM movilidad \n"
+        String query = "SELECT 'Enero' nombreMes,(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=1,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) cantidad FROM movilidad \n"
                 + "UNION \n"
-                + "SELECT 'Febrero',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=2,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad \n"
+                + "SELECT 'Febrero',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=2,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad \n"
                 + "UNION \n"
-                + "SELECT 'Marzo',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=3,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad \n"
+                + "SELECT 'Marzo',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=3,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad \n"
                 + "UNION \n"
-                + "SELECT 'Abril',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=4,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
+                + "SELECT 'Abril',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=4,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
                 + "UNION \n"
-                + "SELECT 'Mayo',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=5,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
+                + "SELECT 'Mayo',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=5,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
                 + "UNION \n"
-                + "SELECT 'Junio',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=6,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
+                + "SELECT 'Junio',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=6,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
                 + "UNION \n"
-                + "SELECT 'Julio',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=7,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
+                + "SELECT 'Julio',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=7,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
                 + "UNION \n"
-                + "SELECT 'Agosto',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=8,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
+                + "SELECT 'Agosto',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=8,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
                 + "UNION \n"
-                + "SELECT 'Septiembre',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=9,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
+                + "SELECT 'Septiembre',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=9,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
                 + "UNION \n"
-                + "SELECT 'Octubre',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=10,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
+                + "SELECT 'Octubre',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=10,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
                 + "UNION \n"
-                + "SELECT 'Noviembre',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=11,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
+                + "SELECT 'Noviembre',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=11,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv \n"
                 + "UNION \n"
-                + "SELECT 'Diciembre',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=12,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + 2017 + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv";
+                + "SELECT 'Diciembre',(SELECT COUNT(IF(MONTH(mov.FECHA_INICIO)=12,1,NULL)) FROM movilidad mov WHERE YEAR(mov.FECHA_INICIO) = " + anio + " AND mov.ID_ETAPA_MOVILIDAD=3 AND mov.ID_TIPO_MOVILIDAD = 1) FROM movilidad mv";
 
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
@@ -344,6 +345,41 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
             e.printStackTrace();
         }
 
+    }
+    
+    public List<PojoMovilidadDocumentacion> getMovilidadDocumentacion(Integer idMovSearch) {
+        String query = "SELECT mv.ID_MOVILIDAD idMovilidad, pm.NOMBRE_PROGRAMA_MOVILIDAD nombrePrograma,per.NOMBRE_PERSONA nombrePersona,per.APELLIDO_PERSONA apellidoPersona,tpmv.NOMBRE_TIPO_MOVILIDAD nombreTipoMovilidad,pa.NOMBRE_PAIS paisOrigen, pai.NOMBRE_PAIS paisDestino,mv.FECHA_INICIO fechaEntrada,mv.FECHA_FIN fechaSalida ,etm.NOMBRE_ETAPA nombreEtapa  \n"
+                + "FROM movilidad mv INNER JOIN programa_movilidad pm ON mv.ID_PROGRAMA_MOVILIDAD = pm.ID_PROGRAMA_MOVILIDAD\n"
+                + "INNER JOIN persona_movilidad prmov  ON mv.ID_MOVILIDAD =prmov.ID_MOVILIDAD\n"
+                + "INNER JOIN persona per  ON prmov.ID_PERSONA = per.ID_PERSONA\n"
+                + "INNER JOIN tipo_movilidad tpmv ON mv.ID_TIPO_MOVILIDAD = tpmv.ID_TIPO_MOVILIDAD\n"
+                + "INNER JOIN pais pa ON mv.ID_PAIS_ORIGEN = pa.ID_PAIS\n"
+                + "INNER JOIN pais pai ON mv.ID_PAIS_DESTINO = pai.ID_PAIS "
+                + "INNER JOIN etapa_movilidad etm ON mv.ID_ETAPA_MOVILIDAD = etm.ID_ETAPA   \n"
+                + "WHERE prmov.ID_TIPO_PERSONA = 10  ";
+        if (idMovSearch > 0) {
+            query = query + " AND mv.ID_MOVILIDAD =" + idMovSearch;
+        }
+        query = query + " ORDER BY mv.FECHA_INGRESO DESC";
+        try {
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                    .addScalar("idMovilidad", new IntegerType())
+                    .addScalar("nombrePrograma", new StringType())
+                    .addScalar("nombrePersona", new StringType())
+                    .addScalar("apellidoPersona", new StringType())
+                    .addScalar("nombreTipoMovilidad", new StringType())
+                    .addScalar("paisOrigen", new StringType())
+                    .addScalar("paisDestino", new StringType())
+                    .addScalar("fechaEntrada", new DateType())
+                    .addScalar("fechaSalida", new DateType())
+                    .addScalar("nombreEtapa", new StringType())
+                    .setResultTransformer(Transformers.aliasToBean(PojoMovilidadDocumentacion.class));
+
+            return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
