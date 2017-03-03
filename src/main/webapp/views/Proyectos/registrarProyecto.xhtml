@@ -233,27 +233,27 @@
                                             <p:outputLabel for="nombresolicitante" value="Nombre:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" rendered="true" readonly="#{proyectosMB.actualizar}">
+                                            <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersona || proyectosMB.tipoBusquedaInterna eq null}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidosolicitante" value="Apellido:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" rendered="true" readonly="#{proyectosMB.actualizar}">
+                                            <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersona}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Dui:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duisolicitante" mask="99999999-9" value="#{proyectosMB.persona.duiPersona}"/>
+                                            <p:inputMask id="duisolicitante" mask="99999999-9" value="#{proyectosMB.persona.duiPersona}" disabled="#{!proyectosMB.siBuscoPersona}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="correosolicitante" value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar}">
+                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersona}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
@@ -261,14 +261,14 @@
                                             <p:outputLabel value="Cargo:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}">
+                                            <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}" disabled="#{!proyectosMB.siBuscoPersona}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Facultad/Unidad:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadsolicitante" value="#{proyectosMB.facultadSelectedPojoSol}"  style="width:180px">
+                                            <p:selectOneMenu id="facultadsolicitante" value="#{proyectosMB.facultadSelectedPojoSol}"  style="width:180px" disabled="#{!proyectosMB.siBuscoPersona}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="facu" items="#{proyectosMB.facultadesUnidadesSolList}">
                                                     <f:selectItem itemLabel="#{facu.label}" itemValue="#{facu.value}"/>
@@ -291,13 +291,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999"/>
+                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999" disabled="#{!proyectosMB.siBuscoPersona}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="(503)-9999-9999"/>
+                                            <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="(503)-9999-9999" disabled="#{!proyectosMB.siBuscoPersona}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
@@ -372,27 +372,27 @@
                                             <p:outputLabel for="nombreasistente" value="Nombre:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" readonly="#{proyectosMB.actualizar}" >
+                                            <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaAsistente}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidoasistente" value="Apellido:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" readonly="#{proyectosMB.actualizar}">
+                                            <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaAsistente}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Dui:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duiasistente" mask="99999999-9" value="#{proyectosMB.personaAsistente.duiPersona}" />
+                                            <p:inputMask id="duiasistente" mask="99999999-9" value="#{proyectosMB.personaAsistente.duiPersona}" disabled="#{!proyectosMB.siBuscoPersonaAsistente}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="correoasistente" value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}" readonly="#{proyectosMB.actualizar}">
+                                            <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaAsistente}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column> 
@@ -400,14 +400,14 @@
                                             <p:outputLabel value="Cargo:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}">
+                                            <p:inputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}" disabled="#{!proyectosMB.siBuscoPersonaAsistente}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Facultad/Unidad:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadasistente" value="#{proyectosMB.facultadSelectedPojoAsis}"  style="width:180px" >
+                                            <p:selectOneMenu id="facultadasistente" value="#{proyectosMB.facultadSelectedPojoAsis}"  style="width:180px" disabled="#{!proyectosMB.siBuscoPersonaAsistente}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="facul" items="#{proyectosMB.facultadesUnidadesAsisList}">
                                                     <f:selectItem itemLabel="#{facul.label}" itemValue="#{facul.value}"/>
@@ -430,13 +430,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-9999-9999"/>
+                                            <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-9999-9999" disabled="#{!proyectosMB.siBuscoPersonaAsistente}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}" mask="(503)-9999-9999"/>
+                                            <p:inputMask id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}" mask="(503)-9999-9999" disabled="#{!proyectosMB.siBuscoPersonaAsistente}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
@@ -493,27 +493,27 @@
                                             <p:outputLabel for="nombreexterna" value="Nombre:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombreexterna" value="#{proyectosMB.personaExterna.nombrePersona}" required="true" readonly="#{proyectosMB.actualizar}">
+                                            <p:inputText id="nombreexterna" value="#{proyectosMB.personaExterna.nombrePersona}" required="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaExterna}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidoexterna" value="Apellido:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidoexterna" value="#{proyectosMB.personaExterna.apellidoPersona}" required="true" readonly="#{proyectosMB.actualizar}">
+                                            <p:inputText id="apellidoexterna" value="#{proyectosMB.personaExterna.apellidoPersona}" required="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaExterna}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Documento de Identificaci&oacute;n:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="pasaporteexterna" value="#{proyectosMB.personaExterna.pasaporte}"/>
+                                            <p:inputText id="pasaporteexterna" value="#{proyectosMB.personaExterna.pasaporte}" disabled="#{!proyectosMB.siBuscoPersonaExterna}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="correoexterna" value="Correo Electronico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar}">
+                                            <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaExterna}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
@@ -521,14 +521,14 @@
                                             <p:outputLabel value="Cargo:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="cargoexterna" value="#{proyectosMB.personaExterna.cargoPersona}">
+                                            <p:inputText id="cargoexterna" value="#{proyectosMB.personaExterna.cargoPersona}" disabled="#{!proyectosMB.siBuscoPersonaExterna}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column >
                                             <p:outputLabel for="unidadext" value="Entidad/Instituci&oacute;n"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="unidadext" value="#{proyectosMB.organismoSelectedRefExt.idOrganismo}"  style="width:180px" required="true">
+                                            <p:selectOneMenu id="unidadext" value="#{proyectosMB.organismoSelectedRefExt.idOrganismo}"  style="width:180px" required="true" disabled="#{!proyectosMB.siBuscoPersonaExterna}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" />
                                                 <c:forEach var="org" items="#{proyectosMB.organismoList}">
                                                     <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
@@ -539,13 +539,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="telefonoexterna" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" />
+                                            <p:inputText id="telefonoexterna" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" disabled="#{!proyectosMB.siBuscoPersonaExterna}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="celularexterno" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}"/>
+                                            <p:inputText id="celularexterno" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}" disabled="#{!proyectosMB.siBuscoPersonaExterna}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
