@@ -3,6 +3,7 @@ package com.sisrni.managedbean;
 import com.sisrni.model.Documento;
 import com.sisrni.model.TipoDocumento;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
+import com.sisrni.pojo.rpt.PojoMovilidadDocumentacion;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.DocumentoService;
 import com.sisrni.service.MovilidadService;
@@ -58,9 +59,14 @@ public class DocumentacionMovilidadMB implements Serializable {
     private StreamedContent content;
     //private SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMMM/yyyy");
 
-    private List<PojoMovilidadAdm> listPojoMovilidad;
-    private PojoMovilidadAdm pojoMovilidadSelected;
-    private PojoMovilidadAdm pojoToShow;
+    //private List<PojoMovilidadAdm> listPojoMovilidad;
+    //private PojoMovilidadAdm pojoMovilidadSelected;
+    //private PojoMovilidadAdm pojoToShow;
+    
+    private List<PojoMovilidadDocumentacion> listPojoMovilidad;
+    private PojoMovilidadDocumentacion pojoMovilidadSelected;
+    private PojoMovilidadDocumentacion pojoToShow;
+    
     private boolean visualizar;
 
     @Autowired
@@ -93,9 +99,13 @@ public class DocumentacionMovilidadMB implements Serializable {
             listadoDocumentos = new ArrayList<Documento>();
             listTipoDocumento = tipoDocumentoService.getTipoDocumentosByCategory(4);
             tipoDocumento = new TipoDocumento();
-            listPojoMovilidad = movilidadService.getMovilidadAdm(0);
-            pojoMovilidadSelected = new PojoMovilidadAdm();
-            pojoToShow = new PojoMovilidadAdm();
+           // listPojoMovilidad = movilidadService.getMovilidadAdm(0);
+           // pojoMovilidadSelected = new PojoMovilidadAdm();
+           // pojoToShow = new PojoMovilidadAdm();
+            listPojoMovilidad = movilidadService.getMovilidadDocumentacion(0);
+            pojoMovilidadSelected = new PojoMovilidadDocumentacion();
+            pojoToShow = new PojoMovilidadDocumentacion();
+            
             visualizar = Boolean.FALSE;
         } catch (Exception e) {
 
@@ -105,15 +115,15 @@ public class DocumentacionMovilidadMB implements Serializable {
 
     public void onMovilidadChange() {
         try {
-            PojoMovilidadAdm pojoAux = null;
+            PojoMovilidadDocumentacion pojoAux = null;
             if (pojoMovilidadSelected.getIdMovilidad() != -1) {
-                pojoAux = movilidadService.getMovilidadAdm(pojoMovilidadSelected.getIdMovilidad()).get(0);
+                pojoAux = movilidadService.getMovilidadDocumentacion(pojoMovilidadSelected.getIdMovilidad()).get(0);
             }
             searchDocumentoMovilidad(pojoMovilidadSelected.getIdMovilidad());
             if (pojoAux != null) {
                 pojoToShow = pojoAux;
             } else {
-                pojoToShow = new PojoMovilidadAdm();
+                pojoToShow = new PojoMovilidadDocumentacion();
             }
 
         } catch (Exception e) {
@@ -482,32 +492,6 @@ public class DocumentacionMovilidadMB implements Serializable {
     public void setUser(CurrentUserSessionBean user) {
         this.user = user;
     }
-    
-     
-    public List<PojoMovilidadAdm> getListPojoMovilidad() {
-        return listPojoMovilidad;
-    }
-    
-
-    public void setListPojoMovilidad(List<PojoMovilidadAdm> listPojoMovilidad) {
-        this.listPojoMovilidad = listPojoMovilidad;
-    }
-
-    public PojoMovilidadAdm getPojoMovilidadSelected() {
-        return pojoMovilidadSelected;
-    }
-
-    public void setPojoMovilidadSelected(PojoMovilidadAdm pojoMovilidadSelected) {
-        this.pojoMovilidadSelected = pojoMovilidadSelected;
-    }
-
-    public PojoMovilidadAdm getPojoToShow() {
-        return pojoToShow;
-    }
-
-    public void setPojoToShow(PojoMovilidadAdm pojoToShow) {
-        this.pojoToShow = pojoToShow;
-    }
 
     public StreamedContent getContent() {
         return content;
@@ -523,6 +507,30 @@ public class DocumentacionMovilidadMB implements Serializable {
 
     public void setVisualizar(boolean visualizar) {
         this.visualizar = visualizar;
+    }
+
+    public List<PojoMovilidadDocumentacion> getListPojoMovilidad() {
+        return listPojoMovilidad;
+    }
+
+    public void setListPojoMovilidad(List<PojoMovilidadDocumentacion> listPojoMovilidad) {
+        this.listPojoMovilidad = listPojoMovilidad;
+    }
+
+    public PojoMovilidadDocumentacion getPojoMovilidadSelected() {
+        return pojoMovilidadSelected;
+    }
+
+    public void setPojoMovilidadSelected(PojoMovilidadDocumentacion pojoMovilidadSelected) {
+        this.pojoMovilidadSelected = pojoMovilidadSelected;
+    }
+
+    public PojoMovilidadDocumentacion getPojoToShow() {
+        return pojoToShow;
+    }
+
+    public void setPojoToShow(PojoMovilidadDocumentacion pojoToShow) {
+        this.pojoToShow = pojoToShow;
     }
     
     

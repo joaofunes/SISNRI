@@ -101,7 +101,7 @@
 				<text><![CDATA[Movilidades]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="76" y="0" width="208" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="76" y="0" width="229" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -118,9 +118,9 @@
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField>
-				<reportElement uuid="1f319bb5-fcb7-438f-9caf-433ea17d0344" x="76" y="0" width="208" height="20"/>
-				<box>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="1f319bb5-fcb7-438f-9caf-433ea17d0344" x="76" y="0" width="229" height="20"/>
+				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -129,8 +129,8 @@
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{nombreFacultad}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement uuid="c5c661ae-2d94-4167-99b2-2281d936df79" x="284" y="0" width="144" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="c5c661ae-2d94-4167-99b2-2281d936df79" x="305" y="0" width="123" height="20"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -179,7 +179,7 @@
 				</piePlot>
 			</pieChart>
 			<textField>
-				<reportElement uuid="1424187b-158a-463b-9ab5-22c64ee8bfc4" x="284" y="0" width="144" height="20"/>
+				<reportElement uuid="1424187b-158a-463b-9ab5-22c64ee8bfc4" x="305" y="0" width="123" height="20"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -192,7 +192,7 @@
 				<textFieldExpression><![CDATA[$V{cantidad_1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="6881fdd6-eb00-4092-a3d4-bb564ac92439" x="76" y="0" width="208" height="20"/>
+				<reportElement uuid="6881fdd6-eb00-4092-a3d4-bb564ac92439" x="76" y="0" width="229" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
