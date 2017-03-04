@@ -405,6 +405,16 @@
             <artifactId>freemarker</artifactId>
             <version>2.3.23</version>
         </dependency>
+        
+        
+        <!-- contador push -->
+        <!-- https://mvnrepository.com/artifact/org.atmosphere/atmosphere-runtime -->
+        <dependency>
+            <groupId>org.atmosphere</groupId>
+            <artifactId>atmosphere-runtime</artifactId>
+            <version>2.4.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

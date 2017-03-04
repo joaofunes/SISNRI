@@ -5,14 +5,27 @@
         <param-value>Development</param-value>
     </context-param>
     <context-param>
-	<param-name>primefaces.THEME</param-name>
-	<param-value>blitzer</param-value>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>blitzer</param-value>
     </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>Push Servlet</servlet-name>
+        <servlet-class>org.primefaces.push.PushServlet</servlet-class>
+        <async-supported>true</async-supported>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Push Servlet</servlet-name>
+        <url-pattern>/primepush/*</url-pattern>
+    </servlet-mapping>
+
+    
+    
+    
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/spring/spring-context.xml</param-value>
@@ -70,7 +83,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     
-       <!-- End Spring Security -->
+    <!-- End Spring Security -->
        
     <filter>
         <filter-name>hibernateFilter</filter-name>

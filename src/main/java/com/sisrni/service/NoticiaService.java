@@ -44,4 +44,8 @@ public class NoticiaService extends GenericService<Noticia, Integer> {
     public List<Noticia> getNoticiasDetalle(Integer categoria, Date desde, Date hasta) {
         return noticiaDao.getNoticiasDetalle(categoria, desde, hasta);
     }
+
+    public Integer noticiasNoVisibles() {
+        return noticiaDao.noticiasNoVisibles();
+    }
 }
