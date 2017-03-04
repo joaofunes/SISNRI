@@ -69,4 +69,10 @@ public class NoticiaDao extends GenericDao<Noticia, Integer> {
         return q.list();
     }
 
+    public Integer noticiasNoVisibles() {
+        String query = "Select n From Noticia n where n.estadoNoticia=0";
+        Query q = getSessionFactory().getCurrentSession().createQuery(query);
+        return q.list().size();
+    }
+
 }

@@ -19,6 +19,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
@@ -57,6 +58,10 @@ public class NoticiaMB implements Serializable {
     private Noticia noticiaPopUp;
 
     @Autowired
+    @ManagedProperty("#{globalCounterView}")
+    private GlobalCounterView globalCounter;
+
+    @Autowired
     @Qualifier(value = "noticiaService")
     private NoticiaService noticiaService;
 
@@ -83,6 +88,7 @@ public class NoticiaMB implements Serializable {
         noticiasListPublicas = noticiaService.getActiveNews(categoriaSelectedPublicas);
         actualizar = false;
         noticiaPopUp = new Noticia();
+//        globalCounter = new GlobalCounterView();
     }
 
     public void guardarNoticia() {
@@ -93,10 +99,15 @@ public class NoticiaMB implements Serializable {
             noticiaService.save(noticia);
             inicializador();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Informacion se ha registrado correctamente!"));
+            globalCounter.increment(noticiasNoVisibles());
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
 
         }
+    }
+
+    public Integer noticiasNoVisibles() {
+        return noticiaService.noticiasNoVisibles();
     }
 
     public void preEditar(int idnoticia) {
@@ -114,6 +125,7 @@ public class NoticiaMB implements Serializable {
             noticia.setIdCategoria(categoriaNoticiaService.findById(categoriaSelected.getIdCategoria()));
             noticiaService.merge(noticia);
             inicializador();
+            globalCounter.increment(noticiasNoVisibles());
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al actualizar."));
         }
@@ -267,6 +279,14 @@ public class NoticiaMB implements Serializable {
 
     public void setCategoriaSelectedPublicas(Integer categoriaSelectedPublicas) {
         this.categoriaSelectedPublicas = categoriaSelectedPublicas;
+    }
+
+    public GlobalCounterView getGlobalCounter() {
+        return globalCounter;
+    }
+
+    public void setGlobalCounter(GlobalCounterView globalCounter) {
+        this.globalCounter = globalCounter;
     }
 
 }
