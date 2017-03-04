@@ -31,8 +31,8 @@
                                 <p:inputText id="bloqueado" value="#{usuarioMB.selected.bloqueado}" title="#{myBundle.CreateSsUsuariosTitle_bloqueado}"/>
 
                                 <p:outputLabel value="Clave" for="clave" />
-                                <p:inputText id="clave" value="#{usuarioMB.selected.clave}" title="Clave"/>
-
+                                 <p:password id="clave" value="#{usuarioMB.selected.clave}" feedback="true" inline="true" />                               
+                               
                                 <p:outputLabel value="Intentos Fallidos" for="intentosAccesoFallidos" />
                                 <p:inputText id="intentosAccesoFallidos" value="#{usuarioMB.selected.intentosAccesoFallidos}" title="Intentos Fallidos"/>
 
