@@ -188,7 +188,8 @@
                         </p:column>
                         <p:column>
                             <p:fileUpload fileUploadListener="#{documentacionProyectoMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
-                                          sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/" />
+                                          sizeLimit="52428800" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/"
+                                          label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"/>
                         </p:column>
                         <p:column>
                             <p:commandButton  value="Agregar" id="idGuardarDocumento" actionListener="#{documentacionProyectoMB.addDocument()}" process="@form"
