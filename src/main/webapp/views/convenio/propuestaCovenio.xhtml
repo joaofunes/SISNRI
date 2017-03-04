@@ -18,6 +18,7 @@
         </f:metadata>
 
         <h:form id="formAdmin">
+        </h:form>   
 
             <center>
                 <p:panel style="width: 80%">  
@@ -25,7 +26,7 @@
                         <p:tab title="Datos del Solicitante">
 
 
-                            <h:panelGroup id="GroupSolicitante" > 
+                            <h:form id="GroupSolicitante" > 
                                 <p:panelGrid >                           
                                     <p:row rendered="#{propuestaConvenioMB.rol != null}">
                                         <p:column>
@@ -123,7 +124,7 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectBooleanButton id="btnInterno" value="#{propuestaConvenioMB.tabAsisMostrar}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
-                                                <p:ajax update="GroupSolicitanteInterno,grup1" listener="#{propuestaConvenioMB.mostrarTab()}" />
+                                                <p:ajax update="acordion:GroupSolicitanteInterno,acordion:grup1" listener="#{propuestaConvenioMB.mostrarTab()}" />
                                             </p:selectBooleanButton>
                                         </p:column>
                                         <p:column>
@@ -131,24 +132,24 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectBooleanButton id="btnExterno" value="#{propuestaConvenioMB.tabAsisMostrarExterno}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
-                                                <p:ajax update="GroupSolicitanteExterno,grup2" listener="#{propuestaConvenioMB.mostrarTabExterno()}" />
+                                                <p:ajax update="acordion:GroupSolicitanteExterno,acordion:grup2" listener="#{propuestaConvenioMB.mostrarTabExterno()}" />
                                             </p:selectBooleanButton>
                                         </p:column>
                                     </p:row>
 
                                 </p:panelGrid>     
-                            </h:panelGroup>
+                            </h:form>
                         </p:tab>
                         <p:tab title="Datos Solicitante Interno">
 
-                            <h:panelGroup id="grup1" > 
+                            <h:form id="grup1" > 
                                 <p:panelGrid id="grid" rendered="#{propuestaConvenioMB.tabAsis}" >     
                                     <p:column>
                                         <p:outputLabel for="tipoBusquedaInt" value="Busqueda:" />
                                     </p:column>
                                     <p:column>                                        
                                         <p:selectOneMenu id="tipoBusquedaInt" value="#{propuestaConvenioMB.tipoBusquedaInterna}"  style="width:125px"
-                                                         disabled="#{propuestaConvenioMB.mismoSolicitante}">  
+                                                         disabled="#{propuestaConvenioMB.mismoSolicitante || propuestaConvenioMB.habilitarBotonEditInternoDos}">  
                                             <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoInterno}" update="grup1"  process="@this" />
                                             <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                             <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
@@ -170,29 +171,46 @@
                                         </p:autoComplete>
                                         <p:watermark for="searchDui" value="DUI"/>  
                                         <p:autoComplete id="idNombreInterno" value="#{propuestaConvenioMB.referenteInterno}" rendered="#{propuestaConvenioMB.flagSearchNombreInterno}"
-                                                        completeMethod="#{propuestaConvenioMB.methodSearch}" disabled="#{propuestaConvenioMB.disableAutoInterno}"
+                                                        completeMethod="#{propuestaConvenioMB.methodSearch}" 
+                                                        disabled="#{propuestaConvenioMB.disableAutoInterno || propuestaConvenioMB.habilitarBotonEditInternoDos} "
                                                         var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                         forceSelection="true">                                           
                                             <p:column>
                                                 <h:outputText value="#{theme.nombrePersona}" />
                                             </p:column>
-                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
+                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,acordion:grup1"/>
                                         </p:autoComplete>
                                         <p:watermark for="idNombreInterno" value="Nombre"/> 
-                                        <p:autoComplete id="idEmailInterno" value="#{propuestaConvenioMB.referenteInterno}" rendered="#{propuestaConvenioMB.flagSearchEmailInterno}"
-                                                        completeMethod="#{propuestaConvenioMB.methodSearch}" disabled="#{propuestaConvenioMB.disableAutoInterno}"
+                                        <p:autoComplete id="idEmailInterno" value="#{propuestaConvenioMB.referenteInterno}" 
+                                                        rendered="#{propuestaConvenioMB.flagSearchEmailInterno}"
+                                                        completeMethod="#{propuestaConvenioMB.methodSearch}" 
+                                                        disabled="#{propuestaConvenioMB.disableAutoInterno || propuestaConvenioMB.habilitarBotonEditInternoDos}}"
                                                         var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                         forceSelection="true">                                           
                                             <p:column>
                                                 <h:outputText value="#{theme.emailPersona}" />
                                             </p:column>
-                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
+                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,acordion:grup1"/>
                                         </p:autoComplete>
                                         <p:watermark for="idEmailInterno" value="E-mail"/> 
                                     </p:column>
+                                    <p:column>
+                                         <p:column>
+                                             <p:commandButton id="btnEditarInterno" rendered="#{propuestaConvenioMB.habilitarBotonEditInterno}"
+                                                              actionListener="#{propuestaConvenioMB.preEditeReferenteInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
+                                                              value="Editar"   icon="ui-icon-disk" title="Editar Referente Interno" />                                               
+                                        </p:column>
+                                        <p:column>                                                                                  
+                                             <p:commandButton rendered="#{propuestaConvenioMB.habilitarBotonSaveInterno}"
+                                                              actionListener="#{propuestaConvenioMB.guardarPropuestaConvenio}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
+                                                              value="Nuevo"  id="btnNuevoInterno" icon="ui-icon-disk" title="Nuevo Referente Interno" />                                               
+                                                                    
+                                        </p:column>
+                                    </p:column>
+                                    
                                 </p:panelGrid >   
-                            </h:panelGroup> 
-                            <h:panelGroup id="GroupSolicitanteInterno" >  
+                            </h:form> 
+                            <h:form id="GroupSolicitanteInterno" >  
 
                                 <p:panelGrid rendered="#{propuestaConvenioMB.tabAsis}">     
                                     <p:growl id="msg" />
@@ -201,8 +219,10 @@
                                             <h:outputLabel value="Mismo Solicitante:" />
                                         </p:column>
                                         <p:column>                                                                                  
-                                            <p:selectBooleanButton id="btnMismoInterno" value="#{propuestaConvenioMB.mismoSolicitante}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
-                                                <p:ajax update="GroupSolicitanteInterno,grup1" process="@this" listener="#{propuestaConvenioMB.mismoSolicitantes()}" />
+                                            <p:selectBooleanButton id="btnMismoInterno" value="#{propuestaConvenioMB.mismoSolicitante}" 
+                                                                   disabled="#{propuestaConvenioMB.habilitarBotonEditInternoDos}"
+                                                                   onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                                <p:ajax update="acordion:GroupSolicitanteInterno,acordion:grup1" process="@this" listener="#{propuestaConvenioMB.mismoSolicitantes()}" />
                                             </p:selectBooleanButton>                                    
                                         </p:column>
                                     </p:row>
@@ -306,9 +326,19 @@
                                         </p:column>
 
                                     </p:row>
+                                    <p:row>
+                                         <p:column>
+                                             <p:commandButton id="btnEditarInterno2" rendered="#{propuestaConvenioMB.habilitarBotonEditInternoDos}"
+                                                              actionListener="#{propuestaConvenioMB.actualizarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno" 
+                                                              value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Interno" />                                               
+                                             <p:commandButton id="btnNuevoInterno2" rendered="#{propuestaConvenioMB.habilitarBotonSaveInternoDos}"
+                                                              actionListener="#{propuestaConvenioMB.actualizarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno" 
+                                                              value="Guardar"   icon="ui-icon-disk" title="Guardar datos Interno" />                                               
+                                        </p:column>
+                                    </p:row>
 
                                 </p:panelGrid>        
-                            </h:panelGroup>
+                            </h:form>
                         </p:tab>
                         <p:tab title="Datos Solicitante Externo">
                             <h:panelGroup id="grup2" >                                
@@ -356,13 +386,13 @@
                                             <p:column>
                                                 <h:outputText value="#{theme.emailPersona}" />
                                             </p:column>
-                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="GroupSolicitanteExterno"/>
+                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="acordion:GroupSolicitanteExterno"/>
                                         </p:autoComplete>
                                         <p:watermark for="idEmailExterno" value="E-mail"/> 
                                     </p:column>
                                 </p:panelGrid>
                             </h:panelGroup>  
-                            <h:panelGroup id="GroupSolicitanteExterno" >        
+                            <h:form id="GroupSolicitanteExterno" >        
                                 <p:panelGrid rendered="#{propuestaConvenioMB.tabAsisExterno}">                           
 
                                     <p:row>
@@ -448,7 +478,7 @@
 
 
                                 </p:panelGrid>   
-                            </h:panelGroup>
+                            </h:form>
                         </p:tab>
                         <p:tab title="Datos de Propuesta">
                             <h:panelGroup id="fileUploadGroup" >    
@@ -517,8 +547,7 @@
                 </p:panel>
 
             </center>    
-        </h:form>   
-
+        
         <script type="text/javascript">
 
             PrimeFaces.validator['custom.emailValidator'] = {

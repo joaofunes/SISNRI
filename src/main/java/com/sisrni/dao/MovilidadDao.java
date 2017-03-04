@@ -7,6 +7,7 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Movilidad;
+import com.sisrni.model.PersonaMovilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
 import com.sisrni.pojo.rpt.PojoMovilidadDocumentacion;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteFactBeneficiadaPojo;
@@ -381,5 +382,23 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
         }
         return null;
     }
+    
+    
+   
+    public PersonaMovilidad isVinculadoReferente(Integer idMovilidad, Integer idPersona) {
+        try {
+            //String query = "SELECT * FROM PERSONA_MOVILIDAD WHERE ID_MOVILIDAD = " + idMovilidad + " AND ID_PERSONA = " + idPersona;
+            //Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+            
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT pm  FROM PersonaMovilidad pm WHERE pm.movilidad.idMovilidad =:idmov AND pm.persona.idPersona =:idper ");
+            q.setParameter("idmov", idMovilidad);
+            q.setParameter("idper", idPersona);
+            return (PersonaMovilidad) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    } 
 
 }
