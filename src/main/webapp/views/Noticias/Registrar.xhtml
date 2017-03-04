@@ -57,7 +57,7 @@
                     </p:panel>
                 </h:form>
                 <h:form id="socketForm">
-                    <h:outputText id="out" value="#{globalCounterView.count}" styleClass="ui-widget display" />
+<!--                    <h:outputText id="out" value="#{globalCounterView.count}" styleClass="ui-widget display" />-->
 <!--                    <p:commandButton value="Click" actionListener="#{globalCounterView.increment}" />-->
                 </h:form>
                 <p:socket onMessage="handleMessage" channel="/counter" />
