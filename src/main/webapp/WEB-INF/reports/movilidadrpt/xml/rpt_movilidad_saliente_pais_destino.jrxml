@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidad_saliente_pais_destino" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
-	<property name="ireport.zoom" value="1.1000000000000132"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="38"/>
+	<property name="ireport.y" value="278"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -84,7 +84,7 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="282" y="0" width="144" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="272" y="0" width="144" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -98,7 +98,7 @@
 				<text><![CDATA[Movilidades]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="96" y="0" width="186" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="112" y="0" width="160" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -116,8 +116,8 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="b658f32d-3d28-46d5-8dd4-5868fde2837a" x="96" y="0" width="186" height="20"/>
-				<box>
+				<reportElement uuid="b658f32d-3d28-46d5-8dd4-5868fde2837a" x="112" y="0" width="160" height="20"/>
+				<box leftPadding="5">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
@@ -127,7 +127,7 @@
 				<textFieldExpression><![CDATA[$F{nombrePais}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e461c063-8992-4f18-a930-889d0003e0e5" x="282" y="0" width="144" height="20"/>
+				<reportElement uuid="e461c063-8992-4f18-a930-889d0003e0e5" x="272" y="0" width="144" height="20"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -161,7 +161,7 @@
 		<band height="220" splitType="Stretch">
 			<bar3DChart>
 				<chart>
-					<reportElement uuid="75366170-4539-46a9-9877-169307230916" x="96" y="33" width="330" height="175">
+					<reportElement uuid="75366170-4539-46a9-9877-169307230916" x="81" y="16" width="360" height="192">
 						<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
 					</reportElement>
 					<chartTitle/>

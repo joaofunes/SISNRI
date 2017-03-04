@@ -39,8 +39,8 @@
                                 <div class="footer-section">
                                     <p:commandButton id="reportButton" icon="ui-icon-print"  value="Pdf"  actionListener="#{reporteMovilidad.printMovilidadesMes('pdf')}" oncomplete="print(xhr, status, args)"/> 
                                     <p:commandButton id="reportButtonExcel" icon=""  value="Excel"  actionListener="#{reporteMovilidad.printMovilidadesMes('xlsx')}" oncomplete="prints(xhr, status, args)" />                   
-                                    <p:commandButton id="reportButtonDoc" icon=""  value="World"  actionListener="#{reporteMovilidad.printMovilidadesMes('doc')}" oncomplete="prints(xhr, status, args)" />                   
-                                    <p:button value="Regresar" href="listadoReportesMovilidad.xhtml"   icon="ui-icon-return"    />
+                                    <p:commandButton id="reportButtonDoc" icon=""  value="Word"  actionListener="#{reporteMovilidad.printMovilidadesMes('doc')}" oncomplete="prints(xhr, status, args)" />                   
+                                    <p:button value="Regresar" href="listadoReportesMovilidad.xhtml"  icon="ui-icon-arrowreturnthick-1-w"/>
                                 </div>
                             </f:facet>
                         </h:panelGrid>

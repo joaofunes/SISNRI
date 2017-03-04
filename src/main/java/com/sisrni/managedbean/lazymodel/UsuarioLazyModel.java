@@ -9,6 +9,7 @@ package com.sisrni.managedbean.lazymodel;
 import com.sisrni.managedbean.lazymodel.generic.GenericLazyModel;
 import com.sisrni.model.SsUsuarios;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 
 /**
  *
@@ -16,8 +17,11 @@ import com.sisrni.service.generic.GenericService;
  */
 public class UsuarioLazyModel extends GenericLazyModel<SsUsuarios, Integer>{
 
-    public UsuarioLazyModel(GenericService<SsUsuarios, Integer> service) {
-        super(service);
+//    public UsuarioLazyModel(GenericService<SsUsuarios, Integer> service) {
+//        super(service);
+//    }
+    public UsuarioLazyModel(List<SsUsuarios> datasource, GenericService<SsUsuarios, Integer> service) {
+        super(datasource,service);
     }
 
     @Override

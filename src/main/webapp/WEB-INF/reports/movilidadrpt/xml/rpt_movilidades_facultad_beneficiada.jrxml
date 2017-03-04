@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidades_facultad_beneficiada" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
-	<property name="ireport.zoom" value="1.1000000000000132"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="80"/>
+	<property name="ireport.y" value="495"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -90,7 +90,7 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="278" y="0" width="144" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="302" y="0" width="120" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -104,7 +104,7 @@
 				<text><![CDATA[Movilidades]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="70" y="0" width="208" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="70" y="0" width="232" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -122,7 +122,7 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="4097cad4-79dc-40e5-894d-f02a88aee305" x="70" y="0" width="208" height="20"/>
+				<reportElement uuid="4097cad4-79dc-40e5-894d-f02a88aee305" x="70" y="0" width="232" height="20"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -133,7 +133,7 @@
 				<textFieldExpression><![CDATA[$F{nombreFacultad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="1111fc16-113f-4d8c-99f0-40d14761ce7a" x="278" y="0" width="144" height="20"/>
+				<reportElement uuid="1111fc16-113f-4d8c-99f0-40d14761ce7a" x="302" y="0" width="120" height="20"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -194,7 +194,7 @@
 				</bar3DPlot>
 			</bar3DChart>
 			<textField>
-				<reportElement uuid="58583ae3-e501-4e54-8137-e6a86d7a931a" x="278" y="0" width="144" height="20"/>
+				<reportElement uuid="58583ae3-e501-4e54-8137-e6a86d7a931a" x="302" y="0" width="120" height="20"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -207,7 +207,7 @@
 				<textFieldExpression><![CDATA[$V{cantidad_2}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="affedf55-cfb9-4fa4-81d1-5036faa50397" x="70" y="0" width="208" height="20"/>
+				<reportElement uuid="affedf55-cfb9-4fa4-81d1-5036faa50397" x="70" y="0" width="232" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>

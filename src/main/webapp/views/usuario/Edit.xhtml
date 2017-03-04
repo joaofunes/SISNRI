@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="true"  appendTo="@(body)" header="#{myBundle.EditUsuarioTitle}" >
+
+            <h:form id="UsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="UsuarioTabView">
+
+                        <p:tab id="idUs" title="Usuario">
+                            <p:panelGrid  columns="2" columnClasses="column" rendered="#{usuarioMB.selected != null}">
+
+
+                                <p:outputLabel value="Codigo Usuario" for="codigoUsuario" />
+                                <p:inputText id="codigoUsuario" value="#{usuarioMB.selected.codigoUsuario}"/>
+
+                                <p:outputLabel value="Nombre Usuario" for="nombreUsuario" />
+                                <p:inputText id="nombreUsuario" value="#{usuarioMB.selected.nombreUsuario}"/>
+
+                                <p:outputLabel value="Cargo" for="cargo" />
+                                <p:inputText id="cargo" value="#{usuarioMB.selected.cargo}" />
+
+                                <p:outputLabel value="Descripcion" for="descripcion" />
+                                <p:inputText id="descripcion" value="#{usuarioMB.selected.descripcion}" title="#{myBundle.EditUsuarioTitle_descripcion}"/>
+
+                                <p:outputLabel value="Bloqueo" for="bloqueado" />
+                                <p:inputText id="bloqueado" value="#{usuarioMB.selected.bloqueado}" title="#{myBundle.EditUsuarioTitle_bloqueado}"/>
+
+                                <p:outputLabel value="Clave" for="clave" />
+                                <p:password id="clave" value="#{usuarioMB.selected.clave}" feedback="true" inline="true" />                               
+
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{usuarioMB.save}" value="Editar" update="display,:growl" oncomplete="handleSubmit(xhr,status,args,UsuarioEditDialog);"/>
+                    <p:commandButton value="Cancelar" onclick="PF('UsuarioEditDialog').hide();"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

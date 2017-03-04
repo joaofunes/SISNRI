@@ -1034,6 +1034,7 @@ public class ProyectosMB {
         flagSearchDuiInterno = Boolean.FALSE;
         flagSearchNombreInterno = Boolean.FALSE;
         flagSearchEmailInterno = Boolean.FALSE;
+        siBuscoPersona = Boolean.TRUE;
         limpiarCoordinador();
 
         if (disableAutoInterno) {
@@ -1057,6 +1058,7 @@ public class ProyectosMB {
         flagSearchDuiAsistente = Boolean.FALSE;
         flagSearchNombreAsistente = Boolean.FALSE;
         flagSearchEmailAsistente = Boolean.FALSE;
+        siBuscoPersonaAsistente = Boolean.TRUE;
         limpiarAsistente();
 
         if (disableAutoAsistente) {
@@ -1079,6 +1081,7 @@ public class ProyectosMB {
         flagSearchDuiExterno = Boolean.FALSE;
         flagSearchNombreExterno = Boolean.FALSE;
         flagSearchEmailExterno = Boolean.FALSE;
+        siBuscoPersonaExterna = Boolean.TRUE;
         limpiarExterno();
 
         if (disableAutoExterno) {
@@ -1098,8 +1101,7 @@ public class ProyectosMB {
 
     //buscar persona interna
     public List<Persona> methodSearch(String query) {
-        try {
-            siBuscoPersona = Boolean.TRUE;
+        try { 
             List<Persona> list = new ArrayList<Persona>();
             if (tipoBusquedaInterna.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getReferenteInternoByName(query);
@@ -1133,7 +1135,6 @@ public class ProyectosMB {
     //buscar persona interna
     public List<Persona> methodSearchAsistente(String query) {
         try {
-            siBuscoPersonaAsistente = Boolean.TRUE;
             List<Persona> list = new ArrayList<Persona>();
             if (tipoBusquedaAsistente.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getReferenteInternoByName(query);
@@ -1165,7 +1166,6 @@ public class ProyectosMB {
 
     public List<Persona> methodSearchExterno(String query) {
         try {
-            siBuscoPersonaExterna = Boolean.TRUE;
             List<Persona> list = new ArrayList<Persona>();
             if (tipoBusquedaExterna.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getReferenteExternoByName(query);
@@ -2482,4 +2482,28 @@ public class ProyectosMB {
         this.personaExternaAux = personaExternaAux;
     }
 
+    public Boolean getSiBuscoPersona() {
+        return siBuscoPersona;
+    }
+
+    public void setSiBuscoPersona(Boolean siBuscoPersona) {
+        this.siBuscoPersona = siBuscoPersona;
+    }
+
+    public Boolean getSiBuscoPersonaAsistente() {
+        return siBuscoPersonaAsistente;
+    }
+
+    public void setSiBuscoPersonaAsistente(Boolean siBuscoPersonaAsistente) {
+        this.siBuscoPersonaAsistente = siBuscoPersonaAsistente;
+    }
+
+    public Boolean getSiBuscoPersonaExterna() {
+        return siBuscoPersonaExterna;
+    }
+
+    public void setSiBuscoPersonaExterna(Boolean siBuscoPersonaExterna) {
+        this.siBuscoPersonaExterna = siBuscoPersonaExterna;
+    }
+    
 }
