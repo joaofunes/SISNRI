@@ -103,6 +103,8 @@ public class registrarMovilidadMB {
     private Boolean actualizarRefte;
     private Boolean desvinculadoRfte;
     private Boolean mostrarBotonDesvincular;
+    private Boolean activarDocente;
+    private Boolean activarReferente;
 
     private float totalViaticosCurso;
     private float totalViaticosCursoBoletoAereo;
@@ -156,7 +158,7 @@ public class registrarMovilidadMB {
 
     private String msgPersonaMovExiste;
     private String msgPersonaRefExiste;
-    
+
     private String tituloRegistroEdicion;
 
     private Boolean mostrarSaliente, mostrarEntrante;
@@ -363,6 +365,8 @@ public class registrarMovilidadMB {
         usadoBuscadorPersonaRefte = false;
         desvinculadoRfte = true;
         mostrarBotonDesvincular = false;
+        activarDocente = true;
+        activarReferente = true;
 
         programaMovilidadSelected = new ProgramaMovilidad();
         movilidad = new Movilidad();
@@ -494,7 +498,7 @@ public class registrarMovilidadMB {
 
         msgPersonaMovExiste = "";
         msgPersonaRefExiste = "";
-        
+
         tituloRegistroEdicion = "";
     }
 
@@ -799,6 +803,44 @@ public class registrarMovilidadMB {
         }
     }
 
+    //metodo que habilita los campos del docente en movilidad
+    public void habilitarCamposDocente() {
+        activarDocente = false;
+        mostrarEscuelaDocente = false;
+
+    }
+
+    //metodo para habilitar campos del referente de la movilidad
+    public void habilitarCamposReferente() {
+        activarReferente = false;
+        mostrarEscuelaReferente = false;
+    }
+
+    //Metodo que habilita para agregar nuevo referente manualmente
+    public void agregarNuevoReferente() {
+        personaMovilidadGenerico = new Persona();
+        telFijoPersonaMovilidad = new Telefono();
+        telCelPersonaMovilidad = new Telefono();
+        facultadPersonaMovilidad = "";
+        escuelaDepartamentoPersonaMovilidad = null;
+        institucionPersonaMovilidadSelected = null;
+        habilitarCamposReferente();
+      //RequestContext.getCurrentInstance().update("panelReferente");
+
+    }
+
+    //Metodo que habilita para agregar un nuevo docente manualmente
+
+    public void agregarNuevoDocente() {
+        personaMovilidadGenerico = new Persona();
+        telFijoPersonaMovilidad = new Telefono();
+        telCelPersonaMovilidad = new Telefono();
+        facultadPersonaMovilidad = "";
+        escuelaDepartamentoPersonaMovilidad = null;
+        institucionPersonaMovilidadSelected = null;
+        habilitarCamposDocente();
+    }
+
     //Buscar persona Saliente
     public void habilitarAutoSaliente() {
         flagSearchDuiSaliente = Boolean.FALSE;
@@ -868,6 +910,7 @@ public class registrarMovilidadMB {
             if (personaMovilidadGenerico.getIdPersona() != null) {
                 existePersonaMovilidad = true;
                 usadoBuscadorPersonaMov = true;
+                habilitarCamposDocente();
 
                 //List<Telefono> listTelefonosPersonaMovilidad = telefonoService.getTelefonosByPersona(personaMovilidadGenerico);
                 List<Telefono> listTelefonosPersonaMovilidad = personaMovilidadGenerico.getTelefonoList();
@@ -969,6 +1012,7 @@ public class registrarMovilidadMB {
                 //personaFacultadGenerico = personaFacultadSeleccionado;
                 usadoBuscadorPersonaRefte = true;
                 existeReferente = true;
+                habilitarCamposReferente();
 
                 List<Telefono> listTelefonosPersonaReferente = personaFacultadGenerico.getTelefonoList();
 
@@ -1072,6 +1116,7 @@ public class registrarMovilidadMB {
                 //personaMovilidadGenerico = personaMovilidadSeleccionado;
                 usadoBuscadorPersonaMov = true;
                 existePersonaMovilidad = true;
+                habilitarCamposDocente();
 
                 List<Telefono> listTelefonosPersonaMovilidad = personaMovilidadGenerico.getTelefonoList();
 
@@ -1450,13 +1495,13 @@ public class registrarMovilidadMB {
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlgExisteReferente').hide();");
     }
-    
-    public void sobreEscribirPersonaEnmovilidad(){
+
+    public void sobreEscribirPersonaEnmovilidad() {
         personaMovilidadGenerico.setIdPersona(personaMovAux.getIdPersona());
         existePersonaMovilidad = true;
     }
-    
-    public void sobreEscribirPersonaReferente(){
+
+    public void sobreEscribirPersonaReferente() {
         personaFacultadGenerico.setIdPersona(personaReftAux.getIdPersona());
         existeReferente = true;
     }
@@ -1599,7 +1644,9 @@ public class registrarMovilidadMB {
      */
     public void irnuevaMovilidad() throws IOException {
         cargarMovilidadPersona();
-        tituloRegistroEdicion="Registro de movilidad";
+        tituloRegistroEdicion = "Registro de movilidad";
+        mostrarEscuelaDocente = true; //desabilita el select escuelaDepartamento del docente
+        mostrarEscuelaReferente = true;
         FacesContext.getCurrentInstance().getExternalContext().redirect("registrarMovilidad.xhtml");
     }
 
@@ -1617,18 +1664,17 @@ public class registrarMovilidadMB {
         List<String> facultadesUnidadesTmp = new ArrayList<String>();
         EscuelaDepartamento escuelaDepto = null;
         EscuelaDepartamento escuelaDeptoReferente = null;
-        mostrarBotonDesvincular=true;
+        mostrarBotonDesvincular = true;
         tituloRegistroEdicion = "Edici&oacute;n de movilidad";
 
         //deshabilita el selectOnmenu de tipo de movilidad
         isHabilidado = Boolean.TRUE;
-       
-        
         actualizar = true;
         actualizarPersonaMov = true;
         //actualizarRefte = true;
-        
-         
+        habilitarCamposDocente();
+        habilitarCamposReferente();
+
         try {
             if ((movilidad = movilidadService.findById(idMovilidad)) != null) {
                 existeMovilidad = true;
@@ -1759,13 +1805,17 @@ public class registrarMovilidadMB {
                     }
 
                 } else {
-                    
+
                     personaFacultadGenerico = new Persona();
-                    facultadDeReferente = null; 
+                    facultadDeReferente = null;
                     escuelaDepartamentoReferenteFactBnfSelected = null;
                     telFijoPersonaFacultad = new Telefono();
                     telCelPersonaFacultad = new Telefono();
-                    isHabilitadoRfte = Boolean.FALSE; 
+                    isHabilitadoRfte = Boolean.FALSE;
+
+                    //desabilitando campos del refrente  <-----------------------
+                    activarReferente = true;
+                    mostrarEscuelaReferente = true;
                 }
                 //Actualizando el Panel de la persona en movilidad
                 RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad");
@@ -1792,7 +1842,8 @@ public class registrarMovilidadMB {
     public void desvincularReferente() {
         movilidadService.desvincularReferente(movilidad.getIdMovilidad(), personaFacultadGenerico.getIdPersona());
         existeReferente = false;
-        desvinculadoRfte =true;
+        desvinculadoRfte = true;
+
         //recargando la vista de actualizar movilidad
         preActualizar(movilidad.getIdMovilidad());
     }
@@ -1974,13 +2025,28 @@ public class registrarMovilidadMB {
     }
 
     public void regresar() {
+        String msg = "Falta Referente de Facultad ";
         try {
 
-            cargarMovilidadPersona();
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            if (actualizar == true) {
+                if ((movilidadService.isVinculadoReferente(movilidad.getIdMovilidad(), personaFacultadGenerico.getIdPersona())) != null) {
+                    cargarMovilidadPersona();
+                    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 
-            String outcome = "movilidadAdm.xhtml";
-            FacesContext.getCurrentInstance().getExternalContext().redirect("movilidadAdm.xhtml");
+                    String outcome = "movilidadAdm.xhtml";
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("movilidadAdm.xhtml");
+                } else {
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Requerido", msg));
+                }
+
+            } else {
+                cargarMovilidadPersona();
+                ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+
+                String outcome = "movilidadAdm.xhtml";
+                FacesContext.getCurrentInstance().getExternalContext().redirect("movilidadAdm.xhtml");
+            }
+
         } catch (Exception e) {
         }
     }
@@ -2747,6 +2813,20 @@ public class registrarMovilidadMB {
         this.isHabilitadoRfte = isHabilitadoRfte;
     }
 
-    
-    
+    public Boolean getActivarDocente() {
+        return activarDocente;
+    }
+
+    public void setActivarDocente(Boolean activarDocente) {
+        this.activarDocente = activarDocente;
+    }
+
+    public Boolean getActivarReferente() {
+        return activarReferente;
+    }
+
+    public void setActivarReferente(Boolean activarReferente) {
+        this.activarReferente = activarReferente;
+    }
+
 }
