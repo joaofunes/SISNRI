@@ -38,9 +38,6 @@ import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoPropuestaConvenioService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -202,6 +199,19 @@ public class PropuestaConvenioMB implements Serializable {
     private Boolean flagSearchNombreExterno;
     private Boolean flagSearchEmailExterno;
 
+    //Variables boolean para forzar a busqueda
+    private boolean habilitarBusquedaInterna;
+    private boolean habilitarBusquedaExterna;
+    
+    private boolean habilitarBotonEditInterno;
+    private boolean habilitarBotonEditInternoDos;
+    private boolean habilitarBotonEditExterno;
+    private boolean habilitarBotonEditExternoDos;
+    private boolean habilitarBotonSaveInterno;
+    private boolean habilitarBotonSaveInternoDos;
+    private boolean habilitarBotonSaveExterno;        
+    private boolean habilitarBotonSaveExternoDos;        
+    
     private List<Persona> listAll;
     
     private SsRoles rol;
@@ -268,6 +278,7 @@ public class PropuestaConvenioMB implements Serializable {
             telCelularExterno = new Telefono();
             telFijoSolicitante = new Telefono();
             telCelularSolicitante = new Telefono();
+            usuario = null;
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
             personaEdit = new Persona();
@@ -287,6 +298,20 @@ public class PropuestaConvenioMB implements Serializable {
             flagSearchDuiExterno = Boolean.FALSE;
             flagSearchNombreExterno = Boolean.FALSE;
             flagSearchEmailExterno = Boolean.FALSE;
+            
+            //para forzar a busqueda
+            habilitarBusquedaInterna= true;
+            habilitarBusquedaExterna= true;
+            
+            habilitarBotonEditInterno= false;
+            habilitarBotonEditInternoDos= false;
+            habilitarBotonEditExterno= false;
+            habilitarBotonEditExternoDos= false;
+                    
+            habilitarBotonSaveInterno= false;
+            habilitarBotonSaveInternoDos= false;
+            habilitarBotonSaveExterno= false;        
+            habilitarBotonSaveExternoDos= false;        
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -326,11 +351,7 @@ public class PropuestaConvenioMB implements Serializable {
      */
     private void cargarUsuario() {
         try {
-            solicitante = personaService.findById(usuario.getUsuario().getIdPersona());
-            if (solicitante != null) {
-                cargarUnidadesFacultadesSolicitante();
-                cargarTelefonosSolicitante();
-            }
+            rol = null;
             if (usuario != null && usuario.getUsuario() != null) {
                 for (SsRoles rols : usuario.getUsuario().getSsRolesList()) {
                     if (rols.getCodigoRol().equalsIgnoreCase(ROL)) {
@@ -340,6 +361,13 @@ public class PropuestaConvenioMB implements Serializable {
                 }
             }
 
+            if (rol == null || rol.getIdRol() == null) {
+                solicitante = personaService.findById(usuario.getUsuario().getIdPersona());
+                if (solicitante != null) {
+                    cargarUnidadesFacultadesSolicitante();
+                    cargarTelefonosSolicitante();
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -519,6 +547,7 @@ public class PropuestaConvenioMB implements Serializable {
                 this.facultadesUnidadesInterno = getFacultadesUnidades();
                 this.escuelaDepartamentoInterno = getEscuelaDepartamento();
                 cargarTelefonosInternos();
+                //habilitarBusquedaInterna=false;
             } else {
                 referenteInterno = new Persona();
                 telFijoInterno = new Telefono();
@@ -526,6 +555,7 @@ public class PropuestaConvenioMB implements Serializable {
                 facultadesUnidadesInterno = new PojoFacultadesUnidades();
                 numDocumentoInterno = null;
                 escuelaDepartamentoInterno = new EscuelaDepartamento();
+                habilitarBusquedaInterna=true;
             }
             RequestContext context = RequestContext.getCurrentInstance();
             context.update("formAdmin:acordion:idFacultadUnidadInterno");
@@ -557,10 +587,10 @@ public class PropuestaConvenioMB implements Serializable {
             if (mismoSolicitante) { //verfico que la persona exista, si true entonces
                 guardarReferenteInternoComplemento();
             } else if (referenteInterno.getEmailPersona() != null) {
-                Persona existePersona = personaService.existePersonaByMail(referenteInterno.getEmailPersona());
-                if (existePersona != null && existePersona.getIdPersona() != null) {
-                    referenteInterno.setIdPersona(existePersona.getIdPersona());
-                }
+//                Persona existePersona = personaService.existePersonaByMail(referenteInterno.getEmailPersona());
+//                if (existePersona != null && existePersona.getIdPersona() != null) {
+//                    referenteInterno.setIdPersona(existePersona.getIdPersona());
+//                }
                 if (referenteInterno.getIdPersona() != null) {
                     actualizarReferenteInterno();
                 } else {
@@ -795,17 +825,20 @@ public class PropuestaConvenioMB implements Serializable {
     /**
      * Metodo que Actualziar personas referentes internos
      */
-    private void actualizarReferenteInterno() {
+    public void actualizarReferenteInterno() {
         try {
             //crear persona y luego almacenar
             referenteInterno.setIdUnidad(null);
             referenteInterno.setIdCarrera(null);
             referenteInterno.setIdEscuelaDepto(null);
+           
+           // if(facultadesUnidadesInterno.getUnidadFacultad() != null){
             if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
                 referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getPrimary()));
             } else if (facultadesUnidadesInterno.getUnidadFacultad() == 'F') {
                 referenteInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoInterno.getIdEscuelaDepto()));
             }
+           // }
             referenteInterno.setExtranjero(Boolean.FALSE);//no es extrajero
             referenteInterno.setActivo(Boolean.TRUE);//esta activo
             referenteInterno.setPasaporte("0");
@@ -930,6 +963,7 @@ public class PropuestaConvenioMB implements Serializable {
             if (referenteInterno.getIdPersona() != null) {
                 cargarTelefonosInternos();
                 cargarUnidadesFacultadesSolicitanteInterno();
+                habilitarBotonEditInterno=true;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1237,6 +1271,22 @@ public class PropuestaConvenioMB implements Serializable {
         }
 
     }
+    
+    
+    //para forzar  a busqueda
+    /**
+     * Metodo para habilitar la edicion de referente interno
+     * una vez realizado la busqueda.
+     */
+    public void preEditeReferenteInterno(){
+        try {
+            habilitarBusquedaInterna = false;
+            habilitarBotonEditInternoDos =true;//habilita boton editar
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+    
 
     public Persona getReferenteInterno() {
         return referenteInterno;
@@ -1716,6 +1766,86 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setRol(SsRoles rol) {
         this.rol = rol;
+    }
+
+    public boolean isHabilitarBusquedaInterna() {
+        return habilitarBusquedaInterna;
+    }
+
+    public void setHabilitarBusquedaInterna(boolean habilitarBusquedaInterna) {
+        this.habilitarBusquedaInterna = habilitarBusquedaInterna;
+    }
+
+    public boolean isHabilitarBusquedaExterna() {
+        return habilitarBusquedaExterna;
+    }
+
+    public void setHabilitarBusquedaExterna(boolean habilitarBusquedaExterna) {
+        this.habilitarBusquedaExterna = habilitarBusquedaExterna;
+    }
+
+    public boolean isHabilitarBotonEditInterno() {
+        return habilitarBotonEditInterno;
+    }
+
+    public void setHabilitarBotonEditInterno(boolean habilitarBotonEditInterno) {
+        this.habilitarBotonEditInterno = habilitarBotonEditInterno;
+    }
+
+    public boolean isHabilitarBotonEditExterno() {
+        return habilitarBotonEditExterno;
+    }
+
+    public void setHabilitarBotonEditExterno(boolean habilitarBotonEditExterno) {
+        this.habilitarBotonEditExterno = habilitarBotonEditExterno;
+    }
+
+    public boolean isHabilitarBotonSaveInterno() {
+        return habilitarBotonSaveInterno;
+    }
+
+    public void setHabilitarBotonSaveInterno(boolean habilitarBotonSaveInterno) {
+        this.habilitarBotonSaveInterno = habilitarBotonSaveInterno;
+    }
+
+    public boolean isHabilitarBotonSaveExterno() {
+        return habilitarBotonSaveExterno;
+    }
+
+    public void setHabilitarBotonSaveExterno(boolean habilitarBotonSaveExterno) {
+        this.habilitarBotonSaveExterno = habilitarBotonSaveExterno;
+    }
+
+    public boolean isHabilitarBotonEditInternoDos() {
+        return habilitarBotonEditInternoDos;
+    }
+
+    public void setHabilitarBotonEditInternoDos(boolean habilitarBotonEditInternoDos) {
+        this.habilitarBotonEditInternoDos = habilitarBotonEditInternoDos;
+    }
+
+    public boolean isHabilitarBotonEditExternoDos() {
+        return habilitarBotonEditExternoDos;
+    }
+
+    public void setHabilitarBotonEditExternoDos(boolean habilitarBotonEditExternoDos) {
+        this.habilitarBotonEditExternoDos = habilitarBotonEditExternoDos;
+    }
+
+    public boolean isHabilitarBotonSaveInternoDos() {
+        return habilitarBotonSaveInternoDos;
+    }
+
+    public void setHabilitarBotonSaveInternoDos(boolean habilitarBotonSaveInternoDos) {
+        this.habilitarBotonSaveInternoDos = habilitarBotonSaveInternoDos;
+    }
+
+    public boolean isHabilitarBotonSaveExternoDos() {
+        return habilitarBotonSaveExternoDos;
+    }
+
+    public void setHabilitarBotonSaveExternoDos(boolean habilitarBotonSaveExternoDos) {
+        this.habilitarBotonSaveExternoDos = habilitarBotonSaveExternoDos;
     }
 
 }
