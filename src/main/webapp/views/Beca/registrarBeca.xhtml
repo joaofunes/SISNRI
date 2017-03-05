@@ -32,7 +32,7 @@
                                 <h:panelGroup id="pgroupBuscadorBecario">
                                     <p:panelGrid id="pGridBuscadorBecario">
                                         <p:column>
-                                            <p:outputLabel for="tipoBusquedaBecarioId" value="Tipo de Busqueda:" />
+                                            <p:outputLabel for="tipoBusquedaBecarioId" value="Criterio de Busqueda:" />
                                         </p:column>
                                         <p:column>                                        
                                             <p:selectOneMenu id="tipoBusquedaBecarioId" value="#{becaMB.tipoBusquedaBecario}"  style="width:125px">  
@@ -60,7 +60,7 @@
                                             <p:autoComplete id="searchNombre" value="#{becaMB.becarioAux}" rendered="#{becaMB.flagSearchNombreBecario}"
                                                             completeMethod="#{becaMB.methodSearch}"
                                                             var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
-                                                            forceSelection="true">                                           
+                                                            forceSelection="true" >                                           
                                                 <p:column>
                                                     <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                 </p:column>
@@ -78,6 +78,9 @@
                                             </p:autoComplete>
                                             <p:watermark for="searchMail" value="E-mail"/> 
                                         </p:column>
+                                        <p:column>
+                                            <p:commandButton value="Nueva Persona" rendered="#{becaMB.renderNuevaPersonaButton}"/>
+                                        </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
                                 <p:separator/>
@@ -87,13 +90,14 @@
                                             <p:outputLabel value="#{lbecas.nombreBecario}" for="nombrebecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" required="true"/>
+                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" disabled="false" required="true" />
+                                            <h:inputHidden  id="nombreBecario" required="true" value="#{becaMB.becario.nombrePersona}" />
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="#{lbecas.apellidos}" for="apellidobecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidobecario" value="#{becaMB.becario.apellidoPersona}" required="true"/>
+                                            <p:inputText id="apellidobecario" value="#{becaMB.becario.apellidoPersona}" required="true" disabled="true"/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -101,7 +105,7 @@
                                             <p:outputLabel value="#{lbecas.dui}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duibecario" mask="99999999-9" value="#{becaMB.becario.duiPersona}" />
+                                            <p:inputMask id="duibecario" mask="99999999-9" value="#{becaMB.becario.duiPersona}" disabled="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="#{lbecas.correo}" for="correobecario"/>
@@ -117,7 +121,7 @@
                                             <p:outputLabel value="#{lbecas.facultad}" for="facultadbecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadbecario" value="#{becaMB.facultadSelectedBecario.idFacultad}"  style="width:180px" required="true">
+                                            <p:selectOneMenu id="facultadbecario" value="#{becaMB.facultadSelectedBecario.idFacultad}"  style="width:180px" required="true" disabled="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <p:ajax event="change" listener="#{becaMB.getCarrerasByFacultad}" process="@this" update="carreraBecario"/>
                                                 <c:forEach var="fac" items="#{becaMB.facultadList}">
@@ -129,7 +133,7 @@
                                             <p:outputLabel value="#{lbecas.carrera}" for="carreraBecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="carreraBecario" value="#{becaMB.carreraSelected.idCarrera}"  style="width:180px" required="true">
+                                            <p:selectOneMenu id="carreraBecario" value="#{becaMB.carreraSelected.idCarrera}"  style="width:180px" required="true" disabled="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="carrera" items="#{becaMB.carreraList}">
                                                     <f:selectItem itemLabel="#{carrera.nombreCarrera}" itemValue="#{carrera.idCarrera}"/>
@@ -142,13 +146,13 @@
                                             <p:outputLabel value="#{lbecas.telefonoFijo}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonobecario" value="#{becaMB.telefonoFijoBecario.numeroTelefono}" mask="(503)-9999-9999"/>
+                                            <p:inputMask id="telefonobecario" value="#{becaMB.telefonoFijoBecario.numeroTelefono}" mask="(503)-9999-9999" disabled="true"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="#{lbecas.telefonoCelular}"/>
+                                            <p:outputLabel for="telefonoCelular" value="#{lbecas.telefonoCelular}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonoCelular" value="#{becaMB.telefonoCelularBecario.numeroTelefono}" mask="(503)-9999-9999" />
+                                            <p:inputMask id="telefonoCelular" value="#{becaMB.telefonoCelularBecario.numeroTelefono}" mask="(503)-9999-9999" readonly="true" required="true" />
                                         </p:column>
                                     </p:row>
                                 </p:panelGrid>

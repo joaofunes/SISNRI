@@ -174,9 +174,8 @@ public class BecaMB implements Serializable {
 
     private Persona asesorExternoAux;
 
-   
+    private boolean renderNuevaPersonaButton;
 
-   
     @Autowired
     FacultadService facultadService;
 
@@ -313,11 +312,12 @@ public class BecaMB implements Serializable {
         listAll = new ArrayList<Persona>();
 
         //variables de buscadores
-        tipoBusquedaBecario = "";
         flagSearchDuiBecario = Boolean.FALSE;
         flagSearchEmailBecario = Boolean.FALSE;
         flagSearchNombreBecario = Boolean.FALSE;
         becarioAux = new Persona();
+
+        renderNuevaPersonaButton = Boolean.FALSE;
     }
 
 //registra la informacion conserniente a una beca
@@ -491,7 +491,7 @@ public class BecaMB implements Serializable {
         if (tipoBusquedaBecario.equalsIgnoreCase("email")) {
             flagSearchEmailBecario = Boolean.TRUE;
         }
-
+        renderNuevaPersonaButton = Boolean.FALSE;
     }
 //Busca de persona interna
 
@@ -908,7 +908,12 @@ public class BecaMB implements Serializable {
                     list.add(us);
                 }
                 limpiarBecario();
-                RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+//                RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+                if (list.isEmpty()) {
+                    renderNuevaPersonaButton = Boolean.TRUE;
+                    
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:pGridBuscadorBecario");
+                }
                 return list;
             } else if (tipoBusquedaBecario.equalsIgnoreCase("email")) {
                 listAll = personaService.getReferenteInternoByEmail(query);
@@ -1043,7 +1048,6 @@ public class BecaMB implements Serializable {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Sets and Getters">
-
     public Persona getBecario() {
         return becario;
     }
@@ -1612,5 +1616,13 @@ public class BecaMB implements Serializable {
         this.asesorExternoAux = asesorExternoAux;
     }
 // </editor-fold>
+
+    public boolean isRenderNuevaPersonaButton() {
+        return renderNuevaPersonaButton;
+    }
+
+    public void setRenderNuevaPersonaButton(boolean renderNuevaPersonaButton) {
+        this.renderNuevaPersonaButton = renderNuevaPersonaButton;
+    }
 
 }
