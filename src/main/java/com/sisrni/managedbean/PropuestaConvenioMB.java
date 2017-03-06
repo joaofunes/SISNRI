@@ -131,6 +131,7 @@ public class PropuestaConvenioMB implements Serializable {
     private String numDocumentoInterno;
     private String numDocumentoExterno;
 
+    private String tipoBusquedaSolicitante;
     private String tipoBusquedaInterna;
     private String tipoBusquedaExterna;
 
@@ -210,7 +211,10 @@ public class PropuestaConvenioMB implements Serializable {
     private boolean habilitarBotonSaveInterno;
     private boolean habilitarBotonSaveInternoDos;
     private boolean habilitarBotonSaveExterno;        
-    private boolean habilitarBotonSaveExternoDos;        
+    private boolean habilitarBotonSaveExternoDos;      
+    
+    
+    private boolean bloqueosInterno;
     
     private List<Persona> listAll;
     
@@ -218,19 +222,19 @@ public class PropuestaConvenioMB implements Serializable {
 
     private JCMail mail;
 
-    @PostConstruct
-    public void init() {
-        try {
-            // RequestContext.getCurrentInstance().reset(":formAdmin"); 
-            inicializador();
-            inicializadorListados();
-            getListFacultadesUnidades();
-            cargarUsuario();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @PostConstruct
+//    public void init() {
+//        try {
+//            // RequestContext.getCurrentInstance().reset(":formAdmin"); 
+//            inicializador();
+//            inicializadorListados();
+//            getListFacultadesUnidades();
+//            cargarUsuario();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
     
     public void onload() { 
         try {            
@@ -299,6 +303,9 @@ public class PropuestaConvenioMB implements Serializable {
             flagSearchNombreExterno = Boolean.FALSE;
             flagSearchEmailExterno = Boolean.FALSE;
             
+            tipoBusquedaInterna = null;
+            tipoBusquedaExterna = null;
+            
             //para forzar a busqueda
             habilitarBusquedaInterna= true;
             habilitarBusquedaExterna= true;
@@ -311,7 +318,9 @@ public class PropuestaConvenioMB implements Serializable {
             habilitarBotonSaveInterno= false;
             habilitarBotonSaveInternoDos= false;
             habilitarBotonSaveExterno= false;        
-            habilitarBotonSaveExternoDos= false;        
+            habilitarBotonSaveExternoDos= false;       
+            
+            bloqueosInterno=false;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -548,6 +557,7 @@ public class PropuestaConvenioMB implements Serializable {
                 this.escuelaDepartamentoInterno = getEscuelaDepartamento();
                 cargarTelefonosInternos();
                 //habilitarBusquedaInterna=false;
+                bloqueosInterno = true;
             } else {
                 referenteInterno = new Persona();
                 telFijoInterno = new Telefono();
@@ -555,7 +565,7 @@ public class PropuestaConvenioMB implements Serializable {
                 facultadesUnidadesInterno = new PojoFacultadesUnidades();
                 numDocumentoInterno = null;
                 escuelaDepartamentoInterno = new EscuelaDepartamento();
-                habilitarBusquedaInterna=true;
+                 bloqueosInterno = false;
             }
             RequestContext context = RequestContext.getCurrentInstance();
             context.update("formAdmin:acordion:idFacultadUnidadInterno");
@@ -964,6 +974,7 @@ public class PropuestaConvenioMB implements Serializable {
                 cargarTelefonosInternos();
                 cargarUnidadesFacultadesSolicitanteInterno();
                 habilitarBotonEditInterno=true;
+                habilitarBotonSaveInterno=true;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1280,8 +1291,60 @@ public class PropuestaConvenioMB implements Serializable {
      */
     public void preEditeReferenteInterno(){
         try {
-            habilitarBusquedaInterna = false;
+            habilitarBusquedaInterna = false; //habilita campos
             habilitarBotonEditInternoDos =true;//habilita boton editar
+            bloqueosInterno=true;//bloquea busquedas
+            habilitarBotonSaveInternoDos=false; //no habilita boton guardar 2
+            habilitarBotonSaveInterno=false; //no habilita boton guardar
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+    /**
+     * Metodo para habilitar la Guardar de referente interno
+     * una vez realizado la busqueda.
+     */
+    public void preEditeGuardarInterno(){
+        try {
+            habilitarBotonEditInterno=false; //no habilita el boton editar
+            habilitarBusquedaInterna = false; //habilita campos
+            habilitarBotonSaveInternoDos =true;//habilita boton guardar
+            
+            habilitarBotonEditInternoDos=false; //no habilitar boton editar                        
+            bloqueosInterno=true;//bloquea busquedas
+            referenteInterno = new Persona();
+            telFijoInterno = new Telefono();
+            telCelularInterno = new Telefono();
+            facultadesUnidadesInterno = new PojoFacultadesUnidades();
+            escuelaDepartamentoInterno = new EscuelaDepartamento();
+           
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Metodo para cancelar edicion y guardado de referente interno
+     */
+    public void preCancelarInterno(){
+        try {
+             bloqueosInterno=true;//bloquea busquedas
+             bloqueosInterno=true;//bloquea busquedas
+            referenteInterno = new Persona();
+            telFijoInterno = new Telefono();
+            telCelularInterno = new Telefono();
+            facultadesUnidadesInterno = new PojoFacultadesUnidades();
+            escuelaDepartamentoInterno = new EscuelaDepartamento();
+//            habilitarBotonEditInterno=false; //no habilita el boton editar
+//            habilitarBusquedaInterna = false; //habilita campos
+//            habilitarBotonSaveInternoDos =true;//habilita boton guardar
+//            habilitarBotonEditInternoDos=false; //no habilitar boton editar
+//            referenteInterno = new Persona();
+//            telFijoSolicitante = new Telefono();
+//            telCelularSolicitante = new Telefono();
+//            facultadesUnidadesInterno = new PojoFacultadesUnidades();
+//            escuelaDepartamentoInterno = new EscuelaDepartamento();
+           
         } catch (Exception e) {
          e.printStackTrace();
         }
@@ -1846,6 +1909,22 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setHabilitarBotonSaveExternoDos(boolean habilitarBotonSaveExternoDos) {
         this.habilitarBotonSaveExternoDos = habilitarBotonSaveExternoDos;
+    }
+
+    public boolean isBloqueosInterno() {
+        return bloqueosInterno;
+    }
+
+    public void setBloqueosInterno(boolean bloqueosInterno) {
+        this.bloqueosInterno = bloqueosInterno;
+    }
+
+    public String getTipoBusquedaSolicitante() {
+        return tipoBusquedaSolicitante;
+    }
+
+    public void setTipoBusquedaSolicitante(String tipoBusquedaSolicitante) {
+        this.tipoBusquedaSolicitante = tipoBusquedaSolicitante;
     }
 
 }
