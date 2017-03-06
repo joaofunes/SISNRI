@@ -12,9 +12,10 @@
 
     <ui:define name="content">
         <center>
+            <button type="button" class="btn btn-danger">Propuestas de Convenio pendientes de Revisi&oacute;n <span class="badge parpadea text">  <h:outputText id="out" value="#{globalCounterView.count}" styleClass="ui-widget display" /></span></button>      
             <div style="width: 600">
                 <p:growl autoUpdate="true" id="msj" showDetail="true"/>
-                  <h1 style="background: #cc0000;color: white;border-radius: 10px">Administraci&oacute;n de Noticias</h1>
+                <h1 style="background: #cc0000;color: white;border-radius: 10px">Administraci&oacute;n de Noticias</h1>
                 <h:form id="formNoticia">
                     <p:panel header="Entrada de Datos">
                         <h:panelGrid columns="2">
@@ -55,7 +56,17 @@
                         <p:commandButton rendered="#{noticiaMB.actualizar}" value="Actualizar" actionListener="#{noticiaMB.updateNoticia()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
                     </p:panel>
                 </h:form>
+                <h:form id="socketForm">
+<!--                    <h:outputText id="out" value="#{globalCounterView.count}" styleClass="ui-widget display" />-->
+<!--                    <p:commandButton value="Click" actionListener="#{globalCounterView.increment}" />-->
+                </h:form>
+                <p:socket onMessage="handleMessage" channel="/counter" />
 
+                <script type="text/javascript">
+                    function handleMessage(data) {
+                        $('.display').html(data);
+                    }
+                </script>
                 <p:panel header="Hist&oacute;rico de Noticias">
                     <h:panelGroup id="administracion">
                         <p:dataTable var="n" value="#{noticiaMB.noticiasList}" paginator="true" rows="5"                             
@@ -86,8 +97,6 @@
                         </p:dataTable>
                     </h:panelGroup>
                 </p:panel>
-
-
             </div>
         </center>
     </ui:define>

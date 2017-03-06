@@ -153,30 +153,31 @@ public class BecaMB implements Serializable {
     private String tipoBusquedaAsesorInterno;
     private String tipoBusquedaAsesorExterno;
 
-    private Boolean disableAutoBecario;
     private Boolean flagSearchDuiBecario;
     private Boolean flagSearchNombreBecario;
     private Boolean flagSearchEmailBecario;
-    private List<Persona> listAll;
     private Persona becarioAux;
 
     //variables para asesor interno
-    private Boolean disableAutoAsesorInterno;
     private Boolean flagSearchDuiAsesorInterno;
     private Boolean flagSearchNombreAsesorInterno;
     private Boolean flagSearchEmailAsesorInterno;
     private Persona asesorInternoAux;
 
-    private Boolean disableAutoAsesorExterno;
     private Boolean flagSearchDuiAsesorExterno;
     private Boolean flagSearchNombreAsesorExterno;
     private Boolean flagSearchEmailAsesorExterno;
-
     private Persona asesorExternoAux;
 
-   
+    private List<Persona> listAll;
 
-   
+    private Boolean renderNuevaPersonaBecarioButton;
+    private Boolean renderActualizarPersonaBecarioButton;
+
+    private Boolean disableBecarioInputs = Boolean.TRUE;
+    private Boolean presionoNuevoBecario = Boolean.FALSE;
+    private Boolean presionoActualizarBecario = Boolean.FALSE;
+
     @Autowired
     FacultadService facultadService;
 
@@ -291,6 +292,7 @@ public class BecaMB implements Serializable {
         tipoCambioList = tipoCambioService.findAll();
 
         mostrarmonto = true;
+
         //para buscar personas
         docBecarioSearch = "";
         docInternoSearch = "";
@@ -313,11 +315,10 @@ public class BecaMB implements Serializable {
         listAll = new ArrayList<Persona>();
 
         //variables de buscadores
-        tipoBusquedaBecario = "";
-        flagSearchDuiBecario = Boolean.FALSE;
-        flagSearchEmailBecario = Boolean.FALSE;
-        flagSearchNombreBecario = Boolean.FALSE;
+        banderasBecarioFalsas();
         becarioAux = new Persona();
+        renderNuevaPersonaBecarioButton = Boolean.FALSE;
+        renderActualizarPersonaBecarioButton = Boolean.FALSE;
     }
 
 //registra la informacion conserniente a una beca
@@ -477,11 +478,15 @@ public class BecaMB implements Serializable {
 
     //Busca de persona interna
     public void habilitarAutoBecario() {
-        limpiarBecario();
         banderasBecarioFalsas();
-//        if (disableAutoBecario) {
-//            disableAutoBecario = Boolean.FALSE;
-//        }
+        limpiarBecario();
+        renderActualizarPersonaBecarioButton = Boolean.FALSE;
+        renderNuevaPersonaBecarioButton = Boolean.FALSE;
+        presionoActualizarBecario = Boolean.FALSE;
+        presionoNuevoBecario = Boolean.FALSE;
+        disableBecarioInputs=Boolean.TRUE;
+
+        becarioAux = new Persona();
         if (tipoBusquedaBecario.equalsIgnoreCase("doc")) {
             flagSearchDuiBecario = Boolean.TRUE;
         }
@@ -491,7 +496,18 @@ public class BecaMB implements Serializable {
         if (tipoBusquedaBecario.equalsIgnoreCase("email")) {
             flagSearchEmailBecario = Boolean.TRUE;
         }
+        renderNuevaPersonaBecarioButton = Boolean.FALSE;
+        renderActualizarPersonaBecarioButton = Boolean.FALSE;
+    }
 
+    public void presionoNuevoBecario() {
+        disableBecarioInputs = Boolean.FALSE;
+        presionoNuevoBecario = Boolean.TRUE;
+    }
+
+    public void presionoActualizarBecario() {
+        disableBecarioInputs = Boolean.FALSE;
+        presionoActualizarBecario = Boolean.TRUE;
     }
 //Busca de persona interna
 
@@ -756,6 +772,7 @@ public class BecaMB implements Serializable {
 
     public void buscarBecarioSinParametro() {
         try {
+            renderActualizarPersonaBecarioButton = Boolean.TRUE;
             limpiarBecario();
             if (becarioAux != null) {
                 becario = becarioAux;
@@ -901,14 +918,23 @@ public class BecaMB implements Serializable {
     //buscar persona becario
     public List<Persona> methodSearch(String query) {
         try {
+            limpiarBecario();
             List<Persona> list = new ArrayList<Persona>();
             if (tipoBusquedaBecario.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getReferenteInternoByName(query);
                 for (Persona us : listAll) {
                     list.add(us);
                 }
-                limpiarBecario();
-                RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+                if (list.isEmpty()) {
+                    renderActualizarPersonaBecarioButton = Boolean.FALSE;
+                    renderNuevaPersonaBecarioButton = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botones");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+                } else {
+                    renderNuevaPersonaBecarioButton = Boolean.FALSE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botones");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+                }
                 return list;
             } else if (tipoBusquedaBecario.equalsIgnoreCase("email")) {
                 listAll = personaService.getReferenteInternoByEmail(query);
@@ -1043,7 +1069,6 @@ public class BecaMB implements Serializable {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Sets and Getters">
-
     public Persona getBecario() {
         return becario;
     }
@@ -1524,14 +1549,6 @@ public class BecaMB implements Serializable {
         this.flagSearchEmailBecario = flagSearchEmailBecario;
     }
 
-    public Boolean getDisableAutoBecario() {
-        return disableAutoBecario;
-    }
-
-    public void setDisableAutoBecario(Boolean disableAutoBecario) {
-        this.disableAutoBecario = disableAutoBecario;
-    }
-
     public Persona getBecarioAux() {
         return becarioAux;
     }
@@ -1572,14 +1589,6 @@ public class BecaMB implements Serializable {
         this.asesorInternoAux = asesorInternoAux;
     }
 
-    public Boolean getDisableAutoAsesorExterno() {
-        return disableAutoAsesorExterno;
-    }
-
-    public void setDisableAutoAsesorExterno(Boolean disableAutoAsesorExterno) {
-        this.disableAutoAsesorExterno = disableAutoAsesorExterno;
-    }
-
     public Boolean getFlagSearchDuiAsesorExterno() {
         return flagSearchDuiAsesorExterno;
     }
@@ -1611,6 +1620,46 @@ public class BecaMB implements Serializable {
     public void setAsesorExternoAux(Persona asesorExternoAux) {
         this.asesorExternoAux = asesorExternoAux;
     }
+
 // </editor-fold>
+    public Boolean getRenderNuevaPersonaBecarioButton() {
+        return renderNuevaPersonaBecarioButton;
+    }
+
+    public void setRenderNuevaPersonaBecarioButton(Boolean renderNuevaPersonaBecarioButton) {
+        this.renderNuevaPersonaBecarioButton = renderNuevaPersonaBecarioButton;
+    }
+
+    public Boolean getRenderActualizarPersonaBecarioButton() {
+        return renderActualizarPersonaBecarioButton;
+    }
+
+    public void setRenderActualizarPersonaBecarioButton(Boolean renderActualizarPersonaBecarioButton) {
+        this.renderActualizarPersonaBecarioButton = renderActualizarPersonaBecarioButton;
+    }
+
+    public Boolean getDisableBecarioInputs() {
+        return disableBecarioInputs;
+    }
+
+    public void setDisableBecarioInputs(Boolean disableBecarioInputs) {
+        this.disableBecarioInputs = disableBecarioInputs;
+    }
+
+    public Boolean getPresionoNuevoBecario() {
+        return presionoNuevoBecario;
+    }
+
+    public void setPresionoNuevoBecario(Boolean presionoNuevoBecario) {
+        this.presionoNuevoBecario = presionoNuevoBecario;
+    }
+
+    public Boolean getPresionoActualizarBecario() {
+        return presionoActualizarBecario;
+    }
+
+    public void setPresionoActualizarBecario(Boolean presionoActualizarBecario) {
+        this.presionoActualizarBecario = presionoActualizarBecario;
+    }
 
 }

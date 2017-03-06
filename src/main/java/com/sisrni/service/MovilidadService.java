@@ -3,6 +3,7 @@ package com.sisrni.service;
 import com.sisrni.dao.MovilidadDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Movilidad;
+import com.sisrni.model.PersonaMovilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
 import com.sisrni.pojo.rpt.PojoMovilidadDocumentacion;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteFactBeneficiadaPojo;
@@ -84,5 +85,9 @@ public class MovilidadService extends GenericService<Movilidad, Integer> {
         
         public List<PojoMovilidadDocumentacion> getMovilidadDocumentacion(Integer idMovSearch){
             return movilidadDao.getMovilidadDocumentacion(idMovSearch);
+        }
+        
+        public PersonaMovilidad isVinculadoReferente(Integer idMovilidad, Integer idPersona){
+            return movilidadDao.isVinculadoReferente(idMovilidad, idPersona);
         }
 }

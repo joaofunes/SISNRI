@@ -24,20 +24,15 @@
                     <p:panel style="width: 80%">
                         <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
                             <p:tab title="Datos del Becario">
-<!--                                <h:panelGroup rendered="#{!becaMB.actualizar}">
-                                    <p:outputLabel value="Documento" />
-                                    <p:inputText value="#{becaMB.docBecarioSearch}" id="idDocBecario"/>
-                                    <p:commandButton value="Buscar" actionListener="#{becaMB.buscarBecario(becaMB.docBecarioSearch)}" process="idDocBecario @this" icon="ui-icon-search" update="panelBecario"/>
-                                </h:panelGroup>-->
                                 <h:panelGroup id="pgroupBuscadorBecario">
                                     <p:panelGrid id="pGridBuscadorBecario">
                                         <p:column>
-                                            <p:outputLabel for="tipoBusquedaBecarioId" value="Tipo de Busqueda:" />
+                                            <p:outputLabel for="tipoBusquedaBecarioId" value="Criterio de Busqueda:" />
                                         </p:column>
                                         <p:column>                                        
                                             <p:selectOneMenu id="tipoBusquedaBecarioId" value="#{becaMB.tipoBusquedaBecario}"  style="width:125px">  
-                                                <p:ajax  listener="#{becaMB.habilitarAutoBecario}" update="pgroupBuscadorBecario,panelBecario"  process="tipoBusquedaBecarioId"/>
-                                                <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true" />                                                                           
+                                                <p:ajax  listener="#{becaMB.habilitarAutoBecario}" update="pgroupBuscadorBecario,panelBecario,botones"  process="tipoBusquedaBecarioId"/>
+                                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true" />                                                                           
                                                 <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
                                                 <f:selectItem itemLabel="E-mail" itemValue="email" />
                                                 <f:selectItem itemLabel="Documento" itemValue="doc" />  
@@ -47,38 +42,46 @@
                                             <p:outputLabel  value="Busqueda" />     
                                         </p:column>
                                         <p:column>
-                                            <p:autoComplete id="searchDui" minQueryLength="10" size="10" rendered="#{becaMB.flagSearchDuiBecario}"  value="#{becaMB.becarioAux}" completeMethod="#{becaMB.methodSearch}"
+                                            <p:autoComplete id="searchNombre" rendered="#{becaMB.flagSearchNombreBecario}"
+                                                            value="#{becaMB.becarioAux}" completeMethod="#{becaMB.methodSearch}"
+                                                            var="name" itemLabel="#{name.nombrePersona}" itemValue="#{name}" converter="#{personaConverter}" 
+                                                            forceSelection="true" >                                           
+                                                <p:column>
+                                                    <h:outputText value="#{name.nombrePersona} #{name.apellidoPersona}" />
+                                                </p:column>
+                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" update="panelBecario,botones" process="@this"/>
+                                            </p:autoComplete>
+                                            <p:watermark for="searchNombre" value="Nombre/Apellido"/>
+
+                                            <p:autoComplete id="searchDui" rendered="#{becaMB.flagSearchDuiBecario}" minQueryLength="10" size="10" 
+                                                            value="#{becaMB.becarioAux}" completeMethod="#{becaMB.methodSearch}"
                                                             var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
                                                             forceSelection="true">                                            
                                                 <p:column>
                                                     <h:outputText value="#{name.duiPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" update="panelBecario" process="@this"/>
+                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" update="panelBecario,botones" process="@this"/>
                                             </p:autoComplete>
                                             <p:watermark for="searchDui" value="DUI"/> 
 
-                                            <p:autoComplete id="searchNombre" value="#{becaMB.becarioAux}" rendered="#{becaMB.flagSearchNombreBecario}"
-                                                            completeMethod="#{becaMB.methodSearch}"
-                                                            var="theme" itemLabel="#{theme.nombrePersona}#{theme.apellidoPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                            <p:autoComplete id="searchMail" rendered="#{becaMB.flagSearchEmailBecario}"
+                                                            value="#{becaMB.becarioAux}" completeMethod="#{becaMB.methodSearch}"
+                                                            var="name" itemLabel="#{name.emailPersona}" itemValue="#{name}" converter="#{personaConverter}" 
                                                             forceSelection="true">                                           
                                                 <p:column>
-                                                    <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
+                                                    <h:outputText value="#{name.emailPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" process="@this" update="panelBecario"/>
-                                            </p:autoComplete>
-                                            <p:watermark for="searchNombre" value="Nombre/Apellido"/>
-                                            <p:autoComplete id="searchMail" value="#{becaMB.becarioAux}" rendered="#{becaMB.flagSearchEmailBecario}"
-                                                            completeMethod="#{becaMB.methodSearch}"
-                                                            var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
-                                                            forceSelection="true">                                           
-                                                <p:column>
-                                                    <h:outputText value="#{theme.emailPersona}" />
-                                                </p:column>
-                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" process="@this" update="panelBecario"/>
+                                                <p:ajax event="itemSelect" listener="#{becaMB.buscarBecarioSinParametro()}" update="panelBecario,botones" process="@this"/>
                                             </p:autoComplete>
                                             <p:watermark for="searchMail" value="E-mail"/> 
                                         </p:column>
                                     </p:panelGrid>
+                                </h:panelGroup>
+                                <h:panelGroup id="botones">
+                                    <p:column>
+                                        <p:commandButton value="Nueva Persona" actionListener="#{becaMB.presionoNuevoBecario()}" rendered="#{becaMB.renderNuevaPersonaBecarioButton}" process="@this" update="panelBecario"/>
+                                        <p:commandButton value="Actualizar Becario" actionListener="#{becaMB.presionoActualizarBecario()}" rendered="#{becaMB.renderActualizarPersonaBecarioButton}" process="@this" update="panelBecario"/>
+                                    </p:column>
                                 </h:panelGroup>
                                 <p:separator/>
                                 <p:panelGrid id="panelBecario">
@@ -87,15 +90,14 @@
                                             <p:outputLabel value="#{lbecas.nombreBecario}" for="nombrebecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" required="true">
-                                                <f:validateRegex pattern="[a-zA-Z]+"/>
-                                            </p:inputText>
+                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" disabled="false" required="#{becaMB.disableBecarioInputs}" />
+                                            <h:inputHidden  id="nombreBecario" required="true" value="#{becaMB.becario.nombrePersona}" />
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="#{lbecas.apellidos}" for="apellidobecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidobecario" value="#{becaMB.becario.apellidoPersona}" required="true"/>
+                                            <p:inputText id="apellidobecario" value="#{becaMB.becario.apellidoPersona}" required="true" disabled="#{becaMB.disableBecarioInputs}"/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -103,13 +105,13 @@
                                             <p:outputLabel value="#{lbecas.dui}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duibecario" mask="99999999-9" value="#{becaMB.becario.duiPersona}" />
+                                            <p:inputMask id="duibecario" mask="99999999-9" value="#{becaMB.becario.duiPersona}" disabled="#{becaMB.disableBecarioInputs}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="#{lbecas.correo}" for="correobecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correobecario" value="#{becaMB.becario.emailPersona}" required="true">
+                                            <p:inputText id="correobecario" value="#{becaMB.becario.emailPersona}" required="true" disabled="#{becaMB.disableBecarioInputs}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
@@ -119,7 +121,7 @@
                                             <p:outputLabel value="#{lbecas.facultad}" for="facultadbecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadbecario" value="#{becaMB.facultadSelectedBecario.idFacultad}"  style="width:180px" required="true">
+                                            <p:selectOneMenu id="facultadbecario" value="#{becaMB.facultadSelectedBecario.idFacultad}"  style="width:180px" required="true" disabled="#{becaMB.disableBecarioInputs}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <p:ajax event="change" listener="#{becaMB.getCarrerasByFacultad}" process="@this" update="carreraBecario"/>
                                                 <c:forEach var="fac" items="#{becaMB.facultadList}">
@@ -131,7 +133,7 @@
                                             <p:outputLabel value="#{lbecas.carrera}" for="carreraBecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="carreraBecario" value="#{becaMB.carreraSelected.idCarrera}"  style="width:180px" required="true">
+                                            <p:selectOneMenu id="carreraBecario" value="#{becaMB.carreraSelected.idCarrera}"  style="width:180px" required="true" disabled="#{becaMB.disableBecarioInputs}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="carrera" items="#{becaMB.carreraList}">
                                                     <f:selectItem itemLabel="#{carrera.nombreCarrera}" itemValue="#{carrera.idCarrera}"/>
@@ -144,13 +146,13 @@
                                             <p:outputLabel value="#{lbecas.telefonoFijo}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonobecario" value="#{becaMB.telefonoFijoBecario.numeroTelefono}" mask="(503)-9999-9999"/>
+                                            <p:inputMask id="telefonobecario" value="#{becaMB.telefonoFijoBecario.numeroTelefono}" mask="(503)-9999-9999" disabled="#{becaMB.disableBecarioInputs}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="#{lbecas.telefonoCelular}"/>
+                                            <p:outputLabel for="telefonoCelular" value="#{lbecas.telefonoCelular}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonoCelular" value="#{becaMB.telefonoCelularBecario.numeroTelefono}" mask="(503)-9999-9999" />
+                                            <p:inputMask id="telefonoCelular" value="#{becaMB.telefonoCelularBecario.numeroTelefono}" mask="(503)-9999-9999" disabled="#{becaMB.disableBecarioInputs}" required="true" />
                                         </p:column>
                                     </p:row>
                                 </p:panelGrid>
