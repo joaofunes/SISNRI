@@ -191,10 +191,19 @@ public class PropuestaConvenioMB implements Serializable {
     private Boolean tabAsisMostrar;
     private Boolean tabAsisExterno;
     private Boolean tabAsisMostrarExterno;
-    private Boolean disableAutoInterno;
+    
+    
+       
+    private Boolean flagSearchDuiSolicitante;
+    private Boolean flagSearchNombreSolicitante;
+    private Boolean flagSearchEmailSolicitante;
+    
+    private Boolean disableAutoInterno;        
     private Boolean flagSearchDuiInterno;
     private Boolean flagSearchNombreInterno;
     private Boolean flagSearchEmailInterno;
+    
+    
     private Boolean disableAutoExterno;
     private Boolean flagSearchDuiExterno;
     private Boolean flagSearchNombreExterno;
@@ -214,6 +223,7 @@ public class PropuestaConvenioMB implements Serializable {
     private boolean habilitarBotonSaveExternoDos;      
     
     
+    private boolean bloqueosSolicitante;
     private boolean bloqueosInterno;
     
     private List<Persona> listAll;
@@ -303,6 +313,7 @@ public class PropuestaConvenioMB implements Serializable {
             flagSearchNombreExterno = Boolean.FALSE;
             flagSearchEmailExterno = Boolean.FALSE;
             
+            tipoBusquedaSolicitante = null;
             tipoBusquedaInterna = null;
             tipoBusquedaExterna = null;
             
@@ -321,6 +332,7 @@ public class PropuestaConvenioMB implements Serializable {
             habilitarBotonSaveExternoDos= false;       
             
             bloqueosInterno=false;
+            bloqueosSolicitante = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -382,6 +394,41 @@ public class PropuestaConvenioMB implements Serializable {
         }
     }
 
+    /**
+     * Metodo para realizar busquedas por nombre, email, documento independiente
+     *
+     * @param query
+     * @return
+     */
+    public List<Persona> methodSearchSolicitante(String query) {
+        try {
+            List<Persona> list = new ArrayList<Persona>();
+            if (tipoBusquedaSolicitante.equalsIgnoreCase("nombre")) {
+                listAll = personaService.getReferenteInternoByName(query);
+                for (Persona us : listAll) {
+                    list.add(us);
+                }
+                return list;
+            } else if (tipoBusquedaSolicitante.equalsIgnoreCase("email")) {
+                listAll = personaService.getReferenteInternoByEmail(query);
+                for (Persona us : listAll) {
+                    list.add(us);
+                }
+                return list;
+            }
+//            else if (tipoBusquedaSolicitante.equalsIgnoreCase("doc")) {
+//                query = query.substring(0, 7) + "-" + query.substring(7);
+//                referenteInterno = personaService.getPersonaByDui(query);
+//                boolean add = list.add(referenteInterno);
+//               
+//                return list;
+//            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * Metodo para realizar busquedas por nombre, email, documento independiente
      *
@@ -1257,6 +1304,28 @@ public class PropuestaConvenioMB implements Serializable {
         }
 
     }
+    /**
+     * metodo habilita el autoComplete para ingreso de busquedas de personas
+     * Solicitantes
+     */
+    public void habilitarAutoSolicitante(AjaxBehaviorEvent event) {
+
+        flagSearchDuiSolicitante = Boolean.FALSE;
+        flagSearchNombreSolicitante = Boolean.FALSE;
+        flagSearchEmailSolicitante = Boolean.FALSE;
+
+       
+        if (tipoBusquedaSolicitante.equalsIgnoreCase("doc")) {
+            flagSearchDuiSolicitante = Boolean.TRUE;
+        }
+        if (tipoBusquedaSolicitante.equalsIgnoreCase("nombre")) {
+            flagSearchNombreSolicitante = Boolean.TRUE;
+        }
+        if (tipoBusquedaSolicitante.equalsIgnoreCase("email")) {
+            flagSearchEmailSolicitante = Boolean.TRUE;
+        }
+
+    }
 
     /**
      * metodo habilita el autoComplete para ingreso de busquedas de personas
@@ -1925,6 +1994,38 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setTipoBusquedaSolicitante(String tipoBusquedaSolicitante) {
         this.tipoBusquedaSolicitante = tipoBusquedaSolicitante;
+    }
+
+    public boolean isBloqueosSolicitante() {
+        return bloqueosSolicitante;
+    }
+
+    public void setBloqueosSolicitante(boolean bloqueosSolicitante) {
+        this.bloqueosSolicitante = bloqueosSolicitante;
+    }
+
+    public Boolean getFlagSearchDuiSolicitante() {
+        return flagSearchDuiSolicitante;
+    }
+
+    public void setFlagSearchDuiSolicitante(Boolean flagSearchDuiSolicitante) {
+        this.flagSearchDuiSolicitante = flagSearchDuiSolicitante;
+    }
+
+    public Boolean getFlagSearchNombreSolicitante() {
+        return flagSearchNombreSolicitante;
+    }
+
+    public void setFlagSearchNombreSolicitante(Boolean flagSearchNombreSolicitante) {
+        this.flagSearchNombreSolicitante = flagSearchNombreSolicitante;
+    }
+
+    public Boolean getFlagSearchEmailSolicitante() {
+        return flagSearchEmailSolicitante;
+    }
+
+    public void setFlagSearchEmailSolicitante(Boolean flagSearchEmailSolicitante) {
+        this.flagSearchEmailSolicitante = flagSearchEmailSolicitante;
     }
 
 }
