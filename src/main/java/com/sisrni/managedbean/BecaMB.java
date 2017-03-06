@@ -482,6 +482,9 @@ public class BecaMB implements Serializable {
         limpiarBecario();
         renderActualizarPersonaBecarioButton = Boolean.FALSE;
         renderNuevaPersonaBecarioButton = Boolean.FALSE;
+        presionoActualizarBecario = Boolean.FALSE;
+        presionoNuevoBecario = Boolean.FALSE;
+        disableBecarioInputs=Boolean.TRUE;
 
         becarioAux = new Persona();
         if (tipoBusquedaBecario.equalsIgnoreCase("doc")) {
