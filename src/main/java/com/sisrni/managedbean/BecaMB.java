@@ -481,12 +481,12 @@ public class BecaMB implements Serializable {
         try {
             if (presionoNuevoBecario == true) {
                 if (mostrarTabInterno == true) {
-
+                    preGuardarInterno();
                 }
                 if (mostrarTabExterno == true) {
-
+                    preGuardarExterno();
                 } else {
-                    //mando al guardar
+                    guardarBeca();
                 }
             } else if (presionoActualizarBecario = true) {
                 RequestContext context = RequestContext.getCurrentInstance();
@@ -496,6 +496,14 @@ public class BecaMB implements Serializable {
             }
         } catch (Exception e) {
         }
+
+    }
+
+    public void preGuardarInterno() {
+
+    }
+
+    public void preGuardarExterno() {
 
     }
 
