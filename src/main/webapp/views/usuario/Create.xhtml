@@ -37,6 +37,8 @@
                                 <p:inputText id="intentosAccesoFallidos" value="#{usuarioMB.selected.intentosAccesoFallidos}" title="Intentos Fallidos"/>
 
                             </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioMB.guardarUsuario()}" value="Guardar" update="display,:growl" oncomplete="handleSubmit(xhr,status,args,UsuarioCreateDialog);" onclick="PF('UsuarioCreateDialog').hide();"/>
+                    <p:commandButton value="Cancelar" onclick="PF('UsuarioCreateDialog').hide();"/>
                 </h:panelGroup>
 
             </h:form>
