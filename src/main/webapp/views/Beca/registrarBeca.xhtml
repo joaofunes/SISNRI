@@ -90,7 +90,7 @@
                                             <p:outputLabel value="#{lbecas.nombreBecario}" for="nombrebecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" disabled="false" required="#{becaMB.disableBecarioInputs}" />
+                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" disabled="#{becaMB.disableBecarioInputs}" required="true" />
                                             <h:inputHidden  id="nombreBecario" required="true" value="#{becaMB.becario.nombrePersona}" />
                                         </p:column>
                                         <p:column>
@@ -611,10 +611,22 @@
                     <p:commandButton rendered="#{becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.cancelar()}" process="@this" value="Cancelar" id="btnCancelar" title="Cancelar"/>
                     <p:commandButton rendered="#{becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.guardarBeca()}" process="formAdmin " update="formAdmin" value="Actualizar" id="btnActualizar" title="Actualizar Beca"/>
                     <p:commandButton rendered="#{!becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.cancelar()}" process="@this" update="formAdmin" value="Cancelar" id="btnregresar" title="volver"/>
-                    <p:commandButton rendered="#{!becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.guardarBeca()}" process="formAdmin" update="formAdmin" value="Guardar" id="btnGuardarBeca" title="Guardar Beca"/>
+                    <p:commandButton rendered="#{!becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.preGuardar()}" process="formAdmin" update="formAdmin" value="Guardar" id="btnGuardarBeca" title="Guardar Beca"/>
                 </center>
             </h:form>
             <p:separator/>
+            <p:confirmDialog widgetVar="dataChangeBecarioDlg" message="Ya existe el becario que desea ingresar, Est&aacute;a seguro que desea Actualizar los datos?" header="Existe Becario"  global="true">
+                <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarBecario()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{becaMB.noRemplazarBecario()}" process="@this" update=":formAdmin"/>
+            </p:confirmDialog>
+            <p:confirmDialog widgetVar="dataChangeDlgAsistente" message="Ya existe el coordinador tecnico que desea ingresar, Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador tecnico"  global="true">
+                <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
+            </p:confirmDialog>
+            <p:confirmDialog widgetVar="dataChangeDlgExterno" message="Ya existe el coordinador Externo que desea ingresar, Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador externo"  global="true">
+                <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
+            </p:confirmDialog>
         </ui:define>
     </ui:composition>
 </html>

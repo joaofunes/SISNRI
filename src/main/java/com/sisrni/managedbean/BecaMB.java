@@ -476,7 +476,56 @@ public class BecaMB implements Serializable {
         }
     }
 
+    //pre guardar
+    public void preGuardar() {
+        try {
+            if (presionoNuevoBecario == true) {
+                if (mostrarTabInterno == true) {
+
+                }
+                if (mostrarTabExterno == true) {
+
+                } else {
+                    //mando al guardar
+                }
+            } else if (presionoActualizarBecario = true) {
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('dataChangeBecarioDlg').show();");
+            } else {
+
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
+    public void noRemplazarBecario() {
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeBecarioDlg').hide();");
+        if (mostrarTabInterno == true) {
+
+        }
+        if (mostrarTabExterno == true) {
+
+        } else {
+            //mando al metodo guardar
+        }
+    }
+
+    public void siRemplazarBecario() {
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeBecarioDlg').hide();");
+        if (mostrarTabInterno == true) {
+
+        }
+        if (mostrarTabExterno == true) {
+
+        } else {
+            //mando a guardar
+        }
+    }
     //Busca de persona interna
+
     public void habilitarAutoBecario() {
         banderasBecarioFalsas();
         limpiarBecario();
@@ -484,7 +533,7 @@ public class BecaMB implements Serializable {
         renderNuevaPersonaBecarioButton = Boolean.FALSE;
         presionoActualizarBecario = Boolean.FALSE;
         presionoNuevoBecario = Boolean.FALSE;
-        disableBecarioInputs=Boolean.TRUE;
+        disableBecarioInputs = Boolean.TRUE;
 
         becarioAux = new Persona();
         if (tipoBusquedaBecario.equalsIgnoreCase("doc")) {
@@ -514,9 +563,7 @@ public class BecaMB implements Serializable {
     public void habilitarAutoAsesorInterno() {
         limpiarAsesorInterno();
         banderasAsesorInternoFalsas();
-//        if (disableAutoBecario) {
-//            disableAutoBecario = Boolean.FALSE;
-//        }
+
         if (tipoBusquedaAsesorInterno.equalsIgnoreCase("doc")) {
             flagSearchDuiAsesorInterno = Boolean.TRUE;
         }
@@ -532,9 +579,6 @@ public class BecaMB implements Serializable {
     public void habilitarAutoAsesorExterno() {
         limpiarAsesorExterno();
         banderasAsesorExternoFalsas();
-//        if (disableAutoBecario) {
-//            disableAutoBecario = Boolean.FALSE;
-//        }
         if (tipoBusquedaAsesorExterno.equalsIgnoreCase("doc")) {
             flagSearchDuiAsesorExterno = Boolean.TRUE;
         }
@@ -928,10 +972,12 @@ public class BecaMB implements Serializable {
                 if (list.isEmpty()) {
                     renderActualizarPersonaBecarioButton = Boolean.FALSE;
                     renderNuevaPersonaBecarioButton = Boolean.TRUE;
+                    disableBecarioInputs = Boolean.TRUE;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:botones");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
                 } else {
                     renderNuevaPersonaBecarioButton = Boolean.FALSE;
+                    disableBecarioInputs = Boolean.TRUE;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:botones");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
                 }
