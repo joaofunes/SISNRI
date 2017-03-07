@@ -33,19 +33,19 @@
                                     <p:outputLabel for="tipoBusquedaSol" value="Criterio de Busqueda:" />
                                 </p:column>
                                 <p:column>                                         
-                                    <p:selectOneMenu id="tipoBusquedaSol" value="#{propuestaConvenioMB.tipoBusquedaSolicitante}"  style="width:125px"
-                                        disabled="#{propuestaConvenioMB.bloqueosInterno}">  
-                                        <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoInterno}" update="grup1"  process="@this" />
+                                    <p:selectOneMenu id="tipoBusquedaSol" value="#{propuestaConvenioMB.tipoBusquedaSolicitante}"  style="width:125px">  
+                                        <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoSolicitante}" update="acordion:GroupSolicitante"  process="@this" />
                                         <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                         <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
                                         <f:selectItem itemLabel="E-mail" itemValue="email" />
                                         <f:selectItem itemLabel="Documento" itemValue="doc" />  
                                     </p:selectOneMenu>
                                </p:column>
-                                                             
-                                <p:column rendered="#{!propuestaConvenioMB.bloqueosInterno}"> 
-                                    <p:autoComplete id="searchDuiSolicitante" minQueryLength="9" size="9" rendered="#{propuestaConvenioMB.flagSearchDuiInterno}" 
-                                                    value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
+                                       rendered="#{!propuestaConvenioMB.bloqueosInterno}"                      
+                                <p:column > 
+                                    <p:autoComplete id="searchDuiSolicitante" minQueryLength="9" size="9" 
+                                                    rendered="#{propuestaConvenioMB.flagSearchDuiSolicitante}" 
+                                                    value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
                                                     var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
                                                     cache="true" queryDelay="1000"
                                                     emptyMessage="Solicitante no encontrado ......."
@@ -56,9 +56,9 @@
                                     </p:autoComplete>
                                     <p:watermark for="searchDuiSolicitante" value="DUI"/>  
                                     
-                                    <p:autoComplete id="idNombreSolicitante" value="#{propuestaConvenioMB.referenteInterno}" rendered="#{propuestaConvenioMB.flagSearchNombreInterno}"
-                                                    completeMethod="#{propuestaConvenioMB.methodSearch}" 
-                                                    disabled="#{propuestaConvenioMB.disableAutoInterno} "
+                                    <p:autoComplete id="idNombreSolicitante" value="#{propuestaConvenioMB.solicitante}" 
+                                                    rendered="#{propuestaConvenioMB.flagSearchNombreSolicitante}"
+                                                    completeMethod="#{propuestaConvenioMB.methodSearchSolicitante}"                                                     
                                                     var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                     cache="true" queryDelay="1000"
                                                     emptyMessage="Solicitante no encontrado ......."                                                    
@@ -66,14 +66,13 @@
                                         <p:column>
                                             <h:outputText value="#{theme.nombrePersona}" />
                                         </p:column>
-                                        <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,acordion:grup1"/>
+                                        <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitante"/>
                                     </p:autoComplete>
                                     <p:watermark for="idNombreSolicitante" value="Nombre"/> 
                                     
-                                    <p:autoComplete id="idEmailSolicitante" value="#{propuestaConvenioMB.referenteInterno}" 
-                                                    rendered="#{propuestaConvenioMB.flagSearchEmailInterno}"
-                                                    completeMethod="#{propuestaConvenioMB.methodSearch}" 
-                                                    disabled="#{propuestaConvenioMB.disableAutoInterno}}"
+                                    <p:autoComplete id="idEmailSolicitante" value="#{propuestaConvenioMB.solicitante}" 
+                                                    rendered="#{propuestaConvenioMB.flagSearchEmailSolicitante}"
+                                                    completeMethod="#{propuestaConvenioMB.methodSearchSolicitante}"                                                     
                                                     var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                     cache="true" queryDelay="1000"
                                                     emptyMessage="Solicitante no encontrado ......."    
@@ -81,7 +80,7 @@
                                         <p:column>
                                             <h:outputText value="#{theme.emailPersona}" />
                                         </p:column>
-                                        <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,acordion:grup1"/>
+                                        <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitante"/>
                                     </p:autoComplete>
                                     <p:watermark for="idEmailSolicitante" value="E-mail"/> 
                                 </p:column>

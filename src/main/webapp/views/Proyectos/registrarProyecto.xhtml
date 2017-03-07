@@ -199,7 +199,7 @@
                                                 <p:column>
                                                     <h:outputText value="#{name.duiPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno, grup1, idbotonesPersona"/>
                                             </p:autoComplete>
                                             <p:watermark for="searchDui" value="DUI"/> 
 
@@ -210,7 +210,7 @@
                                                 <p:column>
                                                     <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno, grup1, idbotonesPersona"/>
                                             </p:autoComplete>
                                             <p:watermark for="idNombreInterno" value="Nombre/Apellido"/> 
                                             <p:autoComplete id="idEmailInterno" value="#{proyectosMB.personaAux}" rendered="#{proyectosMB.flagSearchEmailInterno}"
@@ -220,12 +220,20 @@
                                                 <p:column>
                                                     <h:outputText value="#{theme.emailPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno, grup1, idbotonesPersona"/>
                                             </p:autoComplete>
                                             <p:watermark for="idEmailInterno" value="E-mail"/> 
                                         </p:column>
-                                    </p:panelGrid>
+                                    </p:panelGrid> 
                                 </h:panelGroup>
+                                <p:panel id="idbotonesPersona">
+                                    <p:column>
+                                        <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersona()}" process="@this" rendered="#{proyectosMB.buscoYEncontroCoordinador}" update="GroupSolicitanteInterno, grup1, idbotonesPersona" partialSubmit="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersona()}" process="@this" rendered="#{proyectosMB.activarBotonNuevaPersona}" update="GroupSolicitanteInterno, idbotonesPersona" partialSubmit="true"/>
+                                    </p:column>   
+                                </p:panel>
                                 <p:separator/>
                                 <h:panelGroup id="GroupSolicitanteInterno">
                                     <p:panelGrid columns="4">
@@ -233,27 +241,27 @@
                                             <p:outputLabel for="nombresolicitante" value="Nombre:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersona || proyectosMB.tipoBusquedaInterna eq null}">
+                                            <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" rendered="true" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersona}" disabled="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.siEditoPersona) or (!proyectosMB.buscoYEncontroCoordinador) or (!proyectosMB.siBuscoPersona) or (proyectosMB.siBuscoPersona and !proyectosMB.nuevaPersona)}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidosolicitante" value="Apellido:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersona}">
+                                            <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" rendered="true" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersona}" disabled="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.siEditoPersona) or (!proyectosMB.buscoYEncontroCoordinador) or (!proyectosMB.siBuscoPersona)}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Dui:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duisolicitante" mask="99999999-9" value="#{proyectosMB.persona.duiPersona}" disabled="#{!proyectosMB.siBuscoPersona}"/>
+                                            <p:inputMask id="duisolicitante" mask="99999999-9" value="#{proyectosMB.persona.duiPersona}" disabled="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.siEditoPersona) or (!proyectosMB.buscoYEncontroCoordinador) or (!proyectosMB.siBuscoPersona)}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="correosolicitante" value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersona}">
+                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersona}" disabled="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.siEditoPersona) or (!proyectosMB.buscoYEncontroCoordinador) or (!proyectosMB.siBuscoPersona)}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
@@ -261,14 +269,14 @@
                                             <p:outputLabel value="Cargo:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}" disabled="#{!proyectosMB.siBuscoPersona}">
+                                            <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}" disabled="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.siEditoPersona) or (!proyectosMB.buscoYEncontroCoordinador) or (!proyectosMB.siBuscoPersona)}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Facultad/Unidad:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadsolicitante" value="#{proyectosMB.facultadSelectedPojoSol}"  style="width:180px" disabled="#{!proyectosMB.siBuscoPersona}">
+                                            <p:selectOneMenu id="facultadsolicitante" value="#{proyectosMB.facultadSelectedPojoSol}"  style="width:180px" disabled="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.siEditoPersona) or (!proyectosMB.buscoYEncontroCoordinador) or (!proyectosMB.siBuscoPersona)}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="facu" items="#{proyectosMB.facultadesUnidadesSolList}">
                                                     <f:selectItem itemLabel="#{facu.label}" itemValue="#{facu.value}"/>
@@ -280,7 +288,7 @@
                                             <p:outputLabel value="Escuela/Departamento:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="unidadsolicitante" value="#{proyectosMB.escuelaDeptoSelectedSol.idEscuelaDepto}" disabled="#{proyectosMB.mostrarEscuelaSol}" style="width:180px" >
+                                            <p:selectOneMenu id="unidadsolicitante" value="#{proyectosMB.escuelaDeptoSelectedSol.idEscuelaDepto}" disabled="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.siEditoPersona) or (!proyectosMB.buscoYEncontroCoordinador) or (!proyectosMB.siBuscoPersona)}" style="width:180px" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="uni" items="#{proyectosMB.escuelaDeptoListSol}">
                                                     <f:selectItem itemLabel="#{uni.nombreEscuelaDepto}" itemValue="#{uni.idEscuelaDepto}"/>
@@ -291,13 +299,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999" disabled="#{!proyectosMB.siBuscoPersona}"/>
+                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999" disabled="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.siEditoPersona) or (!proyectosMB.buscoYEncontroCoordinador) or (!proyectosMB.siBuscoPersona)}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="(503)-9999-9999" disabled="#{!proyectosMB.siBuscoPersona}"/>
+                                            <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="(503)-9999-9999" disabled="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.siEditoPersona) or (!proyectosMB.buscoYEncontroCoordinador) or (!proyectosMB.siBuscoPersona)}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
@@ -483,6 +491,12 @@
                                                 <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliExterno()}" process="@this" update="GroupSolicitanteExterno"/>
                                             </p:autoComplete>
                                             <p:watermark for="idEmailExterno" value="E-mail"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersonaExterna()}" process="@this" rendered="#{proyectosMB.siBuscoPersonaExterna}" update="GroupSolicitanteExterno, grup1" partialSubmit="true"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton value="Nueva Persona" actionListener="#" process="@this" rendered="#{(proyectosMB.siEditoPersona) or (!proyectosMB.buscoYEncontroCoordinador and !proyectosMB.siEditoPersona and proyectosMB.siBuscoPersona)}" update="GroupSolicitanteInterno" partialSubmit="true"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
