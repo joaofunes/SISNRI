@@ -888,16 +888,16 @@ public class PropuestaConvenioMB implements Serializable {
         try {
             //crear persona y luego almacenar
             referenteInterno.setIdUnidad(null);
-            referenteInterno.setIdCarrera(null);
+            //referenteInterno.setIdCarrera(null);
             referenteInterno.setIdEscuelaDepto(null);
            
-           // if(facultadesUnidadesInterno.getUnidadFacultad() != null){
-            if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
-                referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getPrimary()));
-            } else if (facultadesUnidadesInterno.getUnidadFacultad() == 'F') {
-                referenteInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoInterno.getIdEscuelaDepto()));
+            if (facultadesUnidadesInterno != null) {
+                if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
+                    referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getPrimary()));
+                } else if (facultadesUnidadesInterno.getUnidadFacultad() == 'F') {
+                    referenteInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoInterno.getIdEscuelaDepto()));
+                }
             }
-           // }
             referenteInterno.setExtranjero(Boolean.FALSE);//no es extrajero
             referenteInterno.setActivo(Boolean.TRUE);//esta activo
             referenteInterno.setPasaporte("0");
