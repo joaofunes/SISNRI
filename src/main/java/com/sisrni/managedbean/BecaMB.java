@@ -513,7 +513,7 @@ public class BecaMB implements Serializable {
     }
 
     public void preGuardarInterno() {
-
+//pendiente
     }
 
     public void preGuardarExterno() {
