@@ -16,7 +16,7 @@
                 <center>
                     <p:panel style="width: 80%">
                         <h:form id="formRegistrarMovilidad">
-                            
+
                             <p:growl id="growlMov" showDetail="true" sticky="false"/>
                             <p:tab>
                                 <p:column>
@@ -40,18 +40,14 @@
                                             <p:outputLabel for="nombreMovilidad" value="Programa de movilidad"/>
                                         </p:column>
                                         <p:column>
-                                            <!--<p:inputTextarea id="nombreMovilidad" label="nombreMovilidad" value="#" style="width:180px"/>-->
-                                            <!--registrarMovilidadMB.programaMovilidadSelected.idProgramaMovilidad-->
-                                            
-                                            
                                             <p:selectOneMenu id="nombreMovilidad" value="#{registrarMovilidadMB.movilidad.idProgramaMovilidad}" style="width: 180px"  required="true" 
                                                              converter="#{programaMovilidadConverter}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listProgramaMovilidad}" var="nombMovilidad" itemLabel="#{nombMovilidad.nombreProgramaMovilidad}" itemValue="#{nombMovilidad}"/>
                                                 <p:ajax listener="#{registrarMovilidadMB.onchangeProgramaMovilidadList()}" update="acordion:descripcionMovilidad"/>
                                             </p:selectOneMenu>
-                                            
-                                      
+
+
                                         </p:column>
 
                                         <p:column>
@@ -74,9 +70,9 @@
 
                                     </p:panelGrid>
                                 </p:tab>
-                                
+
                                 <!--Buscador personas en movilidad-->
-                                
+
                                 <p:tab title="Datos docente en movilidad">
                                     <!--Docente Saliente -->
                                     <h:panelGroup id="grup1" rendered="#{registrarMovilidadMB.mostrarBuscadorSaliente}">
@@ -127,6 +123,10 @@
                                                     <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idEmailInterno" value="E-mail"/> 
+                                            </p:column>
+                                             <p:column>
+                                                <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad"/>
+                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad,grup1" rendered="true"/>
                                             </p:column>
                                         </p:panelGrid>
                                     </h:panelGroup>
@@ -180,6 +180,10 @@
                                                 </p:autoComplete>
                                                 <p:watermark for="idEmailEntrante" value="E-mail"/> 
                                             </p:column>
+                                            <p:column>
+                                                <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad" rendered="false"/>
+                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad,grup1" rendered="#{registrarMovilidadMB.mostrarBotonEditarDocente}"/>
+                                            </p:column>
                                         </p:panelGrid>
                                     </h:panelGroup>
 
@@ -195,13 +199,12 @@
                                     <!--INGRESO DE DATOS DE DOCENTES-->
                                     <h:panelGroup id="groupPersonaMovilidad">
                                         <p:panelGrid columns="4"  id="panelPersonaEnMovilidad">
-                                            <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad"/><h:panelGroup/><h:panelGroup/><h:panelGroup/>
                                             <p:column>
                                                 <p:outputLabel for="nombrePersona" value="Nombres"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText id="nombrePersona" label="nombrePersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.nombrePersona}" validatorMessage="Este campo solo admite letras" required="true" readonly="#{registrarMovilidadMB.isHabilidado}" disabled="#{registrarMovilidadMB.activarDocente}"/>
-                                               
+
                                             </p:column>
                                             <p:column>
                                                 <p:outputLabel for="apellidoPersona" value="Apellidos"/>
@@ -438,9 +441,9 @@
 
                                     </p:panelGrid>
                                 </p:tab>
-                         
-                                
-                            <!--Buscador de referente de la facultad -->    
+
+
+                                <!--Buscador de referente de la facultad -->    
                                 <p:tab title="Datos Referente de la facultad">
                                     <h:panelGroup id="grup3">
                                         <p:panelGrid id="gridRef">
@@ -577,33 +580,33 @@
                                                 </p:column> 
                                             </p:row>
                                             <p:row>
-                                            <p:column>
-                                                <p:outputLabel for="emailPersonaFacultad" value="Correo Electr&oacute;nico"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:inputText id="emailPersonaFacultad" label="emailPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" required="true" readonly="#{registrarMovilidadMB.isHabilitadoRfte}" disabled="#{registrarMovilidadMB.activarReferente}">
-                                                    <f:validator validatorId="com.sisrni.validator.emailValidator"/>
-                                                </p:inputText>
-                                            </p:column>
-                                            <p:column>
-                                                <p:outputLabel for="telPersonaFacultad" value="Tel&eacute;fono institucional"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:inputMask id="telPersonaFacultad" label="telPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
-                                            </p:column>
-                                             </p:row>
-                                            <p:row>
-                                            <p:column>
-                                                <p:outputLabel for="celPersonaFacultad" value="Tel&eacute;fono movil"/>
-                                            </p:column>
-                                            <p:column>
-                                                <p:inputMask id="celPersonaFacultad" label="celPersonaFacultad" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
-                                            </p:column>
+                                                <p:column>
+                                                    <p:outputLabel for="emailPersonaFacultad" value="Correo Electr&oacute;nico"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:inputText id="emailPersonaFacultad" label="emailPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadGenerico.emailPersona}" required="true" readonly="#{registrarMovilidadMB.isHabilitadoRfte}" disabled="#{registrarMovilidadMB.activarReferente}">
+                                                        <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                                                    </p:inputText>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:outputLabel for="telPersonaFacultad" value="Tel&eacute;fono institucional"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:inputMask id="telPersonaFacultad" label="telPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
+                                                </p:column>
                                             </p:row>
                                             <p:row>
-                                            <p:column>
-                                                <p:commandButton value="Desvincular referente" actionListener="#{registrarMovilidadMB.desvincularReferente()}" process="@this" rendered="#{registrarMovilidadMB.mostrarBotonDesvincular}"/>
-                                            </p:column>
+                                                <p:column>
+                                                    <p:outputLabel for="celPersonaFacultad" value="Tel&eacute;fono movil"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:inputMask id="celPersonaFacultad" label="celPersonaFacultad" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <p:commandButton value="Desvincular referente" actionListener="#{registrarMovilidadMB.desvincularReferente()}" process="@this" rendered="#{registrarMovilidadMB.mostrarBotonDesvincular}"/>
+                                                </p:column>
                                             </p:row>    
                                             <!--    <p:column>
                                                     <p:outputLabel for="faxPersonaFacultad" value="Fax"/>
@@ -624,7 +627,7 @@
                                         <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.regresar()}"  process="@this"   value="Regresar"  id="btnRegresar" title="Regresar" />
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.preGuardarMovilidad()}" process="formRegistrarMovilidad" update="formRegistrarMovilidad"  value="Guardar"  id="btnModificar"  title="Guardar Movilidad" />                                 
+                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.preGuardadoMovilidad()}" process="formRegistrarMovilidad" update="formRegistrarMovilidad"  value="Guardar"  id="btnModificar"  title="Guardar Movilidad" />                                 
                                     </p:column>
                                     <p:column>
                                         <h:panelGroup/>
@@ -638,53 +641,61 @@
 
 
                 <!--Dialog persona en movilidad-->
-                <p:confirmDialog widgetVar="dlgExistePersonaMov" id="dialogopermov" header="Persona ya existe en el sistema"  
-                                 global="true" showEffect="fade" hideEffect="fade">
-                    <f:facet name="message" >
-                        <h:outputText value="#{registrarMovilidadMB.msgPersonaMovExiste}" escape="false"/>
-                    </f:facet>
-
-                    <h:form id="dialogPersonaMovExiste">
-                        <p:panelGrid columns="2">
-                            <h:outputLabel value="Nombre: "/>
-                            <h:outputText value="#{registrarMovilidadMB.personaMovAux.nombrePersona}"/>
-                            <h:outputLabel value="Apellidos: "/>
-                            <h:outputText value="#{registrarMovilidadMB.personaMovAux.apellidoPersona}"/>
-                            <h:outputLabel value="Cargo: "/>
-                            <h:outputText value="#{registrarMovilidadMB.personaMovAux.cargoPersona}"/>
-                            <h:outputLabel value="Institucion: "/>
-                            <h:outputText value="#{registrarMovilidadMB.personaMovAux.idOrganismo.nombreOrganismo}"/>
-                            <h:outputLabel value="Email: "/>
-                            <h:outputText value="#{registrarMovilidadMB.personaMovAux.emailPersona}"/>
-                        </p:panelGrid>
-                    </h:form>     
-                    <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.sobreEscribirPersonaEnmovilidad()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                    <p:commandButton value="Cancelar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaMov}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
+                <!--   <p:confirmDialog widgetVar="dlgExistePersonaMov" id="dialogopermov" header="Persona ya existe en el sistema"  
+                                    global="true" showEffect="fade" hideEffect="fade">
+                       <f:facet name="message" >
+                           <h:outputText value="#{registrarMovilidadMB.msgPersonaMovExiste}" escape="false"/>
+                       </f:facet>
+   
+                       <h:form id="dialogPersonaMovExiste">
+                           <p:panelGrid columns="2">
+                               <h:outputLabel value="Nombre: "/>
+                               <h:outputText value="#{registrarMovilidadMB.personaMovAux.nombrePersona}"/>
+                               <h:outputLabel value="Apellidos: "/>
+                               <h:outputText value="#{registrarMovilidadMB.personaMovAux.apellidoPersona}"/>
+                               <h:outputLabel value="Cargo: "/>
+                               <h:outputText value="#{registrarMovilidadMB.personaMovAux.cargoPersona}"/>
+                               <h:outputLabel value="Institucion: "/>
+                               <h:outputText value="#{registrarMovilidadMB.personaMovAux.idOrganismo.nombreOrganismo}"/>
+                               <h:outputLabel value="Email: "/>
+                               <h:outputText value="#{registrarMovilidadMB.personaMovAux.emailPersona}"/>
+                           </p:panelGrid>
+                       </h:form>     
+                       <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.sobreEscribirPersonaEnmovilidad()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                       <p:commandButton value="Cancelar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaMov}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                   </p:confirmDialog> -->
 
                 <!--Dialog persona referente-->
-                <p:confirmDialog widgetVar="dlgExisteReferente" id="dialogoperref" header="Persona ya existe en el sistema"
+                <!--   <p:confirmDialog widgetVar="dlgExisteReferente" id="dialogoperref" header="Persona ya existe en el sistema"
+                                    global="true" showEffect="fade" hideEffect="fade">
+                       <f:facet name="message">
+                           <h:outputText value="#{registrarMovilidadMB.msgPersonaRefExiste}" escape="false"/>
+                       </f:facet>
+                       <h:form id="dialogPersonaRefExiste">
+                           <p:panelGrid columns="2">
+                               <h:outputLabel value="Nombre: "/>
+                               <h:outputText value="#{registrarMovilidadMB.personaReftAux.nombrePersona}"/>
+                               <h:outputLabel value="Apellidos: "/>
+                               <h:outputText value="#{registrarMovilidadMB.personaReftAux.apellidoPersona}"/>
+                               <h:outputLabel value="Cargo: "/>
+                               <h:outputText value="#{registrarMovilidadMB.personaReftAux.cargoPersona}"/>
+                               <h:outputLabel value="Institucion: "/>
+                               <h:outputText value="#{registrarMovilidadMB.personaReftAux.idOrganismo.nombreOrganismo}"/>
+                               <h:outputLabel value="Email: "/>
+                               <h:outputText value="#{registrarMovilidadMB.personaReftAux.emailPersona}"/>
+                           </p:panelGrid>
+                       </h:form>
+                       <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.sobreEscribirPersonaReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                       <p:commandButton value="Cancelar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaReft()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                   </p:confirmDialog>-->     
+
+                <p:confirmDialog widgetVar="dlgEdicionDocente" id="dialogDocenteUpdate" header="Modificar Persona" message="Esta seguro que desea modificar los datos del docente en movilidad"
                                  global="true" showEffect="fade" hideEffect="fade">
-                    <f:facet name="message">
-                        <h:outputText value="#{registrarMovilidadMB.msgPersonaRefExiste}" escape="false"/>
-                    </f:facet>
-                    <h:form id="dialogPersonaRefExiste">
-                        <p:panelGrid columns="2">
-                            <h:outputLabel value="Nombre: "/>
-                            <h:outputText value="#{registrarMovilidadMB.personaReftAux.nombrePersona}"/>
-                            <h:outputLabel value="Apellidos: "/>
-                            <h:outputText value="#{registrarMovilidadMB.personaReftAux.apellidoPersona}"/>
-                            <h:outputLabel value="Cargo: "/>
-                            <h:outputText value="#{registrarMovilidadMB.personaReftAux.cargoPersona}"/>
-                            <h:outputLabel value="Institucion: "/>
-                            <h:outputText value="#{registrarMovilidadMB.personaReftAux.idOrganismo.nombreOrganismo}"/>
-                            <h:outputLabel value="Email: "/>
-                            <h:outputText value="#{registrarMovilidadMB.personaReftAux.emailPersona}"/>
-                        </p:panelGrid>
-                    </h:form>
-                    <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.sobreEscribirPersonaReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                    <p:commandButton value="Cancelar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaReft()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>     
+
+                    <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarDocente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="No" type="submit" action="#{registrarMovilidadMB.noModificarDocente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />               
+
+                </p:confirmDialog>       
             </ui:define>
 
         </ui:composition>
