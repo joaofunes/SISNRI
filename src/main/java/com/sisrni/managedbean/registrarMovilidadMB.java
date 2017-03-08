@@ -370,6 +370,8 @@ public class registrarMovilidadMB {
 
         programaMovilidadSelected = new ProgramaMovilidad();
         movilidad = new Movilidad();
+        movilidad.setIdProgramaMovilidad(new ProgramaMovilidad());
+        movilidad.setIdEtapaMovilidad(new EtapaMovilidad());
         programaMovilidad = new ProgramaMovilidad();
         tipoMovilidad = new TipoMovilidad();
         tipoMovilidadSelected = null;
@@ -1384,11 +1386,11 @@ public class registrarMovilidadMB {
             movilidad.setIdUniversidadDestino(institucionDestinoSelected);
             movilidad.setIdPaisDestino(paisDestinoSelected);
 
-            movilidad.setFechaInicio(fechaInicioSelected);
-            movilidad.setFechaFin(fechaFinSelected);
+//            movilidad.setFechaInicio(fechaInicioSelected);
+//            movilidad.setFechaFin(fechaFinSelected);
 
             movilidad.setFechaEntregaMined(fechaEntregaMinedSelected);
-            movilidad.setIdEtapaMovilidad(etapamovilidadService.findById(etapaMovilidadSelected));
+//            movilidad.setIdEtapaMovilidad(etapamovilidadService.findById(etapaMovilidadSelected));
             movilidad.setEntregaDeInforme(entregaInformeSelected);
             //movilidad.setObsequio(obsequioSelected);
 

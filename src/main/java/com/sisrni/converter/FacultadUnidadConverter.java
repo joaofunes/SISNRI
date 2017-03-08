@@ -48,17 +48,20 @@ public class FacultadUnidadConverter implements Converter{
             return null;
         } else {
             try {
-                int number = Integer.parseInt(submittedValue);
-                ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-                PropuestaConvenioMB firstBean = (PropuestaConvenioMB) elContext.getELResolver().getValue(elContext, null, "propuestaConvenioMB");
-                    
-                listaFacultadUnidad=firstBean.getListaFacultadUnidad();
-                for (PojoFacultadesUnidades s : listaFacultadUnidad) {
-                    if (s.getId() == number) {
-                        return s;
+                if (isNumeric(submittedValue)) {
+                    if (submittedValue != null) {
+                        int number = Integer.parseInt(submittedValue);
+                        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+                        PropuestaConvenioMB firstBean = (PropuestaConvenioMB) elContext.getELResolver().getValue(elContext, null, "propuestaConvenioMB");
+
+                        listaFacultadUnidad = firstBean.getListaFacultadUnidad();
+                        for (PojoFacultadesUnidades s : listaFacultadUnidad) {
+                            if (s.getId() == number) {
+                                return s;
+                            }
+                        }
                     }
                 }
-
             } catch(NumberFormatException exception) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Error FacultadUnidadConverter "));
             }
@@ -96,6 +99,11 @@ public class FacultadUnidadConverter implements Converter{
         sb.append(value);
         return sb.toString();
     }
+     
+    public static boolean isNumeric(String str) {
+        return (str.matches("[+-]?\\d*(\\.\\d+)?") && str.equals("")==false);
+    }
+
 
     public List<PojoFacultadesUnidades> getListaFacultadUnidad() {
         return listaFacultadUnidad;

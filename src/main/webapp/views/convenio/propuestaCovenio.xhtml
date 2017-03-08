@@ -30,61 +30,61 @@
                             <p:panelGrid >                           
                                 <p:row rendered="#{propuestaConvenioMB.rol != null}">
                                     <p:column>
-                                    <p:outputLabel for="tipoBusquedaSol" value="Criterio de Busqueda:" />
-                                </p:column>
-                                <p:column>                                         
-                                    <p:selectOneMenu id="tipoBusquedaSol" value="#{propuestaConvenioMB.tipoBusquedaSolicitante}"  style="width:125px">  
-                                        <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoSolicitante}" update="acordion:GroupSolicitante"  process="@this" />
-                                        <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
-                                        <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
-                                        <f:selectItem itemLabel="E-mail" itemValue="email" />
-                                        <f:selectItem itemLabel="Documento" itemValue="doc" />  
-                                    </p:selectOneMenu>
-                               </p:column>
-                                       rendered="#{!propuestaConvenioMB.bloqueosInterno}"                      
-                                <p:column > 
-                                    <p:autoComplete id="searchDuiSolicitante" minQueryLength="9" size="9" 
-                                                    rendered="#{propuestaConvenioMB.flagSearchDuiSolicitante}" 
-                                                    value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
-                                                    var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
-                                                    cache="true" queryDelay="1000"
-                                                    emptyMessage="Solicitante no encontrado ......."
-                                                    forceSelection="true">                                            
-                                        <p:column>
-                                            <h:outputText value="#{name.duiPersona}" />
-                                        </p:column>
-                                    </p:autoComplete>
-                                    <p:watermark for="searchDuiSolicitante" value="DUI"/>  
-                                    
-                                    <p:autoComplete id="idNombreSolicitante" value="#{propuestaConvenioMB.solicitante}" 
-                                                    rendered="#{propuestaConvenioMB.flagSearchNombreSolicitante}"
-                                                    completeMethod="#{propuestaConvenioMB.methodSearchSolicitante}"                                                     
-                                                    var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
-                                                    cache="true" queryDelay="1000"
-                                                    emptyMessage="Solicitante no encontrado ......."                                                    
-                                                    forceSelection="true">                                           
-                                        <p:column>
-                                            <h:outputText value="#{theme.nombrePersona}" />
-                                        </p:column>
-                                        <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitante"/>
-                                    </p:autoComplete>
-                                    <p:watermark for="idNombreSolicitante" value="Nombre"/> 
-                                    
-                                    <p:autoComplete id="idEmailSolicitante" value="#{propuestaConvenioMB.solicitante}" 
-                                                    rendered="#{propuestaConvenioMB.flagSearchEmailSolicitante}"
-                                                    completeMethod="#{propuestaConvenioMB.methodSearchSolicitante}"                                                     
-                                                    var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
-                                                    cache="true" queryDelay="1000"
-                                                    emptyMessage="Solicitante no encontrado ......."    
-                                                    forceSelection="true">                                           
-                                        <p:column>
-                                            <h:outputText value="#{theme.emailPersona}" />
-                                        </p:column>
-                                        <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitante"/>
-                                    </p:autoComplete>
-                                    <p:watermark for="idEmailSolicitante" value="E-mail"/> 
-                                </p:column>
-                                   
+                                        <p:outputLabel for="tipoBusquedaSol" value="Criterio de Busqueda:" />
+                                    </p:column>
+                                    <p:column>                                         
+                                        <p:selectOneMenu id="tipoBusquedaSol" value="#{propuestaConvenioMB.tipoBusquedaSolicitante}"  style="width:125px">  
+                                            <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoSolicitante}" update="acordion:GroupSolicitante"  process="@this" />
+                                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
+                                            <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
+                                            <f:selectItem itemLabel="E-mail" itemValue="email" />
+                                            <f:selectItem itemLabel="Documento" itemValue="doc" />  
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    rendered="#{!propuestaConvenioMB.bloqueosInterno}"                      
+                                    <p:column > 
+                                        <p:autoComplete id="searchDuiSolicitante" minQueryLength="9" size="9" 
+                                                        rendered="#{propuestaConvenioMB.flagSearchDuiSolicitante}" 
+                                                        value="#{propuestaConvenioMB.solicitante}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
+                                                        var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
+                                                        cache="true" queryDelay="1000"
+                                                        emptyMessage="Solicitante no encontrado ......."
+                                                        forceSelection="true">                                            
+                                            <p:column>
+                                                <h:outputText value="#{name.duiPersona}" />
+                                            </p:column>
+                                        </p:autoComplete>
+                                        <p:watermark for="searchDuiSolicitante" value="DUI"/>  
+
+                                        <p:autoComplete id="idNombreSolicitante" value="#{propuestaConvenioMB.solicitante}" 
+                                                        rendered="#{propuestaConvenioMB.flagSearchNombreSolicitante}"
+                                                        completeMethod="#{propuestaConvenioMB.methodSearchSolicitante}"                                                     
+                                                        var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                        cache="true" queryDelay="1000"
+                                                        emptyMessage="Solicitante no encontrado ......."                                                    
+                                                        forceSelection="true">                                           
+                                            <p:column>
+                                                <h:outputText value="#{theme.nombrePersona}" />
+                                            </p:column>
+                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSolicitante()}" process="@this" update="acordion:GroupSolicitante"/>
+                                        </p:autoComplete>
+                                        <p:watermark for="idNombreSolicitante" value="Nombre"/> 
+
+                                        <p:autoComplete id="idEmailSolicitante" value="#{propuestaConvenioMB.solicitante}" 
+                                                        rendered="#{propuestaConvenioMB.flagSearchEmailSolicitante}"
+                                                        completeMethod="#{propuestaConvenioMB.methodSearchSolicitante}"                                                     
+                                                        var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                        cache="true" queryDelay="1000"
+                                                        emptyMessage="Solicitante no encontrado ......."    
+                                                        forceSelection="true">                                           
+                                            <p:column>
+                                                <h:outputText value="#{theme.emailPersona}" />
+                                            </p:column>
+                                            <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSolicitante()}" process="@this" update="acordion:GroupSolicitante"/>
+                                        </p:autoComplete>
+                                        <p:watermark for="idEmailSolicitante" value="E-mail"/> 
+                                    </p:column>
+
                                 </p:row>  
                                 <p:row>
                                     <p:column>
@@ -192,15 +192,15 @@
                                 </p:column>
                                 <p:column>                                         
                                     <p:selectOneMenu id="tipoBusquedaInt" value="#{propuestaConvenioMB.tipoBusquedaInterna}"  style="width:125px"
-                                        disabled="#{propuestaConvenioMB.bloqueosInterno}">  
+                                                     disabled="#{propuestaConvenioMB.bloqueosInterno}">  
                                         <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoInterno}" update="grup1"  process="@this" />
                                         <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                         <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
                                         <f:selectItem itemLabel="E-mail" itemValue="email" />
                                         <f:selectItem itemLabel="Documento" itemValue="doc" />  
                                     </p:selectOneMenu>
-                               </p:column>
-                                                             
+                                </p:column>
+
                                 <p:column rendered="#{!propuestaConvenioMB.bloqueosInterno}"> 
                                     <p:autoComplete id="searchDui" minQueryLength="9" size="9" rendered="#{propuestaConvenioMB.flagSearchDuiInterno}" 
                                                     value="#{propuestaConvenioMB.referenteInterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaDui}"
@@ -213,13 +213,13 @@
                                         </p:column>
                                     </p:autoComplete>
                                     <p:watermark for="searchDui" value="DUI"/>  
-                                    
+
                                     <p:autoComplete id="idNombreInterno" value="#{propuestaConvenioMB.referenteInterno}" rendered="#{propuestaConvenioMB.flagSearchNombreInterno}"
                                                     completeMethod="#{propuestaConvenioMB.methodSearch}" 
                                                     disabled="#{propuestaConvenioMB.disableAutoInterno} "
                                                     var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                     cache="true" queryDelay="1000"
-                                                        emptyMessage="No data ......."
+                                                    emptyMessage="Nombre no Encontrado ......."
                                                     forceSelection="true">                                           
                                         <p:column>
                                             <h:outputText value="#{theme.nombrePersona}" />
@@ -227,14 +227,14 @@
                                         <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,acordion:grup1"/>
                                     </p:autoComplete>
                                     <p:watermark for="idNombreInterno" value="Nombre"/> 
-                                    
+
                                     <p:autoComplete id="idEmailInterno" value="#{propuestaConvenioMB.referenteInterno}" 
                                                     rendered="#{propuestaConvenioMB.flagSearchEmailInterno}"
                                                     completeMethod="#{propuestaConvenioMB.methodSearch}" 
                                                     disabled="#{propuestaConvenioMB.disableAutoInterno}}"
                                                     var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                     cache="true" queryDelay="1000"
-                                                    emptyMessage="No data ......."
+                                                    emptyMessage="Email no Encontrado ......."
                                                     forceSelection="true">                                           
                                         <p:column>
                                             <h:outputText value="#{theme.emailPersona}" />
@@ -255,7 +255,7 @@
                                                          value="Nuevo"  id="btnNuevoInterno" icon="ui-icon-disk" title="Nuevo Referente Interno" />                                               
 
                                     </p:column>
-                                    
+
                                 </p:column>
 
                             </p:panelGrid >   
@@ -344,10 +344,10 @@
                                         <p:outputLabel  for="idFacultadUnidadInterno" value="Facultad/Unidad"  />
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu  id="idFacultadUnidadInterno" required="true" value="#{propuestaConvenioMB.facultadesUnidadesInterno}" 
+                                        <p:selectOneMenu  id="idFacultadUnidadInterno"  value="#{propuestaConvenioMB.facultadesUnidadesInterno}" 
                                                           converter="#{facultadUnidadConverter}" style="width:160px" 
                                                           editable="#{propuestaConvenioMB.mismoSol}"  disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}">                                              
-                                            <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
+                                            <f:selectItem itemLabel="Seleccione Facultad/Unidad" itemValue="#{null}" />                                            
                                             <f:selectItems  value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
                                             <p:ajax event="change" listener="#{propuestaConvenioMB.actualizarEscuelaDeptInterno()}" update="idEscuelaDeptInter" process="@this" partialSubmit="true"/>
                                         </p:selectOneMenu>                                            
@@ -356,7 +356,7 @@
                                         <p:outputLabel  for="idEscuelaDeptInter" value="Escuela/Departamento" />
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu  id="idEscuelaDeptInter" required="true"  value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" 
+                                        <p:selectOneMenu  id="idEscuelaDeptInter"   value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" 
                                                           converter="#{escuelaDepartamentoConverter}" disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno || propuestaConvenioMB.habilitarBusquedaInterna}"  
                                                           style="width:160px" editable="#{propuestaConvenioMB.mismoSol}">                                              
                                             <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" noSelectionOption="true" />                                            
@@ -384,11 +384,11 @@
                                         <p:commandButton id="btnNuevoInterno2" rendered="#{propuestaConvenioMB.habilitarBotonSaveInternoDos}"
                                                          actionListener="#{propuestaConvenioMB.actualizarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno" 
                                                          value="Guardar"   icon="ui-icon-disk" title="Guardar datos Interno" />                                                                                                                                                                                                               
-                                    
+
                                     </p:column>
                                     <p:column>
                                         <p:commandButton rendered="#{propuestaConvenioMB.habilitarBotonEditInternoDos || propuestaConvenioMB.habilitarBotonSaveInternoDos}"
-                                                         actionListener="#{propuestaConvenioMB.preCancelarInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
+                                                         actionListener="#{propuestaConvenioMB.preCancelarInterno}" process="@this" update="acordion:grup1,@form" 
                                                          value="Cancelar"  id="btnCancelarInterno" icon="ui-icon-disk" title="Cancelar" />                                               
 
                                     </p:column>
@@ -398,7 +398,7 @@
                         </h:form>
                     </p:tab>
                     <p:tab title="Datos Solicitante Externo">
-                        <h:panelGroup id="grup2" >                                
+                        <h:form id="grup2" >                                
                             <p:panelGrid rendered="#{propuestaConvenioMB.tabAsisExterno}">     
                                 <p:column>
                                     <p:outputLabel for="tipoBusquedaExt" value="Tipo de Busqueda:" />
@@ -406,16 +406,14 @@
 
                                 <p:column>                                        
                                     <p:selectOneMenu id="tipoBusquedaExt" value="#{propuestaConvenioMB.tipoBusquedaExterna}"  style="width:125px">  
-                                        <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoExterno}" update="grup2"  process="@this" />
+                                        <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoExterno}" update="acordion:grup2"  process="@this" />
                                         <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                         <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
                                         <f:selectItem itemLabel="E-mail" itemValue="email" />
                                         <f:selectItem itemLabel="Documento" itemValue="doc" />  
                                     </p:selectOneMenu>
                                 </p:column>
-                                <p:column>
-                                    <p:outputLabel value="Busqueda" />
-                                </p:column>
+
                                 <p:column>
 
                                     <p:autoComplete id="searchDoc" minQueryLength="8" size="8" rendered="#{propuestaConvenioMB.flagSearchDuiExterno}"  
@@ -427,28 +425,49 @@
                                         </p:column>
                                     </p:autoComplete>
                                     <p:watermark for="searchDoc" value="Documento"/>  
+
                                     <p:autoComplete id="idNombreExterno" value="#{propuestaConvenioMB.referenteExterno}" rendered="#{propuestaConvenioMB.flagSearchNombreExterno}"
                                                     completeMethod="#{propuestaConvenioMB.methodSearchExterno}" disabled="#{propuestaConvenioMB.disableAutoExterno}"
                                                     var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                    cache="true" queryDelay="1000"
+                                                    emptyMessage="Nombre no Encontrado ......."
                                                     forceSelection="true">                                           
                                         <p:column>
                                             <h:outputText value="#{theme.nombrePersona}" />
                                         </p:column>
+                                        <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form"/>
                                     </p:autoComplete>
                                     <p:watermark for="idNombreExterno" value="Nombre"/> 
+
                                     <p:autoComplete id="idEmailExterno" value="#{propuestaConvenioMB.referenteExterno}" rendered="#{propuestaConvenioMB.flagSearchEmailExterno}"
                                                     completeMethod="#{propuestaConvenioMB.methodSearchExterno}" disabled="#{propuestaConvenioMB.disableAutoExterno}"
                                                     var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                    cache="true" queryDelay="1000"
+                                                    emptyMessage="Email no Encontrado ......."
                                                     forceSelection="true">                                           
                                         <p:column>
                                             <h:outputText value="#{theme.emailPersona}" />
                                         </p:column>
-                                        <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="acordion:GroupSolicitanteExterno"/>
+                                        <p:ajax event="itemSelect" listener="#{propuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form"/>
                                     </p:autoComplete>
                                     <p:watermark for="idEmailExterno" value="E-mail"/> 
                                 </p:column>
+
+                                <p:column>
+                                    <p:commandButton id="btnEditarExterno" rendered="#{propuestaConvenioMB.habilitarBotonEditExterno}"
+                                                     actionListener="#{propuestaConvenioMB.preEditeReferenteExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
+                                                     value="Editar"   icon="ui-icon-disk" title="Editar Referente Externo" />                                               
+                                </p:column>
+                                <p:column>                                                                                  
+                                    <p:commandButton rendered="#{propuestaConvenioMB.habilitarBotonSaveExterno}"
+                                                     actionListener="#{propuestaConvenioMB.preEditeGuardarExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
+                                                     value="Nuevo"  id="btnNuevoInterno" icon="ui-icon-disk" title="Nuevo Referente Externo" />                                               
+
+                                </p:column>
+
+
                             </p:panelGrid>
-                        </h:panelGroup>  
+                        </h:form>  
                         <h:form id="GroupSolicitanteExterno" >        
                             <p:panelGrid rendered="#{propuestaConvenioMB.tabAsisExterno}">                           
 
@@ -532,7 +551,23 @@
                                         </p:selectOneMenu>
                                     </p:column>
                                 </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:commandButton id="btnEditarExterno2" rendered="#{propuestaConvenioMB.habilitarBotonEditExternoDos}"
+                                                         actionListener="#{propuestaConvenioMB.actualizarReferenteE()}" process="@form" update="acordion:GroupSolicitanteExterno" 
+                                                         value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Externos" />                                               
+                                        <p:commandButton id="btnNuevoExterno2" rendered="#{propuestaConvenioMB.habilitarBotonSaveExternoDos}"
+                                                         actionListener="#{propuestaConvenioMB.actualizarRe()}" process="@form" update="acordion:GroupSolicitanteExterno" 
+                                                         value="Guardar"   icon="ui-icon-disk" title="Guardar datos Externos" />                                                                                                                                                                                                               
 
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton rendered="#{propuestaConvenioMB.habilitarBotonEditExternoDos || propuestaConvenioMB.habilitarBotonSaveExternoDos}"
+                                                         actionListener="#{propuestaConvenioMB.preCancelarExterno}" process="@this" update="acordion:grup2,@form" 
+                                                         value="Cancelar"  id="btnCancelarExterno" icon="ui-icon-disk" title="Cancelar" />                                               
+
+                                    </p:column>
+                                </p:row>
 
                             </p:panelGrid>   
                         </h:form>

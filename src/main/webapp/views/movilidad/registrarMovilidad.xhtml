@@ -41,11 +41,17 @@
                                         </p:column>
                                         <p:column>
                                             <!--<p:inputTextarea id="nombreMovilidad" label="nombreMovilidad" value="#" style="width:180px"/>-->
-                                            <p:selectOneMenu id="nombreMovilidad" value="#{registrarMovilidadMB.programaMovilidadSelected.idProgramaMovilidad}" style="width: 180px"  required="true" >
+                                            <!--registrarMovilidadMB.programaMovilidadSelected.idProgramaMovilidad-->
+                                            
+                                            
+                                            <p:selectOneMenu id="nombreMovilidad" value="#{registrarMovilidadMB.movilidad.idProgramaMovilidad}" style="width: 180px"  required="true" 
+                                                             converter="#{programaMovilidadConverter}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listProgramaMovilidad}" var="nombMovilidad" itemLabel="#{nombMovilidad.nombreProgramaMovilidad}" itemValue="#{nombMovilidad.idProgramaMovilidad}"/>
+                                                <f:selectItems value="#{registrarMovilidadMB.listProgramaMovilidad}" var="nombMovilidad" itemLabel="#{nombMovilidad.nombreProgramaMovilidad}" itemValue="#{nombMovilidad}"/>
                                                 <p:ajax listener="#{registrarMovilidadMB.onchangeProgramaMovilidadList()}" update="acordion:descripcionMovilidad"/>
                                             </p:selectOneMenu>
+                                            
+                                      
                                         </p:column>
 
                                         <p:column>
@@ -331,7 +337,7 @@
                                             <p:outputLabel for="desdeMovilidad" value="Fecha de inicio"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="desdeMovilidad" value="#{registrarMovilidadMB.fechaInicioSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
+                                            <p:calendar id="desdeMovilidad" value="#{registrarMovilidadMB.movilidad.fechaInicio}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
                                                 <p:ajax event="dateSelect" update="hastaMovilidad" />
                                             </p:calendar>
                                         </p:column>
@@ -339,7 +345,7 @@
                                             <p:outputLabel for="hastaMovilidad" value="Fecha de finalizaci&oacute;n"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="hastaMovilidad" value="#{registrarMovilidadMB.fechaFinSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
+                                            <p:calendar id="hastaMovilidad" value="#{registrarMovilidadMB.movilidad.fechaFin}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
                                                 <f:attribute name="desdeMovilidad" value="#{registrarMovilidadMB.fechaInicioSelected}"/>
                                                 <f:validator validatorId="fechaMayorValidator"/>
                                             </p:calendar>
@@ -377,19 +383,19 @@
                                             <p:outputLabel for="etapa" value="Etapa"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="etapa" value="#{registrarMovilidadMB.etapaMovilidadSelected}" style="width: 180px" required="true">
+                                            <p:selectOneMenu id="etapa" value="#{registrarMovilidadMB.movilidad.idEtapaMovilidad}" style="width: 180px" required="true" converter="#{etapaMovilidadConverter}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listEtapaMovilidad}" var="etapaMov" itemLabel="#{etapaMov.nombreEtapa}" itemValue="#{etapaMov.idEtapa}"/>
-                                            </p:selectOneMenu>
+                                                <f:selectItems value="#{registrarMovilidadMB.listEtapaMovilidad}" var="etapaMov" itemLabel="#{etapaMov.nombreEtapa}" itemValue="#{etapaMov}"/>
+                                            </p:selectOneMenu>                                       
                                         </p:column> 
 
                                         <p:column>
                                             <p:outputLabel for="entregaInforme" value="Entrega de informe"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="entregaInforme" value="#{registrarMovilidadMB.entregaInformeSelected}" style="width: 180px" >
+                                            <p:selectOneMenu id="entregaInforme" value="#{registrarMovilidadMB.movilidad.entregaDeInforme}" style="width: 180px" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItem itemLabel="SI" itemValue= "true"/>
+                                                <f:selectItem itemLabel="SI" itemValue= "#{true}"/>
                                                 <f:selectItem itemLabel="NO" itemValue= "false"/>
                                             </p:selectOneMenu>
                                         </p:column>
