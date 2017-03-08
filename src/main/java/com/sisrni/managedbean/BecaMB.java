@@ -327,7 +327,7 @@ public class BecaMB implements Serializable {
     public void guardarBeca() throws Exception {
         try {
             //guardando becario
-            if (presionoNuevoBecario == false && presionoActualizarBecario == false) {
+            if ((presionoNuevoBecario == false && presionoActualizarBecario == false) || (presionoActualizarBecario == true && remplazarBecario == false)) {
 
             } else {
                 Carrera carrera = carreraService.findById(carreraSelected.getIdCarrera());
@@ -494,7 +494,7 @@ public class BecaMB implements Serializable {
                 } else {
                     guardarBeca();
                 }
-            } else if (presionoActualizarBecario = true) {
+            } else if (presionoActualizarBecario == true) {
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('dataChangeBecarioDlg').show();");
             } else {
@@ -520,7 +520,8 @@ public class BecaMB implements Serializable {
 
     }
 
-    public void noRemplazarBecario() {
+    public void noRemplazarBecario() throws Exception {
+        existeBecario = Boolean.TRUE;
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeBecarioDlg').hide();");
         if (mostrarTabInterno == true) {
@@ -529,11 +530,12 @@ public class BecaMB implements Serializable {
         if (mostrarTabExterno == true) {
 
         } else {
-            //mando al metodo guardar
+            guardarBeca();
         }
     }
 
-    public void siRemplazarBecario() {
+    public void siRemplazarBecario() throws Exception {
+        existeBecario = Boolean.TRUE;
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeBecarioDlg').hide();");
         if (mostrarTabInterno == true) {
@@ -542,7 +544,7 @@ public class BecaMB implements Serializable {
         if (mostrarTabExterno == true) {
 
         } else {
-            //mando a guardar
+            guardarBeca();
         }
     }
     //Busca de persona interna
