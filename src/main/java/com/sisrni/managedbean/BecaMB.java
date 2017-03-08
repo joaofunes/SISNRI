@@ -231,6 +231,7 @@ public class BecaMB implements Serializable {
 
     @Autowired
     private SessionFactory sessionFactory;
+   
 
     public BecaMB() {
     }
