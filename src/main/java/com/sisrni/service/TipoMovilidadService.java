@@ -22,4 +22,8 @@ public class TipoMovilidadService extends GenericService<TipoMovilidad, Integer>
         return tipoMovilidadDao;
     }
     
+     public TipoMovilidad getByID(int id) {
+        return tipoMovilidadDao.findById(id);
+    }
+    
 }

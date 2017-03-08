@@ -19,4 +19,7 @@ public class ProgramaMovilidadService extends GenericService<ProgramaMovilidad, 
        return programaMovilidadDao;
     }
     
+    public ProgramaMovilidad getByID(int id) {
+        return programaMovilidadDao.findById(id);
+    }
 }

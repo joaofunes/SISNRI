@@ -9,6 +9,7 @@ import com.sisrni.dao.EscuelaDepartamentoDao;
 import com.sisrni.dao.FacultadDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.EtapaMovilidad;
 
 import com.sisrni.model.Facultad;
 import com.sisrni.service.generic.GenericService;
@@ -35,4 +36,8 @@ public class EscuelaDepartamentoService extends GenericService<EscuelaDepartamen
         return escuelaDepartamentoDao.getEscuelasOrDeptoByFacultadId(id);
     }
 
+     public EscuelaDepartamento getByID(int id) {
+        return escuelaDepartamentoDao.findById(id);
+    }
+    
 }

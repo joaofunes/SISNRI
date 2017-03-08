@@ -225,6 +225,7 @@ public class PropuestaConvenioMB implements Serializable {
     
     private boolean bloqueosSolicitante;
     private boolean bloqueosInterno;
+    private boolean bloqueosExterno;
     
     private List<Persona> listAll;
     
@@ -332,6 +333,7 @@ public class PropuestaConvenioMB implements Serializable {
             habilitarBotonSaveExternoDos= false;       
             
             bloqueosInterno=false;
+            bloqueosExterno=false;
             bloqueosSolicitante = false;
         } catch (Exception e) {
             e.printStackTrace();
@@ -438,17 +440,23 @@ public class PropuestaConvenioMB implements Serializable {
     public List<Persona> methodSearch(String query) {
         try {
             List<Persona> list = new ArrayList<Persona>();
+            RequestContext context = RequestContext.getCurrentInstance();
             if (tipoBusquedaInterna.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getReferenteInternoByName(query);
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                
+                habilitarBotonSaveInterno=list.isEmpty();
+                context.update("acordion:grup1:btnNuevoInterno");
                 return list;
             } else if (tipoBusquedaInterna.equalsIgnoreCase("email")) {
                 listAll = personaService.getReferenteInternoByEmail(query);
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                habilitarBotonSaveInterno=list.isEmpty();
+                context.update("acordion:grup1:btnNuevoInterno");
                 return list;
             }
 //            else if (tipoBusquedaInterna.equalsIgnoreCase("doc")) {
@@ -474,17 +482,22 @@ public class PropuestaConvenioMB implements Serializable {
     public List<Persona> methodSearchExterno(String query) {
         try {
             List<Persona> list = new ArrayList<Persona>();
-            if (tipoBusquedaInterna.equalsIgnoreCase("nombre")) {
+            RequestContext context = RequestContext.getCurrentInstance();
+            if (tipoBusquedaExterna.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getReferenteExternoByName(query);
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                habilitarBotonSaveExterno=list.isEmpty();
+                context.update("acordion:grup2:btnNuevoExterno");
                 return list;
-            } else if (tipoBusquedaInterna.equalsIgnoreCase("email")) {
+            } else if (tipoBusquedaExterna.equalsIgnoreCase("email")) {
                 listAll = personaService.getReferenteExternoByEmail(query);
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                habilitarBotonSaveExterno=list.isEmpty();
+                context.update("acordion:grup2:btnNuevoExterno");
                 return list;
             }
             return list;
@@ -886,16 +899,16 @@ public class PropuestaConvenioMB implements Serializable {
         try {
             //crear persona y luego almacenar
             referenteInterno.setIdUnidad(null);
-            referenteInterno.setIdCarrera(null);
+            //referenteInterno.setIdCarrera(null);
             referenteInterno.setIdEscuelaDepto(null);
            
-           // if(facultadesUnidadesInterno.getUnidadFacultad() != null){
-            if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
-                referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getPrimary()));
-            } else if (facultadesUnidadesInterno.getUnidadFacultad() == 'F') {
-                referenteInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoInterno.getIdEscuelaDepto()));
+            if (facultadesUnidadesInterno != null) {
+                if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
+                    referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getPrimary()));
+                } else if (facultadesUnidadesInterno.getUnidadFacultad() == 'F') {
+                    referenteInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoInterno.getIdEscuelaDepto()));
+                }
             }
-           // }
             referenteInterno.setExtranjero(Boolean.FALSE);//no es extrajero
             referenteInterno.setActivo(Boolean.TRUE);//esta activo
             referenteInterno.setPasaporte("0");
@@ -909,6 +922,20 @@ public class PropuestaConvenioMB implements Serializable {
             telCelularInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
             telCelularInterno.setIdPersona(referenteInterno);
             telefonoService.merge(telCelularInterno);
+            
+            
+              bloqueosInterno=false;//bloquea busquedas            
+             /////Edicion/////
+             habilitarBotonEditInternoDos=false;//ocultar boton de Actualizar 
+             habilitarBotonEditInterno=false;//ocultar boton de Editar
+             //////////////////
+             
+             /////Guardar/////
+             habilitarBotonSaveInterno= false;//ocultar boton de Nuevo
+             habilitarBotonSaveInternoDos=false;//ocultar boton de Guardar
+             /////////////////
+             habilitarBusquedaInterna=true;
+                        
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -953,7 +980,7 @@ public class PropuestaConvenioMB implements Serializable {
     /**
      * Metodo para alamcenar Referente Externo con telefonos, tipo de propuesta
      */
-    private void guardarReferenteExterno() {
+    public void guardarReferenteExterno() {
         try {
             //crear persona y luego almacenar
             PersonaPropuesta prsRefExterno = new PersonaPropuesta();
@@ -974,6 +1001,18 @@ public class PropuestaConvenioMB implements Serializable {
             prsRefExterno.setPersona(referenteExterno);
             prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
             personaPropuestaService.save(prsRefExterno);
+            
+             bloqueosExterno=false;//bloquea busquedas            
+             /////Edicion/////
+             habilitarBotonEditExternoDos=false;//ocultar boton de Actualizar 
+             habilitarBotonEditExterno=false;//ocultar boton de Editar
+             //////////////////
+             
+             /////Guardar/////
+             habilitarBotonSaveExterno= false;//ocultar boton de Nuevo
+             habilitarBotonSaveExternoDos=false;//ocultar boton de Guardar
+             /////////////////
+             habilitarBusquedaExterna=true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -981,7 +1020,7 @@ public class PropuestaConvenioMB implements Serializable {
     /**
      * Metodo para actualizar Referente Externo con telefonos, tipo de propuesta
      */
-    private void actualizarReferenteExterno() {
+    public void actualizarReferenteExterno() {
         try {
             //crear persona y luego almacenar
            
@@ -1003,6 +1042,20 @@ public class PropuestaConvenioMB implements Serializable {
             prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
             personaPropuestaService.updatePersonaPropuesta(referenteExterno.getIdPersona(), prsRefExterno.getPropuestaConvenio().getIdPropuesta(), prsRefExterno.getTipoPersona().getIdTipoPersona());
             //personaPropuestaService.save(prsRefExterno);
+            
+            
+              bloqueosExterno=false;//bloquea busquedas            
+             /////Edicion/////
+             habilitarBotonEditExternoDos=false;//ocultar boton de Actualizar 
+             habilitarBotonEditExterno=false;//ocultar boton de Editar
+             //////////////////
+             
+             /////Guardar/////
+             habilitarBotonSaveExterno= false;//ocultar boton de Nuevo
+             habilitarBotonSaveExternoDos=false;//ocultar boton de Guardar
+             /////////////////
+             habilitarBusquedaExterna=true;
+                         
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1011,6 +1064,21 @@ public class PropuestaConvenioMB implements Serializable {
     
     
     
+        /**
+     * Metodo para setear entidad persona en base al nombre solicitado de la
+     * persona solicitante 
+     */
+    public void cargarNombreSolicitante() {
+        try {
+            if (solicitante.getIdPersona() != null) {
+                cargarTelefonosSolicitante();
+                cargarUnidadesFacultadesSolicitante();
+               
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
         /**
      * Metodo para setear entidad persona en base al nombre solicitado de la
      * persona solicitante interna
@@ -1022,6 +1090,7 @@ public class PropuestaConvenioMB implements Serializable {
                 cargarUnidadesFacultadesSolicitanteInterno();
                 habilitarBotonEditInterno=true;
                 habilitarBotonSaveInterno=true;
+                habilitarBusquedaInterna=true;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1041,6 +1110,8 @@ public class PropuestaConvenioMB implements Serializable {
             if (referenteExterno.getIdPersona() != null) {
                 cargarTelefonosExterno();
             }
+            habilitarBotonEditExterno=true;
+            habilitarBotonSaveExterno=true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1352,8 +1423,11 @@ public class PropuestaConvenioMB implements Serializable {
 
     }
     
+    //////////////////////////////
+    ////para forzar  a busqueda
+    /////////////////////////////
     
-    //para forzar  a busqueda
+    
     /**
      * Metodo para habilitar la edicion de referente interno
      * una vez realizado la busqueda.
@@ -1369,6 +1443,24 @@ public class PropuestaConvenioMB implements Serializable {
          e.printStackTrace();
         }
     }
+    
+    /**
+     * Metodo para habilitar la edicion de referente Externo
+     * una vez realizado la busqueda.
+     */
+    public void preEditeReferenteExterno(){
+        try {
+            habilitarBusquedaExterna = false; //habilita campos
+            habilitarBotonEditExternoDos =true;//habilita boton editar
+            bloqueosExterno=true;//bloquea busquedas
+            habilitarBotonSaveExternoDos=false; //no habilita boton guardar 2
+            habilitarBotonSaveExterno=false; //no habilita boton guardar
+            
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+    
     /**
      * Metodo para habilitar la Guardar de referente interno
      * una vez realizado la busqueda.
@@ -1393,27 +1485,77 @@ public class PropuestaConvenioMB implements Serializable {
     }
     
     /**
+     * Metodo para habilitar Guardado de referente Externo
+     * una vez realizado la busqueda.
+     */
+    public void preEditeGuardarExterno(){
+        try {
+            habilitarBotonEditExterno=false; //no habilita el boton editar
+            habilitarBusquedaExterna = false; //habilita campos
+            habilitarBotonSaveExternoDos =true;//habilita boton guardar
+            
+            habilitarBotonEditExternoDos=false; //no habilitar boton editar                        
+            bloqueosExterno=true;//bloquea busquedas
+            referenteExterno = new Persona();
+            telFijoExterno = new Telefono();
+            telCelularExterno = new Telefono();
+                      
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+    
+    /**
      * Metodo para cancelar edicion y guardado de referente interno
      */
     public void preCancelarInterno(){
         try {
-             bloqueosInterno=true;//bloquea busquedas
-             bloqueosInterno=true;//bloquea busquedas
-            referenteInterno = new Persona();
-            telFijoInterno = new Telefono();
-            telCelularInterno = new Telefono();
-            facultadesUnidadesInterno = new PojoFacultadesUnidades();
-            escuelaDepartamentoInterno = new EscuelaDepartamento();
-//            habilitarBotonEditInterno=false; //no habilita el boton editar
-//            habilitarBusquedaInterna = false; //habilita campos
-//            habilitarBotonSaveInternoDos =true;//habilita boton guardar
-//            habilitarBotonEditInternoDos=false; //no habilitar boton editar
-//            referenteInterno = new Persona();
-//            telFijoSolicitante = new Telefono();
-//            telCelularSolicitante = new Telefono();
-//            facultadesUnidadesInterno = new PojoFacultadesUnidades();
-//            escuelaDepartamentoInterno = new EscuelaDepartamento();
+             bloqueosInterno=false;//bloquea busquedas
+            
+             /////Edicion/////
+             habilitarBotonEditInternoDos=false;//ocultar boton de Actualizar 
+             habilitarBotonEditInterno=false;//ocultar boton de Editar
+             //////////////////
+             
+             /////Guardar/////
+             habilitarBotonSaveInterno= false;//ocultar boton de Nuevo
+             habilitarBotonSaveInternoDos=false;//ocultar boton de Guardar
+             /////////////////
+             
+             referenteInterno = new Persona();
+             telFijoInterno = new Telefono();
+             telCelularInterno = new Telefono();
+             facultadesUnidadesInterno = new PojoFacultadesUnidades();
+             escuelaDepartamentoInterno = new EscuelaDepartamento();
+
            
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+    
+    
+    /**
+     * Metodo para cancelar edicion y guardado de referente Externo
+     */
+    public void preCancelarExterno(){
+        try {
+             bloqueosExterno=false;//bloquea busquedas
+            
+             /////Edicion/////
+             habilitarBotonEditExternoDos=false;//ocultar boton de Actualizar 
+             habilitarBotonEditExterno=false;//ocultar boton de Editar
+             //////////////////
+             
+             /////Guardar/////
+             habilitarBotonSaveExterno= false;//ocultar boton de Nuevo
+             habilitarBotonSaveExternoDos=false;//ocultar boton de Guardar
+             /////////////////
+             
+             referenteExterno = new Persona();
+             telFijoExterno = new Telefono();
+             telCelularExterno = new Telefono();
+                       
         } catch (Exception e) {
          e.printStackTrace();
         }
@@ -2026,6 +2168,14 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setFlagSearchEmailSolicitante(Boolean flagSearchEmailSolicitante) {
         this.flagSearchEmailSolicitante = flagSearchEmailSolicitante;
+    }
+
+    public boolean isBloqueosExterno() {
+        return bloqueosExterno;
+    }
+
+    public void setBloqueosExterno(boolean bloqueosExterno) {
+        this.bloqueosExterno = bloqueosExterno;
     }
 
 }

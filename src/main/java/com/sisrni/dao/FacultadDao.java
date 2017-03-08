@@ -25,17 +25,29 @@ public class FacultadDao extends GenericDao<Facultad, Integer> {
         q.setParameter("idOrganismo", idOrganismo);
         return q.list();
     }
-    
-    
-    public List<Integer> getFacultadesMovilidad(Integer idmov){
-        try{
+
+    public List<Integer> getFacultadesMovilidad(Integer idmov) {
+        try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT f.idFacultad FROM Facultad f JOIN f.movilidadList mv WHERE mv.idMovilidad=:idmov");
             q.setParameter("idmov", idmov);
             return q.list();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
+
+   
+    public Facultad getFacultadById(Integer idFac) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT f FROM Facultad f WHERE f.idFacultad =:idFac");
+            q.setParameter("idFac", idFac);
+            return (Facultad) q.uniqueResult();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
 }

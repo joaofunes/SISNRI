@@ -177,6 +177,7 @@ public class BecaMB implements Serializable {
     private Boolean disableBecarioInputs = Boolean.TRUE;
     private Boolean presionoNuevoBecario = Boolean.FALSE;
     private Boolean presionoActualizarBecario = Boolean.FALSE;
+    private Boolean remplazarBecario;
 
     @Autowired
     FacultadService facultadService;
@@ -319,30 +320,35 @@ public class BecaMB implements Serializable {
         becarioAux = new Persona();
         renderNuevaPersonaBecarioButton = Boolean.FALSE;
         renderActualizarPersonaBecarioButton = Boolean.FALSE;
+        remplazarBecario = Boolean.FALSE;
     }
 
 //registra la informacion conserniente a una beca
     public void guardarBeca() throws Exception {
         try {
             //guardando becario
-            Carrera carrera = carreraService.findById(carreraSelected.getIdCarrera());
-            becario.setIdCarrera(carrera);
-            becario.setActivo(Boolean.TRUE);
-            becario.setExtranjero(Boolean.FALSE);
-            becario.setPasaporte("-");
-            //agregando telefono fijo
-            telefonoFijoBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
-            telefonoFijoBecario.setIdPersona(becario);
-            becario.getTelefonoList().add(telefonoFijoBecario);
-            //agregando telefono celular
-            telefonoCelularBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
-            telefonoCelularBecario.setIdPersona(becario);
-            becario.getTelefonoList().add(telefonoCelularBecario);
-            becario.setIdOrganismo(organismoService.findById(1));
-            if (existeBecario == true || actualizar == true) {
-                personaService.merge(becario);
+            if ((presionoNuevoBecario == false && presionoActualizarBecario == false) || (presionoActualizarBecario == true && remplazarBecario == false)) {
+
             } else {
-                personaService.save(becario);
+                Carrera carrera = carreraService.findById(carreraSelected.getIdCarrera());
+                becario.setIdCarrera(carrera);
+                becario.setActivo(Boolean.TRUE);
+                becario.setExtranjero(Boolean.FALSE);
+                becario.setPasaporte("-");
+                //agregando telefono fijo
+                telefonoFijoBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+                telefonoFijoBecario.setIdPersona(becario);
+                becario.getTelefonoList().add(telefonoFijoBecario);
+                //agregando telefono celular
+                telefonoCelularBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+                telefonoCelularBecario.setIdPersona(becario);
+                becario.getTelefonoList().add(telefonoCelularBecario);
+                becario.setIdOrganismo(organismoService.findById(1));
+                if (existeBecario == true || actualizar == true) {
+                    personaService.merge(becario);
+                } else {
+                    personaService.save(becario);
+                }
             }
 
             //guardando datos del asesor interno
@@ -476,7 +482,73 @@ public class BecaMB implements Serializable {
         }
     }
 
+    //pre guardar
+    public void preGuardar() {
+        try {
+            if (presionoNuevoBecario == true) {
+                if (mostrarTabInterno == true) {
+                    preGuardarInterno();
+                }
+                if (mostrarTabExterno == true) {
+                    preGuardarExterno();
+                } else {
+                    guardarBeca();
+                }
+            } else if (presionoActualizarBecario == true) {
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('dataChangeBecarioDlg').show();");
+            } else {
+                if (mostrarTabInterno == true) {
+                    preGuardarInterno();
+                }
+                if (mostrarTabExterno == true) {
+                    preGuardarExterno();
+                } else {
+                    guardarBeca();
+                }
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
+    public void preGuardarInterno() {
+//pendiente
+    }
+
+    public void preGuardarExterno() {
+
+    }
+
+    public void noRemplazarBecario() throws Exception {
+        existeBecario = Boolean.TRUE;
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeBecarioDlg').hide();");
+        if (mostrarTabInterno == true) {
+
+        }
+        if (mostrarTabExterno == true) {
+
+        } else {
+            guardarBeca();
+        }
+    }
+
+    public void siRemplazarBecario() throws Exception {
+        existeBecario = Boolean.TRUE;
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeBecarioDlg').hide();");
+        if (mostrarTabInterno == true) {
+
+        }
+        if (mostrarTabExterno == true) {
+
+        } else {
+            guardarBeca();
+        }
+    }
     //Busca de persona interna
+
     public void habilitarAutoBecario() {
         banderasBecarioFalsas();
         limpiarBecario();
@@ -484,7 +556,7 @@ public class BecaMB implements Serializable {
         renderNuevaPersonaBecarioButton = Boolean.FALSE;
         presionoActualizarBecario = Boolean.FALSE;
         presionoNuevoBecario = Boolean.FALSE;
-        disableBecarioInputs=Boolean.TRUE;
+        disableBecarioInputs = Boolean.TRUE;
 
         becarioAux = new Persona();
         if (tipoBusquedaBecario.equalsIgnoreCase("doc")) {
@@ -514,9 +586,7 @@ public class BecaMB implements Serializable {
     public void habilitarAutoAsesorInterno() {
         limpiarAsesorInterno();
         banderasAsesorInternoFalsas();
-//        if (disableAutoBecario) {
-//            disableAutoBecario = Boolean.FALSE;
-//        }
+
         if (tipoBusquedaAsesorInterno.equalsIgnoreCase("doc")) {
             flagSearchDuiAsesorInterno = Boolean.TRUE;
         }
@@ -532,9 +602,6 @@ public class BecaMB implements Serializable {
     public void habilitarAutoAsesorExterno() {
         limpiarAsesorExterno();
         banderasAsesorExternoFalsas();
-//        if (disableAutoBecario) {
-//            disableAutoBecario = Boolean.FALSE;
-//        }
         if (tipoBusquedaAsesorExterno.equalsIgnoreCase("doc")) {
             flagSearchDuiAsesorExterno = Boolean.TRUE;
         }
@@ -928,10 +995,12 @@ public class BecaMB implements Serializable {
                 if (list.isEmpty()) {
                     renderActualizarPersonaBecarioButton = Boolean.FALSE;
                     renderNuevaPersonaBecarioButton = Boolean.TRUE;
+                    disableBecarioInputs = Boolean.TRUE;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:botones");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
                 } else {
                     renderNuevaPersonaBecarioButton = Boolean.FALSE;
+                    disableBecarioInputs = Boolean.TRUE;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:botones");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
                 }
@@ -1660,6 +1729,14 @@ public class BecaMB implements Serializable {
 
     public void setPresionoActualizarBecario(Boolean presionoActualizarBecario) {
         this.presionoActualizarBecario = presionoActualizarBecario;
+    }
+
+    public Boolean getRemplazarBecario() {
+        return remplazarBecario;
+    }
+
+    public void setRemplazarBecario(Boolean remplazarBecario) {
+        this.remplazarBecario = remplazarBecario;
     }
 
 }

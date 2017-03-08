@@ -16,11 +16,9 @@ import org.springframework.stereotype.Repository;
  *
  * @author Joao
  */
-
 @Repository(value = "unidadDao")
-public class UnidadDao extends GenericDao<Unidad, Integer>  {
-    
-    
+public class UnidadDao extends GenericDao<Unidad, Integer> {
+
     //retorna la lista de unidades perteneciente a una facultad --comentado por si lo utilizamos despues
 //    public List<EscuelaDepartamento> getUnidadesByFacultadId(Integer id){
 //        Query q =getSessionFactory().getCurrentSession().createQuery("FROM EscuelaDepartamento u WHERE u.idFacultadUnidad.idFacultadUnidad = :id");
@@ -28,32 +26,42 @@ public class UnidadDao extends GenericDao<Unidad, Integer>  {
 //        List<EscuelaDepartamento> lista= q.list();
 //        return q.list();        
 //   }
-    
-   /**
-    * Retorna una lista de las unidades que pertenecen a un determinado organismo
-    * recibe como parametro el id de un organismo especificado
-    */ 
-    public List<Unidad> getUnidadesByUniversidad(Integer idUnidad){
-       try{
-           Query q = getSessionFactory().getCurrentSession().createQuery("SELECT u FROM Unidad u WHERE u.idOrganismo.idOrganismo=:idUnidad");
-           q.setParameter("idUnidad", idUnidad);
-           return q.list();
-       } catch(Exception e){
-           e.printStackTrace();
-           return null;
-}
-       
+    /**
+     * Retorna una lista de las unidades que pertenecen a un determinado
+     * organismo recibe como parametro el id de un organismo especificado
+     */
+    public List<Unidad> getUnidadesByUniversidad(Integer idUnidad) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT u FROM Unidad u WHERE u.idOrganismo.idOrganismo=:idUnidad");
+            q.setParameter("idUnidad", idUnidad);
+            return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
-     
-    public List<Integer> getUnidadesMovilidad(Integer idMov){
-        try{
+
+    public List<Integer> getUnidadesMovilidad(Integer idMov) {
+        try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT u.idUnidad FROM Unidad u JOIN u.movilidadList m WHERE m.idMovilidad=:idmov");
             q.setParameter("idmov", idMov);
             return q.list();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-       return null;
+        return null;
     }
-    
+
+    public Unidad getUnidadById(Integer idUni) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT u FROM Unidad u WHERE u.idUnidad=:idUni");
+            q.setParameter("idUni", idUni);
+            return (Unidad) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       return null;  
+    }
+
 }

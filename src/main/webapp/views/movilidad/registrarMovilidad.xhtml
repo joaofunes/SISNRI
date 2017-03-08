@@ -24,9 +24,9 @@
                                         <p:outputLabel for="tipoMovilidad" value="Tipo de movilidad"/>
                                     </p:row>
                                     <p:row>
-                                        <p:selectOneMenu id="tipoMovilidad" value="#{registrarMovilidadMB.tipoMovilidadSelected}" style="width: 180px"  required="true" disabled="#{registrarMovilidadMB.isHabilidado}">
+                                        <p:selectOneMenu id="tipoMovilidad" value="#{registrarMovilidadMB.movilidad.idTipoMovilidad}" style="width: 180px" converter="#{tipoMovilidadConverter}"  required="true" disabled="#{registrarMovilidadMB.isHabilidado}">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <f:selectItems value="#{registrarMovilidadMB.listTipoMovilidad}" var="tipoMov" itemLabel="#{tipoMov.nombreTipoMovilidad}" itemValue="#{tipoMov.idTipoMovilidad}"/>
+                                            <f:selectItems value="#{registrarMovilidadMB.listTipoMovilidad}" var="tipoMov" itemLabel="#{tipoMov.nombreTipoMovilidad}" itemValue="#{tipoMov}"/>
                                             <p:ajax listener="#{registrarMovilidadMB.onchangeTipoMovilidadList()}" update="formRegistrarMovilidad"/>
                                         </p:selectOneMenu>
                                     </p:row>
@@ -41,11 +41,17 @@
                                         </p:column>
                                         <p:column>
                                             <!--<p:inputTextarea id="nombreMovilidad" label="nombreMovilidad" value="#" style="width:180px"/>-->
-                                            <p:selectOneMenu id="nombreMovilidad" value="#{registrarMovilidadMB.programaMovilidadSelected.idProgramaMovilidad}" style="width: 180px"  required="true" >
+                                            <!--registrarMovilidadMB.programaMovilidadSelected.idProgramaMovilidad-->
+                                            
+                                            
+                                            <p:selectOneMenu id="nombreMovilidad" value="#{registrarMovilidadMB.movilidad.idProgramaMovilidad}" style="width: 180px"  required="true" 
+                                                             converter="#{programaMovilidadConverter}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listProgramaMovilidad}" var="nombMovilidad" itemLabel="#{nombMovilidad.nombreProgramaMovilidad}" itemValue="#{nombMovilidad.idProgramaMovilidad}"/>
+                                                <f:selectItems value="#{registrarMovilidadMB.listProgramaMovilidad}" var="nombMovilidad" itemLabel="#{nombMovilidad.nombreProgramaMovilidad}" itemValue="#{nombMovilidad}"/>
                                                 <p:ajax listener="#{registrarMovilidadMB.onchangeProgramaMovilidadList()}" update="acordion:descripcionMovilidad"/>
                                             </p:selectOneMenu>
+                                            
+                                      
                                         </p:column>
 
                                         <p:column>
@@ -59,15 +65,18 @@
                                             <p:outputLabel for="categoriaMovilidad" value="Categor&iacute;a movilidad"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="categoriaMovilidad" value="#{registrarMovilidadMB.categoriaMovilidadSelected}" style="width: 180px" required="true">
+                                            <p:selectOneMenu id="categoriaMovilidad" value="#{registrarMovilidadMB.movilidad.idCategoria}" converter="#{categoriaMovilidadConverter}" style="width: 180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listCategoriaMovilidad}" var="categMovilidad" itemLabel="#{categMovilidad.nombreCategoria}" itemValue="#{categMovilidad.idCategoriaMovilidad}"/>
-                                                <p:ajax listener="#{registrarMovilidadMB.onchangeCategoriaMovilidadList()}"/>
+                                                <f:selectItems value="#{registrarMovilidadMB.listCategoriaMovilidad}" var="categMovilidad" itemLabel="#{categMovilidad.nombreCategoria}" itemValue="#{categMovilidad}"/>
+                                                <!--<p:ajax listener="#{registrarMovilidadMB.onchangeCategoriaMovilidadList()}"/>-->
                                             </p:selectOneMenu>
                                         </p:column>
 
                                     </p:panelGrid>
                                 </p:tab>
+                                
+                                <!--Buscador personas en movilidad-->
+                                
                                 <p:tab title="Datos docente en movilidad">
                                     <!--Docente Saliente -->
                                     <h:panelGroup id="grup1" rendered="#{registrarMovilidadMB.mostrarBuscadorSaliente}">
@@ -183,6 +192,7 @@
                                     -->
 
                                     <p:separator/>
+                                    <!--INGRESO DE DATOS DE DOCENTES-->
                                     <h:panelGroup id="groupPersonaMovilidad">
                                         <p:panelGrid columns="4"  id="panelPersonaEnMovilidad">
                                             <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad"/><h:panelGroup/><h:panelGroup/><h:panelGroup/>
@@ -229,9 +239,9 @@
                                                 <p:outputLabel for="InstitucionPersona" value="Instituci&oacute;n"/>
                                             </p:column>
                                             <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
-                                                <p:selectOneMenu id="InstitucionPersona" value="#{registrarMovilidadMB.institucionPersonaMovilidadSelected}" style="width: 180px" disabled="#{registrarMovilidadMB.activarDocente}">
+                                                <p:selectOneMenu id="InstitucionPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.idOrganismo}" converter="#{institucionDocenteMovilidadConverter}" style="width: 180px" disabled="#{registrarMovilidadMB.activarDocente}">
                                                     <f:selectItem itemLabel="--Seleccione--" itemValue="#{registrarMovilidadMB.institucionPersonaMovilidadSelected}" noSelectionOption="true"/>
-                                                    <f:selectItems value="#{registrarMovilidadMB.listOrganismoPersonaMovilidad}" var="institucionPersona" itemLabel="#{institucionPersona.nombreOrganismo}" itemValue="#{institucionPersona.idOrganismo}"/>
+                                                    <f:selectItems value="#{registrarMovilidadMB.listOrganismoPersonaMovilidad}" var="institucionPersona" itemLabel="#{institucionPersona.nombreOrganismo}" itemValue="#{institucionPersona}"/>
                                                     <p:ajax listener="#{registrarMovilidadMB.onchangeListInstitucionPersonaMovilidad()}"  update="facultadPersona"/>
                                                 </p:selectOneMenu>
                                             </p:column> 
@@ -249,9 +259,9 @@
                                                 <p:outputLabel for="escuelaDepartamentoPersona" value="Escuela/Departamento"/>   
                                             </p:column>   
                                             <p:column>
-                                                <p:selectOneMenu id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.escuelaDepartamentoPersonaMovilidad}" style="width: 180px" disabled="#{registrarMovilidadMB.mostrarEscuelaDocente}" required="#{registrarMovilidadMB.escuelaDocenteRequerido}">
+                                                <p:selectOneMenu id="escuelaDepartamentoPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.idEscuelaDepto}" converter="#{EscuelaDepartamentoDocenteConverter}" style="width: 180px" disabled="#{registrarMovilidadMB.mostrarEscuelaDocente}" required="#{registrarMovilidadMB.escuelaDocenteRequerido}">
                                                     <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                    <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoPersonaMovilidad}" var="escDptoPersona" itemLabel="#{escDptoPersona.nombreEscuelaDepto}" itemValue="#{escDptoPersona.idEscuelaDepto}"/>
+                                                    <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoPersonaMovilidad}" var="escDptoPersona" itemLabel="#{escDptoPersona.nombreEscuelaDepto}" itemValue="#{escDptoPersona}"/>
                                                 </p:selectOneMenu>
                                             </p:column> 
                                             <p:column>
@@ -291,7 +301,7 @@
                                             <p:outputLabel for="paisOrigen" value="Pa&iacute;s origen"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="paisOrigen" value="#{registrarMovilidadMB.paisOrigenSelected}" style="width: 180px"  required="true">
+                                            <p:selectOneMenu id="paisOrigen" value="#{registrarMovilidadMB.movilidad.idPaisOrigen}" style="width: 180px"  required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listPaisOrigenMovilidad}" var="paisOrig" itemLabel="#{paisOrig.nombrePais}" itemValue="#{paisOrig.idPais}"/>
                                                 <p:ajax listener="#{registrarMovilidadMB.onchangeListPaisOrigen()}"  update="institucionOrigen"/>
@@ -302,7 +312,7 @@
                                             <p:outputLabel for="institucionOrigen" value="Instituci&oacute;n origen"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="institucionOrigen" value="#{registrarMovilidadMB.institucionOrigenSelected}" style="width: 180px"  required="true">
+                                            <p:selectOneMenu id="institucionOrigen" value="#{registrarMovilidadMB.movilidad.idUniversidadOrigen}" style="width: 180px"  required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listOrganismosOrigen}" var="institucionOrig" itemLabel="#{institucionOrig.nombreOrganismo}" itemValue="#{institucionOrig.idOrganismo}"/>
                                             </p:selectOneMenu>
@@ -311,7 +321,7 @@
                                             <p:outputLabel for="paisDestino" value="Pa&iacute;s destino"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="paisDestino" value="#{registrarMovilidadMB.paisDestinoSelected}" style="width: 180px" required="true" >
+                                            <p:selectOneMenu id="paisDestino" value="#{registrarMovilidadMB.movilidad.idPaisDestino}" style="width: 180px" required="true" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listPaisDestinoMovilidad}" var="paisDest" itemLabel="#{paisDest.nombrePais}" itemValue="#{paisDest.idPais}"/>
                                                 <p:ajax listener="#{registrarMovilidadMB.onchangeListPaisDestino()}"  update="institucionDestino"/>
@@ -321,7 +331,7 @@
                                             <p:outputLabel for="institucionDestino" value="Instituci&oacute;n destino"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="institucionDestino" value="#{registrarMovilidadMB.institucionDestinoSelected}" style="width: 180px" required="true" >
+                                            <p:selectOneMenu id="institucionDestino" value="#{registrarMovilidadMB.movilidad.idUniversidadDestino}" style="width: 180px" required="true" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listOrganismosDestino}" var="institucionDest" itemLabel="#{institucionDest.nombreOrganismo}" itemValue="#{institucionDest.idOrganismo}"/>
                                             </p:selectOneMenu>
@@ -331,7 +341,7 @@
                                             <p:outputLabel for="desdeMovilidad" value="Fecha de inicio"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="desdeMovilidad" value="#{registrarMovilidadMB.fechaInicioSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
+                                            <p:calendar id="desdeMovilidad" value="#{registrarMovilidadMB.movilidad.fechaInicio}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
                                                 <p:ajax event="dateSelect" update="hastaMovilidad" />
                                             </p:calendar>
                                         </p:column>
@@ -339,7 +349,7 @@
                                             <p:outputLabel for="hastaMovilidad" value="Fecha de finalizaci&oacute;n"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="hastaMovilidad" value="#{registrarMovilidadMB.fechaFinSelected}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
+                                            <p:calendar id="hastaMovilidad" value="#{registrarMovilidadMB.movilidad.fechaFin}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
                                                 <f:attribute name="desdeMovilidad" value="#{registrarMovilidadMB.fechaInicioSelected}"/>
                                                 <f:validator validatorId="fechaMayorValidator"/>
                                             </p:calendar>
@@ -377,17 +387,17 @@
                                             <p:outputLabel for="etapa" value="Etapa"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="etapa" value="#{registrarMovilidadMB.etapaMovilidadSelected}" style="width: 180px" required="true">
+                                            <p:selectOneMenu id="etapa" value="#{registrarMovilidadMB.movilidad.idEtapaMovilidad}" style="width: 180px" required="true" converter="#{etapaMovilidadConverter}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listEtapaMovilidad}" var="etapaMov" itemLabel="#{etapaMov.nombreEtapa}" itemValue="#{etapaMov.idEtapa}"/>
-                                            </p:selectOneMenu>
+                                                <f:selectItems value="#{registrarMovilidadMB.listEtapaMovilidad}" var="etapaMov" itemLabel="#{etapaMov.nombreEtapa}" itemValue="#{etapaMov}"/>
+                                            </p:selectOneMenu>                                       
                                         </p:column> 
 
                                         <p:column>
                                             <p:outputLabel for="entregaInforme" value="Entrega de informe"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="entregaInforme" value="#{registrarMovilidadMB.entregaInformeSelected}" style="width: 180px" >
+                                            <p:selectOneMenu id="entregaInforme" value="#{registrarMovilidadMB.movilidad.entregaDeInforme}" style="width: 180px" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItem itemLabel="SI" itemValue= "true"/>
                                                 <f:selectItem itemLabel="NO" itemValue= "false"/>
@@ -397,7 +407,7 @@
                                             <p:outputLabel for="fechaEntregaMined" value="Fecha de entrega de informe"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="fechaEntregaMined" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10" value="#{registrarMovilidadMB.fechaEntregaMinedSelected}"/>
+                                            <p:calendar id="fechaEntregaMined" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10" value="#{registrarMovilidadMB.movilidad.fechaEntregaMined}"/>
                                         </p:column>
                                         <!--<p:column>
                                                  <p:outputLabel for="obsequio" value="Obsequio"/> 
@@ -428,7 +438,9 @@
 
                                     </p:panelGrid>
                                 </p:tab>
-
+                         
+                                
+                            <!--Buscador de referente de la facultad -->    
                                 <p:tab title="Datos Referente de la facultad">
                                     <h:panelGroup id="grup3">
                                         <p:panelGrid id="gridRef">
@@ -558,9 +570,9 @@
                                                     <p:outputLabel for="escuelaDepartamentoReferenteFactBnf" value="Escuela/Departamento"/> 
                                                 </p:column>   
                                                 <p:column>
-                                                    <p:selectOneMenu id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.escuelaDepartamentoReferenteFactBnfSelected}" style="width: 180px" disabled="#{registrarMovilidadMB.mostrarEscuelaReferente}" required="#{registrarMovilidadMB.escuelaReferenteRequerido}">
+                                                    <p:selectOneMenu id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.personaFacultadGenerico.idEscuelaDepto}" style="width: 180px" converter="#{EscuelaDepartamentoDocenteConverter}" disabled="#{registrarMovilidadMB.mostrarEscuelaReferente}" required="#{registrarMovilidadMB.escuelaReferenteRequerido}">
                                                         <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                        <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoRefFact}" var="unidadPersona" itemLabel="#{unidadPersona.nombreEscuelaDepto}" itemValue="#{unidadPersona.idEscuelaDepto}"/>
+                                                        <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoRefFact}" var="unidadPersona" itemLabel="#{unidadPersona.nombreEscuelaDepto}" itemValue="#{unidadPersona}"/>
                                                     </p:selectOneMenu>
                                                 </p:column> 
                                             </p:row>

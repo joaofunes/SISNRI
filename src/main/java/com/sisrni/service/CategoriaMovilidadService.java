@@ -23,4 +23,8 @@ public class CategoriaMovilidadService extends GenericService<CategoriaMovilidad
         return categoriaMovilidadDao;
     }
     
+      public CategoriaMovilidad getByID(int id) {
+        return categoriaMovilidadDao.findById(id);
+    }
+    
 }
