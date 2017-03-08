@@ -57,6 +57,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.mail.MailException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
@@ -246,6 +247,10 @@ public class registrarMovilidadMB {
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     private TipoCambio tipoCambioSelected;
+    
+    
+    //-----------------------------------------------------------------
+    
 
     //Services
     @Autowired
@@ -370,6 +375,7 @@ public class registrarMovilidadMB {
 
         programaMovilidadSelected = new ProgramaMovilidad();
         movilidad = new Movilidad();
+        movilidad.setIdTipoMovilidad(new TipoMovilidad());
         movilidad.setIdProgramaMovilidad(new ProgramaMovilidad());
         movilidad.setIdEtapaMovilidad(new EtapaMovilidad());
         programaMovilidad = new ProgramaMovilidad();
@@ -385,9 +391,12 @@ public class registrarMovilidadMB {
         //obsequioSelected = null;
         //personaMovilidad = new Persona();
         personaMovilidadGenerico = new Persona();
+        personaMovilidadGenerico.setIdOrganismo(new Organismo());
+        personaMovilidadGenerico.setIdEscuelaDepto(new EscuelaDepartamento());
 
         //personaFacultadSelected = new Persona();
         personaFacultadGenerico = new Persona();
+        
 
         personaMovAux = new Persona();
         personaReftAux = new Persona();
@@ -502,6 +511,9 @@ public class registrarMovilidadMB {
         msgPersonaRefExiste = "";
 
         tituloRegistroEdicion = "";
+        
+        //-------------------------------------------------------
+        
     }
 
     public void mostrarEscuelaDocenteMovilidad() {
@@ -534,8 +546,9 @@ public class registrarMovilidadMB {
 
     public void onchangeProgramaMovilidadList() {
         try {
-            if (programaMovilidadSelected != null) {
-                programaMovilidad = programaMovilidadService.findById(programaMovilidadSelected.getIdProgramaMovilidad());
+            if (movilidad.getIdProgramaMovilidad() != null) {
+                //programaMovilidad = programaMovilidadService.findById(programaMovilidadSelected.getIdProgramaMovilidad());
+                programaMovilidad = movilidad.getIdProgramaMovilidad();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -544,10 +557,11 @@ public class registrarMovilidadMB {
 
     public void onchangeTipoMovilidadList() {
         try {
-            if (tipoMovilidadSelected != null) {
-                tipoMovilidad = tipoMovilidadService.findById(tipoMovilidadSelected);
+            if (movilidad.getIdTipoMovilidad().getIdTipoMovilidad() != null) {
+                //tipoMovilidad = tipoMovilidadService.findById(tipoMovilidadSelected);
+                tipoMovilidad = movilidad.getIdTipoMovilidad();
 
-                if (tipoMovilidadSelected == 1) { //movilidad entrante
+                if (movilidad.getIdTipoMovilidad().getIdTipoMovilidad() == 1) { //movilidad entrante
 
                     mostrarEntrante = true;
                     mostrarSaliente = false;
@@ -562,6 +576,7 @@ public class registrarMovilidadMB {
                     mascaraTelefonoMovilidad = "(503)-9999-9999";
                     mostrarBuscadorSaliente = true;
                     mostrarBuscadorEntrante = false;
+                    personaMovilidadGenerico.setIdOrganismo(organismoService.findById(1)); 
                 }
 
             } else {
@@ -572,17 +587,17 @@ public class registrarMovilidadMB {
         }
     }
 
-    public void onchangeCategoriaMovilidadList() {
-        try {
-            if (categoriaMovilidadSelected != null) {
-                categoriaMovilidad = categoriaMovilidadService.findById(categoriaMovilidadSelected);
-            } else {
-                categoriaMovilidad = null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void onchangeCategoriaMovilidadList() {
+//        try {
+//            if (categoriaMovilidadSelected != null) {
+//                categoriaMovilidad = categoriaMovilidadService.findById(categoriaMovilidadSelected);
+//            } else {
+//                categoriaMovilidad = null;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     //  public void onchangeListPersonaMovilidad() {
     //      try {
@@ -595,8 +610,8 @@ public class registrarMovilidadMB {
     //      }
     //  }
     public void onchangeListInstitucionPersonaMovilidad() {
-        listFacultadByInst = facultadService.getFacultadesByUniversidad(institucionPersonaMovilidadSelected);
-        listUnidadByInst = unidadService.getUnidadesByUniversidad(institucionPersonaMovilidadSelected);
+        listFacultadByInst = facultadService.getFacultadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
+        listUnidadByInst = unidadService.getUnidadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadByInst, listUnidadByInst);//revisar esto
     }
 
@@ -623,8 +638,8 @@ public class registrarMovilidadMB {
 
     public void onchangeListPaisOrigen() {
         try {
-            if (paisOrigenSelected != null) {
-                listOrganismosOrigen = organismoService.getOrganismosPorPaisYTipo(paisOrigenSelected, 1); //REVISAR ESTO
+            if (movilidad.getIdPaisOrigen() != null) {
+                listOrganismosOrigen = organismoService.getOrganismosPorPaisYTipo(movilidad.getIdPaisOrigen(), 1); //REVISAR ESTO
             }
         } catch (Exception e) {
 
@@ -633,9 +648,9 @@ public class registrarMovilidadMB {
 
     public void onchangeListPaisDestino() {
         try {
-            if (paisOrigenSelected != null) {
+            if (movilidad.getIdPaisDestino() != null) {
                 //nota: validar si no se recibe ningun organismo
-                listOrganismosDestino = organismoService.getOrganismosPorPaisYTipo(paisDestinoSelected, 1);
+                listOrganismosDestino = organismoService.getOrganismosPorPaisYTipo(movilidad.getIdPaisDestino(), 1);
             }
         } catch (Exception e) {
 
@@ -1231,8 +1246,8 @@ public class registrarMovilidadMB {
      * Metodo para agregar las facultades beneficiadas a la instancia de
      * Movilidad
      */
-    public void addFacultadesBeneficiadas(List<String> facultadesBeneficiadas) {
-        listFacultadAdd.clear();
+    public void addFacultadesBeneficiadas(List<String> facultadesBeneficiadas){
+        //listFacultadAdd.clear();
         try {
             String[] facultadesBeneficiadasSelected = new String[facultadesBeneficiadas.size()];
             facultadesBeneficiadasSelected = facultadesBeneficiadas.toArray(facultadesBeneficiadasSelected);
@@ -1270,7 +1285,7 @@ public class registrarMovilidadMB {
      * Metodo para agregar las Unidades beneficiadas a la instancia de Movilidad
      */
     public void addUnidadesBeneficiadas(List<String> unidadesBeneficiadas) {
-        listUnidadAdd.clear();
+       // listUnidadAdd.clear();
         try {
             String[] unidadesBeneficiadasSelected = new String[unidadesBeneficiadas.size()];
             unidadesBeneficiadasSelected = unidadesBeneficiadas.toArray(unidadesBeneficiadasSelected);
@@ -1322,25 +1337,14 @@ public class registrarMovilidadMB {
         return lista;
     }
 
-    /**
-     * REVISAR ESTO
-     *
-     * @param movilidad
-     * @return
-     */
-    /**
-     * Metodo para guardar Persona Referente Facultad beneficiada
-     */
-    public void guardarPersonaFacultadBeneficiada() {
-
-    }
-
+ 
+    
     public void crearMovilidad() {
         try {
-            if (existeMovilidad == true) {
-                categoriaMovilidad = categoriaMovilidadService.findById(categoriaMovilidadSelected);
-                tipoMovilidad = tipoMovilidadService.findById(tipoMovilidadSelected);
-            }
+//            if (existeMovilidad == true) {
+//                categoriaMovilidad = categoriaMovilidadService.findById(categoriaMovilidadSelected);
+//                tipoMovilidad = tipoMovilidadService.findById(tipoMovilidadSelected);
+//            }
 
             if (movilidad.getEntregaDeInforme() == null) {
                 movilidad.setEntregaDeInforme(false);
@@ -1378,20 +1382,20 @@ public class registrarMovilidadMB {
                     movilidad.setVoletoAereo(d);
                 }
             }
-            movilidad.setIdProgramaMovilidad(programaMovilidad);
-            movilidad.setIdTipoMovilidad(tipoMovilidad);
-            movilidad.setIdCategoria(categoriaMovilidad);
-            movilidad.setIdPaisOrigen(paisOrigenSelected);
-            movilidad.setIdUniversidadOrigen(institucionOrigenSelected);
-            movilidad.setIdUniversidadDestino(institucionDestinoSelected);
-            movilidad.setIdPaisDestino(paisDestinoSelected);
+//            movilidad.setIdProgramaMovilidad(programaMovilidad);
+//            movilidad.setIdTipoMovilidad(tipoMovilidad);
+//            movilidad.setIdCategoria(categoriaMovilidad);
+//            movilidad.setIdPaisOrigen(paisOrigenSelected);
+//            movilidad.setIdUniversidadOrigen(institucionOrigenSelected);
+//            movilidad.setIdUniversidadDestino(institucionDestinoSelected);
+//            movilidad.setIdPaisDestino(paisDestinoSelected);
 
 //            movilidad.setFechaInicio(fechaInicioSelected);
 //            movilidad.setFechaFin(fechaFinSelected);
 
-            movilidad.setFechaEntregaMined(fechaEntregaMinedSelected);
+//            movilidad.setFechaEntregaMined(fechaEntregaMinedSelected);
 //            movilidad.setIdEtapaMovilidad(etapamovilidadService.findById(etapaMovilidadSelected));
-            movilidad.setEntregaDeInforme(entregaInformeSelected);
+//            movilidad.setEntregaDeInforme(entregaInformeSelected);
             //movilidad.setObsequio(obsequioSelected);
 
             //Seteando algunos datos de la persona referente de la facultad beneficiada
@@ -1404,9 +1408,9 @@ public class registrarMovilidadMB {
                 escuelaDepartamentoReferenteFactBnfSelected = null;
             }
             //si el referente pertenece a una escuela-departamento y por tanto a una facultad 
-            if (escuelaDepartamentoReferenteFactBnfSelected != null) {
-                personaFacultadGenerico.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoReferenteFactBnfSelected));
-            }
+//            if (escuelaDepartamentoReferenteFactBnfSelected != null) {
+//                personaFacultadGenerico.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoReferenteFactBnfSelected));
+//            }
 
             //datos adicionales de persona Referente Facultad Beneficiada
             personaFacultadGenerico.setActivo(true);
@@ -1415,11 +1419,11 @@ public class registrarMovilidadMB {
             personaFacultadGenerico.setPasaporte("--");                    //revisar esto
 
             //Seteando Datos adicionales de persona en movilidad
-            if (tipoMovilidadSelected == 1) { //Si es Entrante
+            if (movilidad.getIdTipoMovilidad().getIdTipoMovilidad() == 1) { //Si es Entrante
                 //personaMovilidadGenerico.setIdOrganismo(idOrganismo);
                 personaMovilidadGenerico.setActivo(true);
                 personaMovilidadGenerico.setExtranjero(true);
-                personaMovilidadGenerico.setIdOrganismo(organismoService.findById(institucionPersonaMovilidadSelected));
+//                personaMovilidadGenerico.setIdOrganismo(organismoService.findById(institucionPersonaMovilidadSelected));
                 personaMovilidadGenerico.setDuiPersona("00000000-0");
                 //si a la persona se le asigno una unidad
                 if (unidadPersonMovTmp != null) {
@@ -1427,9 +1431,9 @@ public class registrarMovilidadMB {
                     personaMovilidadGenerico.setIdEscuelaDepto(null);
                 }
                 //si a la persona se le asigno una escuela o departamento, y por tanto una facultad
-                if (escuelaDepartamentoPersonaMovilidad != null) {
-                    personaMovilidadGenerico.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoPersonaMovilidad));
-                }
+//                if (escuelaDepartamentoPersonaMovilidad != null) {
+//                    personaMovilidadGenerico.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoPersonaMovilidad));
+//                }
 
             } else {   //Si es saliente
                 personaMovilidadGenerico.setActivo(true);
@@ -1442,9 +1446,9 @@ public class registrarMovilidadMB {
                     personaMovilidadGenerico.setIdEscuelaDepto(null);
                 }
                 //si a la persona se le asigno una escuela o departamento, y por tanto una facultad
-                if (escuelaDepartamentoPersonaMovilidad != null) {
-                    personaMovilidadGenerico.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoPersonaMovilidad));
-                }
+//                if (escuelaDepartamentoPersonaMovilidad != null) {
+//                    personaMovilidadGenerico.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoPersonaMovilidad));
+//                }
             }
 
         } catch (Exception e) {
@@ -2830,5 +2834,8 @@ public class registrarMovilidadMB {
     public void setActivarReferente(Boolean activarReferente) {
         this.activarReferente = activarReferente;
     }
+    
+    //-----------------------------------------------------------------
+
 
 }

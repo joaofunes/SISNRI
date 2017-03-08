@@ -42,4 +42,8 @@ public class UnidadService extends GenericService<Unidad, Integer>{
     public List<Integer> getUnidadesMovilidad(Integer idMov){
         return unidadDao.getUnidadesMovilidad(idMov);
     }
+    
+    public Unidad getUnidadById(Integer idUni){
+        return unidadDao.getUnidadById(idUni);
+    }
 }
