@@ -177,6 +177,7 @@ public class BecaMB implements Serializable {
     private Boolean disableBecarioInputs = Boolean.TRUE;
     private Boolean presionoNuevoBecario = Boolean.FALSE;
     private Boolean presionoActualizarBecario = Boolean.FALSE;
+    private Boolean remplazarBecario;
 
     @Autowired
     FacultadService facultadService;
@@ -231,7 +232,6 @@ public class BecaMB implements Serializable {
 
     @Autowired
     private SessionFactory sessionFactory;
-   
 
     public BecaMB() {
     }
@@ -320,30 +320,35 @@ public class BecaMB implements Serializable {
         becarioAux = new Persona();
         renderNuevaPersonaBecarioButton = Boolean.FALSE;
         renderActualizarPersonaBecarioButton = Boolean.FALSE;
+        remplazarBecario = Boolean.FALSE;
     }
 
 //registra la informacion conserniente a una beca
     public void guardarBeca() throws Exception {
         try {
             //guardando becario
-            Carrera carrera = carreraService.findById(carreraSelected.getIdCarrera());
-            becario.setIdCarrera(carrera);
-            becario.setActivo(Boolean.TRUE);
-            becario.setExtranjero(Boolean.FALSE);
-            becario.setPasaporte("-");
-            //agregando telefono fijo
-            telefonoFijoBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
-            telefonoFijoBecario.setIdPersona(becario);
-            becario.getTelefonoList().add(telefonoFijoBecario);
-            //agregando telefono celular
-            telefonoCelularBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
-            telefonoCelularBecario.setIdPersona(becario);
-            becario.getTelefonoList().add(telefonoCelularBecario);
-            becario.setIdOrganismo(organismoService.findById(1));
-            if (existeBecario == true || actualizar == true) {
-                personaService.merge(becario);
+            if (presionoNuevoBecario == false && presionoActualizarBecario == false) {
+
             } else {
-                personaService.save(becario);
+                Carrera carrera = carreraService.findById(carreraSelected.getIdCarrera());
+                becario.setIdCarrera(carrera);
+                becario.setActivo(Boolean.TRUE);
+                becario.setExtranjero(Boolean.FALSE);
+                becario.setPasaporte("-");
+                //agregando telefono fijo
+                telefonoFijoBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+                telefonoFijoBecario.setIdPersona(becario);
+                becario.getTelefonoList().add(telefonoFijoBecario);
+                //agregando telefono celular
+                telefonoCelularBecario.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+                telefonoCelularBecario.setIdPersona(becario);
+                becario.getTelefonoList().add(telefonoCelularBecario);
+                becario.setIdOrganismo(organismoService.findById(1));
+                if (existeBecario == true || actualizar == true) {
+                    personaService.merge(becario);
+                } else {
+                    personaService.save(becario);
+                }
             }
 
             //guardando datos del asesor interno
@@ -493,7 +498,14 @@ public class BecaMB implements Serializable {
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('dataChangeBecarioDlg').show();");
             } else {
-
+                if (mostrarTabInterno == true) {
+                    preGuardarInterno();
+                }
+                if (mostrarTabExterno == true) {
+                    preGuardarExterno();
+                } else {
+                    guardarBeca();
+                }
             }
         } catch (Exception e) {
         }
@@ -1715,6 +1727,14 @@ public class BecaMB implements Serializable {
 
     public void setPresionoActualizarBecario(Boolean presionoActualizarBecario) {
         this.presionoActualizarBecario = presionoActualizarBecario;
+    }
+
+    public Boolean getRemplazarBecario() {
+        return remplazarBecario;
+    }
+
+    public void setRemplazarBecario(Boolean remplazarBecario) {
+        this.remplazarBecario = remplazarBecario;
     }
 
 }
