@@ -41,7 +41,7 @@
                                             <f:selectItem itemLabel="Documento" itemValue="doc" />  
                                         </p:selectOneMenu>
                                     </p:column>
-                                    rendered="#{!propuestaConvenioMB.bloqueosInterno}"                      
+                  
                                     <p:column > 
                                         <p:autoComplete id="searchDuiSolicitante" minQueryLength="9" size="9" 
                                                         rendered="#{propuestaConvenioMB.flagSearchDuiSolicitante}" 
@@ -186,7 +186,7 @@
                     <p:tab title="Datos Solicitante Interno">
 
                         <h:form id="grup1" > 
-                            <p:panelGrid id="grid" rendered="#{propuestaConvenioMB.tabAsis}" >     
+                            <p:panelGrid  rendered="#{propuestaConvenioMB.tabAsis}" >     
                                 <p:column>
                                     <p:outputLabel for="tipoBusquedaInt" value="Criterio de Busqueda:" />
                                 </p:column>
@@ -250,9 +250,9 @@
                                                          value="Editar"   icon="ui-icon-disk" title="Editar Referente Interno" />                                               
                                     </p:column>
                                     <p:column>                                                                                  
-                                        <p:commandButton rendered="#{propuestaConvenioMB.habilitarBotonSaveInterno}"
+                                        <p:commandButton id="btnNuevoInterno" disabled="#{!propuestaConvenioMB.habilitarBotonSaveInterno}"
                                                          actionListener="#{propuestaConvenioMB.preEditeGuardarInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
-                                                         value="Nuevo"  id="btnNuevoInterno" icon="ui-icon-disk" title="Nuevo Referente Interno" />                                               
+                                                         value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Interno" />                                               
 
                                     </p:column>
 
@@ -260,6 +260,7 @@
 
                             </p:panelGrid >   
                         </h:form> 
+                         <p:separator/>
                         <h:form id="GroupSolicitanteInterno" >  
 
                             <p:panelGrid rendered="#{propuestaConvenioMB.tabAsis}">     
@@ -346,7 +347,8 @@
                                     <p:column>
                                         <p:selectOneMenu  id="idFacultadUnidadInterno"  value="#{propuestaConvenioMB.facultadesUnidadesInterno}" 
                                                           converter="#{facultadUnidadConverter}" style="width:160px" 
-                                                          editable="#{propuestaConvenioMB.mismoSol}"  disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}">                                              
+                                                          editable="#{propuestaConvenioMB.mismoSol}" 
+                                                          disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}">                                              
                                             <f:selectItem itemLabel="Seleccione Facultad/Unidad" itemValue="#{null}" />                                            
                                             <f:selectItems  value="#{propuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
                                             <p:ajax event="change" listener="#{propuestaConvenioMB.actualizarEscuelaDeptInterno()}" update="idEscuelaDeptInter" process="@this" partialSubmit="true"/>
@@ -357,7 +359,8 @@
                                     </p:column>
                                     <p:column>
                                         <p:selectOneMenu  id="idEscuelaDeptInter"   value="#{propuestaConvenioMB.escuelaDepartamentoInterno}" 
-                                                          converter="#{escuelaDepartamentoConverter}" disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno || propuestaConvenioMB.habilitarBusquedaInterna}"  
+                                                          converter="#{escuelaDepartamentoConverter}" 
+                                                          disabled="#{propuestaConvenioMB.flagEscuelaDeptInterno || propuestaConvenioMB.habilitarBusquedaInterna}"  
                                                           style="width:160px" editable="#{propuestaConvenioMB.mismoSol}">                                              
                                             <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" noSelectionOption="true" />                                            
                                             <f:selectItems value="#{propuestaConvenioMB.listadoEscuelaDepartamentoInter}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
@@ -379,10 +382,10 @@
                                 <p:row>
                                     <p:column>
                                         <p:commandButton id="btnEditarInterno2" rendered="#{propuestaConvenioMB.habilitarBotonEditInternoDos}"
-                                                         actionListener="#{propuestaConvenioMB.actualizarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno" 
+                                                         actionListener="#{propuestaConvenioMB.actualizarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno,acordion:grup1" 
                                                          value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Interno" />                                               
                                         <p:commandButton id="btnNuevoInterno2" rendered="#{propuestaConvenioMB.habilitarBotonSaveInternoDos}"
-                                                         actionListener="#{propuestaConvenioMB.actualizarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno" 
+                                                         actionListener="#{propuestaConvenioMB.actualizarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno,acordion:grup1" 
                                                          value="Guardar"   icon="ui-icon-disk" title="Guardar datos Interno" />                                                                                                                                                                                                               
 
                                     </p:column>
@@ -405,7 +408,8 @@
                                 </p:column>
 
                                 <p:column>                                        
-                                    <p:selectOneMenu id="tipoBusquedaExt" value="#{propuestaConvenioMB.tipoBusquedaExterna}"  style="width:125px">  
+                                    <p:selectOneMenu id="tipoBusquedaExt" value="#{propuestaConvenioMB.tipoBusquedaExterna}"  style="width:125px"
+                                                     disabled="#{propuestaConvenioMB.bloqueosExterno}">  
                                         <p:ajax  listener="#{propuestaConvenioMB.habilitarAutoExterno}" update="acordion:grup2"  process="@this" />
                                         <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                         <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
@@ -414,7 +418,7 @@
                                     </p:selectOneMenu>
                                 </p:column>
 
-                                <p:column>
+                                <p:column rendered="#{!propuestaConvenioMB.bloqueosExterno}">
 
                                     <p:autoComplete id="searchDoc" minQueryLength="8" size="8" rendered="#{propuestaConvenioMB.flagSearchDuiExterno}"  
                                                     value="#{propuestaConvenioMB.numDocumentoExterno}" completeMethod="#{propuestaConvenioMB.completeBusquedaPassaporte}"
@@ -459,15 +463,16 @@
                                                      value="Editar"   icon="ui-icon-disk" title="Editar Referente Externo" />                                               
                                 </p:column>
                                 <p:column>                                                                                  
-                                    <p:commandButton rendered="#{propuestaConvenioMB.habilitarBotonSaveExterno}"
+                                    <p:commandButton id="btnNuevoExterno" disabled="#{!propuestaConvenioMB.habilitarBotonSaveExterno}"
                                                      actionListener="#{propuestaConvenioMB.preEditeGuardarExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
-                                                     value="Nuevo"  id="btnNuevoInterno" icon="ui-icon-disk" title="Nuevo Referente Externo" />                                               
+                                                     value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Externo" />                                               
 
                                 </p:column>
 
 
                             </p:panelGrid>
-                        </h:form>  
+                        </h:form> 
+                        <p:separator/>
                         <h:form id="GroupSolicitanteExterno" >        
                             <p:panelGrid rendered="#{propuestaConvenioMB.tabAsisExterno}">                           
 
@@ -554,10 +559,10 @@
                                 <p:row>
                                     <p:column>
                                         <p:commandButton id="btnEditarExterno2" rendered="#{propuestaConvenioMB.habilitarBotonEditExternoDos}"
-                                                         actionListener="#{propuestaConvenioMB.actualizarReferenteE()}" process="@form" update="acordion:GroupSolicitanteExterno" 
+                                                         actionListener="#{propuestaConvenioMB.actualizarReferenteExterno()}" process="@form" update="acordion:GroupSolicitanteExterno,acordion:grup2" 
                                                          value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Externos" />                                               
                                         <p:commandButton id="btnNuevoExterno2" rendered="#{propuestaConvenioMB.habilitarBotonSaveExternoDos}"
-                                                         actionListener="#{propuestaConvenioMB.actualizarRe()}" process="@form" update="acordion:GroupSolicitanteExterno" 
+                                                         actionListener="#{propuestaConvenioMB.guardarReferenteExterno()}" process="@form" update="acordion:GroupSolicitanteExterno,acordion:grup2" 
                                                          value="Guardar"   icon="ui-icon-disk" title="Guardar datos Externos" />                                                                                                                                                                                                               
 
                                     </p:column>
