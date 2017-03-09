@@ -284,7 +284,9 @@ public class ProyectosMB {
     private Boolean activarBotonNuevaPersonaAsistente;
     private Boolean activarBotonNuevaPersonaExterna;
     
-    private Boolean nuevaPersona;
+    private Boolean disablePersona;
+    private Boolean disablePersonaAsistente;
+    private Boolean disablePersonaExterna;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -467,7 +469,9 @@ public class ProyectosMB {
         activarBotonNuevaPersonaAsistente = Boolean.FALSE;
         activarBotonNuevaPersonaExterna = Boolean.FALSE;
         
-        nuevaPersona=Boolean.FALSE;
+        disablePersona=Boolean.TRUE;
+        disablePersonaAsistente=Boolean.TRUE;
+        disablePersonaExterna=Boolean.TRUE;
 
     }
 
@@ -476,69 +480,51 @@ public class ProyectosMB {
     }
 
     public void preGuardarProyecto() {
-        if (buscoYEncontroCoordinador == true || desvincularPersona == true) {
-
-            //Buscar persona Coordinador
-            personaSinBuscar = personaService.getReferenteInternoByEmail(persona.getEmailPersona());
-            if (personaSinBuscar != null && !personaSinBuscar.isEmpty()) {
+        if (siEditoPersona == true || desvincularPersona == true) {
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('dataChangeDlg').show();");
-            } else if (tabAsis == true) {
+        }else if (tabAsis == true) {
                 preGuardarProyectoAsistente();
             } else {
                 preGuardarProyectoExterno();
             }
-        } else if (tabAsis == true) {
-            preGuardarProyectoAsistente();
-        } else {
-            preGuardarProyectoExterno();
-        }
     }
 
     public void preGuardarProyectoAsistente() {
-        if ((buscoYEncontroAsistente == true && tabAsis == true) || (buscoYEncontroAsistente == true && desvincularAsistente == true)) {
-            //Buscar persona asistente
-            personaAsistenteSinBuscar = personaService.getReferenteInternoByEmail(personaAsistente.getEmailPersona());
-            if (personaAsistenteSinBuscar != null && !personaAsistenteSinBuscar.isEmpty()) {
+        if ((siEditoPersonaAsistente == true && tabAsis == true) || (siEditoPersona == true && desvincularAsistente == true)) {
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('dataChangeDlgAsistente').show();");
-            }
         } else {
             preGuardarProyectoExterno();
         }
-        if (tabAsis == false) {
-            preGuardarProyectoExterno();
-        }
+//        if (tabAsis == false) {
+//            preGuardarProyectoExterno();
+//        }
     }
 
     public void preGuardarProyectoExterno() {
-        if (buscoYEncontroRefExt == true || (desvincularExterna == true && buscoYEncontroRefExt == true)) {
-            //Buscar persona externa
-            personaExternaSinBuscar = personaService.getReferenteExternoByEmail(personaExterna.getEmailPersona());
-            if (personaExternaSinBuscar != null && !personaExternaSinBuscar.isEmpty()) {
+        if (siEditoPersonaExterna == true || (desvincularExterna == true && siEditoPersonaExterna == true)) {
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('dataChangeDlgExterno').show();");
             } else {
                 guardarProyecto();
             }
-        } else {
-            guardarProyecto();
-        }
+//            guardarProyecto();
     }
     //metodo que se utiliza para reemplazar los datos de la vista a los ya existentes de una persona
 
     public void reemplazarPersona() {
         reemplazarSol = Boolean.TRUE;
-        RequestContext.getCurrentInstance().update(":formAdmin");
+//        RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlg').hide();");
         preGuardarProyectoAsistente();
     }
 
     public void noReemplazarPersona() {
-        persona = personaSinBuscar.get(0);
+//        persona = personaSinBuscar.get(0);
         reemplazarSol = Boolean.FALSE;
-        RequestContext.getCurrentInstance().update(":formAdmin");
+//        RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlg').hide();");
         preGuardarProyectoAsistente();
@@ -546,16 +532,16 @@ public class ProyectosMB {
 
     public void reemplazarPersonaAsistente() {
         reemplazarAsis = Boolean.TRUE;
-        RequestContext.getCurrentInstance().update(":formAdmin");
+//        RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlgAsistente').hide();");
         preGuardarProyectoExterno();
     }
 
     public void noReemplazarPersonaAsistente() {
-        personaAsistente = personaAsistenteSinBuscar.get(0);
+//        personaAsistente = personaAsistenteSinBuscar.get(0);
         reemplazarAsis = Boolean.FALSE;
-        RequestContext.getCurrentInstance().update(":formAdmin");
+//        RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlgAsistente').hide();");
         preGuardarProyectoExterno();
@@ -563,16 +549,16 @@ public class ProyectosMB {
 
     public void reemplazarPersonaExterno() {
         reemplazarRefExt = Boolean.TRUE;
-        RequestContext.getCurrentInstance().update(":formAdmin");
+//        RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlgExterno').hide();");
         guardarProyecto();
     }
 
     public void noReemplazarPersonaExterno() {
-        personaExterna = personaExternaSinBuscar.get(0);
+//        personaExterna = personaExternaSinBuscar.get(0);
         reemplazarRefExt = Boolean.FALSE;
-        RequestContext.getCurrentInstance().update(":formAdmin");
+//        RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlgExterno').hide();");
         guardarProyecto();
@@ -581,8 +567,8 @@ public class ProyectosMB {
     public void guardarProyecto() {
         try {
             //guardar persona solicitante
-            if (reemplazarSol == false && buscoYEncontroCoordinador == true) {
-                personaService.merge(persona);
+            if (reemplazarSol == false && siEditoPersona == true) {
+//                personaService.merge(persona);
 
             } else {
                 String facultadArregloSol[] = facultadSelectedPojoSol.split(",");
@@ -604,10 +590,7 @@ public class ProyectosMB {
                 telefonoSolCel.setIdPersona(persona);
                 telefonoSolCel.setIdTipoTelefono(tipoTelefonoCel);
                 persona.getTelefonoList().add(telefonoSolCel);
-                if (existeSol == 1 || actualizar == true) {
-                    personaService.merge(persona);
-                } else if (reemplazarSol == true && !personaSinBuscar.isEmpty()) {
-                    persona.setIdPersona(personaSinBuscar.get(0).getIdPersona());
+                if ((reemplazarSol == true && existeSol == 1) || actualizar == true) {
                     personaService.merge(persona);
                 } else {
                     personaService.save(persona);
@@ -615,7 +598,7 @@ public class ProyectosMB {
             }
             //guardar persona Asistente
             if (tabAsis == true) {
-                if (reemplazarAsis == false && buscoYEncontroAsistente == true) {
+                if (reemplazarAsis == false && siEditoPersonaAsistente == true) {
                     personaService.merge(personaAsistente);
                 } else {
                     String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
@@ -637,10 +620,7 @@ public class ProyectosMB {
                     telefonoAsisCel.setIdPersona(personaAsistente);
                     telefonoAsisCel.setIdTipoTelefono(tipoTelefonoCel);
                     personaAsistente.getTelefonoList().add(telefonoAsisCel);
-                    if ((existeAsis == 1 && asistenteNull == false) || (actualizar == true && asistenteNull == false)) {
-                        personaService.merge(personaAsistente);
-                    } else if (reemplazarAsis == true && !personaAsistenteSinBuscar.isEmpty()) {
-                        personaAsistente.setIdPersona(personaAsistenteSinBuscar.get(0).getIdPersona());
+                    if ((existeAsis == 1 && reemplazarAsis == true) || (actualizar == true && asistenteNull == false)) {
                         personaService.merge(personaAsistente);
                     } else {
                         personaService.save(personaAsistente);
@@ -648,7 +628,7 @@ public class ProyectosMB {
                 }
             }
             //Guardar informacion de referente externo
-            if (reemplazarRefExt == false && buscoYEncontroRefExt == true) {
+            if (reemplazarRefExt == false && siEditoPersonaExterna == true) {
                 personaService.merge(personaExterna);
             } else {
                 Organismo organismoExt = organismoService.findById(organismoSelectedRefExt.getIdOrganismo());
@@ -664,12 +644,9 @@ public class ProyectosMB {
                 telefonoRefextCel.setIdPersona(personaExterna);
                 telefonoRefextCel.setIdTipoTelefono(tipoTelefonoCel);
                 personaExterna.getTelefonoList().add(telefonoRefextCel);
-                if (existeRefExt == 1 || actualizar == true) {
+                if ((existeRefExt == 1 && reemplazarRefExt==true) || actualizar == true) {
                     personaService.merge(personaExterna);
-                } else if (reemplazarRefExt == true && !personaExternaSinBuscar.isEmpty()) {
-                    personaExterna.setIdPersona(personaExternaSinBuscar.get(0).getIdPersona());
-                    personaService.merge(personaExterna);
-                } else {
+                }  else {
                     personaService.save(personaExterna);
                 }
             }
@@ -772,8 +749,7 @@ public class ProyectosMB {
                     proyecto.getPersonaProyectoList().add(personaProyectoAsis);
                     if (asistenteNull == true) {
                         proyectoService.merge(proyecto);
-                    } else {
-                    }
+                    } 
                 } else {
                     //guardar en tabla intermedia persona_proyecto Asistente          
                     personaProyectoAsisPK.setIdPersona(personaAsistente.getIdPersona());
@@ -1062,13 +1038,11 @@ public class ProyectosMB {
         flagSearchDuiInterno = Boolean.FALSE;
         flagSearchNombreInterno = Boolean.FALSE;
         flagSearchEmailInterno = Boolean.FALSE;
-        siBuscoPersona = Boolean.FALSE;
-        siEditoPersona = Boolean.FALSE;
         personaAux = new Persona();
-        buscoYEncontroCoordinador=Boolean.FALSE;
         activarBotonNuevaPersona=Boolean.FALSE;
+        buscoYEncontroCoordinador = Boolean.FALSE;
         siEditoPersona = Boolean.FALSE;
-        nuevaPersona=Boolean.FALSE;
+        disablePersona=Boolean.TRUE;
         limpiarCoordinador();
 
         if (disableAutoInterno) {
@@ -1096,7 +1070,10 @@ public class ProyectosMB {
         flagSearchNombreAsistente = Boolean.FALSE;
         flagSearchEmailAsistente = Boolean.FALSE;
         siBuscoPersonaAsistente = Boolean.FALSE;
+        activarBotonNuevaPersonaAsistente= Boolean.FALSE;
         siEditoPersonaAsistente = Boolean.FALSE;
+        buscoYEncontroAsistente= Boolean.FALSE;
+        disablePersonaAsistente= Boolean.TRUE;
         personaAsistenteAux = new Persona();
         limpiarAsistente();
 
@@ -1124,7 +1101,10 @@ public class ProyectosMB {
         flagSearchNombreExterno = Boolean.FALSE;
         flagSearchEmailExterno = Boolean.FALSE;
         siBuscoPersonaExterna = Boolean.FALSE;
+        activarBotonNuevaPersonaExterna= Boolean.FALSE;
         siEditoPersonaExterna = Boolean.FALSE;
+        buscoYEncontroRefExt= Boolean.FALSE;
+        disablePersonaExterna= Boolean.TRUE;
         personaExternaAux = new Persona();
         limpiarExterno();
 
@@ -1158,7 +1138,8 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersona = Boolean.TRUE;
                     buscoYEncontroCoordinador=Boolean.FALSE;
-                    RequestContext.getCurrentInstance().update("formAdmin:idbotonesPersona");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersona");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteInterno");
                 }
                 limpiarCoordinador();
                 return list;
@@ -1170,7 +1151,8 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersona = Boolean.TRUE;
                     buscoYEncontroCoordinador=Boolean.FALSE;
-                    RequestContext.getCurrentInstance().update("formAdmin:idbotonesPersona");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersona");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteInterno");
                 }
                 limpiarCoordinador();
                 return list;
@@ -1182,7 +1164,8 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersona = Boolean.TRUE;
                     buscoYEncontroCoordinador=Boolean.FALSE;
-                    RequestContext.getCurrentInstance().update("formAdmin:idbotonesPersona");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersona");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteInterno");
                 }
                 limpiarCoordinador();
                 return list;
@@ -1205,7 +1188,9 @@ public class ProyectosMB {
                 }
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaAsistente = Boolean.TRUE;
-                    RequestContext.getCurrentInstance().update("formAdmin:idTabAsis");
+                    buscoYEncontroAsistente=Boolean.FALSE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaAsistente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteAsistente");
                 }
                 limpiarAsistente();
                 return list;
@@ -1216,7 +1201,9 @@ public class ProyectosMB {
                 }
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaAsistente = Boolean.TRUE;
-                    RequestContext.getCurrentInstance().update("formAdmin:idTabAsis");
+                    buscoYEncontroAsistente=Boolean.FALSE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaAsistente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteAsistente");
                 }
                 limpiarAsistente();
                 return list;
@@ -1226,7 +1213,9 @@ public class ProyectosMB {
                 boolean add = list.add(personaAsistenteAux);
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaAsistente = Boolean.TRUE;
-                    RequestContext.getCurrentInstance().update("formAdmin:idTabAsis");
+                    buscoYEncontroAsistente=Boolean.FALSE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaAsistente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteAsistente");
                 }
                 limpiarAsistente();
                 return list;
@@ -1248,7 +1237,9 @@ public class ProyectosMB {
                 }
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaExterna = Boolean.TRUE;
-                    RequestContext.getCurrentInstance().update("formAdmin:grup2");
+                    buscoYEncontroRefExt=Boolean.FALSE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaExterna");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteExterno");
                 }
                 limpiarExterno();
                 return list;
@@ -1259,7 +1250,9 @@ public class ProyectosMB {
                 }
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaExterna = Boolean.TRUE;
-                    RequestContext.getCurrentInstance().update("formAdmin:grup2");
+                    buscoYEncontroRefExt=Boolean.FALSE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaExterna");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteExterno");
                 }
                 limpiarExterno();
                 return list;
@@ -1269,13 +1262,12 @@ public class ProyectosMB {
                 boolean add = list.add(personaExternaAux);
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaExterna = Boolean.TRUE;
-                    RequestContext.getCurrentInstance().update("formAdmin:grup2");
+                    buscoYEncontroRefExt=Boolean.FALSE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaExterna");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteExterno");
                 }
                 limpiarExterno();
                 return list;
-            }
-            if (list.isEmpty()) {
-                activarBotonNuevaPersonaExterna = Boolean.TRUE;
             }
             return list;
         } catch (Exception e) {
@@ -1632,6 +1624,7 @@ public class ProyectosMB {
     public void editarPersona() {
         try {
             siEditoPersona = Boolean.TRUE;
+            disablePersona=Boolean.FALSE;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1640,6 +1633,7 @@ public class ProyectosMB {
     public void editarPersonaAsistente() {
         try {
             siEditoPersonaAsistente = Boolean.TRUE;
+            disablePersonaAsistente=Boolean.FALSE;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1648,14 +1642,31 @@ public class ProyectosMB {
     public void editarPersonaExterna() {
         try {
             siEditoPersonaExterna = Boolean.TRUE;
+            disablePersonaExterna=Boolean.FALSE;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     public void nuevaPersona() {
         try {
-            siEditoPersona = Boolean.FALSE;
-            nuevaPersona=Boolean.TRUE;
+            activarBotonNuevaPersona = Boolean.TRUE;
+            disablePersona=Boolean.FALSE;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void nuevaPersonaAsistente() {
+        try {
+            activarBotonNuevaPersonaAsistente = Boolean.TRUE;
+            disablePersonaAsistente=Boolean.FALSE;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void nuevaPersonaExterna() {
+        try {
+            activarBotonNuevaPersonaExterna = Boolean.TRUE;
+            disablePersonaExterna=Boolean.FALSE;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2709,4 +2720,28 @@ public class ProyectosMB {
         this.activarBotonNuevaPersonaExterna = activarBotonNuevaPersonaExterna;
     }
 
+    public Boolean getDisablePersona() {
+        return disablePersona;
+    }
+
+    public void setDisablePersona(Boolean disablePersona) {
+        this.disablePersona = disablePersona;
+    }
+
+    public Boolean getDisablePersonaAsistente() {
+        return disablePersonaAsistente;
+    }
+
+    public void setDisablePersonaAsistente(Boolean disablePersonaAsistente) {
+        this.disablePersonaAsistente = disablePersonaAsistente;
+    }
+
+    public Boolean getDisablePersonaExterna() {
+        return disablePersonaExterna;
+    }
+
+    public void setDisablePersonaExterna(Boolean disablePersonaExterna) {
+        this.disablePersonaExterna = disablePersonaExterna;
+    }
+    
 }
