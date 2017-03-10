@@ -173,11 +173,25 @@ public class BecaMB implements Serializable {
 
     private Boolean renderNuevaPersonaBecarioButton;
     private Boolean renderActualizarPersonaBecarioButton;
+    private Boolean renderNuevaPersonaInternaButton;
+    private Boolean renderActualizarPersonaInternaButton;
+    private Boolean renderNuevaPersonaExternaButton;
+    private Boolean renderActualizarPersonaExternaButton;
 
-    private Boolean disableBecarioInputs = Boolean.TRUE;
-    private Boolean presionoNuevoBecario = Boolean.FALSE;
-    private Boolean presionoActualizarBecario = Boolean.FALSE;
+    private Boolean disableBecarioInputs;
+    private Boolean disableInternoInputs;
+    private Boolean disableExternoInputs;
+
+    private Boolean presionoNuevoBecario;
+    private Boolean presionoActualizarBecario;
+    private Boolean presionoNuevoInterno;
+    private Boolean presionoActualizarInterno;
+    private Boolean presionoNuevoExterno;
+    private Boolean presionoActualizarExterno;
+
     private Boolean remplazarBecario;
+    private Boolean remplazarInterno;
+    private Boolean remplazarExterno;
 
     @Autowired
     FacultadService facultadService;
@@ -318,9 +332,29 @@ public class BecaMB implements Serializable {
         //variables de buscadores
         banderasBecarioFalsas();
         becarioAux = new Persona();
+
+        disableBecarioInputs = Boolean.TRUE;
+        disableInternoInputs = Boolean.TRUE;
+        disableExternoInputs = Boolean.TRUE;
+
         renderNuevaPersonaBecarioButton = Boolean.FALSE;
         renderActualizarPersonaBecarioButton = Boolean.FALSE;
+        renderNuevaPersonaInternaButton = Boolean.FALSE;
+        renderActualizarPersonaInternaButton = Boolean.FALSE;
+        renderNuevaPersonaExternaButton = Boolean.FALSE;
+        renderActualizarPersonaExternaButton = Boolean.FALSE;
+
+        presionoNuevoBecario = Boolean.FALSE;
+        presionoActualizarBecario = Boolean.FALSE;
+        presionoNuevoInterno = Boolean.FALSE;
+        presionoActualizarInterno = Boolean.FALSE;
+        presionoNuevoExterno = Boolean.FALSE;
+        presionoActualizarExterno = Boolean.FALSE;
+
         remplazarBecario = Boolean.FALSE;
+        remplazarInterno = Boolean.FALSE;
+        remplazarExterno = Boolean.FALSE;
+
     }
 
 //registra la informacion conserniente a una beca
@@ -328,7 +362,7 @@ public class BecaMB implements Serializable {
         try {
             //guardando becario
             if ((presionoNuevoBecario == false && presionoActualizarBecario == false) || (presionoActualizarBecario == true && remplazarBecario == false)) {
-
+                System.out.println("no hace nada");
             } else {
                 Carrera carrera = carreraService.findById(carreraSelected.getIdCarrera());
                 becario.setIdCarrera(carrera);
@@ -512,8 +546,15 @@ public class BecaMB implements Serializable {
 
     }
 
-    public void preGuardarInterno() {
-//pendiente
+    public void preGuardarInterno() throws Exception {
+        if (presionoNuevoInterno == true) {
+            if (mostrarTabExterno == true) {
+                preGuardarExterno();
+            } else {
+                guardarBeca();
+            }
+        }
+
     }
 
     public void preGuardarExterno() {
@@ -522,6 +563,7 @@ public class BecaMB implements Serializable {
 
     public void noRemplazarBecario() throws Exception {
         existeBecario = Boolean.TRUE;
+        remplazarBecario = Boolean.FALSE;
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeBecarioDlg').hide();");
         if (mostrarTabInterno == true) {
@@ -536,6 +578,7 @@ public class BecaMB implements Serializable {
 
     public void siRemplazarBecario() throws Exception {
         existeBecario = Boolean.TRUE;
+        remplazarBecario = Boolean.TRUE;
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeBecarioDlg').hide();");
         if (mostrarTabInterno == true) {
@@ -676,15 +719,15 @@ public class BecaMB implements Serializable {
                     mostrarTabExterno = Boolean.TRUE;
                     noEstabaExterno = false;
                 }
-                buscarBecario(becario.getDuiPersona());
+                buscarBecario(becario.getEmailPersona());
                 if (asesorInterno != null) {
-                    buscarInterno(asesorInterno.getDuiPersona());
+                    buscarInterno(asesorInterno.getEmailPersona());
                 } else {
                     asesorInterno = new Persona();
                 }
 
                 if (asesorExterno != null) {
-                    buscarExterno(asesorExterno.getPasaporte());
+                    buscarExterno(asesorExterno.getEmailPersona());
                 } else {
                     asesorExterno = new Persona();
                 }
@@ -814,7 +857,7 @@ public class BecaMB implements Serializable {
     public void buscarBecario(String valior) {
         try {
             if (!valior.equalsIgnoreCase("")) {
-                Persona aux = personaService.getBecarioByDoc(valior);
+                Persona aux = personaService.getReferenteInternoByEmail(valior).get(0);
                 if (aux != null) {
                     becario = aux;
                     telefonoFijoBecario = getTelefono(becario.getTelefonoList(), FIJO);
@@ -923,7 +966,7 @@ public class BecaMB implements Serializable {
     public void buscarExterno(String valior) {
         try {
             if (!valior.equalsIgnoreCase("")) {
-                Persona aux = personaService.getPersonaByPasaporte(valior);
+                Persona aux = personaService.getReferenteExternoByEmail(valior).get(0);
                 if (aux != null) {
                     asesorExterno = aux;
                     telefonoFijoAsesorExterno = getTelefono(asesorExterno.getTelefonoList(), FIJO);
@@ -946,7 +989,7 @@ public class BecaMB implements Serializable {
     public void buscarInterno(String valior) {
         try {
             if (!valior.equalsIgnoreCase("")) {
-                Persona aux = personaService.getBecarioByDoc(valior);
+                Persona aux = personaService.getReferenteInternoByEmail(valior).get(0);
                 if (aux != null) {
                     asesorInterno = aux;
                     telefonoFijoAsesorInterno = getTelefono(asesorInterno.getTelefonoList(), FIJO);
@@ -1737,6 +1780,126 @@ public class BecaMB implements Serializable {
 
     public void setRemplazarBecario(Boolean remplazarBecario) {
         this.remplazarBecario = remplazarBecario;
+    }
+
+    public Boolean getFlagSearchDuiBecario() {
+        return flagSearchDuiBecario;
+    }
+
+    public void setFlagSearchDuiBecario(Boolean flagSearchDuiBecario) {
+        this.flagSearchDuiBecario = flagSearchDuiBecario;
+    }
+
+    public Boolean getFlagSearchNombreBecario() {
+        return flagSearchNombreBecario;
+    }
+
+    public void setFlagSearchNombreBecario(Boolean flagSearchNombreBecario) {
+        this.flagSearchNombreBecario = flagSearchNombreBecario;
+    }
+
+    public Boolean getFlagSearchEmailBecario() {
+        return flagSearchEmailBecario;
+    }
+
+    public void setFlagSearchEmailBecario(Boolean flagSearchEmailBecario) {
+        this.flagSearchEmailBecario = flagSearchEmailBecario;
+    }
+
+    public Boolean getRenderNuevaPersonaInternaButton() {
+        return renderNuevaPersonaInternaButton;
+    }
+
+    public void setRenderNuevaPersonaInternaButton(Boolean renderNuevaPersonaInternaButton) {
+        this.renderNuevaPersonaInternaButton = renderNuevaPersonaInternaButton;
+    }
+
+    public Boolean getRenderActualizarPersonaInternaButton() {
+        return renderActualizarPersonaInternaButton;
+    }
+
+    public void setRenderActualizarPersonaInternaButton(Boolean renderActualizarPersonaInternaButton) {
+        this.renderActualizarPersonaInternaButton = renderActualizarPersonaInternaButton;
+    }
+
+    public Boolean getRenderNuevaPersonaExternaButton() {
+        return renderNuevaPersonaExternaButton;
+    }
+
+    public void setRenderNuevaPersonaExternaButton(Boolean renderNuevaPersonaExternaButton) {
+        this.renderNuevaPersonaExternaButton = renderNuevaPersonaExternaButton;
+    }
+
+    public Boolean getRenderActualizarPersonaExternaButton() {
+        return renderActualizarPersonaExternaButton;
+    }
+
+    public void setRenderActualizarPersonaExternaButton(Boolean renderActualizarPersonaExternaButton) {
+        this.renderActualizarPersonaExternaButton = renderActualizarPersonaExternaButton;
+    }
+
+    public Boolean getDisableInternoInputs() {
+        return disableInternoInputs;
+    }
+
+    public void setDisableInternoInputs(Boolean disableInternoInputs) {
+        this.disableInternoInputs = disableInternoInputs;
+    }
+
+    public Boolean getDisableExternoInputs() {
+        return disableExternoInputs;
+    }
+
+    public void setDisableExternoInputs(Boolean disableExternoInputs) {
+        this.disableExternoInputs = disableExternoInputs;
+    }
+
+    public Boolean getPresionoNuevoInterno() {
+        return presionoNuevoInterno;
+    }
+
+    public void setPresionoNuevoInterno(Boolean presionoNuevoInterno) {
+        this.presionoNuevoInterno = presionoNuevoInterno;
+    }
+
+    public Boolean getPresionoActualizarInterno() {
+        return presionoActualizarInterno;
+    }
+
+    public void setPresionoActualizarInterno(Boolean presionoActualizarInterno) {
+        this.presionoActualizarInterno = presionoActualizarInterno;
+    }
+
+    public Boolean getPresionoNuevoExterno() {
+        return presionoNuevoExterno;
+    }
+
+    public void setPresionoNuevoExterno(Boolean presionoNuevoExterno) {
+        this.presionoNuevoExterno = presionoNuevoExterno;
+    }
+
+    public Boolean getPresionoActualizarExterno() {
+        return presionoActualizarExterno;
+    }
+
+    public void setPresionoActualizarExterno(Boolean presionoActualizarExterno) {
+        this.presionoActualizarExterno = presionoActualizarExterno;
+    }
+
+    public Boolean getRemplazarInterno() {
+        return remplazarInterno;
+    }
+
+    public void setRemplazarInterno(Boolean remplazarInterno) {
+        this.remplazarInterno = remplazarInterno;
+    }
+
+    public Boolean getRemplazarExterno() {
+        return remplazarExterno;
+    }
+
+    public void setRemplazarExterno(Boolean remplazarExterno) {
+        this.remplazarExterno = remplazarExterno;
     }
 
 }
