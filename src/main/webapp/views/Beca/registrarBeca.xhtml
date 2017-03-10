@@ -385,7 +385,12 @@
                                             </p:column>
                                         </p:panelGrid>
                                     </h:panelGroup>
-
+                                    <h:panelGroup id="botonesInterno">
+                                        <p:column>
+                                            <p:commandButton value="Nueva Persona" actionListener="#{becaMB.presionoNuevoInterno()}" rendered="#{becaMB.renderNuevaPersonaInternaButton}" process="@this" update="panelInterno"/>
+                                            <p:commandButton value="Actualizar Coordinador Interno" actionListener="#{becaMB.presionoActualizarInterno()}" rendered="#{becaMB.renderActualizarPersonaInternaButton}" process="@this" update="panelInterno"/>
+                                        </p:column>
+                                    </h:panelGroup>
                                     <p:separator rendered="#{becaMB.mostrarTabInterno}"/>
                                     <p:panelGrid id="panelInterno" rendered="#{becaMB.mostrarTabInterno}">
                                         <p:row>
@@ -526,6 +531,12 @@
                                                 <p:watermark for="searchMailAsesorExterno" value="E-mail"/> 
                                             </p:column>
                                         </p:panelGrid>
+                                    </h:panelGroup>
+                                    <h:panelGroup id="botonesExterno">
+                                        <p:column>
+                                            <p:commandButton value="Nueva Persona" actionListener="#{becaMB.presionoNuevoExterno()}" rendered="#{becaMB.renderNuevaPersonaExternaButton}" process="@this" update="panelExt"/>
+                                            <p:commandButton value="Actualizar Coordinador Externo" actionListener="#{becaMB.presionoActualizarExterno()}" rendered="#{becaMB.renderActualizarPersonaExternaButton}" process="@this" update="panelExt"/>
+                                        </p:column>
                                     </h:panelGroup>
                                     <p:separator rendered="#{becaMB.mostrarTabExterno}"/>
                                     <p:panelGrid id="panelExt" rendered="#{becaMB.mostrarTabExterno}">
