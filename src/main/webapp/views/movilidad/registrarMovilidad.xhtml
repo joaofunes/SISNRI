@@ -93,40 +93,40 @@
                                                 <p:outputLabel  value="B&uacute;squeda" />     
                                             </p:column>
                                             <p:column> 
-                                                <p:autoComplete id="searchDui" minQueryLength="10" size="10" rendered="#{registrarMovilidadMB.flagSearchDuiSaliente}"  value="#{registrarMovilidadMB.personaMovilidadGenerico}" completeMethod="#{registrarMovilidadMB.methodSearchSaliente}"
+                                                <p:autoComplete id="searchDui" minQueryLength="10" size="10" rendered="#{registrarMovilidadMB.flagSearchDuiSaliente}"  value="#{registrarMovilidadMB.personaMovAux}" completeMethod="#{registrarMovilidadMB.methodSearchSaliente}"
                                                                 var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" disabled="#{registrarMovilidadMB.disableAutoSaliente}" converter="#{personaConverter}"
                                                                 forceSelection="true">                                            
                                                     <p:column>
                                                         <h:outputText value="#{name.duiPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad,grup1"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="searchDui" value="DUI"/> 
 
-                                                <p:autoComplete id="idNombreInterno" value="#{registrarMovilidadMB.personaMovilidadGenerico}" rendered="#{registrarMovilidadMB.flagSearchNombreSaliente}"
+                                                <p:autoComplete id="idNombreInterno" value="#{registrarMovilidadMB.personaMovAux}" rendered="#{registrarMovilidadMB.flagSearchNombreSaliente}"
                                                                 completeMethod="#{registrarMovilidadMB.methodSearchSaliente}" disabled="#{registrarMovilidadMB.disableAutoSaliente}"
                                                                 var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                                 forceSelection="true">                                           
                                                     <p:column>
                                                         <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad,grup1"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idNombreInterno" value="Nombre"/> 
-                                                <p:autoComplete id="idEmailInterno" value="#{registrarMovilidadMB.personaMovilidadGenerico}" rendered="#{registrarMovilidadMB.flagSearchEmailSaliente}"
+                                                <p:autoComplete id="idEmailInterno" value="#{registrarMovilidadMB.personaMovAux}" rendered="#{registrarMovilidadMB.flagSearchEmailSaliente}"
                                                                 completeMethod="#{registrarMovilidadMB.methodSearchSaliente}" disabled="#{registrarMovilidadMB.disableAutoSaliente}"
                                                                 var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                                 forceSelection="true">                                           
                                                     <p:column>
                                                         <h:outputText value="#{theme.emailPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad,grup1"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idEmailInterno" value="E-mail"/> 
                                             </p:column>
                                              <p:column>
                                                 <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad"/>
-                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad,grup1" rendered="true"/>
+                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad,grup1" rendered="#{registrarMovilidadMB.mostrarBotonEditarDocente}"/>
                                             </p:column>
                                         </p:panelGrid>
                                     </h:panelGroup>
@@ -149,40 +149,31 @@
                                                 <p:outputLabel  value="B&uacute;squeda" />     
                                             </p:column>
                                             <p:column> 
-                                         <!--       <p:autoComplete id="searchDuiEnt" minQueryLength="10" size="10" rendered="#{registrarMovilidadMB.flagSearchDuiEntrante}"  value="#{registrarMovilidadMB.personaMovilidadGenerico}" completeMethod="#{registrarMovilidadMB.methodSearchEntrante}"
-                                                                var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" disabled="#{registrarMovilidadMB.disableAutoEntrante}" converter="#{personaConverter}"
-                                                                forceSelection="true">                                            
-                                                    <p:column>
-                                                        <h:outputText value="#{name.duiPersona}" />
-                                                    </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaEntrante()}" process="@this" update="groupPersonaMovilidad"/>
-                                                </p:autoComplete>
-                                                <p:watermark for="searchDuiEnt" value="DUI"/> 
-                                                -->
-                                                <p:autoComplete id="idNombreEntrante" value="#{registrarMovilidadMB.personaMovilidadGenerico}" rendered="#{registrarMovilidadMB.flagSearchNombreEntrante}"
+                                               
+                                                <p:autoComplete id="idNombreEntrante" value="#{registrarMovilidadMB.personaMovAux}" rendered="#{registrarMovilidadMB.flagSearchNombreEntrante}"
                                                                 completeMethod="#{registrarMovilidadMB.methodSearchEntrante}" disabled="#{registrarMovilidadMB.disableAutoEntrante}"
                                                                 var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                                 forceSelection="true">                                           
                                                     <p:column>
                                                         <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaEntrante()}" process="@this" update="groupPersonaMovilidad"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaEntrante()}" process="@this" update="groupPersonaMovilidad,grup2"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idNombreEntrante" value="Nombre"/> 
-                                                <p:autoComplete id="idEmailEntrante" value="#{registrarMovilidadMB.personaMovilidadGenerico}" rendered="#{registrarMovilidadMB.flagSearchEmailEntrante}"
+                                                <p:autoComplete id="idEmailEntrante" value="#{registrarMovilidadMB.personaMovAux}" rendered="#{registrarMovilidadMB.flagSearchEmailEntrante}"
                                                                 completeMethod="#{registrarMovilidadMB.methodSearchEntrante}" disabled="#{registrarMovilidadMB.disableAutoEntrante}"
                                                                 var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                                 forceSelection="true">                                           
                                                     <p:column>
                                                         <h:outputText value="#{theme.emailPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaEntrante()}" process="@this" update="groupPersonaMovilidad"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaEntrante()}" process="@this" update="groupPersonaMovilidad,grup2"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idEmailEntrante" value="E-mail"/> 
                                             </p:column>
                                             <p:column>
                                                 <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad" rendered="false"/>
-                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad,grup1" rendered="#{registrarMovilidadMB.mostrarBotonEditarDocente}"/>
+                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad,grup2" rendered="#{registrarMovilidadMB.mostrarBotonEditarDocente}"/>
                                             </p:column>
                                         </p:panelGrid>
                                     </h:panelGroup>
@@ -463,37 +454,41 @@
                                                 <p:outputLabel  value="B&uacute;squeda" />     
                                             </p:column>
                                             <p:column> 
-                                                <p:autoComplete id="searchDuiRef" minQueryLength="10" size="10" rendered="#{registrarMovilidadMB.flagSearchDuiReferente}"  value="#{registrarMovilidadMB.personaFacultadGenerico}" completeMethod="#{registrarMovilidadMB.methodSearchReferente}"
+                                                <p:autoComplete id="searchDuiRef" minQueryLength="10" size="10" rendered="#{registrarMovilidadMB.flagSearchDuiReferente}"  value="#{registrarMovilidadMB.personaReftAux}" completeMethod="#{registrarMovilidadMB.methodSearchReferente}"
                                                                 var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" disabled="#{registrarMovilidadMB.disableAutoReferente}" converter="#{personaConverter}"
                                                                 forceSelection="true">                                            
                                                     <p:column>
                                                         <h:outputText value="#{name.duiPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente,grup3"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="searchDuiRef" value="DUI"/> 
 
-                                                <p:autoComplete id="idNombreReferente" value="#{registrarMovilidadMB.personaFacultadGenerico}" rendered="#{registrarMovilidadMB.flagSearchNombreReferente}"
+                                                <p:autoComplete id="idNombreReferente" value="#{registrarMovilidadMB.personaReftAux}" rendered="#{registrarMovilidadMB.flagSearchNombreReferente}"
                                                                 completeMethod="#{registrarMovilidadMB.methodSearchReferente}" disabled="#{registrarMovilidadMB.disableAutoReferente}"
                                                                 var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                                 forceSelection="true">                                           
                                                     <p:column>
                                                         <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente,grup3"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idNombreReferente" value="Nombre"/> 
 
-                                                <p:autoComplete id="idEmailReferente" value="#{registrarMovilidadMB.personaFacultadGenerico}" rendered="#{registrarMovilidadMB.flagSearchEmailReferente}"
+                                                <p:autoComplete id="idEmailReferente" value="#{registrarMovilidadMB.personaReftAux}" rendered="#{registrarMovilidadMB.flagSearchEmailReferente}"
                                                                 completeMethod="#{registrarMovilidadMB.methodSearchReferente}" disabled="#{registrarMovilidadMB.disableAutoReferente}"
                                                                 var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                                 forceSelection="true">                                           
                                                     <p:column>
                                                         <h:outputText value="#{theme.emailPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente,grup3"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idEmailInterno" value="E-mail"/> 
+                                            </p:column>
+                                            <p:column>
+                                                <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad" rendered="false"/>
+                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizacionReferente()}" process="@this" update="GroupReferente,grup3" rendered="#{registrarMovilidadMB.mostrarBotonEditarReferente}"/>
                                             </p:column>
                                         </p:panelGrid>
                                     </h:panelGroup>
@@ -695,7 +690,13 @@
                     <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarDocente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                     <p:commandButton value="No" type="submit" action="#{registrarMovilidadMB.noModificarDocente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />               
 
-                </p:confirmDialog>       
+                </p:confirmDialog>    
+                
+                <p:confirmDialog widgetVar="dlgEdicionReferente" id="dialogReferenteUpdate" header="Modificar Persona" message="Esta seguro que desea modificar los datos del Referente"
+                                 global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="No" type="submit" action="#{registrarMovilidadMB.noModificarReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                 
+                </p:confirmDialog>          
             </ui:define>
 
         </ui:composition>
