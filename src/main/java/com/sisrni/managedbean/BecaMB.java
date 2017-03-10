@@ -542,6 +542,7 @@ public class BecaMB implements Serializable {
                 }
             }
         } catch (Exception e) {
+            //manejo de excepciones
         }
 
     }
