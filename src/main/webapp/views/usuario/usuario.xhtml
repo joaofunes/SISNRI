@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <center>
+            
+            <p:panel style="width: 70%" header="Gestión de Usuarios">  
+                <h:form id="formAdmin">
+            <p:panelGrid >
+                <p:row>
+                    <p:column  >
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{usuarioMB.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show();"/>
+                        <span>&nbsp;</span>
+                    </p:column>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>
+                
+                <h:form id="formUsuario">
+                   
+                </h:form>
+                <br></br>
+                <h:form id="formTablaUsuario">
+                      <p:dataTable id="datalist" var="item" value="#{usuarioMB.lazyItems}" rows="10" 
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen usuarios registrados actualmente" >                 
+       
+
+                <p:column sortBy="#{item.codigoUsuario}" filterBy="#{item.codigoUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="Usuario"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoUsuario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreUsuario}" filterBy="#{item.nombreUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreUsuario}"/>
+                </p:column>             
+
+
+                <p:column sortBy="#{item.cargo}" filterBy="#{item.cargo}">
+                    <f:facet name="header">
+                        <h:outputText value="Cargo"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargo}"/>
+                </p:column>
+                          
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Descripción"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+                          
+                 <p:column sortBy="#{item.bloqueado}" filterBy="#{item.bloqueado}">
+                    <f:facet name="header">
+                        <h:outputText value="Bloqueado"/>
+                    </f:facet>
+                    <h:outputText value="#{item.bloqueado}"/>
+                </p:column>          
+                        <p:column headerText="Opciones" style="width: 15%">
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
+                                               actionListener="#{areaConocimientoMB.preActualizarUsuarioConocimiento(areaConocimiento)}" update=":formUsuario" process="@form:formTablaUsuario">
+                                </p:commandLink>
+                            </div>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </p:panel>     
+        </center> 
+        
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)"  header="Crear Nuevo Usuario" >
+                        
+            <h:form id="UsuarioCreateForm">
+
+                <h:panelGroup id="display">
+                 <p:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="Codigo" for="codigoUsuario" />
+                                <p:inputText id="codigoUsuario" value="#{usuarioMB.selected.codigoUsuario}" title="#{myBundle.CreateSsUsuariosTitle_codigoUsuario}"/>
+
+                                <p:outputLabel value="Nombre Usuario" for="nombreUsuario" />
+                                <p:inputText id="nombreUsuario" value="#{usuarioMB.selected.nombreUsuario}" title="#{myBundle.CreateSsUsuariosTitle_nombreUsuario}"/>                               
+
+                                <p:outputLabel value="Cargo" for="cargo" />
+                                <p:inputText id="cargo" value="#{usuarioMB.selected.cargo}" title="#{myBundle.CreateSsUsuariosTitle_cargo}"/>
+
+                                <p:outputLabel value="Descripcion" for="descripcion" />
+                                <p:inputText id="descripcion" value="#{usuarioMB.selected.descripcion}" title="#{myBundle.CreateSsUsuariosTitle_descripcion}"/>
+
+                                <p:outputLabel value="Bloqueado" for="bloqueado" />
+<!--                                <p:inputText id="bloqueado" value="#{usuarioMB.selected.bloqueado}" title="#{myBundle.CreateSsUsuariosTitle_bloqueado}"/>-->
+                                 <p:selectOneMenu id="bloqueado" value="#{usuarioMB.selected.bloqueado}"  style="width: 100%" required="true" >
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Sí" itemValue="S" />
+                                <f:selectItem itemLabel="No" itemValue="N" />
+                                </p:selectOneMenu>                            
+                               
+                                 <p:outputLabel value="Clave" for="clave" />
+                                 <p:password id="clave" value="#{usuarioMB.selected.clave}" match="Rclave" feedback="true" inline="true" /> 
+                                 
+                                 <p:outputLabel value="Repetir Clave" for="Rclave" />
+                                 <p:password id="Rclave" value="#{usuarioMB.selected.clave}" inline="true" />   
+                                 
+                            </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioMB.guardarUsuario()}" value="Guardar" update="display,:growl" oncomplete="handleSubmit(xhr,status,args,UsuarioCreateDialog);"/>
+                    <p:commandButton value="Cancelar" onclick="PF('UsuarioCreateDialog').hide();"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:define>
+</ui:composition>

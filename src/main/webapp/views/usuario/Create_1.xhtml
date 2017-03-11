@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)"  header="Crear Nuevo Usuario" >
+                        
+            <h:form id="UsuarioCreateForm">
+
+                <h:panelGroup id="display">
+                 <p:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="Codigo" for="codigoUsuario" />
+                                <p:inputText id="codigoUsuario" value="#{usuarioMB.selected.codigoUsuario}" title="#{myBundle.CreateSsUsuariosTitle_codigoUsuario}"/>
+
+                                <p:outputLabel value="Nombre Usuario" for="nombreUsuario" />
+                                <p:inputText id="nombreUsuario" value="#{usuarioMB.selected.nombreUsuario}" title="#{myBundle.CreateSsUsuariosTitle_nombreUsuario}"/>                               
+
+                                <p:outputLabel value="Cargo" for="cargo" />
+                                <p:inputText id="cargo" value="#{usuarioMB.selected.cargo}" title="#{myBundle.CreateSsUsuariosTitle_cargo}"/>
+
+                                <p:outputLabel value="Descripcion" for="descripcion" />
+                                <p:inputText id="descripcion" value="#{usuarioMB.selected.descripcion}" title="#{myBundle.CreateSsUsuariosTitle_descripcion}"/>
+
+                                <p:outputLabel value="Bloqueado" for="bloqueado" />
+                                <p:inputText id="bloqueado" value="#{usuarioMB.selected.bloqueado}" title="#{myBundle.CreateSsUsuariosTitle_bloqueado}"/>
+
+                                <p:outputLabel value="Clave" for="clave" />
+                                 <p:password id="clave" value="#{usuarioMB.selected.clave}" feedback="true" inline="true" />                               
+                               
+                                <p:outputLabel value="Intentos Fallidos" for="intentosAccesoFallidos" />
+                                <p:inputText id="intentosAccesoFallidos" value="#{usuarioMB.selected.intentosAccesoFallidos}" title="Intentos Fallidos"/>
+
+                            </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioMB.guardarUsuario()}" value="Guardar" update="display,:growl" oncomplete="handleSubmit(xhr,status,args,UsuarioCreateDialog);" onclick="PF('UsuarioCreateDialog').hide();"/>
+                    <p:commandButton value="Cancelar" onclick="PF('UsuarioCreateDialog').hide();"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
