@@ -35,6 +35,10 @@ public class PropuestaConvenioService extends GenericService<PropuestaConvenio, 
     
     public PropuestaConvenio getByID(int id){
         return propuestaConvenioDao.findById(id);
+    }  
+    
+    public PropuestaConvenio getByIDPropuestaWithPersona(int idPropuesta){
+        return propuestaConvenioDao.getByIDPropuestaWithPersona(idPropuesta);
     }    
     
     public List<PropuestaConvenio> getPropuestaConvenioByTipoPropuesta(TipoPropuestaConvenio tipoPropuestaConvenio) {

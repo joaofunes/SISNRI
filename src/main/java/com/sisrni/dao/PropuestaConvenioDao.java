@@ -464,4 +464,24 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         }
         return null;
    }
+    
+    
+   /**
+   * Metodo que devuelve la entidad de propuesta de convenio en base al id
+   * @return 
+   */
+    public PropuestaConvenio getByIDPropuestaWithPersona(int idPropuesta){
+        try {
+            getSessionFactory().getCurrentSession().flush();
+            getSessionFactory().getCurrentSession().clear();
+            Query q= getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PropuestaConvenio p JOIN FETCH p.personaPropuestaList pe WHERE p.idPropuesta=:id");
+            q.setParameter("id",idPropuesta);
+            return (PropuestaConvenio) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+   }  
+    
+    
 }
