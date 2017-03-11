@@ -41,7 +41,9 @@ import com.sisrni.service.UnidadService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -654,72 +656,104 @@ public class PropuestaConvenioMB implements Serializable {
     public void guardarPropuestaConvenio() throws Exception {
         try {
 
-            // guardar propuesta convenio
-            savePropuestaConvenio();
+            if (solicitante != null && solicitante.getIdPersona() != null) {
 
-            //Estado de propuesta de convenio
-            guardarEstado();
+                // guardar propuesta convenio
+                savePropuestaConvenio();
 
-            // persona solicitante            
-            guardarSolicitante();
+                //Estado de propuesta de convenio
+                guardarEstado();
 
-          ////////////////////////////////////
-            //// PERSONA REFERENTE_INTERNO/////
-            ////////////////////////////////////  
-            if (mismoSolicitante) { //verfico que la persona exista, si true entonces
-                guardarReferenteInternoComplemento();
-            } else if (referenteInterno.getEmailPersona() != null) {
-//                Persona existePersona = personaService.existePersonaByMail(referenteInterno.getEmailPersona());
-//                if (existePersona != null && existePersona.getIdPersona() != null) {
-//                    referenteInterno.setIdPersona(existePersona.getIdPersona());
-//                }
-                if (referenteInterno.getIdPersona() != null) {
-                    actualizarReferenteInterno();
-                } else {
-                    guardarReferenteInterno();
+                // persona solicitante            
+                //guardarSolicitante();
+                guardarSolicitanteComplemento();
+
+                ////////////////////////////////////
+                //// PERSONA REFERENTE_INTERNO/////
+                //////////////////////////////////// 
+                if (referenteInterno != null && referenteInterno.getIdPersona() != null) {
+                    guardarReferenteInternoComplemento();
                 }
-                guardarReferenteInternoComplemento();
-            }
 
-//            if (referenteInterno.getDuiPersona() != null && referenteInterno.getNombrePersona() != null && referenteInterno.getApellidoPersona() != null && referenteInterno.getEmailPersona() != null) {
-//                //verfifico si la persona ya existe en entidad persona
-//                if (referenteInterno.getIdPersona() == null) {
-//                    Persona existePersona = personaService.existePersona(referenteInterno.getNombrePersona(), referenteInterno.getApellidoPersona(), );
-//                    if (existePersona != null && existePersona.getIdPersona() != null) {
-//                        referenteInterno.setIdPersona(existePersona.getIdPersona());
-//                    }
-//                }
-//                if (!mismoSolicitante) { //verfico que la persona exista, si true entonces
-//                    if (referenteInterno.getIdPersona() != null) {
-//                        actualizarReferenteInterno();
-//                    } else {
-//                        guardarReferenteInterno();                        
-//                    }
+                //////////////////////////////////
+                //// PERSONA REFERENTE_EXTERNO////
+                //////////////////////////////////
+                if (referenteExterno != null && referenteExterno.getIdPersona() != null) {
+                    guardarReferenteExternoComplemento();
+                }
+            }
+//          ////////////////////////////////////
+//            //// PERSONA REFERENTE_INTERNO/////
+//            ////////////////////////////////////  
+//            if (mismoSolicitante) { //verfico que la persona exista, si true entonces
+//                guardarReferenteInternoComplemento();
+//            } else if (referenteInterno.getEmailPersona() != null) {
+////                Persona existePersona = personaService.existePersonaByMail(referenteInterno.getEmailPersona());
+////                if (existePersona != null && existePersona.getIdPersona() != null) {
+////                    referenteInterno.setIdPersona(existePersona.getIdPersona());
+////                }
+//                if (referenteInterno.getIdPersona() != null) {
+//                    actualizarReferenteInterno();
+//                } else {
+//                    guardarReferenteInterno();
 //                }
 //                guardarReferenteInternoComplemento();
 //            }
+
             //////////////////////////////////
             //// PERSONA REFERENTE_EXTERNO////
             //////////////////////////////////
-            if (referenteExterno.getEmailPersona() != null) {
-                Persona existePersona = personaService.existePersonaByMail(referenteExterno.getEmailPersona());
-                if (existePersona != null && existePersona.getIdPersona() != null) {
-                    referenteExterno.setIdPersona(existePersona.getIdPersona());
-                }
-
-                if (referenteExterno.getIdPersona() != null) {
-                    actualizarReferenteExterno();
-                } else {
-                    guardarReferenteExterno();
-                }
-            }
-            mailService.sendEmail(propuestaConvenio, "Creacion de propuesta de convenio", "joao.hfunes@gmail.com", "propuesta_convenio_mailTemplat.txt");
+//            if (referenteExterno.getEmailPersona() != null) {
+//                Persona existePersona = personaService.existePersonaByMail(referenteExterno.getEmailPersona());
+//                if (existePersona != null && existePersona.getIdPersona() != null) {
+//                    referenteExterno.setIdPersona(existePersona.getIdPersona());
+//                }
+//
+//                if (referenteExterno.getIdPersona() != null) {
+//                    actualizarReferenteExterno();
+//                } else {
+//                    guardarReferenteExterno();
+//                }
+//            }
+            enviarCorreo();
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", "Propuesta Convenio almacenada"));
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             context.redirect(context.getRequestContextPath() + "/views/convenio/consultarPropuestaConvenio.xhtml");
         } catch (Exception e) {
             throw new Exception("Error class PropuestaConvenioMB - guardarPropuestaConvenio()\n" + e.getMessage(), e.getCause());
+        }
+    }
+
+    public void enviarCorreo() {
+        try {
+
+            propuestaConvenio = propuestaConvenioService.getByIDPropuestaWithPersona(propuestaConvenio.getIdPropuesta());
+
+            // Create data for template
+            Map<String, Object> templateData = new HashMap<String, Object>();
+            templateData.put("subJect", "Creacion de propuesta de convenio");
+
+            //templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.txt");
+            templateData.put("nameTemplate", "propuesta.html");
+            templateData.put("propuesta", propuestaConvenio);
+
+            for (PersonaPropuesta p : propuestaConvenio.getPersonaPropuestaList()) {
+                templateData.put("setToMail", p.getPersona().getEmailPersona());
+
+                List<String> personDetails = new ArrayList<String>();
+                personDetails.add("First Name: Java");
+                personDetails.add("Last Name: Honk");
+                personDetails.add("Location: NY");
+
+                templateData.put("personDetails", personDetails);
+
+                //mailService.sendEmail(propuestaConvenio, "Creacion de propuesta de convenio", "joao.hfunes@gmail.com", "propuesta_convenio_mailTemplat.txt");
+                mailService.sendEmailMap(templateData);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -829,20 +863,20 @@ public class PropuestaConvenioMB implements Serializable {
     /**
      * Metodo para actualizar solicitante y ademas agregar en personas propuesta
      */
-    private void guardarSolicitante() {
+    public void guardarSolicitante() {
         try {
-            
+
             solicitante.setIdUnidad(null);
             //solicitante.setIdCarrera(null);
             solicitante.setIdEscuelaDepto(null);
 
-             if (facultadesUnidadesInterno != null) {
-            if (facultadesUnidades.getUnidadFacultad() == 'U') {
-                solicitante.setIdUnidad(unidadService.findById(facultadesUnidades.getId()));
-            } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
-                solicitante.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamento.getIdEscuelaDepto()));
+            if (facultadesUnidadesInterno != null) {
+                if (facultadesUnidades.getUnidadFacultad() == 'U') {
+                    solicitante.setIdUnidad(unidadService.findById(facultadesUnidades.getId()));
+                } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
+                    solicitante.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamento.getIdEscuelaDepto()));
+                }
             }
-             }
 
             listadoTelefonoReferenteSolicitante = new ArrayList<Telefono>();
             telFijoSolicitante.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
@@ -875,24 +909,22 @@ public class PropuestaConvenioMB implements Serializable {
             e.printStackTrace();
         }
     }
-    
-    
-    
-     /**
+
+    /**
      * Metodo que Actualziar personas Solicitante
      */
     public void actualizarSolicitante() {
         try {
-            
-            solicitante.setIdUnidad(null);           
+
+            solicitante.setIdUnidad(null);
             referenteInterno.setIdEscuelaDepto(null);
 
             if (facultadesUnidadesInterno != null) {
-                 if (facultadesUnidades.getUnidadFacultad() == 'U') {
-                solicitante.setIdUnidad(unidadService.findById(facultadesUnidades.getId()));
-            } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
-                solicitante.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamento.getIdEscuelaDepto()));
-            }
+                if (facultadesUnidades.getUnidadFacultad() == 'U') {
+                    solicitante.setIdUnidad(unidadService.findById(facultadesUnidades.getId()));
+                } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
+                    solicitante.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamento.getIdEscuelaDepto()));
+                }
 
             }
             solicitante.setExtranjero(Boolean.FALSE);//no es extrajero
@@ -908,8 +940,8 @@ public class PropuestaConvenioMB implements Serializable {
             telFijoSolicitante.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
             telFijoSolicitante.setIdPersona(solicitante);
             telefonoService.merge(telFijoSolicitante);
-            
-             ////////////////
+
+            ////////////////
             ////bloqueos////
             ///////////////
             bloqueosSolicitante = false;//bloquea busquedas            
@@ -924,13 +956,12 @@ public class PropuestaConvenioMB implements Serializable {
             /////////////////
             habilitarBusquedaSolicitante = true;
             tipoBusquedaSolicitante = null;
-           
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Metodo que complementa el almacenamiento de Solicitante, el tipo de
      * persona para Solicitante
@@ -944,13 +975,12 @@ public class PropuestaConvenioMB implements Serializable {
             prsSolicitante.setPersona(solicitante);
             prsSolicitante.setPersonaPropuestaPK(new PersonaPropuestaPK(solicitante.getIdPersona(), prsSolicitante.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
             personaPropuestaService.save(prsSolicitante);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
+
     /**
      * Metodo que complementa la actualizacion de Solicitante, el tipo de
      * persona para Solicitante
@@ -970,7 +1000,6 @@ public class PropuestaConvenioMB implements Serializable {
             e.printStackTrace();
         }
     }
-    
 
     /**
      * Metodo que guarda nuevas personas referentes internos

@@ -99,7 +99,7 @@
                                                     <p:column>
                                                         <h:outputText value="#{name.duiPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad,grup1"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad,grupDocente"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="searchDui" value="DUI"/> 
 
@@ -110,7 +110,7 @@
                                                     <p:column>
                                                         <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad,grup1"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad,grupDocente"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idNombreInterno" value="Nombre"/> 
                                                 <p:autoComplete id="idEmailInterno" value="#{registrarMovilidadMB.personaMovAux}" rendered="#{registrarMovilidadMB.flagSearchEmailSaliente}"
@@ -120,13 +120,9 @@
                                                     <p:column>
                                                         <h:outputText value="#{theme.emailPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad,grup1"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaSaliente()}" process="@this" update="groupPersonaMovilidad,grupDocente"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idEmailInterno" value="E-mail"/> 
-                                            </p:column>
-                                             <p:column>
-                                                <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad"/>
-                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad,grup1" rendered="#{registrarMovilidadMB.mostrarBotonEditarDocente}"/>
                                             </p:column>
                                         </p:panelGrid>
                                     </h:panelGroup>
@@ -157,7 +153,7 @@
                                                     <p:column>
                                                         <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaEntrante()}" process="@this" update="groupPersonaMovilidad,grup2"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaEntrante()}" process="@this" update="groupPersonaMovilidad,grupDocente"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idNombreEntrante" value="Nombre"/> 
                                                 <p:autoComplete id="idEmailEntrante" value="#{registrarMovilidadMB.personaMovAux}" rendered="#{registrarMovilidadMB.flagSearchEmailEntrante}"
@@ -167,15 +163,16 @@
                                                     <p:column>
                                                         <h:outputText value="#{theme.emailPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaEntrante()}" process="@this" update="groupPersonaMovilidad,grup2"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaEntrante()}" process="@this" update="groupPersonaMovilidad,grupDocente"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idEmailEntrante" value="E-mail"/> 
                                             </p:column>
-                                            <p:column>
-                                                <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad" rendered="false"/>
-                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad,grup2" rendered="#{registrarMovilidadMB.mostrarBotonEditarDocente}"/>
-                                            </p:column>
                                         </p:panelGrid>
+                                    </h:panelGroup>
+                                    <!--Panel Group botones Docente en movilidad-->
+                                    <h:panelGroup id="grupDocente">
+                                        <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad" rendered="true"/>
+                                        <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad" rendered="#{registrarMovilidadMB.mostrarBotonEditarDocente}"/>
                                     </h:panelGroup>
 
 
@@ -460,7 +457,7 @@
                                                     <p:column>
                                                         <h:outputText value="#{name.duiPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente,grup3"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente,grupReferente"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="searchDuiRef" value="DUI"/> 
 
@@ -471,7 +468,7 @@
                                                     <p:column>
                                                         <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente,grup3"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente,grupReferente"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idNombreReferente" value="Nombre"/> 
 
@@ -482,15 +479,16 @@
                                                     <p:column>
                                                         <h:outputText value="#{theme.emailPersona}" />
                                                     </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente,grup3"/>
+                                                    <p:ajax event="itemSelect" listener="#{registrarMovilidadMB.cargarNombrePersonaReferente()}" process="@this" update="GroupReferente,grupReferente"/>
                                                 </p:autoComplete>
                                                 <p:watermark for="idEmailInterno" value="E-mail"/> 
                                             </p:column>
-                                            <p:column>
-                                                <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad" rendered="false"/>
-                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizacionReferente()}" process="@this" update="GroupReferente,grup3" rendered="#{registrarMovilidadMB.mostrarBotonEditarReferente}"/>
-                                            </p:column>
+                                           
                                         </p:panelGrid>
+                                    </h:panelGroup>
+                                    <h:panelGroup id="grupReferente">
+                                                <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoReferente()}" process="@this" update="GroupReferente"/>
+                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizacionReferente()}" process="@this" update="GroupReferente,grup3" rendered="#{registrarMovilidadMB.mostrarBotonEditarReferente}"/>
                                     </h:panelGroup>
 
                                     <!--     <p:outputLabel value="Documento"/>
@@ -511,12 +509,6 @@
                                                </p:column>
                                                <p:column><h:panelGroup/></p:column>  
                                                <p:column><h:panelGroup/></p:column>-->
-                                            <p:row>
-                                                <p:column>
-                                                    <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoReferente()}" process="@this" update="GroupReferente"/>
-                                                </p:column>
-                                            </p:row>
-
                                             <p:row>
                                                 <p:column>
                                                     <p:outputLabel for="nombrePersonaFacultad" value="Nombres"/>

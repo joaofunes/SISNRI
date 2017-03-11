@@ -55,13 +55,29 @@ public class FreeMarkerMailServiceImpl implements FreeMarkerMailService {
         }
     }
 
+    
     @Override
     public void sendEmail(Object object, String subJect, String setToMail, String nameTemplate) {
-        try {
+        try {           
             setSubJect(subJect);
             setSetToMail(setToMail);
             setNameTemplate(nameTemplate);
             MimeMessagePreparator preparator = getMessagePreparator(object);
+            mailSender.send(preparator);
+        } catch (MailException ex) {
+            System.err.println(ex.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(FreeMarkerMailServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void sendEmailMap(Map map) {
+         try {           
+            setSubJect((String) map.get("subJect"));
+            setSetToMail((String) map.get("setToMail"));
+            setNameTemplate((String) map.get("nameTemplate"));
+            MimeMessagePreparator preparator = getMessagePreparator(map);
             mailSender.send(preparator);
         } catch (MailException ex) {
             System.err.println(ex.getMessage());

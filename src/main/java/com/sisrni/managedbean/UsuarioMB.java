@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
@@ -73,6 +74,29 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
             persist(PersistAction.CREATE, msg);
         }
     }
+    
+    
+     public void guardarUsuario(){
+        String msg ="";
+        try{
+          getSelected().setUsuarioRegistro(getUsuario());
+          getSelected().setFechaRegistro(new Date());
+          getSelected().setIdUsuario(Integer.MIN_VALUE);
+          ssUsuariosRol=  ssUsuarioService.findByUser(getSelected().getCodigoUsuario());
+          if(ssUsuariosRol==null){
+              msg ="Usuario Creado Exitosamente!";
+          ssUsuarioService.save(getSelected());
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
+          }else{
+            msg ="Ya existe este nombre de Usuario!";  
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Duplicado!!", msg));  
+          }
+        }catch(Exception e){
+            JsfUtil.addErrorMessage("Error al Guardar Usuario!");
+            e.printStackTrace();
+        }
+        init();
+    } 
 
     @Override
     public void save(ActionEvent event) {

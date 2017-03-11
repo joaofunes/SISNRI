@@ -55,7 +55,7 @@
 
                 <f:facet name="footer">
                     <div class="footer-section">
-                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{usuarioMB.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show();"/>
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{usuarioMB.prepareCreate}" update=":formNewPersona" oncomplete="PF('PersonaCreateDialog').show();"/>
                         <span>&nbsp;</span>
                         <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{crudbundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show();" disabled="#{empty usuarioMB.selected}"/>
                         <span>&nbsp;</span>
