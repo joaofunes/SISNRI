@@ -834,6 +834,15 @@ public class registrarMovilidadMB {
         mostrarEscuelaDocente = false;
 
     }
+    public void deshabilitarCamposDocente(){
+        activarDocente = true;
+        mostrarEscuelaDocente = true;
+    }
+    
+    public void desabilitarCamposReferente(){
+        activarReferente = true;
+        mostrarEscuelaReferente = true;
+    }
 
     //metodo para habilitar campos del referente de la movilidad
     public void habilitarCamposReferente() {
@@ -1252,27 +1261,27 @@ public class registrarMovilidadMB {
      * Metodo para guardar en arreglos las facultades y unidades beneficiadas
      */
     public void getArreglosFacultadesUnidadesBeneficiadas() {
-//        int result;
-//        listFacultadesBeneficiadasSelected = new ArrayList<String>();
-//        listUnidadesBeneficiadasSelected = new ArrayList<String>();
-//        String[] facultadesUnidadesBeneficiadasSelected = new String[listFacultadesUnidadesBeneficiadasSelected.size()];
-//        facultadesUnidadesBeneficiadasSelected = listFacultadesUnidadesBeneficiadasSelected.toArray(facultadesUnidadesBeneficiadasSelected);
-//        try {
-//            for (int i = 0; i < facultadesUnidadesBeneficiadasSelected.length; i++) {
-//                result = -1;
-//                if ((result = facultadesUnidadesBeneficiadasSelected[i].indexOf(",1")) > -1) {
-//                    listFacultadesBeneficiadasSelected.add(facultadesUnidadesBeneficiadasSelected[i].substring(0, result));
-//                } else if ((result = facultadesUnidadesBeneficiadasSelected[i].indexOf(",2")) > -1) {
-//                    listUnidadesBeneficiadasSelected.add(facultadesUnidadesBeneficiadasSelected[i].substring(0, result));
-//                }
-//            }
-//
-//            //Invocando a metodos para agregar las facultades y unidades beneficiadas a la instancia de Movilidad
-//            addFacultadesBeneficiadas(listFacultadesBeneficiadasSelected);
-//            addUnidadesBeneficiadas(listUnidadesBeneficiadasSelected);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        int result;
+        listFacultadesBeneficiadasSelected = new ArrayList<String>();
+        listUnidadesBeneficiadasSelected = new ArrayList<String>();
+        String[] facultadesUnidadesBeneficiadasSelected = new String[listFacultadesUnidadesBeneficiadasSelected.size()];
+        facultadesUnidadesBeneficiadasSelected = listFacultadesUnidadesBeneficiadasSelected.toArray(facultadesUnidadesBeneficiadasSelected);
+        try {
+            for (int i = 0; i < facultadesUnidadesBeneficiadasSelected.length; i++) {
+                result = -1;
+                if ((result = facultadesUnidadesBeneficiadasSelected[i].indexOf(",1")) > -1) {
+                    listFacultadesBeneficiadasSelected.add(facultadesUnidadesBeneficiadasSelected[i].substring(0, result));
+                } else if ((result = facultadesUnidadesBeneficiadasSelected[i].indexOf(",2")) > -1) {
+                    listUnidadesBeneficiadasSelected.add(facultadesUnidadesBeneficiadasSelected[i].substring(0, result));
+                }
+            }
+
+            //Invocando a metodos para agregar las facultades y unidades beneficiadas a la instancia de Movilidad
+            addFacultadesBeneficiadas(listFacultadesBeneficiadasSelected);
+            addUnidadesBeneficiadas(listUnidadesBeneficiadasSelected);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -1281,22 +1290,22 @@ public class registrarMovilidadMB {
      * Movilidad
      */
     public void addFacultadesBeneficiadas(List<String> facultadesBeneficiadas) {
-//        try {
-//            String[] facultadesBeneficiadasSelected = new String[facultadesBeneficiadas.size()];
-//            facultadesBeneficiadasSelected = facultadesBeneficiadas.toArray(facultadesBeneficiadasSelected);
-//
-//            for (int i = 0; i < facultadesBeneficiadasSelected.length; i++) {
-//
-//                Facultad facultadBnf = facultadService.findById(Integer.parseInt(facultadesBeneficiadasSelected[i]));
-//                if (facultadBnf != null) {
-//                    listFacultadAdd.add(facultadBnf);
-//
-//                }
-//            }
-//            movilidad.setFacultadList(listFacultadAdd);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            String[] facultadesBeneficiadasSelected = new String[facultadesBeneficiadas.size()];
+            facultadesBeneficiadasSelected = facultadesBeneficiadas.toArray(facultadesBeneficiadasSelected);
+
+            for (int i = 0; i < facultadesBeneficiadasSelected.length; i++) {
+
+                Facultad facultadBnf = facultadService.findById(Integer.parseInt(facultadesBeneficiadasSelected[i]));
+                if (facultadBnf != null) {
+                    listFacultadAdd.add(facultadBnf);
+
+                }
+            }
+            movilidad.setFacultadList(listFacultadAdd);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -1304,21 +1313,21 @@ public class registrarMovilidadMB {
      * Metodo para agregar las Unidades beneficiadas a la instancia de Movilidad
      */
     public void addUnidadesBeneficiadas(List<String> unidadesBeneficiadas) {
-//        // listUnidadAdd.clear();
-//        try {
-//            String[] unidadesBeneficiadasSelected = new String[unidadesBeneficiadas.size()];
-//            unidadesBeneficiadasSelected = unidadesBeneficiadas.toArray(unidadesBeneficiadasSelected);
-//            for (int i = 0; i < unidadesBeneficiadasSelected.length; i++) {
-//
-//                Unidad unidadBnf = unidadService.findById(Integer.parseInt(unidadesBeneficiadasSelected[i]));
-//                if (unidadBnf != null) {
-//                    listUnidadAdd.add(unidadBnf);
-//                }
-//            }
-//            movilidad.setUnidadList(listUnidadAdd);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        // listUnidadAdd.clear();
+        try {
+            String[] unidadesBeneficiadasSelected = new String[unidadesBeneficiadas.size()];
+            unidadesBeneficiadasSelected = unidadesBeneficiadas.toArray(unidadesBeneficiadasSelected);
+            for (int i = 0; i < unidadesBeneficiadasSelected.length; i++) {
+
+                Unidad unidadBnf = unidadService.findById(Integer.parseInt(unidadesBeneficiadasSelected[i]));
+                if (unidadBnf != null) {
+                    listUnidadAdd.add(unidadBnf);
+                }
+            }
+            movilidad.setUnidadList(listUnidadAdd);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -1477,33 +1486,27 @@ public class registrarMovilidadMB {
             if (movilidad.getPagoDeCurso() == null) {
                 movilidad.setPagoDeCurso(new BigDecimal(0.00));
             } else {
-                if (tipoCambioSelected.getIdTipoCambio() == 1) {  //quitar solo el if
                     TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
                     BigDecimal d = movilidad.getPagoDeCurso();
                     d = d.multiply(aux.getDolaresPorUnidad());
                     movilidad.setPagoDeCurso(d);
-                }
             }
             if (movilidad.getViaticos() == null) {
                 movilidad.setViaticos(new BigDecimal(0.00));
             } else {
-                if (tipoCambioSelected.getIdTipoCambio() == 1) {  //quitar solo el if
                     TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
                     BigDecimal d = movilidad.getViaticos();
                     d = d.multiply(aux.getDolaresPorUnidad());
                     movilidad.setViaticos(d);
-                }
             }
 
             if (movilidad.getVoletoAereo() == null) {
                 movilidad.setVoletoAereo(new BigDecimal(0.00));
             } else {
-                if (tipoCambioSelected.getIdTipoCambio() == 1) {  //quitar solo el if
                     TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
                     BigDecimal d = movilidad.getVoletoAereo();
                     d = d.multiply(aux.getDolaresPorUnidad());
                     movilidad.setVoletoAereo(d);
-                }
             }
 
             //Agregando a la movilidad las facultades o unidades beneficiadas
@@ -1783,13 +1786,15 @@ public class registrarMovilidadMB {
      *
      */
     public void preActualizar(Integer idMovilidad) {
-        //Movilidad movilidad;
-        Integer tipoMovilidad;
+        Movilidad movilidadAux = new Movilidad();
+        //Integer tipoMovilidad;
         List<Integer> facultadTmp = new ArrayList<Integer>();
         List<Integer> unidadTmp = new ArrayList<Integer>();
         List<String> facultadesUnidadesTmp = new ArrayList<String>();
-        EscuelaDepartamento escuelaDepto = null;
-        EscuelaDepartamento escuelaDeptoReferente = null;
+        EscuelaDepartamento escuelaDepto = new EscuelaDepartamento();
+        EscuelaDepartamento escuelaDeptoReferente = new EscuelaDepartamento();
+        mostrarBotonEditarDocente = true;
+        mostrarBotonEditarReferente = true;
         mostrarBotonDesvincular = true;
         tituloRegistroEdicion = "Edici&oacute;n de movilidad";
 
@@ -1798,38 +1803,22 @@ public class registrarMovilidadMB {
         actualizar = true;
         actualizarPersonaMov = true;
         //actualizarRefte = true;
-        habilitarCamposDocente();
-        habilitarCamposReferente();
+        deshabilitarCamposDocente();
+        desabilitarCamposReferente();
 
         try {
-            if ((movilidad = movilidadService.findById(idMovilidad)) != null) {
+            if ((movilidadAux = movilidadService.findById(idMovilidad)) != null) {
+                movilidad = movilidadAux;
                 existeMovilidad = true;
                 //Estableciendo el tipo de cambio por defecto
                 tipoCambioSelected.setIdTipoCambio(2);
-                //    tipoMovilidad = movilidad.getIdTipoMovilidad().getIdTipoMovilidad();
-                //    tipoMovilidadSelected = movilidad.getIdTipoMovilidad().getIdTipoMovilidad();
-                //    programaMovilidadSelected.setIdProgramaMovilidad(movilidad.getIdProgramaMovilidad().getIdProgramaMovilidad());
+                
                 programaMovilidad = programaMovilidadService.findById(movilidad.getIdProgramaMovilidad().getIdProgramaMovilidad());
-            //    categoriaMovilidadSelected = movilidad.getIdCategoria().getIdCategoriaMovilidad();
-
-                //Cargando datos de detalle de la movilidad
-                //    paisOrigenSelected = movilidad.getIdPaisOrigen();
-                //    institucionOrigenSelected = movilidad.getIdUniversidadOrigen();
+               
                 onchangeListPaisOrigen();
-                //    paisDestinoSelected = movilidad.getIdPaisDestino();
-                //    institucionDestinoSelected = movilidad.getIdUniversidadDestino();
                 onchangeListPaisDestino();
 
-                //    fechaInicioSelected = movilidad.getFechaInicio();
-                //    fechaFinSelected = movilidad.getFechaFin();
-                this.movilidad.setViaticos(movilidad.getViaticos());
-                this.movilidad.setPagoDeCurso(movilidad.getPagoDeCurso());
-                this.movilidad.setVoletoAereo(movilidad.getVoletoAereo());
-                //    fechaEntregaMinedSelected = movilidad.getFechaEntregaMined();
-                //    etapaMovilidadSelected = movilidad.getIdEtapaMovilidad().getIdEtapa();
-                //    entregaInformeSelected = movilidad.getEntregaDeInforme();
-                // obsequioSelected = movilidad.getObsequio();
-
+                //Cargando lista de facultade-unidades Beneficiadas
                 facultadTmp = facultadService.getFacultadesMovilidad(movilidad.getIdMovilidad());
                 unidadTmp = unidadService.getUnidadesMovilidad(movilidad.getIdMovilidad());
 
@@ -1839,29 +1828,30 @@ public class registrarMovilidadMB {
                 for (Integer u : unidadTmp) {
                     facultadesUnidadesTmp.add(String.valueOf(u) + ",2");
                 }
-                //facultadesUnidadesBeneficiadasSelected = new String[facultadesUnidadesTmp.size()];
-                //facultadesUnidadesTmp.toArray(facultadesUnidadesBeneficiadasSelected);
+                
                 listFacultadesUnidadesBeneficiadasSelected = facultadesUnidadesTmp;
 
-                this.movilidad.setOtrosBeneficiados(movilidad.getOtrosBeneficiados());
-
-                //Cargando las Personas
+              //Cargando las Personas
                 //Persona en movilidad
                 personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD");  //REVISAR ESTO
                 existePersonaMovilidad = true;
-                escuelaDepto = personaMovilidadGenerico.getIdEscuelaDepto();
+                
+                
+                //escuelaDepto = personaMovilidadGenerico.getIdEscuelaDepto();
                 if (movilidad.getIdTipoMovilidad().getIdTipoMovilidad() == 2) { //movilidad Saliente
                     mostrarEntrante = false;
                     mostrarSaliente = true;
                     mascaraTelefonoMovilidad = "(503)-9999-9999";
 
+                    //Cargando lista de facultades y unidades
                     listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
 
-                    if (escuelaDepto != null) {
+                    //Si la persona pertenece a una escuala o departamento
+                    if (personaMovilidadGenerico.getIdEscuelaDepto() != null) {
                         facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
 
                         listEscuelaDepartamentoPersonaMovilidad = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadPersonaMovilidad.substring(0, facultadPersonaMovilidad.indexOf(",1"))));
-                        escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+                       // escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
 
                     } else {
                         facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdUnidad().getIdUnidad()) + ",2";
@@ -1876,11 +1866,11 @@ public class registrarMovilidadMB {
 
                     //institucionPersonaMovilidadSelected = personaMovilidadGenerico.getIdOrganismo().getIdOrganismo();
                     onchangeListInstitucionPersonaMovilidad();
-                    if (escuelaDepto != null) {
+                    if (personaMovilidadGenerico.getIdEscuelaDepto() != null) {
                         facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
 
                         listEscuelaDepartamentoPersonaMovilidad = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadPersonaMovilidad.substring(0, facultadPersonaMovilidad.indexOf(",1"))));
-                        escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+                        //escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
 
                     } else {
                         facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdUnidad().getIdUnidad()) + ",2";
@@ -1907,15 +1897,15 @@ public class registrarMovilidadMB {
                     isHabilitadoRfte = true;
                     existeReferente = true;
                     desvinculadoRfte = false;
-                    escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
-                    if (escuelaDeptoReferente != null) {
+                    //escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
+                    if (personaFacultadGenerico.getIdEscuelaDepto() != null) {
                         facultadDeReferente = Integer.toString(personaFacultadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
                         listEscuelaDepartamentoRefFact = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadDeReferente.substring(0, facultadDeReferente.indexOf(",1"))));
-                        escuelaDepartamentoReferenteFactBnfSelected = personaFacultadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+                        //escuelaDepartamentoReferenteFactBnfSelected = personaFacultadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
                     } else {
                         facultadDeReferente = Integer.toString(personaFacultadGenerico.getIdUnidad().getIdUnidad()) + ",2";
                         listEscuelaDepartamentoRefFact = new ArrayList<EscuelaDepartamento>();
-                        escuelaDepartamentoReferenteFactBnfSelected = null;
+                        //escuelaDepartamentoReferenteFactBnfSelected = null;
                     }
                     //obteniendo telefonos de la persona en movilidad
                     for (Telefono tlfx : personaFacultadGenerico.getTelefonoList()) {
