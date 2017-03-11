@@ -23,5 +23,8 @@ public class EtapaMovilidadService extends GenericService<EtapaMovilidad, Intege
         return etapaMovilidadDao;
     }
     
+     public EtapaMovilidad getByID(int id) {
+        return etapaMovilidadDao.findById(id);
+    }
     
 }

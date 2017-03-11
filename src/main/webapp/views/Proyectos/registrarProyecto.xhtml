@@ -182,7 +182,7 @@
                                         </p:column>
                                         <p:column>                                        
                                             <p:selectOneMenu id="tipoBusquedaInt" value="#{proyectosMB.tipoBusquedaInterna}"  style="width:125px">  
-                                                <p:ajax  listener="#{proyectosMB.habilitarAutoInterno}" update="grup1,GroupSolicitanteInterno"  process="tipoBusquedaInt" />
+                                                <p:ajax  listener="#{proyectosMB.habilitarAutoInterno}" update="grup1,GroupSolicitanteInterno, idbotonesPersona"  process="tipoBusquedaInt" />
                                                 <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                                 <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
                                                 <f:selectItem itemLabel="E-mail" itemValue="email" />
@@ -199,7 +199,7 @@
                                                 <p:column>
                                                     <h:outputText value="#{name.duiPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno, idbotonesPersona"/>
                                             </p:autoComplete>
                                             <p:watermark for="searchDui" value="DUI"/> 
 
@@ -210,7 +210,7 @@
                                                 <p:column>
                                                     <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno,idbotonesPersona"/>
                                             </p:autoComplete>
                                             <p:watermark for="idNombreInterno" value="Nombre/Apellido"/> 
                                             <p:autoComplete id="idEmailInterno" value="#{proyectosMB.personaAux}" rendered="#{proyectosMB.flagSearchEmailInterno}"
@@ -220,11 +220,17 @@
                                                 <p:column>
                                                     <h:outputText value="#{theme.emailPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliInterno()}" process="@this" update="GroupSolicitanteInterno,idbotonesPersona"/>
                                             </p:autoComplete>
                                             <p:watermark for="idEmailInterno" value="E-mail"/> 
                                         </p:column>
-                                    </p:panelGrid>
+                                    </p:panelGrid> 
+                                </h:panelGroup>
+                                <h:panelGroup id="idbotonesPersona">
+                                    <p:column>
+                                        <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersona()}" process="@this" rendered="#{proyectosMB.buscoYEncontroCoordinador}" update="GroupSolicitanteInterno"/>
+                                        <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersona()}" process="@this" rendered="#{proyectosMB.activarBotonNuevaPersona}" update="GroupSolicitanteInterno"/>
+                                    </p:column>   
                                 </h:panelGroup>
                                 <p:separator/>
                                 <h:panelGroup id="GroupSolicitanteInterno">
@@ -233,27 +239,27 @@
                                             <p:outputLabel for="nombresolicitante" value="Nombre:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersona || proyectosMB.tipoBusquedaInterna eq null}">
+                                            <p:inputText id="nombresolicitante" value="#{proyectosMB.persona.nombrePersona}" rendered="true" readonly="#{proyectosMB.actualizar or (!proyectosMB.disablePersona and !proyectosMB.activarBotonNuevaPersona)}" disabled="#{proyectosMB.disablePersona}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidosolicitante" value="Apellido:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersona}">
+                                            <p:inputText id="apellidosolicitante" value="#{proyectosMB.persona.apellidoPersona}" rendered="true" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersona}" disabled="#{proyectosMB.disablePersona}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Dui:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duisolicitante" mask="99999999-9" value="#{proyectosMB.persona.duiPersona}" disabled="#{!proyectosMB.siBuscoPersona}"/>
+                                            <p:inputMask id="duisolicitante" mask="99999999-9" value="#{proyectosMB.persona.duiPersona}" disabled="#{proyectosMB.disablePersona}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="correosolicitante" value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersona}">
+                                            <p:inputText id="correosolicitante" value="#{proyectosMB.persona.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersona}" disabled="#{proyectosMB.disablePersona}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
@@ -261,14 +267,14 @@
                                             <p:outputLabel value="Cargo:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}" disabled="#{!proyectosMB.siBuscoPersona}">
+                                            <p:inputText id="cargosolicitante" value="#{proyectosMB.persona.cargoPersona}" disabled="#{proyectosMB.disablePersona}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Facultad/Unidad:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadsolicitante" value="#{proyectosMB.facultadSelectedPojoSol}"  style="width:180px" disabled="#{!proyectosMB.siBuscoPersona}">
+                                            <p:selectOneMenu id="facultadsolicitante" value="#{proyectosMB.facultadSelectedPojoSol}"  style="width:180px" disabled="#{proyectosMB.disablePersona}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="facu" items="#{proyectosMB.facultadesUnidadesSolList}">
                                                     <f:selectItem itemLabel="#{facu.label}" itemValue="#{facu.value}"/>
@@ -280,7 +286,7 @@
                                             <p:outputLabel value="Escuela/Departamento:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="unidadsolicitante" value="#{proyectosMB.escuelaDeptoSelectedSol.idEscuelaDepto}" disabled="#{proyectosMB.mostrarEscuelaSol}" style="width:180px" >
+                                            <p:selectOneMenu id="unidadsolicitante" value="#{proyectosMB.escuelaDeptoSelectedSol.idEscuelaDepto}" disabled="#{proyectosMB.disablePersona}" style="width:180px" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="uni" items="#{proyectosMB.escuelaDeptoListSol}">
                                                     <f:selectItem itemLabel="#{uni.nombreEscuelaDepto}" itemValue="#{uni.idEscuelaDepto}"/>
@@ -291,13 +297,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999" disabled="#{!proyectosMB.siBuscoPersona}"/>
+                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999" disabled="#{proyectosMB.disablePersona}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="(503)-9999-9999" disabled="#{!proyectosMB.siBuscoPersona}"/>
+                                            <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="(503)-9999-9999" disabled="#{proyectosMB.disablePersona}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
@@ -321,7 +327,7 @@
                                         </p:column>
                                         <p:column>                                        
                                             <p:selectOneMenu id="tipoBusquedaAsis" value="#{proyectosMB.tipoBusquedaAsistente}"  style="width:125px">  
-                                                <p:ajax  listener="#{proyectosMB.habilitarAutoAsistente()}" update="idTabAsis,GroupSolicitanteAsistente"  process="tipoBusquedaAsis" />
+                                                <p:ajax  listener="#{proyectosMB.habilitarAutoAsistente()}" update="idTabAsis,GroupSolicitanteAsistente, idbotonesPersonaAsistente"  process="tipoBusquedaAsis" />
                                                 <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                                 <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
                                                 <f:selectItem itemLabel="E-mail" itemValue="email" />
@@ -338,7 +344,7 @@
                                                 <p:column>
                                                     <h:outputText value="#{name.duiPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliAsistente()}" process="@this" update="GroupSolicitanteAsistente"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliAsistente()}" process="@this" update="GroupSolicitanteAsistente,idbotonesPersonaAsistente"/>
                                             </p:autoComplete>
                                             <p:watermark for="searchDuiAsis" value="DUI"/> 
 
@@ -349,7 +355,7 @@
                                                 <p:column>
                                                     <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliAsistente()}" process="@this" update="GroupSolicitanteAsistente"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliAsistente()}" process="@this" update="GroupSolicitanteAsistente,idbotonesPersonaAsistente"/>
                                             </p:autoComplete>
                                             <p:watermark for="idNombreAsistente" value="Nombre/Apellido"/> 
                                             <p:autoComplete id="idEmailAsistente" value="#{proyectosMB.personaAsistenteAux}" rendered="#{proyectosMB.flagSearchEmailAsistente}"
@@ -359,11 +365,17 @@
                                                 <p:column>
                                                     <h:outputText value="#{theme.emailPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliAsistente()}" process="@this" update="GroupSolicitanteAsistente"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliAsistente()}" process="@this" update="GroupSolicitanteAsistente, idbotonesPersonaAsistente"/>
                                             </p:autoComplete>
                                             <p:watermark for="idEmailAsistente" value="E-mail"/> 
                                         </p:column>
                                     </p:panelGrid>
+                                </h:panelGroup>
+                                <h:panelGroup id="idbotonesPersonaAsistente">
+                                    <p:column>
+                                        <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersona()}" process="@this" rendered="#{proyectosMB.buscoYEncontroAsistente}" update="GroupSolicitanteAsistente"/>
+                                        <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersona()}" process="@this" rendered="#{proyectosMB.activarBotonNuevaPersonaAsistente}" update="GroupSolicitanteAsistente"/>
+                                    </p:column>   
                                 </h:panelGroup>
                                 <p:separator rendered="#{proyectosMB.tabAsis}" />
                                 <h:panelGroup id="GroupSolicitanteAsistente" >
@@ -372,27 +384,27 @@
                                             <p:outputLabel for="nombreasistente" value="Nombre:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaAsistente}">
+                                            <p:inputText id="nombreasistente" value="#{proyectosMB.personaAsistente.nombrePersona}" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersonaAsistente}" disabled="#{proyectosMB.disablePersonaAsistente}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidoasistente" value="Apellido:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaAsistente}">
+                                            <p:inputText id="apellidoasistente" value="#{proyectosMB.personaAsistente.apellidoPersona}" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersonaAsistente}" disabled="#{proyectosMB.disablePersonaAsistente}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Dui:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duiasistente" mask="99999999-9" value="#{proyectosMB.personaAsistente.duiPersona}" disabled="#{!proyectosMB.siBuscoPersonaAsistente}"/>
+                                            <p:inputMask id="duiasistente" mask="99999999-9" value="#{proyectosMB.personaAsistente.duiPersona}" disabled="#{proyectosMB.disablePersonaAsistente}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="correoasistente" value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaAsistente}">
+                                            <p:inputText id="correoasistente" value="#{proyectosMB.personaAsistente.emailPersona}" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersonaAsistente}" disabled="#{proyectosMB.disablePersonaAsistente}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column> 
@@ -400,14 +412,14 @@
                                             <p:outputLabel value="Cargo:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}" disabled="#{!proyectosMB.siBuscoPersonaAsistente}">
+                                            <p:inputText id="cargoasistente" value="#{proyectosMB.personaAsistente.cargoPersona}" disabled="#{proyectosMB.disablePersonaAsistente}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Facultad/Unidad:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadasistente" value="#{proyectosMB.facultadSelectedPojoAsis}"  style="width:180px" disabled="#{!proyectosMB.siBuscoPersonaAsistente}">
+                                            <p:selectOneMenu id="facultadasistente" value="#{proyectosMB.facultadSelectedPojoAsis}"  style="width:180px" disabled="#{proyectosMB.disablePersonaAsistente}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="facul" items="#{proyectosMB.facultadesUnidadesAsisList}">
                                                     <f:selectItem itemLabel="#{facul.label}" itemValue="#{facul.value}"/>
@@ -419,7 +431,7 @@
                                             <p:outputLabel value="Escuela/Departamento"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="unidadasis" value="#{proyectosMB.escuelaDeptoSelectedAsis.idEscuelaDepto}" disabled="#{proyectosMB.mostrarEscuelaAsis}" style="width:180px" >
+                                            <p:selectOneMenu id="unidadasis" value="#{proyectosMB.escuelaDeptoSelectedAsis.idEscuelaDepto}" disabled="#{(proyectosMB.mostrarEscuelaAsis) or proyectosMB.disablePersonaAsistente}" style="width:180px" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="uni" items="#{proyectosMB.escuelaDeptoListAsis}">
                                                     <f:selectItem itemLabel="#{uni.nombreEscuelaDepto}" itemValue="#{uni.idEscuelaDepto}"/>
@@ -430,13 +442,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-9999-9999" disabled="#{!proyectosMB.siBuscoPersonaAsistente}"/>
+                                            <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-9999-9999" disabled="#{proyectosMB.disablePersonaAsistente}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}" mask="(503)-9999-9999" disabled="#{!proyectosMB.siBuscoPersonaAsistente}"/>
+                                            <p:inputMask id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}" mask="(503)-9999-9999" disabled="#{proyectosMB.disablePersonaAsistente}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
@@ -453,7 +465,7 @@
 
                                         <p:column>                                        
                                             <p:selectOneMenu id="tipoBusquedaExt" value="#{proyectosMB.tipoBusquedaExterna}"  style="width:125px">  
-                                                <p:ajax  listener="#{proyectosMB.habilitarAutoExterno}" update="grup2,GroupSolicitanteExterno"  process="tipoBusquedaExt" />
+                                                <p:ajax  listener="#{proyectosMB.habilitarAutoExterno}" update="grup2,GroupSolicitanteExterno,idbotonesPersonaExterna"  process="tipoBusquedaExt" />
                                                 <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                                 <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
                                                 <f:selectItem itemLabel="E-mail" itemValue="email" />
@@ -470,7 +482,7 @@
                                                 <p:column>
                                                     <h:outputText value="#{theme.nombrePersona} #{theme.apellidoPersona}"/>
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliExterno()}" process="@this" update="GroupSolicitanteExterno"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliExterno()}" process="@this" update="GroupSolicitanteExterno,idbotonesPersonaExterna"/>
                                             </p:autoComplete>
                                             <p:watermark for="idNombreExterno" value="Nombre/Apellido"/>
                                             <p:autoComplete id="idEmailExterno" value="#{proyectosMB.personaExternaAux}" rendered="#{proyectosMB.flagSearchEmailExterno}"
@@ -480,11 +492,17 @@
                                                 <p:column>
                                                     <h:outputText value="#{theme.emailPersona}" />
                                                 </p:column>
-                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliExterno()}" process="@this" update="GroupSolicitanteExterno"/>
+                                                <p:ajax event="itemSelect" listener="#{proyectosMB.cargarNombreSoliExterno()}" process="@this" update="GroupSolicitanteExterno,idbotonesPersonaExterna"/>
                                             </p:autoComplete>
                                             <p:watermark for="idEmailExterno" value="E-mail"/> 
                                         </p:column>
                                     </p:panelGrid>
+                                </h:panelGroup>
+                                <h:panelGroup id="idbotonesPersonaExterna">
+                                    <p:column>
+                                        <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersonaExterna()}" process="@this" rendered="#{proyectosMB.buscoYEncontroRefExt}" update="GroupSolicitanteExterno"/>
+                                        <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersonaExterna()}" process="@this" rendered="#{proyectosMB.activarBotonNuevaPersonaExterna}" update="GroupSolicitanteExterno"/>
+                                    </p:column>   
                                 </h:panelGroup>
                                 <p:separator/>
                                 <h:panelGroup id="GroupSolicitanteExterno" > 
@@ -493,27 +511,27 @@
                                             <p:outputLabel for="nombreexterna" value="Nombre:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombreexterna" value="#{proyectosMB.personaExterna.nombrePersona}" required="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaExterna}">
+                                            <p:inputText id="nombreexterna" value="#{proyectosMB.personaExterna.nombrePersona}" required="true" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersonaExterna}" disabled="#{proyectosMB.disablePersonaExterna}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="apellidoexterna" value="Apellido:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidoexterna" value="#{proyectosMB.personaExterna.apellidoPersona}" required="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaExterna}">
+                                            <p:inputText id="apellidoexterna" value="#{proyectosMB.personaExterna.apellidoPersona}" required="true" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersonaExterna}" disabled="#{proyectosMB.disablePersonaExterna}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Documento de Identificaci&oacute;n:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="pasaporteexterna" value="#{proyectosMB.personaExterna.pasaporte}" disabled="#{!proyectosMB.siBuscoPersonaExterna}"/>
+                                            <p:inputText id="pasaporteexterna" value="#{proyectosMB.personaExterna.pasaporte}" disabled="#{proyectosMB.disablePersonaExterna}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="correoexterna" value="Correo Electronico:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar}" disabled="#{!proyectosMB.siBuscoPersonaExterna}">
+                                            <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}" rendered="true" readonly="#{proyectosMB.actualizar or proyectosMB.siEditoPersonaExterna}" disabled="#{proyectosMB.disablePersonaExterna}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
@@ -521,14 +539,14 @@
                                             <p:outputLabel value="Cargo:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="cargoexterna" value="#{proyectosMB.personaExterna.cargoPersona}" disabled="#{!proyectosMB.siBuscoPersonaExterna}">
+                                            <p:inputText id="cargoexterna" value="#{proyectosMB.personaExterna.cargoPersona}" disabled="#{proyectosMB.disablePersonaExterna}">
                                             </p:inputText>
                                         </p:column>
                                         <p:column >
                                             <p:outputLabel for="unidadext" value="Entidad/Instituci&oacute;n"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="unidadext" value="#{proyectosMB.organismoSelectedRefExt.idOrganismo}"  style="width:180px" required="true" disabled="#{!proyectosMB.siBuscoPersonaExterna}">
+                                            <p:selectOneMenu id="unidadext" value="#{proyectosMB.organismoSelectedRefExt.idOrganismo}"  style="width:180px" required="true" disabled="#{proyectosMB.disablePersonaExterna}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" />
                                                 <c:forEach var="org" items="#{proyectosMB.organismoList}">
                                                     <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
@@ -539,13 +557,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="telefonoexterna" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" disabled="#{!proyectosMB.siBuscoPersonaExterna}"/>
+                                            <p:inputText id="telefonoexterna" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" disabled="#{proyectosMB.disablePersonaExterna}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="celularexterno" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}" disabled="#{!proyectosMB.siBuscoPersonaExterna}"/>
+                                            <p:inputText id="celularexterno" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}" disabled="#{proyectosMB.disablePersonaExterna}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
