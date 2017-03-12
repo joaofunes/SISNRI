@@ -257,6 +257,9 @@ public class registrarMovilidadMB {
     private Boolean siEditarReferente;
     private Boolean mostrarBotonEditarDocente;
     private Boolean mostrarBotonEditarReferente;
+    private Boolean habilitarBuscadorReferente;
+    private Boolean mostrarBotonNuevoDocente;
+    private Boolean mostrarBotonNuevoReferente;
 
     //Services
     @Autowired
@@ -509,6 +512,9 @@ public class registrarMovilidadMB {
         fueEditadoReferente = false;
         siEditarDocente = false;
         siEditarReferente = false;
+        habilitarBuscadorReferente = false;
+        mostrarBotonNuevoDocente = false;
+        mostrarBotonNuevoReferente = false;
     }
 
     public void mostrarEscuelaDocenteMovilidad() {
@@ -834,12 +840,13 @@ public class registrarMovilidadMB {
         mostrarEscuelaDocente = false;
 
     }
-    public void deshabilitarCamposDocente(){
+
+    public void deshabilitarCamposDocente() {
         activarDocente = true;
         mostrarEscuelaDocente = true;
     }
-    
-    public void desabilitarCamposReferente(){
+
+    public void desabilitarCamposReferente() {
         activarReferente = true;
         mostrarEscuelaReferente = true;
     }
@@ -893,6 +900,7 @@ public class registrarMovilidadMB {
         flagSearchNombreSaliente = Boolean.FALSE;
         personaMovAux = new Persona();
         mostrarBotonEditarDocente = false;
+        mostrarBotonNuevoDocente = false;
         limpiarSaliente();
 
         if (disableAutoSaliente) {
@@ -919,6 +927,11 @@ public class registrarMovilidadMB {
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                if (list.isEmpty()) {
+                    mostrarBotonNuevoDocente = true;
+                    mostrarBotonEditarDocente = false;
+                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                }
                 limpiarSaliente();
                 return list;
             } else if (tipoBusquedaSaliente.equalsIgnoreCase("email")) {
@@ -926,12 +939,22 @@ public class registrarMovilidadMB {
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                if (list.isEmpty()) {
+                    mostrarBotonNuevoDocente = true;
+                    mostrarBotonEditarDocente = false;
+                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                }
                 limpiarSaliente();
                 return list;
             } else if (tipoBusquedaSaliente.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
                 personaMovAux = personaService.getPersonaByDui(query);
                 boolean add = list.add(personaMovAux);
+                if (list.isEmpty()) {
+                    mostrarBotonNuevoDocente = true;
+                    mostrarBotonEditarDocente = false;
+                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                }
                 limpiarSaliente();
                 return list;
             }
@@ -954,6 +977,7 @@ public class registrarMovilidadMB {
                 existePersonaMovilidad = true;
                 usadoBuscadorPersonaMov = true;
                 mostrarBotonEditarDocente = true;
+                mostrarBotonNuevoDocente = false;
 
                 //List<Telefono> listTelefonosPersonaMovilidad = telefonoService.getTelefonosByPersona(personaMovilidadGenerico);
                 List<Telefono> listTelefonosPersonaMovilidad = personaMovilidadGenerico.getTelefonoList();
@@ -1001,8 +1025,9 @@ public class registrarMovilidadMB {
         flagSearchEmailReferente = Boolean.FALSE;
         flagSearchNombreReferente = Boolean.FALSE;
         personaReftAux = new Persona();
+        mostrarBotonEditarReferente = false;
+        mostrarBotonNuevoReferente = false;
         limpiarReferente();
-        
 
         if (disableAutoReferente) {
             disableAutoReferente = Boolean.FALSE;
@@ -1028,6 +1053,11 @@ public class registrarMovilidadMB {
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                if (list.isEmpty()) {
+                    mostrarBotonNuevoReferente = true;
+                    mostrarBotonEditarReferente = false;
+                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupReferente");
+                }
                 limpiarReferente();
                 return list;
             } else if (tipoBusquedaReferente.equalsIgnoreCase("email")) {
@@ -1035,13 +1065,23 @@ public class registrarMovilidadMB {
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                if (list.isEmpty()) {
+                    mostrarBotonNuevoReferente = true;
+                    mostrarBotonEditarReferente = false;
+                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupReferente");
+                }
                 limpiarReferente();
                 return list;
             } else if (tipoBusquedaReferente.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
                 personaReftAux = personaService.getPersonaByDui(query);
                 boolean add = list.add(personaReftAux);
-                limpiarReferente(); 
+                if (list.isEmpty()) {
+                    mostrarBotonNuevoReferente = true;
+                    mostrarBotonEditarReferente = false;
+                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupReferente");
+                }
+                limpiarReferente();
                 return list;
             }
             return list;
@@ -1063,6 +1103,7 @@ public class registrarMovilidadMB {
                 usadoBuscadorPersonaRefte = true;
                 existeReferente = true;
                 mostrarBotonEditarReferente = true;
+                mostrarBotonNuevoReferente = false;
                 personaFacultadGenerico = personaReftAux;
 
                 List<Telefono> listTelefonosPersonaReferente = personaFacultadGenerico.getTelefonoList();
@@ -1110,6 +1151,7 @@ public class registrarMovilidadMB {
         flagSearchEmailEntrante = Boolean.FALSE;
         flagSearchNombreEntrante = Boolean.FALSE;
         personaMovAux = new Persona();
+        mostrarBotonNuevoDocente = false;
         limpiarEntrante();
 
         mostrarBotonEditarDocente = false;
@@ -1138,6 +1180,11 @@ public class registrarMovilidadMB {
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                if (list.isEmpty()) {
+                    mostrarBotonNuevoDocente = true;
+                    mostrarBotonEditarDocente = false;
+                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                }
                 limpiarEntrante();
                 return list;
             } else if (tipoBusquedaEntrante.equalsIgnoreCase("email")) {
@@ -1145,12 +1192,22 @@ public class registrarMovilidadMB {
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                if (list.isEmpty()) {
+                    mostrarBotonNuevoDocente = true;
+                    mostrarBotonEditarDocente = false;
+                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                }
                 limpiarEntrante();
                 return list;
             } else if (tipoBusquedaEntrante.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
                 personaMovAux = personaService.getPersonaByDui(query);
                 boolean add = list.add(personaMovAux);
+                if (list.isEmpty()) {
+                    mostrarBotonNuevoDocente = true;
+                    mostrarBotonEditarDocente = false;
+                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                }
                 limpiarEntrante();
                 return list;
             }
@@ -1176,6 +1233,7 @@ public class registrarMovilidadMB {
                 usadoBuscadorPersonaMov = true;
                 existePersonaMovilidad = true;
                 mostrarBotonEditarDocente = true;
+                mostrarBotonNuevoDocente = false;
                 personaMovilidadGenerico = personaMovAux;
 
                 List<Telefono> listTelefonosPersonaMovilidad = personaMovilidadGenerico.getTelefonoList();
@@ -1486,27 +1544,27 @@ public class registrarMovilidadMB {
             if (movilidad.getPagoDeCurso() == null) {
                 movilidad.setPagoDeCurso(new BigDecimal(0.00));
             } else {
-                    TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
-                    BigDecimal d = movilidad.getPagoDeCurso();
-                    d = d.multiply(aux.getDolaresPorUnidad());
-                    movilidad.setPagoDeCurso(d);
+                TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+                BigDecimal d = movilidad.getPagoDeCurso();
+                d = d.multiply(aux.getDolaresPorUnidad());
+                movilidad.setPagoDeCurso(d);
             }
             if (movilidad.getViaticos() == null) {
                 movilidad.setViaticos(new BigDecimal(0.00));
             } else {
-                    TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
-                    BigDecimal d = movilidad.getViaticos();
-                    d = d.multiply(aux.getDolaresPorUnidad());
-                    movilidad.setViaticos(d);
+                TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+                BigDecimal d = movilidad.getViaticos();
+                d = d.multiply(aux.getDolaresPorUnidad());
+                movilidad.setViaticos(d);
             }
 
             if (movilidad.getVoletoAereo() == null) {
                 movilidad.setVoletoAereo(new BigDecimal(0.00));
             } else {
-                    TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
-                    BigDecimal d = movilidad.getVoletoAereo();
-                    d = d.multiply(aux.getDolaresPorUnidad());
-                    movilidad.setVoletoAereo(d);
+                TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+                BigDecimal d = movilidad.getVoletoAereo();
+                d = d.multiply(aux.getDolaresPorUnidad());
+                movilidad.setVoletoAereo(d);
             }
 
             //Agregando a la movilidad las facultades o unidades beneficiadas
@@ -1794,7 +1852,7 @@ public class registrarMovilidadMB {
         EscuelaDepartamento escuelaDepto = new EscuelaDepartamento();
         EscuelaDepartamento escuelaDeptoReferente = new EscuelaDepartamento();
         mostrarBotonEditarDocente = true;
-        mostrarBotonEditarReferente = true;
+
         mostrarBotonDesvincular = true;
         tituloRegistroEdicion = "Edici&oacute;n de movilidad";
 
@@ -1812,9 +1870,9 @@ public class registrarMovilidadMB {
                 existeMovilidad = true;
                 //Estableciendo el tipo de cambio por defecto
                 tipoCambioSelected.setIdTipoCambio(2);
-                
+
                 programaMovilidad = programaMovilidadService.findById(movilidad.getIdProgramaMovilidad().getIdProgramaMovilidad());
-               
+
                 onchangeListPaisOrigen();
                 onchangeListPaisDestino();
 
@@ -1828,15 +1886,14 @@ public class registrarMovilidadMB {
                 for (Integer u : unidadTmp) {
                     facultadesUnidadesTmp.add(String.valueOf(u) + ",2");
                 }
-                
+
                 listFacultadesUnidadesBeneficiadasSelected = facultadesUnidadesTmp;
 
-              //Cargando las Personas
+                //Cargando las Personas
                 //Persona en movilidad
                 personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD");  //REVISAR ESTO
                 existePersonaMovilidad = true;
-                
-                
+
                 //escuelaDepto = personaMovilidadGenerico.getIdEscuelaDepto();
                 if (movilidad.getIdTipoMovilidad().getIdTipoMovilidad() == 2) { //movilidad Saliente
                     mostrarEntrante = false;
@@ -1851,7 +1908,7 @@ public class registrarMovilidadMB {
                         facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
 
                         listEscuelaDepartamentoPersonaMovilidad = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(Integer.parseInt(facultadPersonaMovilidad.substring(0, facultadPersonaMovilidad.indexOf(",1"))));
-                       // escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
+                        // escuelaDepartamentoPersonaMovilidad = personaMovilidadGenerico.getIdEscuelaDepto().getIdEscuelaDepto();
 
                     } else {
                         facultadPersonaMovilidad = Integer.toString(personaMovilidadGenerico.getIdUnidad().getIdUnidad()) + ",2";
@@ -1897,6 +1954,9 @@ public class registrarMovilidadMB {
                     isHabilitadoRfte = true;
                     existeReferente = true;
                     desvinculadoRfte = false;
+                    habilitarBuscadorReferente = true; //deshabililta el buscador del referente
+                    mostrarBotonEditarReferente = true;  //mostrar el boton de editar referente
+
                     //escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
                     if (personaFacultadGenerico.getIdEscuelaDepto() != null) {
                         facultadDeReferente = Integer.toString(personaFacultadGenerico.getIdEscuelaDepto().getIdFacultad().getIdFacultad()) + ",1";
@@ -1930,8 +1990,9 @@ public class registrarMovilidadMB {
                     isHabilitadoRfte = Boolean.FALSE;
 
                     //desabilitando campos del refrente  <-----------------------
-                    activarReferente = true;
-                    mostrarEscuelaReferente = true;
+                    mostrarBotonEditarReferente = false; //ocultar boton de editar referente
+                    deshabilitarCamposDocente();
+                    habilitarBuscadorReferente = false; //habilita el buscador de eferente
                 }
                 //Actualizando el Panel de la persona en movilidad
                 RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad");
@@ -1956,12 +2017,16 @@ public class registrarMovilidadMB {
     }
 
     public void desvincularReferente() {
-        movilidadService.desvincularReferente(movilidad.getIdMovilidad(), personaFacultadGenerico.getIdPersona());
-        existeReferente = false;
-        desvinculadoRfte = true;
+        try {
+            movilidadService.desvincularReferente(movilidad.getIdMovilidad(), personaFacultadGenerico.getIdPersona());
+            existeReferente = false;
+            desvinculadoRfte = true;
+            //recargando la vista de actualizar movilidad
+            preActualizar(movilidad.getIdMovilidad());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        //recargando la vista de actualizar movilidad
-        preActualizar(movilidad.getIdMovilidad());
     }
 
     /**
@@ -2962,4 +3027,28 @@ public class registrarMovilidadMB {
         this.mostrarBotonEditarReferente = mostrarBotonEditarReferente;
     }
 
+    public Boolean getHabilitarBuscadorReferente() {
+        return habilitarBuscadorReferente;
+    }
+
+    public void setHabilitarBuscadorReferente(Boolean habilitarBuscadorReferente) {
+        this.habilitarBuscadorReferente = habilitarBuscadorReferente;
+    }
+
+    public Boolean getMostrarBotonNuevoDocente() {
+        return mostrarBotonNuevoDocente;
+    }
+
+    public void setMostrarBotonNuevoDocente(Boolean mostrarBotonNuevoDocente) {
+        this.mostrarBotonNuevoDocente = mostrarBotonNuevoDocente;
+    }
+
+    public Boolean getMostrarBotonNuevoReferente() {
+        return mostrarBotonNuevoReferente;
+    }
+
+    public void setMostrarBotonNuevoReferente(Boolean mostrarBotonNuevoReferente) {
+        this.mostrarBotonNuevoReferente = mostrarBotonNuevoReferente;
+    }
+    
 }

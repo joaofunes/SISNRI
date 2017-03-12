@@ -171,7 +171,7 @@
                                     </h:panelGroup>
                                     <!--Panel Group botones Docente en movilidad-->
                                     <h:panelGroup id="grupDocente">
-                                        <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad" rendered="true"/>
+                                        <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad" rendered="#{registrarMovilidadMB.mostrarBotonNuevoDocente}"/>
                                         <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad" rendered="#{registrarMovilidadMB.mostrarBotonEditarDocente}"/>
                                     </h:panelGroup>
 
@@ -432,14 +432,14 @@
 
 
                                 <!--Buscador de referente de la facultad -->    
-                                <p:tab title="Datos Referente de la facultad">
+                                <p:tab title="Datos Referente de la facultad" id="panelPersonaReferente">
                                     <h:panelGroup id="grup3">
                                         <p:panelGrid id="gridRef">
                                             <p:column>
                                                 <p:outputLabel for="tipoBusquedaRef" value="Tipo de B&uacute;squeda:" />
                                             </p:column>
                                             <p:column>                                        
-                                                <p:selectOneMenu id="tipoBusquedaRef" value="#{registrarMovilidadMB.tipoBusquedaReferente}"  style="width:125px">  
+                                                <p:selectOneMenu id="tipoBusquedaRef" value="#{registrarMovilidadMB.tipoBusquedaReferente}"  style="width:125px" disabled="#{registrarMovilidadMB.habilitarBuscadorReferente}">  
                                                     <p:ajax  listener="#{registrarMovilidadMB.habilitarAutoReferente}" update="grup3,GroupReferente"  process="tipoBusquedaRef" />
                                                     <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                                     <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
@@ -487,7 +487,7 @@
                                         </p:panelGrid>
                                     </h:panelGroup>
                                     <h:panelGroup id="grupReferente">
-                                                <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoReferente()}" process="@this" update="GroupReferente"/>
+                                        <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoReferente()}" process="@this" update="GroupReferente" rendered="#{registrarMovilidadMB.mostrarBotonNuevoReferente}"/>
                                                 <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizacionReferente()}" process="@this" update="GroupReferente,grup3" rendered="#{registrarMovilidadMB.mostrarBotonEditarReferente}"/>
                                     </h:panelGroup>
 
