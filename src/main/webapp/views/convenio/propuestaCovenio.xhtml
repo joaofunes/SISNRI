@@ -150,7 +150,29 @@
                                         <p:message for="idCelSolicitante" />
                                     </p:column>
                                 </p:row>
-
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel for="idCargo" value="Cargo Solicitante" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="idCargo"  required="true" label="cargo" 
+                                                     value="#{propuestaConvenioMB.solicitante.cargoPersona}"
+                                                     disabled="#{propuestaConvenioMB.habilitarBusquedaSolicitante}"/>
+                                        <p:message for="idCargo" />
+                                        <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="emailSolicitante" value="Correo Electr&oacute;nico" />     
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="emailSolicitante" required="true" value="#{propuestaConvenioMB.solicitante.emailPersona}"
+                                                     disabled="#{propuestaConvenioMB.habilitarBusquedaSolicitante}">
+                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                        </p:inputText>
+                                        <p:message for="emailSolicitante" display="tooltip" />  
+                                        <p:watermark for="emailSolicitante" value="correo@email.com"/>
+                                    </p:column>
+                                </p:row>
 
                                 <p:row>
 
@@ -179,18 +201,7 @@
                                     </p:column>
 
                                 </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="idCargo" value="Cargo Solicitante" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="idCargo"  required="true" label="cargo" 
-                                                     value="#{propuestaConvenioMB.solicitante.cargoPersona}"
-                                                     disabled="#{propuestaConvenioMB.habilitarBusquedaSolicitante}"/>
-                                        <p:message for="idCargo" />
-                                        <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
-                                    </p:column>
-                                </p:row>
+                                
                                 <p:row>
                                     <p:column>
                                         <h:outputLabel value="Agregar Solicitante Interno" />
@@ -644,7 +655,7 @@
                         </h:form>
                     </p:tab>
                     <p:tab title="Datos de Propuesta">
-                        <h:panelGroup id="fileUploadGroup" >    
+                        <h:form id="fileUploadGroup" >    
                             <p:panelGrid>                           
                                 <p:row>
                                     <p:column>
@@ -696,7 +707,7 @@
                                         <tr align="right"> 
                                             <td></td>
                                             <td></td>
-                                            <td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.guardarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Guardar"  id="btnGuardar" icon="ui-icon-disk" title="Guardar Propuesta Convenio" /></td>                                 
+                                            <td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.guardarPropuestaConvenio}" process="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" update="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" value="Guardar"  id="btnGuardar" icon="ui-icon-disk" title="Guardar Propuesta Convenio" /></td>                                 
                                             <!--<td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.FileRead()}" process="@this"  value="Test Mail"  id="ema" icon="ui-icon-disk" title="envio email" /></td>-->                                 
                                             <td colspan="3"><p:commandButton rendered="#{propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.actualizarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Actualizar"  id="btnActualizar" icon="fa fa-save" title="Actualizar Propuesta Convenio" /></td>                                 
                                             <td colspan="3"><p:commandButton  rendered="#{propuestaConvenioMB.flagEdicion}"  actionListener="#{propuestaConvenioMB.volver()}" process="formAdmin" update="formAdmin" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
@@ -704,7 +715,7 @@
                                     </tfoot>
                                 </table>  
                             </p:panelGrid> 
-                        </h:panelGroup>
+                        </h:form>
                     </p:tab>
                 </p:accordionPanel>                                                                                               
             </p:panel>

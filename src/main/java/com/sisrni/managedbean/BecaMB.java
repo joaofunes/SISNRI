@@ -531,8 +531,7 @@ public class BecaMB implements Serializable {
             if (presionoNuevoBecario == true) {
                 if (mostrarTabInterno == true) {
                     preGuardarInterno();
-                }
-                if (mostrarTabExterno == true) {
+                }else if (mostrarTabExterno == true) {
                     preGuardarExterno();
                 } else {
                     guardarBeca();
@@ -544,7 +543,7 @@ public class BecaMB implements Serializable {
                 if (mostrarTabInterno == true) {
                     preGuardarInterno();
                 }
-                if (mostrarTabExterno == true) {
+                else if (mostrarTabExterno == true) {
                     preGuardarExterno();
                 } else {
                     guardarBeca();
@@ -566,6 +565,11 @@ public class BecaMB implements Serializable {
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeInternoDlg').show();");
         } else {
+            if (mostrarTabExterno == true) {
+                preGuardarExterno();
+            } else {
+                guardarBeca();
+            }
 
         }
     }
@@ -589,7 +593,7 @@ public class BecaMB implements Serializable {
         if (mostrarTabInterno == true) {
             preGuardarInterno();
         }
-        if (mostrarTabExterno == true) {
+        else if (mostrarTabExterno == true) {
             preGuardarExterno();
         } else {
             guardarBeca();
@@ -624,7 +628,7 @@ public class BecaMB implements Serializable {
         if (mostrarTabInterno == true) {
             preGuardarInterno();
         }
-        if (mostrarTabExterno == true) {
+        else if (mostrarTabExterno == true) {
             preGuardarExterno();
         } else {
             guardarBeca();
@@ -1213,7 +1217,7 @@ public class BecaMB implements Serializable {
         try {
             List<Persona> list = new ArrayList<Persona>();
             if (tipoBusquedaAsesorExterno.equalsIgnoreCase("nombre")) {
-                listAll = personaService.getReferenteInternoByName(query);
+                listAll = personaService.getReferenteExternoByName(query);
                 for (Persona us : listAll) {
                     list.add(us);
                 }
@@ -1221,12 +1225,12 @@ public class BecaMB implements Serializable {
                     renderActualizarPersonaExternaButton = Boolean.FALSE;
                     renderNuevaPersonaExternaButton = Boolean.TRUE;
                     disableExternoInputs = Boolean.TRUE;
-                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesExterna");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesExterno");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:panelExterno");
                 } else {
                     renderNuevaPersonaExternaButton = Boolean.FALSE;
                     disableExternoInputs = Boolean.TRUE;
-                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesExterna");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesExterno");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:panelExterno");
                 }
                 return list;

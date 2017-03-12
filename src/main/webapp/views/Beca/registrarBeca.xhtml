@@ -5,6 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
@@ -281,17 +282,17 @@
                                             <p:outputLabel  value="#{lbecas.montoExterno}" for="montoexterno"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText value="#{becaMB.beca.montoExterno}" id="montoexterno" required="true">
+                                            <pe:inputNumber value="#{becaMB.beca.montoExterno}" id="montoexterno" required="true">
                                                 <p:ajax event="blur" listener="#{becaMB.cambiarMontoBeca}" update="montototal" />
-                                            </p:inputText>
+                                            </pe:inputNumber>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel  value="#{lbecas.montoInterno}" for="montointerno" id="mint"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText value="#{becaMB.beca.montoInterno}" disabled="#{becaMB.mostrarmonto}" id="montointerno" required="#{!becaMB.mostrarmonto}">
+                                            <pe:inputNumber value="#{becaMB.beca.montoInterno}" disabled="#{becaMB.mostrarmonto}" id="montointerno" required="#{!becaMB.mostrarmonto}">
                                                 <p:ajax event="blur" listener="#{becaMB.cambiarMontoBeca}" update="montototal" />
-                                            </p:inputText>
+                                            </pe:inputNumber>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -299,7 +300,7 @@
                                             <p:outputLabel value="#{lbecas.montoTotal}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText value="#{becaMB.beca.montoTotal}" id="montototal" readonly="true" />
+                                            <pe:inputNumber value="#{becaMB.beca.montoTotal}" id="montototal" readonly="true" />
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="#{lbecas.otorgada}" for="idOtorgada"/>
@@ -471,9 +472,9 @@
                                             </p:column>
                                         </p:row>
                                         <p:row>
-                                            <p:column>
+<!--                                            <p:column>
                                                 <p:commandButton value="Desvincular asesor Interno" actionListener="#{becaMB.desvincularInterno()}" process="@this" rendered="#{becaMB.mostrarTabInterno and !becaMB.noEstabaInterno}"/>
-                                            </p:column>
+                                            </p:column>-->
                                         </p:row>
                                     </p:panelGrid>
                                     <p:outputLabel value="Para ingresar datoss del Coordinador Academico Interno active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabInterno}"/>
