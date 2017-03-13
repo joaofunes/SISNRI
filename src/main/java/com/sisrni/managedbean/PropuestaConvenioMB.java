@@ -725,6 +725,9 @@ public class PropuestaConvenioMB implements Serializable {
         }
     }
 
+    /**
+     * Metodo para envio de correo informativo de creacion de propuesta
+     */
     public void enviarCorreo() {
         try {
 
@@ -735,18 +738,12 @@ public class PropuestaConvenioMB implements Serializable {
             templateData.put("subJect", "Creacion de propuesta de convenio");
 
             //templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.txt");
-            templateData.put("nameTemplate", "propuesta.html");
+            templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.html");
             templateData.put("propuesta", propuestaConvenio);
+            templateData.put("PersonaPropuesta", propuestaConvenio.getPersonaPropuestaList());
 
             for (PersonaPropuesta p : propuestaConvenio.getPersonaPropuestaList()) {
                 templateData.put("setToMail", p.getPersona().getEmailPersona());
-
-                List<String> personDetails = new ArrayList<String>();
-                personDetails.add("First Name: Java");
-                personDetails.add("Last Name: Honk");
-                personDetails.add("Location: NY");
-
-                templateData.put("personDetails", personDetails);
 
                 //mailService.sendEmail(propuestaConvenio, "Creacion de propuesta de convenio", "joao.hfunes@gmail.com", "propuesta_convenio_mailTemplat.txt");
                 mailService.sendEmailMap(templateData);
