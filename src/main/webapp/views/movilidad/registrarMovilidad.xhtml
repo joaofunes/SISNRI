@@ -349,7 +349,7 @@
                                             <p:outputLabel for="tipoMoneda" value="Tipo de moneda"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="tipoMoneda" value="#{registrarMovilidadMB.tipoCambioSelected.idTipoCambio}" style="width: 180px">
+                                            <p:selectOneMenu id="tipoMoneda" value="#{registrarMovilidadMB.tipoCambioSelected.idTipoCambio}" style="width: 180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listTipoCambio}" var="tipoCambio" itemLabel="#{tipoCambio.nombreDivisa}" itemValue="#{tipoCambio.idTipoCambio}"/>
                                             </p:selectOneMenu>

@@ -1854,7 +1854,7 @@ public class registrarMovilidadMB {
         mostrarBotonEditarDocente = true;
 
         mostrarBotonDesvincular = true;
-        tituloRegistroEdicion = "Edici&oacute;n de movilidad";
+        tituloRegistroEdicion = "Actualizacion de movilidad";
 
         //deshabilita el selectOnmenu de tipo de movilidad
         isHabilidado = Boolean.TRUE;
@@ -2046,24 +2046,24 @@ public class registrarMovilidadMB {
             if ((movilidad = movilidadService.findById(idMovilidad)) != null) {
                 existeMovilidad = true;
 
-                tipoMovilidad = movilidad.getIdTipoMovilidad().getIdTipoMovilidad();
+                //tipoMovilidad = movilidad.getIdTipoMovilidad().getIdTipoMovilidad();
                 tipoMovilidadConsultar = movilidad.getIdTipoMovilidad().getNombreTipoMovilidad();
 
-                programaMovilidadSelected.setIdProgramaMovilidad(movilidad.getIdProgramaMovilidad().getIdProgramaMovilidad());
-                programaMovilidad = programaMovilidadService.findById(programaMovilidadSelected.getIdProgramaMovilidad());
+                //programaMovilidadSelected.setIdProgramaMovilidad(movilidad.getIdProgramaMovilidad().getIdProgramaMovilidad());
+                programaMovilidad = programaMovilidadService.findById(movilidad.getIdProgramaMovilidad().getIdProgramaMovilidad());
                 categoriaMovilidadConsultar = movilidad.getIdCategoria().getNombreCategoria();
 
                 //Cargando datos de detalle de la movilidad
-                paisOrigenSelected = movilidad.getIdPaisOrigen();
-                paisOrigenConsultar = paisService.findById(paisOrigenSelected).getNombrePais();
+                //paisOrigenSelected = movilidad.getIdPaisOrigen();
+                paisOrigenConsultar = paisService.findById(movilidad.getIdPaisOrigen()).getNombrePais();
 
-                institucionOrigenSelected = movilidad.getIdUniversidadOrigen();
-                institucionOrigenConsultar = organismoService.findById(institucionOrigenSelected).getNombreOrganismo();
+                //institucionOrigenSelected = movilidad.getIdUniversidadOrigen();
+                institucionOrigenConsultar = organismoService.findById(movilidad.getIdUniversidadOrigen()).getNombreOrganismo();
 
-                paisDestinoSelected = movilidad.getIdPaisDestino();
-                paisDestinoconsultar = paisService.findById(paisDestinoSelected).getNombrePais();
-                institucionDestinoSelected = movilidad.getIdUniversidadDestino();
-                institucionDestinoConsultar = organismoService.findById(institucionDestinoSelected).getNombreOrganismo();
+                //paisDestinoSelected = movilidad.getIdPaisDestino();
+                paisDestinoconsultar = paisService.findById(movilidad.getIdPaisDestino()).getNombrePais();
+                //institucionDestinoSelected = movilidad.getIdUniversidadDestino();
+                institucionDestinoConsultar = organismoService.findById(movilidad.getIdUniversidadDestino()).getNombreOrganismo();
 
                 if (movilidad.getFechaInicio() != null) {
                     fInicioConsultar = sdf.format(movilidad.getFechaInicio());
@@ -2078,17 +2078,17 @@ public class registrarMovilidadMB {
                 listTipoCambio.clear();
                 listTipoCambio.add(tipoCambioSelected);
 
-                this.movilidad.setViaticos(movilidad.getViaticos());
-                this.movilidad.setPagoDeCurso(movilidad.getPagoDeCurso());
-                this.movilidad.setVoletoAereo(movilidad.getVoletoAereo());
+                //this.movilidad.setViaticos(movilidad.getViaticos());
+                //this.movilidad.setPagoDeCurso(movilidad.getPagoDeCurso());
+                //this.movilidad.setVoletoAereo(movilidad.getVoletoAereo());
                 if (movilidad.getFechaEntregaMined() != null) {
                     fEntregaConsultar = sdf.format(movilidad.getFechaEntregaMined());
                 }
 
-                etapaMovilidadSelected = movilidad.getIdEtapaMovilidad().getIdEtapa();
-                etapaMovilidadConsultar = etapamovilidadService.findById(etapaMovilidadSelected).getNombreEtapa();
-                if (entregaInformeSelected = movilidad.getEntregaDeInforme() != null) {
-                    if (entregaInformeSelected == true) {
+                //etapaMovilidadSelected = movilidad.getIdEtapaMovilidad().getIdEtapa();
+                etapaMovilidadConsultar = etapamovilidadService.findById(movilidad.getIdEtapaMovilidad().getIdEtapa()).getNombreEtapa();
+                if (movilidad.getEntregaDeInforme() != null) {
+                    if (movilidad.getEntregaDeInforme() == Boolean.TRUE) {
                         entregaInformeConsultar = "SI";
                     } else {
                         entregaInformeConsultar = "NO";
@@ -2120,18 +2120,18 @@ public class registrarMovilidadMB {
                 //facultadesUnidadesTmp.toArray(facultadesUnidadesBeneficiadasSelected);
                 listFacultadesUnidadesBeneficiadasSelected = facultadesUnidadesTmp;
 
-                this.movilidad.setOtrosBeneficiados(movilidad.getOtrosBeneficiados());
+                //this.movilidad.setOtrosBeneficiados(movilidad.getOtrosBeneficiados());
 
                 //Cargando las Personas
                 //Persona en movilidad
                 personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD"); //REVISAR ESTO
-                existePersonaMovilidad = true;
-                escuelaDepto = personaMovilidadGenerico.getIdEscuelaDepto();
-                if (tipoMovilidad == 2) { //movilidad Saliente
+                //existePersonaMovilidad = true;
+                //escuelaDepto = personaMovilidadGenerico.getIdEscuelaDepto();
+                if (movilidad.getIdTipoMovilidad().getIdTipoMovilidad() == 2) { //movilidad Saliente
                     mostrarEntrante = false;
                     mostrarSaliente = true;
 
-                    if (escuelaDepto != null) {
+                    if (personaMovilidadGenerico.getIdEscuelaDepto() != null) {
                         facultadPersonaMovConsultar = personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getNombreFacultad();
                         escuelaDeptoPersonaMovConsultar = personaMovilidadGenerico.getIdEscuelaDepto().getNombreEscuelaDepto();
 
@@ -2146,7 +2146,7 @@ public class registrarMovilidadMB {
                     mostrarSaliente = false;
 
                     institucionPersonaMovConsultar = personaMovilidadGenerico.getIdOrganismo().getNombreOrganismo();
-                    if (escuelaDepto != null) {
+                    if (personaMovilidadGenerico.getIdEscuelaDepto() != null) {
                         facultadPersonaMovConsultar = personaMovilidadGenerico.getIdEscuelaDepto().getIdFacultad().getNombreFacultad();
 
                         escuelaDeptoPersonaMovConsultar = personaMovilidadGenerico.getIdEscuelaDepto().getNombreEscuelaDepto();
@@ -2172,9 +2172,9 @@ public class registrarMovilidadMB {
 
                 //Persona Referente Facultad
                 personaFacultadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "REFERENTE FACULTAD BENEFICIADA"); //REVISAR ESTO
-                existeReferente = true;
-                escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
-                if (escuelaDeptoReferente != null) {
+                //existeReferente = true;
+                //escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
+                if (personaFacultadGenerico.getIdEscuelaDepto() != null) {
                     facultadPersonaRefConsultar = personaFacultadGenerico.getIdEscuelaDepto().getIdFacultad().getNombreFacultad();
                     escuelaDepartamentoRefConsultar = personaFacultadGenerico.getIdEscuelaDepto().getNombreEscuelaDepto();
                 } else {
