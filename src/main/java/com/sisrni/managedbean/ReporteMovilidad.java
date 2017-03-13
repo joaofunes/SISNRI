@@ -158,7 +158,11 @@ public class ReporteMovilidad {
     
     private int obtenerTotalDias(Date fInicio,Date fFin){
         int dias;
+        if(fInicio !=null && fFin != null){
         dias = (int) ((fInicio.getTime() - fFin.getTime())/86400000);
+        }else{
+            dias = 0;
+        }
         return dias;
     }
     
