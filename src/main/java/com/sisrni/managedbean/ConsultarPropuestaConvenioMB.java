@@ -38,6 +38,8 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
     
+    private static final String FIRMADO="FIRMADO";
+    
     @Inject
     ActualizacionPropuestaConvenioMB actualizacionPropuestaConvenioMB;
     
@@ -66,6 +68,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     private List<Estado> listadoEstadosTemp;
     private Estado estado;
     
+    private boolean flagBanderaVigencia;
     
     @PostConstruct
     public void init() {
@@ -196,8 +199,27 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
         }
     }
     
-    
-    public void eliminarConvenio(){
+    /**
+     * Metodo para verificar si estado es firmado
+     * el cual pasaria de ser propuesta convenio a Convenio
+     */ 
+    public void confirmacionEstadoConvenio(){
+        try {
+            if(estado.getNombreEstado().equalsIgnoreCase(FIRMADO)){
+                flagBanderaVigencia=true;
+            }else{
+                flagBanderaVigencia=false;               
+            }
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+     
+     
+    /**
+     * cambiar estado de propuestas de convenio
+     */
+    public void cambiarEstadoConvenio(){
         try {                    
             propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(),estado.getIdEstado());                    
             inicializador();
@@ -254,5 +276,13 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
 
     public void setListadoEstadosTemp(List<Estado> listadoEstadosTemp) {
         this.listadoEstadosTemp = listadoEstadosTemp;
+    }
+
+    public boolean isFlagBanderaVigencia() {
+        return flagBanderaVigencia;
+    }
+
+    public void setFlagBanderaVigencia(boolean flagBanderaVigencia) {
+        this.flagBanderaVigencia = flagBanderaVigencia;
     }
 }
