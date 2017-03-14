@@ -11,7 +11,7 @@
                  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                  >  
     <ui:define name="content">
-          
+           <p:fieldset legend="Consultar Propuestas de Convenios"> 
         
             <h:form id="formAdmin">
 
@@ -65,7 +65,8 @@
                     </p:column>
                 </p:dataTable>
             </h:form>   
-             
+           </p:fieldset> 
+               
         <p:dialog header="Cambiar Estado" widgetVar="dlgEstado" modal="true" appendTo="@(body)" >                         
             <h:form id="idCambiarEstado"> 
                 <p:panelGrid id="display" >
@@ -129,13 +130,13 @@
                             <h:outputText value="Fecha de Vigencia: "  style="font-weight:bold" />
                         </p:column>
                         <p:column>
-                            <p:calendar value="#{consultarPropuestaConvenioMB.propuestaConvenio.vigencia}" />
+                            <p:calendar id="idFechaVigencia" required="true" value="#{consultarPropuestaConvenioMB.propuestaConvenio.vigencia}" pattern="dd-MM-yyyy" mask="true" />
                         </p:column>
                     </p:row>
 
                     <p:row>
                         <p:column>                        
-                            <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.cambiarEstadoConvenio()}" process="idCambiarEstado" update=":formAdmin" onclick="PF('dlgEstado').hide();" />
+                            <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.cambiarEstadoConvenio()}" process="idCambiarEstado" update=":formAdmin"/>
                             <p:commandButton value="No"  icon="ui-icon-close" onclick="PF('dlgEstado').hide();" process="@this" />
                         </p:column>
                         <p:column></p:column>
