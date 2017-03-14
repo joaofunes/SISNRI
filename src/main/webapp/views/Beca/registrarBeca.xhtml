@@ -335,7 +335,7 @@
                             </p:tab>
                             <p:tab title="Datos del Coordinador Academico Interno"  >
                                 <h:panelGroup id="aidiInterno">
-                                    <h:panelGroup id="pgroupBuscadorAsesorInterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno}">
+                                    <h:panelGroup id="pgroupBuscadorAsesorInterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno or (becaMB.actualizar and becaMB.noEstabaInterno and becaMB.mostrarTabInterno)}">
                                         <p:panelGrid id="pGridBuscadorAsesorInterno">
                                             <p:column>
                                                 <p:outputLabel for="tipoBusquedaAsesorInternoId" value="Tipo de Busqueda:" />
@@ -388,8 +388,8 @@
                                     </h:panelGroup>
                                     <h:panelGroup id="botonesInterno">
                                         <p:column>
-                                            <p:commandButton value="Nueva Persona" actionListener="#{becaMB.presionoNuevoInterno()}" rendered="#{becaMB.renderNuevaPersonaInternaButton}" process="@this" update="panelInterno"/>
-                                            <p:commandButton value="Actualizar Coordinador Interno" actionListener="#{becaMB.presionoActualizarInterno()}" rendered="#{becaMB.renderActualizarPersonaInternaButton}" process="@this" update="panelInterno"/>
+                                            <p:commandButton value="Nueva Persona" actionListener="#{becaMB.presionoNuevoInterno()}" rendered="#{becaMB.renderNuevaPersonaInternaButton and becaMB.mostrarTabInterno}" process="@this" update="panelInterno"/>
+                                            <p:commandButton value="Actualizar Coordinador Interno" actionListener="#{becaMB.presionoActualizarInterno()}" rendered="#{becaMB.renderActualizarPersonaInternaButton and becaMB.mostrarTabInterno}" process="@this" update="panelInterno"/>
                                         </p:column>
                                     </h:panelGroup>
                                     <p:separator rendered="#{becaMB.mostrarTabInterno}"/>
