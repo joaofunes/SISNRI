@@ -332,7 +332,7 @@
                                             <p:outputLabel for="desdeMovilidad" value="Fecha de inicio"/> 
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="desdeMovilidad" value="#{registrarMovilidadMB.movilidad.fechaInicio}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10">
+                                            <p:calendar id="desdeMovilidad" value="#{registrarMovilidadMB.movilidad.fechaInicio}" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10" required="true">
                                                 <p:ajax event="dateSelect" update="hastaMovilidad" />
                                             </p:calendar>
                                         </p:column>
