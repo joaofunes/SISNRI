@@ -6,9 +6,11 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Estado;
+import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.service.EstadoService;
+import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
@@ -17,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -46,6 +50,9 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     @Inject
     ActualizacionPropuestaConvenioMB actualizacionPropuestaConvenioMB;
     
+    @Autowired
+    FreeMarkerMailService mailService;
+
     
     @Autowired
     @Qualifier(value = "propuestaConvenioService")
@@ -253,6 +260,34 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     }
     
     
+    /**
+     * Metodo para envio de correo informativo de creacion de propuesta
+     */
+    public void enviarCorreo() {
+        try {
+
+           // propuestaConvenio = propuestaConvenioService.getByIDPropuestaWithPersona(propuestaConvenio.getIdPropuesta());
+
+            // Create data for template
+            Map<String, Object> templateData = new HashMap<String, Object>();
+            templateData.put("subJect", "Cambio de estado propuesta de convenio");
+
+            //templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.txt");
+            templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.xhtml");
+            templateData.put("propuesta", propuestaConvenio);
+            templateData.put("PersonaPropuesta", propuestaConvenio.getPersonaPropuestaList());
+
+            for (PersonaPropuesta p : propuestaConvenio.getPersonaPropuestaList()) {
+                templateData.put("setToMail", p.getPersona().getEmailPersona());
+
+                //mailService.sendEmail(propuestaConvenio, "Creacion de propuesta de convenio", "joao.hfunes@gmail.com", "propuesta_convenio_mailTemplat.txt");
+                mailService.sendEmailMap(templateData);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     public PropuestaConvenio getPropuestaConvenio() {
         return propuestaConvenio;
