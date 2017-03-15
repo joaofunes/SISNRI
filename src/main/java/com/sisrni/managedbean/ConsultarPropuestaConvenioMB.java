@@ -77,6 +77,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     private List<Estado> listadoEstados;
     private List<Estado> listadoEstadosTemp;
     private Estado estado;
+    private Estado estadoTemp;
     
     private boolean flagBanderaVigencia;
     
@@ -167,6 +168,8 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
             propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
             estado = estadoService.findById(pojo.getID_ESTADO());
+            estadoTemp = new Estado();
+            estadoTemp=estado;
             flagBanderaVigencia=false;
             listadoEstadosTemp = new ArrayList<Estado>();
             int[] intArray = new int[3];
@@ -243,7 +246,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
                      
                      context.execute("PF('dlgEstado').hide();");
                      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Convenio", "la propuesta pasa a ser convenio"));
-            
+                     enviarCorreo();//camabiar porq pasa a hacer conevio
                 }else{
                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Fecha de Vigencia debe ser mayor a la actual"));
             
@@ -251,6 +254,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
             } else {
                 propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
                 context.execute("PF('dlgEstado').hide();");
+                enviarCorreo();
             }
                       
             inicializador();
@@ -273,9 +277,11 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
             templateData.put("subJect", "Cambio de estado propuesta de convenio");
 
             //templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.txt");
-            templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.xhtml");
+            templateData.put("nameTemplate", "estado_propuesta_convenio_mailTemplat.xhtml");
             templateData.put("propuesta", propuestaConvenio);
             templateData.put("PersonaPropuesta", propuestaConvenio.getPersonaPropuestaList());
+            templateData.put("estado",estado.getNombreEstado()); //estado actual
+            templateData.put("estadoTemp",estadoTemp.getNombreEstado()); // estado anterior
 
             for (PersonaPropuesta p : propuestaConvenio.getPersonaPropuestaList()) {
                 templateData.put("setToMail", p.getPersona().getEmailPersona());
@@ -343,5 +349,13 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
 
     public void setFlagBanderaVigencia(boolean flagBanderaVigencia) {
         this.flagBanderaVigencia = flagBanderaVigencia;
+    }
+
+    public Estado getEstadoTemp() {
+        return estadoTemp;
+    }
+
+    public void setEstadoTemp(Estado estadoTemp) {
+        this.estadoTemp = estadoTemp;
     }
 }
