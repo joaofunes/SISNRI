@@ -34,28 +34,29 @@ public class OrganismoConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-        value=String.valueOf(value);
-        
-         if(JsfUtil.isDummySelectItem(component, value)){
-                     return null;
-         }
-          
-        if(value != null && value.trim().length() > 0 && !value.equalsIgnoreCase("null")) {
+        value = String.valueOf(value);
+
+        if (JsfUtil.isDummySelectItem(component, value)) {
+            return null;
+        }
+
+        if (value != null && value.trim().length() > 0 && !value.equalsIgnoreCase("null")) {
             try {
-                Integer key = getKey(value);
-                Organismo findById = this.organismoService.findById(key);                 
-               return findById;
-            } catch(NumberFormatException e) {
+                if (isNumeric(value)) {
+                    if (value != null) {
+                        Integer key = getKey(value);
+                        Organismo findById = this.organismoService.findById(key);
+                        return findById;
+                    }
+                }
+            } catch (NumberFormatException e) {
                 e.printStackTrace();
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
             }
-        }
-        else {
+        } else {
             return null;
         }
-          
-           
-        
+        return null;
     }
 
    @Override
@@ -73,6 +74,9 @@ public class OrganismoConverter implements Converter {
         }
     }
     
+    
+   
+    
     java.lang.Integer getKey(String value) {
         java.lang.Integer key;
         key = Integer.valueOf(value);
@@ -83,6 +87,11 @@ public class OrganismoConverter implements Converter {
         StringBuilder sb = new StringBuilder();
         sb.append(value);
         return sb.toString();
+    }
+    
+    
+     public static boolean isNumeric(String str) {
+        return (str.matches("[+-]?\\d*(\\.\\d+)?") && str.equals("")==false);
     }
     
     

@@ -95,6 +95,16 @@ public class ConsultarConvenioMB implements Serializable{
          e.printStackTrace();
         }
     }
+    
+    
+    public void preView(PojoPropuestaConvenio pojo){
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            estado=estadoService.findById(pojo.getID_ESTADO());
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
 
     
     public void preEditar(PojoPropuestaConvenio pj){
@@ -105,8 +115,7 @@ public class ConsultarConvenioMB implements Serializable{
             propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));  
             propuestaConvenioMB.postInit();
             propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());   
-            
-            
+                        
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
            
             String outcome = "propuestaCovenio.xhtml";

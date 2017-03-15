@@ -472,9 +472,9 @@
                                             </p:column>
                                         </p:row>
                                         <p:row>
-<!--                                            <p:column>
-                                                <p:commandButton value="Desvincular asesor Interno" actionListener="#{becaMB.desvincularInterno()}" process="@this" rendered="#{becaMB.mostrarTabInterno and !becaMB.noEstabaInterno}"/>
-                                            </p:column>-->
+                                            <p:column>
+                                                <p:commandButton value="Desvincular asesor Interno" actionListener="#{becaMB.confirmarDesvincularInterno()}" process="@this" rendered="#{becaMB.actualizar and !becaMB.noEstabaInterno}"/>
+                                            </p:column>
                                         </p:row>
                                     </p:panelGrid>
                                     <p:outputLabel value="Para ingresar datoss del Coordinador Academico Interno active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabInterno}"/>
@@ -628,6 +628,10 @@
             <p:confirmDialog widgetVar="dataChangeExternoDlg" message="Ya existe el coordinador Externo que desea ingresar, Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador externo"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarExterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{becaMB.noRemplazarExterno()}" process="@this" update=":formAdmin"/>
+            </p:confirmDialog>
+            <p:confirmDialog widgetVar="dataDesvincularInternoDlg" message="Seguro que desea desvincular el coordinador Academico Intenro?" header="Desvincular Coordinador Interno"  global="true">
+                <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.desvincularInterno()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('dataDesvincularInternoDlg').hide();"/>
             </p:confirmDialog>
         </ui:define>
     </ui:composition>
