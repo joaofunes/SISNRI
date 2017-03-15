@@ -12,15 +12,19 @@ import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.SsUsuarios;
 import com.sisrni.pojo.rpt.PojoPersonaTelefono;
+import com.sisrni.security.CustomPasswordEncoder;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
+import com.sisrni.service.SsUsuariosService;
 import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -63,12 +67,14 @@ public class PersonaMB implements Serializable{
     
     
     private List<Telefono> listadoTelefono;
-    
+    private String clave;
+    public SsUsuarios usuario;
     public Persona persona;
     private TipoPersona tipoPersona;
     private Telefono telefonoFijo;
     private Telefono telefonoCell;
     private TipoTelefono tipoTelefono;
+    private CharSequence charSequence;
     public String nDocumento;
     
     @Autowired
@@ -95,6 +101,13 @@ public class PersonaMB implements Serializable{
     @Qualifier(value = "tipoTelefonoService")
     private TipoTelefonoService tipoTelefonoService;
     
+    @Autowired
+    @Qualifier(value = "ssUsuariosService")
+    private SsUsuariosService ssUsuariosService;
+    
+    @Autowired
+    private CustomPasswordEncoder passwordEncoder;
+    
     //declaracion de listas
     @PostConstruct
     public void init() {
@@ -104,9 +117,11 @@ public class PersonaMB implements Serializable{
 
     private void inicializador() {
         try {
+            usuario = new SsUsuarios();
             persona = new Persona();
             telefonoFijo = new Telefono();
             telefonoCell = new Telefono();
+            clave = "";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -212,6 +227,41 @@ public class PersonaMB implements Serializable{
             e.printStackTrace();
         }
     } 
+    
+    /**
+     * Metodo para almacenar una nueva persona
+     */ 
+    public void guardarUsuarioPersona(){
+        try {
+            String msg = "Persona Almacenado Exitosamente!";   
+            
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoFijo);
+                    
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
+            telefonoCell.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoCell);
+            persona.setExtranjero(false);
+            personaService.save(persona);
+            
+            String encode = passwordEncoder.encode(clave);
+            
+            //usuario.setClave(passwordEncoder.encode(clave));
+            usuario.setClave(encode);
+            
+            usuario.setFechaRegistro(new Date());
+            usuario.setIdPersona(persona.getIdPersona());
+            usuario.setNombreUsuario(persona.getNombrePersona()+ " " + persona.getApellidoPersona());
+            usuario.setCargo(persona.getCargoPersona());
+            ssUsuariosService.save(usuario);
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
     /**
      * Metodo para almacenar una nueva persona extranjera
      */ 
@@ -349,7 +399,15 @@ public class PersonaMB implements Serializable{
             e.printStackTrace();
         }
     } 
-     
+    
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
     public List<Organismo> getListadoOrganismo() {
         return listadoOrganismo;
     }
@@ -360,6 +418,14 @@ public class PersonaMB implements Serializable{
 
     public Persona getPersona() {
         return persona;
+    }
+    
+    public SsUsuarios getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(SsUsuarios usuario) {
+        this.usuario = usuario;
     }
 
     public void setPersona(Persona persona) {

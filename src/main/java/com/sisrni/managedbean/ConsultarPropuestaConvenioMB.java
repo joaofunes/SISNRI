@@ -160,6 +160,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
             propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
             estado = estadoService.findById(pojo.getID_ESTADO());
+            flagBanderaVigencia=false;
             listadoEstadosTemp = new ArrayList<Estado>();
             int[] intArray = new int[3];
             intArray[0] = (estado.getOrdenEstado() - 1);
@@ -232,6 +233,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
                      propuestaConvenio.setActivo(Boolean.TRUE);
                      propuestaConvenioService.merge(propuestaConvenio);
                      propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
+                     
                      context.execute("PF('dlgEstado').hide();");
                      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Convenio", "la propuesta pasa a ser convenio"));
             

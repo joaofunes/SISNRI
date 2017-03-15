@@ -11,7 +11,7 @@
 
 
     <ui:composition>
-        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creacion Persona" closeOnEscape="true">
+        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creaci&oacute;n de Usuario" closeOnEscape="true">
             <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
 
             <h:form id="formNewPersona">
@@ -34,6 +34,16 @@
                             <p:watermark for="idApellido" value="Apellido de la Persona" id="watermarkApeliido" />
                             <p:message for="idApellido" />
                         </p:column>
+                        
+                        <p:column>  
+                            <p:outputLabel for="usuario" value="Usuario" />
+                        </p:column>                                         
+                        <p:column>                                                                                                                                                                                             
+                            <p:inputText id="usuario"  required="true" label="Usuario" value="#{personaMB.usuario.codigoUsuario}"/>
+                            <p:watermark for="usuario" value="Usuario" id="watermarkUsuario" />
+                            <p:message for="usuario" />                                       
+                        </p:column>
+                        
 
                         <p:column> 
                             <p:outputLabel for="dui" value="DUI" />
@@ -56,14 +66,14 @@
                         </p:column>    
 
                         <p:column>  
-                            <p:outputLabel for="idTelefonoCellEx" value="Tel&eacute;no Celular" />
+                            <p:outputLabel for="idTelefonoCellEx" value="Tel&eacute;fono Celular" />
                         </p:column>                                         
                         <p:column> 
                             <p:inputMask id="idTelefonoCellEx" value="#{personaMB.telefonoFijo.numeroTelefono}" mask="9999-9999"/>
                             <p:watermark for="idTelefonoCellEx" value="9999-9999"  />                                                       
                         </p:column>                               
                         <p:column>  
-                            <p:outputLabel for="idTelefonoFijoEx" value="Tel&eacute;no Fijo" />
+                            <p:outputLabel for="idTelefonoFijoEx" value="Tel&eacute;fono Fijo" />
                         </p:column>                                         
                         <p:column> 
                             <p:inputMask id="idTelefonoFijoEx" value="#{personaMB.telefonoCell.numeroTelefono}" mask="9999-9999"/>
@@ -79,7 +89,7 @@
                             <p:message for="idCargo" />
                         </p:column> 
                         
-                        <p:column>  
+<!--                        <p:column>  
                             <p:outputLabel for="idUnidads" value="Unidad" />
                         </p:column>                                         
                         <p:column>                                         
@@ -87,45 +97,42 @@
                                 <f:selectItem itemLabel="Unidad" itemValue="null" noSelectionOption="true" />  
                                 <f:selectItems value="#{personaMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombreUnidad}" itemValue="#{unidad}"/>  
                             </p:selectOneMenu>    
-                        </p:column>
+                        </p:column>-->
+                       
                         <p:column>  
                             <p:outputLabel for="idOrganismo" value="Organismo" />
                         </p:column>                                         
                         <p:column>                                         
                             <p:selectOneMenu id="idOrganismo"  panelStyle="width:160px" style="width:160px" value="#{personaMB.persona.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
-                                <f:selectItem itemLabel="Organismo" itemValue="null" noSelectionOption="true" />  
+                                <f:selectItem itemLabel="-Organismo-" itemValue="#{null}" noSelectionOption="true" />  
                                 <f:selectItems value="#{personaMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
                             </p:selectOneMenu>                                                                               
                         </p:column>
                         
-                                 <p:outputLabel value="Codigo" for="codigoUsuario" />
-                                <p:inputText id="codigoUsuario" value="#{usuarioMB.selected.codigoUsuario}" title="#{myBundle.CreateSsUsuariosTitle_codigoUsuario}"/>
-
-                                <p:outputLabel value="Nombre Usuario" for="nombreUsuario" />
-                                <p:inputText id="nombreUsuario" value="#{usuarioMB.selected.nombreUsuario}" title="#{myBundle.CreateSsUsuariosTitle_nombreUsuario}"/>                               
-
-                                <p:outputLabel value="Cargo" for="cargo" />
-                                <p:inputText id="cargo" value="#{usuarioMB.selected.cargo}" title="#{myBundle.CreateSsUsuariosTitle_cargo}"/>
-
-                                <p:outputLabel value="Descripcion" for="descripcion" />
-                                <p:inputText id="descripcion" value="#{usuarioMB.selected.descripcion}" title="#{myBundle.CreateSsUsuariosTitle_descripcion}"/>
-
-                                <p:outputLabel value="Bloqueado" for="bloqueado" />
-<!--                                <p:inputText id="bloqueado" value="#{usuarioMB.selected.bloqueado}" title="#{myBundle.CreateSsUsuariosTitle_bloqueado}"/>-->
-                                 <p:selectOneMenu id="bloqueado" value="#{usuarioMB.selected.bloqueado}"  style="width: 100%" required="true" >
+                         <p:column>  
+                            <p:outputLabel for="bloqueado" value="Bloqueado" />
+                        </p:column>                                         
+                        <p:column>                                       
+                            <p:selectOneMenu id="bloqueado" value="#{personaMB.usuario.bloqueado}"  style="width: 100%" required="true" >
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
-                                <f:selectItem itemLabel="Sí" itemValue="S" />
+                                <f:selectItem itemLabel="S&iacute;­" itemValue="S" />
                                 <f:selectItem itemLabel="No" itemValue="N" />
-                                </p:selectOneMenu>                            
-                               
-                                 <p:outputLabel value="Clave" for="clave" />
-                                 <p:password id="clave" value="#{usuarioMB.selected.clave}" match="Rclave" feedback="true" inline="true" /> 
-                                 
-                                 <p:outputLabel value="Repetir Clave" for="Rclave" />
-                                 <p:password id="Rclave" value="#{usuarioMB.selected.clave}" inline="true" />   
-
+                            </p:selectOneMenu>                                                                                             
+                        </p:column>
+                        <p:column>  
+                        <p:outputLabel value="Clave" for="clave" />
+                        </p:column>                                         
+                        <p:column>  
+                        <p:password id="clave" value="#{personaMB.clave}" match="Rclave" feedback="true" inline="true" /> 
+                         </p:column>                                         
+                        <p:column>          
+                        <p:outputLabel value="Repetir Clave" for="Rclave" />
+                        </p:column>                                         
+                        <p:column>  
+                        <p:password id="Rclave" value="#{personaMB.clave}" inline="true" />  
+                        </p:column> 
                         <p:column> 
-                            <p:commandButton value="Guardar Persona" id="idGuardarPersona" actionListener="#{personaMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaCreateDialog').close();" />
+                            <p:commandButton value="Guardar Persona" id="idGuardarPersona" actionListener="#{personaMB.guardarUsuarioPersona()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaCreateDialog').close();" />
                             <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('PersonaCreateDialog').close();" />
                         </p:column>
 

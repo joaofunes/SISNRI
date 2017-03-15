@@ -14,7 +14,7 @@ import java.sql.Date;
  */
 public class PojoPropuestaConvenio implements Serializable{
     
-    
+    private static final long serialVersionUID = 1113799434508676095L;
     private String NOMBRE_PROPUESTA;
     private String TIPO_CONVENIO;
     private String NOMBRE_ESTADO;
@@ -24,13 +24,14 @@ public class PojoPropuestaConvenio implements Serializable{
     private String EXTERNO;
     private Integer PROPUESTA;
     private String FINALIDAD_PROPUESTA;
-    private String VIGENCIA;
+    private Date VIGENCIA;
     private Integer ID_SOLICITANTE;
     private Integer ID_REF_INTERNO;
     private Integer ID_REF_EXTERNO;
     private Integer ID_ESTADO;
     private Date FECHA_INGRESO;
-
+    private boolean ACTIVO;
+    
     public String getNOMBRE_PROPUESTA() {
         return NOMBRE_PROPUESTA;
     }
@@ -98,15 +99,7 @@ public class PojoPropuestaConvenio implements Serializable{
     public void setFINALIDAD_PROPUESTA(String FINALIDAD_PROPUESTA) {
         this.FINALIDAD_PROPUESTA = FINALIDAD_PROPUESTA;
     }
-
-    public String getVIGENCIA() {
-        return VIGENCIA;
-    }
-
-    public void setVIGENCIA(String VIGENCIA) {
-        this.VIGENCIA = VIGENCIA;
-    }
-  
+    
     public Integer getID_ESTADO() {
         return ID_ESTADO;
     }
@@ -153,6 +146,22 @@ public class PojoPropuestaConvenio implements Serializable{
 
     public void setFECHA_INGRESO(Date FECHA_INGRESO) {
         this.FECHA_INGRESO = FECHA_INGRESO;
+    }
+
+    public boolean isACTIVO() {
+        return ACTIVO;
+    }
+
+    public void setACTIVO(boolean ACTIVO) {
+        this.ACTIVO = ACTIVO;
+    }
+
+    public Date getVIGENCIA() {
+        return VIGENCIA;
+    }
+
+    public void setVIGENCIA(Date VIGENCIA) {
+        this.VIGENCIA = VIGENCIA;
     }
     
    
