@@ -16,12 +16,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -155,6 +158,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     public void preCambiarEstado(PojoPropuestaConvenio pojo) {
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
             estado = estadoService.findById(pojo.getID_ESTADO());
             listadoEstadosTemp = new ArrayList<Estado>();
             int[] intArray = new int[3];
@@ -219,9 +223,27 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     /**
      * cambiar estado de propuestas de convenio
      */
-    public void cambiarEstadoConvenio(){
-        try {                    
-            propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(),estado.getIdEstado());                    
+    public void cambiarEstadoConvenio() {
+        try {
+            RequestContext context = RequestContext.getCurrentInstance();
+            Date now = new Date();
+            if (estado.getNombreEstado().equalsIgnoreCase(FIRMADO)) {
+                if (propuestaConvenio.getVigencia().after(now)) {
+                     propuestaConvenio.setActivo(Boolean.TRUE);
+                     propuestaConvenioService.merge(propuestaConvenio);
+                     propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
+                     context.execute("PF('dlgEstado').hide();");
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Convenio", "la propuesta pasa a ser convenio"));
+            
+                }else{
+                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Fecha de Vigencia debe ser mayor a la actual"));
+            
+                }
+            } else {
+                propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
+                context.execute("PF('dlgEstado').hide();");
+            }
+                      
             inicializador();
         } catch (Exception e) {
             e.printStackTrace();

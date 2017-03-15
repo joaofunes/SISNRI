@@ -28,10 +28,10 @@
                                 <h:panelGroup id="pgroupBuscadorBecario">
                                     <p:panelGrid id="pGridBuscadorBecario">
                                         <p:column>
-                                            <p:outputLabel for="tipoBusquedaBecarioId" value="Criterio de Busqueda:" />
+                                            <p:outputLabel for="tipoBusquedaBecarioId" value="Criterio de Busqueda:" rendered="#{!becaMB.actualizar}"/>
                                         </p:column>
                                         <p:column>                                        
-                                            <p:selectOneMenu id="tipoBusquedaBecarioId" value="#{becaMB.tipoBusquedaBecario}"  style="width:125px">  
+                                            <p:selectOneMenu id="tipoBusquedaBecarioId" value="#{becaMB.tipoBusquedaBecario}"  style="width:125px" rendered="#{!becaMB.actualizar}">  
                                                 <p:ajax  listener="#{becaMB.habilitarAutoBecario}" update="pgroupBuscadorBecario,panelBecario,botones"  process="tipoBusquedaBecarioId"/>
                                                 <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true" />                                                                           
                                                 <f:selectItem itemLabel="Nombre/Apellido" itemValue="nombre" />                                                                           
@@ -40,7 +40,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel  value="Busqueda" />     
+                                            <p:outputLabel  value="Busqueda" rendered="#{!becaMB.actualizar}"/>     
                                         </p:column>
                                         <p:column>
                                             <p:autoComplete id="searchNombre" rendered="#{becaMB.flagSearchNombreBecario}"
@@ -91,14 +91,14 @@
                                             <p:outputLabel value="#{lbecas.nombreBecario}" for="nombrebecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" disabled="#{becaMB.disableBecarioInputs}" required="true" />
+                                            <p:inputText id="nombrebecario" value="#{becaMB.becario.nombrePersona}" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}" required="true" />
 
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="#{lbecas.apellidos}" for="apellidobecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="apellidobecario" value="#{becaMB.becario.apellidoPersona}" required="true" disabled="#{becaMB.disableBecarioInputs}"/>
+                                            <p:inputText id="apellidobecario" value="#{becaMB.becario.apellidoPersona}" required="true" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}"/>
                                         </p:column>
                                     </p:row>
                                     <p:row>
@@ -106,13 +106,13 @@
                                             <p:outputLabel value="#{lbecas.dui}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duibecario" mask="99999999-9" value="#{becaMB.becario.duiPersona}" disabled="#{becaMB.disableBecarioInputs}"/>
+                                            <p:inputMask id="duibecario" mask="99999999-9" value="#{becaMB.becario.duiPersona}" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="#{lbecas.correo}" for="correobecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="correobecario" value="#{becaMB.becario.emailPersona}" required="true" disabled="#{becaMB.disableBecarioInputs}">
+                                            <p:inputText id="correobecario" value="#{becaMB.becario.emailPersona}" required="true" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator"/>
                                             </p:inputText>
                                         </p:column>
@@ -122,7 +122,7 @@
                                             <p:outputLabel value="#{lbecas.facultad}" for="facultadbecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="facultadbecario" value="#{becaMB.facultadSelectedBecario.idFacultad}"  style="width:180px" required="true" disabled="#{becaMB.disableBecarioInputs}">
+                                            <p:selectOneMenu id="facultadbecario" value="#{becaMB.facultadSelectedBecario.idFacultad}"  style="width:180px" required="true" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <p:ajax event="change" listener="#{becaMB.getCarrerasByFacultad}" process="@this" update="carreraBecario"/>
                                                 <c:forEach var="fac" items="#{becaMB.facultadList}">
@@ -134,7 +134,7 @@
                                             <p:outputLabel value="#{lbecas.carrera}" for="carreraBecario"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="carreraBecario" value="#{becaMB.carreraSelected.idCarrera}"  style="width:180px" required="true" disabled="#{becaMB.disableBecarioInputs}">
+                                            <p:selectOneMenu id="carreraBecario" value="#{becaMB.carreraSelected.idCarrera}"  style="width:180px" required="true" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <c:forEach var="carrera" items="#{becaMB.carreraList}">
                                                     <f:selectItem itemLabel="#{carrera.nombreCarrera}" itemValue="#{carrera.idCarrera}"/>
@@ -147,13 +147,13 @@
                                             <p:outputLabel value="#{lbecas.telefonoFijo}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonobecario" value="#{becaMB.telefonoFijoBecario.numeroTelefono}" mask="(503)-9999-9999" disabled="#{becaMB.disableBecarioInputs}"/>
+                                            <p:inputMask id="telefonobecario" value="#{becaMB.telefonoFijoBecario.numeroTelefono}" mask="(503)-9999-9999" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="telefonoCelular" value="#{lbecas.telefonoCelular}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonoCelular" value="#{becaMB.telefonoCelularBecario.numeroTelefono}" mask="(503)-9999-9999" disabled="#{becaMB.disableBecarioInputs}" required="true" />
+                                            <p:inputMask id="telefonoCelular" value="#{becaMB.telefonoCelularBecario.numeroTelefono}" mask="(503)-9999-9999" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}" required="true" />
                                         </p:column>
                                     </p:row>
                                 </p:panelGrid>
@@ -335,7 +335,7 @@
                             </p:tab>
                             <p:tab title="Datos del Coordinador Academico Interno"  >
                                 <h:panelGroup id="aidiInterno">
-                                    <h:panelGroup id="pgroupBuscadorAsesorInterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno}">
+                                    <h:panelGroup id="pgroupBuscadorAsesorInterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno or (becaMB.actualizar and becaMB.noEstabaInterno and becaMB.mostrarTabInterno)}">
                                         <p:panelGrid id="pGridBuscadorAsesorInterno">
                                             <p:column>
                                                 <p:outputLabel for="tipoBusquedaAsesorInternoId" value="Tipo de Busqueda:" />
@@ -388,8 +388,8 @@
                                     </h:panelGroup>
                                     <h:panelGroup id="botonesInterno">
                                         <p:column>
-                                            <p:commandButton value="Nueva Persona" actionListener="#{becaMB.presionoNuevoInterno()}" rendered="#{becaMB.renderNuevaPersonaInternaButton}" process="@this" update="panelInterno"/>
-                                            <p:commandButton value="Actualizar Coordinador Interno" actionListener="#{becaMB.presionoActualizarInterno()}" rendered="#{becaMB.renderActualizarPersonaInternaButton}" process="@this" update="panelInterno"/>
+                                            <p:commandButton value="Nueva Persona" actionListener="#{becaMB.presionoNuevoInterno()}" rendered="#{becaMB.renderNuevaPersonaInternaButton and becaMB.mostrarTabInterno}" process="@this" update="panelInterno"/>
+                                            <p:commandButton value="Actualizar Coordinador Interno" actionListener="#{becaMB.presionoActualizarInterno()}" rendered="#{becaMB.renderActualizarPersonaInternaButton and becaMB.mostrarTabInterno}" process="@this" update="panelInterno"/>
                                         </p:column>
                                     </h:panelGroup>
                                     <p:separator rendered="#{becaMB.mostrarTabInterno}"/>

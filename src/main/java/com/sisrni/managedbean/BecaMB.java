@@ -531,7 +531,7 @@ public class BecaMB implements Serializable {
             if (presionoNuevoBecario == true) {
                 if (mostrarTabInterno == true) {
                     preGuardarInterno();
-                }else if (mostrarTabExterno == true) {
+                } else if (mostrarTabExterno == true) {
                     preGuardarExterno();
                 } else {
                     guardarBeca();
@@ -542,8 +542,7 @@ public class BecaMB implements Serializable {
             } else {
                 if (mostrarTabInterno == true) {
                     preGuardarInterno();
-                }
-                else if (mostrarTabExterno == true) {
+                } else if (mostrarTabExterno == true) {
                     preGuardarExterno();
                 } else {
                     guardarBeca();
@@ -592,8 +591,7 @@ public class BecaMB implements Serializable {
         context.execute("PF('dataChangeBecarioDlg').hide();");
         if (mostrarTabInterno == true) {
             preGuardarInterno();
-        }
-        else if (mostrarTabExterno == true) {
+        } else if (mostrarTabExterno == true) {
             preGuardarExterno();
         } else {
             guardarBeca();
@@ -627,8 +625,7 @@ public class BecaMB implements Serializable {
         context.execute("PF('dataChangeBecarioDlg').hide();");
         if (mostrarTabInterno == true) {
             preGuardarInterno();
-        }
-        else if (mostrarTabExterno == true) {
+        } else if (mostrarTabExterno == true) {
             preGuardarExterno();
         } else {
             guardarBeca();
@@ -1169,6 +1166,7 @@ public class BecaMB implements Serializable {
     //buscar asesor interno
     public List<Persona> methodSearchAsesorInterno(String query) {
         try {
+            limpiarAsesorInterno();
             List<Persona> list = new ArrayList<Persona>();
             if (tipoBusquedaAsesorInterno.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getReferenteInternoByName(query);
