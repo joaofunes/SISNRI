@@ -22,7 +22,6 @@ import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
-import com.sisrni.utils.Md5Generator;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -246,8 +245,10 @@ public class PersonaMB implements Serializable{
             persona.setExtranjero(false);
             personaService.save(persona);
             
+            String encode = passwordEncoder.encode(clave);
+            
             //usuario.setClave(passwordEncoder.encode(clave));
-            usuario.setClave(clave);
+            usuario.setClave(encode);
             
             usuario.setFechaRegistro(new Date());
             usuario.setIdPersona(persona.getIdPersona());

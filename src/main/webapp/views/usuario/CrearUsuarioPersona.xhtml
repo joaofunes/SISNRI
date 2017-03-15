@@ -11,7 +11,7 @@
 
 
     <ui:composition>
-        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creación de Usuario" closeOnEscape="true">
+        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creaci&oacute;n de Usuario" closeOnEscape="true">
             <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
 
             <h:form id="formNewPersona">
@@ -104,7 +104,7 @@
                         </p:column>                                         
                         <p:column>                                         
                             <p:selectOneMenu id="idOrganismo"  panelStyle="width:160px" style="width:160px" value="#{personaMB.persona.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
-                                <f:selectItem itemLabel="Organismo" itemValue="null" noSelectionOption="true" />  
+                                <f:selectItem itemLabel="-Organismo-" itemValue="#{null}" noSelectionOption="true" />  
                                 <f:selectItems value="#{personaMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
                             </p:selectOneMenu>                                                                               
                         </p:column>
@@ -115,7 +115,7 @@
                         <p:column>                                       
                             <p:selectOneMenu id="bloqueado" value="#{personaMB.usuario.bloqueado}"  style="width: 100%" required="true" >
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
-                                <f:selectItem itemLabel="Sí" itemValue="S" />
+                                <f:selectItem itemLabel="S&iacute;­" itemValue="S" />
                                 <f:selectItem itemLabel="No" itemValue="N" />
                             </p:selectOneMenu>                                                                                             
                         </p:column>
