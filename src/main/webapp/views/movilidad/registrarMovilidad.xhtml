@@ -611,10 +611,10 @@
                                         <h:panelGroup/>
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.regresar()}"  process="@this"   value="Regresar"  id="btnRegresar" title="Regresar" />
+                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.regresar()}"  process="@this"   value="#{registrarMovilidadMB.txtBotonRegresar}"  id="btnRegresar" title="Regresar" />
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.preGuardadoMovilidad()}" process="formRegistrarMovilidad" update="formRegistrarMovilidad"  value="Guardar"  id="btnModificar"  title="Guardar Movilidad" />                                 
+                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.preGuardadoMovilidad()}" process="formRegistrarMovilidad" update="formRegistrarMovilidad"  value="#{registrarMovilidadMB.txtBotonGuardar}"  id="btnModificar"  title="Guardar Movilidad" />                                 
                                     </p:column>
                                     <p:column>
                                         <h:panelGroup/>
