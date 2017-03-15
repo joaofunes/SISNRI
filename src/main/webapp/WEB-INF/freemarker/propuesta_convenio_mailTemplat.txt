@@ -18,6 +18,7 @@
 
         
 <p>Tenga un cordial saludo, el motivo del presente es para informarle que ha sido registrada la propuesta convenio a la cual aplica.</p>
+        
         <div>
 			<table border="1">
 				<tr>
@@ -27,8 +28,8 @@
 					
 				</tr>
 				<tr>
-					<td>${obj.nombrePropuesta}</td>
-					<td>${obj.finalidadPropuesta}</td>
+					<td>${obj.propuesta.nombrePropuesta}</td>
+					<td>${obj.propuesta.finalidadPropuesta}</td>
 					
 					
 				</tr>

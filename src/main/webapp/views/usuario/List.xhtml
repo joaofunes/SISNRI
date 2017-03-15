@@ -21,41 +21,47 @@
                 <f:facet name="header">  
                     Usuarios
                 </f:facet>  
-                
-                <p:column sortBy="#{item.idUsuario}" filterBy="#{item.idUsuario}">
-                    <f:facet name="header">
-                        <h:outputText value="Id"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idUsuario}"/>
-                </p:column>
-
-
+   
                 <p:column sortBy="#{item.codigoUsuario}" filterBy="#{item.codigoUsuario}">
-                    <f:facet name="header">
-                        <h:outputText value="Codigo"/>
-                    </f:facet>
-                    <h:outputText value="#{item.codigoUsuario}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.nombreUsuario}" filterBy="#{item.nombreUsuario}">
                     <f:facet name="header">
                         <h:outputText value="Usuario"/>
                     </f:facet>
+                    <h:outputText value="#{item.codigoUsuario}"/>
+                </p:column>
+                
+                 <p:column sortBy="#{item.nombreUsuario}" filterBy="#{item.nombreUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
                     <h:outputText value="#{item.nombreUsuario}"/>
-                </p:column>             
-
-
-                <p:column sortBy="#{item.cargo}" filterBy="#{item.cargo}">
+                </p:column>
+                
+                 <p:column sortBy="#{item.cargo}" filterBy="#{item.cargo}">
                     <f:facet name="header">
                         <h:outputText value="Cargo"/>
                     </f:facet>
                     <h:outputText value="#{item.cargo}"/>
                 </p:column>
 
+
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="Fecha de Registro"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}"/>
+                </p:column> 
+                
+                 <p:column sortBy="#{item.fechaUltimamodificacion}" filterBy="#{item.fechaUltimamodificacion}">
+                    <f:facet name="header">
+                        <h:outputText value="Fecha ultima Modificación"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaUltimamodificacion}"/>
+                </p:column>    
+
+
                 <f:facet name="footer">
                     <div class="footer-section">
-                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{usuarioMB.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show();"/>
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{usuarioMB.prepareCreate}" update=":formNewPersona" oncomplete="PF('PersonaCreateDialog').show();"/>
                         <span>&nbsp;</span>
                         <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{crudbundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show();" disabled="#{empty usuarioMB.selected}"/>
                         <span>&nbsp;</span>

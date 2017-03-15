@@ -37,6 +37,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "PropuestaConvenio.findAll", query = "SELECT p FROM PropuestaConvenio p")})
 public class PropuestaConvenio implements Serializable {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,6 +62,10 @@ public class PropuestaConvenio implements Serializable {
     @Column(name = "FECHA_INGRESO", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaIngreso;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ACTIVO", nullable = false)
+    private boolean activo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
     private List<PropuestaEstado> propuestaEstadoList;
     @OneToMany(mappedBy = "idPropuesta")
@@ -197,6 +202,14 @@ public class PropuestaConvenio implements Serializable {
     @Override
     public String toString() {
         return "com.sisrni.model.PropuestaConvenio[ idPropuesta=" + idPropuesta + " ]";
+    }
+
+    public boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     
 }

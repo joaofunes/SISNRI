@@ -14,6 +14,7 @@ import com.sisrni.pojo.rpt.RptConveniosPorAnioPojo;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.BooleanType;
 import org.hibernate.type.DateType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
@@ -49,7 +50,8 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                         "INNER JOIN ESTADO \n" +
                         "ON ESTADO.ID_ESTADO=P_ESTADO.ID_ESTADO\n" +
                         "WHERE PRO.VIGENCIA IS NOT NULL\n" +
-                        "AND ESTADO.NOMBRE_ESTADO='ACTIVO'";
+                        "AND ESTADO.NOMBRE_ESTADO='FIRMADO'" +
+                        "AND PRO.ACTIVO IS TRUE";
               
               Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                       .addScalar("idPropuesta",new IntegerType())
@@ -157,7 +159,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "(SELECT P_CONVENIO.NOMBRE_PROPUESTA,P_CONVENIO.FINALIDAD_PROPUESTA,\n" +
                     "T_PRO_CONVE.NOMBRE_PROPUESTA_CONVENIO AS TIPO_CONVENIO,STA.NOMBRE_ESTADO,P_CONVENIO.VIGENCIA,\n" +
                     "P_CONVENIO.ID_PROPUESTA,\n" +
-                    "P_ESTADO.ID_ESTADO,\n" +
+                    "P_ESTADO.ID_ESTADO,P_CONVENIO.ACTIVO,\n" +
                     "P_CONVENIO.FECHA_INGRESO FECHA_INGRESO\n" +
                     "FROM PROPUESTA_CONVENIO P_CONVENIO\n" +
                     "INNER JOIN TIPO_PROPUESTA_CONVENIO T_PRO_CONVE\n" +
@@ -167,7 +169,8 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "INNER JOIN ESTADO STA\n" +
                     "ON P_ESTADO.ID_ESTADO=STA.ID_ESTADO\n" +
                     "WHERE  P_CONVENIO.VIGENCIA IS NOT NULL\n" +
-                    "AND STA.NOMBRE_ESTADO = 'FIRMADO'  ORDER BY FECHA_INGRESO DESC  ) TB_CONVENIO\n" +
+                    "AND STA.NOMBRE_ESTADO = 'FIRMADO'"
+                  + "ORDER BY FECHA_INGRESO DESC  ) TB_CONVENIO\n" +
                     "\n" +
                     "LEFT JOIN\n" +
                     "\n" +
@@ -211,12 +214,13 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                      .addScalar("INTERNO",new StringType())
                      .addScalar("EXTERNO",new StringType())
                      .addScalar("PROPUESTA",new IntegerType())
-                     .addScalar("VIGENCIA",new StringType())
+                     .addScalar("VIGENCIA",new DateType())
                      .addScalar("ID_SOLICITANTE",new IntegerType())
                      .addScalar("ID_REF_INTERNO",new IntegerType())
                      .addScalar("ID_REF_EXTERNO",new IntegerType())
                      .addScalar("ID_ESTADO",new IntegerType()) 
                      .addScalar("FECHA_INGRESO",new DateType())    
+                     .addScalar("ACTIVO",new BooleanType())    
                      .setResultTransformer(Transformers.aliasToBean(PojoPropuestaConvenio.class));
                
              return q.list();
@@ -287,7 +291,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                      .addScalar("INTERNO",new StringType())
                      .addScalar("EXTERNO",new StringType())
                      .addScalar("PROPUESTA",new IntegerType())
-                     .addScalar("VIGENCIA",new StringType())
+                     .addScalar("VIGENCIA",new DateType())
                      .addScalar("ID_SOLICITANTE",new IntegerType())
                      .addScalar("ID_REF_INTERNO",new IntegerType())
                      .addScalar("ID_REF_EXTERNO",new IntegerType())
@@ -464,4 +468,24 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         }
         return null;
    }
+    
+    
+   /**
+   * Metodo que devuelve la entidad de propuesta de convenio en base al id
+   * @return 
+   */
+    public PropuestaConvenio getByIDPropuestaWithPersona(int idPropuesta){
+        try {
+            getSessionFactory().getCurrentSession().flush();
+            getSessionFactory().getCurrentSession().clear();
+            Query q= getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PropuestaConvenio p JOIN FETCH p.personaPropuestaList pe WHERE p.idPropuesta=:id");
+            q.setParameter("id",idPropuesta);
+            return (PropuestaConvenio) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+   }  
+    
+    
 }

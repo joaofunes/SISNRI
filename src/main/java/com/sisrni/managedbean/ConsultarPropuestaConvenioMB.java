@@ -6,9 +6,11 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Estado;
+import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.service.EstadoService;
+import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
@@ -16,12 +18,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -38,9 +45,14 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     
     private static final long serialVersionUID = 1L;  
     
+    private static final String FIRMADO="FIRMADO";
+    
     @Inject
     ActualizacionPropuestaConvenioMB actualizacionPropuestaConvenioMB;
     
+    @Autowired
+    FreeMarkerMailService mailService;
+
     
     @Autowired
     @Qualifier(value = "propuestaConvenioService")
@@ -66,6 +78,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     private List<Estado> listadoEstadosTemp;
     private Estado estado;
     
+    private boolean flagBanderaVigencia;
     
     @PostConstruct
     public void init() {
@@ -152,7 +165,9 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     public void preCambiarEstado(PojoPropuestaConvenio pojo) {
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
             estado = estadoService.findById(pojo.getID_ESTADO());
+            flagBanderaVigencia=false;
             listadoEstadosTemp = new ArrayList<Estado>();
             int[] intArray = new int[3];
             intArray[0] = (estado.getOrdenEstado() - 1);
@@ -196,10 +211,48 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
         }
     }
     
-    
-    public void eliminarConvenio(){
-        try {                    
-            propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(),estado.getIdEstado());                    
+    /**
+     * Metodo para verificar si estado es firmado
+     * el cual pasaria de ser propuesta convenio a Convenio
+     */ 
+    public void confirmacionEstadoConvenio(){
+        try {
+            if(estado.getNombreEstado().equalsIgnoreCase(FIRMADO)){
+                flagBanderaVigencia=true;
+            }else{
+                flagBanderaVigencia=false;               
+            }
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+     
+     
+    /**
+     * cambiar estado de propuestas de convenio
+     */
+    public void cambiarEstadoConvenio() {
+        try {
+            RequestContext context = RequestContext.getCurrentInstance();
+            Date now = new Date();
+            if (estado.getNombreEstado().equalsIgnoreCase(FIRMADO)) {
+                if (propuestaConvenio.getVigencia().after(now)) {
+                     propuestaConvenio.setActivo(Boolean.TRUE);
+                     propuestaConvenioService.merge(propuestaConvenio);
+                     propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
+                     
+                     context.execute("PF('dlgEstado').hide();");
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Convenio", "la propuesta pasa a ser convenio"));
+            
+                }else{
+                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Fecha de Vigencia debe ser mayor a la actual"));
+            
+                }
+            } else {
+                propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
+                context.execute("PF('dlgEstado').hide();");
+            }
+                      
             inicializador();
         } catch (Exception e) {
             e.printStackTrace();
@@ -207,6 +260,34 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
     }
     
     
+    /**
+     * Metodo para envio de correo informativo de creacion de propuesta
+     */
+    public void enviarCorreo() {
+        try {
+
+           // propuestaConvenio = propuestaConvenioService.getByIDPropuestaWithPersona(propuestaConvenio.getIdPropuesta());
+
+            // Create data for template
+            Map<String, Object> templateData = new HashMap<String, Object>();
+            templateData.put("subJect", "Cambio de estado propuesta de convenio");
+
+            //templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.txt");
+            templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.xhtml");
+            templateData.put("propuesta", propuestaConvenio);
+            templateData.put("PersonaPropuesta", propuestaConvenio.getPersonaPropuestaList());
+
+            for (PersonaPropuesta p : propuestaConvenio.getPersonaPropuestaList()) {
+                templateData.put("setToMail", p.getPersona().getEmailPersona());
+
+                //mailService.sendEmail(propuestaConvenio, "Creacion de propuesta de convenio", "joao.hfunes@gmail.com", "propuesta_convenio_mailTemplat.txt");
+                mailService.sendEmailMap(templateData);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     public PropuestaConvenio getPropuestaConvenio() {
         return propuestaConvenio;
@@ -254,5 +335,13 @@ public class ConsultarPropuestaConvenioMB implements Serializable{
 
     public void setListadoEstadosTemp(List<Estado> listadoEstadosTemp) {
         this.listadoEstadosTemp = listadoEstadosTemp;
+    }
+
+    public boolean isFlagBanderaVigencia() {
+        return flagBanderaVigencia;
+    }
+
+    public void setFlagBanderaVigencia(boolean flagBanderaVigencia) {
+        this.flagBanderaVigencia = flagBanderaVigencia;
     }
 }
