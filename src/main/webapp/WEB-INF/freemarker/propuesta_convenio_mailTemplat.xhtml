@@ -1,10 +1,10 @@
 <html>
     <head>
-        <title>tables with CSS3</title>
+       
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="description" content="Pimp your tables with CSS3" />
         <meta name="keywords" content="table, css3, style, beautiful, fancy, css"/>
-        <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../../css/style.css" media="screen"/>
             
     </head>
 
@@ -82,11 +82,14 @@
         </p>
         <p>Personal Involucrado en propuesta de convenio.</p>
         <div>
-            <table border="1">
-                <tr>
-                    <td>Nombre Persona</td>
-                    <td>Tipo persona</td>
-                </tr>
+            <table class="table1">
+                <thead>
+                    <tr>                        
+                        <th scope="col" abbr="name persona">Nombre Persona</th>
+                        <th scope="col" abbr="Tipo">Tipo persona</th>                       
+                    </tr>
+                </thead>
+                
                 <tr>
                     <#list obj.PersonaPropuesta as person>
                 <tr>
