@@ -12,9 +12,11 @@ import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.SsUsuarios;
 import com.sisrni.pojo.rpt.PojoPersonaTelefono;
 import com.sisrni.security.CustomPasswordEncoder;
+import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.SsUsuariosService;
@@ -25,7 +27,10 @@ import com.sisrni.service.UnidadService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -68,7 +73,9 @@ public class PersonaMB implements Serializable{
     
     private List<Telefono> listadoTelefono;
     private String clave;
+    private String codigo;
     public SsUsuarios usuario;
+    public SsUsuarios usuario2;
     public Persona persona;
     private TipoPersona tipoPersona;
     private Telefono telefonoFijo;
@@ -108,6 +115,9 @@ public class PersonaMB implements Serializable{
     @Autowired
     private CustomPasswordEncoder passwordEncoder;
     
+    @Autowired
+    FreeMarkerMailService mailService;
+    
     //declaracion de listas
     @PostConstruct
     public void init() {
@@ -118,10 +128,12 @@ public class PersonaMB implements Serializable{
     private void inicializador() {
         try {
             usuario = new SsUsuarios();
+            usuario2 = new SsUsuarios();
             persona = new Persona();
             telefonoFijo = new Telefono();
             telefonoCell = new Telefono();
             clave = "";
+            codigo = "";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -229,7 +241,7 @@ public class PersonaMB implements Serializable{
     } 
     
     /**
-     * Metodo para almacenar una nueva persona
+     * Metodo para almacenar una nueva persona y un Usuario
      */ 
     public void guardarUsuarioPersona(){
         try {
@@ -400,6 +412,71 @@ public class PersonaMB implements Serializable{
         }
     } 
     
+           /**
+     * Metodo para setear persona a ser crear Usuario a persona
+     * @param persona 
+     */
+    public void preUsuario(Persona persona){
+        try {
+            
+            this.persona=persona;
+            codigo = persona.getNombrePersona().substring(0,3)+ persona.getApellidoPersona().substring(0,2)+persona.getIdPersona().toString();
+            clave = getCadenaAlfanumAleatoria (9);
+           
+        } catch (Exception e) {
+        }
+    }
+    
+     /**
+     * Metodo para almacenar una nueva persona y un Usuario
+     */ 
+    public void asociarUsuario(){
+        try {
+            String msg = "";   
+            usuario2=  ssUsuariosService.findByUser(codigo);
+          if(usuario2==null){
+             msg ="Usuario Creado Exitosamente!";
+             usuario.setCodigoUsuario(codigo);
+             clave = getCadenaAlfanumAleatoria (9); 
+            String encode = passwordEncoder.encode(clave);
+            usuario.setClave(encode);
+             
+            usuario.setFechaRegistro(new Date());
+            usuario.setFechaUltimamodificacion(new Date());
+            usuario.setIdPersona(persona.getIdPersona());
+            usuario.setNombreUsuario(persona.getNombrePersona()+ " " + persona.getApellidoPersona());
+            usuario.setCargo(persona.getCargoPersona());
+            ssUsuariosService.save(usuario);
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('UsuarioCreateDialog').close();");
+           //context.update("RegistrogarantiarealListForm");
+          }else{
+            msg ="Ya existe este nombre de Usuario!";  
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Duplicado!!", msg));  
+          }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
+    
+    String getCadenaAlfanumAleatoria (int longitud){
+    String cadenaAleatoria = "";
+    long milis = new java.util.GregorianCalendar().getTimeInMillis();
+    Random r = new Random(milis);
+    int i = 0;
+    while ( i < longitud){
+    char c = (char)r.nextInt(255);
+    if ( (c >= '0' && c <='9') || (c >='A' && c <='Z') ){
+    cadenaAleatoria += c;
+        i ++;
+    }
+    }
+    return cadenaAleatoria;
+    }
+    
 
     public String getClave() {
         return clave;
@@ -408,6 +485,15 @@ public class PersonaMB implements Serializable{
     public void setClave(String clave) {
         this.clave = clave;
     }
+    
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
     public List<Organismo> getListadoOrganismo() {
         return listadoOrganismo;
     }
