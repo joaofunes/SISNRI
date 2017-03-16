@@ -14,12 +14,13 @@
         <ui:include src="../persona/crearPersona.xhtml"/>
         <ui:include src="../persona/editPersona.xhtml"/>
         <ui:include src="../persona/eliminarPersona.xhtml"/>
+        <ui:include src="../persona/usuario.xhtml"/>
     <h:form id="RegistrogarantiarealListForm">
 
         <p:panel header="Administracion de Personas">
             
 
-             <p:dataTable  value="#{personaMB.listPojoPersona}" var="item" paginator="true" rows="15"
+             <p:dataTable  value="#{personaMB.listPojoPersona}" var="item" paginator="true" rows="5"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="5,10,15"   paginatorPosition="bottom" 
                          
@@ -89,6 +90,12 @@
                                        actionListener="#{personaMB.preEditar(item.persona)}"
                                         oncomplete="PF('PersonaDeleteDialog').show();"
                                        update=":PersonaDeleteDlg"/>
+                    </div>
+                     <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-person" title="Usuario" 
+                                       value="Editar" actionListener="#{personaMB.preUsuario(item.persona)}"
+                                       oncomplete="PF('UsuarioCreateDialog').show();"
+                                       update=":UsuarioCreateDlg"/>
                     </div>
                    
                 </p:column> 
