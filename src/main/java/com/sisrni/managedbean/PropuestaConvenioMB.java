@@ -738,7 +738,7 @@ public class PropuestaConvenioMB implements Serializable {
             templateData.put("subJect", "Creacion de propuesta de convenio");
 
             //templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.txt");
-            templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.html");
+            templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.xhtml");
             templateData.put("propuesta", propuestaConvenio);
             templateData.put("PersonaPropuesta", propuestaConvenio.getPersonaPropuestaList());
 

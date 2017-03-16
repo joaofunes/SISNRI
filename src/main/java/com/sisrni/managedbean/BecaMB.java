@@ -193,6 +193,8 @@ public class BecaMB implements Serializable {
     private Boolean remplazarInterno;
     private Boolean remplazarExterno;
 
+    private Boolean desvinculoInterno;
+
     @Autowired
     FacultadService facultadService;
 
@@ -294,7 +296,8 @@ public class BecaMB implements Serializable {
         //para los listados
         facultadList = facultadService.getFacultadesByUniversidad(1);
         carreraList = new ArrayList<Carrera>();
-        paisList = paisService.findAll();
+//        paisList = paisService.findAll();
+         paisList = paisService.getCountriesOrderByNameAsc();
         programaBecaList = programaBecaService.findAll();
         universidadList = new ArrayList<Organismo>();
         tipoModalidadBecaList = tipoModalidadBecaService.findAll();
@@ -355,15 +358,18 @@ public class BecaMB implements Serializable {
         remplazarInterno = Boolean.FALSE;
         remplazarExterno = Boolean.FALSE;
 
+        desvinculoInterno = Boolean.FALSE;
+
     }
 
 //registra la informacion conserniente a una beca
     public void guardarBeca() throws Exception {
         try {
             //guardando becario
-            if ((presionoNuevoBecario == false && presionoActualizarBecario == false) || (presionoActualizarBecario == true && remplazarBecario == false)) {
+            if ((presionoNuevoBecario == false && presionoActualizarBecario == false) || (presionoActualizarBecario == true && remplazarBecario == false) || !actualizar) {
                 System.out.println("no hace nada");
-            } else {
+            }
+            if ((!actualizar && presionoNuevoBecario) || (!actualizar && presionoActualizarBecario && remplazarBecario) || actualizar) {
                 Carrera carrera = carreraService.findById(carreraSelected.getIdCarrera());
                 becario.setIdCarrera(carrera);
                 becario.setActivo(Boolean.TRUE);
@@ -389,7 +395,8 @@ public class BecaMB implements Serializable {
             if (mostrarTabInterno == true) {
                 if ((presionoNuevoInterno == false && presionoActualizarInterno == false) || (presionoActualizarInterno == true && remplazarInterno == false)) {
                     System.out.println("no hace nada");
-                } else {
+                }
+                if ((!actualizar && presionoNuevoInterno) || (!actualizar && presionoActualizarInterno && remplazarInterno) || actualizar) {
                     String partes[] = facuniSelectded.split(",");
                     if (partes[1].equals("1")) {
                         //asesorInterno.setIdUnidad(new Unidad());
@@ -427,7 +434,8 @@ public class BecaMB implements Serializable {
             if (mostrarTabExterno) {
                 if ((presionoNuevoExterno == false && presionoActualizarExterno == false) || (presionoActualizarExterno == true && remplazarExterno == false)) {
                     System.out.println("no hace nada");
-                } else {
+                }
+                if ((!actualizar && presionoNuevoExterno) || (!actualizar && presionoActualizarExterno && remplazarExterno) || actualizar) {
                     asesorExterno.setIdOrganismo(organismoService.findById(entidadInstitucionSelected.getIdOrganismo()));
                     asesorExterno.setDuiPersona("-");
                     asesorExterno.setActivo(Boolean.TRUE);
@@ -654,12 +662,15 @@ public class BecaMB implements Serializable {
 
     public void presionoNuevoBecario() {
         disableBecarioInputs = Boolean.FALSE;
+        existeBecario = Boolean.FALSE;
         presionoNuevoBecario = Boolean.TRUE;
+        presionoActualizarBecario=Boolean.FALSE;
     }
 
     public void presionoActualizarBecario() {
         disableBecarioInputs = Boolean.FALSE;
         presionoActualizarBecario = Boolean.TRUE;
+        presionoNuevoBecario = Boolean.FALSE;
     }
 
     public void presionoNuevoInterno() {
@@ -796,6 +807,7 @@ public class BecaMB implements Serializable {
                 } else {
                     tabInternoBoolean = Boolean.TRUE;
                     mostrarTabInterno = Boolean.TRUE;
+                    disableInternoInputs = Boolean.FALSE;
                     noEstabaInterno = false;
                 }
                 asesorExterno = getPersonaBeca(beca.getPersonaBecaList(), "ASESOR EXTERNO");
@@ -876,14 +888,24 @@ public class BecaMB implements Serializable {
     public void desvincularInterno() {
         try {
             becaService.desvincularInterno(beca.getIdBeca(), asesorInterno.getIdPersona());
-//            tabInternoBoolean = Boolean.FALSE;
-//            mostrarTabInterno = Boolean.FALSE;
-//            noEstabaInterno = true;
+            tabInternoBoolean = Boolean.FALSE;
+            mostrarTabInterno = Boolean.FALSE;
+            noEstabaInterno = true;
+            disableInternoInputs = Boolean.TRUE;
+            limpiarAsesorInterno();
+            banderasAsesorInternoFalsas();
+            desvinculoInterno = Boolean.TRUE;
+            asesorInternoAux = new Persona();
             preUpdate(beca.getIdBeca());
 
         } catch (Exception e) {
 
         }
+    }
+
+    public void confirmarDesvincularInterno() {
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataDesvincularInternoDlg').show();");
     }
 
     public void getUniversidadesPorPais(Integer idPais) {
@@ -997,7 +1019,12 @@ public class BecaMB implements Serializable {
 
     public void buscarInternoSinParametro() {
         try {
-            renderActualizarPersonaInternaButton = Boolean.TRUE;
+            if (actualizar) {
+                disableInternoInputs = Boolean.FALSE;
+                renderActualizarPersonaInternaButton = Boolean.FALSE;
+            } else {
+                renderActualizarPersonaInternaButton = Boolean.TRUE;
+            }
             limpiarAsesorInterno();
             if (asesorInternoAux != null) {
                 asesorInterno = asesorInternoAux;
@@ -2012,6 +2039,14 @@ public class BecaMB implements Serializable {
 
     public void setRemplazarExterno(Boolean remplazarExterno) {
         this.remplazarExterno = remplazarExterno;
+    }
+
+    public Boolean getDesvinculoInterno() {
+        return desvinculoInterno;
+    }
+
+    public void setDesvinculoInterno(Boolean desvinculoInterno) {
+        this.desvinculoInterno = desvinculoInterno;
     }
 
 }

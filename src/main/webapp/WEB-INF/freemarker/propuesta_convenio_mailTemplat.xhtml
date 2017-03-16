@@ -1,0 +1,154 @@
+<html>
+    <head>
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+
+            }
+
+            th, td {
+                text-align: left;
+                padding: 8px;
+            }
+            tr {
+                background-color:#dcf1f4;
+            }
+            th {
+                background-color: #4CAF50;
+                color: white;
+            }
+            *{
+                margin:0;
+                padding-bottom: 4px;
+            }
+            body{
+                font-family: Georgia, serif;
+                font-size: 20px;
+                font-style: italic;
+                font-weight: normal;
+                letter-spacing: normal;
+                background: #f0f0f0;
+            }
+            #content{
+                background-color:#f4f7f4;
+                width:750px;
+                padding:40px;
+                margin:0 auto;
+                border-left:30px solid #1D81B6;
+                border-right:1px solid #ddd;
+                -moz-box-shadow:0px 0px 16px #aaa;
+            }
+            .head{
+                font-family:Helvetica,Arial,Verdana;
+                text-transform:uppercase;
+                font-weight:bold;
+                font-size:12px;
+                font-style:normal;
+                letter-spacing:3px;
+                color:#888;
+                border-bottom:3px solid #f0f0f0;
+                padding-bottom:10px;
+                margin-bottom:10px;
+            }
+            .head a{
+                color:#1D81B6;
+                text-decoration:none;
+                float:right;
+                text-shadow:1px 1px 1px #888;
+            }
+            .head a:hover{
+                color:#f0f0f0;
+            }
+            #content h1{
+                font-family:"Trebuchet MS",sans-serif;
+                color:#1D81B6;
+                font-weight:normal;
+                font-style:normal;
+                font-size:46px;
+                text-shadow:1px 1px 1px #aaa;
+                text-align: center;
+            }
+            #content h2{
+                font-family:"Trebuchet MS",sans-serif;
+                font-size:24px;
+                font-style:normal;
+                background-color:#f0f0f0;
+                margin:40px 0px 30px -40px;
+                padding:0px 40px;
+                clear:both;
+                float:left;
+                width:100%;
+                color:#aaa;
+                text-shadow:1px 1px 1px #fff;
+                text-align: center;
+            }
+            p { 
+                color: black;
+                font-family: 'Orienta', sans-serif; 
+                font-size: 16px; 
+                line-height: 24px; 
+                margin: 0 0 24px; 
+                text-align: left; 
+            }
+            img{
+                display: block;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="content">
+            <img src="http://www.ues.edu.sv/secretaria-de-relaciones-nacionales-e-internacionales/sites/default/files/simply_modern_logo_2_0.png">
+                <h2>Secretaria de Relaciones Nacionales e Internacionales</h2>
+                <h1>Universidad de El Salvador</h1>
+                <hr>
+                <p>
+                    Tenga un cordial saludo, el motivo del presente es para informarle que ha sido registrada la propuesta convenio a la cual se detalla a continuaci&oacute;n.
+                </p>
+                <p>Personal Involucrado en propuesta de convenio.</p>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>                        
+                                <th scope="col" abbr="name persona">Nombre Persona</th>
+                                <th scope="col" abbr="Tipo">Tipo persona</th>                       
+                            </tr>
+                        </thead>
+
+                        <tr>
+                            <#list obj.PersonaPropuesta as person>
+                            <tr>
+                                <td> ${person.getPersona().getNombrePersona() } ${person.getPersona().getApellidoPersona()}</td>
+                                <td> ${person.getTipoPersona().getNombreTipoPersona()}</td>
+                            </tr>
+                            </#list>
+                        </tr>
+                    </table>
+
+                </div>
+                <p>Detalle de propuesta de convenio ingresada.</p>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>                        
+                                <th scope="col" abbr="name persona">Nombre Propuesta</th>
+                                <th scope="col" abbr="Tipo">Objetivo</th>                       
+                            </tr>
+                        </thead>
+
+                        <tr>
+                            <td>${obj.propuesta.nombrePropuesta}</td>
+                            <td>${obj.propuesta.finalidadPropuesta}</td>
+                        </tr>
+                    </table>
+                </div>
+                <br>
+                    <br>
+                        <p>Favor, mantengase en contacto con nostros para estar al tanto de cualquier evento en el proceso.</p>
+                        <br>
+                            <br>
+                                <span>Att: Secretaria de releaciones Nacionales e Internacionales de la Universidad de El Salvador</span>
+                                </div>
+                                </body>
+                                </html>

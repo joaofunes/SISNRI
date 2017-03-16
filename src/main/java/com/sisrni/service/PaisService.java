@@ -5,7 +5,6 @@
  */
 package com.sisrni.service;
 
-
 import com.sisrni.dao.PaisDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Pais;
@@ -20,20 +19,25 @@ import org.springframework.stereotype.Service;
  * @author Joao
  */
 @Service(value = "paisService")
-public class PaisService extends GenericService<Pais, Integer>{
+public class PaisService extends GenericService<Pais, Integer> {
 
     @Autowired
     private PaisDao paisDao;
-  
+
     @Override
     public GenericDao<Pais, Integer> getDao() {
-      return paisDao;
+        return paisDao;
     }
-    
-     public List<PojoPais> getPaises(Integer idPaisSearch) {
+
+    public List<PojoPais> getPaises(Integer idPaisSearch) {
         return paisDao.getPaises(idPaisSearch);
     }
-    public List<Pais> getPaisesByRegionId(Integer id){
-    return paisDao.getPaisesByRegionId(id);
+
+    public List<Pais> getPaisesByRegionId(Integer id) {
+        return paisDao.getPaisesByRegionId(id);
+    }
+
+    public List<Pais> getCountriesOrderByNameAsc() {
+        return paisDao.getCountriesOrderByNameAsc();
     }
 }

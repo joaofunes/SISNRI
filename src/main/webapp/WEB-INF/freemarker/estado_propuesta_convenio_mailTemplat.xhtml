@@ -1,10 +1,10 @@
 <html>
     <head>
-        <title>tables with CSS3</title>
+       
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="description" content="Pimp your tables with CSS3" />
         <meta name="keywords" content="table, css3, style, beautiful, fancy, css"/>
-        <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="../../css/style.css" media="screen"/>
             
     </head>
 
@@ -78,15 +78,34 @@
     <body>
 
         <p>
-            Tenga un cordial saludo, el motivo del presente es para informarle que ha sido registrada la propuesta convenio a la cual se detalla a continuaci&oacute;n.
+            Tenga un cordial saludo, el motivo del presente es para informarle que la propuesta convenio a cambiado de estado su detalla a continuaci&oacute;n.
         </p>
+        <p>Estados de propuestas de convenio</p>
+        <div>
+            <table class="table1">
+                <thead>
+                    <tr>                        
+                        <th scope="col" abbr="name persona">Estado Anterior</th>
+                        <th scope="col" abbr="Tipo">Estado Actual</th>                       
+                    </tr>
+                </thead>
+                <tr>
+                    <td>${obj.estadoTemp.nombreEstado}</td>
+                    <td>${obj.estado.nombreEstado}</td>                    
+                </tr>
+            </table>
+
+        </div>
         <p>Personal Involucrado en propuesta de convenio.</p>
         <div>
-            <table border="1">
-                <tr>
-                    <td>Nombre Persona</td>
-                    <td>Tipo persona</td>
-                </tr>
+            <table class="table1">
+                <thead>
+                    <tr>                        
+                        <th scope="col" abbr="name persona">Nombre Persona</th>
+                        <th scope="col" abbr="Tipo">Tipo persona</th>                       
+                    </tr>
+                </thead>
+                
                 <tr>
                     <#list obj.PersonaPropuesta as person>
                 <tr>
