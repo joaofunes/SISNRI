@@ -14,7 +14,6 @@ import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -63,12 +62,10 @@ public class ConsultarConvenioMB implements Serializable{
     private Estado estado;
     
     
-    @PostConstruct
+   // @PostConstruct
     public void init() {
-        try {
-          
-           inicializador();   
-           
+        try {          
+           inicializador();              
         } catch (Exception e) {
         }
     } 
