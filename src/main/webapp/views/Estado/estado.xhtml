@@ -11,7 +11,7 @@
     
     <ui:define name="content">
          <center> 
-            <p:panel style="width: 70%" header="GestiÃ³n de Estados">  
+             <p:panel style="width: 70%" header="Gesti&ocute;n de Estados">  
         <h:form id="formAdmin">
                
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
@@ -93,14 +93,14 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Â¿EstÃ¡ seguro que desea eliminar el Estado?" header="Eliminar Estado"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Ãƒâ€šÃ‚&iquest;EstÃƒÆ’Ã‚Â¡ seguro que desea eliminar el Estado?" header="Eliminar Estado"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre del Estado: "  style="font-weight:bold"/>
                  <h:outputText value="#{estadoMB.delEstado.nombreEstado}" />
                  <br/>
                  <br/>
-                 <h:outputText value="DescripciÃ³n del Estado: "  style="font-weight:bold" />
+                 <h:outputText value="Descripci&oacute;n del Estado: "  style="font-weight:bold" />
                  <h:outputText value="#{estadoMB.delEstado.tipoEstado}" />
                  <h:outputText value="Fecha de Ingreso: "  style="font-weight:bold" />
                  <h:outputText value="#{estadoMB.delEstado.fechaIngresoEstado}" />
@@ -108,7 +108,7 @@
             </h:form>    
             
             <p:separator />
-            <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{estadoMB.deleteEstado()}" process="@this" update=":formPrincipal"/>
+            <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{estadoMB.deleteEstado()}" process="@this" update=":formPrincipal"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 

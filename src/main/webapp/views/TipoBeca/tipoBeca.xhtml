@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestión de Tipos de Beca">  
+            <p:panel style="width: 70%" header="Gesti&oacute;n de Tipos de Beca">  
                 
                 <h:form id="formTipoBeca">
                     <p:panelGrid columns="2">            
@@ -71,7 +71,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteTipoBecaDlg" header="Borrar Tipo de Beca" message="¿Confirma la eliminación del Tipo de Beca?" 
+        <p:confirmDialog widgetVar="confirmDeleteTipoBecaDlg" header="Borrar Tipo de Beca" message="&iquest;Confirma la eliminaci&oacute;n del Tipo de Beca?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
@@ -81,7 +81,7 @@
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+             <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{tipoBecaMB.borrarTipoBeca()}" update=":formTablaTipoBecaes"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>

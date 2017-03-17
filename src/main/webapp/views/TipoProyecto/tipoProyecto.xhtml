@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestión de Tipos de Proyecto">  
+            <p:panel style="width: 70%" header="Gesti&oacute;n de Tipos de Proyecto">  
                 
                 <h:form id="formTipoProyecto">
                     <p:panelGrid columns="2">            
@@ -71,7 +71,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteTipoProyectoDlg" header="Borrar Tipo de Proyecto" message="¿Confirma la eliminación del Tipo de Proyecto?" 
+        <p:confirmDialog widgetVar="confirmDeleteTipoProyectoDlg" header="Borrar Tipo de Proyecto" message="&iquest;Confirma la eliminaci&oacute;n del Tipo de Proyecto?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
@@ -81,7 +81,7 @@
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+            <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{tipoProyectoMB.borrarTipoProyecto()}" update=":formTablaTipoProyectoes"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>

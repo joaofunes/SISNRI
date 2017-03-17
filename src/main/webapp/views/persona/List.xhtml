@@ -17,7 +17,7 @@
         <ui:include src="../persona/usuario.xhtml"/>
     <h:form id="RegistrogarantiarealListForm">
 
-        <p:panel header="Administracion de Personas">
+        <p:panel header="Administraci&oacute;n de Personas">
             
 
              <p:dataTable  value="#{personaMB.listPojoPersona}" var="item" paginator="true" rows="5"
@@ -66,13 +66,13 @@
                  
                  <p:column sortBy="#{item.telefonoFijo.numeroTelefono}" filterBy="#{item.telefonoFijo.numeroTelefono}">
                     <f:facet name="header">
-                        <h:outputText value="Telefono Fijo"/>
+                        <h:outputText value="Tel&eacute;fono Fijo"/>
                     </f:facet>
                     <h:outputText value="#{item.telefonoFijo.numeroTelefono}"/>
                 </p:column>
                 <p:column sortBy="#{item.telefonoCelular.numeroTelefono}" filterBy="#{item.telefonoCelular.numeroTelefono}">
                     <f:facet name="header">
-                        <h:outputText value="Telefono Celular"/>
+                        <h:outputText value="Tel&eacute;fono Celular"/>
                     </f:facet>
                     <h:outputText value="#{item.telefonoCelular.numeroTelefono}"/>
                 </p:column>

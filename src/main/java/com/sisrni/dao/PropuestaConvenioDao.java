@@ -204,6 +204,8 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     "ON TB_CONVENIO.ID_PROPUESTA=TB_PERSONAS.PROPUESTA";
           
           try {
+              getSessionFactory().getCurrentSession().flush();
+              getSessionFactory().getCurrentSession().clear();
              Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                      .addScalar("NOMBRE_PROPUESTA",new StringType())
                      .addScalar("FINALIDAD_PROPUESTA",new StringType())
