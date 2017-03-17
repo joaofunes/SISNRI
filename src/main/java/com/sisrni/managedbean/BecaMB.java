@@ -296,7 +296,8 @@ public class BecaMB implements Serializable {
         //para los listados
         facultadList = facultadService.getFacultadesByUniversidad(1);
         carreraList = new ArrayList<Carrera>();
-        paisList = paisService.findAll();
+//        paisList = paisService.findAll();
+         paisList = paisService.getCountriesOrderByNameAsc();
         programaBecaList = programaBecaService.findAll();
         universidadList = new ArrayList<Organismo>();
         tipoModalidadBecaList = tipoModalidadBecaService.findAll();
@@ -661,12 +662,15 @@ public class BecaMB implements Serializable {
 
     public void presionoNuevoBecario() {
         disableBecarioInputs = Boolean.FALSE;
+        existeBecario = Boolean.FALSE;
         presionoNuevoBecario = Boolean.TRUE;
+        presionoActualizarBecario=Boolean.FALSE;
     }
 
     public void presionoActualizarBecario() {
         disableBecarioInputs = Boolean.FALSE;
         presionoActualizarBecario = Boolean.TRUE;
+        presionoNuevoBecario = Boolean.FALSE;
     }
 
     public void presionoNuevoInterno() {
