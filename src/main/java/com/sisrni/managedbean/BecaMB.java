@@ -278,7 +278,7 @@ public class BecaMB implements Serializable {
         tipoBecaSelected = new TipoBeca();
         tipoCambioSelected = new TipoCambio();
         yearActual = getYearOfDate(new Date());
-        //anio=yearActual;
+        anio="";
 
         //para el referente interno
         asesorInterno = new Persona();
@@ -296,7 +296,8 @@ public class BecaMB implements Serializable {
         //para los listados
         facultadList = facultadService.getFacultadesByUniversidad(1);
         carreraList = new ArrayList<Carrera>();
-        paisList = paisService.findAll();
+//        paisList = paisService.findAll();
+         paisList = paisService.getCountriesOrderByNameAsc();
         programaBecaList = programaBecaService.findAll();
         universidadList = new ArrayList<Organismo>();
         tipoModalidadBecaList = tipoModalidadBecaService.findAll();
@@ -661,12 +662,15 @@ public class BecaMB implements Serializable {
 
     public void presionoNuevoBecario() {
         disableBecarioInputs = Boolean.FALSE;
+        existeBecario = Boolean.FALSE;
         presionoNuevoBecario = Boolean.TRUE;
+        presionoActualizarBecario=Boolean.FALSE;
     }
 
     public void presionoActualizarBecario() {
         disableBecarioInputs = Boolean.FALSE;
         presionoActualizarBecario = Boolean.TRUE;
+        presionoNuevoBecario = Boolean.FALSE;
     }
 
     public void presionoNuevoInterno() {
@@ -838,6 +842,7 @@ public class BecaMB implements Serializable {
                 universidadSelected = beca.getIdUniversidad();
                 getUniversidadesPorPais(beca.getIdPaisDestino());
                 tipoModalidaBecaSelected = beca.getIdTipoModalidad();
+                anio=beca.getAnioGestion().toString()+" ";
                 if (tipoModalidaBecaSelected.getIdTipoModalidad() == 1) {
                     mostrarmonto = Boolean.FALSE;
                 } else {

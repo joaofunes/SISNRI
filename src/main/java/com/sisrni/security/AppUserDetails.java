@@ -15,6 +15,7 @@ public class AppUserDetails implements UserDetails {
 
     private final static Log log = LogFactory.getLog(AppUserDetails.class);
     private SsUsuarios usuario;
+    private Boolean esAdmConvenio;
 
     public AppUserDetails(SsUsuarios usuario) {
         this.usuario = usuario;
@@ -27,6 +28,9 @@ public class AppUserDetails implements UserDetails {
             try {
                 if (usuario.getSsRolesList() != null && !usuario.getSsRolesList().isEmpty()) {
                     for (SsRoles role : usuario.getSsRolesList()) {
+                        if (role.getCodigoRol().equalsIgnoreCase("ROL_ADM_CONV")) {
+                            esAdmConvenio = Boolean.TRUE;
+                        }
                         authorities.add(new GrantedAuthorityImpl(role.getCodigoRol()));
                     }
                 }
@@ -73,6 +77,14 @@ public class AppUserDetails implements UserDetails {
 
     public void setUsuario(SsUsuarios usuario) {
         this.usuario = usuario;
+    }
+
+    public Boolean getEsAdmConvenio() {
+        return esAdmConvenio;
+    }
+
+    public void setEsAdmConvenio(Boolean esAdmConvenio) {
+        this.esAdmConvenio = esAdmConvenio;
     }
 
 }

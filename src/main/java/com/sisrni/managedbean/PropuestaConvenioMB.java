@@ -40,6 +40,7 @@ import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +73,8 @@ public class PropuestaConvenioMB implements Serializable {
     private static final String REFERENTE_EXTERNO = "REFERENTE EXTERNO";
     private static final String CONVENIO_MARCO = "CONVENIO MARCO";
     private static final String ESTADO = "REVISION";
-    private static final String ROL = "ROL_ADMI";
+    //private  List<String> ROL = "ROL_ADM_CONV"; //ROL_ADMI
+    private List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
 
     @Autowired
     @Qualifier(value = "personaService")
@@ -385,9 +387,11 @@ public class PropuestaConvenioMB implements Serializable {
             rol = null;
             if (usuario != null && usuario.getUsuario() != null) {
                 for (SsRoles rols : usuario.getUsuario().getSsRolesList()) {
-                    if (rols.getCodigoRol().equalsIgnoreCase(ROL)) {
-                        rol = new SsRoles();
-                        rol = rols;
+                    for (String rl : ROL) {
+                        if (rols.getCodigoRol().equalsIgnoreCase(rl)) {
+                            rol = new SsRoles();
+                            rol = rols;
+                        }
                     }
                 }
             }
@@ -754,79 +758,7 @@ public class PropuestaConvenioMB implements Serializable {
         }
     }
 
-    /**
-     * Metodo para actualizar propuesta de convenio.
-     */
-    public void actualizarPropuestaConvenio() {
-        try {
-
-            // actualizar propuesta convenio
-            propuestaConvenio.setIdConvenio(propuestaConvenioTemp.getIdPropuesta());
-            propuestaConvenioService.merge(propuestaConvenio);
-
-            // persona solicitante
-            PersonaPropuesta persPropuesta = new PersonaPropuesta();
-            persPropuesta = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), SOLICITANTE);
-            if (persPropuesta != null) {
-                persPropuesta.setPersona(solicitante);
-                persPropuesta.getPersonaPropuestaPK().setIdPersona(solicitante.getIdPersona());
-                personaPropuestaService.updatePersonaPropuesta(solicitante.getIdPersona(), persPropuesta.getPropuestaConvenio().getIdPropuesta(), persPropuesta.getTipoPersona().getIdTipoPersona());
-            } else {
-                guardarSolicitante();
-                persPropuesta.setPersona(solicitante);
-                persPropuesta.setPropuestaConvenio(propuestaConvenio);
-                persPropuesta.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(SOLICITANTE));
-                persPropuesta.setPersonaPropuestaPK(new PersonaPropuestaPK(solicitante.getIdPersona(), persPropuesta.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-                personaPropuestaService.save(persPropuesta);
-            }
-
-            // persona REFERENTE_INTERNO
-            if (referenteInterno.getDuiPersona() != null && referenteInterno.getNombrePersona() != null && referenteInterno.getApellidoPersona() != null && referenteInterno.getEmailPersona() != null) {
-                if (referenteInterno.getIdPersona() == null) {
-                    Persona existePersona = personaService.existePersona(referenteInterno.getNombrePersona(), referenteInterno.getApellidoPersona(), referenteInterno.getEmailPersona());
-                    if (existePersona != null && existePersona.getIdPersona() != null) {
-                        referenteInterno.setIdPersona(existePersona.getIdPersona());
-                    }
-                }
-                if (!mismoSolicitante) { //verfico que la persona exista, si true entonces
-                    if (referenteInterno.getIdPersona() != null) {
-                        actualizarReferenteInterno();
-                        actualizacionReferenteInternoComplemento();
-                    } else {
-                        guardarReferenteInterno();
-                        guardarReferenteInternoComplemento();
-                    }
-                }
-            }
-
-            // persona REFERENTE_EXTERNO
-            if (referenteExterno.getPasaporte() != null && referenteExterno.getNombrePersona() != null && referenteExterno.getApellidoPersona() != null && referenteExterno.getEmailPersona() != null) {
-
-                if (referenteExterno.getIdPersona() == null) {
-                    Persona existePersona = personaService.existePersona(referenteExterno.getNombrePersona(), referenteExterno.getApellidoPersona(), referenteExterno.getEmailPersona());
-                    if (existePersona != null && existePersona.getIdPersona() != null) {
-                        referenteExterno.setIdPersona(existePersona.getIdPersona());
-                    }
-                }
-                if (referenteExterno.getIdPersona() != null) {
-                    actualizarReferenteExterno();
-                } else {
-                    guardarReferenteExterno();
-                }
-            }
-
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.getExternalContext().getFlash().setKeepMessages(true);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualizado", "Propuesta Convenio!!"));
-
-            //sleep 3 seconds
-            Thread.sleep(3000);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("consultarConvenio.xhtml");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     /**
      * Metodo para alamcenar propuesta de convenio sin solicitantes
@@ -1457,7 +1389,7 @@ public class PropuestaConvenioMB implements Serializable {
         }
     }
 
-    public void cargarPropuestaConvenio(int idPropuestaConvenio) {
+    public void cargarPropuestaConvenio(Integer idPropuestaConvenio) {
         try {
             flagEdicion = true;
             propuestaConvenio = propuestaConvenioService.getPropuestaCovenioByID(idPropuestaConvenio);

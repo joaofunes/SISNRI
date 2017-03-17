@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)"  header="Crear Usuario" >
+                        
+            <h:form id="UsuarioCreateForm">
+
+                <h:panelGroup id="display">
+                 <p:panelGrid columns="2" columnClasses="column">
+                           <center>
+                               <p:outputLabel value="#{personaMB.persona.nombrePersona} #{personaMB.persona.apellidoPersona}"  /> 
+                            </center>
+                            <p:column>                                         
+                            </p:column>  
+
+                     
+                                <p:outputLabel value="Usuario" for="codigoUsuario" />
+                                <p:inputText id="codigoUsuario" value="#{personaMB.codigo}" required="true"/>
+                                  
+<!--                                <p:outputLabel value="Nombre Usuario" for="nombreUsuario" />
+                                <p:inputText id="nombreUsuario" value="#{personaMB.persona.nombrePersona}" />                               -->
+
+<!--                                <p:outputLabel value="Clave" for="clave" />
+                                <p:password id="clave" value="#{personaMB.clave}" match="Rclave" feedback="true" inline="true" /> 
+                              
+                                <p:outputLabel value="Repetir Clave" for="Rclave"  />
+                                <p:password id="Rclave" value="#{personaMB.clave}" inline="true" />    -->
+                                
+                                <p:outputLabel value="Bloqueado" for="bloqueado" />
+                               <p:selectOneMenu id="bloqueado" value="#{personaMB.usuario.bloqueado}"  style="width: 100%" required="true" >
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="S&iacute;­" itemValue="S" />
+                                <f:selectItem itemLabel="No" itemValue="N" />
+                               </p:selectOneMenu>       
+
+                                
+                            </p:panelGrid>
+                     <p:commandButton value="Guardar Usuario" id="idGuardarPersona" actionListener="#{personaMB.asociarUsuario()}" process="@form" update="@form" icon="ui-icon-disk"/>
+                    <p:commandButton value="Cancelar" id="idCerrar" process="@this" icon="ui-icon-cancel" immediate="true" onclick="PF('PersonaCreateDialog').close();" />
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
