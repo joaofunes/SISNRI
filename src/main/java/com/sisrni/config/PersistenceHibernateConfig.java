@@ -49,9 +49,9 @@ public class PersistenceHibernateConfig {
         ds.setDriverClassName("com.mysql.jdbc.Driver");
 
 //        //servidor BD
-        ds.setUrl("jdbc:mysql://srnidb.cdl1mrxlsyzf.sa-east-1.rds.amazonaws.com:3306/sisrni");
-        ds.setUsername("srnidb");
-        ds.setPassword("tragra01");
+//        ds.setUrl("jdbc:mysql://srnidb.cdl1mrxlsyzf.sa-east-1.rds.amazonaws.com:3306/sisrni");
+//        ds.setUsername("srnidb");
+//        ds.setPassword("tragra01");
 
 //        // DB Local
 //        ds.setUrl("jdbc:mysql://localhost:3306/sisrni");
@@ -59,9 +59,9 @@ public class PersistenceHibernateConfig {
 //        ds.setPassword("");
 //
 //         // DB Local -2
-//        ds.setUrl("jdbc:mysql://localhost:3306/sisrni");
-//        ds.setUsername("root");
-//        ds.setPassword("root");
+        ds.setUrl("jdbc:mysql://localhost:3306/sisrni");
+        ds.setUsername("root");
+        ds.setPassword("root");
 
 //        //amazon ec2
 //        ds.setUrl("jdbc:mysql://52.67.109.233:3306/sisrni");
