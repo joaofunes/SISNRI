@@ -1294,7 +1294,9 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
             flagEdicion = true;
             propuestaConvenio = propuestaConvenioService.getPropuestaCovenioByID(idPropuestaConvenio);
             if (propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_MARCO)) {
-                flagConvenioMarco = true;
+                flagConvenioMarco = true;                
+            }else{
+             propuestaConvenioTemp= propuestaConvenioService.getPropuestaCovenioByID(propuestaConvenio.getIdConvenio()); 
             }
         } catch (Exception e) {
             e.printStackTrace();
