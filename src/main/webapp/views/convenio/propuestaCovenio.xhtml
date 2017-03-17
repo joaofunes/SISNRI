@@ -21,6 +21,8 @@
         </h:form>   
 
         <center>
+            <p:fieldset legend="Ingreso de Propuesta de Convenio"> 
+        
             <p:panel style="width: 80%">  
                 <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
                     <p:tab title="Datos del Solicitante">
@@ -133,7 +135,7 @@
                                         <p:outputLabel for="idTelFijoSolicitante" value="Tel:" />
                                     </p:column>
                                     <p:column>                                                               
-                                        <p:inputMask id="idTelFijoSolicitante" required="true"  mask="9999-9999" 
+                                        <p:inputMask id="idTelFijoSolicitante" required="true"  mask="(503)-9999-9999"
                                                      value="#{propuestaConvenioMB.telFijoSolicitante.numeroTelefono}"
                                                      disabled="#{propuestaConvenioMB.habilitarBusquedaSolicitante}"/>
                                         <p:watermark for="idTelFijoSolicitante" value="xxxx-xxxx"  /> 
@@ -143,7 +145,7 @@
                                         <p:outputLabel for="idCelSolicitante" value="Cel:" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputMask id="idCelSolicitante" required="true" mask="9999-9999" 
+                                        <p:inputMask id="idCelSolicitante" required="true" mask="(503)-9999-9999"
                                                      value="#{propuestaConvenioMB.telCelularSolicitante.numeroTelefono}"
                                                      disabled="#{propuestaConvenioMB.habilitarBusquedaSolicitante}"/>
                                         <p:watermark for="idCelSolicitante" value="xxxx-xxxx"  /> 
@@ -687,7 +689,8 @@
                                         <p:outputLabel for="idNombrePropuesta" value="Nombre de Propuesta" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{propuestaConvenioMB.propuestaConvenio.nombrePropuesta}"/>
+                                        <p:inputTextarea id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{propuestaConvenioMB.propuestaConvenio.nombrePropuesta}" rows="2" maxlength="300" style="width:180px" >
+                                        </p:inputTextarea>
                                         <p:message for="idNombrePropuesta" />
                                         <p:watermark for="idNombrePropuesta" value="Nombre Propuesta" id="nameProp" />
                                     </p:column>
@@ -697,7 +700,7 @@
                                         <p:outputLabel for="idDescripcionPropuesta" value="Descripci&oacute;n" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputTextarea id="idDescripcionPropuesta" required="true" label="descripcion" maxlength="300" value="#{propuestaConvenioMB.propuestaConvenio.finalidadPropuesta}" rows="6" style="width: 300px;" />
+                                        <p:inputTextarea id="idDescripcionPropuesta" required="true" label="descripcion" rows="3" maxlength="300" value="#{propuestaConvenioMB.propuestaConvenio.finalidadPropuesta}"  style="width: 300px;" />
                                         <p:message for="idDescripcionPropuesta" /> 
                                         <p:watermark for="idDescripcionPropuesta" value="Descripcion" id="descripcionProp" />
                                     </p:column>
@@ -719,7 +722,7 @@
                     </p:tab>
                 </p:accordionPanel>                                                                                               
             </p:panel>
-
+            </p:fieldset>
         </center>    
 
         <script type="text/javascript">
