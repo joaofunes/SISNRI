@@ -99,7 +99,7 @@ public class NoticiaMB implements Serializable {
             noticiaService.save(noticia);
             inicializador();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Informacion se ha registrado correctamente!"));
-            //globalCounter.increment(noticiasNoVisibles());
+            globalCounter.increment(noticiasNoVisibles());
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
 
@@ -125,7 +125,7 @@ public class NoticiaMB implements Serializable {
             noticia.setIdCategoria(categoriaNoticiaService.findById(categoriaSelected.getIdCategoria()));
             noticiaService.merge(noticia);
             inicializador();
-           // globalCounter.increment(noticiasNoVisibles());
+            globalCounter.increment(noticiasNoVisibles());
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al actualizar."));
         }
