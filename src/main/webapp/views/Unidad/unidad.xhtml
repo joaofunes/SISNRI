@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestion de Unidades">  
+            <p:panel style="width: 70%" header="Gesti&oacute;n de Unidades">  
                 
                 <h:form id="formUnidad">
                     <p:panelGrid columns="2">            
@@ -84,7 +84,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteUnidadDlg" header="Borrar Unidad" message="Confirma la eliminacion de la Unidad?" 
+        <p:confirmDialog widgetVar="confirmDeleteUnidadDlg" header="Borrar Unidad" message="&iquest;Confirma la eliminacion de la Unidad?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
@@ -96,7 +96,7 @@
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+            <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{unidadMB.borrarUnidad()}" update=":formTablaUnidades"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>

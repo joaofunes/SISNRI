@@ -449,6 +449,15 @@ public class PersonaMB implements Serializable{
             ssUsuariosService.save(usuario);
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
            RequestContext context = RequestContext.getCurrentInstance();
+         
+            Map<String, Object> templateData = new HashMap<String, Object>();
+            templateData.put("subJect", "Usaurio Creado");
+            templateData.put("nameTemplate", "usuario_mailTemplate.xhtml");
+            templateData.put("persona", persona);
+            templateData.put("setToMail", "marroquin-7@hotmail.com");
+            mailService.sendEmailMap(templateData);
+           
+
            context.execute("PF('UsuarioCreateDialog').close();");
            //context.update("RegistrogarantiarealListForm");
           }else{

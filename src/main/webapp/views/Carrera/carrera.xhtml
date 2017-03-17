@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestión de Carreras">  
+            <p:panel style="width: 70%" header="Gesti&oacute;n de Carreras">  
                 
                 <h:form id="formCarrera">
                     <p:panelGrid columns="2">
@@ -24,7 +24,7 @@
                             <p:watermark for="nombreCarrera" value="Nombre de la Carrera" id="watermarkNombreCarrera"/>
                         </p:column>
                         
-                         <p:outputLabel for="pais" value="País: "/>
+                        <p:outputLabel for="pais" value="Pa&iacute;s: "/>
                         <p:selectOneMenu id="pais" value="#{carreraMB.paisSelected.idPais}" style="width: 100%" required="true">
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <p:ajax listener="#{carreraMB.onchangePais()}" update="organismo" />
@@ -77,7 +77,7 @@
                         <p:column headerText="Carrera"  filterBy="#{carrera.nombreCarrera}">
                             <h:outputText value="#{carrera.nombreCarrera}"/>
                         </p:column>
-                          <p:column headerText="País">
+                        <p:column headerText="Pa&iacute;s">
                                 <h:outputText value="#{carrera.idFacultad.idOrganismo.idPais}" >
                                     <f:converter converterId="nombrePaisConverter"/>
                                 </h:outputText>
@@ -111,13 +111,13 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteCarreraDlg" header="Borrar Carrera" message="¿Confirma la eliminación de la Carrera?" 
+        <p:confirmDialog widgetVar="confirmDeleteCarreraDlg" header="Borrar Carrera" message="&iquest;Confirma la eliminaci&oacute;n de la Carrera?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
                     <h:outputLabel value="Nombre Carrera:"/>
                     <h:outputText value="#{carreraMB.carrera.nombreCarrera}"/>
-                    <h:outputLabel value="País:"/>
+                    <h:outputLabel value="Pa&iacute;s:"/>
                     <h:outputText value="#{carreraMB.carrera.idFacultad.idOrganismo.idPais}" >
                         <f:converter converterId="nombrePaisConverter"/>
                     </h:outputText>
@@ -129,7 +129,7 @@
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+            <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{carreraMB.borrarCarrera()}" update=":formTablaCarreraes"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
