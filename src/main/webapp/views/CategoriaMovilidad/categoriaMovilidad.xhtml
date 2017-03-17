@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestión de Categorías de Movilidad">  
+            <p:panel style="width: 70%" header="Gesti&oacute;n de Categor&iacute;as de Movilidad">  
                 
                 <h:form id="formCategoriaMovilidad">
                     <p:panelGrid columns="2">            
@@ -21,7 +21,7 @@
                         </p:column>
                         <p:column>
                             <p:inputText id="nombre" value="#{categoriaMovilidadMB.categoriaMovilidad.nombreCategoria}" required="true" size="50" />
-                            <p:watermark for="nombre" value="Nombre de Categoría de Movilidad" id="watermarkNombreCategoriaMovilidad"/>
+                            <p:watermark for="nombre" value="Nombre de Categor&iacute;a de Movilidad" id="watermarkNombreCategoriaMovilidad"/>
                         </p:column>
                         
                         <p:column>
@@ -71,7 +71,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteCategoriaMovilidadDlg" header="Borrar Categoria de Movilidad" message="¿Confirma la eliminación de esta Categoría de Movilidad?" 
+        <p:confirmDialog widgetVar="confirmDeleteCategoriaMovilidadDlg" header="Borrar Categor&iacute;a de Movilidad" message="&iquest;Confirma la eliminaci&oacute;n de esta Categor&iacute;a de Movilidad?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
@@ -81,7 +81,7 @@
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+             <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{categoriaMovilidadMB.borrarCategoriaMovilidad()}" update=":formTablaCategoriaMovilidades"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>

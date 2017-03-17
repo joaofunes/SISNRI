@@ -12,7 +12,7 @@
     <ui:define name="content">
      <center>  
         
-         <p:panel style="width: 70%" header="Tipos Personas">  
+         <p:panel style="width: 70%" header="Gesti&oacute;n de Tipos Personas">  
          
              <h:form id="formAdmin">
                  <a href="tipoPersona.xhtml"></a>
@@ -27,7 +27,7 @@
                     </p:column>
                
                     <p:column>
-                        <p:outputLabel for="descri" value="Descripcion Persona:" />
+                        <p:outputLabel for="descri" value="Descripci&oacute;n Persona:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="descri" value="#{tipoPersonaMB.tipoPersona.descripcion}" required="true" size="50" />
@@ -59,11 +59,11 @@
                              paginator="true">
 
 
-                    <p:column headerText="Nombre Menu" sortBy="#{persona.nombreTipoPersona}" filterBy="#{persona.nombreTipoPersona}">
+                    <p:column headerText="Nombre Men&uacute;" sortBy="#{persona.nombreTipoPersona}" filterBy="#{persona.nombreTipoPersona}">
                         <h:outputText value="#{persona.nombreTipoPersona}" />
                     </p:column>
 
-                    <p:column headerText="Descripcion" sortBy="#{persona.descripcion}" filterBy="#{persona.descripcion}">
+                    <p:column headerText="Descripci&oacute;n" sortBy="#{persona.descripcion}" filterBy="#{persona.descripcion}">
                         <h:outputText value="#{persona.descripcion}" />
                     </p:column>
                     <p:column headerText="Opciones" >
@@ -91,13 +91,13 @@
                  <h:outputText value="#{tipoPersonaMB.delTipoPersona.nombreTipoPersona}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripcion de Persona : "  style="font-weight:bold" />
+                 <h:outputText value="Descripci&oacute;n de Persona : "  style="font-weight:bold" />
                  <h:outputText value="#{tipoPersonaMB.delTipoPersona.descripcion}" />
              
             </h:form>    
             
             <p:separator />
-            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoPersonaMB.deleteTipoPersona()}" process="@this" update=":formPrincipal"/>
+            <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoPersonaMB.deleteTipoPersona()}" process="@this" update=":formPrincipal"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 

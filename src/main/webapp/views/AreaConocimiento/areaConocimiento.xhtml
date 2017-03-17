@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestión de Areas de Conocimiento">  
+            <p:panel style="width: 70%" header="Gesti&oacute;n de Areas de Conocimiento">  
                 
                 <h:form id="formAreaConocimiento">
                     <p:panelGrid columns="2">            
@@ -26,10 +26,10 @@
                         
                         <p:column>
                             <p:commandButton styleClass="boton" rendered="#{!areaConocimientoMB.actualizar}"
-                                             actionListener="#{areaConocimientoMB.guardarAreaConocimiento}" value="Guardar"  update="formAreaConocimiento :formTablaAreaConocimientoes" process="@this :formAreaConocimiento"/>
+                                             actionListener="#{areaConocimientoMB.guardarAreaConocimiento}" value="Guardar"  update="formAreaConocimiento :formTablaAreaConocimientos" process="@this :formAreaConocimiento"/>
 
                             <p:commandButton styleClass="boton" rendered="#{areaConocimientoMB.actualizar}"
-                                             actionListener="#{areaConocimientoMB.actualizarAreaConocimiento()}" update="formAreaConocimiento :formTablaAreaConocimientoes "
+                                             actionListener="#{areaConocimientoMB.actualizarAreaConocimiento()}" update="formAreaConocimiento :formTablaAreaConocimientos "
                                              value="Actualizar" />
 
                             <p:commandButton styleClass="boton" rendered="#{areaConocimientoMB.actualizar}"
@@ -41,7 +41,7 @@
 
                 </h:form>
                 <br></br>
-                <h:form id="formTablaAreaConocimientoes">
+                <h:form id="formTablaAreaConocimientos">
                     <p:dataTable var="areaConocimiento" value="#{areaConocimientoMB.listAreaConocimiento}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen Areas de Conocimiento registradas actualmente" >                       
@@ -51,7 +51,7 @@
                         <p:column headerText="Opciones" style="width: 15%">
                             <div style="float: left">
                                 <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
-                                               actionListener="#{areaConocimientoMB.preActualizarAreaConocimiento(areaConocimiento)}" update=":formAreaConocimiento" process="@form:formTablaAreaConocimientoes">
+                                               actionListener="#{areaConocimientoMB.preActualizarAreaConocimiento(areaConocimiento)}" update=":formAreaConocimiento" process="@form:formTablaAreaConocimientos">
                                 </p:commandLink>
                             </div>
                             
@@ -69,7 +69,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteAreaConocimientoDlg" header="Borrar AreaConocimiento" message="¿Confirma la eliminación del Area de Conocimiento?" 
+        <p:confirmDialog widgetVar="confirmDeleteAreaConocimientoDlg" header="Borrar AreaConocimiento" message="&iquest;Confirma la eliminación del Area de Conocimiento?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
@@ -79,8 +79,8 @@
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="S�"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
-                              actionListener="#{areaConocimientoMB.borrarAreaConocimiento()}" update=":formTablaAreaConocimientoes"/>
+            <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+                              actionListener="#{areaConocimientoMB.borrarAreaConocimiento()}" update=":formTablaAreaConocimientos"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
     </ui:define>
