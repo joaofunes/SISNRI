@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.apache.commons.logging.Log;
@@ -44,7 +45,8 @@ import org.springframework.web.context.WebApplicationContext;
  * @author Cortez
  */
 @Named("mapaInteractivo")
-@Scope(WebApplicationContext.SCOPE_APPLICATION)
+//@Scope(WebApplicationContext.SCOPE_APPLICATION)
+@ViewScoped
 public class MapaInteractivo implements Serializable {
 
     private static final long serialVersionUID = 1L;
