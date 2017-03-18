@@ -195,7 +195,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
             estado = estadoService.findById(pojo.getID_ESTADO());
-           // RequestContext context = RequestContext.getCurrentInstance();              
+            // RequestContext context = RequestContext.getCurrentInstance();              
             // context.execute("PF('dataChangeDlg').show();");
             //RequestContext.getCurrentInstance().update(":formPrincipal");
         } catch (Exception e) {
@@ -253,6 +253,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
 
     /**
      * metodo utilizado para redireccionar a propuesta para editar propuesta
+     *
      * @param pojo
      */
     public void addDocumento(PojoPropuestaConvenio pojo) {

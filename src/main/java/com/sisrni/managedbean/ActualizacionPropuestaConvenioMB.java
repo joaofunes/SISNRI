@@ -232,7 +232,7 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
     private SsRoles rol;
 
     private JCMail mail;
-    
+
     private boolean precargar;
 
     public void onload() {
@@ -813,8 +813,6 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
         }
     }
 
-    
-
     /**
      * Metodo que complementa la actualizacion de Solicitante, el tipo de
      * persona para Solicitante
@@ -947,8 +945,6 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
         }
     }
 
-    
-
     /**
      * Metodo que complementa la actualizacion de referente interno, el tipo de
      * persona para referente interno
@@ -1060,8 +1056,6 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
         }
     }
 
-    
-
     /**
      * Metodo que complementa la actualizacion de referente Externo, el tipo de
      * persona para referente Externo
@@ -1075,12 +1069,12 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
                 prsRefExterno.setPersona(referenteExterno);
                 prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
                 personaPropuestaService.updatePersonaPropuesta(referenteExterno.getIdPersona(), prsRefExterno.getPropuestaConvenio().getIdPropuesta(), prsRefExterno.getTipoPersona().getIdTipoPersona());
-            }else{
-               prsRefExterno = new PersonaPropuesta();
-            prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
-            prsRefExterno.setPersona(referenteExterno);
-            prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-            personaPropuestaService.save(prsRefExterno);
+            } else {
+                prsRefExterno = new PersonaPropuesta();
+                prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
+                prsRefExterno.setPersona(referenteExterno);
+                prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
+                personaPropuestaService.save(prsRefExterno);
             }
 
         } catch (Exception e) {
@@ -1294,9 +1288,9 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
             flagEdicion = true;
             propuestaConvenio = propuestaConvenioService.getPropuestaCovenioByID(idPropuestaConvenio);
             if (propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_MARCO)) {
-                flagConvenioMarco = true;                
-            }else{
-             propuestaConvenioTemp= propuestaConvenioService.getPropuestaCovenioByID(propuestaConvenio.getIdConvenio()); 
+                flagConvenioMarco = true;
+            } else {
+                propuestaConvenioTemp = propuestaConvenioService.getPropuestaCovenioByID(propuestaConvenio.getIdConvenio());
             }
         } catch (Exception e) {
             e.printStackTrace();
