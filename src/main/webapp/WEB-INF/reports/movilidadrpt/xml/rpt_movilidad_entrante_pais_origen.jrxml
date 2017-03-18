@@ -44,12 +44,12 @@
 				<text><![CDATA[Reporte de movilidades académicas entrantes ]]></text>
 			</staticText>
 			<textField pattern="d/M/yyyy">
-				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="119" width="264" height="20" forecolor="#786C6C"/>
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="288" y="119" width="240" height="20" forecolor="#786C6C"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField pattern="MM/dd/yyyy">
-				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="119" width="264" height="20" forecolor="#786C6C"/>
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="119" width="288" height="20" forecolor="#786C6C"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Fecha de creación: "]]></textFieldExpression>
 			</textField>
