@@ -452,7 +452,7 @@ public class PersonaMB implements Serializable{
          
             Map<String, Object> templateData = new HashMap<String, Object>();
             templateData.put("subJect", "Usaurio Creado");
-            templateData.put("nameTemplate", "usuario_mailTemplate.xhtml");
+            templateData.put("nameTemplate", "usuario_mailTemplat.xhtml");
             templateData.put("persona", persona);
             templateData.put("setToMail", "marroquin-7@hotmail.com");
             mailService.sendEmailMap(templateData);
