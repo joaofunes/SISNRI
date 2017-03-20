@@ -263,6 +263,7 @@ public class registrarMovilidadMB {
 
     private String txtBotonGuardar;
     private String txtBotonRegresar;
+    private String codigoPais;
 
     //Services
     @Autowired
@@ -521,6 +522,7 @@ public class registrarMovilidadMB {
 
         txtBotonGuardar = "Guardar";
         txtBotonRegresar = "Regresar";
+        codigoPais = "";
     }
 
     public void mostrarEscuelaDocenteMovilidad() {
@@ -580,6 +582,7 @@ public class registrarMovilidadMB {
                     mostrarEntrante = false;
                     mostrarSaliente = true;
                     listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
+                    //mascaraTelefonoMovilidad = "(503)-9999-9999";
                     mascaraTelefonoMovilidad = "(503)-9999-9999";
                     mostrarBuscadorSaliente = true;
                     mostrarBuscadorEntrante = false;
@@ -619,6 +622,10 @@ public class registrarMovilidadMB {
         listFacultadByInst = facultadService.getFacultadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listUnidadByInst = unidadService.getUnidadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadByInst, listUnidadByInst);//revisar esto
+        codigoPais = personaMovilidadGenerico.getIdOrganismo().getIdPais().toString();
+        mascaraTelefonoMovilidad = "("+codigoPais+")?9999999999";
+        
+        
     }
 
     /**

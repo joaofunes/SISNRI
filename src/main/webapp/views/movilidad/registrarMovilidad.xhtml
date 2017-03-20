@@ -233,7 +233,7 @@
                                                 <p:selectOneMenu id="InstitucionPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.idOrganismo}" converter="#{institucionDocenteMovilidadConverter}" style="width: 180px" disabled="#{registrarMovilidadMB.activarDocente}">
                                                     <f:selectItem itemLabel="--Seleccione--" itemValue="#{registrarMovilidadMB.institucionPersonaMovilidadSelected}" noSelectionOption="true"/>
                                                     <f:selectItems value="#{registrarMovilidadMB.listOrganismoPersonaMovilidad}" var="institucionPersona" itemLabel="#{institucionPersona.nombreOrganismo}" itemValue="#{institucionPersona}"/>
-                                                    <p:ajax listener="#{registrarMovilidadMB.onchangeListInstitucionPersonaMovilidad()}"  update="facultadPersona"/>
+                                                    <p:ajax listener="#{registrarMovilidadMB.onchangeListInstitucionPersonaMovilidad()}"  update="facultadPersona,telPersona,celPersona"/>
                                                 </p:selectOneMenu>
                                             </p:column> 
                                             <p:column>
@@ -372,6 +372,20 @@
                                         </p:column>
                                         <p:column>
                                             <poue:inputNumber id="boletoAereo" label="boletoAereo" value="#{registrarMovilidadMB.movilidad.voletoAereo}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="consultoria" value="Consultoria"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="consultoria" style="width: 180px">
+                                               <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/> 
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="costoConsultoria" value="Costos de consultoria"/>
+                                        </p:column>
+                                        <p:column>
+                                            <poue:inputNumber id="costoConsultoria" value=""/>
                                         </p:column>
 
                                         <p:column>
