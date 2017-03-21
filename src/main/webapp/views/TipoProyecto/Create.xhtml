@@ -23,7 +23,7 @@
 
                     <p:column>
                         <p:commandButton styleClass="boton" rendered="#{!tipoProyectoMB.actualizar}"
-                                         actionListener="#{tipoProyectoMB.guardarTipoProyecto}" value="Guardar"  update="formTipoProyecto " process="@this :formTipoProyecto"/>
+                                         actionListener="#{tipoProyectoMB.guardarTipoProyecto}" value="Guardar"  update="formAdmin:acordion:tipoproyecto" process="@this :formTipoProyecto"  onclick="PF('tipoproyectoDialog').hide();"/>
 
                         <p:commandButton styleClass="boton" rendered="#{tipoProyectoMB.actualizar}"
                                          actionListener="#{tipoProyectoMB.cancelarTipoProyecto()}" immediate="true" value="Cancelar" update="formTipoProyecto"  process="@this" />
