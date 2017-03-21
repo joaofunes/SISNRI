@@ -10,6 +10,7 @@
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
         <ui:define name="content">
+             <ui:include src="../TipoProyecto/Create.xhtml"/>
             <p:outputPanel id="pageTituloRegistrar" rendered="#{!proyectosMB.actualizar}">
                 <center>
                     <h1 style="background: #cc0000;color: white;border-radius: 10px">Registro de Proyectos Internacionales</h1>
@@ -30,11 +31,13 @@
                                         <p:outputLabel for="tipoproyecto" value="Tipo de Proyecto:" />
                                     </p:column>
                                     <p:column >
-                                        <p:selectOneMenu id="tipoproyecto" value="#{proyectosMB.proyectoSelected.idTipoProyecto}" style="width:180px" required="true">
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <c:forEach var="reg" items="#{proyectosMB.tipoproyectolist}">
-                                                <f:selectItem itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg.idTipoProyecto}"/>
-                                            </c:forEach>
+                                        <p:selectOneMenu id="tipoproyecto" value="#{proyectosMB.proyectoSelected}" converter="#{tipoProyectoConverter}" style="width:180px" required="true">
+                                            
+                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>                                          
+                                            <f:selectItems value="#{proyectosMB.tipoproyectolist}" var="reg" itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg}" /> 
+                                            
+                                            <p:ajax listener="#{proyectosMB.addNewTipoProyectoIfNecessary}" process="@this" />
+                                             
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>

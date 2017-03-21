@@ -49,8 +49,11 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIInput;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +68,8 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
 
 public class ProyectosMB {
+    @Inject
+    TipoProyectoMB tipoProyectoMB;
 
     @Autowired
     private AreaConocimientoService areaConocimientoService;
@@ -288,6 +293,9 @@ public class ProyectosMB {
     private Boolean disablePersona;
     private Boolean disablePersonaAsistente;
     private Boolean disablePersonaExterna;
+    
+// nuevos elementos en combo box
+    private TipoProyecto newTipoProyecto;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -473,6 +481,9 @@ public class ProyectosMB {
         disablePersona = Boolean.TRUE;
         disablePersonaAsistente = Boolean.TRUE;
         disablePersonaExterna = Boolean.TRUE;
+        
+        // nuevos elementos de los combo box
+        newTipoProyecto= new TipoProyecto();
 
     }
 
@@ -1721,7 +1732,26 @@ public class ProyectosMB {
             e.printStackTrace();
         }
     }
+// metodos para agregar nuevos elementos por cada combo box
+    public void addNewTipoProyectoIfNecessary() {
+//        Object value = ((UIInput) event.getComponent()).getValue();
+        if (proyectoSelected.getNombreTipoProyecto().equalsIgnoreCase("Nuevo Tipo Proyecto")) {
+            tipoProyectoMB.init();
+            
+            RequestContext ajax = RequestContext.getCurrentInstance();
+//            ajax.update("tipoproyectoDialog");
+            ajax.execute("PF('tipoproyectoDialog').show()");
+        }
+    }
+    public void saveNewTipoProyecto() {
+        tipoProyectoService.save(newTipoProyecto);
+        tipoproyectolist.add(newTipoProyecto);
+        proyectoSelected = new TipoProyecto();
 
+        RequestContext ajax = RequestContext.getCurrentInstance();
+        ajax.update("activitiesForm");
+        ajax.execute("PF('widget_addNewTipoProyecto').hide()");
+    }
     public TipoProyecto getProyectoSelected() {
         return proyectoSelected;
     }
@@ -2817,5 +2847,14 @@ public class ProyectosMB {
     public void setDesvincularExterna(Boolean desvincularExterna) {
         this.desvincularExterna = desvincularExterna;
     }
+// getter y setter de elementos de combobox nuevos
 
+    public TipoProyecto getNewTipoProyecto() {
+        return newTipoProyecto;
+    }
+
+    public void setNewTipoProyecto(TipoProyecto newTipoProyecto) {
+        this.newTipoProyecto = newTipoProyecto;
+    }
+    
 }

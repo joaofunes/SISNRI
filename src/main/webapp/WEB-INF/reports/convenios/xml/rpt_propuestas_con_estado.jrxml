@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="8"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -89,68 +89,62 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="58c86f1a-3b14-4f49-93f5-5af75cc74a4b" mode="Opaque" x="3" y="0" width="117" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="58c86f1a-3b14-4f49-93f5-5af75cc74a4b" mode="Opaque" x="42" y="0" width="183" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre Convenio]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="006df71b-55b0-469c-b2c3-ad1d6e07bc01" mode="Opaque" x="120" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Tipo Estado]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="36f3b816-6359-43b2-a6f0-5bca217a6817" mode="Opaque" x="220" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="36f3b816-6359-43b2-a6f0-5bca217a6817" mode="Opaque" x="225" y="0" width="137" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre Estado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="b132f8a4-7daf-44a3-bb85-83e5fc79fe3a" mode="Opaque" x="320" y="0" width="107" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="b132f8a4-7daf-44a3-bb85-83e5fc79fe3a" mode="Opaque" x="362" y="0" width="128" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha De Cambio]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="c416b11a-4120-4422-9871-eeddaac62d9e" mode="Opaque" x="427" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Vigencia]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="6c7f4757-20b3-4923-acb1-3cd7da956e3f" x="3" y="0" width="117" height="20"/>
+				<reportElement uuid="6c7f4757-20b3-4923-acb1-3cd7da956e3f" stretchType="RelativeToTallestObject" x="42" y="0" width="183" height="20"/>
+				<box leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{nombre_propuesta}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement uuid="be94b12f-134a-42f6-a3de-efffb8ab7831" x="120" y="0" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{tipo_estado}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="c2d4206c-8f90-41b5-8034-25b9a8a10cfb" x="220" y="0" width="100" height="20"/>
-				<textElement/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="c2d4206c-8f90-41b5-8034-25b9a8a10cfb" stretchType="RelativeToTallestObject" x="225" y="0" width="137" height="20"/>
+				<box leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{nombre_estado}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement uuid="c4c13f24-dd44-4846-aafc-72baab8e4a92" x="320" y="0" width="107" height="20"/>
-				<textElement/>
+			<textField pattern="dd/MM/YYYY">
+				<reportElement uuid="c4c13f24-dd44-4846-aafc-72baab8e4a92" stretchType="RelativeToTallestObject" x="362" y="0" width="128" height="20"/>
+				<box leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{fecha_cambio_estado}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="1f53bf1e-9d49-45d6-8c17-5c18d69321b7" x="427" y="0" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{vigencia}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
