@@ -90,7 +90,7 @@ public class OrganismoCooperanteMB {
     tipoOrganismoList = tipoOrganismoService.findAll();
     organismoSelected=new TipoOrganismo();
     organismosList=organismoService.findAll();
-    paisList = paisService.findAll();
+    paisList = paisService.getCountriesOrderByNameAsc();
     regionSelected = new Region();
     paisSelected = new Pais();
     regionList = regionService.findAll();

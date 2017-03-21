@@ -17,22 +17,28 @@ import org.springframework.stereotype.Repository;
  * @author Joao
  */
 @Repository(value = "paisDao")
-public class PaisDao extends GenericDao<Pais, Integer>  {
-    
-    
-       //retorna la lista de paises
+public class PaisDao extends GenericDao<Pais, Integer> {
+
+    //retorna la lista de paises
     public List<PojoPais> getPaises(Integer id) {
-        Query q =getSessionFactory().getCurrentSession().createQuery("FROM Pais p WHERE p.idPais.idPais = :id");
-        q.setParameter("id",id);
-        List<Pais> lista= q.list();
-        return q.list();        
-   }
-     //retorna la lista de paises perteneciente a una regi�n
-    public List<Pais> getPaisesByRegionId(Integer id){
-        Query q =getSessionFactory().getCurrentSession().createQuery("FROM Pais p WHERE p.idRegion.idRegion = :id");
-        q.setParameter("id",id);
-        List<Pais> lista= q.list();
-        return q.list();        
-   }
-    
+        Query q = getSessionFactory().getCurrentSession().createQuery("FROM Pais p WHERE p.idPais.idPais = :id");
+        q.setParameter("id", id);
+        List<Pais> lista = q.list();
+        return q.list();
+    }
+
+    //retorna la lista de paises perteneciente a una regi�n
+
+    public List<Pais> getPaisesByRegionId(Integer id) {
+        Query q = getSessionFactory().getCurrentSession().createQuery("FROM Pais p WHERE p.idRegion.idRegion = :id");
+        q.setParameter("id", id);
+        List<Pais> lista = q.list();
+        return q.list();
+    }
+
+    public List<Pais> getCountriesOrderByNameAsc() {
+        Query q = getSessionFactory().getCurrentSession().createQuery("FROM Pais p ORDER BY p.nombrePais asc");
+        List<Pais> lista = q.list();
+        return q.list();
+    }
 }

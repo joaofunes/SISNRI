@@ -17,21 +17,21 @@
                 <h:form id="formPais">
                     <p:panelGrid columns="2">
                         <p:column>
-                            <p:outputLabel for="codigoPais" value="Código de País:"/>
+                            <p:outputLabel for="codigoPais" value="C&oacute;digo de Pa&iacute;s:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="codigoPais" value="#{paisMB.pais.codigoPais}"  required="true" size="50"/>
-                            <p:watermark for="codigoPais" value="Código" id="watermarkCodigoPais"/>
+                            <p:watermark for="codigoPais" value="C&oacute;digo" id="watermarkCodigoPais"/>
                         </p:column>
                         <p:column>
                             <p:outputLabel for="nombrePais" value="Nombre:"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="nombrePais" value="#{paisMB.pais.nombrePais}" required="true" size="50" />
-                            <p:watermark for="nombrePais" value="Nombre país" id="watermarkNombrePais"/>
+                            <p:watermark for="nombrePais" value="Nombre pa&iacute;s" id="watermarkNombrePais"/>
                         </p:column>
                         <p:column>
-                            <p:outputLabel for="regionPais" value="Región:"/>
+                            <p:outputLabel for="regionPais" value="Regi&oacute;n:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="regionPais" value="#{paisMB.region.idRegion}"  style="width: 100%" required="true">
@@ -62,13 +62,13 @@
                     <p:dataTable var="pais" value="#{paisMB.listPais}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen paises registrados actualmente" >
-                        <p:column headerText="Código"  style="width: 15%">
+                        <p:column headerText="C&oacute;digo"  style="width: 15%">
                             <h:outputText value="#{pais.codigoPais}"/>
                         </p:column>
-                        <p:column headerText="País"  filterBy="#{pais.nombrePais}">
+                        <p:column headerText="Pa&iacute;s"  filterBy="#{pais.nombrePais}">
                             <h:outputText value="#{pais.nombrePais}"/>
                         </p:column>
-                        <p:column headerText="Región" filterBy="#{pais.idRegion.nombreRegion}">
+                        <p:column headerText="Regi&oacute;n" filterBy="#{pais.idRegion.nombreRegion}">
                             <h:outputText value="#{pais.idRegion.nombreRegion}"/>
                         </p:column> 
                         <p:column headerText="Opciones" style="width: 15%">
@@ -94,21 +94,21 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeletePaisDlg" header="Borrar Pais" message="¿Confirma la eliminación del País?" 
+        <p:confirmDialog widgetVar="confirmDeletePaisDlg" header="Borrar Pais" message="&iquest;Confirma la eliminaci&oacute;n del Pa&iacute;s?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
-                    <h:outputLabel  value="Código de País:"/>
+                    <h:outputLabel  value="C&oacute;digo de Pa&iacute;s:"/>
                     <h:outputText value="#{paisMB.pais.codigoPais}"/>
-                    <h:outputLabel value="Nombre País:"/>
+                    <h:outputLabel value="Nombre Pa&iacute;s:"/>
                     <h:outputText value="#{paisMB.pais.nombrePais}"/>
-                    <h:outputLabel value="Región:"/>
+                    <h:outputLabel value="Regi&oacute;n:"/>
                     <h:outputText value="#{paisMB.pais.idRegion.nombreRegion}"/>
                 </p:panelGrid>
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+             <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{paisMB.borrarPais()}" update=":formTablaPaises"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>

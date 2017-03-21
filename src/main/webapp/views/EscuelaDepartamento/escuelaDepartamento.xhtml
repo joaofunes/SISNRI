@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestión de Escuelas y Departamentos">  
+            <p:panel style="width: 70%" header="Gesti&oacute;n de Escuelas y Departamentos">  
                 
                 <h:form id="formEscuelaDepartamento">
                     <p:panelGrid columns="2">
@@ -24,7 +24,7 @@
                             <p:watermark for="nombreEscuelaDepto" value="Nombre de Escuela o Departamento" id="watermarkNombreEscuelaDepartamento"/>
                         </p:column>
                         
-                         <p:outputLabel for="pais" value="País: "/>
+                         <p:outputLabel for="pais" value="Pa&iacute;s: "/>
                         <p:selectOneMenu id="pais" value="#{escuelaDepartamentoMB.paisSelected.idPais}" style="width: 100%" required="true">
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                       <p:ajax listener="#{escuelaDepartamentoMB.onchangePais()}" update="organismo" />
@@ -64,11 +64,11 @@
                             </p:selectOneMenu>
                         </p:column>   
                          <p:column>
-                            <p:outputLabel for="descripcionEscuelaDepto" value="Descripción:"/>
+                            <p:outputLabel for="descripcionEscuelaDepto" value="Descripci&oacute;n:"/>
                         </p:column>
                         <p:column>
                             <p:inputTextarea id="descripcionEscuelaDepto" value="#{escuelaDepartamentoMB.escuelaDepartamento.descripcion}" rows="2" maxlength="300" style="width: 100%" required="true" />
-                            <p:watermark for="descripcionEscuelaDepto" value="Descripción de Escuela o Departamento" id="watermarkDescripcionEscuelaDepartamento"/>
+                            <p:watermark for="descripcionEscuelaDepto" value="Descripci&oacute;n de Escuela o Departamento" id="watermarkDescripcionEscuelaDepartamento"/>
                         </p:column>
                         <p:column>
                             <p:commandButton styleClass="boton" rendered="#{!escuelaDepartamentoMB.actualizar}"
@@ -94,7 +94,7 @@
                         <p:column headerText="Nombre"  filterBy="#{escuelaDepartamento.nombreEscuelaDepto}">
                             <h:outputText value="#{escuelaDepartamento.nombreEscuelaDepto}"/>
                         </p:column>
-                        <p:column headerText="País">
+                        <p:column headerText="Pa&iacute;s">
                                 <h:outputText value="#{escuelaDepartamento.idFacultad.idOrganismo.idPais}" >
                                     <f:converter converterId="nombrePaisConverter"/>
                                 </h:outputText>
@@ -110,7 +110,7 @@
                                     <f:converter converterId="tipoEscuelaDepartamentoConverter"/>
                                 </h:outputText>
                         </p:column>
-                        <p:column headerText="Descripción"  filterBy="#{escuelaDepartamento.descripcion}">
+                        <p:column headerText="Descripci&oacute;n"  filterBy="#{escuelaDepartamento.descripcion}">
                             <h:outputText value="#{escuelaDepartamento.descripcion}"/>
                         </p:column>
                         <p:column headerText="Opciones" style="width: 15%">
@@ -136,13 +136,13 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteEscuelaDepartamentoDlg" header="Borrar Escuela o Departamento" message="¿Confirma la eliminación del registro?" 
+        <p:confirmDialog widgetVar="confirmDeleteEscuelaDepartamentoDlg" header="Borrar Escuela o Departamento" message="&iquest;Confirma la eliminaci&oacute;n del registro?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
                     <h:outputLabel value="Nombre Escuela o Departamento:"/>
                     <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.nombreEscuelaDepto}"/>
-                     <h:outputLabel value="País:"/>
+                     <h:outputLabel value="Pa&iacute;s:"/>
                     <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.idFacultad.idOrganismo.idPais}" >
                         <f:converter converterId="nombrePaisConverter"/>
                     </h:outputText>
@@ -154,7 +154,7 @@
                     <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.identificador}" >
                         <f:converter converterId="tipoEscuelaDepartamentoConverter"/>
                     </h:outputText>
-                    <h:outputLabel value="Descripción:"/>
+                    <h:outputLabel value="Descripci&oacute;n:"/>
                     <h:outputText value="#{escuelaDepartamentoMB.escuelaDepartamento.descripcion}"/>
                 </p:panelGrid>
                 <br/>

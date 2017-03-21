@@ -12,7 +12,7 @@
     
     <ui:define name="content">
          <center> 
-            <p:panel style="width: 70%" header="GestiÃ³n de Tipos de Cambios">  
+            <p:panel style="width: 70%" header="Gesti&oacute;n de Tipos de Cambios">  
         <h:form id="formAdmin">
                
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
@@ -25,7 +25,7 @@
                     </p:column>
                     
                      <p:column>
-                        <p:outputLabel for="codigoDivisa" value="CÃ³digo de Divisa:" />
+                        <p:outputLabel for="codigoDivisa" value="C&oacute;digo de Divisa:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="codigoDivisa" value="#{tipoCambioMB.tipoCambio.codigoDivisa}" required="true" size="20" />
@@ -68,11 +68,11 @@
                         <h:outputText value="#{cambio.nombreDivisa}" />
                     </p:column>
 
-                    <p:column headerText="CÃ³digo de Divisa" sortBy="#{cambio.codigoDivisa}" filterBy="#{cambio.codigoDivisa}">
+                    <p:column headerText="C&oacute;digo de Divisa" sortBy="#{cambio.codigoDivisa}" filterBy="#{cambio.codigoDivisa}">
                         <h:outputText value="#{cambio.codigoDivisa}" />
                     </p:column>
                     
-                    <p:column headerText="DÃ³lares por Unidad" sortBy="#{cambio.dolaresPorUnidad}" filterBy="#{cambio.dolaresPorUnidad}">
+                    <p:column headerText="D&oacute;lares por Unidad" sortBy="#{cambio.dolaresPorUnidad}" filterBy="#{cambio.dolaresPorUnidad}">
                         <h:outputText value="$#{cambio.dolaresPorUnidad}" />
                     </p:column>
                     <p:column headerText="Opciones" >
@@ -93,24 +93,24 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Â¿EstÃ¡ seguro que desea eliminar el Tipo de Cambio?" header="Eliminar Tipo de Cambio"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Ãƒâ€šÃ‚&iquest;EstÃƒÆ’Ã‚Â¡ seguro que desea eliminar el Tipo de Cambio?" header="Eliminar Tipo de Cambio"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre de la Divisa: "  style="font-weight:bold"/>
                  <h:outputText value="#{tipoCambioMB.delTipoCambio.nombreDivisa}" />
                  <br/>
                  <br/>
-                 <h:outputText value="CÃ³digo de Divisa: "  style="font-weight:bold" />
+                 <h:outputText value="C&oacute;digo de Divisa: "  style="font-weight:bold" />
                  <h:outputText value="#{tipoCambioMB.delTipoCambio.codigoDivisa}" />
                  <br/>
                  <br/>
-                 <h:outputText value="DÃ³lares por Unidad: "  style="font-weight:bold" />
+                 <h:outputText value="D&oacute;lares por Unidad: "  style="font-weight:bold" />
                  <h:outputText value="$#{tipoCambioMB.delTipoCambio.dolaresPorUnidad}" />
              
             </h:form>    
             
             <p:separator />
-            <p:commandButton value="SÃ­"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoCambioMB.deleteTipoCambio()}" process="@this" update=":formPrincipal"/>
+            <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{tipoCambioMB.deleteTipoCambio()}" process="@this" update=":formPrincipal"/>
                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 

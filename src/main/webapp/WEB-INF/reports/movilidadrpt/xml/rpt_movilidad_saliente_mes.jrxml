@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidad_saliente_mes" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="80"/>
+	<property name="ireport.y" value="368"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -162,26 +162,6 @@
 	</pageFooter>
 	<summary>
 		<band height="220" splitType="Stretch">
-			<areaChart>
-				<chart isShowLegend="false">
-					<reportElement uuid="381db5a4-5850-4eab-9455-c961e57e6576" x="0" y="32" width="528" height="188">
-						<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
-					</reportElement>
-					<chartTitle/>
-					<chartSubtitle/>
-					<chartLegend/>
-				</chart>
-				<categoryDataset>
-					<categorySeries>
-						<seriesExpression><![CDATA[""]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{nombreMes}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
-					</categorySeries>
-				</categoryDataset>
-				<areaPlot>
-					<plot labelRotation="-25.0"/>
-				</areaPlot>
-			</areaChart>
 			<textField>
 				<reportElement uuid="e231a149-1743-4ca6-a141-b78e7acbdcf3" x="274" y="0" width="144" height="20"/>
 				<box>
@@ -208,6 +188,27 @@
 				</textElement>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
+			<bar3DChart>
+				<chart>
+					<reportElement uuid="6040958d-edae-4bff-9fb0-c4e21e1705a9" x="12" y="36" width="504" height="184">
+						<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nombreMes}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombreMes}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot labelRotation="-25.0"/>
+					<itemLabel/>
+				</bar3DPlot>
+			</bar3DChart>
 		</band>
 	</summary>
 </jasperReport>

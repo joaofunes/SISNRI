@@ -260,9 +260,10 @@ public class registrarMovilidadMB {
     private Boolean habilitarBuscadorReferente;
     private Boolean mostrarBotonNuevoDocente;
     private Boolean mostrarBotonNuevoReferente;
-    
+
     private String txtBotonGuardar;
     private String txtBotonRegresar;
+    private String codigoPais;
 
     //Services
     @Autowired
@@ -518,9 +519,10 @@ public class registrarMovilidadMB {
         habilitarBuscadorReferente = false;
         mostrarBotonNuevoDocente = false;
         mostrarBotonNuevoReferente = false;
-        
+
         txtBotonGuardar = "Guardar";
         txtBotonRegresar = "Regresar";
+        codigoPais = "";
     }
 
     public void mostrarEscuelaDocenteMovilidad() {
@@ -580,6 +582,7 @@ public class registrarMovilidadMB {
                     mostrarEntrante = false;
                     mostrarSaliente = true;
                     listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
+                    //mascaraTelefonoMovilidad = "(503)-9999-9999";
                     mascaraTelefonoMovilidad = "(503)-9999-9999";
                     mostrarBuscadorSaliente = true;
                     mostrarBuscadorEntrante = false;
@@ -619,6 +622,10 @@ public class registrarMovilidadMB {
         listFacultadByInst = facultadService.getFacultadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listUnidadByInst = unidadService.getUnidadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadByInst, listUnidadByInst);//revisar esto
+        codigoPais = personaMovilidadGenerico.getIdOrganismo().getIdPais().toString();
+        mascaraTelefonoMovilidad = "("+codigoPais+")?9999999999";
+        
+        
     }
 
     /**
@@ -1877,7 +1884,7 @@ public class registrarMovilidadMB {
         List<String> facultadesUnidadesTmp = new ArrayList<String>();
         EscuelaDepartamento escuelaDepto = new EscuelaDepartamento();
         EscuelaDepartamento escuelaDeptoReferente = new EscuelaDepartamento();
-        mostrarBotonEditarDocente = true;
+        //mostrarBotonEditarDocente = true;
 
         mostrarBotonDesvincular = true;
         tituloRegistroEdicion = "Actualizacion de movilidad";
@@ -1889,8 +1896,14 @@ public class registrarMovilidadMB {
         actualizar = true;
         actualizarPersonaMov = true;
         //actualizarRefte = true;
-        deshabilitarCamposDocente();
-        desabilitarCamposReferente();
+        //deshabilitarCamposDocente();
+        //desabilitarCamposReferente();
+        habilitarCamposDocente();
+        habilitarCamposReferente();
+        existePersonaMovilidad = true;
+        existeReferente = true;
+        siEditarDocente = true;
+        siEditarReferente=true;
 
         try {
             if ((movilidadAux = movilidadService.findById(idMovilidad)) != null) {
@@ -1988,7 +2001,7 @@ public class registrarMovilidadMB {
                     existeReferente = true;
                     desvinculadoRfte = false;
                     habilitarBuscadorReferente = true; //deshabililta el buscador del referente
-                    mostrarBotonEditarReferente = true;  //mostrar el boton de editar referente
+                    //mostrarBotonEditarReferente = true;  //mostrar el boton de editar referente
 
                     //escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
                     if (personaFacultadGenerico.getIdEscuelaDepto() != null) {
@@ -3107,7 +3120,5 @@ public class registrarMovilidadMB {
     public void setTxtBotonRegresar(String txtBotonRegresar) {
         this.txtBotonRegresar = txtBotonRegresar;
     }
-    
-    
 
 }

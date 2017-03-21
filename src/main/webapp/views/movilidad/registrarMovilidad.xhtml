@@ -78,7 +78,7 @@
                                     <h:panelGroup id="grup1" rendered="#{registrarMovilidadMB.mostrarBuscadorSaliente}">
                                         <p:panelGrid id="grid">
                                             <p:column>
-                                                <p:outputLabel for="tipoBusquedaSal" value="Tipo de B&uacute;squeda:" />
+                                                <p:outputLabel for="tipoBusquedaSal" value="Criterio de B&uacute;squeda:" />
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaSal" value="#{registrarMovilidadMB.tipoBusquedaSaliente}"  style="width:125px">  
@@ -131,7 +131,7 @@
                                     <h:panelGroup id="grup2"  rendered="#{registrarMovilidadMB.mostrarBuscadorEntrante}">
                                         <p:panelGrid id="grid2">
                                             <p:column>
-                                                <p:outputLabel for="tipoBusquedaEnt" value="Tipo de B&uacute;squeda:" />
+                                                <p:outputLabel for="tipoBusquedaEnt" value="Criterio de B&uacute;squeda:" />
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaEnt" value="#{registrarMovilidadMB.tipoBusquedaEntrante}"  style="width:125px">  
@@ -233,7 +233,7 @@
                                                 <p:selectOneMenu id="InstitucionPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.idOrganismo}" converter="#{institucionDocenteMovilidadConverter}" style="width: 180px" disabled="#{registrarMovilidadMB.activarDocente}">
                                                     <f:selectItem itemLabel="--Seleccione--" itemValue="#{registrarMovilidadMB.institucionPersonaMovilidadSelected}" noSelectionOption="true"/>
                                                     <f:selectItems value="#{registrarMovilidadMB.listOrganismoPersonaMovilidad}" var="institucionPersona" itemLabel="#{institucionPersona.nombreOrganismo}" itemValue="#{institucionPersona}"/>
-                                                    <p:ajax listener="#{registrarMovilidadMB.onchangeListInstitucionPersonaMovilidad()}"  update="facultadPersona"/>
+                                                    <p:ajax listener="#{registrarMovilidadMB.onchangeListInstitucionPersonaMovilidad()}"  update="facultadPersona,telPersona,celPersona"/>
                                                 </p:selectOneMenu>
                                             </p:column> 
                                             <p:column>
@@ -373,6 +373,20 @@
                                         <p:column>
                                             <poue:inputNumber id="boletoAereo" label="boletoAereo" value="#{registrarMovilidadMB.movilidad.voletoAereo}"/>
                                         </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="consultoria" value="Consultoria"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="consultoria" style="width: 180px">
+                                               <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/> 
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="costoConsultoria" value="Costos de consultoria"/>
+                                        </p:column>
+                                        <p:column>
+                                            <poue:inputNumber id="costoConsultoria" value=""/>
+                                        </p:column>
 
                                         <p:column>
                                             <p:outputLabel for="etapa" value="Etapa"/> 
@@ -436,7 +450,7 @@
                                     <h:panelGroup id="grup3">
                                         <p:panelGrid id="gridRef">
                                             <p:column>
-                                                <p:outputLabel for="tipoBusquedaRef" value="Tipo de B&uacute;squeda:" />
+                                                <p:outputLabel for="tipoBusquedaRef" value="Criterio de B&uacute;squeda:" />
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaRef" value="#{registrarMovilidadMB.tipoBusquedaReferente}"  style="width:125px" disabled="#{registrarMovilidadMB.habilitarBuscadorReferente}">  
