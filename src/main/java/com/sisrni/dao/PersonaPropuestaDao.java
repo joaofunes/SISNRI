@@ -34,8 +34,24 @@ public class PersonaPropuestaDao extends GenericDao<PersonaPropuesta, Integer> {
     
     public int updatePersonaPropuesta(int persona,int propuesta,int tipoPersona){
         try {
+            
             String sql="UPDATE PERSONA_PROPUESTA SET ID_PERSONA ="+persona+"  WHERE ID_PROPUESTA="+propuesta+" AND ID_TIPO_PERSONA="+tipoPersona;
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+            int executeUpdate = q.executeUpdate();
+            return executeUpdate;
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return 0;
+    }
+    
+    public int deletePersonaPropuesta(int persona,int propuesta,int tipoPersona){
+        try {
+            
+            String sql="DELETE FROM PERSONA_PROPUESTA WHERE ID_PERSONA ="+persona+" AND ID_PROPUESTA="+propuesta+" AND ID_TIPO_PERSONA="+tipoPersona;
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+            getSessionFactory().getCurrentSession().flush();
+            getSessionFactory().getCurrentSession().clear();
             int executeUpdate = q.executeUpdate();
             return executeUpdate;
         } catch (Exception e) {

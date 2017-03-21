@@ -88,6 +88,11 @@
                                         <p:watermark for="idEmailSolicitante" value="E-mail"/> 
                                     </p:column>
                                     <p:column>
+                                        <p:commandButton id="btnDesvincularSolicitante" 
+                                                         actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
+                                                         value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Interno" />                                               
+                                    </p:column>
+                                    <p:column>
                                         <p:commandButton id="btnEditarSolicitante" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditSolicitante}"
                                                          actionListener="#{actualizacionPropuestaConvenioMB.preEditeSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
                                                          value="Editar"   icon="ui-icon-disk" title="Editar Referente Interno" />                                               
@@ -305,6 +310,11 @@
                                 </p:column>
                                 <p:column>
                                     <p:column>
+                                        <p:commandButton id="btnDesvincularInterno"
+                                                         actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
+                                                         value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Interno" />                                               
+                                    </p:column>
+                                    <p:column>
                                         <p:commandButton id="btnEditarInterno" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditInterno}"
                                                          actionListener="#{actualizacionPropuestaConvenioMB.preEditeReferenteInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
                                                          value="Editar"   icon="ui-icon-disk" title="Editar Referente Interno" />                                               
@@ -518,6 +528,11 @@
                                 </p:column>
 
                                 <p:column>
+                                    <p:commandButton id="btnDesvincularExterno" 
+                                                     actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
+                                                     value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Externo" />                                               
+                                </p:column>
+                                <p:column>
                                     <p:commandButton id="btnEditarExterno" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditExterno}"
                                                      actionListener="#{actualizacionPropuestaConvenioMB.preEditeReferenteExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
                                                      value="Editar"   icon="ui-icon-disk" title="Editar Referente Externo" />                                               
@@ -689,7 +704,7 @@
                                         <p:outputLabel for="idNombrePropuesta" value="Nombre de Propuesta" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputTextarea id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{actualizacionPropuestaConvenioMB.propuestaConvenio.nombrePropuesta}" rows="2" maxlength="300" style="width:180px" >
+                                        <p:inputTextarea id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{actualizacionPropuestaConvenioMB.propuestaConvenio.nombrePropuesta}" rows="2" maxlength="300" style="width: 300px" >
                                         </p:inputTextarea>
                                         <p:message for="idNombrePropuesta" />
                                         <p:watermark for="idNombrePropuesta" value="Nombre Propuesta" id="nameProp" />

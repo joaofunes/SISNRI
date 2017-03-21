@@ -52,7 +52,7 @@
                             <p:commandButton id="reportButton" icon="ui-icon-print"  value="Pdf"  actionListener="#{convenioReportesMB.printReportesPropuestasConvenioWithEstado('pdf')}" oncomplete="print(xhr, status, args)"/>            
                             <p:commandButton id="reportButtonExcel" icon="ui-icon-print"  value="Excel"  actionListener="#{convenioReportesMB.printReportesPropuestasConvenioWithEstado('xls')}" oncomplete="prints(xhr, status, args)"/>             
                             <p:commandButton id="reportButtonDoc" icon="ui-icon-print"  value="Word"  actionListener="#{convenioReportesMB.printReportesPropuestasConvenioWithEstado('doc')}" oncomplete="prints(xhr, status, args)"/>             
-                            <p:commandButton value="Cancelar"   icon="ui-icon-trash"/>
+                            <p:button value="Regresar" outcome="/views/convenio/listadoReportesConvenios.xhtml" icon="ui-icon-arrowreturnthick-1-w"/>
                         </div>
                     </f:facet>
                 </h:panelGrid>
