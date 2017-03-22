@@ -5,10 +5,10 @@
  */
 package com.sisrni.managedbean;
 
-
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.service.TipoProyectoService;
 import com.sisrni.utils.JsfUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -21,168 +21,177 @@ import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-
 /**
  *
  * @author Luis
  */
 @Named(value = "tipoProyectoMB")
 @RequestScoped
-public class TipoProyectoMB{
-      /*Para Errores*/
+public class TipoProyectoMB {
+
+    /*Para Errores*/
     private final static Log log = LogFactory.getLog(TipoProyectoMB.class);
 
-    
     /*Variables */
     private TipoProyecto tipoProyecto;
     private List<TipoProyecto> listTipoProyecto;
     private boolean actualizar;
-    
-    
-    
+
     @Autowired
     @Qualifier(value = "tipoProyectoService")
     private TipoProyectoService tipoProyectoService;
-    
-    
+
     /*Constructor*/
-    public TipoProyectoMB(){
-        
+    public TipoProyectoMB() {
+
     }
-    
-    
+
     /*Post Constructor*/
     @PostConstruct
-    public void init(){
+    public void init() {
         cargarTipoProyecto();
     }
-    
-    /** 
-     * Metodo que crea instancias de 'TipoProyecto' y 'Organismo' y almacena
-     * en una Lista todas las instancias de 'Organismo' que se encuentra en la
+
+    /**
+     * Metodo que crea instancias de 'TipoProyecto' y 'Organismo' y almacena en
+     * una Lista todas las instancias de 'Organismo' que se encuentra en la
      * tabla respectiva
      */
-    
-    public void cargarTipoProyecto(){
+    public void cargarTipoProyecto() {
         tipoProyecto = new TipoProyecto();
         listTipoProyecto = tipoProyectoService.findAll();
         actualizar = false;
     }
-    
-    
-    /** 
-     * Metodo para guardar una instancia de 'TipoProyecto' en la tabla 
+
+    /**
+     * Metodo para guardar una instancia de 'TipoProyecto' en la tabla
      * correspondiente de la base de datos
      */
-    public void guardarTipoProyecto(){
-        String msg ="Tipo de Proyecto Almacenado Exitosamente!";
-        try{
-           tipoProyecto.setIdTipoProyecto(Integer.MIN_VALUE);
-           tipoProyectoService.save(tipoProyecto);
-          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
-           
-        }catch(Exception e){
+    public void guardarTipoProyecto() {
+        String msg = "Tipo de Proyecto Almacenado Exitosamente!";
+        try {
+//           tipoProyecto.setIdTipoProyecto(Integer.MIN_VALUE);
+            tipoProyectoService.save(tipoProyecto);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado!!", msg));
+
+        } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al Guardar Tipo de Proyecto!");
             e.printStackTrace();
         }
         cargarTipoProyecto();
     }
-    public List<TipoProyecto> listaProyectos(){
-        return listTipoProyecto = tipoProyectoService.findAll();
+
+//    public List<TipoProyecto> listaProyectos() {
+//        return listTipoProyecto = tipoProyectoService.findAll();
+//    }
+
+    public List<TipoProyecto> listaProyectos() {
+        listTipoProyecto = tipoProyectoService.getAllByNameAsc();
+        TipoProyecto tipoProyectoNew1=new TipoProyecto();
+        List<TipoProyecto> copy = new ArrayList<TipoProyecto>();
+        for (TipoProyecto tipoProyectoNew : listTipoProyecto) {
+            if(!tipoProyectoNew.getNombreTipoProyecto().equalsIgnoreCase("Agregar Nuevo"))
+            {
+                copy.add(tipoProyectoNew);
+            }else{
+                tipoProyectoNew1=tipoProyectoNew;
+            }
+        }
+        copy.add(tipoProyectoNew1);
+        listTipoProyecto.clear();
+        return listTipoProyecto=copy;
     }
+
     /**
-     * Metodo que se ocupa de precargar la instancia de 'TipoProyecto' a ser actualizada
+     * Metodo que se ocupa de precargar la instancia de 'TipoProyecto' a ser
+     * actualizada
+     *
      * @param tipoProyecto
      */
-    public void preActualizarTipoProyecto(TipoProyecto tipoProyecto){
-       try{ 
-        actualizar = true;
-        this.tipoProyecto = tipoProyecto;
-       }catch(Exception e){
-           System.out.println(e.getMessage());
-       }
+    public void preActualizarTipoProyecto(TipoProyecto tipoProyecto) {
+        try {
+            actualizar = true;
+            this.tipoProyecto = tipoProyecto;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
-    
+
     /**
      * Metodo para actualizar las propiedades de la instancia de 'TipoProyecto'
      * seleccionada
      */
-    public void actualizarTipoProyecto(){
-        String msg ="Tipo de Proyecto Actualizado Exitosamente!";
-        try{
+    public void actualizarTipoProyecto() {
+        String msg = "Tipo de Proyecto Actualizado Exitosamente!";
+        try {
             //actualizando la instancia
             tipoProyectoService.merge(tipoProyecto);
             actualizar = false;
-            cancelarTipoProyecto(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
-        }catch(Exception e){
+            cancelarTipoProyecto();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización!!", msg));
+        } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al Actualizar Tipo de Proyecto");
             e.printStackTrace();
         }
-        cargarTipoProyecto(); 
+        cargarTipoProyecto();
     }
-    
-    
+
     /**
-     * Metodo  de Pre- borrado, que obtiene una instancia de la Entity a Borrar
-     * y despliega un 'p:dialog' donde se solicita la confirmacion de la 
-     * operacion de borrado
+     * Metodo de Pre- borrado, que obtiene una instancia de la Entity a Borrar y
+     * despliega un 'p:dialog' donde se solicita la confirmacion de la operacion
+     * de borrado
+     *
      * @param tipoProyecto
      */
-    public void preBorradoTipoProyecto(TipoProyecto tipoProyecto){
+    public void preBorradoTipoProyecto(TipoProyecto tipoProyecto) {
         //guardando en 'tipoProyecto' la instancia de 'TipoProyecto' que se recibe como argumento
         this.tipoProyecto = tipoProyecto;
         RequestContext context = RequestContext.getCurrentInstance();
         //Desplegando el 'Dialog'
         context.execute("PF('confirmDeleteTipoProyectoDlg').show();");
     }
-    
+
     /**
      * Metodo que borra una instancia de 'TipoProyecto' de la Base de datos
      */
-    public void borrarTipoProyecto(){ 
-        String msg ="Tipo de Proyecto Eliminado Exitosamente!";
-        try{
+    public void borrarTipoProyecto() {
+        String msg = "Tipo de Proyecto Eliminado Exitosamente!";
+        try {
             //Borrando la instancia de tipoProyecto
             tipoProyectoService.delete(tipoProyecto);
             cargarTipoProyecto();
             RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('confirmDeleteTipoProyectoDlg').hide();"); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
-        }catch(Exception e){
+            context.execute("PF('confirmDeleteTipoProyectoDlg').hide();");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado!!", msg));
+        } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al Eliminar Tipo de Proyecto!");
             e.printStackTrace();
-        }finally{
+        } finally {
             actualizar = false;
         }
-        
-        
+
     }
-    
-    
+
     /**
-     * Metodo que se encarga de limpiar el formulario de creacion y 
+     * Metodo que se encarga de limpiar el formulario de creacion y
      * actualizacion de TipoProyecto
      */
-    public void cancelarTipoProyecto(){
-        String msg ="Tipo de Proyecto cancelado";
-        try{
-        tipoProyecto = null;
-        tipoProyecto = new TipoProyecto();
-        RequestContext.getCurrentInstance().reset(":formTipoProyecto");
-        if(actualizar)
-          JsfUtil.addSuccessMessage(msg);
-        }catch(Exception e){
-             System.out.println(e.getMessage());
+    public void cancelarTipoProyecto() {
+        String msg = "Tipo de Proyecto cancelado";
+        try {
+            tipoProyecto = null;
+            tipoProyecto = new TipoProyecto();
+            RequestContext.getCurrentInstance().reset(":formTipoProyecto");
+            if (actualizar) {
+                JsfUtil.addSuccessMessage(msg);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-      cargarTipoProyecto();
+        cargarTipoProyecto();
     }
-            
-    
 
-    
     /*Getters y Setters*/
-
     public TipoProyecto getTipoProyecto() {
         return tipoProyecto;
     }
@@ -206,7 +215,5 @@ public class TipoProyectoMB{
     public void setActualizar(boolean actualizar) {
         this.actualizar = actualizar;
     }
-    
-   
-    
+
 }

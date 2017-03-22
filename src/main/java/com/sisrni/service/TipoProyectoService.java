@@ -10,6 +10,7 @@ import com.sisrni.dao.TipoProyectoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,9 @@ public class TipoProyectoService extends GenericService<TipoProyecto, Integer> {
     @Override
     public GenericDao<TipoProyecto, Integer> getDao() {
      return tipoProyectoDao;
+    }
+    public List<TipoProyecto> getAllByNameAsc(){
+        return tipoProyectoDao.getAllByNameAsc();
     }
     
 }
