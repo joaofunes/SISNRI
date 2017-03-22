@@ -372,8 +372,8 @@ public class PropuestaConvenioMB implements Serializable {
             listaFacultad = facultadService.findAll();
             listaUnidad = unidadService.findAll();
 
-            listadoEscuelaDepartamento = escuelaDepartamentoService.findAll();
-            listadoEscuelaDepartamentoInter = escuelaDepartamentoService.findAll();
+            listadoEscuelaDepartamento = new ArrayList<EscuelaDepartamento>();
+            listadoEscuelaDepartamentoInter = new ArrayList<EscuelaDepartamento>();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -657,7 +657,7 @@ public class PropuestaConvenioMB implements Serializable {
      *
      * @throws java.lang.Exception
      */
-    public void guardarPropuestaConvenio() throws Exception {
+    public void guardarPropuestaConvenio() {
         try {
 
             if (solicitante != null && solicitante.getIdPersona() != null) {
@@ -686,53 +686,22 @@ public class PropuestaConvenioMB implements Serializable {
                     guardarReferenteExternoComplemento();
                 }
             }
-//          ////////////////////////////////////
-//            //// PERSONA REFERENTE_INTERNO/////
-//            ////////////////////////////////////  
-//            if (mismoSolicitante) { //verfico que la persona exista, si true entonces
-//                guardarReferenteInternoComplemento();
-//            } else if (referenteInterno.getEmailPersona() != null) {
-////                Persona existePersona = personaService.existePersonaByMail(referenteInterno.getEmailPersona());
-////                if (existePersona != null && existePersona.getIdPersona() != null) {
-////                    referenteInterno.setIdPersona(existePersona.getIdPersona());
-////                }
-//                if (referenteInterno.getIdPersona() != null) {
-//                    actualizarReferenteInterno();
-//                } else {
-//                    guardarReferenteInterno();
-//                }
-//                guardarReferenteInternoComplemento();
-//            }
 
-            //////////////////////////////////
-            //// PERSONA REFERENTE_EXTERNO////
-            //////////////////////////////////
-//            if (referenteExterno.getEmailPersona() != null) {
-//                Persona existePersona = personaService.existePersonaByMail(referenteExterno.getEmailPersona());
-//                if (existePersona != null && existePersona.getIdPersona() != null) {
-//                    referenteExterno.setIdPersona(existePersona.getIdPersona());
-//                }
-//
-//                if (referenteExterno.getIdPersona() != null) {
-//                    actualizarReferenteExterno();
-//                } else {
-//                    guardarReferenteExterno();
-//                }
-//            }
             enviarCorreo();
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", "Propuesta Convenio almacenada"));
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             context.redirect(context.getRequestContextPath() + "/views/convenio/consultarPropuestaConvenio.xhtml");
         } catch (Exception e) {
-            throw new Exception("Error class PropuestaConvenioMB - guardarPropuestaConvenio()\n" + e.getMessage(), e.getCause());
+            String message = "Error Guardando Propuesta : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
     }
 
     /**
      * Metodo para envio de correo informativo de creacion de propuesta
      */
-    public void enviarCorreo() {
+    public void enviarCorreo() throws Exception{
         try {
 
             propuestaConvenio = propuestaConvenioService.getByIDPropuestaWithPersona(propuestaConvenio.getIdPropuesta());
@@ -754,21 +723,20 @@ public class PropuestaConvenioMB implements Serializable {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+             throw new Exception("Error class PropuestaConvenioMB - enviarCorreo()\n" + e.getMessage(), e.getCause());
         }
     }
-
-    
 
     /**
      * Metodo para alamcenar propuesta de convenio sin solicitantes
      */
-    private void savePropuestaConvenio() {
+    private void savePropuestaConvenio() throws Exception {
         try {
             propuestaConvenio.setIdConvenio(propuestaConvenioTemp.getIdPropuesta());
             propuestaConvenio.setFechaIngreso(new Date());
             propuestaConvenioService.save(propuestaConvenio);
         } catch (Exception e) {
+            throw new Exception("Error class PropuestaConvenioMB - savePropuestaConvenio()\n" + e.getMessage(), e.getCause());
         }
     }
 
@@ -776,7 +744,7 @@ public class PropuestaConvenioMB implements Serializable {
      * Metodo para almacenar estado de propuesta de convenio inicialmente estara
      * en REVISION
      */
-    private void guardarEstado() {
+    private void guardarEstado() throws Exception {
         try {
             PropuestaEstado estado = new PropuestaEstado();
             Estado stado = estadoService.getEstadoByName(ESTADO);
@@ -786,6 +754,7 @@ public class PropuestaConvenioMB implements Serializable {
             estado.setPropuestaEstadoPK(new PropuestaEstadoPK(propuestaConvenio.getIdPropuesta(), stado.getIdEstado()));
             propuestaEstadoService.save(estado);
         } catch (Exception e) {
+            throw new Exception("Error class PropuestaConvenioMB - guardarEstado()\n" + e.getMessage(), e.getCause());
         }
     }
 
@@ -895,18 +864,19 @@ public class PropuestaConvenioMB implements Serializable {
      * Metodo que complementa el almacenamiento de Solicitante, el tipo de
      * persona para Solicitante
      */
-    private void guardarSolicitanteComplemento() {
+    private void guardarSolicitanteComplemento() throws Exception {
         try {
             PersonaPropuesta prsSolicitante = new PersonaPropuesta();
             //Guardar solicitante en persona de propuesta
-            prsSolicitante.setPropuestaConvenio(propuestaConvenio);
-            prsSolicitante.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(SOLICITANTE));
-            prsSolicitante.setPersona(solicitante);
-            prsSolicitante.setPersonaPropuestaPK(new PersonaPropuestaPK(solicitante.getIdPersona(), prsSolicitante.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-            personaPropuestaService.save(prsSolicitante);
-
+            if (solicitante != null && solicitante.getIdPersona() != null) {
+                prsSolicitante.setPropuestaConvenio(propuestaConvenio);
+                prsSolicitante.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(SOLICITANTE));
+                prsSolicitante.setPersona(solicitante);
+                prsSolicitante.setPersonaPropuestaPK(new PersonaPropuestaPK(solicitante.getIdPersona(), prsSolicitante.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
+                personaPropuestaService.save(prsSolicitante);
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception("Error class PropuestaConvenioMB - guardarSolicitanteComplemento()\n" + e.getMessage(), e.getCause());
         }
     }
 
@@ -1038,7 +1008,7 @@ public class PropuestaConvenioMB implements Serializable {
      * Metodo que complementa el almacenamiento de referente interno, el tipo de
      * persona para referente interno
      */
-    private void guardarReferenteInternoComplemento() {
+    private void guardarReferenteInternoComplemento() throws Exception{
         try {
             PersonaPropuesta prsRefInterno = new PersonaPropuesta();
             prsRefInterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_INTERNO));
@@ -1046,7 +1016,7 @@ public class PropuestaConvenioMB implements Serializable {
             prsRefInterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteInterno.getIdPersona(), prsRefInterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
             personaPropuestaService.save(prsRefInterno);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception("Error class PropuestaConvenioMB - guardarReferenteInternoComplemento()\n" + e.getMessage(), e.getCause());
         }
     }
 
@@ -1159,7 +1129,7 @@ public class PropuestaConvenioMB implements Serializable {
      * Metodo que complementa el almacenamiento de referente Externo, el tipo de
      * persona para referente Externo
      */
-    private void guardarReferenteExternoComplemento() {
+    private void guardarReferenteExternoComplemento() throws Exception{
         try {
 
             PersonaPropuesta prsRefExterno = new PersonaPropuesta();
@@ -1169,7 +1139,7 @@ public class PropuestaConvenioMB implements Serializable {
             personaPropuestaService.save(prsRefExterno);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception("Error class PropuestaConvenioMB - guardarReferenteExternoComplemento()\n" + e.getMessage(), e.getCause());
         }
     }
 
@@ -1441,6 +1411,9 @@ public class PropuestaConvenioMB implements Serializable {
 
             if (facultadesUnidades.getUnidadFacultad() == 'U') {
                 flagEscuelaDept = true;
+            } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
+                listadoEscuelaDepartamento = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(facultadesUnidades.getPrimary());
+                flagEscuelaDept = false;
             } else {
                 flagEscuelaDept = false;
             }
@@ -1456,10 +1429,13 @@ public class PropuestaConvenioMB implements Serializable {
      */
     public void actualizarEscuelaDeptInterno() {
         try {
-
+ 
             if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
                 flagEscuelaDeptInterno = true;
-            } else {
+            }else if (facultadesUnidades.getUnidadFacultad() == 'F'){
+                listadoEscuelaDepartamentoInter = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(facultadesUnidadesInterno.getPrimary());
+                 flagEscuelaDeptInterno = false;
+            }else {
                 flagEscuelaDeptInterno = false;
             }
 

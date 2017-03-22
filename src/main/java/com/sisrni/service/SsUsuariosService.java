@@ -23,6 +23,10 @@ public class SsUsuariosService extends GenericService<SsUsuarios, Integer> {
        return this.ssUsuariosDao.findByUser(user);
     }
     
+     public SsUsuarios findByIdPersona(Integer persona){
+       return this.ssUsuariosDao.findByIdPersona(persona);
+    }
+    
     public SsUsuarios checkLogin(String user, String password) {
         return this.ssUsuariosDao.checkLogin(user, password);
     }

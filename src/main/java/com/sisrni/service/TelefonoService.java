@@ -41,5 +41,8 @@ public class TelefonoService extends GenericService<Telefono, Integer>{
          return telefonoDao.getTelefonosByOrganismo(organismo);
     }
     
+    public  String getMask(String idPais){
+        return telefonoDao.getMask(idPais);
+    }
     
 }

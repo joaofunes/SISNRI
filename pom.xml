@@ -414,6 +414,13 @@
             <artifactId>atmosphere-runtime</artifactId>
             <version>2.4.2</version>
         </dependency>
+        
+        <!-- libPhoneNumber Dependency -->
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+            <version>8.3.3</version>
+        </dependency>
 
     </dependencies>
 

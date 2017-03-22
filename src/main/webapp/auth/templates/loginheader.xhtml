@@ -7,9 +7,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
-
+   
     <body>
         <ui:composition>
+             <ui:include src="../templates/recuperarPass.xhtml"/>
                   <div class="cabecera col-xs-12 pd" style="padding-right: 0;">               
                 <article class="col-xs-4 label-secre " style="min-height: 125px !important;">
                     <div class="logo_1 col-xs-6" style="margin-top:1%;"></div>   
@@ -37,7 +38,7 @@
                         </div>
                         <div class="col-xs-12 b1">
                             <div class="right">
-                             <a href="#" class="passforgot forgot-pass">Olvid&eacute; la Contrase&ntilde;a</a>                            
+                                <a onclick="PF('RecuperarPassDialog').show();" class="passforgot forgot-pass">&iquest;Olvid&oacute; sus Credenciales?</a>                            
                             </div>
                         </div>
                         <div class="col-xs-12 b1">                         

@@ -182,11 +182,16 @@
                                         <p:outputLabel  for="idFacultadUnidad" value="Facultad/Unidad"  />
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}" converter="#{facultadUnidadConverter}"  disabled="#{propuestaConvenioMB.habilitarBusquedaSolicitante}" style="width:190px">                                   
+                                        <p:selectOneMenu id="idFacultadUnidad" required="true" value="#{propuestaConvenioMB.facultadesUnidades}"
+                                                         converter="#{facultadUnidadConverter}"  disabled="#{propuestaConvenioMB.habilitarBusquedaSolicitante}" style="width:190px">                                   
                                             <p:ajax event="change" process="@this" update="idEscuelaDept" listener="#{propuestaConvenioMB.actualizarEscuelaDept()}"/>
-                                            <f:selectItem itemLabel="--Seleccione Facultad/Unidad--" itemValue="#{null}"  itemDisabled="true" />
-                                            <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="escDpt" itemLabel="#{escDpt.label}" itemValue="#{escDpt}" />                                                                                       
+                                            <f:selectItem itemValue="#{null}"  itemLabel="--Seleccione Facultad/Unidad--" itemDisabled="true" />                                           
+                                            <f:selectItems value="#{propuestaConvenioMB.listaFacultadUnidad}" var="escDpt" itemLabel="#{escDpt.label}" itemValue="#{escDpt}" />  
+                                            <f:selectItem  itemValue="#{-1}" itemLabel="--Agregar Facultad--"/>
+                                            <f:selectItem  itemValue="#{-2}" itemLabel="--Agergar Unidad--"/>
                                         </p:selectOneMenu>
+                                        
+                                        
                                     </p:column>
 
                                     <p:column>
@@ -689,7 +694,7 @@
                                         <p:outputLabel for="idNombrePropuesta" value="Nombre de Propuesta" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputTextarea id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{propuestaConvenioMB.propuestaConvenio.nombrePropuesta}" rows="2" maxlength="300" style="width:180px" >
+                                        <p:inputTextarea id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{propuestaConvenioMB.propuestaConvenio.nombrePropuesta}" rows="2" maxlength="300" style="width:300px" >
                                         </p:inputTextarea>
                                         <p:message for="idNombrePropuesta" />
                                         <p:watermark for="idNombrePropuesta" value="Nombre Propuesta" id="nameProp" />

@@ -380,6 +380,7 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
                         if (rols.getCodigoRol().equalsIgnoreCase(rl)) {
                             rol = new SsRoles();
                             rol = rols;
+                            bloqueosSolicitante = true;
                         }
                     }
                 }
@@ -672,6 +673,8 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
 
     /**
      * Metodo para actualizar propuesta de convenio.
+     *
+     * @throws java.lang.Exception
      */
     public void actualizarPropuesta() {
         try {
@@ -697,24 +700,26 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().redirect("../convenio/consultarPropuestaConvenio.xhtml");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            String message = "Error en Actualizacion de Propuesta : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
     }
 
     /**
      * Metodo para alamcenar propuesta de convenio sin solicitantes
      */
-    private void actualizarPropuestaConvenio() {
+    private void actualizarPropuestaConvenio() throws Exception{
         try {
             propuestaConvenioService.merge(propuestaConvenio);
         } catch (Exception e) {
+            throw new Exception("Error class ActualizacopmPropuestaConvenioMB - actualizarPropuestaConvenio()\n" + e.getMessage(), e.getCause());           
         }
     }
 
     /**
      * Metodo para actualizar solicitante y ademas agregar en personas propuesta
      */
-    public void guardarSolicitante() {
+    public void guardarSolicitante() throws Exception{
         try {
 
             solicitante.setIdUnidad(null);
@@ -757,7 +762,7 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
             tipoBusquedaSolicitante = null;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception("Error class ActualizacopmPropuestaConvenioMB - guardarSolicitante()\n" + e.getMessage(), e.getCause());           
         }
     }
 
@@ -817,25 +822,41 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
      * Metodo que complementa la actualizacion de Solicitante, el tipo de
      * persona para Solicitante
      */
-    private void actualizacionSolicitanteComplemento() {
+    private void actualizacionSolicitanteComplemento() throws Exception{
+        try {
+            PersonaPropuesta prsSolicitante = new PersonaPropuesta();
+
+            prsSolicitante = new PersonaPropuesta();
+            //Guardar solicitante en persona de propuesta
+            prsSolicitante.setPropuestaConvenio(propuestaConvenio);
+            prsSolicitante.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(SOLICITANTE));
+            prsSolicitante.setPersona(solicitante);
+            prsSolicitante.setPersonaPropuestaPK(new PersonaPropuestaPK(solicitante.getIdPersona(), prsSolicitante.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
+            personaPropuestaService.merge(prsSolicitante);
+
+        } catch (Exception e) {
+            throw new Exception("Error class ActualizacopmPropuestaConvenioMB - actualizacionSolicitanteComplemento()\n" + e.getMessage(), e.getCause());           
+        }
+    }
+
+    /**
+     * Metodo para eliminar la persona vinculada como referente interna a una
+     * propuesta
+     */
+    public void deleteReferenteSolicitante() {
         try {
             PersonaPropuesta prsSolicitante = new PersonaPropuesta();
             prsSolicitante = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), SOLICITANTE);
 
             if (prsSolicitante != null) {
-                prsSolicitante.setPersona(solicitante);
-                prsSolicitante.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteInterno.getIdPersona(), prsSolicitante.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-                personaPropuestaService.updatePersonaPropuesta(solicitante.getIdPersona(), prsSolicitante.getPropuestaConvenio().getIdPropuesta(), prsSolicitante.getTipoPersona().getIdTipoPersona());
-            } else {
-                prsSolicitante = new PersonaPropuesta();
-                //Guardar solicitante en persona de propuesta
-                prsSolicitante.setPropuestaConvenio(propuestaConvenio);
-                prsSolicitante.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(SOLICITANTE));
-                prsSolicitante.setPersona(solicitante);
-                prsSolicitante.setPersonaPropuestaPK(new PersonaPropuestaPK(solicitante.getIdPersona(), prsSolicitante.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-                personaPropuestaService.save(prsSolicitante);
+                personaPropuestaService.deletePersonaPropuesta(solicitante.getIdPersona(), prsSolicitante.getPropuestaConvenio().getIdPropuesta(), prsSolicitante.getTipoPersona().getIdTipoPersona());
+                solicitante = new Persona();
+                telFijoSolicitante = new Telefono();
+                telCelularSolicitante = new Telefono();
+                facultadesUnidades = new PojoFacultadesUnidades();
+                escuelaDepartamento = new EscuelaDepartamento();
+                bloqueosSolicitante = false;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -844,7 +865,7 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
     /**
      * Metodo que guarda nuevas personas referentes internos
      */
-    public void guardarReferenteInterno() {
+    public void guardarReferenteInterno() throws Exception{
         try {
 
             //crear persona y luego almacenar
@@ -892,13 +913,14 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
             habilitarBusquedaInterna = true;
             tipoBusquedaInterna = null;
         } catch (Exception e) {
+            throw new Exception("Error class ActualizacopmPropuestaConvenioMB - guardarReferenteInterno()\n" + e.getMessage(), e.getCause());           
         }
     }
 
     /**
      * Metodo que Actualziar personas referentes internos
      */
-    public void actualizarReferenteInterno() {
+    public void actualizarReferenteInterno() throws Exception  {
         try {
             //crear persona y luego almacenar
             referenteInterno.setIdUnidad(null);
@@ -941,7 +963,7 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
             tipoBusquedaInterna = null;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception("Error class ActualizacopmPropuestaConvenioMB - actualizarReferenteInterno()\n" + e.getMessage(), e.getCause());           
         }
     }
 
@@ -949,23 +971,40 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
      * Metodo que complementa la actualizacion de referente interno, el tipo de
      * persona para referente interno
      */
-    private void actualizacionReferenteInternoComplemento() {
+    private void actualizacionReferenteInternoComplemento() throws Exception{
+        try {
+            PersonaPropuesta prsRefInterno = new PersonaPropuesta();
+
+            if (referenteInterno != null && referenteInterno.getIdPersona() != null) {
+                prsRefInterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_INTERNO));
+                prsRefInterno.setPersona(referenteInterno);
+                prsRefInterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteInterno.getIdPersona(), prsRefInterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
+                personaPropuestaService.merge(prsRefInterno);                
+            }
+
+        } catch (Exception e) {                          
+            throw new Exception("Error class ActualizacopmPropuestaConvenioMB - actualizacionReferenteInternoComplemento()\n" + e.getMessage(), e.getCause());           
+        }
+    }
+
+    /**
+     * Metodo para eliminar la persona vinculada como referente interna a una
+     * propuesta
+     */
+    public void deleteReferenteInterno() {
         try {
             PersonaPropuesta prsRefInterno = new PersonaPropuesta();
             prsRefInterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_INTERNO);
 
             if (prsRefInterno != null) {
-                prsRefInterno.setPersona(referenteInterno);
-                prsRefInterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteInterno.getIdPersona(), prsRefInterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-                personaPropuestaService.updatePersonaPropuesta(referenteInterno.getIdPersona(), prsRefInterno.getPropuestaConvenio().getIdPropuesta(), prsRefInterno.getTipoPersona().getIdTipoPersona());
-            } else {
-                prsRefInterno = new PersonaPropuesta();
-                prsRefInterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_INTERNO));
-                prsRefInterno.setPersona(referenteInterno);
-                prsRefInterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteInterno.getIdPersona(), prsRefInterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-                personaPropuestaService.save(prsRefInterno);
+                personaPropuestaService.deletePersonaPropuesta(referenteInterno.getIdPersona(), prsRefInterno.getPropuestaConvenio().getIdPropuesta(), prsRefInterno.getTipoPersona().getIdTipoPersona());
+                referenteInterno = new Persona();
+                telFijoInterno = new Telefono();
+                telCelularInterno = new Telefono();
+                facultadesUnidadesInterno = new PojoFacultadesUnidades();
+                escuelaDepartamentoInterno = new EscuelaDepartamento();
+                bloqueosInterno = false;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -991,10 +1030,6 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
             referenteExterno.setTelefonoList(listadoTelefonoReferenteInterno);
             personaService.saveOrUpdate(referenteExterno);
 
-//            prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
-//            prsRefExterno.setPersona(referenteExterno);
-//            prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-//            personaPropuestaService.save(prsRefExterno);
             bloqueosExterno = false;//bloquea busquedas            
             /////Edicion/////
             habilitarBotonEditExternoDos = false;//ocultar boton de Actualizar 
@@ -1032,12 +1067,6 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
             telCelularExterno.setIdPersona(referenteExterno);
             telefonoService.merge(telCelularExterno);
 
-//            PersonaPropuesta prsRefExterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_EXTERNO);             
-//            prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
-//            prsRefExterno.setPersona(referenteExterno);
-//            prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-//            personaPropuestaService.updatePersonaPropuesta(referenteExterno.getIdPersona(), prsRefExterno.getPropuestaConvenio().getIdPropuesta(), prsRefExterno.getTipoPersona().getIdTipoPersona());
-//            //personaPropuestaService.save(prsRefExterno);
             bloqueosExterno = false;//bloquea busquedas            
             /////Edicion/////
             habilitarBotonEditExternoDos = false;//ocultar boton de Actualizar 
@@ -1060,23 +1089,37 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
      * Metodo que complementa la actualizacion de referente Externo, el tipo de
      * persona para referente Externo
      */
-    private void actualizacionReferenteExternoComplemento() {
+    private void actualizacionReferenteExternoComplemento() throws Exception{
         try {
-
-            PersonaPropuesta prsRefExterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_EXTERNO);
-            //prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
-            if (prsRefExterno != null) {
-                prsRefExterno.setPersona(referenteExterno);
-                prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-                personaPropuestaService.updatePersonaPropuesta(referenteExterno.getIdPersona(), prsRefExterno.getPropuestaConvenio().getIdPropuesta(), prsRefExterno.getTipoPersona().getIdTipoPersona());
-            } else {
+            PersonaPropuesta prsRefExterno = new PersonaPropuesta();
+            if (referenteExterno != null && referenteExterno.getIdPersona()!= null) {
                 prsRefExterno = new PersonaPropuesta();
                 prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
                 prsRefExterno.setPersona(referenteExterno);
                 prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-                personaPropuestaService.save(prsRefExterno);
+                personaPropuestaService.merge(prsRefExterno);
             }
+        } catch (Exception e) {
+           throw new Exception("Error class ActualizacopmPropuestaConvenioMB - actualizacionReferenteExternoComplemento()\n" + e.getMessage(), e.getCause());           
+        }
+    }
 
+    /**
+     * Metodo para eliminar la persona vinculada como referente Externa a una
+     * propuesta
+     */
+    public void deleteReferenteExterno() {
+        try {
+
+            PersonaPropuesta prsRefExterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_EXTERNO);
+
+            if (prsRefExterno != null) {
+                personaPropuestaService.deletePersonaPropuesta(referenteExterno.getIdPersona(), prsRefExterno.getPropuestaConvenio().getIdPropuesta(), prsRefExterno.getTipoPersona().getIdTipoPersona());
+                referenteExterno = new Persona();
+                telFijoExterno = new Telefono();
+                telCelularExterno = new Telefono();
+                bloqueosExterno=false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1694,6 +1737,7 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
                 cargarUnidadesFacultadesSolicitanteInterno();
                 setTabAsisMostrar(Boolean.TRUE);
                 mostrarTab();
+                bloqueosInterno=true;
             }
         } catch (Exception e) {
         }
@@ -1712,6 +1756,7 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
                 cargarTelefonosExterno();
                 setTabAsisMostrarExterno(Boolean.TRUE);
                 mostrarTabExterno();
+                bloqueosExterno=true;
             }
         } catch (Exception e) {
         }

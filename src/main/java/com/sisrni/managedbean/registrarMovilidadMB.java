@@ -583,7 +583,7 @@ public class registrarMovilidadMB {
                     mostrarSaliente = true;
                     listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
                     //mascaraTelefonoMovilidad = "(503)-9999-9999";
-                    mascaraTelefonoMovilidad = "(503)-9999-9999";
+                    mascaraTelefonoMovilidad = "(503)-####-####";
                     mostrarBuscadorSaliente = true;
                     mostrarBuscadorEntrante = false;
                     personaMovilidadGenerico.setIdOrganismo(organismoService.findById(1));
@@ -622,8 +622,11 @@ public class registrarMovilidadMB {
         listFacultadByInst = facultadService.getFacultadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listUnidadByInst = unidadService.getUnidadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadByInst, listUnidadByInst);//revisar esto
-        codigoPais = personaMovilidadGenerico.getIdOrganismo().getIdPais().toString();
-        mascaraTelefonoMovilidad = "("+codigoPais+")?9999999999";
+        //codigoPais = personaMovilidadGenerico.getIdOrganismo().getIdPais().toString();
+        //mascaraTelefonoMovilidad = "("+codigoPais+")?##########";
+        codigoPais = paisService.findById(personaMovilidadGenerico.getIdOrganismo().getIdPais()).getCodigoPais();
+        mascaraTelefonoMovilidad = telefonoService.getMask(codigoPais);
+        
         
         
     }
@@ -1939,7 +1942,7 @@ public class registrarMovilidadMB {
                 if (movilidad.getIdTipoMovilidad().getIdTipoMovilidad() == 2) { //movilidad Saliente
                     mostrarEntrante = false;
                     mostrarSaliente = true;
-                    mascaraTelefonoMovilidad = "(503)-9999-9999";
+                    mascaraTelefonoMovilidad = "(503)-####-####";
 
                     //Cargando lista de facultades y unidades
                     listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto

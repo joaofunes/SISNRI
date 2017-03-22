@@ -7,11 +7,18 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:poue="http://primefaces.org/ui/extensions">
 
+
+
     <body>
 
         <ui:composition template="/WEB-INF/templates/layout.xhtml">
 
             <ui:define name="content">
+                <script type="text/javascript">
+                    $.mask.definitions['9'] = '';
+                    $.mask.definitions['#'] = '[0-9]';
+                </script>
+                
                 <h1 class="title ui-widget-header ui-corner-all" align="center"><h:outputText value="#{registrarMovilidadMB.tituloRegistroEdicion}" escape="false"/></h1>
                 <center>
                     <p:panel style="width: 80%">
@@ -145,7 +152,7 @@
                                                 <p:outputLabel  value="B&uacute;squeda" />     
                                             </p:column>
                                             <p:column> 
-                                               
+
                                                 <p:autoComplete id="idNombreEntrante" value="#{registrarMovilidadMB.personaMovAux}" rendered="#{registrarMovilidadMB.flagSearchNombreEntrante}"
                                                                 completeMethod="#{registrarMovilidadMB.methodSearchEntrante}" disabled="#{registrarMovilidadMB.disableAutoEntrante}"
                                                                 var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
@@ -205,7 +212,7 @@
                                                 <p:outputLabel for="duiPersona" value="DUI"/>
                                             </p:column>
                                             <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}">
-                                                <p:inputMask id="duiPersona" mask="99999999-9" value="#{registrarMovilidadMB.personaMovilidadGenerico.duiPersona}" disabled="#{registrarMovilidadMB.activarDocente}"/>
+                                                <p:inputMask id="duiPersona" mask="########-#" value="#{registrarMovilidadMB.personaMovilidadGenerico.duiPersona}" disabled="#{registrarMovilidadMB.activarDocente}"/>
                                             </p:column>
                                          <!--   <p:column rendered="#{registrarMovilidadMB.mostrarSaliente}" >
                                                 <p:outputLabel for="nitPersona" value="NIT"/>
@@ -378,14 +385,14 @@
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="consultoria" style="width: 180px">
-                                               <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/> 
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/> 
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="costoConsultoria" value="Costos de consultoria"/>
                                         </p:column>
                                         <p:column>
-                                            <poue:inputNumber id="costoConsultoria" value=""/>
+                                            <poue:inputNumber id="costoConsultoria"/>
                                         </p:column>
 
                                         <p:column>
@@ -497,12 +504,12 @@
                                                 </p:autoComplete>
                                                 <p:watermark for="idEmailInterno" value="E-mail"/> 
                                             </p:column>
-                                           
+
                                         </p:panelGrid>
                                     </h:panelGroup>
                                     <h:panelGroup id="grupReferente">
                                         <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoReferente()}" process="@this" update="GroupReferente" rendered="#{registrarMovilidadMB.mostrarBotonNuevoReferente}"/>
-                                                <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizacionReferente()}" process="@this" update="GroupReferente,grup3" rendered="#{registrarMovilidadMB.mostrarBotonEditarReferente}"/>
+                                        <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizacionReferente()}" process="@this" update="GroupReferente,grup3" rendered="#{registrarMovilidadMB.mostrarBotonEditarReferente}"/>
                                     </h:panelGroup>
 
                                     <!--     <p:outputLabel value="Documento"/>
@@ -544,7 +551,7 @@
                                                     <p:outputLabel for="duiPersonaFacultad" value="DUI"/>
                                                 </p:column>
                                                 <p:column>
-                                                    <p:inputMask id="duiPersonaFacultad" mask="99999999-9" value="#{registrarMovilidadMB.personaFacultadGenerico.duiPersona}" disabled="#{registrarMovilidadMB.activarReferente}"/>
+                                                    <p:inputMask id="duiPersonaFacultad" mask="########-#" value="#{registrarMovilidadMB.personaFacultadGenerico.duiPersona}" disabled="#{registrarMovilidadMB.activarReferente}"/>
                                                 </p:column>
                                                 <!--  <p:column>
                                                           <p:outputLabel for="nitPersonaFacultad" value="NIT"/>
@@ -593,7 +600,7 @@
                                                     <p:outputLabel for="telPersonaFacultad" value="Tel&eacute;fono institucional"/>
                                                 </p:column>
                                                 <p:column>
-                                                    <p:inputMask id="telPersonaFacultad" label="telPersona" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
+                                                    <p:inputMask id="telPersonaFacultad" label="telPersona" mask="(503)-####-####"  value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
                                                 </p:column>
                                             </p:row>
                                             <p:row>
@@ -601,7 +608,7 @@
                                                     <p:outputLabel for="celPersonaFacultad" value="Tel&eacute;fono movil"/>
                                                 </p:column>
                                                 <p:column>
-                                                    <p:inputMask id="celPersonaFacultad" label="celPersonaFacultad" mask="(503)-9999-9999"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
+                                                    <p:inputMask id="celPersonaFacultad" label="celPersonaFacultad" mask="(503)-####-####"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
                                                 </p:column>
                                             </p:row>
                                             <p:row>
@@ -697,7 +704,7 @@
                     <p:commandButton value="No" type="submit" action="#{registrarMovilidadMB.noModificarDocente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />               
 
                 </p:confirmDialog>    
-                
+
                 <p:confirmDialog widgetVar="dlgEdicionReferente" id="dialogReferenteUpdate" header="Modificar Persona" message="Esta seguro que desea modificar los datos del Referente"
                                  global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />

@@ -2,21 +2,29 @@ package com.sisrni.managedbean;
 
 import com.sisrni.managedbean.generic.GenericManagedBean;
 import com.sisrni.managedbean.lazymodel.UsuarioLazyModel;
+import com.sisrni.model.Persona;
 import com.sisrni.model.SsRoles;
 import com.sisrni.model.SsUsuarios;
+import com.sisrni.security.CustomPasswordEncoder;
+import com.sisrni.service.FreeMarkerMailService;
+import com.sisrni.service.PersonaService;
 import com.sisrni.service.SsRolesService;
 import com.sisrni.service.SsUsuariosService;
 import com.sisrni.service.generic.GenericService;
 import com.sisrni.utils.JsfUtil;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +42,21 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
     @Autowired
     @Qualifier(value = "ssRolesService")
     private SsRolesService ssRolesService;
+    
+    @Autowired
+    @Qualifier(value = "personaService")
+    private PersonaService personaService;
+    
+    @Autowired
+    private CustomPasswordEncoder passwordEncoder;
+    
+    @Autowired
+    FreeMarkerMailService mailService;
 
+    private String clave;
+    private String codigo;
+    private String email;
+    public SsUsuarios usuario;
     private List<SsUsuarios> listadoUsuarios;
     private SsUsuarios ssUsuariosRol;
     private List<SsRoles> listadoRoles;
@@ -44,9 +66,16 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
     private List<SsRoles> rolesSource;
     private List<SsRoles> rolesTarget;
     private List<SsRoles> rolesTargetTemp;
+    
+    public Persona persona;
 
     @PostConstruct
     public void init() {
+        persona = new Persona();
+        usuario = new SsUsuarios();
+        clave = "";
+        codigo = "";
+        email = "";
         ssUsuariosRol = new SsUsuarios();
         rolesSource = new ArrayList<SsRoles>();
         rolesTarget = new ArrayList<SsRoles>();
@@ -88,7 +117,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
           ssUsuarioService.save(getSelected());
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
           }else{
-            msg ="Ya existe este nombre de Usuario!";  
+            msg ="Ya existe este Usuario!";  
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Duplicado!!", msg));  
           }
         }catch(Exception e){
@@ -97,6 +126,163 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
         }
         init();
     } 
+     
+     
+                /**
+     * Metodo para setear persona a ser crear Usuario a persona
+     * @param persona 
+     */
+    public void preCrearUsuario(Persona persona){
+        try {
+            
+            this.persona=persona;
+            codigo = persona.getNombrePersona().substring(0,3)+ persona.getApellidoPersona().substring(0,2)+persona.getIdPersona().toString(); 
+            rolesSource = new ArrayList<SsRoles>();
+            rolesTarget = new ArrayList<SsRoles>();
+            rolesTargetTemp = new ArrayList<SsRoles>();
+
+            //ssUsuariosRol = ssUsuarioService.findByUser("JoaFu78");
+
+            //rolesTarget = ssRolesService.findAll();
+            //rolesTargetTemp = ssRolesService.findAll();
+            rolesSource = ssRolesService.findAll();
+
+            //rolesSource.removeAll(rolesTarget);//elimina las roles  ya seleccionadas para usuario             
+            roles = new DualListModel<SsRoles>(rolesSource, rolesTarget);
+        } catch (Exception e) {
+        }
+    }
+     
+     /**
+     * Metodo para almacenar una nueva persona y un Usuario
+     */ 
+    public void crearUsuario(){
+        try {
+            String msg = "";   
+            ssUsuariosRol=  ssUsuarioService.findByUser(codigo);
+          if(ssUsuariosRol==null){
+             msg ="Usuario Creado Exitosamente!";
+             usuario.setCodigoUsuario(codigo);
+             clave = getCadenaAlfanumAleatoria (9); 
+            String encode = passwordEncoder.encode(clave);
+            usuario.setClave(encode);
+             
+            usuario.setFechaRegistro(new Date());
+            usuario.setFechaUltimamodificacion(new Date());
+            usuario.setIdPersona(persona.getIdPersona());
+            usuario.setNombreUsuario(persona.getNombrePersona()+ " " + persona.getApellidoPersona());
+            usuario.setCargo(persona.getCargoPersona());
+            ssUsuarioService.save(usuario);
+            asignarRol();
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('UsuarioCreateDialog').close();");
+           //context.update("RegistrogarantiarealListForm");
+           enviarCorreo();
+          }else{
+            msg ="Ya existe este Usuario!";  
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Duplicado!!", msg));  
+          }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void asignarRol() {
+         try {
+             for (SsRoles us : rolesTargetTemp) {
+                int deleteMenuOpciones = ssUsuarioService.deleteUserRoles(usuario.getIdUsuario(), us.getIdRol());
+            }
+            List<SsRoles> target = roles.getTarget();
+            for (SsRoles it : target) {
+                ssUsuarioService.guardarUserRol(usuario.getIdUsuario(), it.getIdRol());
+            }
+            listadoUsuarios=ssUsuarioService.getAllUser();
+            //ssUsuarioService.merge(ssUsuariosRol)
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+
+    
+       String getCadenaAlfanumAleatoria (int longitud){
+    String cadenaAleatoria = "";
+    long milis = new java.util.GregorianCalendar().getTimeInMillis();
+    Random r = new Random(milis);
+    int i = 0;
+    while ( i < longitud){
+    char c = (char)r.nextInt(255);
+    if ( (c >= '0' && c <='9') || (c >='A' && c <='Z') ){
+    cadenaAleatoria += c;
+        i ++;
+    }
+    }
+    return cadenaAleatoria;
+    }
+       
+       public void enviarCorreo() {
+        try {
+            Map<String, Object> templateData = new HashMap<String, Object>();
+            templateData.put("subJect", "Usuario Creado");
+            templateData.put("nameTemplate", "usuario_mailTemplat.xhtml");
+            templateData.put("persona", persona);
+            templateData.put("usuario", usuario);
+            templateData.put("clave", clave);
+            templateData.put("setToMail", persona.getEmailPersona());
+            mailService.sendEmailMap(templateData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+       
+              public void enviarCorreo2() {
+        try {
+            Map<String, Object> templateData = new HashMap<String, Object>();
+            templateData.put("subJect", "Credenciales de Acceso");
+            templateData.put("nameTemplate", "usuario_mailTemplat.xhtml");
+            templateData.put("persona", persona);
+            templateData.put("usuario", usuario);
+            templateData.put("clave", clave);
+            templateData.put("setToMail", persona.getEmailPersona());
+            mailService.sendEmailMap(templateData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+   
+       public void recuperarPass(){
+        try {
+            String msg = "";
+            List<Persona> auxAsis = new ArrayList<Persona>();
+            auxAsis = personaService.getReferenteInternoByEmail(email);
+           if (auxAsis != null) {
+                persona = auxAsis.get(0);
+                usuario =  ssUsuarioService.findByIdPersona(persona.getIdPersona());
+                if(usuario!=null){
+                   msg ="Correo confirmado, favor revise su bandeja de entrada!";
+                   clave = getCadenaAlfanumAleatoria (9); 
+                   String encode = passwordEncoder.encode(clave);
+                   usuario.setClave(encode);  
+                   usuario.setFechaUltimamodificacion(new Date());
+                   ssUsuarioService.save(usuario);
+                   enviarCorreo2();
+                   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", msg));    
+          }else{
+            msg ="No existen usuarios vinculados a su persona!";  
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Usuario no Asigando", msg));  
+          }
+           }else{ 
+               msg ="No existe información vinculada a su correo electrónico!"; 
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No Registrado!!", msg));  
+                }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void save(ActionEvent event) {
@@ -146,6 +332,39 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
         } catch (Exception e) {
          e.printStackTrace();
         }
+    }
+    
+        public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+    
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
     
     public SsUsuarios getSsUsuariosRol() {
