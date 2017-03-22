@@ -78,56 +78,32 @@
     <body>
 
         <p>
-            Tenga un cordial saludo, es un un gusto informarle que su asuario ha sido asignado.
+            Estimado/a: ${obj.persona.getNombrePersona()} ${obj.persona.getApellidoPersona()}.
         </p>
-        <p>Estados de propuestas de convenio</p>
+        <p>Acceso al Sistema SISRNI</p>
+        <br> 
+        <p>Es un gusto notificarle sus credenciales de acceso al sistema SISRNI,</p>
+        <p>Sus credenciales son las siguientes:</p>
         <div>
             <table class="table1">
                 <thead>
                     <tr>                        
-                        <th scope="col" abbr="name persona">Estado Anterior</th>
-                        <th scope="col" abbr="Tipo">Estado Actual</th>                       
+                        <th scope="col" abbr="name persona">Nombre de Usuario</th>
+                        <th scope="col" abbr="Tipo">Clave</th>                       
                     </tr>
                 </thead>
                 <tr>
-                                     
+                    <td>${obj.usuario.getCodigoUsuario()}</td>
+                    <td>${obj.clave}</td>                    
                 </tr>
             </table>
 
         </div>
-        <p>Personal Involucrado en propuesta de convenio.</p>
-        <div>
-            <table class="table1">
-                <thead>
-                    <tr>                        
-                        <th scope="col" abbr="name persona">Nombre Persona</th>
-                        <th scope="col" abbr="Tipo">Tipo persona</th>                       
-                    </tr>
-                </thead>
-                
-                <tr>
-                <tr>
-                    
-                </tr>
-                </tr>
-            </table>
 
-        </div>
-        <p>Detalle de propuesta de convenio ingresada.</p>
-        <div>
-            <table border="1">
-                <tr>
-                    <td>Nombre Propuesta</td>
-                    <td>Objetivo</td>
-                </tr>
-                <tr>
-                   
-                </tr>
-            </table>
-        </div>
+  
         <br>
         <br>
-        <span>Favor, mantengase en contacto con nostros para estar al tanto de cualquier evento en el proceso.</span>
+        <span>Favor, ponganse en contacto con nosotros ante culquier inconveniente.</span>
         <br>
         <br>
         <span>Att: Secretaria de releaciones Nacionales e Internacionales de la Universidad de El Salvador</span>

@@ -16,15 +16,17 @@
                 <h:panelGroup id="display">
                  <p:panelGrid columns="2" columnClasses="column">
                            <center>
-                               <p:outputLabel value="#{personaMB.persona.nombrePersona} #{personaMB.persona.apellidoPersona}"  /> 
+<!--                               <p:outputLabel value="#{personaMB.persona.nombrePersona} #{personaMB.persona.apellidoPersona}"  /> -->
                             </center>
-                            <p:column>                                         
-                            </p:column>  
+                            <p:row>  
 
-                     
-                                <p:outputLabel value="Usuario" for="codigoUsuario" />
-                                <p:inputText id="codigoUsuario" value="#{personaMB.codigo}" required="true"/>
-                                  
+                                 <p:column >  
+                               
+                                 </p:column>                                         
+                        <p:column> 
+                                
+                                 </p:column> 
+                              </p:row>   
 <!--                                <p:outputLabel value="Nombre Usuario" for="nombreUsuario" />
                                 <p:inputText id="nombreUsuario" value="#{personaMB.persona.nombrePersona}" />                               -->
 
@@ -33,17 +35,50 @@
                               
                                 <p:outputLabel value="Repetir Clave" for="Rclave"  />
                                 <p:password id="Rclave" value="#{personaMB.clave}" inline="true" />    -->
+                                <p:row>  
+                                <p:column>
+                            
+                                 </p:column>                                         
+                            <p:column> 
                                 
-                                <p:outputLabel value="Bloqueado" for="bloqueado" />
-                               <p:selectOneMenu id="bloqueado" value="#{personaMB.usuario.bloqueado}"  style="width: 100%" required="true" >
+                                 </p:column>
+                                </p:row> 
+                          
+                                
+                            </p:panelGrid>
+                    
+                     <h:panelGrid >
+                        <p:row>
+                        <p:column>                           
+                             <p:outputLabel value="Usuario: " for="codigoUsuario" />
+                        </p:column>                                         
+                        <p:column> 
+                             <p:inputText id="codigoUsuario" value="#{usuarioMB.codigo}" required="true"/>                           
+                        </p:column> 
+                        </p:row>    
+                        <p:row>    
+                        <p:column>                           
+                               <p:outputLabel value="Bloqueado: " for="bloqueado" />
+                        </p:column>                                         
+                        <p:column> 
+                             <p:selectOneMenu id="bloqueado" value="#{personaMB.usuario.bloqueado}"  style="width: 35%" required="true" >
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
                                 <f:selectItem itemLabel="S&iacute;­" itemValue="S" />
                                 <f:selectItem itemLabel="No" itemValue="N" />
-                               </p:selectOneMenu>       
-
-                                
-                            </p:panelGrid>
-                     <p:commandButton value="Guardar Usuario" id="idGuardarPersona" actionListener="#{personaMB.asociarUsuario()}" process="@form" update="@form" icon="ui-icon-disk"/>
+                               </p:selectOneMenu>                            
+                        </p:column> 
+                        </p:row>    
+                        <p:row>    
+                        <p:column >                                         
+                                <p:pickList id="pickList" value="#{usuarioMB.roles}" var="opc" 
+                                            itemLabel="#{opc.nombreRol}" itemValue="#{opc}"  converter="#{rolesConverter}" >
+                                    <f:facet name="sourceCaption">Disponibles</f:facet>
+                                    <f:facet name="targetCaption">Seleccionados</f:facet>
+                                </p:pickList>    
+                        </p:column>
+                       </p:row>    
+                    </h:panelGrid>
+                    <p:commandButton value="Guardar Usuario" id="idGuardarPersona" actionListener="#{usuarioMB.crearUsuario()}" process="@form" update="@form" icon="ui-icon-disk"/>
                     <p:commandButton value="Cancelar" id="idCerrar" process="@this" icon="ui-icon-cancel" immediate="true" onclick="PF('PersonaCreateDialog').close();" />
                 </h:panelGroup>
 

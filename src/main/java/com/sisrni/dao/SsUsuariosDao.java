@@ -23,6 +23,20 @@ public class SsUsuariosDao extends GenericDao<SsUsuarios, Integer> {
         return ret;
     }
 
+    public SsUsuarios findByIdPersona(Integer persona) {
+        SsUsuarios ret = null;
+        Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o "
+                + " FROM SsUsuarios o "
+                + " LEFT OUTER JOIN FETCH o.ssRolesList "
+                + " WHERE o.idPersona=:idPersona ");
+        q.setParameter("idPersona", persona);
+        List<SsUsuarios> list = q.list();
+        if (list != null && !list.isEmpty()) {
+            ret = list.get(0);
+        }
+        return ret;
+    }
+    
     public SsUsuarios checkLogin(String user, String password) {
         SsUsuarios ret = null;
         Query q = getSessionFactory().getCurrentSession().createQuery("SELECT o "

@@ -454,6 +454,8 @@ public class PersonaMB implements Serializable{
             templateData.put("subJect", "Usaurio Creado");
             templateData.put("nameTemplate", "usuario_mailTemplat.xhtml");
             templateData.put("persona", persona);
+            templateData.put("usuario", usuario);
+            templateData.put("clave", clave);
             templateData.put("setToMail", "marroquin-7@hotmail.com");
             mailService.sendEmailMap(templateData);
            
