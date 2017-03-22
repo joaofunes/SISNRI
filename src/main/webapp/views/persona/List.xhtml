@@ -15,6 +15,9 @@
         <ui:include src="../persona/editPersona.xhtml"/>
         <ui:include src="../persona/eliminarPersona.xhtml"/>
         <ui:include src="../persona/usuario.xhtml"/>
+        <f:metadata>            
+            <f:viewAction action="#{personaMB.init}" />
+        </f:metadata> 
     <h:form id="RegistrogarantiarealListForm">
 
         <p:panel header="Administraci&oacute;n de Personas">
