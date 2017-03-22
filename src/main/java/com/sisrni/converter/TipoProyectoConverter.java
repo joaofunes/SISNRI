@@ -51,7 +51,7 @@ public class TipoProyectoConverter implements Converter {
                 }
             }
         } else {
-            return null;
+            return new TipoProyecto();
         }
         return null;
     }

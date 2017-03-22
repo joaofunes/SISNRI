@@ -32,15 +32,11 @@
                                         <p:outputLabel for="tipoproyecto" value="Tipo de Proyecto:" />
                                     </p:column>
                                     <p:column >
-                                        <p:selectOneMenu id="tipoproyecto" value="#{proyectosMB.proyectoSelected}" style="width:180px" required="true">
+                                        <p:selectOneMenu id="tipoproyecto" value="#{proyectosMB.proyectoSelected}" converter="#{tipoProyectoConverter}" style="width:180px" required="true">
                                             
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/> 
-                                            <c:forEach var="reg" items="#{tipoProyectoMB.listaProyectos()}">
-                                                <f:selectItem itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg.idTipoProyecto}" />
-                                            </c:forEach>
-                                            <f:selectItem itemLabel="Agregar Nuevo" itemValue="-1"/>
-                                            <p:ajax listener="#{proyectosMB.addNewTipoProyectoIfNecessary}" process="@this" update="formAdmin:acordion:tipoproyecto"/>
-                                             
+                                            <f:selectItems value="#{tipoProyectoMB.listaProyectos()}" var="reg" itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg}" /> 
+                                            <p:ajax event="change" listener="#{proyectosMB.addNewTipoProyectoIfNecessary}" process="@this" update="formAdmin:acordion:tipoproyecto"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>

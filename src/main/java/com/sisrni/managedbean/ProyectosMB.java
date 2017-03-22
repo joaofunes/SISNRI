@@ -149,7 +149,7 @@ public class ProyectosMB {
     private List<Proyecto> proyectoList;
     private List<TipoCambio> tipoCambioList;
 //Definicion de selected
-    private String proyectoSelected;
+    private TipoProyecto proyectoSelected;
     private String[] areaConocimientoSelected;
     private String[] organismoProySelected;
     private List<AreaConocimiento> areasConocimiento;
@@ -295,7 +295,7 @@ public class ProyectosMB {
     private Boolean disablePersonaExterna;
     
 // nuevos elementos en combo box
-    private String newTipoProyecto;
+    private TipoProyecto newTipoProyecto;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -307,7 +307,7 @@ public class ProyectosMB {
 
     public void inicializador() {
         //selected
-        proyectoSelected = "";
+        proyectoSelected = new TipoProyecto();
         facultadSelected = new Facultad();
         escuelaDeptoSelected = new EscuelaDepartamento();
         escuelaDeptoSelectedSol = new EscuelaDepartamento();
@@ -483,7 +483,7 @@ public class ProyectosMB {
         disablePersonaExterna = Boolean.TRUE;
         
         // nuevos elementos de los combo box
-        newTipoProyecto= "";
+        newTipoProyecto= new TipoProyecto();
 
     }
 
@@ -669,7 +669,7 @@ public class ProyectosMB {
             SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
             formateador.format(fechaActual);
             proyecto.setFechoIngreso(fechaActual);
-            proyecto.setIdTipoProyecto(tipoProyectoService.findById(Integer.parseInt(proyectoSelected)));
+            proyecto.setIdTipoProyecto(tipoProyectoService.findById(proyectoSelected.getIdTipoProyecto()));
             PropuestaConvenio propuesta;
             if (propuestaConvenioSelected.getIdPropuesta() == null) {
             } else {
@@ -1565,7 +1565,7 @@ public class ProyectosMB {
                 searchByDocInterno(persona.getEmailPersona());
                 searchByDocAsistente(personaAsistente.getEmailPersona());
                 searchByDocReferenteExterno(personaExterna.getEmailPersona());
-                proyectoSelected = proyecto.getIdTipoProyecto().getIdTipoProyecto()+"";
+                proyectoSelected = proyecto.getIdTipoProyecto();
                 tipoCambioSelected.setIdTipoCambio(2);
                 fechaI = proyecto.getFechaInicio();
                 fechaF = proyecto.getFechaFin();
@@ -1733,35 +1733,23 @@ public class ProyectosMB {
         }
     }
 // metodos para agregar nuevos elementos por cada combo box
-    public void addNewTipoProyectoIfNecessary() {
-//        Object value = ((UIInput) event.getComponent()).getValue();
-        if (proyectoSelected.equals("-1")) {
-            proyectoSelected="";
+    public void addNewTipoProyectoIfNecessary(AjaxBehaviorEvent event) {
+        if (proyectoSelected.getNombreTipoProyecto().equals("Agregar Nuevo")) {
             tipoProyectoMB.init();
-            
-            RequestContext ajax = RequestContext.getCurrentInstance();
-//            ajax.update("tipoproyectoDialog");
+               RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('tipoproyectoDialog').show()");
+            proyectoSelected = new TipoProyecto();
         }
     }
-//    public void saveNewTipoProyecto() {
-//        tipoProyectoService.save(newTipoProyecto);
-//        tipoproyectolist.add(newTipoProyecto);
-//        proyectoSelected = new TipoProyecto();
-//
-//        RequestContext ajax = RequestContext.getCurrentInstance();
-//        ajax.update("activitiesForm");
-//        ajax.execute("PF('widget_addNewTipoProyecto').hide()");
-//    }
-
-    public String getProyectoSelected() {
+   
+    public TipoProyecto getProyectoSelected() {
         return proyectoSelected;
     }
 
-    public void setProyectoSelected(String proyectoSelected) {
+    public void setProyectoSelected(TipoProyecto proyectoSelected) {
         this.proyectoSelected = proyectoSelected;
     }
-    
+
     public List<TipoProyecto> getTipoproyectolist() {
         return tipoproyectolist;
     }
@@ -2851,11 +2839,11 @@ public class ProyectosMB {
     }
 // getter y setter de elementos de combobox nuevos
 
-    public String getNewTipoProyecto() {
+    public TipoProyecto getNewTipoProyecto() {
         return newTipoProyecto;
     }
 
-    public void setNewTipoProyecto(String newTipoProyecto) {
+    public void setNewTipoProyecto(TipoProyecto newTipoProyecto) {
         this.newTipoProyecto = newTipoProyecto;
     }
     
