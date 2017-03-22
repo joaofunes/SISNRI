@@ -87,7 +87,9 @@ public class TipoProyectoMB{
         }
         cargarTipoProyecto();
     }
-    
+    public List<TipoProyecto> listaProyectos(){
+        return listTipoProyecto = tipoProyectoService.findAll();
+    }
     /**
      * Metodo que se ocupa de precargar la instancia de 'TipoProyecto' a ser actualizada
      * @param tipoProyecto

@@ -56,7 +56,7 @@
                             <p:commandButton id="reportButton" icon="ui-icon-print"  value="Pdf"  actionListener="#{proyectoReportMB.printReportesFinanciados('pdf')}" oncomplete="print(xhr, status, args)"/>            
                             <p:commandButton id="reportButtonExcel" icon="ui-icon-print"  value="Excel"  actionListener="#{proyectoReportMB.printReportesFinanciados('xls')}" oncomplete="prints(xhr, status, args)"/>             
                             <p:commandButton id="reportButtonDoc" icon="ui-icon-print"  value="Word"  actionListener="#{proyectoReportMB.printReportesFinanciados('doc')}" oncomplete="prints(xhr, status, args)"/>             
-                            <p:commandButton value="Cancelar"   icon="ui-icon-trash"    />
+                            <p:button value="Regresar" outcome="/views/Proyectos/listadoReportesProyectos.xhtml" icon="ui-icon-arrowreturnthick-1-w"/>
 
                         </div>
                     </f:facet>

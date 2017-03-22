@@ -263,6 +263,7 @@ public class registrarMovilidadMB {
 
     private String txtBotonGuardar;
     private String txtBotonRegresar;
+    private String codigoPais;
 
     //Services
     @Autowired
@@ -521,6 +522,7 @@ public class registrarMovilidadMB {
 
         txtBotonGuardar = "Guardar";
         txtBotonRegresar = "Regresar";
+        codigoPais = "";
     }
 
     public void mostrarEscuelaDocenteMovilidad() {
@@ -580,7 +582,8 @@ public class registrarMovilidadMB {
                     mostrarEntrante = false;
                     mostrarSaliente = true;
                     listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
-                    mascaraTelefonoMovilidad = "(503)-9999-9999";
+                    //mascaraTelefonoMovilidad = "(503)-9999-9999";
+                    mascaraTelefonoMovilidad = "(503)-####-####";
                     mostrarBuscadorSaliente = true;
                     mostrarBuscadorEntrante = false;
                     personaMovilidadGenerico.setIdOrganismo(organismoService.findById(1));
@@ -619,6 +622,13 @@ public class registrarMovilidadMB {
         listFacultadByInst = facultadService.getFacultadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listUnidadByInst = unidadService.getUnidadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadByInst, listUnidadByInst);//revisar esto
+        //codigoPais = personaMovilidadGenerico.getIdOrganismo().getIdPais().toString();
+        //mascaraTelefonoMovilidad = "("+codigoPais+")?##########";
+        codigoPais = paisService.findById(personaMovilidadGenerico.getIdOrganismo().getIdPais()).getCodigoPais();
+        mascaraTelefonoMovilidad = telefonoService.getMask(codigoPais);
+        
+        
+        
     }
 
     /**
@@ -1932,7 +1942,7 @@ public class registrarMovilidadMB {
                 if (movilidad.getIdTipoMovilidad().getIdTipoMovilidad() == 2) { //movilidad Saliente
                     mostrarEntrante = false;
                     mostrarSaliente = true;
-                    mascaraTelefonoMovilidad = "(503)-9999-9999";
+                    mascaraTelefonoMovilidad = "(503)-####-####";
 
                     //Cargando lista de facultades y unidades
                     listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto

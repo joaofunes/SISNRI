@@ -5,6 +5,9 @@
  */
 package com.sisrni.dao;
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Persona;
@@ -46,6 +49,35 @@ public class TelefonoDao extends GenericDao<Telefono, Integer> {
         }
         return null;
     }
+        
+        
+        
+    public  String getMask(String idPais) {
+		try {
+			PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+			// Obteniendo un numero de ejemplo
+			PhoneNumber telefono = phoneUtil.getExampleNumber(idPais);
+			// Formateando el numero
+			String numeroTel = phoneUtil.format(telefono, PhoneNumberFormat.INTERNATIONAL);
+			
+			//System.out.println(numeroTel);
+			
+			// Extrayendo codigo y numero
+			String cod = numeroTel.substring(0, numeroTel.indexOf(" "));
+			String number = numeroTel.substring(numeroTel.indexOf(" "), numeroTel.length());
+
+			// Reemplazando numeros por #
+			number = number.replace('0', '#').replace('1', '#').replace('2', '#').replace('3', '#').replace('4', '#')
+					.replace('5', '#').replace('6', '#').replace('7', '#').replace('8', '#').replace('9', '#');
+
+			String fullNumber = cod + number;
+			return fullNumber;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+
+	}
     
 
 }
