@@ -9,6 +9,7 @@ package com.sisrni.managedbean;
 import com.sisrni.model.AreaConocimiento;
 import com.sisrni.service.AreaConocimientoService;
 import com.sisrni.utils.JsfUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -86,6 +87,23 @@ public class AreaConocimientoMB{
             e.printStackTrace();
         }
         cargarAreaConocimiento();
+    }
+    //
+    public List<AreaConocimiento> listaAreas() {
+        listAreaConocimiento = areaConocimientoService.getAllByNameAsc();
+        AreaConocimiento areaNew1=new AreaConocimiento();
+        List<AreaConocimiento> copy = new ArrayList<AreaConocimiento>();
+        for (AreaConocimiento areaNew : listAreaConocimiento) {
+            if(!areaNew.getNombreArea().equalsIgnoreCase("Agregar Nueva"))
+            {
+                copy.add(areaNew);
+            }else{
+                areaNew1=areaNew;
+            }
+        }
+        copy.add(areaNew1);
+        listAreaConocimiento.clear();
+        return listAreaConocimiento=copy;
     }
     
     /**

@@ -17,6 +17,8 @@
              <ui:include src="../TipoProyecto/Create.xhtml"/>
              <ui:include src="../TipoCambio/Create.xhtml"/>
              <ui:include src="../Pais/Create.xhtml"/>
+             <ui:include src="../OrganismoCooperante/Create.xhtml"/>
+             <ui:include src="../AreaConocimiento/Create.xhtml"/>
             <p:outputPanel id="pageTituloRegistrar" rendered="#{!proyectosMB.actualizar}">
                 <center>
                     <h1 style="background: #cc0000;color: white;border-radius: 10px">Registro de Proyectos Internacionales</h1>
@@ -155,9 +157,10 @@
                                     <p:column>
                                         <p:selectCheckboxMenu id="organismoproy" value="#{proyectosMB.organismoProySelected}" label="Seleccione"
                                                               filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
-                                            <c:forEach var="org" items="#{proyectosMB.organismoProyList}">
+                                            <c:forEach var="org" items="#{organismoCooperanteMB.listaOrganismos()}">
                                                 <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
                                             </c:forEach>
+                                            <p:ajax event="change" listener="#{proyectosMB.addNewOrganismo()}" process="@this" update="formAdmin:acordion:organismoproy"/>
                                         </p:selectCheckboxMenu>
                                     </p:column>
                                     <p:column>
@@ -166,9 +169,10 @@
                                     <p:column>
                                         <p:selectCheckboxMenu id="areaconocimiento" value="#{proyectosMB.areaConocimientoSelected}" label="Seleccione"
                                                               filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
-                                            <c:forEach var="reg" items="#{proyectosMB.areaConocimientoList}">
+                                            <c:forEach var="reg" items="#{areaConocimientoMB.listaAreas()}">
                                                 <f:selectItem itemLabel="#{reg.nombreArea}" itemValue="#{reg.idAreaConocimiento}"/>
                                             </c:forEach>
+                                            <p:ajax event="change" listener="#{proyectosMB.addNewArea()}" process="@this" update="formAdmin:acordion:areaconocimiento"/>
                                         </p:selectCheckboxMenu>
                                     </p:column>
                                     <p:column>

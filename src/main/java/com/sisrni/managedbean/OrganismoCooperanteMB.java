@@ -20,6 +20,7 @@ import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoOrganismoService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.utils.JsfUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -123,6 +124,22 @@ public class OrganismoCooperanteMB {
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "el organismo no se puede ingresar."));
         }
+    }
+    public List<Organismo> listaOrganismos() {
+        organismosList = organismoService.getAllByNameAsc();
+        Organismo organismoNew1=new Organismo();
+        List<Organismo> copy = new ArrayList<Organismo>();
+        for (Organismo organismoNew : organismosList) {
+            if(!organismoNew.getNombreOrganismo().equalsIgnoreCase("Agregar Nuevo"))
+            {
+                copy.add(organismoNew);
+            }else{
+                organismoNew1=organismoNew;
+            }
+        }
+        copy.add(organismoNew1);
+        organismosList.clear();
+        return organismosList=copy;
     }
     public void updateorganismo() {
         String msg = "Organismo Actualizado Exitosamente!";       

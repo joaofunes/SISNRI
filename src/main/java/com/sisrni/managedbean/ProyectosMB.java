@@ -75,6 +75,10 @@ public class ProyectosMB {
     TipoCambioMB tipoCambioMB;
     @Inject
     PaisMB paisMB;
+    @Inject
+    OrganismoCooperanteMB organismoCooperanteMB;
+    @Inject
+    AreaConocimientoMB areaConocimientoMB;
 
     @Autowired
     private AreaConocimientoService areaConocimientoService;
@@ -1755,8 +1759,9 @@ public class ProyectosMB {
             proyectoSelected = new TipoProyecto();
         }
     }
-    public void addNewTipoMoneda(){
-        TipoCambio tipocambio=tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+
+    public void addNewTipoMoneda() {
+        TipoCambio tipocambio = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
         if (tipocambio.getNombreDivisa().equals("Agregar Nuevo")) {
             tipoCambioMB.init();
             RequestContext ajax = RequestContext.getCurrentInstance();
@@ -1764,8 +1769,9 @@ public class ProyectosMB {
             tipoCambioSelected = new TipoCambio();
         }
     }
-    public void addNewPais(){
-        Pais pais=paisService.findById(paisCooperanteSelected.getIdPais());
+
+    public void addNewPais() {
+        Pais pais = paisService.findById(paisCooperanteSelected.getIdPais());
         if (pais.getNombrePais().equals("Agregar Nuevo")) {
             paisMB.init();
             RequestContext ajax = RequestContext.getCurrentInstance();
@@ -1774,9 +1780,32 @@ public class ProyectosMB {
         }
     }
 
+    public void addNewOrganismo() {
+        for (int i = 0; i < organismoProySelected.length; i++) {
+            Organismo organismo = organismoService.findById(Integer.parseInt(organismoProySelected[i]));
+            if (organismo.getNombreOrganismo().equalsIgnoreCase("Agregar Nuevo")) {
+                organismoCooperanteMB.init();
+                RequestContext ajax = RequestContext.getCurrentInstance();
+                ajax.execute("PF('organismoDialog').show()");
+                organismoProySelected[i] = "";
+            }
+        }
+    }
+    public void addNewArea() {
+        for (int i = 0; i < areaConocimientoSelected.length; i++) {
+            AreaConocimiento area = areaConocimientoService.findById(Integer.parseInt(areaConocimientoSelected[i]));
+            if (area.getNombreArea().equalsIgnoreCase("Agregar Nueva")) {
+                areaConocimientoMB.init();
+                RequestContext ajax = RequestContext.getCurrentInstance();
+                ajax.execute("PF('areaDialog').show()");
+                areaConocimientoSelected[i] = "";
+            }
+        }
+    }
+
     //Metodo que se encarga de mostrar mascara de personas externas en los telefonos
     public void onchangeListInstitucionPersona() {
-        Organismo org=organismoService.findById(organismoSelectedRefExt.getIdOrganismo());
+        Organismo org = organismoService.findById(organismoSelectedRefExt.getIdOrganismo());
         codigoPais = paisService.findById(org.getIdPais()).getCodigoPais();
         mascaraTelefono = telefonoService.getMask(codigoPais);
     }
