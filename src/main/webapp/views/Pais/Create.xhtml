@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition>
+
+        <p:dialog id="paisDlg" widgetVar="paisDialog" modal="true" resizable="false" appendTo="@(body)"  header="Nuevo Pais" >
+
+            <h:form id="formPais">
+                    <p:panelGrid columns="2">
+                        <p:column>
+                            <p:outputLabel for="codigoPais" value="C&oacute;digo de Pa&iacute;s:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="codigoPais" value="#{paisMB.pais.codigoPais}"  required="true" size="50"/>
+                            <p:watermark for="codigoPais" value="C&oacute;digo" id="watermarkCodigoPais"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel for="nombrePais" value="Nombre:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nombrePais" value="#{paisMB.pais.nombrePais}" required="true" size="50" />
+                            <p:watermark for="nombrePais" value="Nombre pa&iacute;s" id="watermarkNombrePais"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel for="regionPais" value="Regi&oacute;n:"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="regionPais" value="#{paisMB.region.idRegion}"  style="width: 100%" required="true">
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                <c:forEach var="reg" items="#{paisMB.listRegion}">
+                                    <f:selectItem itemLabel="#{reg.nombreRegion}" itemValue="#{reg.idRegion}"/>
+                                </c:forEach>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton styleClass="boton" rendered="#{!paisMB.actualizar}"
+                                             actionListener="#{paisMB.guardarPais}" value="Guardar"  update="formAdmin:acordion:paiscooperante" process="@this :formPais" onclick="PF('paisDialog').hide();"/>
+
+                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
+                                             actionListener="#{paisMB.cancelarPais()}" immediate="true" value="Cancelar" update="formPais"  process="@this" />
+
+
+                        </p:column>
+                    </p:panelGrid>
+
+                </h:form>
+        </p:dialog>    
+    </ui:composition>
+
+</html>

@@ -11,6 +11,7 @@ import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoCambio;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,7 @@ public class TipoCambioService extends GenericService<TipoCambio, Integer>  {
     public TipoCambio getTipoCambioByCodigo(String name){
      return tipoCambioDao.getTipoCambioByCodigo(name);
     }
-    
+    public List<TipoCambio> getAllByNameAsc(){
+        return tipoCambioDao.getAllByNameAsc();
+    }
 }

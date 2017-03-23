@@ -68,8 +68,13 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
 
 public class ProyectosMB {
+
     @Inject
     TipoProyectoMB tipoProyectoMB;
+    @Inject
+    TipoCambioMB tipoCambioMB;
+    @Inject
+    PaisMB paisMB;
 
     @Autowired
     private AreaConocimientoService areaConocimientoService;
@@ -293,9 +298,13 @@ public class ProyectosMB {
     private Boolean disablePersona;
     private Boolean disablePersonaAsistente;
     private Boolean disablePersonaExterna;
-    
+
 // nuevos elementos en combo box
     private TipoProyecto newTipoProyecto;
+
+    //Mascara de telefonos de personas externas
+    private String codigoPais;
+    private String mascaraTelefono;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -481,9 +490,13 @@ public class ProyectosMB {
         disablePersona = Boolean.TRUE;
         disablePersonaAsistente = Boolean.TRUE;
         disablePersonaExterna = Boolean.TRUE;
-        
+
         // nuevos elementos de los combo box
-        newTipoProyecto= new TipoProyecto();
+        newTipoProyecto = new TipoProyecto();
+
+        //Mascara de telenonos de personas externas
+        codigoPais = "";
+        mascaraTelefono = "";
 
     }
 
@@ -579,7 +592,7 @@ public class ProyectosMB {
     public void guardarProyecto() {
         try {
             //guardar persona solicitante
-            if ((reemplazarSol == false && siEditoPersona == true) || (reemplazarSol == false && siEditoPersona == false && actualizar==false && activarBotonNuevaPersona==false)) {
+            if ((reemplazarSol == false && siEditoPersona == true) || (reemplazarSol == false && siEditoPersona == false && actualizar == false && activarBotonNuevaPersona == false)) {
 //                personaService.merge(persona);
 
             } else {
@@ -611,7 +624,7 @@ public class ProyectosMB {
             }
             //guardar persona Asistente
             if (tabAsis == true) {
-                if ((reemplazarAsis == false && siEditoPersonaAsistente == true) || (reemplazarAsis == false && siEditoPersonaAsistente == false && actualizar==false && activarBotonNuevaPersonaAsistente==false) || (reemplazarAsis == false && desvincularAsistente == false && actualizar==false && activarBotonNuevaPersonaAsistente==false)) {
+                if ((reemplazarAsis == false && siEditoPersonaAsistente == true) || (reemplazarAsis == false && siEditoPersonaAsistente == false && actualizar == false && activarBotonNuevaPersonaAsistente == false) || (reemplazarAsis == false && desvincularAsistente == false && actualizar == false && activarBotonNuevaPersonaAsistente == false)) {
 //                    personaService.merge(personaAsistente);
                 } else {
                     String facultadArregloAsis[] = facultadSelectedPojoAsis.split(",");
@@ -641,7 +654,7 @@ public class ProyectosMB {
                 }
             }
             //Guardar informacion de referente externo
-            if ((reemplazarRefExt == false && siEditoPersonaExterna == true) || (reemplazarRefExt == false && siEditoPersonaExterna == false && actualizar==false && activarBotonNuevaPersonaExterna==false)) {
+            if ((reemplazarRefExt == false && siEditoPersonaExterna == true) || (reemplazarRefExt == false && siEditoPersonaExterna == false && actualizar == false && activarBotonNuevaPersonaExterna == false)) {
 //                personaService.merge(personaExterna);
             } else {
                 Organismo organismoExt = organismoService.findById(organismoSelectedRefExt.getIdOrganismo());
@@ -1733,15 +1746,41 @@ public class ProyectosMB {
         }
     }
 // metodos para agregar nuevos elementos por cada combo box
+
     public void addNewTipoProyectoIfNecessary(AjaxBehaviorEvent event) {
         if (proyectoSelected.getNombreTipoProyecto().equals("Agregar Nuevo")) {
             tipoProyectoMB.init();
-               RequestContext ajax = RequestContext.getCurrentInstance();
+            RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('tipoproyectoDialog').show()");
             proyectoSelected = new TipoProyecto();
         }
     }
-   
+    public void addNewTipoMoneda(){
+        TipoCambio tipocambio=tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+        if (tipocambio.getNombreDivisa().equals("Agregar Nuevo")) {
+            tipoCambioMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('tipocambioDialog').show()");
+            tipoCambioSelected = new TipoCambio();
+        }
+    }
+    public void addNewPais(){
+        Pais pais=paisService.findById(paisCooperanteSelected.getIdPais());
+        if (pais.getNombrePais().equals("Agregar Nuevo")) {
+            paisMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('paisDialog').show()");
+            paisCooperanteSelected = new Pais();
+        }
+    }
+
+    //Metodo que se encarga de mostrar mascara de personas externas en los telefonos
+    public void onchangeListInstitucionPersona() {
+        Organismo org=organismoService.findById(organismoSelectedRefExt.getIdOrganismo());
+        codigoPais = paisService.findById(org.getIdPais()).getCodigoPais();
+        mascaraTelefono = telefonoService.getMask(codigoPais);
+    }
+
     public TipoProyecto getProyectoSelected() {
         return proyectoSelected;
     }
@@ -2846,5 +2885,13 @@ public class ProyectosMB {
     public void setNewTipoProyecto(TipoProyecto newTipoProyecto) {
         this.newTipoProyecto = newTipoProyecto;
     }
-    
+
+    public String getMascaraTelefono() {
+        return mascaraTelefono;
+    }
+
+    public void setMascaraTelefono(String mascaraTelefono) {
+        this.mascaraTelefono = mascaraTelefono;
+    }
+
 }
