@@ -10,6 +10,7 @@
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
         <ui:define name="content" >
+             <ui:include src="../TipoBeca/Create.xhtml"/>
             <script type="text/javascript">
                 $.mask.definitions['9'] = '';
                 $.mask.definitions['#'] = '[0-9]';
@@ -171,9 +172,10 @@
                                         <p:column>
                                             <p:selectOneMenu id="tipoBeca" value="#{becaMB.tipoBecaSelected.idTipoBeca}"  style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" />
-                                                <c:forEach var="tb" items="#{becaMB.tipoBecaList}">
+                                                <c:forEach var="tb" items="#{tipoBecaMB.listaBecas()}">
                                                     <f:selectItem itemLabel="#{tb.nombreTipoBeca}" itemValue="#{tb.idTipoBeca}"/>
                                                 </c:forEach>
+                                                <p:ajax event="change" listener="#{becaMB.addNewTipoBeca}" process="@this" update="formAdmin:acordion:tipoBeca"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>

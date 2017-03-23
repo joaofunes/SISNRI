@@ -10,6 +10,7 @@ import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoBeca;
 import com.sisrni.model.TipoCambio;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,7 @@ public class TipoBecaService extends GenericService<TipoBeca, Integer>  {
     public GenericDao<TipoBeca, Integer> getDao() {
       return tipoBecaDao;
     }
-
+    public List<TipoBeca> getAllByNameAsc(){
+        return tipoBecaDao.getAllByNameAsc();
+    }
 }

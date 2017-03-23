@@ -50,6 +50,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.hibernate.SessionFactory;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ public class BecaMB implements Serializable {
     /**
      * Creates a new instance of BecaMB
      */
+    
     private static final String FIJO = "FIJO";
     private static final String FAX = "FAX";
     private static final String CELULAR = "CELULAR";
@@ -198,6 +200,9 @@ public class BecaMB implements Serializable {
     private String codigoPais;
     private String mascaraTelefono;
 
+    @Inject
+    TipoBecaMB tipoBecaMB;
+    
     @Autowired
     FacultadService facultadService;
 
@@ -1330,6 +1335,16 @@ public class BecaMB implements Serializable {
         telefonoCelularAsesorExterno = new Telefono();
         entidadInstitucionSelected = new Organismo();
 
+    }
+    //Metodos para agregar elementos nuevos en cada combobox
+    public void addNewTipoBeca() {
+        TipoBeca tipobeca = tipoBecaService.findById(tipoBecaSelected.getIdTipoBeca());
+        if (tipobeca.getNombreTipoBeca().equals("Agregar Nuevo")) {
+            tipoBecaMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('tipobecaDialog').show()");
+            tipoBecaSelected = new TipoBeca();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Sets and Getters">
