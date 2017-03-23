@@ -259,88 +259,41 @@
 	</pageFooter>
 	<summary>
 		<band height="280" splitType="Stretch">
-			<pieChart>
+			<bar3DChart>
 				<chart>
-					<reportElement uuid="b056c4c8-0858-4f53-b3c8-f257e20f8c3c" x="0" y="33" width="264" height="247"/>
-					<chartTitle color="#5B63B1">
-						<titleExpression><![CDATA["Gráfico de Becas Gestionadas"]]></titleExpression>
+					<reportElement uuid="f770287b-fa40-4f04-8774-cb4c168fe10e" x="0" y="21" width="528" height="259"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Becas Gestionadas vs Otorgadas"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
-					<chartLegend>
-						<font size="8"/>
-					</chartLegend>
+					<chartLegend/>
 				</chart>
-				<pieDataset>
-					<keyExpression><![CDATA[$F{nombrePais}]]></keyExpression>
-					<valueExpression><![CDATA[$F{gestionadas}]]></valueExpression>
-					<labelExpression><![CDATA[$F{gestionadas}+""]]></labelExpression>
-				</pieDataset>
-				<piePlot>
-					<plot>
-						<seriesColor seriesOrder="0" color="#9933FF"/>
-						<seriesColor seriesOrder="1" color="#CC0066"/>
-						<seriesColor seriesOrder="2" color="#33CCFF"/>
-						<seriesColor seriesOrder="3" color="#33FF33"/>
-						<seriesColor seriesOrder="4" color="#FFFF33"/>
-						<seriesColor seriesOrder="5" color="#3333FF"/>
-						<seriesColor seriesOrder="6" color="#FF6633"/>
-						<seriesColor seriesOrder="7" color="#FF0066"/>
-						<seriesColor seriesOrder="8" color="#00CC33"/>
-						<seriesColor seriesOrder="9" color="#00CCCC"/>
-						<seriesColor seriesOrder="10" color="#FF9999"/>
-						<seriesColor seriesOrder="11" color="#99FF99"/>
-						<seriesColor seriesOrder="12" color="#006699"/>
-						<seriesColor seriesOrder="13" color="#009966"/>
-						<seriesColor seriesOrder="14" color="#3300FF"/>
-						<seriesColor seriesOrder="15" color="#66FFFF"/>
-						<seriesColor seriesOrder="16" color="#FFFF00"/>
-						<seriesColor seriesOrder="17" color="#009933"/>
-						<seriesColor seriesOrder="18" color="#CCFFCC"/>
-					</plot>
-					<itemLabel/>
-				</piePlot>
-			</pieChart>
-			<pieChart>
-				<chart>
-					<reportElement uuid="810f3741-2f34-4d5b-80c7-abbfa3b5351e" x="264" y="33" width="264" height="247"/>
-					<chartTitle color="#5B63B1">
-						<titleExpression><![CDATA["Gráfico de Becas Otorgadas"]]></titleExpression>
-					</chartTitle>
-					<chartSubtitle/>
-					<chartLegend>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Gestionadas"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombrePais}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{gestionadas}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Otorgadas"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombrePais}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{becasOtorgadas}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
+					<plot labelRotation="-25.0"/>
+					<itemLabel>
 						<font size="8"/>
-					</chartLegend>
-				</chart>
-				<pieDataset>
-					<keyExpression><![CDATA[$F{nombrePais}]]></keyExpression>
-					<valueExpression><![CDATA[$F{becasOtorgadas}]]></valueExpression>
-					<labelExpression><![CDATA[$F{becasOtorgadas}+""]]></labelExpression>
-				</pieDataset>
-				<piePlot>
-					<plot>
-						<seriesColor seriesOrder="0" color="#9933FF"/>
-						<seriesColor seriesOrder="1" color="#CC0066"/>
-						<seriesColor seriesOrder="2" color="#33CCFF"/>
-						<seriesColor seriesOrder="3" color="#33FF33"/>
-						<seriesColor seriesOrder="4" color="#FFFF33"/>
-						<seriesColor seriesOrder="5" color="#3333FF"/>
-						<seriesColor seriesOrder="6" color="#FF6633"/>
-						<seriesColor seriesOrder="7" color="#FF0066"/>
-						<seriesColor seriesOrder="8" color="#00CC33"/>
-						<seriesColor seriesOrder="9" color="#00CCCC"/>
-						<seriesColor seriesOrder="10" color="#FF9999"/>
-						<seriesColor seriesOrder="11" color="#99FF99"/>
-						<seriesColor seriesOrder="12" color="#006699"/>
-						<seriesColor seriesOrder="13" color="#009966"/>
-						<seriesColor seriesOrder="14" color="#3300FF"/>
-						<seriesColor seriesOrder="15" color="#66FFFF"/>
-						<seriesColor seriesOrder="16" color="#FFFF00"/>
-						<seriesColor seriesOrder="17" color="#009933"/>
-						<seriesColor seriesOrder="18" color="#CCFFCC"/>
-					</plot>
-					<itemLabel/>
-				</piePlot>
-			</pieChart>
+					</itemLabel>
+					<categoryAxisFormat labelRotation="-25.0">
+						<axisFormat>
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
 		</band>
 	</summary>
 </jasperReport>
