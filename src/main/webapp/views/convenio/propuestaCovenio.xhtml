@@ -13,6 +13,10 @@
 
 
     <ui:define name="content">
+         <script type="text/javascript">
+                    $.mask.definitions['9'] = '';
+                    $.mask.definitions['#'] = '[0-9]';
+         </script>
         <f:metadata>            
             <f:viewAction action="#{propuestaConvenioMB.onload}" />
         </f:metadata>
@@ -135,20 +139,20 @@
                                         <p:outputLabel for="idTelFijoSolicitante" value="Tel:" />
                                     </p:column>
                                     <p:column>                                                               
-                                        <p:inputMask id="idTelFijoSolicitante" required="true"  mask="(503)-9999-9999"
+                                        <p:inputMask id="idTelFijoSolicitante" required="true" mask="#{propuestaConvenioMB.mascaraTelSolicitante}"
                                                      value="#{propuestaConvenioMB.telFijoSolicitante.numeroTelefono}"
                                                      disabled="#{propuestaConvenioMB.habilitarBusquedaSolicitante}"/>
-                                        <p:watermark for="idTelFijoSolicitante" value="xxxx-xxxx"  /> 
+                                        <p:watermark for="idTelFijoSolicitante" value="(xxx)xxxx-xxxx"  /> 
                                         <p:message for="idTelFijoSolicitante" />
                                     </p:column>
                                     <p:column>
                                         <p:outputLabel for="idCelSolicitante" value="Cel:" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputMask id="idCelSolicitante" required="true" mask="(503)-9999-9999"
+                                        <p:inputMask id="idCelSolicitante" required="true" mask="#{propuestaConvenioMB.mascaraTelSolicitante}"
                                                      value="#{propuestaConvenioMB.telCelularSolicitante.numeroTelefono}"
                                                      disabled="#{propuestaConvenioMB.habilitarBusquedaSolicitante}"/>
-                                        <p:watermark for="idCelSolicitante" value="xxxx-xxxx"  /> 
+                                        <p:watermark for="idCelSolicitante" value="(xxx)xxxx-xxxx"  /> 
                                         <p:message for="idCelSolicitante" />
                                     </p:column>
                                 </p:row>
@@ -390,7 +394,8 @@
                                         <p:outputLabel for="idTelFijoInterno" value="Tel:" />
                                     </p:column>
                                     <p:column>                                                               
-                                        <p:inputMask id="idTelFijoInterno"  mask="9999-9999" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}" 
+                                        <p:inputMask id="idTelFijoInterno" value="#{propuestaConvenioMB.telFijoInterno.numeroTelefono}" 
+                                                     mask="#{propuestaConvenioMB.mascaraTelInterno}"
                                                      disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}"/>
                                         <p:watermark for="idTelFijoInterno" value="xxxx-xxxx"  /> 
                                         <p:message for="idTelFijoInterno" />
@@ -399,7 +404,8 @@
                                         <p:outputLabel for="idCelInterno" value="Cel:" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputMask id="idCelInterno"  mask="9999-9999" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}" 
+                                        <p:inputMask id="idCelInterno" value="#{propuestaConvenioMB.telCelularInterno.numeroTelefono}" 
+                                                     mask="#{propuestaConvenioMB.mascaraTelInterno}"
                                                      disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}"/>
                                         <p:watermark for="idCelInterno" value="xxxx-xxxx"  /> 
                                         <p:message for="idCelInterno" />
@@ -595,28 +601,6 @@
                                 </p:row>
                                 <p:row rendered="#{propuestaConvenioMB.rol != null}">
                                     <p:column>
-                                        <p:outputLabel for="idTelefonoExterno" value="Tel: " />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="idTelefonoExterno"  mask="9999-9999" 
-                                                     value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" 
-                                                     disabled="#{propuestaConvenioMB.habilitarBusquedaExterna}"/>
-                                        <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
-                                        <p:message for="idTelefonoExterno" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="idCelExterno" value="Cel" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="idCelExterno"  mask="9999-9999"
-                                                     value="#{propuestaConvenioMB.telCelularExterno.numeroTelefono}" 
-                                                     disabled="#{propuestaConvenioMB.habilitarBusquedaExterna}"/>
-                                        <p:watermark for="idCelExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
-                                        <p:message for="idCelExterno" />
-                                    </p:column>
-                                </p:row>
-                                <p:row rendered="#{propuestaConvenioMB.rol != null}">
-                                    <p:column>
                                         <p:outputLabel for="idCargoExterno" value="Cargo" />
                                     </p:column>
                                     <p:column>
@@ -637,9 +621,33 @@
                                                           disabled="#{propuestaConvenioMB.habilitarBusquedaExterna}" style="width:160px" >                                              
                                             <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
                                             <f:selectItems value="#{propuestaConvenioMB.listadoOrganismo}" var="organi" itemLabel="#{organi.nombreOrganismo}" itemValue="#{organi}" />
+                                            <p:ajax listener="#{propuestaConvenioMB.recargarArea()}" update="idTelefonoExterno,idCelExterno"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                 </p:row>
+                                <p:row rendered="#{propuestaConvenioMB.rol != null}">
+                                    <p:column>
+                                        <p:outputLabel for="idTelefonoExterno" value="Tel: " />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="idTelefonoExterno"  mask="#{propuestaConvenioMB.mascaraTelExterno}"
+                                                     value="#{propuestaConvenioMB.telFijoExterno.numeroTelefono}" 
+                                                     disabled="#{propuestaConvenioMB.habilitarBusquedaExterna}"/>
+                                        <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
+                                        <p:message for="idTelefonoExterno" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel for="idCelExterno" value="Cel" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="idCelExterno"  mask="#{propuestaConvenioMB.mascaraTelExterno}"
+                                                     value="#{propuestaConvenioMB.telCelularExterno.numeroTelefono}" 
+                                                     disabled="#{propuestaConvenioMB.habilitarBusquedaExterna}"/>
+                                        <p:watermark for="idCelExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
+                                        <p:message for="idCelExterno" />
+                                    </p:column>
+                                </p:row>
+                                
                                 <p:row>
                                     <p:column>
                                         <p:commandButton id="btnEditarExterno2" rendered="#{propuestaConvenioMB.habilitarBotonEditExternoDos}"

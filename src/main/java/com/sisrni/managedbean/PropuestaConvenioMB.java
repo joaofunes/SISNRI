@@ -29,6 +29,7 @@ import com.sisrni.service.EstadoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PaisService;
 import com.sisrni.service.PersonaPropuestaService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
@@ -80,6 +81,10 @@ public class PropuestaConvenioMB implements Serializable {
     @Qualifier(value = "personaService")
     private PersonaService personaService;
 
+    @Autowired
+    @Qualifier(value = "paisService")
+    private PaisService paisService;
+    
     @Autowired
     @Qualifier(value = "telefonoService")
     private TelefonoService telefonoService;
@@ -173,12 +178,15 @@ public class PropuestaConvenioMB implements Serializable {
 
     private Telefono telFijoSolicitante;
     private Telefono telCelularSolicitante;
+    private String mascaraTelSolicitante;
 
     private Telefono telFijoInterno;
     private Telefono telCelularInterno;
+    private String mascaraTelInterno;
 
     private Telefono telFijoExterno;
     private Telefono telCelularExterno;
+    private String mascaraTelExterno;
 
     private CurrentUserSessionBean user;
     private AppUserDetails usuario;
@@ -296,6 +304,9 @@ public class PropuestaConvenioMB implements Serializable {
             telCelularExterno = new Telefono();
             telFijoSolicitante = new Telefono();
             telCelularSolicitante = new Telefono();
+            mascaraTelSolicitante="";
+            mascaraTelInterno="";
+            mascaraTelExterno="";
             usuario = null;
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
@@ -1299,7 +1310,7 @@ public class PropuestaConvenioMB implements Serializable {
                     telCelularInterno = tel;
                 }
             }
-
+            mascaraTelInterno = telefonoService.getMask("SV");
         } catch (Exception e) {
         }
     }
@@ -1319,10 +1330,26 @@ public class PropuestaConvenioMB implements Serializable {
                     telCelularSolicitante = tel;
                 }
             }
+        mascaraTelSolicitante = telefonoService.getMask("SV");        
+        
         } catch (Exception e) {
         }
     }
 
+    
+    /**
+     * metodo para cargar el area para telefonos de extranjeros
+     */
+    public void recargarArea(){
+        try {
+              String codigoPais = paisService.findById(referenteExterno.getIdOrganismo().getIdPais()).getCodigoPais();
+              mascaraTelExterno = telefonoService.getMask(codigoPais);
+        } catch (Exception e) {
+        }
+    }
+    
+    
+    
     /**
      * Metodo Utilizado para cargar Telefonos de personal Externo al momento de
      * ediitar una propuesta
@@ -1338,7 +1365,7 @@ public class PropuestaConvenioMB implements Serializable {
                 if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
                     telCelularExterno = tel;
                 }
-            }
+            }           
         } catch (Exception e) {
         }
     }
@@ -2406,6 +2433,30 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setHabilitarBusquedaSolicitante(boolean habilitarBusquedaSolicitante) {
         this.habilitarBusquedaSolicitante = habilitarBusquedaSolicitante;
+    }
+
+    public String getMascaraTelSolicitante() {
+        return mascaraTelSolicitante;
+    }
+
+    public void setMascaraTelSolicitante(String mascaraTelSolicitante) {
+        this.mascaraTelSolicitante = mascaraTelSolicitante;
+    }
+
+    public String getMascaraTelInterno() {
+        return mascaraTelInterno;
+    }
+
+    public void setMascaraTelInterno(String mascaraTelInterno) {
+        this.mascaraTelInterno = mascaraTelInterno;
+    }
+
+    public String getMascaraTelExterno() {
+        return mascaraTelExterno;
+    }
+
+    public void setMascaraTelExterno(String mascaraTelExterno) {
+        this.mascaraTelExterno = mascaraTelExterno;
     }
 
 }

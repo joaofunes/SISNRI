@@ -41,4 +41,15 @@ public class PaisDao extends GenericDao<Pais, Integer> {
         List<Pais> lista = q.list();
         return q.list();
     }
+    
+    
+    
+     //retorna Pais por codigo pais
+    public Pais getPaisCodigoPais(String codPais) {
+        Query q = getSessionFactory().getCurrentSession().createQuery("FROM Pais p WHERE p.codigoPais = :id");
+        q.setParameter("id", codPais);
+      
+        return (Pais) q.uniqueResult();
+    }
+
 }
