@@ -52,7 +52,7 @@
                             </p:selectOneMenu>
                             <h:outputText value="Publicar en FB?: " />
                             <p:selectBooleanButton id="publicarEnFbId" value="#{noticiaMB.publicarEnFacebook}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
-                                <p:ajax update="aidiInterno" listener="#{noticiaMB.publicarChange()}" />
+                                <p:ajax  listener="#{noticiaMB.publicarChange()}" />
                             </p:selectBooleanButton>
                         </h:panelGrid>
                         <p:commandButton rendered="#{noticiaMB.actualizar}" value="Cancelar" actionListener="#{noticiaMB.inicializador()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
