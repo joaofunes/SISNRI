@@ -31,5 +31,7 @@ public class AreaConocimientoService extends GenericService<AreaConocimiento, In
      public List<Integer> getAreasConocimientoProyecto(Integer id){
         return areaConocimientoDao.getAreasConocimientoProyecto(id);
     }
-    
+    public List<AreaConocimiento> getAllByNameAsc(){
+        return areaConocimientoDao.getAllByNameAsc();
+    }
 }

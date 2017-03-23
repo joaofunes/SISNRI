@@ -40,7 +40,7 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
         q.setParameter("idTipo", idTipo);
         return q.list();
     }
-    
+
     public List<PojoOrganismo> getOrganismos() {
         String query = "SELECT org.ID_ORGANISMO AS idOrg, org.NOMBRE_ORGANISMO as nombre, "
                 + "tipoOrg.NOMBRE_TIPO AS tipo, pais.NOMBRE_PAIS as nPais, "
@@ -64,7 +64,7 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
                 .setResultTransformer(Transformers.aliasToBean(PojoOrganismo.class));
         return q.list();
     }
-                
+
     public List<PojoOrganismo> getOrganismosPorTipoYPais(Integer idTipo, Integer idPais) {
         String query = "SELECT org.ID_ORGANISMO AS idOrg, org.NOMBRE_ORGANISMO as nombre, "
                 + "tipoOrg.NOMBRE_TIPO AS tipo, pais.NOMBRE_PAIS as nPais, "
@@ -75,13 +75,13 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
                 + "tipoOrg.ID_TIPO_ORGANISMO INNER JOIN TELEFONO AS telefon ON org.ID_ORGANISMO = "
                 + "telefon.ID_ORGANISMO INNER JOIN PAIS as pais ON org.ID_PAIS = pais.ID_PAIS INNER JOIN "
                 + "REGION AS reg ON org.ID_REGION = reg.ID_REGION ";
-                  if (idTipo != 0) {
-                    query += "WHERE tipoOrg.ID_TIPO_ORGANISMO = " + idTipo;
-                 }
-                  if (idPais != 0) {
-                    query += " AND pais.ID_PAIS = " + idPais;
-                 }
-        
+        if (idTipo != 0) {
+            query += "WHERE tipoOrg.ID_TIPO_ORGANISMO = " + idTipo;
+        }
+        if (idPais != 0) {
+            query += " AND pais.ID_PAIS = " + idPais;
+        }
+
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("idOrg", new IntegerType())
                 .addScalar("nombre", new StringType())
@@ -95,6 +95,10 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
                 .setResultTransformer(Transformers.aliasToBean(PojoOrganismo.class));
         return q.list();
     }
-    
-   
+
+    public List<Organismo> getAllByNameAsc() {
+        String query = "Select o from Organismo o order by o.nombreOrganismo asc";
+        Query q = getSessionFactory().getCurrentSession().createQuery(query);
+        return q.list();
+    }
 }

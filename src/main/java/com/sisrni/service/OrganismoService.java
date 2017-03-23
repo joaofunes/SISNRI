@@ -46,4 +46,7 @@ public class OrganismoService extends GenericService<Organismo, Integer> {
       public Organismo getByID(int id) {
         return organismoDao.findById(id);
     }
+      public List<Organismo> getAllByNameAsc() {
+        return organismoDao.getAllByNameAsc();
+    }
 }
