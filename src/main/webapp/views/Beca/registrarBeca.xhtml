@@ -10,6 +10,10 @@
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
         <ui:define name="content" >
+            <script type="text/javascript">
+                $.mask.definitions['9'] = '';
+                $.mask.definitions['#'] = '[0-9]';
+            </script>
             <p:outputPanel id="pageTituloRegistrar" rendered="#{!becaMB.actualizar}">
                 <center>
                     <h1 style="background: #cc0000;color: white;border-radius: 10px">Registro de Beca</h1>
@@ -106,7 +110,7 @@
                                             <p:outputLabel value="#{lbecas.dui}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duibecario" mask="99999999-9" value="#{becaMB.becario.duiPersona}" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}"/>
+                                            <p:inputMask id="duibecario" mask="########-#" value="#{becaMB.becario.duiPersona}" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="#{lbecas.correo}" for="correobecario"/>
@@ -147,13 +151,13 @@
                                             <p:outputLabel value="#{lbecas.telefonoFijo}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonobecario" value="#{becaMB.telefonoFijoBecario.numeroTelefono}" mask="(503)-9999-9999" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}"/>
+                                            <p:inputMask id="telefonobecario" value="#{becaMB.telefonoFijoBecario.numeroTelefono}" mask="+503-####-####" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="telefonoCelular" value="#{lbecas.telefonoCelular}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonoCelular" value="#{becaMB.telefonoCelularBecario.numeroTelefono}" mask="(503)-9999-9999" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}" required="true" />
+                                            <p:inputMask id="telefonoCelular" value="#{becaMB.telefonoCelularBecario.numeroTelefono}" mask="+503-####-####" disabled="#{becaMB.disableBecarioInputs and !becaMB.actualizar}" required="true" />
                                         </p:column>
                                     </p:row>
                                 </p:panelGrid>
@@ -413,7 +417,7 @@
                                                 <p:outputLabel value="#{lbecas.dui}"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputMask id="duiAsesorInterno" mask="99999999-9" value="#{becaMB.asesorInterno.duiPersona}" disabled="#{becaMB.disableInternoInputs}"/>
+                                                <p:inputMask id="duiAsesorInterno" mask="#######-#" value="#{becaMB.asesorInterno.duiPersona}" disabled="#{becaMB.disableInternoInputs}"/>
                                             </p:column>
                                             <p:column>
                                                 <p:outputLabel value="#{lbecas.correo}" for="correoAsosorInterno"/>
@@ -460,7 +464,7 @@
                                                 <p:outputLabel value="#{lbecas.telefonoInstitucional}"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputMask id="telefonoFijoAsesorInterno" value="#{becaMB.telefonoFijoAsesorInterno.numeroTelefono}" mask="(503)-9999-9999" disabled="#{becaMB.disableInternoInputs}"/>
+                                                <p:inputMask id="telefonoFijoAsesorInterno" value="#{becaMB.telefonoFijoAsesorInterno.numeroTelefono}" mask="+503-####-####" disabled="#{becaMB.disableInternoInputs}"/>
                                             </p:column>
                                         </p:row>
                                         <p:row>
@@ -468,7 +472,7 @@
                                                 <p:outputLabel value="#{lbecas.telefonoCelular}"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputMask id="telefonoCelularAsesorInterno" value="#{becaMB.telefonoCelularAsesorInterno.numeroTelefono}" mask="(503)-9999-9999" disabled="#{becaMB.disableInternoInputs}"/>
+                                                <p:inputMask id="telefonoCelularAsesorInterno" value="#{becaMB.telefonoCelularAsesorInterno.numeroTelefono}" mask="+503-####-####" disabled="#{becaMB.disableInternoInputs}"/>
                                             </p:column>
                                         </p:row>
                                         <p:row>
@@ -587,6 +591,7 @@
                                                     <c:forEach var="entidad" items="#{becaMB.organismoList}">
                                                         <f:selectItem itemLabel="#{entidad.nombreOrganismo}" itemValue="#{entidad.idOrganismo}"/>
                                                     </c:forEach>
+                                                    <p:ajax listener="#{becaMB.onchangeListInstitucionPersona()}"  update="telefonoFijoAsesorExterno,telefonoCelularAsesorExterno"/>
                                                 </p:selectOneMenu>
                                             </p:column>
                                         </p:row>
@@ -595,13 +600,13 @@
                                                 <p:outputLabel value="#{lbecas.telefonoInstitucional}"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="telefonoFijoAsesorExterno" value="#{becaMB.telefonoFijoAsesorExterno.numeroTelefono}" disabled="#{becaMB.disableExternoInputs}"/>
+                                                <p:inputMask id="telefonoFijoAsesorExterno" mask="#{becaMB.mascaraTelefono}" value="#{becaMB.telefonoFijoAsesorExterno.numeroTelefono}" disabled="#{becaMB.disableExternoInputs}"/>
                                             </p:column>
                                             <p:column>
                                                 <p:outputLabel value="#{lbecas.telefonoCelular}"/>
                                             </p:column>
                                             <p:column>
-                                                <p:inputText id="telefonoCelularAsesorExterno" value="#{becaMB.telefonoCelularAsesorExterno.numeroTelefono}" disabled="#{becaMB.disableExternoInputs}"/>
+                                                <p:inputMask id="telefonoCelularAsesorExterno" mask="#{becaMB.mascaraTelefono}" value="#{becaMB.telefonoCelularAsesorExterno.numeroTelefono}" disabled="#{becaMB.disableExternoInputs}"/>
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
