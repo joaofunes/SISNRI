@@ -68,7 +68,7 @@ public class NoticiaMB implements Serializable {
     private Boolean renderFbButton;
     private File fileForFb;
     private FileInputStream fileToPublish;
-    private static final String tokenFb = "EAACEdEose0cBAPp1GwJ8RDudqpMQ2nGFNJKulVzL4p8c55c69zRJdZAqvUHLDlZBVxFyZALwl59NFWGuFZANefz60ocAsGfS3HXI2SEVlhCi1jqWFZABzZAnh7YQbS3DLF5rXhx1WHMjZCoPkaBscrAbxshmDcODSC3zwH5ZBUxWLDL4fZCgoWdLEaCMSWUZAaxdoZD";
+    private static final String tokenFb = "EAACEdEose0cBAOCgezRH5jNsOa2EyjEH3uHJ9LcRB4xipxthIl2qHOudwrbinoZAJlgA67V44auBRKQoDHOkhZC75NNyH6w871RJ3eDjM6hnaF5TrBcjO4lexfD5LewGdlXx1cFgSBJzdg1GvpQOrcRzcro2rsZCWoujBQQtiZCoBZCNTTaknf7OP1oKAJ6oZD";
 
     @Autowired
     @ManagedProperty("#{globalCounterView}")
@@ -167,7 +167,7 @@ public class NoticiaMB implements Serializable {
             this.noticia = noticiaService.findById(idnoticia);
             categoriaSelected = noticia.getIdCategoria();
             actualizar = true;
-            eliminar=false;
+            eliminar = false;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al obtener la informacion."));
         }
@@ -178,7 +178,7 @@ public class NoticiaMB implements Serializable {
             this.noticia = noticiaService.findById(idnoticia);
             categoriaSelected = noticia.getIdCategoria();
             eliminar = true;
-            actualizar=false;
+            actualizar = false;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al obtener la informacion."));
         }
@@ -198,6 +198,9 @@ public class NoticiaMB implements Serializable {
         try {
             noticia.setIdCategoria(categoriaNoticiaService.findById(categoriaSelected.getIdCategoria()));
             noticiaService.merge(noticia);
+            if (publicarEnFacebook) {
+                publicarNoticiaEnFb();
+            }
             inicializador();
             globalCounter.increment(noticiasNoVisibles());
         } catch (Exception e) {
