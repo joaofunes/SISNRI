@@ -62,11 +62,13 @@ public class NoticiaMB implements Serializable {
     private List<Noticia> noticiasListPublicas;
     private Integer categoriaSelectedPublicas;
     private Boolean actualizar;
+    private Boolean eliminar;
     private Noticia noticiaPopUp;
     private Boolean publicarEnFacebook;
     private Boolean renderFbButton;
     private File fileForFb;
-    private static final String tokenFb = "EAACEdEose0cBAPp1GwJ8RDudqpMQ2nGFNJKulVzL4p8c55c69zRJdZAqvUHLDlZBVxFyZALwl59NFWGuFZANefz60ocAsGfS3HXI2SEVlhCi1jqWFZABzZAnh7YQbS3DLF5rXhx1WHMjZCoPkaBscrAbxshmDcODSC3zwH5ZBUxWLDL4fZCgoWdLEaCMSWUZAaxdoZD";
+    private FileInputStream fileToPublish;
+    private static final String tokenFb = "EAACEdEose0cBAOCgezRH5jNsOa2EyjEH3uHJ9LcRB4xipxthIl2qHOudwrbinoZAJlgA67V44auBRKQoDHOkhZC75NNyH6w871RJ3eDjM6hnaF5TrBcjO4lexfD5LewGdlXx1cFgSBJzdg1GvpQOrcRzcro2rsZCWoujBQQtiZCoBZCNTTaknf7OP1oKAJ6oZD";
 
     @Autowired
     @ManagedProperty("#{globalCounterView}")
@@ -98,8 +100,13 @@ public class NoticiaMB implements Serializable {
         categoriaSelectedPublicas = 0;
         noticiasListPublicas = noticiaService.getActiveNews(categoriaSelectedPublicas);
         actualizar = false;
+        eliminar = false;
         noticiaPopUp = new Noticia();
         renderFbButton = Boolean.FALSE;
+        publicarEnFacebook = Boolean.TRUE;
+        fileForFb = null;
+        fileToPublish = null;
+
 //        globalCounter = new GlobalCounterView();
     }
 
@@ -135,14 +142,20 @@ public class NoticiaMB implements Serializable {
     }
 
     public void publicarNoticiaEnFb() throws FileNotFoundException {
-        FileInputStream fileToPublis = new FileInputStream(fileForFb);
+
         FacebookClient fbClient = new DefaultFacebookClient(tokenFb);
+
         fbClient.publish("me/feed", FacebookType.class, Parameter.with("message", noticia.getTituloNoticia()),
                 Parameter.with("link", "http://52.67.109.233:8080/sisrni/auth/templates/index.xhtml")
         );
 
-        fbClient.publish("me/photos", FacebookType.class, BinaryAttachment.with("image.png", fileToPublis), Parameter.with("message", noticia.getTituloNoticia())
-        );
+        if (fileForFb != null) {
+            fileToPublish = new FileInputStream(fileForFb);
+            fbClient.publish("me/photos", FacebookType.class, BinaryAttachment.with("image.png", fileToPublish),
+                    Parameter.with("message", noticia.getTituloNoticia())
+            );
+        }
+
     }
 
     public Integer noticiasNoVisibles() {
@@ -154,8 +167,30 @@ public class NoticiaMB implements Serializable {
             this.noticia = noticiaService.findById(idnoticia);
             categoriaSelected = noticia.getIdCategoria();
             actualizar = true;
+            eliminar = false;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al obtener la informacion."));
+        }
+    }
+
+    public void preEliminar(int idnoticia) {
+        try {
+            this.noticia = noticiaService.findById(idnoticia);
+            categoriaSelected = noticia.getIdCategoria();
+            eliminar = true;
+            actualizar = false;
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al obtener la informacion."));
+        }
+    }
+
+    public void eliminar() {
+        try {
+            noticiaService.delete(noticia);
+            inicializador();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "El registro ha sido eliminado."));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al eliminar la informacion."));
         }
     }
 
@@ -163,6 +198,9 @@ public class NoticiaMB implements Serializable {
         try {
             noticia.setIdCategoria(categoriaNoticiaService.findById(categoriaSelected.getIdCategoria()));
             noticiaService.merge(noticia);
+            if (publicarEnFacebook) {
+                publicarNoticiaEnFb();
+            }
             inicializador();
             globalCounter.increment(noticiasNoVisibles());
         } catch (Exception e) {
@@ -192,6 +230,10 @@ public class NoticiaMB implements Serializable {
 
         try {
             File result = File.createTempFile(fileNamePrefix, fileNameSuffix, uploadFolder);
+
+            if (fileNameSuffix.equalsIgnoreCase(".png") || fileNameSuffix.equalsIgnoreCase(".jpg")) {
+                fileForFb = result; //para publicar en fb
+            }
 
             FileOutputStream fileOutputStream = new FileOutputStream(result);
             byte[] buffer = new byte[1024];
@@ -225,7 +267,7 @@ public class NoticiaMB implements Serializable {
             }
 
             RequestContext.getCurrentInstance().update("formNoticia:editor_input");
-            fileForFb = (File) event.getFile();
+
             FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " ha sido cargada.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
@@ -350,6 +392,22 @@ public class NoticiaMB implements Serializable {
 
     public void setFileForFb(File fileForFb) {
         this.fileForFb = fileForFb;
+    }
+
+    public FileInputStream getFileToPublish() {
+        return fileToPublish;
+    }
+
+    public void setFileToPublish(FileInputStream fileToPublish) {
+        this.fileToPublish = fileToPublish;
+    }
+
+    public Boolean getEliminar() {
+        return eliminar;
+    }
+
+    public void setEliminar(Boolean eliminar) {
+        this.eliminar = eliminar;
     }
 
 }

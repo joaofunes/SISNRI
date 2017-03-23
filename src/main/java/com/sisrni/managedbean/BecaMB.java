@@ -194,6 +194,9 @@ public class BecaMB implements Serializable {
     private Boolean remplazarExterno;
 
     private Boolean desvinculoInterno;
+    //Mascara de telefonos de personas externas
+    private String codigoPais;
+    private String mascaraTelefono;
 
     @Autowired
     FacultadService facultadService;
@@ -278,7 +281,7 @@ public class BecaMB implements Serializable {
         tipoBecaSelected = new TipoBeca();
         tipoCambioSelected = new TipoCambio();
         yearActual = getYearOfDate(new Date());
-        anio="";
+        anio = "";
 
         //para el referente interno
         asesorInterno = new Persona();
@@ -297,7 +300,7 @@ public class BecaMB implements Serializable {
         facultadList = facultadService.getFacultadesByUniversidad(1);
         carreraList = new ArrayList<Carrera>();
 //        paisList = paisService.findAll();
-         paisList = paisService.getCountriesOrderByNameAsc();
+        paisList = paisService.getCountriesOrderByNameAsc();
         programaBecaList = programaBecaService.findAll();
         universidadList = new ArrayList<Organismo>();
         tipoModalidadBecaList = tipoModalidadBecaService.findAll();
@@ -359,7 +362,9 @@ public class BecaMB implements Serializable {
         remplazarExterno = Boolean.FALSE;
 
         desvinculoInterno = Boolean.FALSE;
-
+        //Mascara de telenonos de personas externas
+        codigoPais = "";
+        mascaraTelefono = "";
     }
 
 //registra la informacion conserniente a una beca
@@ -664,7 +669,7 @@ public class BecaMB implements Serializable {
         disableBecarioInputs = Boolean.FALSE;
         existeBecario = Boolean.FALSE;
         presionoNuevoBecario = Boolean.TRUE;
-        presionoActualizarBecario=Boolean.FALSE;
+        presionoActualizarBecario = Boolean.FALSE;
     }
 
     public void presionoActualizarBecario() {
@@ -793,6 +798,13 @@ public class BecaMB implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect("registrarBeca.xhtml");
     }
 
+    //Metodo que se encarga de mostrar mascara de personas externas en los telefonos
+    public void onchangeListInstitucionPersona() {
+        Organismo org = organismoService.findById(entidadInstitucionSelected.getIdOrganismo());
+        codigoPais = paisService.findById(org.getIdPais()).getCodigoPais();
+        mascaraTelefono = telefonoService.getMask(codigoPais);
+    }
+
     public void preUpdate(Integer id) {
         try {
             Beca aux = becaService.findById(id);
@@ -842,7 +854,7 @@ public class BecaMB implements Serializable {
                 universidadSelected = beca.getIdUniversidad();
                 getUniversidadesPorPais(beca.getIdPaisDestino());
                 tipoModalidaBecaSelected = beca.getIdTipoModalidad();
-                anio=beca.getAnioGestion().toString()+" ";
+                anio = beca.getAnioGestion().toString() + " ";
                 if (tipoModalidaBecaSelected.getIdTipoModalidad() == 1) {
                     mostrarmonto = Boolean.FALSE;
                 } else {
@@ -2048,6 +2060,22 @@ public class BecaMB implements Serializable {
 
     public void setDesvinculoInterno(Boolean desvinculoInterno) {
         this.desvinculoInterno = desvinculoInterno;
+    }
+
+    public String getCodigoPais() {
+        return codigoPais;
+    }
+
+    public void setCodigoPais(String codigoPais) {
+        this.codigoPais = codigoPais;
+    }
+
+    public String getMascaraTelefono() {
+        return mascaraTelefono;
+    }
+
+    public void setMascaraTelefono(String mascaraTelefono) {
+        this.mascaraTelefono = mascaraTelefono;
     }
 
 }
