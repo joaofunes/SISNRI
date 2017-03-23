@@ -62,6 +62,7 @@ public class NoticiaMB implements Serializable {
     private List<Noticia> noticiasListPublicas;
     private Integer categoriaSelectedPublicas;
     private Boolean actualizar;
+    private Boolean eliminar;
     private Noticia noticiaPopUp;
     private Boolean publicarEnFacebook;
     private Boolean renderFbButton;
@@ -99,6 +100,7 @@ public class NoticiaMB implements Serializable {
         categoriaSelectedPublicas = 0;
         noticiasListPublicas = noticiaService.getActiveNews(categoriaSelectedPublicas);
         actualizar = false;
+        eliminar = false;
         noticiaPopUp = new Noticia();
         renderFbButton = Boolean.FALSE;
         publicarEnFacebook = Boolean.TRUE;
@@ -165,8 +167,30 @@ public class NoticiaMB implements Serializable {
             this.noticia = noticiaService.findById(idnoticia);
             categoriaSelected = noticia.getIdCategoria();
             actualizar = true;
+            eliminar=false;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al obtener la informacion."));
+        }
+    }
+
+    public void preEliminar(int idnoticia) {
+        try {
+            this.noticia = noticiaService.findById(idnoticia);
+            categoriaSelected = noticia.getIdCategoria();
+            eliminar = true;
+            actualizar=false;
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al obtener la informacion."));
+        }
+    }
+
+    public void eliminar() {
+        try {
+            noticiaService.delete(noticia);
+            inicializador();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "El registro ha sido eliminado."));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas al eliminar la informacion."));
         }
     }
 
@@ -373,6 +397,14 @@ public class NoticiaMB implements Serializable {
 
     public void setFileToPublish(FileInputStream fileToPublish) {
         this.fileToPublish = fileToPublish;
+    }
+
+    public Boolean getEliminar() {
+        return eliminar;
+    }
+
+    public void setEliminar(Boolean eliminar) {
+        this.eliminar = eliminar;
     }
 
 }
