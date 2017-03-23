@@ -56,6 +56,7 @@ public class NoticiaMB implements Serializable {
     private Integer categoriaSelectedPublicas;
     private Boolean actualizar;
     private Noticia noticiaPopUp;
+    private Boolean publicarEnFacebook;
 
     @Autowired
     @ManagedProperty("#{globalCounterView}")
@@ -104,6 +105,10 @@ public class NoticiaMB implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
 
         }
+    }
+
+    public void publicarChange() {
+        publicarEnFacebook = publicarEnFacebook ? Boolean.TRUE : Boolean.FALSE;
     }
 
     public Integer noticiasNoVisibles() {
@@ -287,6 +292,14 @@ public class NoticiaMB implements Serializable {
 
     public void setGlobalCounter(GlobalCounterView globalCounter) {
         this.globalCounter = globalCounter;
+    }
+
+    public Boolean getPublicarEnFacebook() {
+        return publicarEnFacebook;
+    }
+
+    public void setPublicarEnFacebook(Boolean publicarEnFacebook) {
+        this.publicarEnFacebook = publicarEnFacebook;
     }
 
 }
