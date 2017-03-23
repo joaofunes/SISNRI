@@ -141,13 +141,14 @@ public class NoticiaMB implements Serializable {
 
     public void publicarNoticiaEnFb() throws FileNotFoundException {
 
-        fileToPublish = new FileInputStream(fileForFb);
         FacebookClient fbClient = new DefaultFacebookClient(tokenFb);
 
         fbClient.publish("me/feed", FacebookType.class, Parameter.with("message", noticia.getTituloNoticia()),
                 Parameter.with("link", "http://52.67.109.233:8080/sisrni/auth/templates/index.xhtml")
         );
-        if (fileToPublish != null) {
+
+        if (fileForFb != null) {
+            fileToPublish = new FileInputStream(fileForFb);
             fbClient.publish("me/photos", FacebookType.class, BinaryAttachment.with("image.png", fileToPublish),
                     Parameter.with("message", noticia.getTituloNoticia())
             );
