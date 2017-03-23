@@ -193,7 +193,7 @@ public class ProgramaBecaMB extends GenericManagedBean<ProgramaBeca, Integer> {
         cargarProgramaBeca();
     }
 
-    public List<ProgramaBeca> listaProyectos() {
+    public List<ProgramaBeca> listaProgramas() {
         listadoProgramaBeca = programaBecaService.getAllByNameAsc();
         ProgramaBeca tipoProyectoNew1 = new ProgramaBeca();
         List<ProgramaBeca> copy = new ArrayList<ProgramaBeca>();
