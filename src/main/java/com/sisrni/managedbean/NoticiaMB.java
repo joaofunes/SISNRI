@@ -57,6 +57,8 @@ public class NoticiaMB implements Serializable {
     private Boolean actualizar;
     private Noticia noticiaPopUp;
     private Boolean publicarEnFacebook;
+    private Boolean renderFbButton;
+    private static String tokenFb = "";
 
     @Autowired
     @ManagedProperty("#{globalCounterView}")
@@ -89,6 +91,7 @@ public class NoticiaMB implements Serializable {
         noticiasListPublicas = noticiaService.getActiveNews(categoriaSelectedPublicas);
         actualizar = false;
         noticiaPopUp = new Noticia();
+        renderFbButton = Boolean.FALSE;
 //        globalCounter = new GlobalCounterView();
     }
 
@@ -109,6 +112,19 @@ public class NoticiaMB implements Serializable {
 
     public void publicarChange() {
         publicarEnFacebook = publicarEnFacebook ? Boolean.TRUE : Boolean.FALSE;
+    }
+
+    public void estadoChange() {
+        if (noticia.getEstadoNoticia() == true) {
+            renderFbButton = Boolean.TRUE;
+
+        } else {
+            renderFbButton = Boolean.FALSE;
+        }
+    }
+
+    public void publicarNoticiaEnFb() {
+
     }
 
     public Integer noticiasNoVisibles() {
@@ -300,6 +316,14 @@ public class NoticiaMB implements Serializable {
 
     public void setPublicarEnFacebook(Boolean publicarEnFacebook) {
         this.publicarEnFacebook = publicarEnFacebook;
+    }
+
+    public Boolean getRenderFbButton() {
+        return renderFbButton;
+    }
+
+    public void setRenderFbButton(Boolean renderFbButton) {
+        this.renderFbButton = renderFbButton;
     }
 
 }
