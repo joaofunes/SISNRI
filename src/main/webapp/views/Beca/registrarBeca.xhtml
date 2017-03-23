@@ -10,12 +10,14 @@
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
         <ui:define name="content" >
-             <ui:include src="../TipoBeca/Create.xhtml"/>
             <script type="text/javascript">
                 $.mask.definitions['9'] = '';
                 $.mask.definitions['#'] = '[0-9]';
             </script>
+            <ui:include src="../TipoBeca/Create.xhtml"/>
             <ui:include src="../ProgramaBeca/Create.xhtml"/>
+            <ui:include src="../Pais/Create.xhtml"/>
+            <ui:include src="../TipoCambio/Create.xhtml"/>
             <p:outputPanel id="pageTituloRegistrar" rendered="#{!becaMB.actualizar}">
                 <center>
                     <h1 style="background: #cc0000;color: white;border-radius: 10px">Registro de Beca</h1>
@@ -185,9 +187,10 @@
                                         <p:column>
                                             <p:selectOneMenu id="programaBecas" value="#{becaMB.programaBecaSelected.idPrograma}"  style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" />
-                                                <c:forEach var="programa" items="#{becaMB.programaBecaList}">
+                                                <c:forEach var="programa" items="#{programaBecaMB.listaProgramas()}">
                                                     <f:selectItem itemLabel="#{programa.nombrePrograma}" itemValue="#{programa.idPrograma}"/>
                                                 </c:forEach>
+                                                <p:ajax event="change" listener="#{becaMB.addNewProgramaBeca()}" process="@this" update="formAdmin:acordion:programaBecas"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                     </p:row>
@@ -198,21 +201,23 @@
                                         <p:column>
                                             <p:selectOneMenu id="idOrganismoCop" value="#{becaMB.organismoCooperanteSelected.idOrganismo}"  style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" />
-                                                <c:forEach var="cop" items="#{becaMB.organismoList}">
+                                                <c:forEach var="cop" items="#{organismoCooperanteMB.listaOrganismos()}">
                                                     <f:selectItem itemLabel="#{cop.nombreOrganismo}" itemValue="#{cop.idOrganismo}"/>
                                                 </c:forEach>
+                                                <p:ajax event="change" listener="#{becaMB.addNewOrganismo()}" process="@this" update="formAdmin:acordion:idOrganismoCop"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="#{lbecas.paisDestino}" for="paisdestino"/>
+                                            <p:outputLabel value="#{lbecas.paisDestino}" for="paiscooperante"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="paisdestino" value="#{becaMB.paisDestinoSelected.idPais}"  style="width:180px" required="true">
+                                            <p:selectOneMenu id="paiscooperante" value="#{becaMB.paisDestinoSelected.idPais}"  style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" />
-                                                <p:ajax event="change" listener="#{becaMB.getUniversidadesPorPais(becaMB.paisDestinoSelected.idPais)}" process="@this" update="universidadDestino"/>
-                                                <c:forEach var="pais" items="#{becaMB.paisList}">
+                                                <c:forEach var="pais" items="#{paisMB.listaPaises()}">
                                                     <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
                                                 </c:forEach>
+                                                <p:ajax event="change" listener="#{becaMB.addNewPais()}" process="@this" update="formAdmin:acordion:paiscooperante"/>
+                                                <!--<p:ajax event="change" listener="#{becaMB.getUniversidadesPorPais(becaMB.paisDestinoSelected.idPais)}" process="@this" update="universidadDestino"/>-->
                                             </p:selectOneMenu>
                                         </p:column>
                                     </p:row>
@@ -273,14 +278,15 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="#{lbecas.tipoMonedaExterna}" for="tipoCambio"/>
+                                            <p:outputLabel value="#{lbecas.tipoMonedaExterna}" for="tipomoneda"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu  id="tipoCambio" value="#{becaMB.tipoCambioSelected.idTipoCambio}"  style="width:180px" required="true">
+                                            <p:selectOneMenu  id="tipomoneda" value="#{becaMB.tipoCambioSelected.idTipoCambio}"  style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <c:forEach var="tipoCambio" items="#{becaMB.tipoCambioList}">
+                                                <c:forEach var="tipoCambio" items="#{tipoCambioMB.listaTipoCambio()}">
                                                     <f:selectItem itemLabel="#{tipoCambio.nombreDivisa}" itemValue="#{tipoCambio.idTipoCambio}"/>
                                                 </c:forEach>
+                                                <p:ajax event="change" listener="#{becaMB.addNewTipoMoneda()}" process="@this" update="formAdmin:acordion:tipomoneda"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                     </p:row>

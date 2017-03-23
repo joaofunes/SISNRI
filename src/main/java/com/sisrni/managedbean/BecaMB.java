@@ -202,6 +202,14 @@ public class BecaMB implements Serializable {
 
     @Inject
     TipoBecaMB tipoBecaMB;
+    @Inject
+    ProgramaBecaMB programaBecaMB;
+    @Inject
+    OrganismoCooperanteMB organismoCooperanteMB;
+    @Inject
+    PaisMB paisMB;
+    @Inject
+    TipoCambioMB tipoCambioMB;
     
     @Autowired
     FacultadService facultadService;
@@ -1344,6 +1352,45 @@ public class BecaMB implements Serializable {
             RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('tipobecaDialog').show()");
             tipoBecaSelected = new TipoBeca();
+        }
+    }
+    public void addNewProgramaBeca() {
+        ProgramaBeca programabeca = programaBecaService.findById(programaBecaSelected.getIdPrograma());
+        if (programabeca.getNombrePrograma().equals("Agregar Nuevo")) {
+            programaBecaMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('programaBecaDialog').show()");
+            programaBecaSelected = new ProgramaBeca();
+        }
+    }
+    public void addNewOrganismo() {
+        Organismo organismo = organismoService.findById(organismoCooperanteSelected.getIdOrganismo());
+        if (organismo.getNombreOrganismo().equals("Agregar Nuevo")) {
+            organismoCooperanteMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('organismoDialog').show()");
+            organismoCooperanteSelected = new Organismo();
+        }
+    }
+    public void addNewPais() {
+        Pais pais = paisService.findById(paisDestinoSelected.getIdPais());
+        if (pais.getNombrePais().equals("Agregar Nuevo")) {
+            paisMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('paisDialog').show()");
+            paisDestinoSelected = new Pais();
+        }else{
+            getUniversidadesPorPais(paisDestinoSelected.getIdPais());
+            RequestContext.getCurrentInstance().update("formAdmin:acordion:universidadDestino");
+        }
+    }
+    public void addNewTipoMoneda() {
+        TipoCambio tipocambio = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+        if (tipocambio.getNombreDivisa().equals("Agregar Nuevo")) {
+            tipoCambioMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('tipocambioDialog').show()");
+            tipoCambioSelected = new TipoCambio();
         }
     }
 
