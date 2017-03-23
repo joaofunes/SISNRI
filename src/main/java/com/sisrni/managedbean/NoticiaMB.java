@@ -66,6 +66,7 @@ public class NoticiaMB implements Serializable {
     private Boolean publicarEnFacebook;
     private Boolean renderFbButton;
     private File fileForFb;
+    private FileInputStream fileToPublish;
     private static final String tokenFb = "EAACEdEose0cBAPp1GwJ8RDudqpMQ2nGFNJKulVzL4p8c55c69zRJdZAqvUHLDlZBVxFyZALwl59NFWGuFZANefz60ocAsGfS3HXI2SEVlhCi1jqWFZABzZAnh7YQbS3DLF5rXhx1WHMjZCoPkaBscrAbxshmDcODSC3zwH5ZBUxWLDL4fZCgoWdLEaCMSWUZAaxdoZD";
 
     @Autowired
@@ -100,6 +101,10 @@ public class NoticiaMB implements Serializable {
         actualizar = false;
         noticiaPopUp = new Noticia();
         renderFbButton = Boolean.FALSE;
+        publicarEnFacebook = Boolean.TRUE;
+        fileForFb = null;
+        fileToPublish = null;
+
 //        globalCounter = new GlobalCounterView();
     }
 
@@ -135,14 +140,19 @@ public class NoticiaMB implements Serializable {
     }
 
     public void publicarNoticiaEnFb() throws FileNotFoundException {
-        FileInputStream fileToPublis = new FileInputStream(fileForFb);
+
+        fileToPublish = new FileInputStream(fileForFb);
         FacebookClient fbClient = new DefaultFacebookClient(tokenFb);
+
         fbClient.publish("me/feed", FacebookType.class, Parameter.with("message", noticia.getTituloNoticia()),
                 Parameter.with("link", "http://52.67.109.233:8080/sisrni/auth/templates/index.xhtml")
         );
+        if (fileToPublish != null) {
+            fbClient.publish("me/photos", FacebookType.class, BinaryAttachment.with("image.png", fileToPublish),
+                    Parameter.with("message", noticia.getTituloNoticia())
+            );
+        }
 
-        fbClient.publish("me/photos", FacebookType.class, BinaryAttachment.with("image.png", fileToPublis), Parameter.with("message", noticia.getTituloNoticia())
-        );
     }
 
     public Integer noticiasNoVisibles() {
@@ -193,6 +203,10 @@ public class NoticiaMB implements Serializable {
         try {
             File result = File.createTempFile(fileNamePrefix, fileNameSuffix, uploadFolder);
 
+            if (fileNameSuffix.equalsIgnoreCase(".png") || fileNameSuffix.equalsIgnoreCase(".jpg")) {
+                fileForFb = result; //para publicar en fb
+            }
+
             FileOutputStream fileOutputStream = new FileOutputStream(result);
             byte[] buffer = new byte[1024];
             int bulk;
@@ -225,7 +239,7 @@ public class NoticiaMB implements Serializable {
             }
 
             RequestContext.getCurrentInstance().update("formNoticia:editor_input");
-            fileForFb = (File) event.getFile();
+
             FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " ha sido cargada.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
@@ -350,6 +364,14 @@ public class NoticiaMB implements Serializable {
 
     public void setFileForFb(File fileForFb) {
         this.fileForFb = fileForFb;
+    }
+
+    public FileInputStream getFileToPublish() {
+        return fileToPublish;
+    }
+
+    public void setFileToPublish(FileInputStream fileToPublish) {
+        this.fileToPublish = fileToPublish;
     }
 
 }
