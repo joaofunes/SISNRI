@@ -80,11 +80,7 @@ public class TipoProyectoMB {
         }
         cargarTipoProyecto();
     }
-
-//    public List<TipoProyecto> listaProyectos() {
-//        return listTipoProyecto = tipoProyectoService.findAll();
-//    }
-
+    
     public List<TipoProyecto> listaProyectos() {
         listTipoProyecto = tipoProyectoService.getAllByNameAsc();
         TipoProyecto tipoProyectoNew1=new TipoProyecto();

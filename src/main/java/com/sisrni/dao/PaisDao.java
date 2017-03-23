@@ -28,7 +28,6 @@ public class PaisDao extends GenericDao<Pais, Integer> {
     }
 
     //retorna la lista de paises perteneciente a una regi�n
-
     public List<Pais> getPaisesByRegionId(Integer id) {
         Query q = getSessionFactory().getCurrentSession().createQuery("FROM Pais p WHERE p.idRegion.idRegion = :id");
         q.setParameter("id", id);
@@ -39,6 +38,12 @@ public class PaisDao extends GenericDao<Pais, Integer> {
     public List<Pais> getCountriesOrderByNameAsc() {
         Query q = getSessionFactory().getCurrentSession().createQuery("FROM Pais p ORDER BY p.nombrePais asc");
         List<Pais> lista = q.list();
+        return q.list();
+    }
+
+    public List<Pais> getAllByNameAsc() {
+        String query = "Select p from Pais p order by p.nombrePais asc";
+        Query q = getSessionFactory().getCurrentSession().createQuery(query);
         return q.list();
     }
 }
