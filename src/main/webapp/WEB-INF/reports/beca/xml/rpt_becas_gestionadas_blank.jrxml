@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_becas_gestionadas_blank" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.2100000000000009"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="64"/>
+	<property name="ireport.y" value="346"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -266,10 +266,10 @@
 	<summary>
 		<band height="254" splitType="Stretch">
 			<bar3DChart>
-				<chart isShowLegend="false">
-					<reportElement uuid="1d57f22c-1955-45e4-ba0e-4de4049ddb61" positionType="FixRelativeToBottom" x="0" y="75" width="253" height="179"/>
+				<chart>
+					<reportElement uuid="0e6017f4-8b0c-4c0e-a268-d782fd388582" x="0" y="24" width="528" height="230"/>
 					<chartTitle>
-						<titleExpression><![CDATA["Grafico de Becas Gestionadas"]]></titleExpression>
+						<titleExpression><![CDATA["Becas Gestionadas vs Otorgadas"]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -280,24 +280,6 @@
 						<categoryExpression><![CDATA[$F{anio}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{gestionadas}]]></valueExpression>
 					</categorySeries>
-				</categoryDataset>
-				<bar3DPlot>
-					<plot>
-						<seriesColor seriesOrder="0" color="#FF3333"/>
-					</plot>
-					<itemLabel/>
-				</bar3DPlot>
-			</bar3DChart>
-			<bar3DChart>
-				<chart isShowLegend="false">
-					<reportElement uuid="1d57f22c-1955-45e4-ba0e-4de4049ddb61" positionType="FixRelativeToBottom" x="275" y="75" width="253" height="179"/>
-					<chartTitle>
-						<titleExpression><![CDATA["Grafico de Becas Otorgadas"]]></titleExpression>
-					</chartTitle>
-					<chartSubtitle/>
-					<chartLegend/>
-				</chart>
-				<categoryDataset>
 					<categorySeries>
 						<seriesExpression><![CDATA["Otorgadas"]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{anio}]]></categoryExpression>
@@ -305,9 +287,7 @@
 					</categorySeries>
 				</categoryDataset>
 				<bar3DPlot>
-					<plot>
-						<seriesColor seriesOrder="0" color="#00CC66"/>
-					</plot>
+					<plot/>
 					<itemLabel/>
 				</bar3DPlot>
 			</bar3DChart>

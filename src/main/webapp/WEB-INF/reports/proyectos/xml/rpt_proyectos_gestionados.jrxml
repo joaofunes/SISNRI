@@ -226,7 +226,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{beneficiadoUES}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="$#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="2607ec4f-da12-4472-b1a0-3e07d7b12af8" positionType="Float" stretchType="RelativeToTallestObject" x="746" y="0" width="55" height="20"/>
 				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
 					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -234,7 +234,9 @@
 					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
 			</textField>
 		</band>
