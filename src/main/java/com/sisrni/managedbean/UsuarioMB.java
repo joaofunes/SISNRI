@@ -158,7 +158,8 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
      */ 
     public void crearUsuario(){
         try {
-            String msg = "";   
+            String msg = "";
+            usuario = new SsUsuarios();
             ssUsuariosRol=  ssUsuarioService.findByUser(codigo);
           if(ssUsuariosRol==null){
              msg ="Usuario Creado Exitosamente!";
@@ -256,10 +257,8 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
        public void recuperarPass(){
         try {
             String msg = "";
-            List<Persona> auxAsis = new ArrayList<Persona>();
-            auxAsis = personaService.getReferenteInternoByEmail(email);
-           if (auxAsis != null) {
-                persona = auxAsis.get(0);
+            persona = personaService.getPersonaByEmail(email);
+           if (persona != null) {
                 usuario =  ssUsuarioService.findByIdPersona(persona.getIdPersona());
                 if(usuario!=null){
                    msg ="Correo confirmado, favor revise su bandeja de entrada!";

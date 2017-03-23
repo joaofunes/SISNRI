@@ -203,7 +203,27 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         }
         return null;
     }
+    
+  /**
+     * Metodo para relaizar por DUI de personas
+     *
+     * @param email
+     * @param persona
+     * @return
+     */
+    public Persona getPersonaByEmail(String email) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE a.emailPersona =:mail");
+            q.setParameter("mail", email);
+            return (Persona) q.uniqueResult();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+  
     public Persona getBecarioByDoc(String doc) {
         String query = "Select b FROM Persona b where b.duiPersona=:doc";
         Query q = getSessionFactory().getCurrentSession().createQuery(query);

@@ -5,11 +5,18 @@
  */
 package com.sisrni.managedbean;
 
+import com.restfb.BinaryAttachment;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.types.FacebookType;
 import com.sisrni.model.CategoriaNoticia;
 import com.sisrni.model.Noticia;
 import com.sisrni.service.CategoriaNoticiaService;
 import com.sisrni.service.NoticiaService;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,6 +63,10 @@ public class NoticiaMB implements Serializable {
     private Integer categoriaSelectedPublicas;
     private Boolean actualizar;
     private Noticia noticiaPopUp;
+    private Boolean publicarEnFacebook;
+    private Boolean renderFbButton;
+    private File fileForFb;
+    private static final String tokenFb = "EAACEdEose0cBAPp1GwJ8RDudqpMQ2nGFNJKulVzL4p8c55c69zRJdZAqvUHLDlZBVxFyZALwl59NFWGuFZANefz60ocAsGfS3HXI2SEVlhCi1jqWFZABzZAnh7YQbS3DLF5rXhx1WHMjZCoPkaBscrAbxshmDcODSC3zwH5ZBUxWLDL4fZCgoWdLEaCMSWUZAaxdoZD";
 
     @Autowired
     @ManagedProperty("#{globalCounterView}")
@@ -88,6 +99,7 @@ public class NoticiaMB implements Serializable {
         noticiasListPublicas = noticiaService.getActiveNews(categoriaSelectedPublicas);
         actualizar = false;
         noticiaPopUp = new Noticia();
+        renderFbButton = Boolean.FALSE;
 //        globalCounter = new GlobalCounterView();
     }
 
@@ -97,6 +109,9 @@ public class NoticiaMB implements Serializable {
             noticia.setFechaNoticia(new Date());
             noticia.setIdCategoria(categoriaNoticiaService.findById(categoriaSelected.getIdCategoria()));
             noticiaService.save(noticia);
+            if (publicarEnFacebook) {
+                publicarNoticiaEnFb();
+            }
             inicializador();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Informacion se ha registrado correctamente!"));
             globalCounter.increment(noticiasNoVisibles());
@@ -104,6 +119,30 @@ public class NoticiaMB implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
 
         }
+    }
+
+    public void publicarChange() {
+        publicarEnFacebook = publicarEnFacebook ? Boolean.TRUE : Boolean.FALSE;
+    }
+
+    public void estadoChange() {
+        if (noticia.getEstadoNoticia() == true) {
+            renderFbButton = Boolean.TRUE;
+
+        } else {
+            renderFbButton = Boolean.FALSE;
+        }
+    }
+
+    public void publicarNoticiaEnFb() throws FileNotFoundException {
+        FileInputStream fileToPublis = new FileInputStream(fileForFb);
+        FacebookClient fbClient = new DefaultFacebookClient(tokenFb);
+        fbClient.publish("me/feed", FacebookType.class, Parameter.with("message", noticia.getTituloNoticia()),
+                Parameter.with("link", "http://52.67.109.233:8080/sisrni/auth/templates/index.xhtml")
+        );
+
+        fbClient.publish("me/photos", FacebookType.class, BinaryAttachment.with("image.png", fileToPublis), Parameter.with("message", noticia.getTituloNoticia())
+        );
     }
 
     public Integer noticiasNoVisibles() {
@@ -186,7 +225,7 @@ public class NoticiaMB implements Serializable {
             }
 
             RequestContext.getCurrentInstance().update("formNoticia:editor_input");
-
+            fileForFb = (File) event.getFile();
             FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " ha sido cargada.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
@@ -287,6 +326,30 @@ public class NoticiaMB implements Serializable {
 
     public void setGlobalCounter(GlobalCounterView globalCounter) {
         this.globalCounter = globalCounter;
+    }
+
+    public Boolean getPublicarEnFacebook() {
+        return publicarEnFacebook;
+    }
+
+    public void setPublicarEnFacebook(Boolean publicarEnFacebook) {
+        this.publicarEnFacebook = publicarEnFacebook;
+    }
+
+    public Boolean getRenderFbButton() {
+        return renderFbButton;
+    }
+
+    public void setRenderFbButton(Boolean renderFbButton) {
+        this.renderFbButton = renderFbButton;
+    }
+
+    public File getFileForFb() {
+        return fileForFb;
+    }
+
+    public void setFileForFb(File fileForFb) {
+        this.fileForFb = fileForFb;
     }
 
 }

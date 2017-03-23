@@ -41,9 +41,23 @@ public class PaisDao extends GenericDao<Pais, Integer> {
         return q.list();
     }
 
+
     public List<Pais> getAllByNameAsc() {
         String query = "Select p from Pais p order by p.nombrePais asc";
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
         return q.list();
     }
+
+    
+    
+    
+     //retorna Pais por codigo pais
+    public Pais getPaisCodigoPais(String codPais) {
+        Query q = getSessionFactory().getCurrentSession().createQuery("FROM Pais p WHERE p.codigoPais = :id");
+        q.setParameter("id", codPais);
+      
+        return (Pais) q.uniqueResult();
+    }
+
+
 }

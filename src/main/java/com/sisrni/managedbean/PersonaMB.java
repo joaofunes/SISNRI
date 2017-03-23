@@ -145,6 +145,7 @@ public class PersonaMB implements Serializable{
              //listadoUnidad = unidadService.findAll();
              listadoTipoPersona = tipoPersonaService.findAll();            
              listadoTelefono = telefonoService.findAll();
+             listaPersona = personaService.findAll();
              llenarPojoPersona(); 
              llenarPojoPersonaExtranjera(); 
          } catch (Exception e) {
