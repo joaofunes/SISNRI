@@ -23,44 +23,48 @@ import org.springframework.stereotype.Service;
  */
 @Service(value = "becaService")
 public class BecaService extends GenericService<Beca, Integer> {
-
+    
     @Autowired
     private BecaDao becaDao;
-
+    
     @Override
     public GenericDao<Beca, Integer> getDao() {
         return becaDao;
     }
-
+    
     public List<PojoBeca> getBecas(Integer idBecaSearch) {
         return becaDao.getBecas(idBecaSearch);
     }
-
+    
     public List<BecasGestionadasPojo> getDataBecasGestionadasReportes(Integer desde, Integer hasta) {
         return becaDao.getDataBecasGestionadasReportes(desde, hasta);
     }
-
+    
     public List<BecasGestionadasPojo> getDataBecasGestionadasGroupPaisDestino(Integer desde, Integer hasta) {
         return becaDao.getDataBecasGestionadasGroupPaisDestino(desde, hasta);
     }
-
+    
     public List<BecasGestionadasPojo> getDataBecasGestionadasGroupFacultad(Integer desde, Integer hasta) {
         return becaDao.getDataBecasGestionadasGroupFacultad(desde, hasta);
     }
-
+    
     public List<RptDetalleBecasPojo> getDetalleBecas(Integer desde, Integer hasta) {
         return becaDao.getDetalleBecas(desde, hasta);
     }
-
+    
     public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected, List<String> tipoBecaSelected, String desde, String hasta) { //    public List<PojoMapaInteractivoBecas> getBecastListToCharts(List<String> paisSelected,  String desde, String hasta) { //
         return becaDao.getBecastListToCharts(paisSelected, tipoBecaSelected, desde, hasta);//tipoBecaSelected
     }
-
+    
     public List<BecasGestionadasPojo> getDataBecasGestionadasGroupOrganismos(Integer desde, Integer hasta) {
         return becaDao.getDataBecasGestionadasGroupOrganismos(desde, hasta);
     }
-
+    
     public void desvincularInterno(Integer becaId, Integer personaId) {
         becaDao.desvincularInterno(becaId, personaId);
+    }
+
+    public void eliminarBecaPersona(Beca beca) {
+        becaDao.eliminarBecaPersona(beca);
     }
 }
