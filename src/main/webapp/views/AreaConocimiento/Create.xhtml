@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="areaDlg" widgetVar="areaDialog" modal="true" resizable="false" appendTo="@(body)"  header="Nueva Area de Conocimiento" >
+
+            <h:form id="formAreaConocimiento">
+                    <p:panelGrid columns="2">            
+                        <p:column>
+                            <p:outputLabel for="nombre" value="Nombre:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nombre" value="#{areaConocimientoMB.areaConocimiento.nombreArea}" required="true" size="40" requiredMessage="Nombre requerido" />
+                            <p:watermark for="nombre" value="Nombre Area de Conocimiento" id="watermarkNombreAreaConocimiento"/>
+                        </p:column>
+                        
+                        <p:column>
+                            <p:commandButton styleClass="boton" rendered="#{!areaConocimientoMB.actualizar}"
+                                             actionListener="#{areaConocimientoMB.guardarAreaConocimiento}" value="Guardar"  update="formAdmin:acordion:areaconocimiento" process="@this :formAreaConocimiento" onclick="PF('areaDialog').hide();"/>
+
+                            <p:commandButton styleClass="boton" rendered="#{areaConocimientoMB.actualizar}"
+                                             actionListener="#{areaConocimientoMB.cancelarAreaConocimiento()}" immediate="true" value="Cancelar" update="formAreaConocimiento"  process="@this" />
+
+
+                        </p:column>
+                    </p:panelGrid>
+
+                </h:form>
+        </p:dialog>    
+    </ui:composition>
+
+</html>

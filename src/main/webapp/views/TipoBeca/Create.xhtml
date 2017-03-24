@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="tipobecaDlg" widgetVar="tipobecaDialog" modal="true" resizable="false" appendTo="@(body)"  header="Nuevo Tipo Beca" >
+
+            <h:form id="formTipoBeca">
+                    <p:panelGrid columns="2">            
+                        <p:column>
+                            <p:outputLabel for="nombre" value="Nombre:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nombre" value="#{tipoBecaMB.tipoBeca.nombreTipoBeca}" required="true" size="50" />
+                            <p:watermark for="nombre" value="Nombre Tipo de Beca" id="watermarkNombreTipoBeca"/>
+                        </p:column>
+                        
+                        <p:column>
+                            <p:commandButton styleClass="boton" rendered="#{!tipoBecaMB.actualizar}"
+                                             actionListener="#{tipoBecaMB.guardarTipoBeca}" value="Guardar"  update="formAdmin:acordion:tipoBeca" process="@this :formTipoBeca" onclick="PF('tipobecaDialog').hide();"/>
+
+                            <p:commandButton styleClass="boton" rendered="#{tipoBecaMB.actualizar}"
+                                             actionListener="#{tipoBecaMB.cancelarTipoBeca()}" immediate="true" value="Cancelar" update="formTipoBeca"  process="@this" />
+
+                        </p:column>
+                    </p:panelGrid>
+
+                </h:form>
+        </p:dialog>    
+    </ui:composition>
+
+</html>

@@ -49,11 +49,20 @@
                                 <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />
                                 <f:selectItem itemLabel="Activa" itemValue="true" />
                                 <f:selectItem itemLabel="Inactiva" itemValue="false" />
+                                <p:ajax  listener="#{noticiaMB.estadoChange()}"  update="panelFb"/>
                             </p:selectOneMenu>
+                            <p:outputPanel id="panelFb">
+                                <p:outputLabel value="Publicar en FB" rendered="#{noticiaMB.renderFbButton}" />
+                                <p:selectBooleanButton rendered="#{noticiaMB.renderFbButton}" id="publicarEnFbId" value="#{noticiaMB.publicarEnFacebook}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                    <p:ajax  listener="#{noticiaMB.publicarChange()}" />
+                                </p:selectBooleanButton>
+                            </p:outputPanel>
+
                         </h:panelGrid>
-                        <p:commandButton rendered="#{noticiaMB.actualizar}" value="Cancelar" actionListener="#{noticiaMB.inicializador()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
-                        <p:commandButton rendered="#{!noticiaMB.actualizar}" value="Guardar" actionListener="#{noticiaMB.guardarNoticia}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+                        <p:commandButton rendered="#{noticiaMB.actualizar or noticiaMB.eliminar}" value="Cancelar" actionListener="#{noticiaMB.inicializador()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+                        <p:commandButton rendered="#{!noticiaMB.actualizar and !noticiaMB.eliminar}" value="Guardar" actionListener="#{noticiaMB.guardarNoticia}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
                         <p:commandButton rendered="#{noticiaMB.actualizar}" value="Actualizar" actionListener="#{noticiaMB.updateNoticia()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+                        <p:commandButton rendered="#{noticiaMB.eliminar}" value="Eliminar" actionListener="#{noticiaMB.eliminar()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
                     </p:panel>
                 </h:form>
                 <h:form id="socketForm">
@@ -92,7 +101,10 @@
                             <p:column headerText="Opciones" >
                                 <div style="float: left">
                                     <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar" actionListener="#{noticiaMB.preEditar(n.idNoticia)}" update=":formNoticia" process="@this"/>
-                                </div>                       
+                                </div>   
+                                <div style="float: left">
+                                    <p:commandLink styleClass="ui-icon ui-icon-closethick" title="Eliminar" value="Eliminar" actionListener="#{noticiaMB.preEliminar(n.idNoticia)}" update=":formNoticia" process="@this"/>
+                                </div>   
                             </p:column>
                         </p:dataTable>
                     </h:panelGroup>

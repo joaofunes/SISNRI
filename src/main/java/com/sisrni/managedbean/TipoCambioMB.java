@@ -11,6 +11,7 @@ import com.sisrni.model.TipoCambio;
 import com.sisrni.service.TipoCambioService;
 import com.sisrni.service.generic.GenericService;
 import com.sisrni.utils.JsfUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -101,6 +102,24 @@ public class TipoCambioMB  extends GenericManagedBean<TipoCambio, Integer> {
         }
         cargarTipoCambio();
     } 
+     
+     // metodo para ordenar lista de tipos de cambio
+     public List<TipoCambio> listaTipoCambio() {
+        listadoTipoCambio = tipoCambioService.getAllByNameAsc();
+        TipoCambio tipoCambioNew1=new TipoCambio();
+        List<TipoCambio> copy = new ArrayList<TipoCambio>();
+        for (TipoCambio tipoCambioNew : listadoTipoCambio) {
+            if(!tipoCambioNew.getNombreDivisa().equalsIgnoreCase("Agregar Nuevo"))
+            {
+                copy.add(tipoCambioNew);
+            }else{
+                tipoCambioNew1=tipoCambioNew;
+            }
+        }
+        copy.add(tipoCambioNew1);
+        listadoTipoCambio.clear();
+        return listadoTipoCambio=copy;
+    }
      
      /**
       * Metodo para Actualizar registro en Tipo Cambio

@@ -8,6 +8,7 @@ package com.sisrni.dao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoCambio;
 import com.sisrni.model.TipoPersona;
+import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +30,13 @@ public class TipoCambioDao extends GenericDao<TipoCambio, Integer>{
         }
         return null;         
     }
+    
+    //Metodo para listar los registros en forma ordenada
+    public List<TipoCambio> getAllByNameAsc(){
+       String query="Select tc from TipoCambio tc order by tc.nombreDivisa asc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 
     
 }

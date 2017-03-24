@@ -7,6 +7,8 @@ package com.sisrni.converter;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoBeca;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,5 +17,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository(value = "tipoBecaDao")
 public class TipoBecaDao extends GenericDao<TipoBeca, Integer>{
-    
+    public List<TipoBeca> getAllByNameAsc(){
+       String query="Select tb from TipoBeca tb order by tb.nombreTipoBeca asc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 }

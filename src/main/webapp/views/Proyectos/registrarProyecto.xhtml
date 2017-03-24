@@ -10,7 +10,15 @@
 
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
         <ui:define name="content">
+            <script type="text/javascript">
+                    $.mask.definitions['9'] = '';
+                    $.mask.definitions['#'] = '[0-9]';
+                </script>
              <ui:include src="../TipoProyecto/Create.xhtml"/>
+             <ui:include src="../TipoCambio/Create.xhtml"/>
+             <ui:include src="../Pais/Create.xhtml"/>
+             <ui:include src="../OrganismoCooperante/Create.xhtml"/>
+             <ui:include src="../AreaConocimiento/Create.xhtml"/>
             <p:outputPanel id="pageTituloRegistrar" rendered="#{!proyectosMB.actualizar}">
                 <center>
                     <h1 style="background: #cc0000;color: white;border-radius: 10px">Registro de Proyectos Internacionales</h1>
@@ -80,11 +88,12 @@
                                         <p:outputLabel value="Tipo de Moneda:" />
                                     </p:column>
                                     <p:column >
-                                        <p:selectOneMenu value="#{proyectosMB.tipoCambioSelected.idTipoCambio}" style="width: 180px">
+                                        <p:selectOneMenu id="tipomoneda" value="#{proyectosMB.tipoCambioSelected.idTipoCambio}" style="width: 180px">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <c:forEach var="mon" items="#{proyectosMB.tipoCambioList}">
+                                            <c:forEach var="mon" items="#{tipoCambioMB.listaTipoCambio()}">
                                                 <f:selectItem itemLabel="#{mon.nombreDivisa}" itemValue="#{mon.idTipoCambio}"/>
                                             </c:forEach>
+                                            <p:ajax event="change" listener="#{proyectosMB.addNewTipoMoneda()}" process="@this" update="formAdmin:acordion:tipomoneda"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
@@ -136,9 +145,10 @@
                                     <p:column>
                                         <p:selectOneMenu id="paiscooperante" value="#{proyectosMB.paisCooperanteSelected.idPais}" style="width:180px">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" />
-                                            <c:forEach var="pais" items="#{proyectosMB.paisCooperanteList}">
+                                            <c:forEach var="pais" items="#{paisMB.listaPaises()}">
                                                 <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
                                             </c:forEach>
+                                            <p:ajax event="change" listener="#{proyectosMB.addNewPais()}" process="@this" update="formAdmin:acordion:paiscooperante"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
@@ -147,9 +157,10 @@
                                     <p:column>
                                         <p:selectCheckboxMenu id="organismoproy" value="#{proyectosMB.organismoProySelected}" label="Seleccione"
                                                               filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
-                                            <c:forEach var="org" items="#{proyectosMB.organismoProyList}">
+                                            <c:forEach var="org" items="#{organismoCooperanteMB.listaOrganismos()}">
                                                 <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
                                             </c:forEach>
+                                            <p:ajax event="change" listener="#{proyectosMB.addNewOrganismo()}" process="@this" update="formAdmin:acordion:organismoproy"/>
                                         </p:selectCheckboxMenu>
                                     </p:column>
                                     <p:column>
@@ -158,9 +169,10 @@
                                     <p:column>
                                         <p:selectCheckboxMenu id="areaconocimiento" value="#{proyectosMB.areaConocimientoSelected}" label="Seleccione"
                                                               filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
-                                            <c:forEach var="reg" items="#{proyectosMB.areaConocimientoList}">
+                                            <c:forEach var="reg" items="#{areaConocimientoMB.listaAreas()}">
                                                 <f:selectItem itemLabel="#{reg.nombreArea}" itemValue="#{reg.idAreaConocimiento}"/>
                                             </c:forEach>
+                                            <p:ajax event="change" listener="#{proyectosMB.addNewArea()}" process="@this" update="formAdmin:acordion:areaconocimiento"/>
                                         </p:selectCheckboxMenu>
                                     </p:column>
                                     <p:column>
@@ -258,7 +270,7 @@
                                             <p:outputLabel value="Dui:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duisolicitante" mask="99999999-9" value="#{proyectosMB.persona.duiPersona}" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
+                                            <p:inputMask id="duisolicitante" mask="########-#" value="#{proyectosMB.persona.duiPersona}" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="correosolicitante" value="Correo Electr&oacute;nico:"/>
@@ -302,13 +314,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-9999-9999" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
+                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-####-####" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="(503)-9999-9999" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
+                                            <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="(503)-####-####" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
@@ -402,7 +414,7 @@
                                             <p:outputLabel value="Dui:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="duiasistente" mask="99999999-9" value="#{proyectosMB.personaAsistente.duiPersona}" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaAsistente) and proyectosMB.asistenteNull)}"/>
+                                            <p:inputMask id="duiasistente" mask="########-#" value="#{proyectosMB.personaAsistente.duiPersona}" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaAsistente) and proyectosMB.asistenteNull)}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="correoasistente" value="Correo Electr&oacute;nico:"/>
@@ -446,13 +458,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-9999-9999" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaAsistente) and proyectosMB.asistenteNull)}"/>
+                                            <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-####-####" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaAsistente) and proyectosMB.asistenteNull)}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}" mask="(503)-9999-9999" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and !proyectosMB.disablePersonaAsistente) or (proyectosMB.actualizar and activarBotonNuevaPersonaAsistente and proyectosMB.tabAsis)}"/>
+                                            <p:inputMask id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}" mask="(503)-####-####" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and !proyectosMB.disablePersonaAsistente) or (proyectosMB.actualizar and activarBotonNuevaPersonaAsistente and proyectosMB.tabAsis)}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
@@ -554,19 +566,20 @@
                                                 <c:forEach var="org" items="#{proyectosMB.organismoList}">
                                                     <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
                                                 </c:forEach>
+                                                <p:ajax listener="#{proyectosMB.onchangeListInstitucionPersona()}"  update="telefonoexterna,celularexterno"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="telefonoexterna" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" disabled="#{(proyectosMB.disablePersonaExterna and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaExterna))}"/>
+                                            <p:inputMask id="telefonoexterna" mask="#{proyectosMB.mascaraTelefono}" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" disabled="#{(proyectosMB.disablePersonaExterna and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaExterna))}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputText id="celularexterno" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}" disabled="#{(proyectosMB.disablePersonaExterna and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaExterna))}"/>
+                                            <p:inputMask id="celularexterno" mask="#{proyectosMB.mascaraTelefono}" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}" disabled="#{(proyectosMB.disablePersonaExterna and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaExterna))}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>

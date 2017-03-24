@@ -13,6 +13,10 @@
 
 
     <ui:define name="content">
+        <script type="text/javascript">
+            $.mask.definitions['9'] = '';
+            $.mask.definitions['#'] = '[0-9]';
+        </script>
         <f:metadata>            
             <f:viewAction action="#{actualizacionPropuestaConvenioMB.onload}" />
         </f:metadata>
@@ -22,719 +26,724 @@
 
         <center>
             <p:fieldset legend="Actualizacion de Propuesta de Convenio"> 
-        
-            <p:panel style="width: 80%">  
-                <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
-                    <p:tab title="Datos del Solicitante">
+
+                <p:panel style="width: 80%">  
+                    <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
+                        <p:tab title="Datos del Solicitante">
 
 
-                        <h:form id="Group" > 
-                            <p:panelGrid >                           
-                                <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
+                            <h:form id="Group" > 
+                                <p:panelGrid >                           
+                                    <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
+                                        <p:column>
+                                            <p:outputLabel for="tipoBusquedaSol" value="Criterio de Busqueda:" />
+                                        </p:column>
+                                        <p:column>                                         
+                                            <p:selectOneMenu id="tipoBusquedaSol" value="#{actualizacionPropuestaConvenioMB.tipoBusquedaSolicitante}"  
+                                                             disabled="#{actualizacionPropuestaConvenioMB.bloqueosSolicitante}" style="width:125px">  
+                                                <p:ajax  listener="#{actualizacionPropuestaConvenioMB.habilitarAutoSolicitante}" update="@form,acordion:GroupSolicitante"  process="@this" />
+                                                <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
+                                                <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
+                                                <f:selectItem itemLabel="E-mail" itemValue="email" />
+                                                <f:selectItem itemLabel="Documento" itemValue="doc" />  
+                                            </p:selectOneMenu>
+                                        </p:column>
+
+                                        <p:column  rendered="#{!actualizacionPropuestaConvenioMB.bloqueosSolicitante}"> 
+                                            <p:autoComplete id="searchDuiSolicitante" minQueryLength="9" size="9" 
+                                                            rendered="#{actualizacionPropuestaConvenioMB.flagSearchDuiSolicitante}" 
+                                                            value="#{actualizacionPropuestaConvenioMB.solicitante}" completeMethod="#{actualizacionPropuestaConvenioMB.completeBusquedaDui}"
+                                                            var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
+                                                            cache="true" queryDelay="1000"
+                                                            emptyMessage="Solicitante no encontrado ......."
+                                                            forceSelection="true">                                            
+                                                <p:column>
+                                                    <h:outputText value="#{name.duiPersona}" />
+                                                </p:column>
+                                            </p:autoComplete>
+                                            <p:watermark for="searchDuiSolicitante" value="DUI"/>  
+
+                                            <p:autoComplete id="idNombreSolicitante" value="#{actualizacionPropuestaConvenioMB.solicitante}" 
+                                                            rendered="#{actualizacionPropuestaConvenioMB.flagSearchNombreSolicitante}"
+                                                            completeMethod="#{actualizacionPropuestaConvenioMB.methodSearchSolicitante}"                                                     
+                                                            var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                            cache="true" queryDelay="1000"
+                                                            emptyMessage="Solicitante no encontrado ......."                                                    
+                                                            forceSelection="true">                                           
+                                                <p:column>
+                                                    <h:outputText value="#{theme.nombrePersona}" />
+                                                </p:column>
+                                                <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSolicitante()}" process="@this" update="@form,acordion:GroupSolicitante"/>
+                                            </p:autoComplete>
+                                            <p:watermark for="idNombreSolicitante" value="Nombre"/> 
+
+                                            <p:autoComplete id="idEmailSolicitante" value="#{actualizacionPropuestaConvenioMB.solicitante}" 
+                                                            rendered="#{actualizacionPropuestaConvenioMB.flagSearchEmailSolicitante}"
+                                                            completeMethod="#{actualizacionPropuestaConvenioMB.methodSearchSolicitante}"                                                     
+                                                            var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                            cache="true" queryDelay="1000"
+                                                            emptyMessage="Solicitante no encontrado ......."    
+                                                            forceSelection="true">                                           
+                                                <p:column>
+                                                    <h:outputText value="#{theme.emailPersona}" />
+                                                </p:column>
+                                                <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSolicitante()}" process="@this" update="@form,acordion:GroupSolicitante"/>
+                                            </p:autoComplete>
+                                            <p:watermark for="idEmailSolicitante" value="E-mail"/> 
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton id="btnDesvincularSolicitante" 
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
+                                                             value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Interno" />                                               
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton id="btnEditarSolicitante" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditSolicitante}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.preEditeSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
+                                                             value="Editar"   icon="ui-icon-disk" title="Editar Referente Interno" />                                               
+                                        </p:column>
+                                        <p:column>                                                                                  
+                                            <p:commandButton id="btnNuevoSolicitante" disabled="#{!actualizacionPropuestaConvenioMB.habilitarBotonSaveSolicitante}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.preEditeGuardarSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
+                                                             value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Interno" />                                               
+
+                                        </p:column>
+
+                                    </p:row> 
+                                </p:panelGrid>   
+                            </h:form>
+                            <p:separator/>
+                            <h:form id="GroupSolicitante" >     
+                                <p:panelGrid>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" />
+                                        </p:column>
+
+                                        <p:column  >
+                                            <p:inputText id="idSolicinateNombre"  required="true" label="Nombre"
+                                                         value="#{actualizacionPropuestaConvenioMB.solicitante.nombrePersona}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"/>
+                                            <p:message for="idSolicinateNombre" />   
+                                            <p:watermark for="idSolicinateNombre" value="Nombre Solicitante" id="watermarkNameSol" />                                           
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:outputLabel for="idSolicinateApellido" value="Apellido Solicitante" />
+                                        </p:column>
+
+                                        <p:column >
+                                            <p:inputText id="idSolicinateApellido"  required="true" label="Apellido" 
+                                                         value="#{actualizacionPropuestaConvenioMB.solicitante.apellidoPersona}" 
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"/>
+                                            <p:message for="idSolicinateApellido" />   
+                                            <p:watermark for="idSolicinateApellido" value="Apellido Solicitante"  />                                           
+                                        </p:column>
+                                    </p:row> 
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="idTelFijoSolicitante" value="Tel:" />
+                                        </p:column>
+                                        <p:column>                                                               
+                                            <p:inputMask id="idTelFijoSolicitante" required="true" mask="#{propuestaConvenioMB.mascaraTelSolicitante}"
+                                                         value="#{actualizacionPropuestaConvenioMB.telFijoSolicitante.numeroTelefono}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"/>
+                                            <p:watermark for="idTelFijoSolicitante" value="xxxx-xxxx"  /> 
+                                            <p:message for="idTelFijoSolicitante" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="idCelSolicitante" value="Cel:" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="idCelSolicitante" required="true" mask="#{propuestaConvenioMB.mascaraTelSolicitante}"
+                                                         value="#{actualizacionPropuestaConvenioMB.telCelularSolicitante.numeroTelefono}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"/>
+                                            <p:watermark for="idCelSolicitante" value="xxxx-xxxx"  /> 
+                                            <p:message for="idCelSolicitante" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="idCargo" value="Cargo Solicitante" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="idCargo"  required="true" label="cargo" 
+                                                         value="#{actualizacionPropuestaConvenioMB.solicitante.cargoPersona}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"/>
+                                            <p:message for="idCargo" />
+                                            <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="emailSolicitante" value="Correo Electr&oacute;nico" />     
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="emailSolicitante" required="true" value="#{actualizacionPropuestaConvenioMB.solicitante.emailPersona}"
+                                                         readonly="#{actualizacionPropuestaConvenioMB.soloLecturaEmail}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}">
+                                                <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                            </p:inputText>
+                                            <p:message for="emailSolicitante" display="tooltip" />  
+                                            <p:watermark for="emailSolicitante" value="correo@email.com"/>
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+
+                                        <p:column>
+                                            <p:outputLabel  for="idFacultadUnidad" value="Facultad/Unidad"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="idFacultadUnidad" required="true" value="#{actualizacionPropuestaConvenioMB.facultadesUnidades}" converter="#{facultadUnidadConverter}"  disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}" style="width:190px">                                   
+                                                <p:ajax event="change" process="@this" update="idEscuelaDept" listener="#{actualizacionPropuestaConvenioMB.actualizarEscuelaDept()}"/>
+                                                <f:selectItem itemLabel="--Seleccione Facultad/Unidad--" itemValue="#{null}"  itemDisabled="true" />
+                                                <f:selectItems value="#{actualizacionPropuestaConvenioMB.listaFacultadUnidad}" var="escDpt" itemLabel="#{escDpt.label}" itemValue="#{escDpt}" />                                                                                       
+                                            </p:selectOneMenu>
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:outputLabel   value="Escuela/Departamento" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu  id="idEscuelaDept"  required="true"
+                                                              value="#{actualizacionPropuestaConvenioMB.escuelaDepartamento}" 
+                                                              disabled="#{actualizacionPropuestaConvenioMB.flagEscuelaDept || actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"  
+                                                              converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
+                                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
+                                                <f:selectItems value="#{actualizacionPropuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
+                                            </p:selectOneMenu>
+                                        </p:column>
+
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputLabel value="Agregar Solicitante Interno" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectBooleanButton id="btnInterno" value="#{actualizacionPropuestaConvenioMB.tabAsisMostrar}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                                <p:ajax update="acordion:GroupSolicitanteInterno,acordion:grup1" listener="#{actualizacionPropuestaConvenioMB.mostrarTab()}" />
+                                            </p:selectBooleanButton>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputLabel value="Agregar Solicitante Externo" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectBooleanButton id="btnExterno" value="#{actualizacionPropuestaConvenioMB.tabAsisMostrarExterno}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                                <p:ajax update="acordion:GroupSolicitanteExterno,acordion:grup2" listener="#{actualizacionPropuestaConvenioMB.mostrarTabExterno()}" />
+                                            </p:selectBooleanButton>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:commandButton id="btnEditarSolicitante" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditSolicitanteDos}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.actualizarSolicitante()}" process="@form" update="acordion:GroupSolicitante,acordion:Group" 
+                                                             value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Interno" />                                               
+                                            <p:commandButton id="btnNuevoSolicitante" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonSaveSolicitanteDos}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.guardarSolicitante}" process="@form" update="acordion:GroupSolicitante,acordion:Group" 
+                                                             value="Guardar"   icon="ui-icon-disk" title="Guardar datos Interno" />                                                                                                                                                                                                               
+
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditSolicitanteDos || actualizacionPropuestaConvenioMB.habilitarBotonSaveSolicitanteDos}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.preCancelarSolicitante()}" process="@this" update="acordion:Group,@form" 
+                                                             value="Cancelar"  id="btnCancelarInterno" icon="ui-icon-disk" title="Cancelar" />                                               
+
+                                        </p:column>
+                                    </p:row>
+
+                                </p:panelGrid>     
+                            </h:form>
+                        </p:tab>
+                        <p:tab title="Datos Solicitante Interno">
+
+                            <h:form id="grup1" > 
+                                <p:panelGrid  rendered="#{actualizacionPropuestaConvenioMB.tabAsis}" >     
                                     <p:column>
-                                        <p:outputLabel for="tipoBusquedaSol" value="Criterio de Busqueda:" />
+                                        <p:outputLabel for="tipoBusquedaInt" value="Criterio de Busqueda:" />
                                     </p:column>
                                     <p:column>                                         
-                                        <p:selectOneMenu id="tipoBusquedaSol" value="#{actualizacionPropuestaConvenioMB.tipoBusquedaSolicitante}"  
-                                                         disabled="#{actualizacionPropuestaConvenioMB.bloqueosSolicitante}" style="width:125px">  
-                                            <p:ajax  listener="#{actualizacionPropuestaConvenioMB.habilitarAutoSolicitante}" update="@form,acordion:GroupSolicitante"  process="@this" />
+                                        <p:selectOneMenu id="tipoBusquedaInt" value="#{actualizacionPropuestaConvenioMB.tipoBusquedaInterna}"  style="width:125px"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.bloqueosInterno}">  
+                                            <p:ajax  listener="#{actualizacionPropuestaConvenioMB.habilitarAutoInterno}" update="grup1"  process="@this" />
                                             <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                             <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
                                             <f:selectItem itemLabel="E-mail" itemValue="email" />
                                             <f:selectItem itemLabel="Documento" itemValue="doc" />  
                                         </p:selectOneMenu>
                                     </p:column>
-                  
-                                    <p:column  rendered="#{!actualizacionPropuestaConvenioMB.bloqueosSolicitante}"> 
-                                        <p:autoComplete id="searchDuiSolicitante" minQueryLength="9" size="9" 
-                                                        rendered="#{actualizacionPropuestaConvenioMB.flagSearchDuiSolicitante}" 
-                                                        value="#{actualizacionPropuestaConvenioMB.solicitante}" completeMethod="#{actualizacionPropuestaConvenioMB.completeBusquedaDui}"
+
+                                    <p:column rendered="#{!actualizacionPropuestaConvenioMB.bloqueosInterno}"> 
+                                        <p:autoComplete id="searchDui" minQueryLength="9" size="9" rendered="#{actualizacionPropuestaConvenioMB.flagSearchDuiInterno}" 
+                                                        value="#{actualizacionPropuestaConvenioMB.referenteInterno}" completeMethod="#{actualizacionPropuestaConvenioMB.completeBusquedaDui}"
                                                         var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
                                                         cache="true" queryDelay="1000"
-                                                        emptyMessage="Solicitante no encontrado ......."
+                                                        emptyMessage="No data ......."
                                                         forceSelection="true">                                            
                                             <p:column>
                                                 <h:outputText value="#{name.duiPersona}" />
                                             </p:column>
                                         </p:autoComplete>
-                                        <p:watermark for="searchDuiSolicitante" value="DUI"/>  
+                                        <p:watermark for="searchDui" value="DUI"/>  
 
-                                        <p:autoComplete id="idNombreSolicitante" value="#{actualizacionPropuestaConvenioMB.solicitante}" 
-                                                        rendered="#{actualizacionPropuestaConvenioMB.flagSearchNombreSolicitante}"
-                                                        completeMethod="#{actualizacionPropuestaConvenioMB.methodSearchSolicitante}"                                                     
+                                        <p:autoComplete id="idNombreInterno" value="#{actualizacionPropuestaConvenioMB.referenteInterno}" rendered="#{actualizacionPropuestaConvenioMB.flagSearchNombreInterno}"
+                                                        completeMethod="#{actualizacionPropuestaConvenioMB.methodSearch}" 
+                                                        disabled="#{actualizacionPropuestaConvenioMB.disableAutoInterno} "
                                                         var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                         cache="true" queryDelay="1000"
-                                                        emptyMessage="Solicitante no encontrado ......."                                                    
+                                                        emptyMessage="Nombre no Encontrado ......."
                                                         forceSelection="true">                                           
                                             <p:column>
                                                 <h:outputText value="#{theme.nombrePersona}" />
                                             </p:column>
-                                            <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSolicitante()}" process="@this" update="@form,acordion:GroupSolicitante"/>
+                                            <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,acordion:grup1"/>
                                         </p:autoComplete>
-                                        <p:watermark for="idNombreSolicitante" value="Nombre"/> 
+                                        <p:watermark for="idNombreInterno" value="Nombre"/> 
 
-                                        <p:autoComplete id="idEmailSolicitante" value="#{actualizacionPropuestaConvenioMB.solicitante}" 
-                                                        rendered="#{actualizacionPropuestaConvenioMB.flagSearchEmailSolicitante}"
-                                                        completeMethod="#{actualizacionPropuestaConvenioMB.methodSearchSolicitante}"                                                     
+                                        <p:autoComplete id="idEmailInterno" value="#{actualizacionPropuestaConvenioMB.referenteInterno}" 
+                                                        rendered="#{actualizacionPropuestaConvenioMB.flagSearchEmailInterno}"
+                                                        completeMethod="#{actualizacionPropuestaConvenioMB.methodSearch}" 
+                                                        disabled="#{actualizacionPropuestaConvenioMB.disableAutoInterno}}"
                                                         var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
                                                         cache="true" queryDelay="1000"
-                                                        emptyMessage="Solicitante no encontrado ......."    
+                                                        emptyMessage="Email no Encontrado ......."
                                                         forceSelection="true">                                           
                                             <p:column>
                                                 <h:outputText value="#{theme.emailPersona}" />
                                             </p:column>
-                                            <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSolicitante()}" process="@this" update="@form,acordion:GroupSolicitante"/>
+                                            <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,acordion:grup1"/>
                                         </p:autoComplete>
-                                        <p:watermark for="idEmailSolicitante" value="E-mail"/> 
+                                        <p:watermark for="idEmailInterno" value="E-mail"/> 
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton id="btnDesvincularSolicitante" 
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
-                                                         value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Interno" />                                               
+                                        <p:column>
+                                            <p:commandButton id="btnDesvincularInterno"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
+                                                             value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Interno" />                                               
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton id="btnEditarInterno" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditInterno}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.preEditeReferenteInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
+                                                             value="Editar"   icon="ui-icon-disk" title="Editar Referente Interno" />                                               
+                                        </p:column>
+                                        <p:column>                                                                                  
+                                            <p:commandButton id="btnNuevoInterno" disabled="#{!actualizacionPropuestaConvenioMB.habilitarBotonSaveInterno}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.preEditeGuardarInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
+                                                             value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Interno" />                                               
+
+                                        </p:column>
+
+                                    </p:column>
+
+                                </p:panelGrid >   
+                            </h:form> 
+                            <p:separator/>
+                            <h:form id="GroupSolicitanteInterno" >  
+
+                                <p:panelGrid rendered="#{actualizacionPropuestaConvenioMB.tabAsis}">     
+                                    <p:growl id="msg" />
+                                    <p:row>                                        
+                                        <p:column>
+                                            <h:outputLabel value="Mismo Solicitante:" />
+                                        </p:column>
+                                        <p:column>                                                                                  
+                                            <p:selectBooleanButton id="btnMismoInterno" value="#{actualizacionPropuestaConvenioMB.mismoSolicitante}" 
+                                                                   disabled="#{actualizacionPropuestaConvenioMB.habilitarMismoSolicitante}"
+                                                                   onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                                <p:ajax update="acordion:GroupSolicitanteInterno,acordion:grup1" process="@this" listener="#{actualizacionPropuestaConvenioMB.mismoSolicitantes()}" />
+                                            </p:selectBooleanButton>                                    
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
+                                        </p:column>
+                                        <p:column >                                            
+                                            <p:inputText id="idSolicinateNombreInterno" required="true"  label="Nombre" 
+                                                         value="#{actualizacionPropuestaConvenioMB.referenteInterno.nombrePersona}" 
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>                                
+                                            <p:watermark for="idSolicinateNombreInterno" value="Nombre Solicitante"/>                                           
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="idSolicinateApellidoInterno" value="Apellido Solicitante" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="idSolicinateApellidoInterno" required="true"  label="Apellido" 
+                                                         value="#{actualizacionPropuestaConvenioMB.referenteInterno.apellidoPersona}" 
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>
+                                            <p:message for="idSolicinateApellidoInterno" />   
+                                            <p:watermark for="idSolicinateApellidoInterno" value="Apellido Solicitante"/>                                           
+                                        </p:column>
+                                    </p:row>                            
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="idDui" value="N&deg; DUI" />     
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="idDui"  value="#{actualizacionPropuestaConvenioMB.referenteInterno.duiPersona}" mask="99999999-9"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>                                           
+                                            <p:watermark for="idDui" value="999999999-9" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="email" value="Correo Electr&oacute;nico" />     
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="email" required="true" value="#{actualizacionPropuestaConvenioMB.referenteInterno.emailPersona}"
+                                                         readonly="#{actualizacionPropuestaConvenioMB.soloLecturaEmail}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}">
+                                                <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                            </p:inputText>
+                                            <p:message for="email" display="tooltip" />  
+                                            <p:watermark for="email" value="correo@email.com"/>
+                                        </p:column>
+
+                                    </p:row>   
+                                    <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
+                                        <p:column>
+                                            <p:outputLabel for="idTelFijoInterno" value="Tel:" />
+                                        </p:column>
+                                        <p:column>                                                               
+                                            <p:inputMask id="idTelFijoInterno" value="#{actualizacionPropuestaConvenioMB.telFijoInterno.numeroTelefono}" 
+                                                         mask="#{propuestaConvenioMB.mascaraTelInterno}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>
+                                            <p:watermark for="idTelFijoInterno" value="xxxx-xxxx"  /> 
+                                            <p:message for="idTelFijoInterno" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="idCelInterno" value="Cel:" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="idCelInterno" value="#{actualizacionPropuestaConvenioMB.telCelularInterno.numeroTelefono}" 
+                                                         mask="#{propuestaConvenioMB.mascaraTelInterno}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>
+                                            <p:watermark for="idCelInterno" value="xxxx-xxxx"  /> 
+                                            <p:message for="idCelInterno" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">                           
+                                        <p:column>
+                                            <p:outputLabel  for="idFacultadUnidadInterno" value="Facultad/Unidad"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu  id="idFacultadUnidadInterno"  value="#{actualizacionPropuestaConvenioMB.facultadesUnidadesInterno}" 
+                                                              converter="#{facultadUnidadConverter}" style="width:160px" 
+                                                              editable="#{actualizacionPropuestaConvenioMB.mismoSol}" 
+                                                              disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}">                                              
+                                                <f:selectItem itemLabel="Seleccione Facultad/Unidad" itemValue="#{null}" />                                            
+                                                <f:selectItems  value="#{actualizacionPropuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
+                                                <p:ajax event="change" listener="#{actualizacionPropuestaConvenioMB.actualizarEscuelaDeptInterno()}" update="idEscuelaDeptInter" process="@this" partialSubmit="true"/>
+                                            </p:selectOneMenu>                                            
+                                        </p:column>                        
+                                        <p:column>
+                                            <p:outputLabel  for="idEscuelaDeptInter" value="Escuela/Departamento" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu  id="idEscuelaDeptInter"   value="#{actualizacionPropuestaConvenioMB.escuelaDepartamentoInterno}" 
+                                                              converter="#{escuelaDepartamentoConverter}" 
+                                                              disabled="#{actualizacionPropuestaConvenioMB.flagEscuelaDeptInterno || actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"  
+                                                              style="width:160px" editable="#{actualizacionPropuestaConvenioMB.mismoSol}">                                              
+                                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" noSelectionOption="true" />                                            
+                                                <f:selectItems value="#{actualizacionPropuestaConvenioMB.listadoEscuelaDepartamentoInter}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                    </p:row>   
+                                    <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
+                                        <p:column>
+                                            <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText id="idCargoInterno"   label="cargo"  value="#{actualizacionPropuestaConvenioMB.referenteInterno.cargoPersona}" 
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>
+                                            <p:watermark for="idCargoInterno" value="Cargo" id="waterCargo" />
+                                            <p:message for="idCargoInterno" />
+                                        </p:column>
+
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:commandButton id="btnEditarInterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditInternoDos}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.actualizarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno,acordion:grup1" 
+                                                             value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Interno" />                                               
+                                            <p:commandButton id="btnNuevoInterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonSaveInternoDos}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.guardarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno,acordion:grup1" 
+                                                             value="Guardar"   icon="ui-icon-disk" title="Guardar datos Interno" />                                                                                                                                                                                                               
+
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditInternoDos || actualizacionPropuestaConvenioMB.habilitarBotonSaveInternoDos}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.preCancelarInterno}" process="@this" update="acordion:grup1,@form" 
+                                                             value="Cancelar"  id="btnCancelarInterno" icon="ui-icon-disk" title="Cancelar" />                                               
+
+                                        </p:column>
+                                    </p:row>
+
+                                </p:panelGrid>        
+                            </h:form>
+                        </p:tab>
+                        <p:tab title="Datos Solicitante Externo">
+                            <h:form id="grup2" >                                
+                                <p:panelGrid rendered="#{actualizacionPropuestaConvenioMB.tabAsisExterno}">     
+                                    <p:column>
+                                        <p:outputLabel for="tipoBusquedaExt" value="Tipo de Busqueda:" />
+                                    </p:column>
+
+                                    <p:column>                                        
+                                        <p:selectOneMenu id="tipoBusquedaExt" value="#{actualizacionPropuestaConvenioMB.tipoBusquedaExterna}"  style="width:125px"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.bloqueosExterno}">  
+                                            <p:ajax  listener="#{actualizacionPropuestaConvenioMB.habilitarAutoExterno}" update="acordion:grup2"  process="@this" />
+                                            <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
+                                            <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
+                                            <f:selectItem itemLabel="E-mail" itemValue="email" />
+                                            <f:selectItem itemLabel="Documento" itemValue="doc" />  
+                                        </p:selectOneMenu>
+                                    </p:column>
+
+                                    <p:column rendered="#{!actualizacionPropuestaConvenioMB.bloqueosExterno}">
+
+                                        <p:autoComplete id="searchDoc" minQueryLength="8" size="8" rendered="#{actualizacionPropuestaConvenioMB.flagSearchDuiExterno}"  
+                                                        value="#{actualizacionPropuestaConvenioMB.numDocumentoExterno}" completeMethod="#{actualizacionPropuestaConvenioMB.completeBusquedaPassaporte}"
+                                                        var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
+                                                        forceSelection="true">                                            
+                                            <p:column>
+                                                <h:outputText value="#{name.duiPersona}" />
+                                            </p:column>
+                                        </p:autoComplete>
+                                        <p:watermark for="searchDoc" value="Documento"/>  
+
+                                        <p:autoComplete id="idNombreExterno" value="#{actualizacionPropuestaConvenioMB.referenteExterno}" rendered="#{actualizacionPropuestaConvenioMB.flagSearchNombreExterno}"
+                                                        completeMethod="#{actualizacionPropuestaConvenioMB.methodSearchExterno}" disabled="#{actualizacionPropuestaConvenioMB.disableAutoExterno}"
+                                                        var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                        cache="true" queryDelay="1000"
+                                                        emptyMessage="Nombre no Encontrado ......."
+                                                        forceSelection="true">                                           
+                                            <p:column>
+                                                <h:outputText value="#{theme.nombrePersona}" />
+                                            </p:column>
+                                            <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form"/>
+                                        </p:autoComplete>
+                                        <p:watermark for="idNombreExterno" value="Nombre"/> 
+
+                                        <p:autoComplete id="idEmailExterno" value="#{actualizacionPropuestaConvenioMB.referenteExterno}" rendered="#{actualizacionPropuestaConvenioMB.flagSearchEmailExterno}"
+                                                        completeMethod="#{actualizacionPropuestaConvenioMB.methodSearchExterno}" disabled="#{actualizacionPropuestaConvenioMB.disableAutoExterno}"
+                                                        var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
+                                                        cache="true" queryDelay="1000"
+                                                        emptyMessage="Email no Encontrado ......."
+                                                        forceSelection="true">                                           
+                                            <p:column>
+                                                <h:outputText value="#{theme.emailPersona}" />
+                                            </p:column>
+                                            <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form"/>
+                                        </p:autoComplete>
+                                        <p:watermark for="idEmailExterno" value="E-mail"/> 
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:commandButton id="btnDesvincularExterno" 
+                                                         actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
+                                                         value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Externo" />                                               
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton id="btnEditarSolicitante" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditSolicitante}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.preEditeSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
-                                                         value="Editar"   icon="ui-icon-disk" title="Editar Referente Interno" />                                               
+                                        <p:commandButton id="btnEditarExterno" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditExterno}"
+                                                         actionListener="#{actualizacionPropuestaConvenioMB.preEditeReferenteExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
+                                                         value="Editar"   icon="ui-icon-disk" title="Editar Referente Externo" />                                               
                                     </p:column>
                                     <p:column>                                                                                  
-                                        <p:commandButton id="btnNuevoSolicitante" disabled="#{!actualizacionPropuestaConvenioMB.habilitarBotonSaveSolicitante}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.preEditeGuardarSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
-                                                         value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Interno" />                                               
+                                        <p:commandButton id="btnNuevoExterno" disabled="#{!actualizacionPropuestaConvenioMB.habilitarBotonSaveExterno}"
+                                                         actionListener="#{actualizacionPropuestaConvenioMB.preEditeGuardarExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
+                                                         value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Externo" />                                               
 
                                     </p:column>
-                                    
-                                </p:row> 
-                             </p:panelGrid>   
-                        </h:form>
-                        <p:separator/>
-                        <h:form id="GroupSolicitante" >     
-                            <p:panelGrid>
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="idSolicinateNombre" value="Nombre Solicitante" />
-                                    </p:column>
 
-                                    <p:column  >
-                                        <p:inputText id="idSolicinateNombre"  required="true" label="Nombre"
-                                                     value="#{actualizacionPropuestaConvenioMB.solicitante.nombrePersona}"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"/>
-                                        <p:message for="idSolicinateNombre" />   
-                                        <p:watermark for="idSolicinateNombre" value="Nombre Solicitante" id="watermarkNameSol" />                                           
-                                    </p:column>
 
-                                    <p:column>
-                                        <p:outputLabel for="idSolicinateApellido" value="Apellido Solicitante" />
-                                    </p:column>
+                                </p:panelGrid>
+                            </h:form> 
+                            <p:separator/>
+                            <h:form id="GroupSolicitanteExterno" >        
+                                <p:panelGrid rendered="#{actualizacionPropuestaConvenioMB.tabAsisExterno}">                           
 
-                                    <p:column >
-                                        <p:inputText id="idSolicinateApellido"  required="true" label="Apellido" 
-                                                     value="#{actualizacionPropuestaConvenioMB.solicitante.apellidoPersona}" 
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"/>
-                                        <p:message for="idSolicinateApellido" />   
-                                        <p:watermark for="idSolicinateApellido" value="Apellido Solicitante"  />                                           
-                                    </p:column>
-                                </p:row> 
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="idTelFijoSolicitante" value="Tel:" />
-                                    </p:column>
-                                    <p:column>                                                               
-                                        <p:inputMask id="idTelFijoSolicitante" required="true"  mask="(503)-9999-9999"
-                                                     value="#{actualizacionPropuestaConvenioMB.telFijoSolicitante.numeroTelefono}"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"/>
-                                        <p:watermark for="idTelFijoSolicitante" value="xxxx-xxxx"  /> 
-                                        <p:message for="idTelFijoSolicitante" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="idCelSolicitante" value="Cel:" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="idCelSolicitante" required="true" mask="(503)-9999-9999"
-                                                     value="#{actualizacionPropuestaConvenioMB.telCelularSolicitante.numeroTelefono}"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"/>
-                                        <p:watermark for="idCelSolicitante" value="xxxx-xxxx"  /> 
-                                        <p:message for="idCelSolicitante" />
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="idCargo" value="Cargo Solicitante" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="idCargo"  required="true" label="cargo" 
-                                                     value="#{actualizacionPropuestaConvenioMB.solicitante.cargoPersona}"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"/>
-                                        <p:message for="idCargo" />
-                                        <p:watermark for="idCargo" value="Cargo" id="watermarkCargo" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="emailSolicitante" value="Correo Electr&oacute;nico" />     
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="emailSolicitante" required="true" value="#{actualizacionPropuestaConvenioMB.solicitante.emailPersona}"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}">
-                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                                        </p:inputText>
-                                        <p:message for="emailSolicitante" display="tooltip" />  
-                                        <p:watermark for="emailSolicitante" value="correo@email.com"/>
-                                    </p:column>
-                                </p:row>
-
-                                <p:row>
-
-                                    <p:column>
-                                        <p:outputLabel  for="idFacultadUnidad" value="Facultad/Unidad"  />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="idFacultadUnidad" required="true" value="#{actualizacionPropuestaConvenioMB.facultadesUnidades}" converter="#{facultadUnidadConverter}"  disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}" style="width:190px">                                   
-                                            <p:ajax event="change" process="@this" update="idEscuelaDept" listener="#{actualizacionPropuestaConvenioMB.actualizarEscuelaDept()}"/>
-                                            <f:selectItem itemLabel="--Seleccione Facultad/Unidad--" itemValue="#{null}"  itemDisabled="true" />
-                                            <f:selectItems value="#{actualizacionPropuestaConvenioMB.listaFacultadUnidad}" var="escDpt" itemLabel="#{escDpt.label}" itemValue="#{escDpt}" />                                                                                       
-                                        </p:selectOneMenu>
-                                    </p:column>
-
-                                    <p:column>
-                                        <p:outputLabel   value="Escuela/Departamento" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu  id="idEscuelaDept"  required="true"
-                                                          value="#{actualizacionPropuestaConvenioMB.escuelaDepartamento}" 
-                                                          disabled="#{actualizacionPropuestaConvenioMB.flagEscuelaDept || actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}"  
-                                                          converter="#{escuelaDepartamentoConverter}" style="width:160px" >                                              
-                                            <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" itemDisabled="true" />                                            
-                                            <f:selectItems value="#{actualizacionPropuestaConvenioMB.listadoEscuelaDepartamento}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
-                                        </p:selectOneMenu>
-                                    </p:column>
-
-                                </p:row>
-                                
-                                <p:row>
-                                    <p:column>
-                                        <h:outputLabel value="Agregar Solicitante Interno" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectBooleanButton id="btnInterno" value="#{actualizacionPropuestaConvenioMB.tabAsisMostrar}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
-                                            <p:ajax update="acordion:GroupSolicitanteInterno,acordion:grup1" listener="#{actualizacionPropuestaConvenioMB.mostrarTab()}" />
-                                        </p:selectBooleanButton>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputLabel value="Agregar Solicitante Externo" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectBooleanButton id="btnExterno" value="#{actualizacionPropuestaConvenioMB.tabAsisMostrarExterno}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
-                                            <p:ajax update="acordion:GroupSolicitanteExterno,acordion:grup2" listener="#{actualizacionPropuestaConvenioMB.mostrarTabExterno()}" />
-                                        </p:selectBooleanButton>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:commandButton id="btnEditarSolicitante" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditSolicitanteDos}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.actualizarSolicitante()}" process="@form" update="acordion:GroupSolicitante,acordion:Group" 
-                                                         value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Interno" />                                               
-                                        <p:commandButton id="btnNuevoSolicitante" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonSaveSolicitanteDos}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.guardarSolicitante}" process="@form" update="acordion:GroupSolicitante,acordion:Group" 
-                                                         value="Guardar"   icon="ui-icon-disk" title="Guardar datos Interno" />                                                                                                                                                                                                               
-
-                                    </p:column>
-                                    <p:column>
-                                        <p:commandButton rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditSolicitanteDos || actualizacionPropuestaConvenioMB.habilitarBotonSaveSolicitanteDos}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.preCancelarSolicitante()}" process="@this" update="acordion:Group,@form" 
-                                                         value="Cancelar"  id="btnCancelarInterno" icon="ui-icon-disk" title="Cancelar" />                                               
-
-                                    </p:column>
-                                </p:row>
-
-                            </p:panelGrid>     
-                        </h:form>
-                    </p:tab>
-                    <p:tab title="Datos Solicitante Interno">
-
-                        <h:form id="grup1" > 
-                            <p:panelGrid  rendered="#{actualizacionPropuestaConvenioMB.tabAsis}" >     
-                                <p:column>
-                                    <p:outputLabel for="tipoBusquedaInt" value="Criterio de Busqueda:" />
-                                </p:column>
-                                <p:column>                                         
-                                    <p:selectOneMenu id="tipoBusquedaInt" value="#{actualizacionPropuestaConvenioMB.tipoBusquedaInterna}"  style="width:125px"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.bloqueosInterno}">  
-                                        <p:ajax  listener="#{actualizacionPropuestaConvenioMB.habilitarAutoInterno}" update="grup1"  process="@this" />
-                                        <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
-                                        <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
-                                        <f:selectItem itemLabel="E-mail" itemValue="email" />
-                                        <f:selectItem itemLabel="Documento" itemValue="doc" />  
-                                    </p:selectOneMenu>
-                                </p:column>
-
-                                <p:column rendered="#{!actualizacionPropuestaConvenioMB.bloqueosInterno}"> 
-                                    <p:autoComplete id="searchDui" minQueryLength="9" size="9" rendered="#{actualizacionPropuestaConvenioMB.flagSearchDuiInterno}" 
-                                                    value="#{actualizacionPropuestaConvenioMB.referenteInterno}" completeMethod="#{actualizacionPropuestaConvenioMB.completeBusquedaDui}"
-                                                    var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
-                                                    cache="true" queryDelay="1000"
-                                                    emptyMessage="No data ......."
-                                                    forceSelection="true">                                            
+                                    <p:row>
                                         <p:column>
-                                            <h:outputText value="#{name.duiPersona}" />
+                                            <p:outputLabel for="idSolicinateNombreExterno" value="Nombre Solicitante" />
                                         </p:column>
-                                    </p:autoComplete>
-                                    <p:watermark for="searchDui" value="DUI"/>  
+                                        <p:column>                                            
 
-                                    <p:autoComplete id="idNombreInterno" value="#{actualizacionPropuestaConvenioMB.referenteInterno}" rendered="#{actualizacionPropuestaConvenioMB.flagSearchNombreInterno}"
-                                                    completeMethod="#{actualizacionPropuestaConvenioMB.methodSearch}" 
-                                                    disabled="#{actualizacionPropuestaConvenioMB.disableAutoInterno} "
-                                                    var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
-                                                    cache="true" queryDelay="1000"
-                                                    emptyMessage="Nombre no Encontrado ......."
-                                                    forceSelection="true">                                           
+                                            <p:inputText id="idSolicinateNombreExterno" required="true" label="Nombre" 
+                                                         value="#{actualizacionPropuestaConvenioMB.referenteExterno.nombrePersona}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>
+                                            <p:message for="idSolicinateNombreExterno" />   
+                                            <p:watermark for="idSolicinateNombreExterno" value="Nombre Solicitante"/>                                           
+
+                                        </p:column>
                                         <p:column>
-                                            <h:outputText value="#{theme.nombrePersona}" />
+                                            <p:outputLabel for="idSolicinateApellidoExterno" value="Apellido Solicitante" />
                                         </p:column>
-                                        <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,acordion:grup1"/>
-                                    </p:autoComplete>
-                                    <p:watermark for="idNombreInterno" value="Nombre"/> 
-
-                                    <p:autoComplete id="idEmailInterno" value="#{actualizacionPropuestaConvenioMB.referenteInterno}" 
-                                                    rendered="#{actualizacionPropuestaConvenioMB.flagSearchEmailInterno}"
-                                                    completeMethod="#{actualizacionPropuestaConvenioMB.methodSearch}" 
-                                                    disabled="#{actualizacionPropuestaConvenioMB.disableAutoInterno}}"
-                                                    var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
-                                                    cache="true" queryDelay="1000"
-                                                    emptyMessage="Email no Encontrado ......."
-                                                    forceSelection="true">                                           
                                         <p:column>
-                                            <h:outputText value="#{theme.emailPersona}" />
+
+                                            <p:inputText id="idSolicinateApellidoExterno" required="true"  label="Apellido"
+                                                         value="#{actualizacionPropuestaConvenioMB.referenteExterno.apellidoPersona}" 
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>
+                                            <p:message for="idSolicinateApellidoExterno" />   
+                                            <p:watermark for="idSolicinateApellidoExterno" value="Apellido Solicitante"/>                                           
+
                                         </p:column>
-                                        <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSoliInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,acordion:grup1"/>
-                                    </p:autoComplete>
-                                    <p:watermark for="idEmailInterno" value="E-mail"/> 
-                                </p:column>
-                                <p:column>
-                                    <p:column>
-                                        <p:commandButton id="btnDesvincularInterno"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
-                                                         value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Interno" />                                               
-                                    </p:column>
-                                    <p:column>
-                                        <p:commandButton id="btnEditarInterno" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditInterno}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.preEditeReferenteInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
-                                                         value="Editar"   icon="ui-icon-disk" title="Editar Referente Interno" />                                               
-                                    </p:column>
-                                    <p:column>                                                                                  
-                                        <p:commandButton id="btnNuevoInterno" disabled="#{!actualizacionPropuestaConvenioMB.habilitarBotonSaveInterno}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.preEditeGuardarInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
-                                                         value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Interno" />                                               
+                                    </p:row>   
+                                    <p:row>
 
-                                    </p:column>
-
-                                </p:column>
-
-                            </p:panelGrid >   
-                        </h:form> 
-                         <p:separator/>
-                        <h:form id="GroupSolicitanteInterno" >  
-
-                            <p:panelGrid rendered="#{actualizacionPropuestaConvenioMB.tabAsis}">     
-                                <p:growl id="msg" />
-                                <p:row>                                        
-                                    <p:column>
-                                        <h:outputLabel value="Mismo Solicitante:" />
-                                    </p:column>
-                                    <p:column>                                                                                  
-                                        <p:selectBooleanButton id="btnMismoInterno" value="#{actualizacionPropuestaConvenioMB.mismoSolicitante}" 
-                                                               disabled="#{actualizacionPropuestaConvenioMB.habilitarMismoSolicitante}"
-                                                               onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
-                                            <p:ajax update="acordion:GroupSolicitanteInterno,acordion:grup1" process="@this" listener="#{actualizacionPropuestaConvenioMB.mismoSolicitantes()}" />
-                                        </p:selectBooleanButton>                                    
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="idSolicinateNombreInterno" value="Nombre Solicitante" />
-                                    </p:column>
-                                    <p:column >                                            
-                                        <p:inputText id="idSolicinateNombreInterno" required="true"  label="Nombre" 
-                                                     value="#{actualizacionPropuestaConvenioMB.referenteInterno.nombrePersona}" 
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>                                
-                                        <p:watermark for="idSolicinateNombreInterno" value="Nombre Solicitante"/>                                           
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="idSolicinateApellidoInterno" value="Apellido Solicitante" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="idSolicinateApellidoInterno" required="true"  label="Apellido" 
-                                                     value="#{actualizacionPropuestaConvenioMB.referenteInterno.apellidoPersona}" 
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>
-                                        <p:message for="idSolicinateApellidoInterno" />   
-                                        <p:watermark for="idSolicinateApellidoInterno" value="Apellido Solicitante"/>                                           
-                                    </p:column>
-                                </p:row>                            
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="idDui" value="N&deg; DUI" />     
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="idDui"  value="#{actualizacionPropuestaConvenioMB.referenteInterno.duiPersona}" mask="99999999-9"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>                                           
-                                        <p:watermark for="idDui" value="999999999-9" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="email" value="Correo Electr&oacute;nico" />     
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="email" required="true" value="#{actualizacionPropuestaConvenioMB.referenteInterno.emailPersona}"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}">
-                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                                        </p:inputText>
-                                        <p:message for="email" display="tooltip" />  
-                                        <p:watermark for="email" value="correo@email.com"/>
-                                    </p:column>
-
-                                </p:row>   
-                                <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
-                                    <p:column>
-                                        <p:outputLabel for="idTelFijoInterno" value="Tel:" />
-                                    </p:column>
-                                    <p:column>                                                               
-                                        <p:inputMask id="idTelFijoInterno"  mask="9999-9999" value="#{actualizacionPropuestaConvenioMB.telFijoInterno.numeroTelefono}" 
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>
-                                        <p:watermark for="idTelFijoInterno" value="xxxx-xxxx"  /> 
-                                        <p:message for="idTelFijoInterno" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="idCelInterno" value="Cel:" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="idCelInterno"  mask="9999-9999" value="#{actualizacionPropuestaConvenioMB.telCelularInterno.numeroTelefono}" 
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>
-                                        <p:watermark for="idCelInterno" value="xxxx-xxxx"  /> 
-                                        <p:message for="idCelInterno" />
-                                    </p:column>
-                                </p:row>
-                                <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">                           
-                                    <p:column>
-                                        <p:outputLabel  for="idFacultadUnidadInterno" value="Facultad/Unidad"  />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu  id="idFacultadUnidadInterno"  value="#{actualizacionPropuestaConvenioMB.facultadesUnidadesInterno}" 
-                                                          converter="#{facultadUnidadConverter}" style="width:160px" 
-                                                          editable="#{actualizacionPropuestaConvenioMB.mismoSol}" 
-                                                          disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}">                                              
-                                            <f:selectItem itemLabel="Seleccione Facultad/Unidad" itemValue="#{null}" />                                            
-                                            <f:selectItems  value="#{actualizacionPropuestaConvenioMB.listaFacultadUnidad}" var="pFacUni" itemLabel="#{pFacUni.label}" itemValue="#{pFacUni}" />
-                                            <p:ajax event="change" listener="#{actualizacionPropuestaConvenioMB.actualizarEscuelaDeptInterno()}" update="idEscuelaDeptInter" process="@this" partialSubmit="true"/>
-                                        </p:selectOneMenu>                                            
-                                    </p:column>                        
-                                    <p:column>
-                                        <p:outputLabel  for="idEscuelaDeptInter" value="Escuela/Departamento" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu  id="idEscuelaDeptInter"   value="#{actualizacionPropuestaConvenioMB.escuelaDepartamentoInterno}" 
-                                                          converter="#{escuelaDepartamentoConverter}" 
-                                                          disabled="#{actualizacionPropuestaConvenioMB.flagEscuelaDeptInterno || actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"  
-                                                          style="width:160px" editable="#{actualizacionPropuestaConvenioMB.mismoSol}">                                              
-                                            <f:selectItem itemValue="#{null}" itemLabel="Seleccione Escuela/Departamento" noSelectionOption="true" />                                            
-                                            <f:selectItems value="#{actualizacionPropuestaConvenioMB.listadoEscuelaDepartamentoInter}" var="escDpt" itemLabel="#{escDpt.nombreEscuelaDepto}" itemValue="#{escDpt}" />                                        
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                </p:row>   
-                                <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
-                                    <p:column>
-                                        <p:outputLabel for="idCargoInterno" value="Cargo Solicitante" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="idCargoInterno"   label="cargo"  value="#{actualizacionPropuestaConvenioMB.referenteInterno.cargoPersona}" 
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}"/>
-                                        <p:watermark for="idCargoInterno" value="Cargo" id="waterCargo" />
-                                        <p:message for="idCargoInterno" />
-                                    </p:column>
-
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:commandButton id="btnEditarInterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditInternoDos}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.actualizarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno,acordion:grup1" 
-                                                         value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Interno" />                                               
-                                        <p:commandButton id="btnNuevoInterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonSaveInternoDos}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.guardarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno,acordion:grup1" 
-                                                         value="Guardar"   icon="ui-icon-disk" title="Guardar datos Interno" />                                                                                                                                                                                                               
-
-                                    </p:column>
-                                    <p:column>
-                                        <p:commandButton rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditInternoDos || actualizacionPropuestaConvenioMB.habilitarBotonSaveInternoDos}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.preCancelarInterno}" process="@this" update="acordion:grup1,@form" 
-                                                         value="Cancelar"  id="btnCancelarInterno" icon="ui-icon-disk" title="Cancelar" />                                               
-
-                                    </p:column>
-                                </p:row>
-
-                            </p:panelGrid>        
-                        </h:form>
-                    </p:tab>
-                    <p:tab title="Datos Solicitante Externo">
-                        <h:form id="grup2" >                                
-                            <p:panelGrid rendered="#{actualizacionPropuestaConvenioMB.tabAsisExterno}">     
-                                <p:column>
-                                    <p:outputLabel for="tipoBusquedaExt" value="Tipo de Busqueda:" />
-                                </p:column>
-
-                                <p:column>                                        
-                                    <p:selectOneMenu id="tipoBusquedaExt" value="#{actualizacionPropuestaConvenioMB.tipoBusquedaExterna}"  style="width:125px"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.bloqueosExterno}">  
-                                        <p:ajax  listener="#{actualizacionPropuestaConvenioMB.habilitarAutoExterno}" update="acordion:grup2"  process="@this" />
-                                        <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
-                                        <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
-                                        <f:selectItem itemLabel="E-mail" itemValue="email" />
-                                        <f:selectItem itemLabel="Documento" itemValue="doc" />  
-                                    </p:selectOneMenu>
-                                </p:column>
-
-                                <p:column rendered="#{!actualizacionPropuestaConvenioMB.bloqueosExterno}">
-
-                                    <p:autoComplete id="searchDoc" minQueryLength="8" size="8" rendered="#{actualizacionPropuestaConvenioMB.flagSearchDuiExterno}"  
-                                                    value="#{actualizacionPropuestaConvenioMB.numDocumentoExterno}" completeMethod="#{actualizacionPropuestaConvenioMB.completeBusquedaPassaporte}"
-                                                    var="name" itemLabel="#{name.duiPersona}" itemValue="#{name}" converter="#{personaConverter}"
-                                                    forceSelection="true">                                            
                                         <p:column>
-                                            <h:outputText value="#{name.duiPersona}" />
+                                            <p:outputLabel for="idDocumentoExterno" value="N&deg; Pasaporte/ID" />
                                         </p:column>
-                                    </p:autoComplete>
-                                    <p:watermark for="searchDoc" value="Documento"/>  
-
-                                    <p:autoComplete id="idNombreExterno" value="#{actualizacionPropuestaConvenioMB.referenteExterno}" rendered="#{actualizacionPropuestaConvenioMB.flagSearchNombreExterno}"
-                                                    completeMethod="#{actualizacionPropuestaConvenioMB.methodSearchExterno}" disabled="#{actualizacionPropuestaConvenioMB.disableAutoExterno}"
-                                                    var="theme" itemLabel="#{theme.nombrePersona}" itemValue="#{theme}" converter="#{personaConverter}" 
-                                                    cache="true" queryDelay="1000"
-                                                    emptyMessage="Nombre no Encontrado ......."
-                                                    forceSelection="true">                                           
+                                        <p:column>                                           
+                                            <p:inputText id="idDocumentoExterno"  label="Pass/ID"
+                                                         value="#{actualizacionPropuestaConvenioMB.referenteExterno.pasaporte}" 
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>                                    
+                                            <p:watermark for="idDocumentoExterno" value="N&deg; Pasaporte/ID" />
+                                        </p:column>
                                         <p:column>
-                                            <h:outputText value="#{theme.nombrePersona}" />
+                                            <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
                                         </p:column>
-                                        <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form"/>
-                                    </p:autoComplete>
-                                    <p:watermark for="idNombreExterno" value="Nombre"/> 
-
-                                    <p:autoComplete id="idEmailExterno" value="#{actualizacionPropuestaConvenioMB.referenteExterno}" rendered="#{actualizacionPropuestaConvenioMB.flagSearchEmailExterno}"
-                                                    completeMethod="#{actualizacionPropuestaConvenioMB.methodSearchExterno}" disabled="#{actualizacionPropuestaConvenioMB.disableAutoExterno}"
-                                                    var="theme" itemLabel="#{theme.emailPersona}" itemValue="#{theme}" converter="#{personaConverter}" 
-                                                    cache="true" queryDelay="1000"
-                                                    emptyMessage="Email no Encontrado ......."
-                                                    forceSelection="true">                                           
                                         <p:column>
-                                            <h:outputText value="#{theme.emailPersona}" />
+                                            <p:inputText id="emailExterno" required="true"
+                                                         readonly="#{propuestaConvenioMB.soloLecturaEmail}"
+                                                         value="#{actualizacionPropuestaConvenioMB.referenteExterno.emailPersona}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}">
+                                                <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                                            </p:inputText>
+                                            <p:message for="emailExterno" display="tooltip" />  
+                                            <p:watermark for="emailExterno" value="correo@email.com" id="waterCorreo" />
+                                        </p:column> 
+                                    </p:row>
+                                  
+                                    <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
+                                        <p:column>
+                                            <p:outputLabel for="idCargoExterno" value="Cargo" />
                                         </p:column>
-                                        <p:ajax event="itemSelect" listener="#{actualizacionPropuestaConvenioMB.cargarNombreSoliExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form"/>
-                                    </p:autoComplete>
-                                    <p:watermark for="idEmailExterno" value="E-mail"/> 
-                                </p:column>
+                                        <p:column>
+                                            <p:inputText id="idCargoExterno"   label="cargo" 
+                                                         value="#{actualizacionPropuestaConvenioMB.referenteExterno.cargoPersona}"
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>
+                                            <p:watermark for="idCargoExterno" value="Cargo" id="waterCargoEx" />
+                                            <p:message for="idCargoExterno" />
+                                        </p:column>
 
-                                <p:column>
-                                    <p:commandButton id="btnDesvincularExterno" 
-                                                     actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
-                                                     value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Externo" />                                               
-                                </p:column>
-                                <p:column>
-                                    <p:commandButton id="btnEditarExterno" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditExterno}"
-                                                     actionListener="#{actualizacionPropuestaConvenioMB.preEditeReferenteExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
-                                                     value="Editar"   icon="ui-icon-disk" title="Editar Referente Externo" />                                               
-                                </p:column>
-                                <p:column>                                                                                  
-                                    <p:commandButton id="btnNuevoExterno" disabled="#{!actualizacionPropuestaConvenioMB.habilitarBotonSaveExterno}"
-                                                     actionListener="#{actualizacionPropuestaConvenioMB.preEditeGuardarExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
-                                                     value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Externo" />                                               
+                                        <p:column>
+                                            <p:outputLabel for="idEntidadInstitucion" value="Entidad o Instituci&oacute;n"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu  id="idEntidadInstitucion" required="true" 
+                                                              value="#{actualizacionPropuestaConvenioMB.referenteExterno.idOrganismo}" 
+                                                              converter="#{organismoConverter}" 
+                                                              disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}" style="width:160px" >                                              
+                                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
+                                                <f:selectItems value="#{actualizacionPropuestaConvenioMB.listadoOrganismo}" var="organi" itemLabel="#{organi.nombreOrganismo}" itemValue="#{organi}" />
+                                                <p:ajax listener="#{actualizacionPropuestaConvenioMB.recargarArea()}" update="idTelefonoExterno,idCelExterno"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                    </p:row>
+                                      <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
+                                        <p:column>
+                                            <p:outputLabel for="idTelefonoExterno" value="Tel: " />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="idTelefonoExterno"  mask="#{propuestaConvenioMB.mascaraTelExterno}"
+                                                         value="#{actualizacionPropuestaConvenioMB.telFijoExterno.numeroTelefono}" 
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>
+                                            <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
+                                            <p:message for="idTelefonoExterno" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="idCelExterno" value="Cel" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputMask id="idCelExterno"  mask="#{propuestaConvenioMB.mascaraTelExterno}"
+                                                         value="#{actualizacionPropuestaConvenioMB.telCelularExterno.numeroTelefono}" 
+                                                         disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>
+                                            <p:watermark for="idCelExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
+                                            <p:message for="idCelExterno" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:commandButton id="btnEditarExterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditExternoDos}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.actualizarReferenteExterno()}" process="@form" update="acordion:GroupSolicitanteExterno,acordion:grup2" 
+                                                             value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Externos" />                                               
+                                            <p:commandButton id="btnNuevoExterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonSaveExternoDos}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.guardarReferenteExterno()}" process="@form" update="acordion:GroupSolicitanteExterno,acordion:grup2" 
+                                                             value="Guardar"   icon="ui-icon-disk" title="Guardar datos Externos" />                                                                                                                                                                                                               
 
-                                </p:column>
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditExternoDos || actualizacionPropuestaConvenioMB.habilitarBotonSaveExternoDos}"
+                                                             actionListener="#{actualizacionPropuestaConvenioMB.preCancelarExterno}" process="@this" update="acordion:grup2,@form" 
+                                                             value="Cancelar"  id="btnCancelarExterno" icon="ui-icon-disk" title="Cancelar" />                                               
 
+                                        </p:column>
+                                    </p:row>
 
-                            </p:panelGrid>
-                        </h:form> 
-                        <p:separator/>
-                        <h:form id="GroupSolicitanteExterno" >        
-                            <p:panelGrid rendered="#{actualizacionPropuestaConvenioMB.tabAsisExterno}">                           
+                                </p:panelGrid>   
+                            </h:form>
+                        </p:tab>
+                        <p:tab title="Datos de Propuesta">
+                            <h:form id="fileUploadGroup" >    
+                                <p:panelGrid>                           
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="idTipoPropuesta" required="true"  value="#{actualizacionPropuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >                                            
+                                                <p:ajax  listener="#{actualizacionPropuestaConvenioMB.onTipoConvenioChange}" update="idConvenioPropuesta"  process="@this" />
+                                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione Tipo Propuesta" noSelectionOption="true" />                                            
+                                                <f:selectItems value="#{actualizacionPropuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />       
+                                            </p:selectOneMenu>
+                                            <p:message for="idTipoPropuesta" />  
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
 
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="idSolicinateNombreExterno" value="Nombre Solicitante" />
-                                    </p:column>
-                                    <p:column>                                            
-
-                                        <p:inputText id="idSolicinateNombreExterno" required="true" label="Nombre" 
-                                                     value="#{actualizacionPropuestaConvenioMB.referenteExterno.nombrePersona}"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>
-                                        <p:message for="idSolicinateNombreExterno" />   
-                                        <p:watermark for="idSolicinateNombreExterno" value="Nombre Solicitante"/>                                           
-
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="idSolicinateApellidoExterno" value="Apellido Solicitante" />
-                                    </p:column>
-                                    <p:column>
-
-                                        <p:inputText id="idSolicinateApellidoExterno" required="true"  label="Apellido"
-                                                     value="#{actualizacionPropuestaConvenioMB.referenteExterno.apellidoPersona}" 
-                                                      disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>
-                                        <p:message for="idSolicinateApellidoExterno" />   
-                                        <p:watermark for="idSolicinateApellidoExterno" value="Apellido Solicitante"/>                                           
-
-                                    </p:column>
-                                </p:row>   
-                                <p:row>
-
-                                    
-                                   
-                                    <p:column>
-                                        <p:outputLabel for="idDocumentoExterno" value="N&deg; Pasaporte/ID" />
-                                    </p:column>
-                                    <p:column>                                           
-                                        <p:inputText id="idDocumentoExterno"  label="Pass/ID"
-                                                     value="#{actualizacionPropuestaConvenioMB.referenteExterno.pasaporte}" 
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>                                    
-                                        <p:watermark for="idDocumentoExterno" value="N&deg; Pasaporte/ID" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="emailExterno" value="Correo Electr&oacute;nico" />
-                                    </p:column>
-                                     <p:column>
-                                        <p:inputText id="emailExterno" required="true"
-                                                     value="#{actualizacionPropuestaConvenioMB.referenteExterno.emailPersona}"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}">
-                                            <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                                        </p:inputText>
-                                        <p:message for="emailExterno" display="tooltip" />  
-                                        <p:watermark for="emailExterno" value="correo@email.com" id="waterCorreo" />
-                                    </p:column> 
-                                </p:row>
-                                <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
-                                    <p:column>
-                                        <p:outputLabel for="idTelefonoExterno" value="Tel: " />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="idTelefonoExterno"  mask="9999-9999" 
-                                                     value="#{actualizacionPropuestaConvenioMB.telFijoExterno.numeroTelefono}" 
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>
-                                        <p:watermark for="idTelefonoExterno" value="xxxx-xxxx" id="waterTelEx" /> 
-                                        <p:message for="idTelefonoExterno" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="idCelExterno" value="Cel" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputMask id="idCelExterno"  mask="9999-9999"
-                                                     value="#{actualizacionPropuestaConvenioMB.telCelularExterno.numeroTelefono}" 
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>
-                                        <p:watermark for="idCelExterno" value="xxxx-xxxx" id="waterfaxEx" /> 
-                                        <p:message for="idCelExterno" />
-                                    </p:column>
-                                </p:row>
-                                <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
-                                    <p:column>
-                                        <p:outputLabel for="idCargoExterno" value="Cargo" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="idCargoExterno"   label="cargo" 
-                                                     value="#{actualizacionPropuestaConvenioMB.referenteExterno.cargoPersona}"
-                                                     disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}"/>
-                                        <p:watermark for="idCargoExterno" value="Cargo" id="waterCargoEx" />
-                                        <p:message for="idCargoExterno" />
-                                    </p:column>
-
-                                    <p:column>
-                                        <p:outputLabel for="idEntidadInstitucion" value="Entidad o Instituci&oacute;n"  />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu  id="idEntidadInstitucion" required="true" 
-                                                          value="#{actualizacionPropuestaConvenioMB.referenteExterno.idOrganismo}" 
-                                                          converter="#{organismoConverter}" 
-                                                          disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}" style="width:160px" >                                              
-                                            <f:selectItem itemValue="#{null}" itemLabel="Seleccione Facultad/Unidad" noSelectionOption="true" />                                            
-                                            <f:selectItems value="#{actualizacionPropuestaConvenioMB.listadoOrganismo}" var="organi" itemLabel="#{organi.nombreOrganismo}" itemValue="#{organi}" />
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:commandButton id="btnEditarExterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditExternoDos}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.actualizarReferenteExterno()}" process="@form" update="acordion:GroupSolicitanteExterno,acordion:grup2" 
-                                                         value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Externos" />                                               
-                                        <p:commandButton id="btnNuevoExterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonSaveExternoDos}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.guardarReferenteExterno()}" process="@form" update="acordion:GroupSolicitanteExterno,acordion:grup2" 
-                                                         value="Guardar"   icon="ui-icon-disk" title="Guardar datos Externos" />                                                                                                                                                                                                               
-
-                                    </p:column>
-                                    <p:column>
-                                        <p:commandButton rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditExternoDos || actualizacionPropuestaConvenioMB.habilitarBotonSaveExternoDos}"
-                                                         actionListener="#{actualizacionPropuestaConvenioMB.preCancelarExterno}" process="@this" update="acordion:grup2,@form" 
-                                                         value="Cancelar"  id="btnCancelarExterno" icon="ui-icon-disk" title="Cancelar" />                                               
-
-                                    </p:column>
-                                </p:row>
-
-                            </p:panelGrid>   
-                        </h:form>
-                    </p:tab>
-                    <p:tab title="Datos de Propuesta">
-                        <h:form id="fileUploadGroup" >    
-                            <p:panelGrid>                           
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="idTipoPropuesta" required="true"  value="#{actualizacionPropuestaConvenioMB.propuestaConvenio.idTipoPropuestaConvenio}" converter="#{tipoPropuestaConvenioConverter}" effect="fade"  style="width:160px" >                                            
-                                            <p:ajax  listener="#{actualizacionPropuestaConvenioMB.onTipoConvenioChange}" update="idConvenioPropuesta"  process="@this" />
-                                            <f:selectItem itemValue="#{null}" itemLabel="Seleccione Tipo Propuesta" noSelectionOption="true" />                                            
-                                            <f:selectItems value="#{actualizacionPropuestaConvenioMB.listadoTipoPrpouestaConvenio}" var="tipoPropCon" itemLabel="#{tipoPropCon.nombrePropuestaConvenio}" itemValue="#{tipoPropCon}" />       
-                                        </p:selectOneMenu>
-                                        <p:message for="idTipoPropuesta" />  
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-
-                                    <p:column>
-                                        <p:outputLabel  value="Convenio"  />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu disabled="#{actualizacionPropuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{actualizacionPropuestaConvenioMB.propuestaConvenioTemp}" converter="#{propuestaConvenioConverter}"  style="width:160px" >                                              
-                                            <f:selectItem itemValue="#{null}" itemLabel="Seleccione Convenio" noSelectionOption="true" />                                            
-                                            <f:selectItems value="#{actualizacionPropuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="idNombrePropuesta" value="Nombre de Propuesta" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputTextarea id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{actualizacionPropuestaConvenioMB.propuestaConvenio.nombrePropuesta}" rows="2" maxlength="300" style="width: 300px" >
-                                        </p:inputTextarea>
-                                        <p:message for="idNombrePropuesta" />
-                                        <p:watermark for="idNombrePropuesta" value="Nombre Propuesta" id="nameProp" />
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="idDescripcionPropuesta" value="Descripci&oacute;n" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputTextarea id="idDescripcionPropuesta" required="true" label="descripcion" rows="3" maxlength="300" value="#{actualizacionPropuestaConvenioMB.propuestaConvenio.finalidadPropuesta}"  style="width: 300px;" />
-                                        <p:message for="idDescripcionPropuesta" /> 
-                                        <p:watermark for="idDescripcionPropuesta" value="Descripcion" id="descripcionProp" />
-                                    </p:column>
-                                </p:row>
-                                <table style="width:80%" > 
-                                    <tfoot>                                        
-                                        <tr align="right"> 
-                                            <td></td>
-                                            <td></td>
-                                            <td><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.actualizarPropuesta()}" process="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" update="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" value="Actualizar"  id="btnGuardar" icon="ui-icon-disk" title="Actualizar Propuesta Convenio" /></td>                                                                             
-                                            <td colspan="3"><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.volver()}" process="formAdmin" update="formAdmin" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
-                                        </tr>
-                                    </tfoot>
-                                </table>  
-                            </p:panelGrid> 
-                        </h:form>
-                    </p:tab>
-                </p:accordionPanel>                                                                                               
-            </p:panel>
+                                        <p:column>
+                                            <p:outputLabel  value="Convenio"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu disabled="#{actualizacionPropuestaConvenioMB.flagConvenioMarco}" id="idConvenioPropuesta" required="true" value="#{actualizacionPropuestaConvenioMB.propuestaConvenioTemp}" converter="#{propuestaConvenioConverter}"  style="width:160px" >                                              
+                                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione Convenio" noSelectionOption="true" />                                            
+                                                <f:selectItems value="#{actualizacionPropuestaConvenioMB.listadoPropuestaConvenio}" var="pConve" itemLabel="#{pConve.nombrePropuesta}" itemValue="#{pConve}" />
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="idNombrePropuesta" value="Nombre de Propuesta" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputTextarea id="idNombrePropuesta"  required="true" label="nombre propuesta" value="#{actualizacionPropuestaConvenioMB.propuestaConvenio.nombrePropuesta}" rows="2" maxlength="300" style="width: 300px" >
+                                            </p:inputTextarea>
+                                            <p:message for="idNombrePropuesta" />
+                                            <p:watermark for="idNombrePropuesta" value="Nombre Propuesta" id="nameProp" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:outputLabel for="idDescripcionPropuesta" value="Descripci&oacute;n" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputTextarea id="idDescripcionPropuesta" required="true" label="descripcion" rows="3" maxlength="300" value="#{actualizacionPropuestaConvenioMB.propuestaConvenio.finalidadPropuesta}"  style="width: 300px;" />
+                                            <p:message for="idDescripcionPropuesta" /> 
+                                            <p:watermark for="idDescripcionPropuesta" value="Descripcion" id="descripcionProp" />
+                                        </p:column>
+                                    </p:row>
+                                    <table style="width:80%" > 
+                                        <tfoot>                                        
+                                            <tr align="right"> 
+                                                <td></td>
+                                                <td></td>
+                                                <td><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.actualizarPropuesta()}" process="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" update="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" value="Actualizar"  id="btnGuardar" icon="ui-icon-disk" title="Actualizar Propuesta Convenio" /></td>                                                                             
+                                                <td colspan="3"><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.volver()}" process="formAdmin" update="formAdmin" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
+                                            </tr>
+                                        </tfoot>
+                                    </table>  
+                                </p:panelGrid> 
+                            </h:form>
+                        </p:tab>
+                    </p:accordionPanel>                                                                                               
+                </p:panel>
             </p:fieldset>
         </center>    
 

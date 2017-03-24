@@ -40,4 +40,13 @@ public class PaisService extends GenericService<Pais, Integer> {
     public List<Pais> getCountriesOrderByNameAsc() {
         return paisDao.getCountriesOrderByNameAsc();
     }
+
+    public List<Pais> getAllByNameAsc(){
+        return paisDao.getAllByNameAsc();
+    }
+
+     public Pais getPaisCodigoPais(String codPais){
+         return paisDao.getPaisCodigoPais(codPais);
+     }
+
 }

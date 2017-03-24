@@ -50,6 +50,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.hibernate.SessionFactory;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ public class BecaMB implements Serializable {
     /**
      * Creates a new instance of BecaMB
      */
+    
     private static final String FIJO = "FIJO";
     private static final String FAX = "FAX";
     private static final String CELULAR = "CELULAR";
@@ -194,7 +196,21 @@ public class BecaMB implements Serializable {
     private Boolean remplazarExterno;
 
     private Boolean desvinculoInterno;
+    //Mascara de telefonos de personas externas
+    private String codigoPais;
+    private String mascaraTelefono;
 
+    @Inject
+    TipoBecaMB tipoBecaMB;
+    @Inject
+    ProgramaBecaMB programaBecaMB;
+    @Inject
+    OrganismoCooperanteMB organismoCooperanteMB;
+    @Inject
+    PaisMB paisMB;
+    @Inject
+    TipoCambioMB tipoCambioMB;
+    
     @Autowired
     FacultadService facultadService;
 
@@ -278,7 +294,7 @@ public class BecaMB implements Serializable {
         tipoBecaSelected = new TipoBeca();
         tipoCambioSelected = new TipoCambio();
         yearActual = getYearOfDate(new Date());
-        anio="";
+        anio = "";
 
         //para el referente interno
         asesorInterno = new Persona();
@@ -297,7 +313,7 @@ public class BecaMB implements Serializable {
         facultadList = facultadService.getFacultadesByUniversidad(1);
         carreraList = new ArrayList<Carrera>();
 //        paisList = paisService.findAll();
-         paisList = paisService.getCountriesOrderByNameAsc();
+        paisList = paisService.getCountriesOrderByNameAsc();
         programaBecaList = programaBecaService.findAll();
         universidadList = new ArrayList<Organismo>();
         tipoModalidadBecaList = tipoModalidadBecaService.findAll();
@@ -359,7 +375,9 @@ public class BecaMB implements Serializable {
         remplazarExterno = Boolean.FALSE;
 
         desvinculoInterno = Boolean.FALSE;
-
+        //Mascara de telenonos de personas externas
+        codigoPais = "";
+        mascaraTelefono = "";
     }
 
 //registra la informacion conserniente a una beca
@@ -533,6 +551,10 @@ public class BecaMB implements Serializable {
         }
     }
 
+    public void preEliminar(){
+    
+    }
+    
     //pre guardar
     public void preGuardar() {
         try {
@@ -664,7 +686,7 @@ public class BecaMB implements Serializable {
         disableBecarioInputs = Boolean.FALSE;
         existeBecario = Boolean.FALSE;
         presionoNuevoBecario = Boolean.TRUE;
-        presionoActualizarBecario=Boolean.FALSE;
+        presionoActualizarBecario = Boolean.FALSE;
     }
 
     public void presionoActualizarBecario() {
@@ -793,6 +815,13 @@ public class BecaMB implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect("registrarBeca.xhtml");
     }
 
+    //Metodo que se encarga de mostrar mascara de personas externas en los telefonos
+    public void onchangeListInstitucionPersona() {
+        Organismo org = organismoService.findById(entidadInstitucionSelected.getIdOrganismo());
+        codigoPais = paisService.findById(org.getIdPais()).getCodigoPais();
+        mascaraTelefono = telefonoService.getMask(codigoPais);
+    }
+
     public void preUpdate(Integer id) {
         try {
             Beca aux = becaService.findById(id);
@@ -842,7 +871,7 @@ public class BecaMB implements Serializable {
                 universidadSelected = beca.getIdUniversidad();
                 getUniversidadesPorPais(beca.getIdPaisDestino());
                 tipoModalidaBecaSelected = beca.getIdTipoModalidad();
-                anio=beca.getAnioGestion().toString()+" ";
+                anio = beca.getAnioGestion().toString() + " ";
                 if (tipoModalidaBecaSelected.getIdTipoModalidad() == 1) {
                     mostrarmonto = Boolean.FALSE;
                 } else {
@@ -1318,6 +1347,55 @@ public class BecaMB implements Serializable {
         telefonoCelularAsesorExterno = new Telefono();
         entidadInstitucionSelected = new Organismo();
 
+    }
+    //Metodos para agregar elementos nuevos en cada combobox
+    public void addNewTipoBeca() {
+        TipoBeca tipobeca = tipoBecaService.findById(tipoBecaSelected.getIdTipoBeca());
+        if (tipobeca.getNombreTipoBeca().equals("Agregar Nuevo")) {
+            tipoBecaMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('tipobecaDialog').show()");
+            tipoBecaSelected = new TipoBeca();
+        }
+    }
+    public void addNewProgramaBeca() {
+        ProgramaBeca programabeca = programaBecaService.findById(programaBecaSelected.getIdPrograma());
+        if (programabeca.getNombrePrograma().equals("Agregar Nuevo")) {
+            programaBecaMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('programaBecaDialog').show()");
+            programaBecaSelected = new ProgramaBeca();
+        }
+    }
+    public void addNewOrganismo() {
+        Organismo organismo = organismoService.findById(organismoCooperanteSelected.getIdOrganismo());
+        if (organismo.getNombreOrganismo().equals("Agregar Nuevo")) {
+            organismoCooperanteMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('organismoDialog').show()");
+            organismoCooperanteSelected = new Organismo();
+        }
+    }
+    public void addNewPais() {
+        Pais pais = paisService.findById(paisDestinoSelected.getIdPais());
+        if (pais.getNombrePais().equals("Agregar Nuevo")) {
+            paisMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('paisDialog').show()");
+            paisDestinoSelected = new Pais();
+        }else{
+            getUniversidadesPorPais(paisDestinoSelected.getIdPais());
+            RequestContext.getCurrentInstance().update("formAdmin:acordion:universidadDestino");
+        }
+    }
+    public void addNewTipoMoneda() {
+        TipoCambio tipocambio = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+        if (tipocambio.getNombreDivisa().equals("Agregar Nuevo")) {
+            tipoCambioMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('tipocambioDialog').show()");
+            tipoCambioSelected = new TipoCambio();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Sets and Getters">
@@ -2048,6 +2126,22 @@ public class BecaMB implements Serializable {
 
     public void setDesvinculoInterno(Boolean desvinculoInterno) {
         this.desvinculoInterno = desvinculoInterno;
+    }
+
+    public String getCodigoPais() {
+        return codigoPais;
+    }
+
+    public void setCodigoPais(String codigoPais) {
+        this.codigoPais = codigoPais;
+    }
+
+    public String getMascaraTelefono() {
+        return mascaraTelefono;
+    }
+
+    public void setMascaraTelefono(String mascaraTelefono) {
+        this.mascaraTelefono = mascaraTelefono;
     }
 
 }

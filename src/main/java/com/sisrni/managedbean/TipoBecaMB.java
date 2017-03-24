@@ -9,6 +9,7 @@ package com.sisrni.managedbean;
 import com.sisrni.model.TipoBeca;
 import com.sisrni.service.TipoBecaService;
 import com.sisrni.utils.JsfUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -86,6 +87,22 @@ public class TipoBecaMB{
             e.printStackTrace();
         }
         cargarTipoBeca();
+    }
+    public List<TipoBeca> listaBecas() {
+        listTipoBeca = tipoBecaService.getAllByNameAsc();
+        TipoBeca tipoBecaNew1=new TipoBeca();
+        List<TipoBeca> copy = new ArrayList<TipoBeca>();
+        for (TipoBeca tipoBecaNew : listTipoBeca) {
+            if(!tipoBecaNew.getNombreTipoBeca().equalsIgnoreCase("Agregar Nuevo"))
+            {
+                copy.add(tipoBecaNew);
+            }else{
+                tipoBecaNew1=tipoBecaNew;
+            }
+        }
+        copy.add(tipoBecaNew1);
+        listTipoBeca.clear();
+        return listTipoBeca=copy;
     }
     
     /**

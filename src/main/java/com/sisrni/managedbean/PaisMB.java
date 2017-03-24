@@ -11,6 +11,7 @@ import com.sisrni.model.Region;
 import com.sisrni.service.PaisService;
 import com.sisrni.service.RegionService;
 import com.sisrni.utils.JsfUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -100,6 +101,22 @@ public class PaisMB{
         cargarPais();
     }
     
+    public List<Pais> listaPaises() {
+        listPais = paisService.getAllByNameAsc();
+        Pais paisNew1=new Pais();
+        List<Pais> copy = new ArrayList<Pais>();
+        for (Pais paisNew : listPais) {
+            if(!paisNew.getNombrePais().equalsIgnoreCase("Agregar Nuevo"))
+            {
+                copy.add(paisNew);
+            }else{
+                paisNew1=paisNew;
+            }
+        }
+        copy.add(paisNew1);
+        listPais.clear();
+        return listPais=copy;
+    }
     /**
      * Metodo que se ocupa de precargar la instancia de 'Pais' a ser actualizada
      * @param pais

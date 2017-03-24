@@ -67,6 +67,11 @@ public class PersonaService extends GenericService<Persona, Integer> {
     public Persona getPersonaByDui(String dui) {
         return personaDao.getPersonaByDui(dui);
     }
+   
+     public Persona getPersonaByEmail(String email) {
+        return personaDao.getPersonaByEmail(email);
+    }
+    
 
     public Persona getPersonaByPasaporte(String pasaporte) {
         return personaDao.getPersonaByPasaporte(pasaporte);
