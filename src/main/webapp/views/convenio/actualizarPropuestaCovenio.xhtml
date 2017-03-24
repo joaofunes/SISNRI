@@ -177,6 +177,7 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="emailSolicitante" required="true" value="#{actualizacionPropuestaConvenioMB.solicitante.emailPersona}"
+                                                         readonly="#{actualizacionPropuestaConvenioMB.soloLecturaEmail}"
                                                          disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaSolicitante}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                             </p:inputText>
@@ -386,6 +387,7 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="email" required="true" value="#{actualizacionPropuestaConvenioMB.referenteInterno.emailPersona}"
+                                                         readonly="#{actualizacionPropuestaConvenioMB.soloLecturaEmail}"
                                                          disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaInterna}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                             </p:inputText>
@@ -599,6 +601,7 @@
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="emailExterno" required="true"
+                                                         readonly="#{propuestaConvenioMB.soloLecturaEmail}"
                                                          value="#{actualizacionPropuestaConvenioMB.referenteExterno.emailPersona}"
                                                          disabled="#{actualizacionPropuestaConvenioMB.habilitarBusquedaExterna}">
                                                 <f:validator validatorId="com.sisrni.validator.emailValidator" />

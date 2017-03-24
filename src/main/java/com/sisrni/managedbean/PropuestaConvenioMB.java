@@ -75,7 +75,7 @@ public class PropuestaConvenioMB implements Serializable {
     private static final String CONVENIO_MARCO = "CONVENIO MARCO";
     private static final String ESTADO = "REVISION";
     //private  List<String> ROL = "ROL_ADM_CONV"; //ROL_ADMI
-    private List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
+    private final List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
 
     @Autowired
     @Qualifier(value = "personaService")
@@ -84,7 +84,7 @@ public class PropuestaConvenioMB implements Serializable {
     @Autowired
     @Qualifier(value = "paisService")
     private PaisService paisService;
-    
+
     @Autowired
     @Qualifier(value = "telefonoService")
     private TelefonoService telefonoService;
@@ -240,6 +240,8 @@ public class PropuestaConvenioMB implements Serializable {
     private boolean bloqueosInterno;
     private boolean bloqueosExterno;
 
+    private boolean soloLecturaEmail;
+
     private List<Persona> listAll;
 
     private SsRoles rol;
@@ -249,7 +251,7 @@ public class PropuestaConvenioMB implements Serializable {
 //    @PostConstruct
 //    public void init() {
 //        try {
-//            // RequestContext.getCurrentInstance().reset(":formAdmin"); 
+//            // RequestContext.getCurrentInstance().reset(":formAdmin");
 //            inicializador();
 //            inicializadorListados();
 //            getListFacultadesUnidades();
@@ -304,9 +306,9 @@ public class PropuestaConvenioMB implements Serializable {
             telCelularExterno = new Telefono();
             telFijoSolicitante = new Telefono();
             telCelularSolicitante = new Telefono();
-            mascaraTelSolicitante="";
-            mascaraTelInterno="";
-            mascaraTelExterno="";
+            mascaraTelSolicitante = "";
+            mascaraTelInterno = "";
+            mascaraTelExterno = "";
             usuario = null;
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
@@ -356,6 +358,8 @@ public class PropuestaConvenioMB implements Serializable {
             bloqueosInterno = false;
             bloqueosExterno = false;
             bloqueosSolicitante = false;
+
+            soloLecturaEmail = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -429,32 +433,38 @@ public class PropuestaConvenioMB implements Serializable {
         try {
             List<Persona> list = new ArrayList<Persona>();
             RequestContext context = RequestContext.getCurrentInstance();
-            if (tipoBusquedaSolicitante.equalsIgnoreCase("nombre")) {
-                listAll = personaService.getReferenteInternoByName(query);
-                for (Persona us : listAll) {
-                    list.add(us);
+
+            if (tipoBusquedaSolicitante != null) {
+                if (tipoBusquedaSolicitante.equalsIgnoreCase("nombre")) {
+                    listAll = personaService.getReferenteInternoByName(query);
+                    for (Persona us : listAll) {
+                        list.add(us);
+                    }
+                    habilitarBotonSaveSolicitante = list.isEmpty();
+                    context.update("acordion:Group:btnNuevoSolicitante");
+                    return list;
+                } else if (tipoBusquedaSolicitante.equalsIgnoreCase("email")) {
+                    listAll = personaService.getReferenteInternoByEmail(query);
+                    for (Persona us : listAll) {
+                        list.add(us);
+                    }
+                    habilitarBotonSaveSolicitante = list.isEmpty();
+                    context.update("acordion:Group:btnNuevoSolicitante");
+                    return list;
                 }
-                habilitarBotonSaveSolicitante = list.isEmpty();
-                context.update("acordion:Group:btnNuevoSolicitante");
-                return list;
-            } else if (tipoBusquedaSolicitante.equalsIgnoreCase("email")) {
-                listAll = personaService.getReferenteInternoByEmail(query);
-                for (Persona us : listAll) {
-                    list.add(us);
-                }
-                habilitarBotonSaveSolicitante = list.isEmpty();
-                context.update("acordion:Group:btnNuevoSolicitante");
-                return list;
-            }
 //            else if (tipoBusquedaSolicitante.equalsIgnoreCase("doc")) {
 //                query = query.substring(0, 7) + "-" + query.substring(7);
 //                referenteInterno = personaService.getPersonaByDui(query);
 //                boolean add = list.add(referenteInterno);
-//               
+//
 //                return list;
 //            }
-            return list;
+
+                return list;
+            }
         } catch (Exception e) {
+            String message = "Error en Busqueda : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
             e.printStackTrace();
         }
         return null;
@@ -470,33 +480,37 @@ public class PropuestaConvenioMB implements Serializable {
         try {
             List<Persona> list = new ArrayList<Persona>();
             RequestContext context = RequestContext.getCurrentInstance();
-            if (tipoBusquedaInterna.equalsIgnoreCase("nombre")) {
-                listAll = personaService.getReferenteInternoByName(query);
-                for (Persona us : listAll) {
-                    list.add(us);
-                }
+            if (tipoBusquedaInterna != null) {
+                if (tipoBusquedaInterna.equalsIgnoreCase("nombre")) {
+                    listAll = personaService.getReferenteInternoByName(query);
+                    for (Persona us : listAll) {
+                        list.add(us);
+                    }
 
-                habilitarBotonSaveInterno = list.isEmpty();
-                context.update("acordion:grup1:btnNuevoInterno");
-                return list;
-            } else if (tipoBusquedaInterna.equalsIgnoreCase("email")) {
-                listAll = personaService.getReferenteInternoByEmail(query);
-                for (Persona us : listAll) {
-                    list.add(us);
+                    habilitarBotonSaveInterno = list.isEmpty();
+                    context.update("acordion:grup1:btnNuevoInterno");
+                    return list;
+                } else if (tipoBusquedaInterna.equalsIgnoreCase("email")) {
+                    listAll = personaService.getReferenteInternoByEmail(query);
+                    for (Persona us : listAll) {
+                        list.add(us);
+                    }
+                    habilitarBotonSaveInterno = list.isEmpty();
+                    context.update("acordion:grup1:btnNuevoInterno");
+                    return list;
                 }
-                habilitarBotonSaveInterno = list.isEmpty();
-                context.update("acordion:grup1:btnNuevoInterno");
-                return list;
-            }
 //            else if (tipoBusquedaInterna.equalsIgnoreCase("doc")) {
 //                query = query.substring(0, 7) + "-" + query.substring(7);
 //                referenteInterno = personaService.getPersonaByDui(query);
 //                boolean add = list.add(referenteInterno);
-//               
+//
 //                return list;
 //            }
-            return list;
+                return list;
+            }
         } catch (Exception e) {
+            String message = "Error en Busqueda : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
             e.printStackTrace();
         }
         return null;
@@ -512,25 +526,29 @@ public class PropuestaConvenioMB implements Serializable {
         try {
             List<Persona> list = new ArrayList<Persona>();
             RequestContext context = RequestContext.getCurrentInstance();
-            if (tipoBusquedaExterna.equalsIgnoreCase("nombre")) {
-                listAll = personaService.getReferenteExternoByName(query);
-                for (Persona us : listAll) {
-                    list.add(us);
+            if (tipoBusquedaExterna != null) {
+                if (tipoBusquedaExterna.equalsIgnoreCase("nombre")) {
+                    listAll = personaService.getReferenteExternoByName(query);
+                    for (Persona us : listAll) {
+                        list.add(us);
+                    }
+                    habilitarBotonSaveExterno = list.isEmpty();
+                    context.update("acordion:grup2:btnNuevoExterno");
+                    return list;
+                } else if (tipoBusquedaExterna.equalsIgnoreCase("email")) {
+                    listAll = personaService.getReferenteExternoByEmail(query);
+                    for (Persona us : listAll) {
+                        list.add(us);
+                    }
+                    habilitarBotonSaveExterno = list.isEmpty();
+                    context.update("acordion:grup2:btnNuevoExterno");
+                    return list;
                 }
-                habilitarBotonSaveExterno = list.isEmpty();
-                context.update("acordion:grup2:btnNuevoExterno");
-                return list;
-            } else if (tipoBusquedaExterna.equalsIgnoreCase("email")) {
-                listAll = personaService.getReferenteExternoByEmail(query);
-                for (Persona us : listAll) {
-                    list.add(us);
-                }
-                habilitarBotonSaveExterno = list.isEmpty();
-                context.update("acordion:grup2:btnNuevoExterno");
                 return list;
             }
-            return list;
         } catch (Exception e) {
+            String message = "Error en Busqueda : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
             e.printStackTrace();
         }
         return null;
@@ -679,13 +697,13 @@ public class PropuestaConvenioMB implements Serializable {
                 //Estado de propuesta de convenio
                 guardarEstado();
 
-                // persona solicitante            
+                // persona solicitante
                 //guardarSolicitante();
                 guardarSolicitanteComplemento();
 
                 ////////////////////////////////////
                 //// PERSONA REFERENTE_INTERNO/////
-                //////////////////////////////////// 
+                ////////////////////////////////////
                 if (referenteInterno != null && referenteInterno.getIdPersona() != null) {
                     guardarReferenteInternoComplemento();
                 }
@@ -705,14 +723,14 @@ public class PropuestaConvenioMB implements Serializable {
             context.redirect(context.getRequestContextPath() + "/views/convenio/consultarPropuestaConvenio.xhtml");
         } catch (Exception e) {
             String message = "Error Guardando Propuesta : " + e.getMessage();
-            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
     }
 
     /**
      * Metodo para envio de correo informativo de creacion de propuesta
      */
-    public void enviarCorreo() throws Exception{
+    public void enviarCorreo() throws Exception {
         try {
 
             propuestaConvenio = propuestaConvenioService.getByIDPropuestaWithPersona(propuestaConvenio.getIdPropuesta());
@@ -734,7 +752,7 @@ public class PropuestaConvenioMB implements Serializable {
             }
 
         } catch (Exception e) {
-             throw new Exception("Error class PropuestaConvenioMB - enviarCorreo()\n" + e.getMessage(), e.getCause());
+            throw new Exception("Error class PropuestaConvenioMB - enviarCorreo()\n" + e.getMessage(), e.getCause());
         }
     }
 
@@ -774,45 +792,50 @@ public class PropuestaConvenioMB implements Serializable {
      */
     public void guardarSolicitante() {
         try {
+            Persona existePersonaByMail = personaService.existePersonaByMail(solicitante.getEmailPersona());
+            if (existePersonaByMail != null && existePersonaByMail.getIdPersona() != null) {
+                solicitante.setIdUnidad(null);
+                //solicitante.setIdCarrera(null);
+                solicitante.setIdEscuelaDepto(null);
 
-            solicitante.setIdUnidad(null);
-            //solicitante.setIdCarrera(null);
-            solicitante.setIdEscuelaDepto(null);
-
-            if (facultadesUnidadesInterno != null) {
-                if (facultadesUnidades.getUnidadFacultad() == 'U') {
-                    solicitante.setIdUnidad(unidadService.findById(facultadesUnidades.getId()));
-                } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
-                    solicitante.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamento.getIdEscuelaDepto()));
+                if (facultadesUnidadesInterno != null) {
+                    if (facultadesUnidades.getUnidadFacultad() == 'U') {
+                        solicitante.setIdUnidad(unidadService.findById(facultadesUnidades.getId()));
+                    } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
+                        solicitante.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamento.getIdEscuelaDepto()));
+                    }
                 }
+
+                listadoTelefonoReferenteSolicitante = new ArrayList<Telefono>();
+                telFijoSolicitante.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+                telFijoSolicitante.setIdPersona(solicitante);
+                listadoTelefonoReferenteSolicitante.add(telFijoSolicitante);
+
+                telCelularSolicitante.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+                telCelularSolicitante.setIdPersona(solicitante);
+                listadoTelefonoReferenteSolicitante.add(telCelularSolicitante);
+                solicitante.setTelefonoList(listadoTelefonoReferenteSolicitante);
+                personaService.merge(solicitante);
+
+                ////////////////
+                ////bloqueos////
+                ///////////////
+                bloqueosSolicitante = false;//bloquea busquedas
+                /////Edicion/////
+                habilitarBotonEditSolicitanteDos = false;//ocultar boton de Actualizar
+                habilitarBotonEditSolicitante = false;//ocultar boton de Editar
+                //////////////////
+
+                /////Guardar/////
+                habilitarBotonSaveSolicitante = false;//ocultar boton de Nuevo
+                habilitarBotonSaveSolicitanteDos = false;//ocultar boton de Guardar
+                /////////////////
+                habilitarBusquedaSolicitante = true;
+                tipoBusquedaSolicitante = null;
+            } else {
+                String message = "¡Este correo ya ha sido ingresado!";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, message, null));
             }
-
-            listadoTelefonoReferenteSolicitante = new ArrayList<Telefono>();
-            telFijoSolicitante.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
-            telFijoSolicitante.setIdPersona(solicitante);
-            listadoTelefonoReferenteSolicitante.add(telFijoSolicitante);
-
-            telCelularSolicitante.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
-            telCelularSolicitante.setIdPersona(solicitante);
-            listadoTelefonoReferenteSolicitante.add(telCelularSolicitante);
-            solicitante.setTelefonoList(listadoTelefonoReferenteSolicitante);
-            personaService.merge(solicitante);
-
-            ////////////////
-            ////bloqueos////
-            ///////////////
-            bloqueosSolicitante = false;//bloquea busquedas            
-            /////Edicion/////
-            habilitarBotonEditSolicitanteDos = false;//ocultar boton de Actualizar              
-            habilitarBotonEditSolicitante = false;//ocultar boton de Editar
-            //////////////////
-
-            /////Guardar/////
-            habilitarBotonSaveSolicitante = false;//ocultar boton de Nuevo
-            habilitarBotonSaveSolicitanteDos = false;//ocultar boton de Guardar
-            /////////////////
-            habilitarBusquedaSolicitante = true;
-            tipoBusquedaSolicitante = null;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -853,9 +876,9 @@ public class PropuestaConvenioMB implements Serializable {
             ////////////////
             ////bloqueos////
             ///////////////
-            bloqueosSolicitante = false;//bloquea busquedas            
+            bloqueosSolicitante = false;//bloquea busquedas
             /////Edicion/////
-            habilitarBotonEditSolicitanteDos = false;//ocultar boton de Actualizar              
+            habilitarBotonEditSolicitanteDos = false;//ocultar boton de Actualizar
             habilitarBotonEditSolicitante = false;//ocultar boton de Editar
             //////////////////
 
@@ -865,6 +888,7 @@ public class PropuestaConvenioMB implements Serializable {
             /////////////////
             habilitarBusquedaSolicitante = true;
             tipoBusquedaSolicitante = null;
+            soloLecturaEmail = false;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -916,51 +940,57 @@ public class PropuestaConvenioMB implements Serializable {
      */
     public void guardarReferenteInterno() {
         try {
+            Persona existePersonaByMail = personaService.existePersonaByMail(referenteInterno.getEmailPersona());
 
-            //crear persona y luego almacenar
-            referenteInterno.setIdUnidad(null);
-            referenteInterno.setIdCarrera(null);
-            referenteInterno.setIdEscuelaDepto(null);
+            if (existePersonaByMail != null && existePersonaByMail.getIdPersona() != null) {
+                //crear persona y luego almacenar
+                referenteInterno.setIdUnidad(null);
+                referenteInterno.setIdEscuelaDepto(null);
 
-            if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
-                referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getPrimary()));
-            } else if (facultadesUnidadesInterno.getUnidadFacultad() == 'F') {
-                referenteInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoInterno.getIdEscuelaDepto()));
-            }
+                if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
+                    referenteInterno.setIdUnidad(unidadService.findById(facultadesUnidadesInterno.getPrimary()));
+                } else if (facultadesUnidadesInterno.getUnidadFacultad() == 'F') {
+                    referenteInterno.setIdEscuelaDepto(escuelaDepartamentoService.findById(escuelaDepartamentoInterno.getIdEscuelaDepto()));
+                }
 
-            referenteInterno.setExtranjero(Boolean.FALSE);//no es extrajero
-            referenteInterno.setActivo(Boolean.TRUE);//esta activo
-            referenteInterno.setPasaporte("0");
+                referenteInterno.setExtranjero(Boolean.FALSE);//no es extrajero
+                referenteInterno.setActivo(Boolean.TRUE);//esta activo
+                referenteInterno.setPasaporte("0");
 
-            //telefonos
-            listadoTelefonoReferenteInterno = new ArrayList<Telefono>();
-            telFijoInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
-            telFijoInterno.setIdPersona(referenteInterno);
-            listadoTelefonoReferenteInterno.add(telFijoInterno);
+                //telefonos
+                listadoTelefonoReferenteInterno = new ArrayList<Telefono>();
+                telFijoInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+                telFijoInterno.setIdPersona(referenteInterno);
+                listadoTelefonoReferenteInterno.add(telFijoInterno);
 
-            telCelularInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
-            telCelularInterno.setIdPersona(referenteInterno);
-            listadoTelefonoReferenteInterno.add(telCelularInterno);
-            referenteInterno.setTelefonoList(listadoTelefonoReferenteInterno);
-            personaService.saveOrUpdate(referenteInterno);
+                telCelularInterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+                telCelularInterno.setIdPersona(referenteInterno);
+                listadoTelefonoReferenteInterno.add(telCelularInterno);
+                referenteInterno.setTelefonoList(listadoTelefonoReferenteInterno);
+                personaService.saveOrUpdate(referenteInterno);
             //personaService.save(referenteInterno);
 
-            ////////////////
-            ////bloqueos////
-            ///////////////
-            bloqueosInterno = false;//bloquea busquedas            
-            /////Edicion/////
-            habilitarBotonEditInternoDos = false;//ocultar boton de Actualizar 
-            habilitarMismoSolicitante = false;//boton mismo solicitante
-            habilitarBotonEditInterno = false;//ocultar boton de Editar
-            //////////////////
+                ////////////////
+                ////bloqueos////
+                ///////////////
+                bloqueosInterno = false;//bloquea busquedas
+                /////Edicion/////
+                habilitarBotonEditInternoDos = false;//ocultar boton de Actualizar
+                habilitarMismoSolicitante = false;//boton mismo solicitante
+                habilitarBotonEditInterno = false;//ocultar boton de Editar
+                //////////////////
 
-            /////Guardar/////
-            habilitarBotonSaveInterno = false;//ocultar boton de Nuevo
-            habilitarBotonSaveInternoDos = false;//ocultar boton de Guardar
-            /////////////////
-            habilitarBusquedaInterna = true;
-            tipoBusquedaInterna = null;
+                /////Guardar/////
+                habilitarBotonSaveInterno = false;//ocultar boton de Nuevo
+                habilitarBotonSaveInternoDos = false;//ocultar boton de Guardar
+                /////////////////
+                habilitarBusquedaInterna = true;
+                tipoBusquedaInterna = null;
+            } else {
+                String message = "¡Este correo ya ha sido ingresado!";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, message, null));
+            }
+
         } catch (Exception e) {
         }
     }
@@ -996,9 +1026,9 @@ public class PropuestaConvenioMB implements Serializable {
             telCelularInterno.setIdPersona(referenteInterno);
             telefonoService.merge(telCelularInterno);
 
-            bloqueosInterno = false;//bloquea busquedas            
+            bloqueosInterno = false;//bloquea busquedas
             /////Edicion/////
-            habilitarBotonEditInternoDos = false;//ocultar boton de Actualizar 
+            habilitarBotonEditInternoDos = false;//ocultar boton de Actualizar
             habilitarMismoSolicitante = false; //boton mismo solicitante
             habilitarBotonEditInterno = false;//ocultar boton de Editar
             //////////////////
@@ -1009,9 +1039,12 @@ public class PropuestaConvenioMB implements Serializable {
             /////////////////
             habilitarBusquedaInterna = true;
             tipoBusquedaInterna = null;
+            soloLecturaEmail = false;
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+
         }
     }
 
@@ -1019,7 +1052,7 @@ public class PropuestaConvenioMB implements Serializable {
      * Metodo que complementa el almacenamiento de referente interno, el tipo de
      * persona para referente interno
      */
-    private void guardarReferenteInternoComplemento() throws Exception{
+    private void guardarReferenteInternoComplemento() throws Exception {
         try {
             PersonaPropuesta prsRefInterno = new PersonaPropuesta();
             prsRefInterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_INTERNO));
@@ -1056,38 +1089,41 @@ public class PropuestaConvenioMB implements Serializable {
      */
     public void guardarReferenteExterno() {
         try {
-            //crear persona y luego almacenar
 
-            referenteExterno.setExtranjero(Boolean.TRUE);//no es extrajero
-            referenteExterno.setActivo(Boolean.TRUE);//esta activo
-            referenteExterno.setDuiPersona("0");
-            listadoTelefonoReferenteExterno = new ArrayList<Telefono>();
-            telFijoExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
-            telFijoExterno.setIdPersona(referenteExterno);
-            telCelularExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
-            telCelularExterno.setIdPersona(referenteExterno);
-            listadoTelefonoReferenteExterno.add(telFijoInterno);
-            listadoTelefonoReferenteExterno.add(telFijoExterno);
-            referenteExterno.setTelefonoList(listadoTelefonoReferenteInterno);
-            personaService.saveOrUpdate(referenteExterno);
+            Persona existePersonaByMail = personaService.existePersonaByMail(referenteExterno.getEmailPersona());
 
-//            prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
-//            prsRefExterno.setPersona(referenteExterno);
-//            prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-//            personaPropuestaService.save(prsRefExterno);
-            bloqueosExterno = false;//bloquea busquedas            
-            /////Edicion/////
-            habilitarBotonEditExternoDos = false;//ocultar boton de Actualizar 
-            habilitarBotonEditExterno = false;//ocultar boton de Editar
-            //////////////////
+            if (existePersonaByMail != null && existePersonaByMail.getIdPersona() != null) {
+                //crear persona y luego almacenar
 
-            /////Guardar/////
-            habilitarBotonSaveExterno = false;//ocultar boton de Nuevo
-            habilitarBotonSaveExternoDos = false;//ocultar boton de Guardar
-            /////////////////
-            habilitarBusquedaExterna = true;
-            tipoBusquedaExterna = null;
+                referenteExterno.setExtranjero(Boolean.TRUE);//no es extrajero
+                referenteExterno.setActivo(Boolean.TRUE);//esta activo
+                referenteExterno.setDuiPersona("0");
+                listadoTelefonoReferenteExterno = new ArrayList<Telefono>();
+                telFijoExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+                telFijoExterno.setIdPersona(referenteExterno);
+                telCelularExterno.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+                telCelularExterno.setIdPersona(referenteExterno);
+                listadoTelefonoReferenteExterno.add(telFijoInterno);
+                listadoTelefonoReferenteExterno.add(telFijoExterno);
+                referenteExterno.setTelefonoList(listadoTelefonoReferenteInterno);
+                personaService.saveOrUpdate(referenteExterno);
 
+                bloqueosExterno = false;//bloquea busquedas
+                /////Edicion/////
+                habilitarBotonEditExternoDos = false;//ocultar boton de Actualizar
+                habilitarBotonEditExterno = false;//ocultar boton de Editar
+                //////////////////
+
+                /////Guardar/////
+                habilitarBotonSaveExterno = false;//ocultar boton de Nuevo
+                habilitarBotonSaveExternoDos = false;//ocultar boton de Guardar
+                /////////////////
+                habilitarBusquedaExterna = true;
+                tipoBusquedaExterna = null;
+            } else {
+                String message = "¡Este correo ya ha sido ingresado!";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, message, null));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1112,15 +1148,9 @@ public class PropuestaConvenioMB implements Serializable {
             telCelularExterno.setIdPersona(referenteExterno);
             telefonoService.merge(telCelularExterno);
 
-//            PersonaPropuesta prsRefExterno = personaPropuestaService.getPersonaPropuestaByPropuestaTipoPersona(propuestaConvenio.getIdPropuesta(), REFERENTE_EXTERNO);             
-//            prsRefExterno.setTipoPersona(tipoPersonaService.getTipoPersonaByNombre(REFERENTE_EXTERNO));
-//            prsRefExterno.setPersona(referenteExterno);
-//            prsRefExterno.setPersonaPropuestaPK(new PersonaPropuestaPK(referenteExterno.getIdPersona(), prsRefExterno.getTipoPersona().getIdTipoPersona(), propuestaConvenio.getIdPropuesta()));
-//            personaPropuestaService.updatePersonaPropuesta(referenteExterno.getIdPersona(), prsRefExterno.getPropuestaConvenio().getIdPropuesta(), prsRefExterno.getTipoPersona().getIdTipoPersona());
-//            //personaPropuestaService.save(prsRefExterno);
-            bloqueosExterno = false;//bloquea busquedas            
+            bloqueosExterno = false;//bloquea busquedas
             /////Edicion/////
-            habilitarBotonEditExternoDos = false;//ocultar boton de Actualizar 
+            habilitarBotonEditExternoDos = false;//ocultar boton de Actualizar
             habilitarBotonEditExterno = false;//ocultar boton de Editar
             //////////////////
 
@@ -1131,6 +1161,8 @@ public class PropuestaConvenioMB implements Serializable {
             habilitarBusquedaExterna = true;
             tipoBusquedaExterna = null;
 
+            soloLecturaEmail = false;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1140,7 +1172,7 @@ public class PropuestaConvenioMB implements Serializable {
      * Metodo que complementa el almacenamiento de referente Externo, el tipo de
      * persona para referente Externo
      */
-    private void guardarReferenteExternoComplemento() throws Exception{
+    private void guardarReferenteExternoComplemento() throws Exception {
         try {
 
             PersonaPropuesta prsRefExterno = new PersonaPropuesta();
@@ -1330,26 +1362,23 @@ public class PropuestaConvenioMB implements Serializable {
                     telCelularSolicitante = tel;
                 }
             }
-        mascaraTelSolicitante = telefonoService.getMask("SV");        
-        
+            mascaraTelSolicitante = telefonoService.getMask("SV");
+
         } catch (Exception e) {
         }
     }
 
-    
     /**
      * metodo para cargar el area para telefonos de extranjeros
      */
-    public void recargarArea(){
+    public void recargarArea() {
         try {
-              String codigoPais = paisService.findById(referenteExterno.getIdOrganismo().getIdPais()).getCodigoPais();
-              mascaraTelExterno = telefonoService.getMask(codigoPais);
+            String codigoPais = paisService.findById(referenteExterno.getIdOrganismo().getIdPais()).getCodigoPais();
+            mascaraTelExterno = telefonoService.getMask(codigoPais);
         } catch (Exception e) {
         }
     }
-    
-    
-    
+
     /**
      * Metodo Utilizado para cargar Telefonos de personal Externo al momento de
      * ediitar una propuesta
@@ -1365,7 +1394,7 @@ public class PropuestaConvenioMB implements Serializable {
                 if (tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)) {
                     telCelularExterno = tel;
                 }
-            }           
+            }
         } catch (Exception e) {
         }
     }
@@ -1456,13 +1485,13 @@ public class PropuestaConvenioMB implements Serializable {
      */
     public void actualizarEscuelaDeptInterno() {
         try {
- 
+
             if (facultadesUnidadesInterno.getUnidadFacultad() == 'U') {
                 flagEscuelaDeptInterno = true;
-            }else if (facultadesUnidades.getUnidadFacultad() == 'F'){
+            } else if (facultadesUnidades.getUnidadFacultad() == 'F') {
                 listadoEscuelaDepartamentoInter = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(facultadesUnidadesInterno.getPrimary());
-                 flagEscuelaDeptInterno = false;
-            }else {
+                flagEscuelaDeptInterno = false;
+            } else {
                 flagEscuelaDeptInterno = false;
             }
 
@@ -1567,10 +1596,11 @@ public class PropuestaConvenioMB implements Serializable {
     public void preEditeSolicitante() {
         try {
             habilitarBusquedaSolicitante = false; //habilita campos
-            habilitarBotonEditSolicitanteDos = true;//habilita boton editar            
+            habilitarBotonEditSolicitanteDos = true;//habilita boton editar
             bloqueosSolicitante = true;//bloquea busquedas
             habilitarBotonSaveSolicitanteDos = false; //no habilita boton guardar 2
             habilitarBotonSaveSolicitante = false; //no habilita boton guardar
+            soloLecturaEmail = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1588,6 +1618,7 @@ public class PropuestaConvenioMB implements Serializable {
             bloqueosInterno = true;//bloquea busquedas
             habilitarBotonSaveInternoDos = false; //no habilita boton guardar 2
             habilitarBotonSaveInterno = false; //no habilita boton guardar
+            soloLecturaEmail = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1604,6 +1635,7 @@ public class PropuestaConvenioMB implements Serializable {
             bloqueosExterno = true;//bloquea busquedas
             habilitarBotonSaveExternoDos = false; //no habilita boton guardar 2
             habilitarBotonSaveExterno = false; //no habilita boton guardar
+            soloLecturaEmail = true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1620,7 +1652,7 @@ public class PropuestaConvenioMB implements Serializable {
             habilitarBusquedaSolicitante = false; //habilita campos
             habilitarBotonSaveSolicitanteDos = true;//habilita boton guardar
 
-            habilitarBotonEditSolicitanteDos = false; //no habilitar boton editar  
+            habilitarBotonEditSolicitanteDos = false; //no habilitar boton editar
             bloqueosSolicitante = true;//bloquea busquedas
 
             solicitante = new Persona();
@@ -1644,7 +1676,7 @@ public class PropuestaConvenioMB implements Serializable {
             habilitarBusquedaInterna = false; //habilita campos
             habilitarBotonSaveInternoDos = true;//habilita boton guardar
 
-            habilitarBotonEditInternoDos = false; //no habilitar boton editar  
+            habilitarBotonEditInternoDos = false; //no habilitar boton editar
             habilitarMismoSolicitante = true;//boton mismo solicitante
             bloqueosInterno = true;//bloquea busquedas
 
@@ -1669,7 +1701,7 @@ public class PropuestaConvenioMB implements Serializable {
             habilitarBusquedaExterna = false; //habilita campos
             habilitarBotonSaveExternoDos = true;//habilita boton guardar
 
-            habilitarBotonEditExternoDos = false; //no habilitar boton editar                        
+            habilitarBotonEditExternoDos = false; //no habilitar boton editar
             bloqueosExterno = true;//bloquea busquedas
             referenteExterno = new Persona();
             telFijoExterno = new Telefono();
@@ -1688,7 +1720,7 @@ public class PropuestaConvenioMB implements Serializable {
             bloqueosSolicitante = false;//bloquea busquedas
 
             /////Edicion/////
-            habilitarBotonEditSolicitanteDos = false;//ocultar boton de Actualizar 
+            habilitarBotonEditSolicitanteDos = false;//ocultar boton de Actualizar
             habilitarBotonEditSolicitante = false;//ocultar boton de Editar
             //////////////////
 
@@ -1699,6 +1731,7 @@ public class PropuestaConvenioMB implements Serializable {
 
             habilitarBusquedaSolicitante = true;
             tipoBusquedaSolicitante = null;
+            soloLecturaEmail = false;
 
             solicitante = new Persona();
             telFijoSolicitante = new Telefono();
@@ -1719,7 +1752,7 @@ public class PropuestaConvenioMB implements Serializable {
             bloqueosInterno = false;//bloquea busquedas
 
             /////Edicion/////
-            habilitarBotonEditInternoDos = false;//ocultar boton de Actualizar 
+            habilitarBotonEditInternoDos = false;//ocultar boton de Actualizar
             habilitarMismoSolicitante = false;//mismo solicitante
             habilitarBotonEditInterno = false;//ocultar boton de Editar
             //////////////////
@@ -1731,6 +1764,7 @@ public class PropuestaConvenioMB implements Serializable {
 
             habilitarBusquedaInterna = true;
             tipoBusquedaInterna = null;
+            soloLecturaEmail = false;
 
             referenteInterno = new Persona();
             telFijoInterno = new Telefono();
@@ -1751,7 +1785,7 @@ public class PropuestaConvenioMB implements Serializable {
             bloqueosExterno = false;//bloquea busquedas
 
             /////Edicion/////
-            habilitarBotonEditExternoDos = false;//ocultar boton de Actualizar 
+            habilitarBotonEditExternoDos = false;//ocultar boton de Actualizar
             habilitarBotonEditExterno = false;//ocultar boton de Editar
             //////////////////
 
@@ -1761,6 +1795,8 @@ public class PropuestaConvenioMB implements Serializable {
             /////////////////
             habilitarBusquedaExterna = true;
             tipoBusquedaExterna = null;
+
+            soloLecturaEmail = false;
 
             referenteExterno = new Persona();
             telFijoExterno = new Telefono();
@@ -2457,6 +2493,14 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setMascaraTelExterno(String mascaraTelExterno) {
         this.mascaraTelExterno = mascaraTelExterno;
+    }
+
+    public boolean isSoloLecturaEmail() {
+        return soloLecturaEmail;
+    }
+
+    public void setSoloLecturaEmail(boolean soloLecturaEmail) {
+        this.soloLecturaEmail = soloLecturaEmail;
     }
 
 }
