@@ -12,7 +12,7 @@
 
     <ui:define name="content">
         <center>
-             <h1 style="background: #cc0000;color: white;border-radius: 10px">Mapa Interactivo de Proyectos</h1>
+            <h1 style="background: #cc0000;color: white;border-radius: 10px">Mapa Interactivo de Proyectos</h1>
         </center>    
         <h:form>
             <p:growl id="msgs" showDetail="true" />
@@ -82,15 +82,15 @@
             <p:panel header="Gr&aacute;ficos de Pastel" toggleable="true">
                 <p:panelGrid columns="2" rendered="#{!mapaInteractivo.noHayRegistros}">
                     <p:column>
-                        <p:panelGrid columns="2">
+                        <p:panelGrid columns="1">
                             <p:chart type="pie" model="#{mapaInteractivo.pieModel}" style="width:350px;height:300px" widgetVar="pie" />
-                            <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')" style="padding-left: 5px"/>
+                            <!--                            <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')" style="padding-left: 5px"/>-->
                         </p:panelGrid>
                     </p:column>
                     <p:column>
-                        <p:panelGrid columns="2">
+                        <p:panelGrid columns="1">
                             <p:chart type="pie" model="#{mapaInteractivo.pieModelType}" style="width:350px;height:300px" widgetVar="pieType"/>
-                            <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pieType')"/>
+                            <!--                            <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pieType')"/>-->
                         </p:panelGrid>
                     </p:column>
                 </p:panelGrid>
