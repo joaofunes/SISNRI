@@ -14,6 +14,8 @@
         <ui:composition template="/WEB-INF/templates/layout.xhtml">
 
             <ui:define name="content">
+                <ui:include src="../CategoriaMovilidad/create.xhtml"/>
+                
                 <script type="text/javascript">
                     $.mask.definitions['9'] = '';
                     $.mask.definitions['#'] = '[0-9]';
@@ -70,8 +72,8 @@
                                         <p:column>
                                             <p:selectOneMenu id="categoriaMovilidad" value="#{registrarMovilidadMB.movilidad.idCategoria}" converter="#{categoriaMovilidadConverter}" style="width: 180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listCategoriaMovilidad}" var="categMovilidad" itemLabel="#{categMovilidad.nombreCategoria}" itemValue="#{categMovilidad}"/>
-                                                <!--<p:ajax listener="#{registrarMovilidadMB.onchangeCategoriaMovilidadList()}"/>-->
+                                                <f:selectItems value="#{categoriaMovilidadMB.listarCategoriasMovilidad()}" var="categMovilidad" itemLabel="#{categMovilidad.nombreCategoria}" itemValue="#{categMovilidad}"/>
+                                                <p:ajax event="change" listener="#{registrarMovilidadMB.addNewCategoriaMovilidadIfIsNecesary()}" process="@this" update="formRegistrarMovilidad:acordion:categoriaMovilidad"/>
                                             </p:selectOneMenu>
                                         </p:column>
 
@@ -709,7 +711,9 @@
                                  global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                     <p:commandButton value="No" type="submit" action="#{registrarMovilidadMB.noModificarReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                 
-                </p:confirmDialog>          
+                </p:confirmDialog>
+                
+                
             </ui:define>
 
         </ui:composition>

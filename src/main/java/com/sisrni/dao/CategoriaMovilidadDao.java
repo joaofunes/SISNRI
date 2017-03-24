@@ -3,6 +3,8 @@ package com.sisrni.dao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.CategoriaMovilidad;
 import java.io.Serializable;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,5 +13,15 @@ import org.springframework.stereotype.Repository;
  */
 @Repository(value = "categoriamovilidadDao")
 public class CategoriaMovilidadDao extends GenericDao<CategoriaMovilidad, Integer>{
+    
+    public List<CategoriaMovilidad> getAllCategoriasByNameAsc(){
+        try{
+          Query q = getSessionFactory().getCurrentSession().createQuery("SELECT cat FROM  CategoriaMovilidad cat ORDER BY cat.nombreCategoria ASC");
+        return q.list();  
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     
 }

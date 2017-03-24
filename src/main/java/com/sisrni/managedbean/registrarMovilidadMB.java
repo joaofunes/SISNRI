@@ -51,6 +51,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.swing.JOptionPane;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,8 @@ import org.springframework.web.context.WebApplicationContext;
 @Named(value = "registrarMovilidadMB")
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
 public class registrarMovilidadMB {
+    @Inject
+    CategoriaMovilidadMB categoriaMovilidadMB;
 
     //Variables
     private Boolean existeReferente;
@@ -2288,6 +2291,16 @@ public class registrarMovilidadMB {
         } catch (Exception e) {
         }
     }
+    
+    
+    public void addNewCategoriaMovilidadIfIsNecesary(){
+        if(movilidad.getIdCategoria().getNombreCategoria().equalsIgnoreCase("Agregar Nuevo")){
+            categoriaMovilidadMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('categoriaMovilidadDialog').show()");
+        }
+    }
+    
 
     //GETTER Y SETTER
     public List<ProgramaMovilidad> getListProgramaMovilidad() {
