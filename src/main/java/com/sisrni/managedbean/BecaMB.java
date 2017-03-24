@@ -551,6 +551,10 @@ public class BecaMB implements Serializable {
         }
     }
 
+    public void preEliminar(){
+    
+    }
+    
     //pre guardar
     public void preGuardar() {
         try {
