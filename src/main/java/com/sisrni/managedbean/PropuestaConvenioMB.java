@@ -50,6 +50,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,9 @@ public class PropuestaConvenioMB implements Serializable {
     private static final String ESTADO = "REVISION";
     //private  List<String> ROL = "ROL_ADM_CONV"; //ROL_ADMI
     private final List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
+
+    @Inject
+    private TipoPropuestaConvenioMB tipoPropuestaConvenioMB;
 
     @Autowired
     @Qualifier(value = "personaService")
@@ -1402,14 +1406,22 @@ public class PropuestaConvenioMB implements Serializable {
     public void onTipoConvenioChange() {
         try {
 
-            if (propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_MARCO)) {
-                flagConvenioMarco = true;
+            if (propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase("Nuevo")) {
+                tipoPropuestaConvenioMB.init();
+                RequestContext ajax = RequestContext.getCurrentInstance();
+                ajax.execute("PF('tipopropuestaDialog').show()");
+                propuestaConvenio = new PropuestaConvenio();
             } else {
-                listadoPropuestaConvenio = propuestaConvenioService.getConvenios();
-                flagConvenioMarco = false;
-            }
 
-            RequestContext.getCurrentInstance().update("formAdmin:idNamePropuesta");
+                if (propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_MARCO)) {
+                    flagConvenioMarco = true;
+                } else {
+                    listadoPropuestaConvenio = propuestaConvenioService.getConvenios();
+                    flagConvenioMarco = false;
+                }
+
+                RequestContext.getCurrentInstance().update("formAdmin:idNamePropuesta");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1968,7 +1980,20 @@ public class PropuestaConvenioMB implements Serializable {
     }
 
     public List<TipoPropuestaConvenio> getListadoTipoPrpouestaConvenio() {
-        return listadoTipoPrpouestaConvenio;
+
+        // listTipoProyecto = tipoProyectoService.getAllByNameAsc();
+        TipoPropuestaConvenio tipoPropuesta = new TipoPropuestaConvenio();
+        List<TipoPropuestaConvenio> copy = new ArrayList<TipoPropuestaConvenio>();
+        for (TipoPropuestaConvenio tipoPropuestaConv : listadoTipoPrpouestaConvenio) {
+            if (!tipoPropuestaConv.getNombrePropuestaConvenio().equalsIgnoreCase("Nuevo")) {
+                copy.add(tipoPropuestaConv);
+            } else {
+                tipoPropuesta = tipoPropuestaConv;
+            }
+        }
+        copy.add(tipoPropuesta);
+        listadoTipoPrpouestaConvenio.clear();
+        return listadoTipoPrpouestaConvenio = copy;
     }
 
     public void setListadoTipoPrpouestaConvenio(List<TipoPropuestaConvenio> listadoTipoPrpouestaConvenio) {
