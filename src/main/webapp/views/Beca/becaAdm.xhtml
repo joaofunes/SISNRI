@@ -10,9 +10,9 @@
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
 
         <ui:define name="content">
-             <center>
-                 <h1 style="background: #cc0000;color: white;border-radius: 10px">Administraci&oacute;n de Becas Internacionales Cortas</h1>
-                </center>   
+            <center>
+                <h1 style="background: #cc0000;color: white;border-radius: 10px">Administraci&oacute;n de Becas Internacionales Cortas</h1>
+            </center>   
             <h:form id="formAdmin">
                 <p:panelGrid >
                     <p:row>
@@ -71,12 +71,16 @@
                                            value="Editar" actionListener="#{becaConsultarMB.preUpdate(beca.idBeca)}"/>
                         </div>
                         <div style="float: left">
-                            <p:commandLink styleClass="ui-icon ui-icon-close" title="Editar" 
-                                           value="Editar" actionListener="#{becaMB.preUpdate(beca.idBeca)}"/>
+                            <p:commandLink styleClass="ui-icon ui-icon-close" title="Eliminar" 
+                                           value="Editar" actionListener="#{becaMB.preEliminar(beca.idBeca)}"/>
                         </div>
                     </p:column>
                 </p:dataTable>
             </h:form>
+            <p:confirmDialog widgetVar="eliminarBecaDlg" message="Seguro que desea eliminar el registro?" header="Eliminar registro de Beca"  global="true">
+                <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.Eliminar()}" process="@this" update=":formTable"/>
+                <p:commandButton value="No"  styleClass="ui-confirmdialog-no" icon="ui-icon-check"  action="#{becaMB.cancelarEliminar()}" process="@this" update=":formTable"/>
+            </p:confirmDialog>
         </ui:define>
     </ui:composition>
 </html>
