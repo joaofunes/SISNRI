@@ -81,14 +81,14 @@
             <p:panel header="Graficos de Pastel" toggleable="true">
                 <p:panelGrid columns="2" rendered="#{!mapaInteractivoBecas.noHayRegistros}">
                     <p:column>
-                        <p:panelGrid columns="1">
-                            <p:chart type="pie" model="#{mapaInteractivoBecas.pieModel}" style="width:350px;height:300px" widgetVar="pie" />
+                        <p:panelGrid columns="1" >
+                            <p:chart type="pie" model="#{mapaInteractivoBecas.pieModel}" style="width:450px;height:400px" widgetVar="pie" />
                             <!--   //                         <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')" style="padding-left: 5px"/>-->
                         </p:panelGrid>
-                    </p:column>
+                    </p:column >
                     <p:column>
                         <p:panelGrid columns="1">
-                            <p:chart type="pie" model="#{mapaInteractivoBecas.pieModelType}" style="width:350px;height:300px" widgetVar="pieType"/>
+                            <p:chart type="pie" model="#{mapaInteractivoBecas.pieModelType}" style="width:450px;height:400px" widgetVar="pieType"/>
                             <!--                            <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pieType')"/>-->
                         </p:panelGrid>
                     </p:column>
