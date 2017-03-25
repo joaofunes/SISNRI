@@ -63,4 +63,7 @@ public class BecaService extends GenericService<Beca, Integer> {
     public void desvincularInterno(Integer becaId, Integer personaId) {
         becaDao.desvincularInterno(becaId, personaId);
     }
+     public void eliminarIntermedias(Beca beca) {
+     becaDao.eliminarIntermedias(beca);
+     }
 }

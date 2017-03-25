@@ -273,4 +273,10 @@ public class BecaDao extends GenericDao<Beca, Integer> {
         } catch (Exception e) {
         }
     }
+
+    public void eliminarIntermedias(Beca beca) {
+        String query = "Delete from PERSONA_BECA WHERE ID_BECA=" + beca.getIdBeca();
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+        q.executeUpdate();
+    }
 }

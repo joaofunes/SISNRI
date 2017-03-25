@@ -1398,6 +1398,36 @@ public class BecaMB implements Serializable {
         }
     }
 
+    public void preEliminar(Integer becaId) {
+        try {
+            beca = becaService.findById(becaId);
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarBecaDialogo').show()");
+        } catch (Exception e) {
+        }
+    }
+
+    public void eliminarBeca() {
+        try {
+            becaService.eliminarIntermedias(beca);
+            becaService.delete(beca);
+            inicializador();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarBecaDialogo').hide()");
+
+        } catch (Exception e) {
+        }
+    }
+
+    public void cancelareEiminarBeca() {
+        try {
+            inicializador();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarBecaDialogo').hide()");
+        } catch (Exception e) {
+        }
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Sets and Getters">
     public Persona getBecario() {
         return becario;
