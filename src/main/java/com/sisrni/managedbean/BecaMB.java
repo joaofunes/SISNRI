@@ -550,10 +550,6 @@ public class BecaMB implements Serializable {
         }
     }
 
-    public void preEliminar() {
-
-    }
-
     //pre guardar
     public void preGuardar() {
         try {
@@ -670,36 +666,6 @@ public class BecaMB implements Serializable {
             preGuardarExterno();
         } else {
             guardarBeca();
-        }
-    }
-
-    public void preEliminar(Integer idBeca) {
-        try {
-            beca = becaService.findById(idBeca);
-            RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('eliminarBecaDlg').show();");
-        } catch (Exception e) {
-        }
-    }
-
-    public void Eliminar() {
-        try {
-            becaService.eliminarBecaPersona(beca);
-            becaService.delete(beca);
-            inicializador();
-            RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('eliminarBecaDlg').hide();");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Se elimino el registro exitosamente."));
-        } catch (Exception e) {
-        }
-    }
-
-    public void cancelarEliminar() {
-        try {
-            inicializador();
-            RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('eliminarBecaDlg').hide();");
-        } catch (Exception e) {
         }
     }
 
