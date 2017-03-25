@@ -61,7 +61,7 @@ public class PersistenceHibernateConfig {
 //         // DB Local -2
         ds.setUrl("jdbc:mysql://localhost:3306/sisrni");
         ds.setUsername("root");
-        ds.setPassword("root");
+        ds.setPassword("");
 
 //        //amazon ec2
 //        ds.setUrl("jdbc:mysql://52.67.109.233:3306/sisrni");
