@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition>
+
+        <p:dialog id="organismoDlg" widgetVar="organismoDialog" modal="true" resizable="false" appendTo="@(body)"  header="Nuevo Organismo" >
+
+
+            <h:form id="formOrganismo">
+                <p:panelGrid columns="2">
+                    <p:column>
+                        <p:outputLabel for="nombreOrganismo" value="Nombre:"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombreOrganismo" value="#{organismoCooperanteMB.organismoCooperante.nombreOrganismo}" required="true" size="40" />
+                        <p:watermark for="nombreOrganismo" value="Nombre del Organismo" id="watermarkNombreOrganismo"/>
+                    </p:column>
+
+                    <h:outputLabel for="tipo" value="Tipo de Organismo: "/>
+                    <p:selectOneMenu id="tipo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}" style="width: 100%" >
+                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                        <c:forEach var="tipoOrg" items="#{organismoCooperanteMB.tipoOrganismoList}">
+                            <f:selectItem itemLabel="#{tipoOrg.nombreTipo}" itemValue="#{tipoOrg.idTipoOrganismo}"/>
+                        </c:forEach>
+                    </p:selectOneMenu>
+                    <p:column>
+                        <p:outputLabel for="region" value="Regi&oacute;n:"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="region" value="#{organismoCooperanteMB.regionSelected.idRegion}" style="width: 100%" required="true">
+                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                            <p:ajax listener="#{organismoCooperanteMB.onchangeRegion()}" update="pais" />
+                            <c:forEach var="region" items="#{organismoCooperanteMB.regionList}">
+                                <f:selectItem itemLabel="#{region.nombreRegion}" itemValue="#{region.idRegion}"/>
+                            </c:forEach>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="pais" value="Pa&iacute;s"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="pais" value="#{organismoCooperanteMB.paisSelected.idPais}" required="true" style="width: 100%">
+                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                            <c:forEach var="pais" items="#{organismoCooperanteMB.paisList}">
+                                <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                            </c:forEach>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="correo" value="Correo:"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="correo" value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}" required="true" size="40"/>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="direccion" value="Direcci&oacute;n:"/>
+                    </p:column>
+                    <p:column>  
+                        <p:inputText id="direccion" value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}" required="true" size="40"/>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="tel" value="Tel&eacute;fono:"/>
+                    </p:column>
+                    <p:column>  
+                        <p:inputText id="tel" value="#{organismoCooperanteMB.telefonoFijo.numeroTelefono}" required="true" size="40"/>
+                    </p:column>
+                    <p:column>
+
+                        <p:outputLabel for="codigo" value="C&oacute;digo Postal:"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="codigo" value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}" required="true" size="40"/> 
+                    </p:column>
+                    <p:column> 
+                        <p:commandButton styleClass="boton" rendered="#{!organismoCooperanteMB.actualizar}"
+                                         actionListener="#{organismoCooperanteMB.guardarOrganismo()}" action="#{registrarMovilidadMB.updateListInstitucionOrigen()}" value="Guardar"  process="@this :formOrganismo" onclick="PF('organismoDialog').hide();"/>
+
+                        <p:commandButton styleClass="boton" rendered="#{organismoCooperanteMB.actualizar}"
+                                         actionListener="#{organismoCooperanteMB.cancelarOrganismo()}" immediate="true" value="Cancelar" update="formOrganismo"  process="@this" />
+
+                    </p:column>
+                </p:panelGrid>
+
+            </h:form>
+        </p:dialog>    
+    </ui:composition>
+
+</html>

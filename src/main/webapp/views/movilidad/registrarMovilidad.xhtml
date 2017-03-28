@@ -15,6 +15,11 @@
 
             <ui:define name="content">
                 <ui:include src="../CategoriaMovilidad/create.xhtml"/>
+                <ui:include src="../Pais/createPaisOrigen.xhtml"/>
+                <ui:include src="../OrganismoCooperante/createInstitucionMovilidad.xhtml"/>
+                <ui:include src="../OrganismoCooperante/createInstitucionMovilidadDestino.xhtml"/>
+                <ui:include src="../TipoCambio/Create.xhtml"/>
+                <ui:include src="../EtapaMovilidad/create.xhtml"/>
                 
                 <script type="text/javascript">
                     $.mask.definitions['9'] = '';
@@ -24,9 +29,9 @@
                 <h1 class="title ui-widget-header ui-corner-all" align="center"><h:outputText value="#{registrarMovilidadMB.tituloRegistroEdicion}" escape="false"/></h1>
                 <center>
                     <p:panel style="width: 80%">
-                        <h:form id="formRegistrarMovilidad">
+                        <h:form id="formAdmin">
 
-                            <p:growl id="growlMov" showDetail="true" sticky="false"/>
+                            <!--<p:growl id="growlMovilidad" showDetail="true" sticky="false"/>-->
                             <p:tab>
                                 <p:column>
                                     <p:row>
@@ -36,7 +41,7 @@
                                         <p:selectOneMenu id="tipoMovilidad" value="#{registrarMovilidadMB.movilidad.idTipoMovilidad}" style="width: 180px" converter="#{tipoMovilidadConverter}"  required="true" disabled="#{registrarMovilidadMB.isHabilidado}">
                                             <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                             <f:selectItems value="#{registrarMovilidadMB.listTipoMovilidad}" var="tipoMov" itemLabel="#{tipoMov.nombreTipoMovilidad}" itemValue="#{tipoMov}"/>
-                                            <p:ajax listener="#{registrarMovilidadMB.onchangeTipoMovilidadList()}" update="formRegistrarMovilidad"/>
+                                            <p:ajax listener="#{registrarMovilidadMB.onchangeTipoMovilidadList()}" update="formAdmin"/>
                                         </p:selectOneMenu>
                                     </p:row>
                                 </p:column>
@@ -73,7 +78,7 @@
                                             <p:selectOneMenu id="categoriaMovilidad" value="#{registrarMovilidadMB.movilidad.idCategoria}" converter="#{categoriaMovilidadConverter}" style="width: 180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{categoriaMovilidadMB.listarCategoriasMovilidad()}" var="categMovilidad" itemLabel="#{categMovilidad.nombreCategoria}" itemValue="#{categMovilidad}"/>
-                                                <p:ajax event="change" listener="#{registrarMovilidadMB.addNewCategoriaMovilidadIfIsNecesary()}" process="@this" update="formRegistrarMovilidad:acordion:categoriaMovilidad"/>
+                                                <p:ajax event="change" listener="#{registrarMovilidadMB.addNewCategoriaMovilidadIfIsNecesary()}" process="@this" update="formAdmin:acordion:categoriaMovilidad"/>
                                             </p:selectOneMenu>
                                         </p:column>
 
@@ -303,8 +308,10 @@
                                         <p:column>
                                             <p:selectOneMenu id="paisOrigen" value="#{registrarMovilidadMB.movilidad.idPaisOrigen}" style="width: 180px"  required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listPaisOrigenMovilidad}" var="paisOrig" itemLabel="#{paisOrig.nombrePais}" itemValue="#{paisOrig.idPais}"/>
-                                                <p:ajax listener="#{registrarMovilidadMB.onchangeListPaisOrigen()}"  update="institucionOrigen"/>
+                                                <f:selectItems value="#{paisMB.listaPaises()}" var="paisOrig" itemLabel="#{paisOrig.nombrePais}" itemValue="#{paisOrig.idPais}"/>
+                                               <!--<p:ajax listener="#{registrarMovilidadMB.onchangeListPaisOrigen()}"  update="institucionOrigen"/>-->
+                                                <!--<p:ajax event="change" listener="#{registrarMovilidadMB.addNewPaisIfIsNecesary()}" process="@this" update="formRegistrarMovilidad:acordion:paisOrigen"/>-->
+                                                <p:ajax event="change" listener="#{registrarMovilidadMB.changePaisOrigen()}" process="@this"  update="institucionOrigen"/>
                                             </p:selectOneMenu>
                                         </p:column>
 
@@ -315,6 +322,7 @@
                                             <p:selectOneMenu id="institucionOrigen" value="#{registrarMovilidadMB.movilidad.idUniversidadOrigen}" style="width: 180px"  required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listOrganismosOrigen}" var="institucionOrig" itemLabel="#{institucionOrig.nombreOrganismo}" itemValue="#{institucionOrig.idOrganismo}"/>
+                                                <p:ajax event="change" listener="#{registrarMovilidadMB.addNewInstitucionOrigenIfIsNecesary()}" process="@this" update="formAdmin:acordion:institucionOrigen"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
@@ -323,8 +331,9 @@
                                         <p:column>
                                             <p:selectOneMenu id="paisDestino" value="#{registrarMovilidadMB.movilidad.idPaisDestino}" style="width: 180px" required="true" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listPaisDestinoMovilidad}" var="paisDest" itemLabel="#{paisDest.nombrePais}" itemValue="#{paisDest.idPais}"/>
-                                                <p:ajax listener="#{registrarMovilidadMB.onchangeListPaisDestino()}"  update="institucionDestino"/>
+                                                <f:selectItems value="#{paisMB.listaPaises()}" var="paisDest" itemLabel="#{paisDest.nombrePais}" itemValue="#{paisDest.idPais}"/>
+                                                <!--<p:ajax listener="#{registrarMovilidadMB.onchangeListPaisDestino()}"  update="institucionDestino"/>-->
+                                                <p:ajax event="change" listener="#{registrarMovilidadMB.changePaisDestino()}" process="@this" update="institucionDestino"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
@@ -334,6 +343,7 @@
                                             <p:selectOneMenu id="institucionDestino" value="#{registrarMovilidadMB.movilidad.idUniversidadDestino}" style="width: 180px" required="true" >
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listOrganismosDestino}" var="institucionDest" itemLabel="#{institucionDest.nombreOrganismo}" itemValue="#{institucionDest.idOrganismo}"/>
+                                                <p:ajax event="change" listener="#{registrarMovilidadMB.addNewInstitucionDestinoIfIsNecesary()}" process="@this" update="formAdmin:acordion:institucionDestino"/>
                                             </p:selectOneMenu>
                                         </p:column>
 
@@ -355,12 +365,13 @@
                                             </p:calendar>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="tipoMoneda" value="Tipo de moneda"/>
+                                            <p:outputLabel for="tipomoneda" value="Tipo de moneda"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="tipoMoneda" value="#{registrarMovilidadMB.tipoCambioSelected.idTipoCambio}" style="width: 180px" required="true">
+                                            <p:selectOneMenu id="tipomoneda" value="#{registrarMovilidadMB.tipoCambioSelected.idTipoCambio}" style="width: 180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listTipoCambio}" var="tipoCambio" itemLabel="#{tipoCambio.nombreDivisa}" itemValue="#{tipoCambio.idTipoCambio}"/>
+                                                <f:selectItems value="#{tipoCambioMB.listaTipoCambio()}" var="tipoCambio" itemLabel="#{tipoCambio.nombreDivisa}" itemValue="#{tipoCambio.idTipoCambio}"/>
+                                                <p:ajax event="change" listener="#{registrarMovilidadMB.addNewtipoCambioIfIsNecesary()}" process="@this" update="formAdmin:acordion:tipomoneda"/>
                                             </p:selectOneMenu>
                                         </p:column>
 
@@ -403,7 +414,8 @@
                                         <p:column>
                                             <p:selectOneMenu id="etapa" value="#{registrarMovilidadMB.movilidad.idEtapaMovilidad}" style="width: 180px" required="true" converter="#{etapaMovilidadConverter}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listEtapaMovilidad}" var="etapaMov" itemLabel="#{etapaMov.nombreEtapa}" itemValue="#{etapaMov}"/>
+                                                <f:selectItems value="#{etapaMovilidadMB.listarEtapasMovilidad()}" var="etapaMov" itemLabel="#{etapaMov.nombreEtapa}" itemValue="#{etapaMov}"/>
+                                                <p:ajax event="change" listener="#{registrarMovilidadMB.addNewEtapaMovilidadIfIsNecesary()}" process="@this" update="formAdmin:acordion:etapa"/>
                                             </p:selectOneMenu>                                       
                                         </p:column> 
 
@@ -637,7 +649,7 @@
                                         <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.regresar()}"  process="@this"   value="#{registrarMovilidadMB.txtBotonRegresar}"  id="btnRegresar" title="Regresar" />
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.preGuardadoMovilidad()}" process="formRegistrarMovilidad" update="formRegistrarMovilidad"  value="#{registrarMovilidadMB.txtBotonGuardar}"  id="btnModificar"  title="Guardar Movilidad" />                                 
+                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.preGuardadoMovilidad()}" process="formAdmin" update="formAdmin"  value="#{registrarMovilidadMB.txtBotonGuardar}"  id="btnModificar"  title="Guardar Movilidad" />                                 
                                     </p:column>
                                     <p:column>
                                         <h:panelGroup/>
