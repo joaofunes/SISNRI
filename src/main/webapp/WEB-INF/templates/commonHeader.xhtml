@@ -9,6 +9,7 @@
 
     <body>
         <ui:composition>
+            <ui:include src="../templates/cambiarPass.xhtml"/>
             <!--            <script type="text/javascript">
                                 $(document).ready(function(){
                         $(".dropdown").hover(            
@@ -61,8 +62,13 @@
                                                     </div>
                                                 </div>-->
                         <div class="col-xs-12 b1"> 
-                            <button type="input" class="right btn  btn-danger" onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/j_spring_security_logout'">Cerrar Sesion</button>
+                            <button type="input" class="right btn  btn-danger" onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/j_spring_security_logout'">Cerrar Sesi&oacute;n</button>
                             <!--<button type="input" class="right btn btn-success" style="margin-right:2%;" onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/j_spring_security_logout'">Ingresar</button>-->
+                        </div>
+                           <div class="col-xs-12 b1">
+                            <div class="right">
+                                <a onclick="PF('RecuperarPassDialog').show();" class="passforgot forgot-pass">Cambiar Contrase&ntilde;a</a>                            
+                            </div>
                         </div>
                     </div>
                 </article>

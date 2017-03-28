@@ -68,7 +68,6 @@ public class BecaMB implements Serializable {
     /**
      * Creates a new instance of BecaMB
      */
-    
     private static final String FIJO = "FIJO";
     private static final String FAX = "FAX";
     private static final String CELULAR = "CELULAR";
@@ -210,7 +209,7 @@ public class BecaMB implements Serializable {
     PaisMB paisMB;
     @Inject
     TipoCambioMB tipoCambioMB;
-    
+
     @Autowired
     FacultadService facultadService;
 
@@ -551,10 +550,6 @@ public class BecaMB implements Serializable {
         }
     }
 
-    public void preEliminar(){
-    
-    }
-    
     //pre guardar
     public void preGuardar() {
         try {
@@ -1348,6 +1343,7 @@ public class BecaMB implements Serializable {
         entidadInstitucionSelected = new Organismo();
 
     }
+
     //Metodos para agregar elementos nuevos en cada combobox
     public void addNewTipoBeca() {
         TipoBeca tipobeca = tipoBecaService.findById(tipoBecaSelected.getIdTipoBeca());
@@ -1358,6 +1354,7 @@ public class BecaMB implements Serializable {
             tipoBecaSelected = new TipoBeca();
         }
     }
+
     public void addNewProgramaBeca() {
         ProgramaBeca programabeca = programaBecaService.findById(programaBecaSelected.getIdPrograma());
         if (programabeca.getNombrePrograma().equals("Agregar Nuevo")) {
@@ -1367,6 +1364,7 @@ public class BecaMB implements Serializable {
             programaBecaSelected = new ProgramaBeca();
         }
     }
+
     public void addNewOrganismo() {
         Organismo organismo = organismoService.findById(organismoCooperanteSelected.getIdOrganismo());
         if (organismo.getNombreOrganismo().equals("Agregar Nuevo")) {
@@ -1376,6 +1374,7 @@ public class BecaMB implements Serializable {
             organismoCooperanteSelected = new Organismo();
         }
     }
+
     public void addNewPais() {
         Pais pais = paisService.findById(paisDestinoSelected.getIdPais());
         if (pais.getNombrePais().equals("Agregar Nuevo")) {
@@ -1383,11 +1382,12 @@ public class BecaMB implements Serializable {
             RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('paisDialog').show()");
             paisDestinoSelected = new Pais();
-        }else{
+        } else {
             getUniversidadesPorPais(paisDestinoSelected.getIdPais());
             RequestContext.getCurrentInstance().update("formAdmin:acordion:universidadDestino");
         }
     }
+
     public void addNewTipoMoneda() {
         TipoCambio tipocambio = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
         if (tipocambio.getNombreDivisa().equals("Agregar Nuevo")) {
@@ -1395,6 +1395,36 @@ public class BecaMB implements Serializable {
             RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('tipocambioDialog').show()");
             tipoCambioSelected = new TipoCambio();
+        }
+    }
+
+    public void preEliminar(Integer becaId) {
+        try {
+            beca = becaService.findById(becaId);
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarBecaDialogo').show()");
+        } catch (Exception e) {
+        }
+    }
+
+    public void eliminarBeca() {
+        try {
+            becaService.eliminarIntermedias(beca);
+            becaService.delete(beca);
+            inicializador();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarBecaDialogo').hide()");
+
+        } catch (Exception e) {
+        }
+    }
+
+    public void cancelareEiminarBeca() {
+        try {
+            inicializador();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarBecaDialogo').hide()");
+        } catch (Exception e) {
         }
     }
 
