@@ -9,7 +9,7 @@
 
     <ui:composition>
 
-        <p:dialog id="tipopropuestaDlg" widgetVar="tipopropuestaDialog" modal="true" resizable="false" appendTo="@(body)"  header="Nuevo Tipo Propuesta" >
+        <p:dialog id="tipopropuestaDlg" widgetVar="tipopropuestaDialog" modal="true" resizable="false" appendTo="@(body)" closable="false" header="Nuevo Tipo Propuesta" >
 
         <h:form id="formAdmin">
                
@@ -30,19 +30,23 @@
                     </p:column>
                     
                     <p:column  >
-                        <p:commandButton rendered="#{!tipoPropuestaConvenioMB.actualizar}"  styleClass="boton"
-                                         actionListener="#{tipoPropuestaConvenioMB.guardarTipoPropuestaConvenio()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
-                                         value="Guardar" />
-                       
-                        <p:commandButton rendered="#{tipoPropuestaConvenioMB.actualizar}" styleClass="boton"
-                                         actionListener="#{tipoPropuestaConvenioMB.updateTipoPropuestaConvenio()}" update="formAdmin :formPrincipal"
-                                         value="Actualizar" />
-                       
-                        <p:commandButton rendered="#{tipoPropuestaConvenioMB.actualizar}" styleClass="boton"
-                                         actionListener="#{tipoPropuestaConvenioMB.cancelarTipoPropuestaConvenio()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
-                        
-                          
-                       
+                        <p:commandButton styleClass="boton"
+                                         actionListener="#{tipoPropuestaConvenioMB.guardarTipoPropuestaConvenioOthearBean()}" 
+                                         update="@form"
+                                         process="@form"
+                                         oncomplete="PF('tipopropuestaDialog').hide();"
+                                         value="Guardar"
+                                         />
+                          <!--actionListener="#{propuestaConvenioMB.obtenerListadoTipoPrpouesta()}"-->   
+                        <p:remoteCommand name="rc"  actionListener="#{tipoPropuestaConvenioMB.guardarTipoPropuestaConvenio()}" />
+
+                        <p:commandButton styleClass="boton"
+                                         actionListener="#{tipoPropuestaConvenioMB.cancelarTipoPropuestaConvenio()}" 
+                                         immediate="true" 
+                                         value="Cancelar" 
+                                         update="formAdmin"  
+                                         process="@this" 
+                                         oncomplete="PF('tipopropuestaDialog').hide();"/>                        
                     </p:column>
                  
                 </p:panelGrid>
