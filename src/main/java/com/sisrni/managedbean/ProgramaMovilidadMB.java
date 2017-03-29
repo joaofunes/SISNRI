@@ -11,6 +11,7 @@ import com.sisrni.model.ProgramaMovilidad;
 import com.sisrni.service.ProgramaMovilidadService;
 import com.sisrni.service.generic.GenericService;
 import com.sisrni.utils.JsfUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -190,6 +191,23 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
         }
         cargarProgramaMovilidad();
     } 
+     
+     
+     public List<ProgramaMovilidad> listarProgramasMovilidad(){
+         listadoProgramaMovilidad = programaMovilidadService.geyAllProgramaMovilidadByNameAsc();
+         ProgramaMovilidad programaMovilidadNuevo = new ProgramaMovilidad();
+         List<ProgramaMovilidad> listProgramaMovilidadCopy = new ArrayList<ProgramaMovilidad>();
+         for(ProgramaMovilidad prog : listadoProgramaMovilidad){
+             if(!prog.getNombreProgramaMovilidad().equalsIgnoreCase("Agregar Nuevo")){
+                 listProgramaMovilidadCopy.add(prog);
+             }else{
+                 programaMovilidadNuevo= prog;
+             }
+         }
+         listProgramaMovilidadCopy.add(programaMovilidadNuevo);
+         listadoProgramaMovilidad.clear();
+         return listadoProgramaMovilidad = listProgramaMovilidadCopy;
+     }
     
     
     

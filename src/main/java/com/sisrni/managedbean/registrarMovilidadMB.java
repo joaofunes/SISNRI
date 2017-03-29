@@ -79,6 +79,8 @@ public class registrarMovilidadMB {
     TipoCambioMB tipoCambioMB;
     @Inject 
     EtapaMovilidadMB etapaMovilidadMB;
+    @Inject
+    ProgramaMovilidadMB programaMovilidadMB;
 
     //Variables
     private Boolean existeReferente;
@@ -2407,6 +2409,14 @@ public class registrarMovilidadMB {
             etapaMovilidadMB.init();
             RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('etapaMovilidadDialog').show()");
+        }
+    }
+    
+    public void addNewProgramaMovilidadIfIsNecesary(){
+        if(movilidad.getIdProgramaMovilidad().getNombreProgramaMovilidad().equalsIgnoreCase("Agregar Nuevo")){
+            programaMovilidadMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('programaMovilidadDialog').show()");
         }
     }
     

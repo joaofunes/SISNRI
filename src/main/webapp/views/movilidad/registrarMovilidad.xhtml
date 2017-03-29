@@ -20,6 +20,7 @@
                 <ui:include src="../OrganismoCooperante/createInstitucionMovilidadDestino.xhtml"/>
                 <ui:include src="../TipoCambio/Create.xhtml"/>
                 <ui:include src="../EtapaMovilidad/create.xhtml"/>
+                <ui:include src="../ProgramaMovilidad/create.xhtml"/>
                 
                 <script type="text/javascript">
                     $.mask.definitions['9'] = '';
@@ -57,8 +58,10 @@
                                             <p:selectOneMenu id="nombreMovilidad" value="#{registrarMovilidadMB.movilidad.idProgramaMovilidad}" style="width: 180px"  required="true" 
                                                              converter="#{programaMovilidadConverter}">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registrarMovilidadMB.listProgramaMovilidad}" var="nombMovilidad" itemLabel="#{nombMovilidad.nombreProgramaMovilidad}" itemValue="#{nombMovilidad}"/>
-                                                <p:ajax listener="#{registrarMovilidadMB.onchangeProgramaMovilidadList()}" update="acordion:descripcionMovilidad"/>
+                                                <f:selectItems value="#{programaMovilidadMB.listarProgramasMovilidad()}" var="nombMovilidad" itemLabel="#{nombMovilidad.nombreProgramaMovilidad}" itemValue="#{nombMovilidad}"/>
+                                                <!--<p:ajax listener="#{registrarMovilidadMB.onchangeProgramaMovilidadList()}" update="acordion:descripcionMovilidad"/>-->
+                                                <p:ajax event="change"  listener="#{registrarMovilidadMB.addNewProgramaMovilidadIfIsNecesary()}" process="@this"  update="formAdmin:acordion:descripcionMovilidad"/>
+                                                
                                             </p:selectOneMenu>
 
 
@@ -68,7 +71,7 @@
                                             <p:outputLabel for="descripcionMovilidad" value="Descripci&oacute;n"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputTextarea id="descripcionMovilidad" value="#{registrarMovilidadMB.programaMovilidad.descripcion}" style="width:180px" readonly="true"/>
+                                            <p:inputTextarea id="descripcionMovilidad" value="#{registrarMovilidadMB.movilidad.idProgramaMovilidad.descripcion}" style="width:180px" readonly="true"/>
                                         </p:column>
 
                                         <p:column>
