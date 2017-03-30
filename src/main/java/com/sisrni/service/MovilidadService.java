@@ -4,8 +4,10 @@ import com.sisrni.dao.MovilidadDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Movilidad;
 import com.sisrni.model.PersonaMovilidad;
+import com.sisrni.pojo.rpt.PojoMapaMovilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
 import com.sisrni.pojo.rpt.PojoMovilidadDocumentacion;
+import com.sisrni.pojo.rpt.PojoMovilidadMapaCategoria;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteFactBeneficiadaPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteMesEjecucionPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntrantePaisPojo;
@@ -62,32 +64,40 @@ public class MovilidadService extends GenericService<Movilidad, Integer> {
     public List<RptMovilidadSalienteFactBeneficiadaPojo> getMoviSalientesFactBenef(Integer anio) {
         return movilidadDao.getMoviSalientesFactBenef(anio);
     }
-    
-     public List<RptMovilidadEntrantePaisPojo> getMovilEntrantesPaisOrigen(Integer anio){
-         return movilidadDao.getMovilEntrantesPaisOrigen(anio);
-     }
-     
-      public List<RptMovilidadEntranteMesEjecucionPojo> getMovilidadEntranteMes(Integer anio){
-          return movilidadDao.getMovilidadEntranteMes(anio);
-      }
-      
-      public List<RptMovilidadEntranteFactBeneficiadaPojo> getMovilidadEntranteFactBenef(Integer anio){
-          return movilidadDao.getMovilidadEntranteFactBenef(anio);
-      }
-      
-       public List<Movilidad> getMovilidadesAnio(Integer anio){
-           return movilidadDao.getMovilidadesAnio(anio);
-       }
-       
-        public void desvincularReferente(Integer idMovilidad, Integer idPersona){
-            movilidadDao.desvincularReferente(idMovilidad, idPersona);
-        }
-        
-        public List<PojoMovilidadDocumentacion> getMovilidadDocumentacion(Integer idMovSearch){
-            return movilidadDao.getMovilidadDocumentacion(idMovSearch);
-        }
-        
-        public PersonaMovilidad isVinculadoReferente(Integer idMovilidad, Integer idPersona){
-            return movilidadDao.isVinculadoReferente(idMovilidad, idPersona);
-        }
+
+    public List<RptMovilidadEntrantePaisPojo> getMovilEntrantesPaisOrigen(Integer anio) {
+        return movilidadDao.getMovilEntrantesPaisOrigen(anio);
+    }
+
+    public List<RptMovilidadEntranteMesEjecucionPojo> getMovilidadEntranteMes(Integer anio) {
+        return movilidadDao.getMovilidadEntranteMes(anio);
+    }
+
+    public List<RptMovilidadEntranteFactBeneficiadaPojo> getMovilidadEntranteFactBenef(Integer anio) {
+        return movilidadDao.getMovilidadEntranteFactBenef(anio);
+    }
+
+    public List<Movilidad> getMovilidadesAnio(Integer anio) {
+        return movilidadDao.getMovilidadesAnio(anio);
+    }
+
+    public void desvincularReferente(Integer idMovilidad, Integer idPersona) {
+        movilidadDao.desvincularReferente(idMovilidad, idPersona);
+    }
+
+    public List<PojoMovilidadDocumentacion> getMovilidadDocumentacion(Integer idMovSearch) {
+        return movilidadDao.getMovilidadDocumentacion(idMovSearch);
+    }
+
+    public PersonaMovilidad isVinculadoReferente(Integer idMovilidad, Integer idPersona) {
+        return movilidadDao.isVinculadoReferente(idMovilidad, idPersona);
+    }
+
+    public List<PojoMapaMovilidad> getBecastListToCharts(Integer tipoMovilidad, List<String> paisSelected, List<String> categoriaSelected, String desde, String hasta) {
+        return movilidadDao.getBecastListToCharts(tipoMovilidad, paisSelected, categoriaSelected, desde, hasta);
+    }
+
+    public List<PojoMovilidadMapaCategoria> getBecastListToChartsCate(Integer tipoMovilidad, List<String> paisSelected, List<String> categoriaSelected, String desde, String hasta) {
+        return movilidadDao.getBecastListToChartsCate(tipoMovilidad, paisSelected, categoriaSelected, desde, hasta);
+    }
 }

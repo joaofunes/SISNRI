@@ -5,6 +5,7 @@ import com.sisrni.managedbean.lazymodel.UsuarioLazyModel;
 import com.sisrni.model.Persona;
 import com.sisrni.model.SsRoles;
 import com.sisrni.model.SsUsuarios;
+import com.sisrni.security.AppUserDetails;
 import com.sisrni.security.CustomPasswordEncoder;
 import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.PersonaService;
@@ -12,6 +13,7 @@ import com.sisrni.service.SsRolesService;
 import com.sisrni.service.SsUsuariosService;
 import com.sisrni.service.generic.GenericService;
 import com.sisrni.utils.JsfUtil;
+import static com.sisrni.utils.UserContext.getSessionUser;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +23,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
@@ -47,6 +50,10 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
     @Qualifier(value = "personaService")
     private PersonaService personaService;
     
+     @Autowired
+    @Qualifier(value = "currentUserSessionBean")
+    private CurrentUserSessionBean currentUserSessionBean;
+    
     @Autowired
     private CustomPasswordEncoder passwordEncoder;
     
@@ -54,6 +61,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
     FreeMarkerMailService mailService;
 
     private String clave;
+    private String clave2;
     private String codigo;
     private String email;
     public SsUsuarios usuario;
@@ -74,6 +82,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
         persona = new Persona();
         usuario = new SsUsuarios();
         clave = "";
+        clave2 = "";
         codigo = "";
         email = "";
         ssUsuariosRol = new SsUsuarios();
@@ -257,6 +266,8 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
        public void recuperarPass(){
         try {
             String msg = "";
+            usuario = new SsUsuarios();
+            persona = new Persona();
             persona = personaService.getPersonaByEmail(email);
            if (persona != null) {
                 usuario =  ssUsuarioService.findByIdPersona(persona.getIdPersona());
@@ -266,7 +277,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
                    String encode = passwordEncoder.encode(clave);
                    usuario.setClave(encode);  
                    usuario.setFechaUltimamodificacion(new Date());
-                   ssUsuarioService.save(usuario);
+                   ssUsuarioService.merge(usuario);
                    enviarCorreo2();
                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", msg));    
           }else{
@@ -282,6 +293,42 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
             e.printStackTrace();
         }
     }
+       
+     public void cambiarPass(){
+        try {
+          //  String msg = "";
+                  // usuario =  ssUsuarioService.findByUser(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+            //       msg =FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+                 /*  clave = getCadenaAlfanumAleatoria (9); 
+                   String 
+                   */
+                   usuario = new SsUsuarios();
+                   ssUsuariosRol = new SsUsuarios();
+                   AppUserDetails user = currentUserSessionBean.getSessionUser();
+                   if (user != null){
+                        //usuario =  user.getUsuario();
+                        String encode = passwordEncoder.encode(clave);
+                        if(user.getPassword().equals(encode)){
+                            ssUsuariosRol =  user.getUsuario();
+                            usuario =  ssUsuarioService.findByUser(ssUsuariosRol.getCodigoUsuario());
+                            encode = passwordEncoder.encode(clave2);
+                            usuario.setClave(encode);  
+                            usuario.setFechaUltimamodificacion(new Date());
+                            ssUsuarioService.merge(usuario);
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", usuario.getCodigoUsuario()));
+                        }
+                        else{
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "Clave antigua incorrecta"));
+                        }
+                        }
+                   else{
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error!!", "Usuario No encontrado"));    
+                   }
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }  
 
     @Override
     public void save(ActionEvent event) {
@@ -339,6 +386,15 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
 
     public void setClave(String clave) {
         this.clave = clave;
+    }
+    
+
+    public String getClave2() {
+        return clave2;
+    }
+
+    public void setClave2(String clave2) {
+        this.clave2 = clave2;
     }
     
     

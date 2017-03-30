@@ -16,19 +16,19 @@
                 <h:panelGroup id="display">
                  <p:panelGrid columns="2" columnClasses="column">
                          <p:outputLabel value="Clave Antigua: " for="antigua" />
-                         <p:password id="antigua" value="#{personaMB.clave}" inline="true" /> 
+                         <p:password id="antigua" value="#{usuarioMB.clave}" inline="true" /> 
                  
                          <p:outputLabel value="Clave Nueva: " for="clave" />
-                         <p:password id="clave" value="#{personaMB.clave}" match="Rclave" feedback="true" inline="true" /> 
+                         <p:password id="clave" value="#{usuarioMB.clave2}" match="Rclave" feedback="true" inline="true" /> 
                              
                          <p:outputLabel value="Repetir Clave Nueva: " for="Rclave"  />
-                         <p:password id="Rclave" value="#{personaMB.clave}" inline="true" />
+                         <p:password id="Rclave" value="#{usuarioMB.clave2}" inline="true" />
                    </p:panelGrid> 
                   <h:panelGrid >
           
                     </h:panelGrid>
                     <p:column>
-                    <p:commandButton value="Cambiar Clave" id="idRecuperarPass" actionListener="#{usuarioMB.recuperarPass()}" process="@form" update="@form" icon="ui-icon-disk"/>
+                        <p:commandButton value="Cambiar Clave" id="idRecuperarPass" actionListener="#{usuarioMB.cambiarPass()}" process="@form" update="@form" icon="ui-icon-disk"/>
                  
                     <p:commandButton value="Cancelar" id="idCerrar" process="@this" icon="ui-icon-cancel" immediate="true" onclick="PF('RecuperarPassDialog').close();" />
                     </p:column>
