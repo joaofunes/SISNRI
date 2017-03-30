@@ -98,10 +98,6 @@ public class DocumentacionMB implements Serializable {
             propuestaConvenio = new PropuestaConvenio();
             listPropuestaConvenio = propuestaConvenioService.findAll();
             listTipoDocumento = tipoDocumentoService.findAll();
-//               FacesContext facesContext = FacesContext.getCurrentInstance();
-//                if (!facesContext.isPostback() && !facesContext.isValidationFailed()) {
-//                   
-//                }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,8 +135,10 @@ public class DocumentacionMB implements Serializable {
      */
     public void getDataConvenio() {
         try {
-            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(propuestaConvenio.getIdPropuesta());
-            searchDocumentoConvenio(propuestaConvenio.getIdPropuesta());
+            if (propuestaConvenio != null) {
+                pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(propuestaConvenio.getIdPropuesta());
+                searchDocumentoConvenio(propuestaConvenio.getIdPropuesta());
+            }            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,7 +152,7 @@ public class DocumentacionMB implements Serializable {
     public void getDataConvenio(int idConvenio) {
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(idConvenio);
-            searchDocumentoConvenio(propuestaConvenio.getIdPropuesta());
+            searchDocumentoConvenio(pojoPropuestaConvenio.getID_PROPUESTA());
             RequestContext.getCurrentInstance().update(":idDataConevnio");
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,12 +169,10 @@ public class DocumentacionMB implements Serializable {
         try {
             byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());
             FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-
             if (documento == null) {
                 documento = new Documento();
             }
             documento.setDocumento(content);
-
             documento.setNombreDocumento(event.getFile().getFileName());
         } catch (Exception e) {
             e.printStackTrace();
