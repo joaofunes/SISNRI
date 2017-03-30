@@ -259,10 +259,10 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
     public void addDocumento(PojoPropuestaConvenio pojo) {
         try {
             if (pojo.getID_PROPUESTA() != null) {
+                documentacionMB.iniciliazar();
                 documentacionMB.getDataConvenio(pojo.getID_PROPUESTA());
                 FacesContext.getCurrentInstance().getExternalContext().redirect("../documentacion/documentacion.xhtml");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
