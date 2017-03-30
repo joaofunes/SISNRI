@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="programaMovilidadDlg" widgetVar="programaMovilidadDialog" modal="true" resizable="false" appendTo="@(body)" header="Nuevo Programa de Movilidad" >
+            <h:form id="formProgramaMovilidad">
+               
+                <p:panelGrid id="idGrilPrincipal" columns="2" >
+               
+                    <p:column>
+                        <p:outputLabel for="nombreProgramaMovilidad" value="Nombre de Programa de Movilidad:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombreProgramaMovilidad" value="#{programaMovilidadMB.programaMovilidad.nombreProgramaMovilidad}" required="true" size="50" />
+                    </p:column>
+               
+                    <p:column>
+                        <p:outputLabel for="nombreProgramaMovilidad" value="Descripci&oacute;n de Programa de Movilidad:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="descri" value="#{programaMovilidadMB.programaMovilidad.descripcion}" required="true" size="50" />
+                    </p:column>
+                    
+                    <p:column  >
+                        <p:commandButton rendered="#{!programaMovilidadMB.actualizar}"  styleClass="boton"
+                                         actionListener="#{programaMovilidadMB.guardarProgramaMovilidad()}" update="formAdmin:acordion:nombreMovilidad" process="@this :formProgramaMovilidad"
+                                         value="Guardar" onclick="PF('programaMovilidadDialog').hide()"/>
+                       
+                        <p:commandButton rendered="#{programaMovilidadMB.actualizar}" styleClass="boton"
+                                         actionListener="#{programaMovilidadMB.cancelarProgramaMovilidad()}" immediate="true" value="Cancelar" update="formProgramaMovilidad"  process="@this" />
+                        
+                          
+                       
+                    </p:column>
+                 
+                </p:panelGrid>
+        </h:form>
+
+        </p:dialog>    
+    </ui:composition>
+
+</html>

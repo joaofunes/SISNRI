@@ -8,11 +8,11 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:pe="http://primefaces.org/ui/extensions" 
-                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                 >
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
     <ui:define name="content">
+        <ui:include src="../TipoPropuestaConvenio/Create.xhtml"/>
          <script type="text/javascript">
                     $.mask.definitions['9'] = '';
                     $.mask.definitions['#'] = '[0-9]';
@@ -21,9 +21,7 @@
             <f:viewAction action="#{propuestaConvenioMB.onload}" />
         </f:metadata>
 
-        <h:form id="formAdmin">
-        </h:form>   
-
+       
         <center>
             <p:fieldset legend="Ingreso de Propuesta de Convenio"> 
         
@@ -172,6 +170,7 @@
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="emailSolicitante" required="true" value="#{propuestaConvenioMB.solicitante.emailPersona}"
+                                                     readonly="#{propuestaConvenioMB.soloLecturaEmail}"
                                                      disabled="#{propuestaConvenioMB.habilitarBusquedaSolicitante}">
                                             <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                         </p:inputText>
@@ -381,6 +380,7 @@
                                     </p:column>
                                     <p:column>
                                         <p:inputText id="email" required="true" value="#{propuestaConvenioMB.referenteInterno.emailPersona}"
+                                                     readonly="#{propuestaConvenioMB.soloLecturaEmail}"
                                                      disabled="#{propuestaConvenioMB.habilitarBusquedaInterna}">
                                             <f:validator validatorId="com.sisrni.validator.emailValidator" />
                                         </p:inputText>
@@ -591,6 +591,7 @@
                                     </p:column>
                                      <p:column>
                                         <p:inputText id="emailExterno" required="true"
+                                                     readonly="#{propuestaConvenioMB.soloLecturaEmail}"
                                                      value="#{propuestaConvenioMB.referenteExterno.emailPersona}"
                                                      disabled="#{propuestaConvenioMB.habilitarBusquedaExterna}">
                                             <f:validator validatorId="com.sisrni.validator.emailValidator" />
@@ -671,7 +672,7 @@
                     </p:tab>
                     <p:tab title="Datos de Propuesta">
                         <h:form id="fileUploadGroup" >    
-                            <p:panelGrid>                           
+                           <p:panelGrid>                           
                                 <p:row>
                                     <p:column>
                                         <p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" />
@@ -686,7 +687,6 @@
                                     </p:column>
                                 </p:row>
                                 <p:row>
-
                                     <p:column>
                                         <p:outputLabel  value="Convenio"  />
                                     </p:column>
@@ -723,14 +723,11 @@
                                         <tr align="right"> 
                                             <td></td>
                                             <td></td>
-                                            <td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.guardarPropuestaConvenio}" process="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" update="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" value="Guardar"  id="btnGuardar" icon="ui-icon-disk" title="Guardar Propuesta Convenio" /></td>                                 
-                                            <!--<td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.FileRead()}" process="@this"  value="Test Mail"  id="ema" icon="ui-icon-disk" title="envio email" /></td>-->                                 
-                                            <td colspan="3"><p:commandButton rendered="#{propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.actualizarPropuestaConvenio}" process="formAdmin" update="formAdmin" value="Actualizar"  id="btnActualizar" icon="fa fa-save" title="Actualizar Propuesta Convenio" /></td>                                 
-                                            <td colspan="3"><p:commandButton  rendered="#{propuestaConvenioMB.flagEdicion}"  actionListener="#{propuestaConvenioMB.volver()}" process="formAdmin" update="formAdmin" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
+                                            <td colspan="3"><p:commandButton rendered="#{!propuestaConvenioMB.flagEdicion}" actionListener="#{propuestaConvenioMB.guardarPropuestaConvenio}" process="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" update="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" value="Guardar"  id="btnGuardar" icon="ui-icon-disk" title="Guardar Propuesta Convenio" /></td>                                                                            
                                         </tr>
                                     </tfoot>
                                 </table>  
-                            </p:panelGrid> 
+                            </p:panelGrid>
                         </h:form>
                     </p:tab>
                 </p:accordionPanel>                                                                                               

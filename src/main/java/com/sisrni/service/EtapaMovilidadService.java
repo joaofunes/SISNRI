@@ -5,6 +5,7 @@ import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.EtapaMovilidad;
 import com.sisrni.service.generic.GenericService;
 import java.io.Serializable;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,9 @@ public class EtapaMovilidadService extends GenericService<EtapaMovilidad, Intege
      public EtapaMovilidad getByID(int id) {
         return etapaMovilidadDao.findById(id);
     }
+     
+     public List<EtapaMovilidad> getAllEtapasByNameAsc(){
+         return etapaMovilidadDao.getAllEtapasByNameAsc();
+     }
     
 }

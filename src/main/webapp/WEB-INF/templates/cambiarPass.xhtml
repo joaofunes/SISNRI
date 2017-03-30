@@ -9,34 +9,29 @@
 
     <ui:composition>
 
-        <p:dialog id="RecuperarPassDlg" widgetVar="RecuperarPassDialog" modal="true" resizable="false" appendTo="@(body)"  header="Recuperar mi Cuenta" >
+        <p:dialog id="RecuperarPassDlg" widgetVar="RecuperarPassDialog" modal="true" resizable="false" appendTo="@(body)"  header="Cambiar Contrase&ntilde;a" >
                         
             <h:form id="RecuperarPassForm">
 
                 <h:panelGroup id="display">
                  <p:panelGrid columns="2" columnClasses="column">
-                           <center>
-                              <p:outputLabel value=""  /> 
-                            </center>
-                        <p:row>
-                        <p:column>                           
-                             <p:outputLabel value="E-mail: " for="email" />
-                        </p:column>
-                          <p:column> 
-                              <p:inputText id="email" required="true" value="#{usuarioMB.email}">
-                                <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                            </p:inputText>
-                            <p:watermark for="email" value="email@email.com" id="watermarkEmail" />
-                            <p:message for="email" display="tooltip" />                                         
-                        </p:column>     
-                        </p:row> 
-                         </p:panelGrid>
-                    
-                     <h:panelGrid >
+                         <p:outputLabel value="Clave Antigua: " for="antigua" />
+                         <p:password id="antigua" value="#{usuarioMB.clave}" inline="true" /> 
+                 
+                         <p:outputLabel value="Clave Nueva: " for="clave" />
+                         <p:password id="clave" value="#{usuarioMB.clave2}" match="Rclave" feedback="true" inline="true" /> 
+                             
+                         <p:outputLabel value="Repetir Clave Nueva: " for="Rclave"  />
+                         <p:password id="Rclave" value="#{usuarioMB.clave2}" inline="true" />
+                   </p:panelGrid> 
+                  <h:panelGrid >
           
                     </h:panelGrid>
-                    <p:commandButton value="Recuperar Credenciales" id="idRecuperarPass" actionListener="#{usuarioMB.recuperarPass()}" process="@form" update="@form" icon="ui-icon-disk"/>
+                    <p:column>
+                        <p:commandButton value="Cambiar Clave" id="idRecuperarPass" actionListener="#{usuarioMB.cambiarPass()}" process="@form" update="@form" icon="ui-icon-disk"/>
+                 
                     <p:commandButton value="Cancelar" id="idCerrar" process="@this" icon="ui-icon-cancel" immediate="true" onclick="PF('RecuperarPassDialog').close();" />
+                    </p:column>
                 </h:panelGroup>
 
             </h:form>

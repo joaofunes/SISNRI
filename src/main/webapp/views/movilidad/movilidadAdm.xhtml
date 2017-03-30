@@ -60,11 +60,19 @@
                                        title="Consultar" value="Consultar"
                                        actionListener="#{registrarMovilidadMB.consultarMovilidad(movilidades.idMovilidad)}" />
                             </div> 
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-close"
+                                       title="Eliminar" value="Eliminar"
+                                       actionListener="#{registrarMovilidadMB.preEliminarMovilidad(movilidades.idMovilidad)}" />
+                            </div>
                         </p:column>
                                      
                     </p:dataTable>
                 </h:form>
-                
+                <p:confirmDialog widgetVar="eliminarDialog" message="Seguro que desea eliminar el registro?" header="Eliminar registro de Movilidad" global="true">
+                    <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{registrarMovilidadMB.eliminarMovilidad()}" process="@this" update="formAdmMovilidad"/>
+                    <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-check" action="#{registrarMovilidadMB.cancelarEliminarMovilidad()}" process="@this" update="formAdmMovilidad"/>
+                </p:confirmDialog>
                 
             </ui:define>
 

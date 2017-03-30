@@ -101,4 +101,5 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
         return q.list();
     }
+  
 }

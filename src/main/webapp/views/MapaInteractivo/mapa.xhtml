@@ -12,7 +12,7 @@
 
     <ui:define name="content">
         <center>
-             <h1 style="background: #cc0000;color: white;border-radius: 10px">Mapa Interactivo de Proyectos</h1>
+            <h1 style="background: #cc0000;color: white;border-radius: 10px">Mapa Interactivo de Proyectos</h1>
         </center>    
         <h:form>
             <p:growl id="msgs" showDetail="true" />
@@ -71,13 +71,12 @@
                 </p:panelGrid>
             </p:panel>
         </h:form> 
-
+        
         <p:outputPanel id="mapaPanel">
             <p:panel header="Mapa de Cooperaci&oacute;n" toggleable="true" >
                 <pe:gChart value="#{mapaInteractivo.chartModel}" title="Mapa de Cooperacion" rendered="#{!mapaInteractivo.noHayRegistros}" widgetVar="map"/>
             </p:panel>
         </p:outputPanel>
-
         <p:outputPanel id="graficosPanel">
             <p:panel header="Gr&aacute;ficos de Pastel" toggleable="true">
                 <p:panelGrid columns="2" rendered="#{!mapaInteractivo.noHayRegistros}">

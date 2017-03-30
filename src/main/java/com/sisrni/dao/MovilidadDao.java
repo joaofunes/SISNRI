@@ -8,8 +8,10 @@ package com.sisrni.dao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Movilidad;
 import com.sisrni.model.PersonaMovilidad;
+import com.sisrni.pojo.rpt.PojoMapaMovilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
 import com.sisrni.pojo.rpt.PojoMovilidadDocumentacion;
+import com.sisrni.pojo.rpt.PojoMovilidadMapaCategoria;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteFactBeneficiadaPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteMesEjecucionPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntrantePaisPojo;
@@ -24,6 +26,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DateType;
+import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
@@ -347,7 +350,7 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
         }
 
     }
-    
+
     public List<PojoMovilidadDocumentacion> getMovilidadDocumentacion(Integer idMovSearch) {
         String query = "SELECT mv.ID_MOVILIDAD idMovilidad, pm.NOMBRE_PROGRAMA_MOVILIDAD nombrePrograma,per.NOMBRE_PERSONA nombrePersona,per.APELLIDO_PERSONA apellidoPersona,tpmv.NOMBRE_TIPO_MOVILIDAD nombreTipoMovilidad,pa.NOMBRE_PAIS paisOrigen, pai.NOMBRE_PAIS paisDestino,mv.FECHA_INICIO fechaEntrada,mv.FECHA_FIN fechaSalida ,etm.NOMBRE_ETAPA nombreEtapa  \n"
                 + "FROM movilidad mv INNER JOIN programa_movilidad pm ON mv.ID_PROGRAMA_MOVILIDAD = pm.ID_PROGRAMA_MOVILIDAD\n"
@@ -382,14 +385,12 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
         }
         return null;
     }
-    
-    
-   
+
     public PersonaMovilidad isVinculadoReferente(Integer idMovilidad, Integer idPersona) {
         try {
             //String query = "SELECT * FROM PERSONA_MOVILIDAD WHERE ID_MOVILIDAD = " + idMovilidad + " AND ID_PERSONA = " + idPersona;
             //Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
-            
+
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT pm  FROM PersonaMovilidad pm WHERE pm.movilidad.idMovilidad =:idmov AND pm.persona.idPersona =:idper ");
             q.setParameter("idmov", idMovilidad);
             q.setParameter("idper", idPersona);
@@ -399,6 +400,63 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
         }
         return null;
 
-    } 
+    }
+//metodo nuevo
 
+    public List<PojoMapaMovilidad> getBecastListToCharts(Integer tipoMovilidad, List<String> paisSelected, List<String> categoriaSelected, String desde, String hasta) {
+        String campoUnion = "";
+        if (tipoMovilidad == 1) {
+            campoUnion = campoUnion + "m.ID_PAIS_ORIGEN";
+        } else {
+            campoUnion = campoUnion + "m.ID_PAIS_DESTINO";
+        }
+
+        String query = "SELECT\n"
+                + "  p.ID_PAIS idPais,\n"
+                + "  p.CODIGO_PAIS codigoPais,"
+                + "  p.NOMBRE_PAIS nombrePais,"
+                + "  count(*) cantidadMovilidades,"
+                + "  SUM(m.VIATICOS+m.PAGO_DE_CURSO+m.VOLETO_AEREO) montoMovilidades "
+                + " FROM movilidad m INNER JOIN pais p ON " + campoUnion + " = p.ID_PAIS"
+                + " WHERE m.ID_TIPO_MOVILIDAD = " + tipoMovilidad
+                + " and m.ID_ETAPA_MOVILIDAD=3 "
+                + " and YEAR(m.FECHA_INICIO) BETWEEN " + Integer.parseInt(desde) + " and " + Integer.parseInt(hasta)
+                + " and " + campoUnion + " IN " + "(" + String.join(",", paisSelected) + ")"
+                + " and  m.ID_CATEGORIA IN " + "(" + String.join(",", categoriaSelected) + ")"
+                + "GROUP BY " + campoUnion;
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("idPais", new IntegerType())
+                .addScalar("codigoPais", new StringType())
+                .addScalar("nombrePais", new StringType())
+                .addScalar("cantidadMovilidades", new IntegerType())
+                .addScalar("montoMovilidades", new DoubleType())
+                .setResultTransformer(Transformers.aliasToBean(PojoMapaMovilidad.class));
+        return q.list();
+    }
+
+    public List<PojoMovilidadMapaCategoria> getBecastListToChartsCate(Integer tipoMovilidad, List<String> paisSelected, List<String> categoriaSelected, String desde, String hasta) {
+        String campoUnion = "";
+        if (tipoMovilidad == 1) {
+            campoUnion = campoUnion + "m.ID_PAIS_ORIGEN";
+        } else {
+            campoUnion = campoUnion + "m.ID_PAIS_DESTINO";
+        }
+
+        String query = "SELECT \n"
+                + " cm.NOMBRE_CATEGORIA categoria,\n"
+                + " count(*) cantidad"
+                + " FROM movilidad m INNER JOIN pais p ON " + campoUnion + " = p.ID_PAIS"
+                + " INNER JOIN CATEGORIA_MOVILIDAD cm on cm.ID_CATEGORIA_MOVILIDAD=m.ID_CATEGORIA"
+                + " WHERE m.ID_TIPO_MOVILIDAD = " + tipoMovilidad
+                + " and m.ID_ETAPA_MOVILIDAD=3 "
+                + " and YEAR(m.FECHA_INICIO) BETWEEN " + Integer.parseInt(desde) + " and " + Integer.parseInt(hasta)
+                + " and " + campoUnion + " IN " + "(" + String.join(",", paisSelected) + ")"
+                + " and  m.ID_CATEGORIA IN " + "(" + String.join(",", categoriaSelected) + ")"
+                + " GROUP BY cm.ID_CATEGORIA_MOVILIDAD";
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("categoria", new StringType())
+                .addScalar("cantidad", new IntegerType())
+                .setResultTransformer(Transformers.aliasToBean(PojoMovilidadMapaCategoria.class));
+        return q.list();
+    }
 }

@@ -2,6 +2,7 @@ package com.sisrni.service;
 
 import com.sisrni.dao.PersonaMovilidadDao;
 import com.sisrni.dao.generic.GenericDao;
+import com.sisrni.model.Movilidad;
 import com.sisrni.model.PersonaMovilidad;
 import com.sisrni.service.generic.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,10 @@ public class PersonaMovilidadService extends GenericService<PersonaMovilidad, In
     @Override
     public GenericDao<PersonaMovilidad, Integer> getDao() {
        return personamovilidadDao;
+    }
+    
+    public void eliminarIntemediaPersonaMovilidad(Movilidad mov){
+        personamovilidadDao.eliminarIntemediaPersonaMovilidad(mov);
     }
     
 }

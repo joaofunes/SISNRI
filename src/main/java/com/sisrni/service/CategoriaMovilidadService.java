@@ -5,6 +5,7 @@ import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.CategoriaMovilidad;
 import com.sisrni.service.generic.GenericService;
 import java.io.Serializable;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,9 @@ public class CategoriaMovilidadService extends GenericService<CategoriaMovilidad
       public CategoriaMovilidad getByID(int id) {
         return categoriaMovilidadDao.findById(id);
     }
+      
+      public List<CategoriaMovilidad> getAllCategoriasByNameAsc(){
+          return categoriaMovilidadDao.getAllCategoriasByNameAsc();
+      }
     
 }

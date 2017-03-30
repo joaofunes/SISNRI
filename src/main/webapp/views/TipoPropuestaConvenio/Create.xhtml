@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="tipopropuestaDlg" widgetVar="tipopropuestaDialog" modal="true" resizable="false" appendTo="@(body)" closable="false" header="Nuevo Tipo Propuesta" >
+
+        <h:form id="formAdmin">
+               
+                <p:panelGrid id="idGrilPrincipal" columns="2" >
+               
+                    <p:column>
+                        <p:outputLabel for="nombrePropuestaConvenio" value="Nombre del Tipo de Propuesta de Convenio:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombrePropuestaConvenio" value="#{tipoPropuestaConvenioMB.tipoPropuestaConvenio.nombrePropuestaConvenio}" required="true" size="50" />
+                    </p:column>
+               
+                    <p:column>
+                        <p:outputLabel for="descri" value="Descripci&oacute;n del Tipo de Propuesta de Convenio:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputTextarea id="descri" value="#{tipoPropuestaConvenioMB.tipoPropuestaConvenio.descripcion}" rows="2" maxlength="300" style="width: 100%" required="true" />
+                    </p:column>
+                    
+                    <p:column  >
+                        <p:commandButton styleClass="boton"
+                                         actionListener="#{tipoPropuestaConvenioMB.guardarTipoPropuestaConvenioOthearBean()}" 
+                                         update="@form"
+                                         process="@form"
+                                         oncomplete="PF('tipopropuestaDialog').hide();"
+                                         value="Guardar"
+                                         />
+                          <!--actionListener="#{propuestaConvenioMB.obtenerListadoTipoPrpouesta()}"-->   
+                        <p:remoteCommand name="rc"  actionListener="#{tipoPropuestaConvenioMB.guardarTipoPropuestaConvenio()}" />
+
+                        <p:commandButton styleClass="boton"
+                                         actionListener="#{tipoPropuestaConvenioMB.cancelarTipoPropuestaConvenio()}" 
+                                         immediate="true" 
+                                         value="Cancelar" 
+                                         update="formAdmin"  
+                                         process="@this" 
+                                         oncomplete="PF('tipopropuestaDialog').hide();"/>                        
+                    </p:column>
+                 
+                </p:panelGrid>
+        </h:form> 
+        </p:dialog>    
+    </ui:composition>
+
+</html>
