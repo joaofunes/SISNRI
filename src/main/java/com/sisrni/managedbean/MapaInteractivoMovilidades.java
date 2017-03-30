@@ -13,6 +13,7 @@ import com.sisrni.model.TipoMovilidad;
 import com.sisrni.pojo.rpt.PojoBecasByTipo;
 import com.sisrni.pojo.rpt.PojoMapaInteractivoBecas;
 import com.sisrni.pojo.rpt.PojoMapaMovilidad;
+import com.sisrni.pojo.rpt.PojoMovilidadMapaCategoria;
 import com.sisrni.service.BecaService;
 import com.sisrni.service.CategoriaMovilidadService;
 import com.sisrni.service.MovilidadService;
@@ -65,6 +66,7 @@ public class MapaInteractivoMovilidades implements Serializable {
     private List<CategoriaMovilidad> categoriaList;
 
     private List<PojoMapaMovilidad> movilidadesListToChart;
+    private List<PojoMovilidadMapaCategoria> movilidadesListToChartType;
     //graficos
     private GChartModel chartModel;
     private PieChartModel pieModel;
@@ -128,6 +130,7 @@ public class MapaInteractivoMovilidades implements Serializable {
         }
         if (tipoMovilidadSelected.getIdTipoMovilidad() != null && !paisSelected.isEmpty() && !categoriaMovilidadSelected.isEmpty() && !badyears) {
             movilidadesListToChart = movilidadService.getBecastListToCharts(tipoMovilidadSelected.getIdTipoMovilidad(), paisSelected, categoriaMovilidadSelected, yearDesde.trim(), yearHasta.trim());
+            movilidadesListToChartType = movilidadService.getBecastListToChartsCate(yearActual, paisSelected, paisSelected, yearDesde, yearHasta);
             montoMovilidades = calcularMonto(movilidadesListToChart);
             if (!movilidadesListToChart.isEmpty()) {
                 crearMapa();
@@ -181,16 +184,17 @@ public class MapaInteractivoMovilidades implements Serializable {
         pieModel.setShowDataLabels(true);
     }
 
-//    private void createPieTipo() {
-//        pieModelType = new PieChartModel();
-//        List<PojoBecasByTipo> series = becasListToChart.get(0).getSeries();
-//        for (PojoBecasByTipo pj : series) {
-//            pieModelType.set(pj.getNombreTipoBeca(), pj.getCantidad());
-//        }
-//        pieModelType.setTitle("Cantidad y Tipos de Beca");
-//        pieModelType.setLegendPosition("w");
-//        pieModelType.setShowDataLabels(true);
-//    }
+    private void createPieTipo() {
+        pieModelType = new PieChartModel();
+        List<PojoMovilidadMapaCategoria> series = movilidadesListToChartType;
+        for (PojoMovilidadMapaCategoria pj : series) {
+            pieModelType.set(pj.getCategoria(), pj.getCantidad());
+        }
+        pieModelType.setTitle("Categoria Movilidad vs Cantidad");
+        pieModelType.setLegendPosition("w");
+        pieModelType.setShowDataLabels(true);
+    }
+
     public void inicializarPieUno() {
 
         pieModel = new PieChartModel();
@@ -374,6 +378,14 @@ public class MapaInteractivoMovilidades implements Serializable {
 
     public void setMontoMovilidades(double montoMovilidades) {
         this.montoMovilidades = montoMovilidades;
+    }
+
+    public List<PojoMovilidadMapaCategoria> getMovilidadesListToChartType() {
+        return movilidadesListToChartType;
+    }
+
+    public void setMovilidadesListToChartType(List<PojoMovilidadMapaCategoria> movilidadesListToChartType) {
+        this.movilidadesListToChartType = movilidadesListToChartType;
     }
 
 }

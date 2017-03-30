@@ -7,6 +7,7 @@ import com.sisrni.model.PersonaMovilidad;
 import com.sisrni.pojo.rpt.PojoMapaMovilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
 import com.sisrni.pojo.rpt.PojoMovilidadDocumentacion;
+import com.sisrni.pojo.rpt.PojoMovilidadMapaCategoria;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteFactBeneficiadaPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteMesEjecucionPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntrantePaisPojo;
@@ -94,5 +95,9 @@ public class MovilidadService extends GenericService<Movilidad, Integer> {
 
     public List<PojoMapaMovilidad> getBecastListToCharts(Integer tipoMovilidad, List<String> paisSelected, List<String> categoriaSelected, String desde, String hasta) {
         return movilidadDao.getBecastListToCharts(tipoMovilidad, paisSelected, categoriaSelected, desde, hasta);
+    }
+
+    public List<PojoMovilidadMapaCategoria> getBecastListToChartsCate(Integer tipoMovilidad, List<String> paisSelected, List<String> categoriaSelected, String desde, String hasta) {
+        return movilidadDao.getBecastListToChartsCate(tipoMovilidad, paisSelected, categoriaSelected, desde, hasta);
     }
 }

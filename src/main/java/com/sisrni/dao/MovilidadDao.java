@@ -11,6 +11,7 @@ import com.sisrni.model.PersonaMovilidad;
 import com.sisrni.pojo.rpt.PojoMapaMovilidad;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
 import com.sisrni.pojo.rpt.PojoMovilidadDocumentacion;
+import com.sisrni.pojo.rpt.PojoMovilidadMapaCategoria;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteFactBeneficiadaPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntranteMesEjecucionPojo;
 import com.sisrni.pojo.rpt.RptMovilidadEntrantePaisPojo;
@@ -430,6 +431,32 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
                 .addScalar("cantidadMovilidades", new IntegerType())
                 .addScalar("montoMovilidades", new DoubleType())
                 .setResultTransformer(Transformers.aliasToBean(PojoMapaMovilidad.class));
+        return q.list();
+    }
+
+    public List<PojoMovilidadMapaCategoria> getBecastListToChartsCate(Integer tipoMovilidad, List<String> paisSelected, List<String> categoriaSelected, String desde, String hasta) {
+        String campoUnion = "";
+        if (tipoMovilidad == 1) {
+            campoUnion = campoUnion + "m.ID_PAIS_ORIGEN";
+        } else {
+            campoUnion = campoUnion + "m.ID_PAIS_DESTINO";
+        }
+
+        String query = "SELECT\n"
+                + "  cm.NOMBRE_CATEGORIA_MOVILIDAD categoria,\n"
+                + "  count(*) cantidad"
+                + " FROM movilidad m INNER JOIN pais p ON " + campoUnion + " = p.ID_PAIS"
+                + "INNER JOIN CATEGORIA_MOVILIDAD cm on cm.ID_CATEGORIA_MOVILIDAD=m.ID_CATEGORIA"
+                + " WHERE m.ID_TIPO_MOVILIDAD = " + tipoMovilidad
+                + " and m.ID_ETAPA_MOVILIDAD=3 "
+                + " and YEAR(m.FECHA_INICIO) BETWEEN " + Integer.parseInt(desde) + " and " + Integer.parseInt(hasta)
+                + " and " + campoUnion + " IN " + "(" + String.join(",", paisSelected) + ")"
+                + " and  m.ID_CATEGORIA IN " + "(" + String.join(",", categoriaSelected) + ")"
+                + "GROUP BY cm.ID_CATEGORIA_MOVILIDAD";
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
+                .addScalar("categoria", new StringType())
+                .addScalar("cantidad", new IntegerType())
+                .setResultTransformer(Transformers.aliasToBean(PojoMovilidadMapaCategoria.class));
         return q.list();
     }
 }
