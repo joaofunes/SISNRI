@@ -12,32 +12,43 @@
 
     <ui:define name="content">
         <center>
-            <h1 style="background: #cc0000;color: white;border-radius: 10px">Mapa Interactivo de Becas</h1>
+            <h1 style="background: #cc0000;color: white;border-radius: 10px">Mapa Interactivo de Movilidades</h1>
         </center>    
         <h:form id="formAdmin">
             <p:panel header="Parametros de Busqueda">
                 <p:panelGrid>
                     <p:row> 
                         <p:column>
+                            <p:outputLabel  value="Tipo: " />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="tipoMovilidadId" value="#{mapaInteractivoMovilidades.tipoMovilidadSelected.idTipoMovilidad}" label="--Seleccione--" filter="true" filterMatchMode="startsWith" style="width: 170px;">
+                                <p:ajax event="change" listener="#{mapaInteractivoMovilidades.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
+                                <c:forEach var="tm" items="#{mapaInteractivoMovilidades.tipoMovilidadList}">
+                                    <f:selectItem itemLabel="#{tm.nombreTipoMovilidad}" itemValue="#{tm.idTipoMovilidad}"/>
+                                </c:forEach>
+                            </p:selectOneMenu>> 
+                        </p:column>  
+                        <p:column>
                             <p:outputLabel  value="Pais  :" />
                         </p:column>
                         <p:column>
-                            <p:selectCheckboxMenu id="pais" value="#{mapaInteractivoBecas.paisSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith" style="width: 170px;padding-right: 10px">
-                                <p:ajax event="change" listener="#{mapaInteractivoBecas.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
-                                <p:ajax event="toggleSelect" listener="#{mapaInteractivoBecas.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
-                                <c:forEach var="pa" items="#{mapaInteractivoBecas.paisList}">
+                            <p:selectCheckboxMenu id="pais" value="#{mapaInteractivoMovilidades.paisSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith" style="width: 170px;padding-right: 10px">
+                                <p:ajax event="change" listener="#{mapaInteractivoMovilidades.graficar()}" process="@this" update=":mapaPanel,:graficosPanel"/>
+                                <p:ajax event="toggleSelect" listener="#{mapaInteractivoMovilidades.graficar()}" process="@this" update=":mapaPanel,:graficosPanel"/>
+                                <c:forEach var="pa" items="#{mapaInteractivoMovilidades.paisList}">
                                     <f:selectItem itemLabel="#{pa.nombrePais}" itemValue="#{pa.idPais}"/>
                                 </c:forEach>
                             </p:selectCheckboxMenu> 
                         </p:column>  
                         <p:column>
-                            <p:outputLabel value="Tipo de Beca:"/>
+                            <p:outputLabel value="Categoria:"/>
                         </p:column>
                         <p:column>
-                            <p:selectCheckboxMenu id="tbId" value="#{mapaInteractivoBecas.tipoBecaSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith">
-                                <p:ajax event="change" listener="#{mapaInteractivoBecas.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
-                                <p:ajax event="toggleSelect" listener="#{mapaInteractivoBecas.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
-                                <c:forEach var="tb" items="#{mapaInteractivoBecas.tipoBecaList}">
+                            <p:selectCheckboxMenu id="cmId" value="#{mapaInteractivoMovilidades.categoriaMovilidadSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith">
+                                <p:ajax event="change" listener="#{mapaInteractivoMovilidades.graficar()}" process="@this" update=":mapaPanel,:graficosPanel"/>
+                                <p:ajax event="toggleSelect" listener="#{mapaInteractivoMovilidades.graficar()}" process="@this" update=":mapaPanel,:graficosPanel"/>
+                                <c:forEach var="tb" items="#{mapaInteractivoMovilidades.tipoBecaList}">
                                     <f:selectItem itemValue="#{tb.idTipoBeca}" itemLabel="#{tb.nombreTipoBeca}"/> 
                                 </c:forEach>
                             </p:selectCheckboxMenu>
@@ -46,10 +57,10 @@
                             <p:outputLabel for="desde" value="Desde " />
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="desde" value="#{mapaInteractivoBecas.yearDesde}" style="width:175px">
-                                <p:ajax event="change" listener="#{mapaInteractivoBecas.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
+                            <p:selectOneMenu id="desde" value="#{mapaInteractivoMovilidades.yearDesde}" style="width:175px">
+                                <p:ajax event="change" listener="#{mapaInteractivoMovilidades.graficar()}" process="@this" update=":mapaPanel,:graficosPanel"/>
                                 <c:forEach begin="0" end="125" varStatus="loop">
-                                    <c:set var="currentYear" value="${mapaInteractivoBecas.yearActual-loop.index} " />
+                                    <c:set var="currentYear" value="${mapaInteractivoMovilidades.yearActual-loop.index} " />
                                     <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
                                 </c:forEach>
                             </p:selectOneMenu>
@@ -58,10 +69,10 @@
                             <p:outputLabel for="hasta" value="Hasta " />
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="hasta" value="#{mapaInteractivoBecas.yearHasta}" style="width:175px">
-                                <p:ajax event="change" listener="#{mapaInteractivoBecas.graficar()}" process="@this" update=":mapaPanel,:graficosPanel,:tblProyectosSumary"/>
+                            <p:selectOneMenu id="hasta" value="#{mapaInteractivoMovilidades.yearHasta}" style="width:175px">
+                                <p:ajax event="change" listener="#{mapaInteractivoMovilidades.graficar()}" process="@this" update=":mapaPanel,:graficosPanel"/>
                                 <c:forEach begin="0" end="125" varStatus="loop">
-                                    <c:set var="currentYear" value="${mapaInteractivoBecas.yearActual-loop.index} " />
+                                    <c:set var="currentYear" value="${mapaInteractivoMovilidades.yearActual-loop.index} " />
                                     <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
                                 </c:forEach>
                             </p:selectOneMenu>
@@ -73,23 +84,24 @@
 
         <p:outputPanel id="mapaPanel">
             <p:panel header="Mapa de Cooperacion" toggleable="true" >
-                <pe:gChart value="#{mapaInteractivoBecas.chartModel}" title="Mapa de Cooperacion" rendered="#{!mapaInteractivoBecas.noHayRegistros}" widgetVar="map"/>
+                <pe:gChart value="#{mapaInteractivoMovilidades.chartModel}" title="Mapa de Cooperacion" rendered="#{!mapaInteractivoMovilidades.noHayRegistros}" widgetVar="map"/>
             </p:panel>
         </p:outputPanel>
 
         <p:outputPanel id="graficosPanel">
             <p:panel header="Graficos de Pastel" toggleable="true">
-                <p:panelGrid columns="2" rendered="#{!mapaInteractivoBecas.noHayRegistros}">
+                <p:panelGrid columns="2" rendered="#{!mapaInteractivoMovilidades.noHayRegistros}">
                     <p:column>
                         <p:panelGrid columns="2" >
-                            <p:chart type="pie" model="#{mapaInteractivoBecas.pieModel}" style="width:350px;height:300px" widgetVar="pie" />
+                            <p:chart type="pie" model="#{mapaInteractivoMovilidades.pieModel}" style="width:350px;height:300px" widgetVar="pie" />
                             <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pie')" style="padding-left: 5px"/>
                         </p:panelGrid>
                     </p:column >
                     <p:column>
                         <p:panelGrid columns="2">
-                            <p:chart type="pie" model="#{mapaInteractivoBecas.pieModelType}" style="width:350px;height:300px" widgetVar="pieType"/>
-                            <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pieType')"/>
+                            <p:outputLabel value="aqui ira el grafico de categorias"/>
+<!--                            <p:chart type="pie" model="#{mapaInteractivoMovilidades.pieModelType}" style="width:350px;height:300px" widgetVar="pieType"/>
+                            <p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart('pieType')"/>-->
                         </p:panelGrid>
                     </p:column>
                 </p:panelGrid>
@@ -104,86 +116,6 @@
                 PF('dlg').show();
             }
         </script>
-
-        <p:outputPanel id="tblProyectosSumary">
-            <p:panel header="Datos por Pais" toggleable="true">
-                <p:dataTable id="tblr" var="r" value="#{mapaInteractivoBecas.becasListToChart}"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                             paginator="true" rows="10" style="margin-bottom:20px" rendered="#{!mapaInteractivoBecas.noHayRegistros}">
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Pais Destino" />
-                        </f:facet>
-                        <h:outputText value="#{r.nombrePais}" />
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Cantidad de Becas" />
-                        </f:facet>
-                        <h:outputText value="#{r.cantidadBecas}" />
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="Monto Total" />
-                        </f:facet>
-                        <h:outputText value="#{r.montoCooperacion}">
-                            <f:convertNumber type="currency" currencySymbol="$" />
-                        </h:outputText> 
-                    </p:column>
-                    <p:column exportable="false">
-                        <f:facet name="header">
-                            <h:outputText value="Detalle" />
-                        </f:facet>
-                        <p:commandButton value="Ver" id="btnPopUpr" actionListener="#{mapaInteractivoBecas.fillPopUp(r.idPais)}" oncomplete="PF('projectPopUp').show();" update=":listP" icon="ui-icon-search" />
-                    </p:column>
-                    <p:columnGroup type="footer">
-                        <p:row>
-                            <p:column colspan="2" style="text-align:right" footerText="Total Cooperacion:" />
-                            <p:column footerText="$#{mapaInteractivoBecas.montoBecas}" style="text-align:left"/>
-                        </p:row>
-                    </p:columnGroup>
-                </p:dataTable>
-                <p:panelGrid columns="2" rendered="false">
-                    <h:commandLink>
-                        Excel
-                        <p:dataExporter type="xls" target="tblr" fileName="tablaResumenCooperacion" pageOnly="true"/>
-                    </h:commandLink>
-                    <h:commandLink>
-                        PDF
-                        <p:dataExporter type="pdf" target="tblr" fileName="tablaResumenCooperacion" pageOnly="true" />
-                    </h:commandLink> 
-                </p:panelGrid>
-            </p:panel>
-        </p:outputPanel>
-
-        <p:dialog header="Detalle de Proyectos" id="listP" widgetVar="projectPopUp" modal="true" appendTo="@(body)">
-            <p:dataTable var="p" value="#{mapaInteractivoBecas.becasListToPopUp}" scrollable="true" scrollHeight="150" id="tablelist" style="width: 1000px">
-                <p:column headerText="Programa de Beca">
-                    <h:outputText value="#{p.idProgramaBeca.nombrePrograma}" />
-                </p:column>
-                <p:column headerText="Universidad Destino">
-                    <h:outputText value="#{p.idUniversidad.nombreOrganismo}" />
-                </p:column>
-                <p:column headerText="A&ntilde;o Gestion">
-                    <h:outputText value="#{p.anioGestion}" />
-                </p:column>
-                <p:column headerText="Inicio">
-                    <h:outputText value="#{p.fechaInicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="Finalizacion">
-                    <h:outputText value="#{p.fechaFin}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="Monto($)">
-                    <h:outputText value="#{p.montoTotal}">
-                        <f:convertNumber type="currency" currencySymbol="$" />
-                    </h:outputText>
-                </p:column>
-            </p:dataTable>
-        </p:dialog>
         <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Imagen del grafico" resizable="true" appendTo="@(body)">
             <center> <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/></center>
         </p:dialog>
