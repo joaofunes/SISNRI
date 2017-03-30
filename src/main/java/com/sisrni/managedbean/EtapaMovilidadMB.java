@@ -11,6 +11,7 @@ import com.sisrni.model.EtapaMovilidad;
 import com.sisrni.service.EtapaMovilidadService;
 import com.sisrni.service.generic.GenericService;
 import com.sisrni.utils.JsfUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -191,7 +192,22 @@ public class EtapaMovilidadMB  extends GenericManagedBean<EtapaMovilidad, Intege
         cargarEtapaMovilidad();
     } 
     
-    
+    public List<EtapaMovilidad> listarEtapasMovilidad(){
+        listadoEtapaMovilidad = etapaMovilidadService.getAllEtapasByNameAsc();
+        EtapaMovilidad etapaMovilidadNuevo = new EtapaMovilidad();
+        List<EtapaMovilidad> listEtapaMovilidadCopy = new ArrayList<EtapaMovilidad>();
+        
+        for(EtapaMovilidad etp : listadoEtapaMovilidad){
+            if(!etp.getNombreEtapa().equalsIgnoreCase("Agregar Nuevo")){
+                listEtapaMovilidadCopy.add(etp);
+            }else{
+                etapaMovilidadNuevo = etp;
+            }
+        }
+        listEtapaMovilidadCopy.add(etapaMovilidadNuevo);
+        listadoEtapaMovilidad.clear();
+        return listadoEtapaMovilidad = listEtapaMovilidadCopy;
+    }
     
      
     public EtapaMovilidad getEtapaMovilidad() {

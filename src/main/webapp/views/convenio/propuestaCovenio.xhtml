@@ -8,8 +8,7 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:pe="http://primefaces.org/ui/extensions" 
-                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                 >
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
     <ui:define name="content">
@@ -22,9 +21,7 @@
             <f:viewAction action="#{propuestaConvenioMB.onload}" />
         </f:metadata>
 
-        <h:form id="formAdmin">
-        </h:form>   
-
+       
         <center>
             <p:fieldset legend="Ingreso de Propuesta de Convenio"> 
         
@@ -675,7 +672,7 @@
                     </p:tab>
                     <p:tab title="Datos de Propuesta">
                         <h:form id="fileUploadGroup" >    
-                            <p:panelGrid>                           
+                           <p:panelGrid>                           
                                 <p:row>
                                     <p:column>
                                         <p:outputLabel for="idTipoPropuesta" value="Tipo de Propuesta" />
@@ -690,7 +687,6 @@
                                     </p:column>
                                 </p:row>
                                 <p:row>
-
                                     <p:column>
                                         <p:outputLabel  value="Convenio"  />
                                     </p:column>
@@ -731,7 +727,7 @@
                                         </tr>
                                     </tfoot>
                                 </table>  
-                            </p:panelGrid> 
+                            </p:panelGrid>
                         </h:form>
                     </p:tab>
                 </p:accordionPanel>                                                                                               

@@ -91,15 +91,31 @@ public class TipoPropuestaConvenioMB  extends GenericManagedBean<TipoPropuestaCo
         try {            
             tipoPropuestaConvenioService.save(tipoPropuestaConvenio);                              
             cargarTipoPropuestaConvenio();
-            RequestContext.getCurrentInstance().update(":formPrincipal");
-            
+            RequestContext.getCurrentInstance().update(":formPrincipal");            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
-            
+             cargarTipoPropuestaConvenio();
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al guardar tipo de Propuesta de Convenio");
             e.printStackTrace();
         }
-        cargarTipoPropuestaConvenio();
+       
+    } 
+     /**
+      * Metodo para almacenar registro en Tipo PropuestaConvenio
+      * 
+      */
+     public void guardarTipoPropuestaConvenioOthearBean() {
+        String msg = "Tipo de Propuesta de Convenio Almacenado Exitosamente!";       
+        try {            
+            tipoPropuestaConvenioService.save(tipoPropuestaConvenio);                              
+            cargarTipoPropuestaConvenio();
+            RequestContext.getCurrentInstance().update(":formPrincipal");            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Error al guardar tipo de Propuesta de Convenio");
+            e.printStackTrace();
+        }
+       
     } 
      
      /**

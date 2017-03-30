@@ -68,8 +68,19 @@ import org.springframework.web.context.WebApplicationContext;
 @Named(value = "registrarMovilidadMB")
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
 public class registrarMovilidadMB {
+
     @Inject
     CategoriaMovilidadMB categoriaMovilidadMB;
+    @Inject
+    PaisMB paisMB;
+    @Inject
+    OrganismoCooperanteMB organismoCooperanteMB;
+    @Inject
+    TipoCambioMB tipoCambioMB;
+    @Inject 
+    EtapaMovilidadMB etapaMovilidadMB;
+    @Inject
+    ProgramaMovilidadMB programaMovilidadMB;
 
     //Variables
     private Boolean existeReferente;
@@ -629,9 +640,7 @@ public class registrarMovilidadMB {
         //mascaraTelefonoMovilidad = "("+codigoPais+")?##########";
         codigoPais = paisService.findById(personaMovilidadGenerico.getIdOrganismo().getIdPais()).getCodigoPais();
         mascaraTelefonoMovilidad = telefonoService.getMask(codigoPais);
-        
-        
-        
+
     }
 
     /**
@@ -658,10 +667,11 @@ public class registrarMovilidadMB {
     public void onchangeListPaisOrigen() {
         try {
             if (movilidad.getIdPaisOrigen() != null) {
-                listOrganismosOrigen = organismoService.getOrganismosPorPaisYTipo(movilidad.getIdPaisOrigen(), 1); //REVISAR ESTO
+                //listOrganismosOrigen = organismoService.getOrganismosPorPaisYTipo(movilidad.getIdPaisOrigen(), 1); //REVISAR ESTO
+                listOrganismosOrigen = listaOrganismos(movilidad.getIdPaisOrigen());
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -669,10 +679,11 @@ public class registrarMovilidadMB {
         try {
             if (movilidad.getIdPaisDestino() != null) {
                 //nota: validar si no se recibe ningun organismo
-                listOrganismosDestino = organismoService.getOrganismosPorPaisYTipo(movilidad.getIdPaisDestino(), 1);
+                //listOrganismosDestino = organismoService.getOrganismosPorPaisYTipo(movilidad.getIdPaisDestino(), 1);
+                listOrganismosDestino = listaOrganismos(movilidad.getIdPaisDestino());
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -949,7 +960,7 @@ public class registrarMovilidadMB {
                 if (list.isEmpty()) {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
-                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
                 }
                 limpiarSaliente();
                 return list;
@@ -961,7 +972,7 @@ public class registrarMovilidadMB {
                 if (list.isEmpty()) {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
-                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
                 }
                 limpiarSaliente();
                 return list;
@@ -972,7 +983,7 @@ public class registrarMovilidadMB {
                 if (list.isEmpty()) {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
-                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
                 }
                 limpiarSaliente();
                 return list;
@@ -1075,7 +1086,7 @@ public class registrarMovilidadMB {
                 if (list.isEmpty()) {
                     mostrarBotonNuevoReferente = true;
                     mostrarBotonEditarReferente = false;
-                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupReferente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:grupReferente");
                 }
                 limpiarReferente();
                 return list;
@@ -1087,7 +1098,7 @@ public class registrarMovilidadMB {
                 if (list.isEmpty()) {
                     mostrarBotonNuevoReferente = true;
                     mostrarBotonEditarReferente = false;
-                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupReferente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:grupReferente");
                 }
                 limpiarReferente();
                 return list;
@@ -1098,7 +1109,7 @@ public class registrarMovilidadMB {
                 if (list.isEmpty()) {
                     mostrarBotonNuevoReferente = true;
                     mostrarBotonEditarReferente = false;
-                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupReferente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:grupReferente");
                 }
                 limpiarReferente();
                 return list;
@@ -1202,7 +1213,7 @@ public class registrarMovilidadMB {
                 if (list.isEmpty()) {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
-                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
                 }
                 limpiarEntrante();
                 return list;
@@ -1214,7 +1225,7 @@ public class registrarMovilidadMB {
                 if (list.isEmpty()) {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
-                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
                 }
                 limpiarEntrante();
                 return list;
@@ -1225,7 +1236,7 @@ public class registrarMovilidadMB {
                 if (list.isEmpty()) {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
-                    RequestContext.getCurrentInstance().update("formRegistrarMovilidad:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
                 }
                 limpiarEntrante();
                 return list;
@@ -1909,7 +1920,7 @@ public class registrarMovilidadMB {
         existePersonaMovilidad = true;
         existeReferente = true;
         siEditarDocente = true;
-        siEditarReferente=true;
+        siEditarReferente = true;
 
         try {
             if ((movilidadAux = movilidadService.findById(idMovilidad)) != null) {
@@ -2291,15 +2302,125 @@ public class registrarMovilidadMB {
         } catch (Exception e) {
         }
     }
-    
-    
-    public void addNewCategoriaMovilidadIfIsNecesary(){
-        if(movilidad.getIdCategoria().getNombreCategoria().equalsIgnoreCase("Agregar Nuevo")){
+
+    public void addNewCategoriaMovilidadIfIsNecesary() {
+        if (movilidad.getIdCategoria().getNombreCategoria().equalsIgnoreCase("Agregar Nuevo")) {
             categoriaMovilidadMB.init();
             RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('categoriaMovilidadDialog').show()");
         }
     }
+
+    public void addNewPaisIfIsNecesary() {
+        if (paisService.findById(movilidad.getIdPaisOrigen()).getNombrePais().equalsIgnoreCase("Agregar Nuevo")) {
+            paisMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('paisDialog').show()");
+        }
+    }
+
+    public void changePaisOrigen() {
+        if (!paisService.findById(movilidad.getIdPaisOrigen()).getNombrePais().equalsIgnoreCase("Agregar Nuevo")) {
+            onchangeListPaisOrigen();
+        } else {
+            addNewPaisIfIsNecesary();
+        }
+
+    }
+
+    public void addNewPaisDestinoIfIsNecesary() {
+        if (paisService.findById(movilidad.getIdPaisDestino()).getNombrePais().equalsIgnoreCase("Agregar Nuevo")) {
+            paisMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('paisDialog').show()");
+        }
+    }
+
+    public void changePaisDestino() {
+        if (!paisService.findById(movilidad.getIdPaisDestino()).getNombrePais().equalsIgnoreCase("Agregar Nuevo")) {
+            onchangeListPaisDestino();
+        } else {
+            addNewPaisDestinoIfIsNecesary();
+        }
+    }
+
+    public List<Organismo> listaOrganismos(Integer idPais) {
+        List<Organismo> organismosListAux = organismoService.getAllByNameAsc();
+        Organismo organismoNew1 = new Organismo();
+        List<Organismo> copy = new ArrayList<Organismo>();
+        for (Organismo organismoNew : organismosListAux) {
+            if ((organismoNew.getIdPais() != null && organismoNew.getIdPais().equals(idPais)) || (organismoNew.getNombreOrganismo().equalsIgnoreCase("Agregar Nuevo"))) {
+                if (!organismoNew.getNombreOrganismo().equalsIgnoreCase("Agregar Nuevo")) {
+                    copy.add(organismoNew);
+                } else {
+                    organismoNew1 = organismoNew;
+                }
+
+            }
+
+        }
+        copy.add(organismoNew1);
+        organismosListAux.clear();
+        return copy;
+    }
+
+    public void addNewInstitucionOrigenIfIsNecesary() {
+        if (organismoService.findById(movilidad.getIdUniversidadOrigen()).getNombreOrganismo().equalsIgnoreCase("Agregar Nuevo")) {
+            organismoCooperanteMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('organismoDialog').show()");
+
+        }
+    }
+
+    public void addNewInstitucionDestinoIfIsNecesary() {
+        if (organismoService.findById(movilidad.getIdUniversidadDestino()).getNombreOrganismo().equalsIgnoreCase("Agregar Nuevo")) {
+            organismoCooperanteMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('organismoDestDialog').show()");
+        }
+    }
+
+    public void updateListInstitucionOrigen() {
+        listOrganismosOrigen.clear();
+        onchangeListPaisOrigen();
+        RequestContext contextOrigen = RequestContext.getCurrentInstance();
+        contextOrigen.update("formAdmin:acordion:institucionOrigen");
+    }
+
+    public void updateListInstitucionDestino() {
+        listOrganismosDestino.clear();
+        onchangeListPaisDestino();
+        RequestContext contextDestino = RequestContext.getCurrentInstance();
+        contextDestino.update("formAdmin:acordion:institucionDestino");
+    }
+    
+    public void addNewtipoCambioIfIsNecesary(){
+         if (tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio()).getNombreDivisa().equalsIgnoreCase("Agregar Nuevo")) {
+            tipoCambioMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('tipocambioDialog').show()");
+        }
+    }
+    
+    
+    public void addNewEtapaMovilidadIfIsNecesary(){
+        if(movilidad.getIdEtapaMovilidad().getNombreEtapa().equalsIgnoreCase("Agregar Nuevo")){
+            etapaMovilidadMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('etapaMovilidadDialog').show()");
+        }
+    }
+    
+    public void addNewProgramaMovilidadIfIsNecesary(){
+        if(movilidad.getIdProgramaMovilidad().getNombreProgramaMovilidad().equalsIgnoreCase("Agregar Nuevo")){
+            programaMovilidadMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('programaMovilidadDialog').show()");
+        }
+    }
+    
+    
     
 
     //GETTER Y SETTER

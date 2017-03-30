@@ -384,6 +384,7 @@ public class PropuestaConvenioMB implements Serializable {
             listadoPersonasInterno = personaService.findAll();
             listadoPersonasExterno = personaService.findAll();
             listadoTipoPrpouestaConvenio = tipoPropuestaConvenioService.findAll();
+            listadoTipoPrpouestaConvenio = obtenerListadoTipoPrpouesta();
             //***Editar Persona***
             listadoOrganismo = organismoService.findAll();
             listadoTipoPersona = tipoPersonaService.findAll();
@@ -1818,7 +1819,24 @@ public class PropuestaConvenioMB implements Serializable {
             e.printStackTrace();
         }
     }
-
+    
+    public List<TipoPropuestaConvenio> obtenerListadoTipoPrpouesta(){
+      // listTipoProyecto = tipoProyectoService.getAllByNameAsc();
+        TipoPropuestaConvenio tipoPropuesta = new TipoPropuestaConvenio();
+        List<TipoPropuestaConvenio> copy = new ArrayList<TipoPropuestaConvenio>();
+        for (TipoPropuestaConvenio tipoPropuestaConv : listadoTipoPrpouestaConvenio) {
+            if (!tipoPropuestaConv.getNombrePropuestaConvenio().equalsIgnoreCase("Nuevo")) {
+                copy.add(tipoPropuestaConv);
+            } else {
+                tipoPropuesta = tipoPropuestaConv;
+            }
+        }
+        copy.add(tipoPropuesta);
+        listadoTipoPrpouestaConvenio.clear();
+        listadoTipoPrpouestaConvenio = copy;
+        return listadoTipoPrpouestaConvenio;
+    }
+            
     public Persona getReferenteInterno() {
         return referenteInterno;
     }
@@ -1979,21 +1997,8 @@ public class PropuestaConvenioMB implements Serializable {
         this.propuestaConvenio = propuestaConvenio;
     }
 
-    public List<TipoPropuestaConvenio> getListadoTipoPrpouestaConvenio() {
-
-        // listTipoProyecto = tipoProyectoService.getAllByNameAsc();
-        TipoPropuestaConvenio tipoPropuesta = new TipoPropuestaConvenio();
-        List<TipoPropuestaConvenio> copy = new ArrayList<TipoPropuestaConvenio>();
-        for (TipoPropuestaConvenio tipoPropuestaConv : listadoTipoPrpouestaConvenio) {
-            if (!tipoPropuestaConv.getNombrePropuestaConvenio().equalsIgnoreCase("Nuevo")) {
-                copy.add(tipoPropuestaConv);
-            } else {
-                tipoPropuesta = tipoPropuestaConv;
-            }
-        }
-        copy.add(tipoPropuesta);
-        listadoTipoPrpouestaConvenio.clear();
-        return listadoTipoPrpouestaConvenio = copy;
+    public List<TipoPropuestaConvenio> getListadoTipoPrpouestaConvenio() {       
+        return listadoTipoPrpouestaConvenio;
     }
 
     public void setListadoTipoPrpouestaConvenio(List<TipoPropuestaConvenio> listadoTipoPrpouestaConvenio) {

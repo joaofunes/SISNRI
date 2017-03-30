@@ -22,7 +22,7 @@
 
                     <p:column>
                         <p:commandButton styleClass="boton" rendered="#{!categoriaMovilidadMB.actualizar}"
-                                         actionListener="#{categoriaMovilidadMB.guardarCategoriaMovilidad}" value="Guardar"  update="formRegistrarMovilidad:acordion:categoriaMovilidad" process="@this :formCategoriaMovilidad" onclick="PF('categoriaMovilidadDialog').hide()"/>
+                                         actionListener="#{categoriaMovilidadMB.guardarCategoriaMovilidad}" value="Guardar"  update="formAdmin:acordion:categoriaMovilidad" process="@this :formCategoriaMovilidad" onclick="PF('categoriaMovilidadDialog').hide()"/>
 
 
                         <p:commandButton styleClass="boton" rendered="#{categoriaMovilidadMB.actualizar}"

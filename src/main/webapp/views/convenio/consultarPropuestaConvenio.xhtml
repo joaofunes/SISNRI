@@ -59,7 +59,7 @@
                                
                         </div>     
                         <div style="float: left">
-                            <p:commandLink styleClass="ui-icon ui-icon-circle-zoomin"
+                            <p:commandLink styleClass="ui-icon ui-icon-document "
                                            title="Detalle de Propuesta" value="Detalle de Propuesta"
                                            actionListener="#{consultarPropuestaConvenioMB.preEliminar(pconvenios)}"
                                            update=":idInfoConvenio"
@@ -176,7 +176,7 @@
                             <h:outputText value="Descripci&oacute;n: "  style="font-weight:bold" />
                         </p:column>
                         <p:column>
-                            <p:inputTextarea maxlength="300" disabled="true" value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}"  rows="6" style="width: 300px;"/>
+                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}"  style="width: 300px;"/>
                         </p:column>
                     </p:row>
                     <p:column>
