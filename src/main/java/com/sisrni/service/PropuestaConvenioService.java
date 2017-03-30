@@ -11,6 +11,8 @@ import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoConvenioEstado;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.pojo.rpt.RptBitacoraEstadosPojo;
+import com.sisrni.pojo.rpt.RptConteoConveniosPorTipoPojo;
 import com.sisrni.pojo.rpt.RptConveniosPorAnioPojo;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
@@ -80,5 +82,13 @@ public class PropuestaConvenioService extends GenericService<PropuestaConvenio, 
     
      public Integer conteoPropuestasEnRevision() {
       return propuestaConvenioDao.conteoPropuestasEnRevision();
+     }
+     
+     public List<RptConteoConveniosPorTipoPojo> conteoPropuestaConvenioByTipoPropuesta(Integer desde, Integer hasta) {
+         return propuestaConvenioDao.conteoPropuestaConvenioByTipoPropuesta(desde,hasta);
+     }
+     
+     public List<RptBitacoraEstadosPojo> estadosPropuestaConvenioBitacora(Integer desde, Integer hasta) {
+         return propuestaConvenioDao.estadosPropuestaConvenioBitacora(desde, hasta);
      }
 }
