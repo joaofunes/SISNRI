@@ -15,6 +15,7 @@ import com.sisrni.pojo.rpt.PojoMapaInteractivoBecas;
 import com.sisrni.pojo.rpt.PojoMapaMovilidad;
 import com.sisrni.service.BecaService;
 import com.sisrni.service.CategoriaMovilidadService;
+import com.sisrni.service.MovilidadService;
 import com.sisrni.service.PaisService;
 import com.sisrni.service.TipoBecaService;
 import com.sisrni.service.TipoMovilidadService;
@@ -51,7 +52,7 @@ public class MapaInteractivoMovilidades implements Serializable {
     private static final long serialVersionUID = 1L;
     private final static Log log = LogFactory.getLog(MapaInteractivoMovilidades.class);
 
-    private List<String> tipoMovilidadSelected;
+    private TipoMovilidad tipoMovilidadSelected;
     private List<String> paisSelected;
     private List<String> categoriaMovilidadSelected;
     private String yearDesde;
@@ -80,8 +81,12 @@ public class MapaInteractivoMovilidades implements Serializable {
 
     @Autowired
     TipoMovilidadService tipoMovilidadService;
+
     @Autowired
     CategoriaMovilidadService categoriaMovilidadService;
+
+    @Autowired
+    MovilidadService movilidadService;
 
     public MapaInteractivoMovilidades() {
     }
@@ -105,12 +110,12 @@ public class MapaInteractivoMovilidades implements Serializable {
         paisList = paisService.findAll();
         llenarPaises();
 
-        tipoMovilidadSelected = new ArrayList<String>();
+        tipoMovilidadSelected = tipoMovilidadService.findById(2);
         tipoMovilidadList = tipoMovilidadService.findAll();
-        llenarTipos();
 
         categoriaMovilidadSelected = new ArrayList<String>();
-        tipoMovilidadList = categoriaMovilidadService.findAll();
+        categoriaList = categoriaMovilidadService.findAll();
+        llenarCategorias();
 
         noHayRegistros = Boolean.FALSE;
         graficar();
@@ -121,13 +126,13 @@ public class MapaInteractivoMovilidades implements Serializable {
         if (Integer.parseInt(yearDesde.trim()) > Integer.parseInt(yearHasta.trim())) {
             badyears = true;
         }
-        if (!paisSelected.isEmpty() && !tipoBecaSelected.isEmpty() && !badyears) {
-            becasListToChart = becaService.getBecastListToCharts(paisSelected, tipoBecaSelected, yearDesde.trim(), yearHasta.trim());//tipoProyectoSelected, 
-            montoBecas = calcularMonto(becasListToChart);
-            if (!becasListToChart.isEmpty()) {
+        if (tipoMovilidadSelected.getIdTipoMovilidad() != null && !paisSelected.isEmpty() && !categoriaMovilidadSelected.isEmpty() && !badyears) {
+            movilidadesListToChart = movilidadService.getBecastListToCharts(tipoMovilidadSelected.getIdTipoMovilidad(), paisSelected, categoriaMovilidadSelected, yearDesde.trim(), yearHasta.trim());
+            montoMovilidades = calcularMonto(movilidadesListToChart);
+            if (!movilidadesListToChart.isEmpty()) {
                 crearMapa();
                 createPieModel();
-                createPieTipo();
+                //createPieTipo();
                 noHayRegistros = Boolean.FALSE;
             } else {
                 noHayRegistros = Boolean.TRUE;
@@ -140,8 +145,8 @@ public class MapaInteractivoMovilidades implements Serializable {
             if (paisSelected.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un Pais"));
             }
-            if (tipoBecaSelected.isEmpty()) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un tipo de beca"));
+            if (categoriaMovilidadSelected.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos una categoria"));
             }
             if (badyears) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Parametro Desde no puede ser mayor al parametro Hasta"));
@@ -160,42 +165,32 @@ public class MapaInteractivoMovilidades implements Serializable {
         }
     }
 
-    public void llenarTipos() {
-        for (TipoBeca tb : tipoBecaList) {
-            tipoBecaSelected.add(tb.getIdTipoBeca() + "");
-        }
-    }
-
-    public void fillPopUp(Integer pais) {
-        for (PojoMapaInteractivoBecas pj : becasListToChart) {
-            if (pj.getIdPais() == pais) {
-                becasListToPopUp = pj.getBecastList();
-
-            }
+    public void llenarCategorias() {
+        for (CategoriaMovilidad cm : categoriaList) {
+            categoriaMovilidadSelected.add(cm.getIdCategoriaMovilidad() + "");
         }
     }
 
     private void createPieModel() {
         pieModel = new PieChartModel();
-        for (PojoMapaInteractivoBecas pj : becasListToChart) {
-            pieModel.set(pj.getNombrePais(), pj.getMontoCooperacion());
+        for (PojoMapaMovilidad pj : movilidadesListToChart) {
+            pieModel.set(pj.getNombrePais(), pj.getMontoMovilidades());
         }
-        pieModel.setTitle("Pais y Porcejaje de cooperacion");
+        pieModel.setTitle("Pais y Porcejaje de Inversion");
         pieModel.setLegendPosition("w");
         pieModel.setShowDataLabels(true);
     }
 
-    private void createPieTipo() {
-        pieModelType = new PieChartModel();
-        List<PojoBecasByTipo> series = becasListToChart.get(0).getSeries();
-        for (PojoBecasByTipo pj : series) {
-            pieModelType.set(pj.getNombreTipoBeca(), pj.getCantidad());
-        }
-        pieModelType.setTitle("Cantidad y Tipos de Beca");
-        pieModelType.setLegendPosition("w");
-        pieModelType.setShowDataLabels(true);
-    }
-
+//    private void createPieTipo() {
+//        pieModelType = new PieChartModel();
+//        List<PojoBecasByTipo> series = becasListToChart.get(0).getSeries();
+//        for (PojoBecasByTipo pj : series) {
+//            pieModelType.set(pj.getNombreTipoBeca(), pj.getCantidad());
+//        }
+//        pieModelType.setTitle("Cantidad y Tipos de Beca");
+//        pieModelType.setLegendPosition("w");
+//        pieModelType.setShowDataLabels(true);
+//    }
     public void inicializarPieUno() {
 
         pieModel = new PieChartModel();
@@ -212,56 +207,6 @@ public class MapaInteractivoMovilidades implements Serializable {
         pieModelType.setShowDataLabels(true);
     }
 
-//    private void createBarModel() {
-//        barModel = initBarModel();
-//
-//        barModel.setTitle("Grafico de Barras");
-//        barModel.setLegendPosition("ne");
-//
-//        Axis xAxis = barModel.getAxis(AxisType.X);
-//        xAxis.setLabel("Tiempo");
-//
-//        Axis yAxis = barModel.getAxis(AxisType.Y);
-//        yAxis.setLabel("Cooperacion($)");
-//        yAxis.setMin(0);
-//        yAxis.setMax(200);
-//    }
-//    private BarChartModel initBarModel() {
-//        BarChartModel model = new BarChartModel();
-//        ChartSeries proyectos = new ChartSeries();
-//        proyectos.setLabel("Proyectos");
-//        proyectos.set("2004", 120);
-//        proyectos.set("2005", 100);
-//        proyectos.set("2006", 44);
-//        proyectos.set("2007", 150);
-//        proyectos.set("2008", 25);
-//        proyectos.set("2009", 25);
-//        proyectos.set("2010", 120);
-//        proyectos.set("2011", 100);
-//        proyectos.set("2012", 44);
-//        proyectos.set("2013", 150);
-//        proyectos.set("2014", 25);
-//        proyectos.set("2015", 120);
-//        proyectos.set("2016", 100);
-//        proyectos.set("2017", 44);
-//        proyectos.set("2018", 150);
-//        proyectos.set("2019", 25);
-//        model.addSeries(proyectos);
-//        return model;
-//    }
-//    public void verdadero() {
-//        try {
-//            mostrarGraficos = false;
-//            projectListToChart = proyectoService.getProjectListToCharts(paisSelected, tipoProyectoSelected, yearDesde.trim(), yearHasta.trim());
-//            numeroProyectos = projectListToChart.size();
-//            montoProyectos = calcularMonto(projectListToChart);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "-hasta:" + getYearHasta() + "-actual:" + getYearActual() + "-desde:" + getYearDesde()));
-//
-//        } catch (Exception e) {
-//
-//        }
-//
-//    }
     public void crearMapa() {
         this.chartModel = null;
         try {
@@ -270,9 +215,9 @@ public class MapaInteractivoMovilidades implements Serializable {
             colorAxis.put("colors", new String[]{"Green", "Red"});
             GChartModelBuilder chartModelBuilder = new GChartModelBuilder();
             chartModelBuilder.setChartType(GChartType.GEO);
-            chartModelBuilder.addColumns("Codigo", "Pais", "Cooperacion($)");
-            for (PojoMapaInteractivoBecas pj : becasListToChart) {
-                chartModelBuilder.addRow(pj.getCodigoPais(), pj.getNombrePais(), pj.getMontoCooperacion());
+            chartModelBuilder.addColumns("Codigo", "Pais", "Monto($)");
+            for (PojoMapaMovilidad pj : movilidadesListToChart) {
+                chartModelBuilder.addRow(pj.getCodigoPais(), pj.getNombrePais(), pj.getMontoMovilidades());
             }
             chartModelBuilder.addOption("colorAxis", colorAxis);
             this.chartModel = chartModelBuilder.build();
@@ -288,7 +233,7 @@ public class MapaInteractivoMovilidades implements Serializable {
             colorAxis.put("colors", new String[]{"Green", "Red"});
             GChartModelBuilder chartModelBuilder = new GChartModelBuilder();
             chartModelBuilder.setChartType(GChartType.GEO);
-            chartModelBuilder.addColumns("Codigo", "Pais", "Cooperacion($)");
+            chartModelBuilder.addColumns("Codigo", "Pais", "Monto($)");
             chartModelBuilder.addOption("colorAxis", colorAxis);
             this.chartModel = chartModelBuilder.build();
         } catch (Exception e) {
@@ -296,10 +241,10 @@ public class MapaInteractivoMovilidades implements Serializable {
         }
     }
 
-    private double calcularMonto(List<PojoMapaInteractivoBecas> becasListToChart) {
+    private double calcularMonto(List<PojoMapaMovilidad> movilidadesListToChart) {
         double total = 0L;
-        for (PojoMapaInteractivoBecas pj : becasListToChart) {
-            total = total + pj.getMontoCooperacion();
+        for (PojoMapaMovilidad pj : movilidadesListToChart) {
+            total = total + pj.getMontoMovilidades();
         }
         return total;
     }
@@ -335,21 +280,6 @@ public class MapaInteractivoMovilidades implements Serializable {
         this.paisSelected = paisSelected;
     }
 
-//    public List<String> getTipoProyectoSelected() {
-//        return tipoProyectoSelected;
-//    }
-//
-//    public void setTipoProyectoSelected(List<String> tipoProyectoSelected) {
-//        this.tipoProyectoSelected = tipoProyectoSelected;
-//    }
-//
-//    public boolean isMostrarGraficos() {
-//        return mostrarGraficos;
-//    }
-//
-//    public void setMostrarGraficos(boolean mostrarGraficos) {
-//        this.mostrarGraficos = mostrarGraficos;
-//    }
     public GChartModel getChartModel() {
         return chartModel;
     }
@@ -358,13 +288,6 @@ public class MapaInteractivoMovilidades implements Serializable {
         this.chartModel = chartModel;
     }
 
-//    public BarChartModel getBarModel() {
-//        return barModel;
-//    }
-//
-//    public void setBarModel(BarChartModel barModel) {
-//        this.barModel = barModel;
-//    }
     public PieChartModel getPieModel() {
         return pieModel;
     }
@@ -381,37 +304,6 @@ public class MapaInteractivoMovilidades implements Serializable {
         this.pieModelType = pieModelType;
     }
 
-//    public List<TipoProyecto> getTipoProyectosList() {
-//        return tipoProyectosList;
-//    }
-//
-//    public void setTipoProyectosList(List<TipoProyecto> tipoProyectosList) {
-//        this.tipoProyectosList = tipoProyectosList;
-//    }
-//
-//    public List<PojoMapaInteractivo> getProjectListToChart() {
-//        return projectListToChart;
-//    }
-//
-//    public void setProjectListToChart(List<PojoMapaInteractivo> projectListToChart) {
-//        this.projectListToChart = projectListToChart;
-//    }
-//
-//    public int getNumeroProyectos() {
-//        return numeroProyectos;
-//    }
-//
-//    public void setNumeroProyectos(int numeroProyectos) {
-//        this.numeroProyectos = numeroProyectos;
-//    }
-//
-//    public double getMontoProyectos() {
-//        return montoProyectos;
-//    }
-//
-//    public void setMontoProyectos(double montoProyectos) {
-//        this.montoProyectos = montoProyectos;
-//    }
     public String getYearDesde() {
         return yearDesde;
     }
@@ -436,51 +328,52 @@ public class MapaInteractivoMovilidades implements Serializable {
         this.yearActual = yearActual;
     }
 
-//    public List<Proyecto> getProjectListToPopUp() {
-//        return projectListToPopUp;
-//    }
-//
-//    public void setProjectListToPopUp(List<Proyecto> projectListToPopUp) {
-//        this.projectListToPopUp = projectListToPopUp;
-//    }
-    public List<PojoMapaInteractivoBecas> getBecasListToChart() {
-        return becasListToChart;
+    public TipoMovilidad getTipoMovilidadSelected() {
+        return tipoMovilidadSelected;
     }
 
-    public void setBecasListToChart(List<PojoMapaInteractivoBecas> becasListToChart) {
-        this.becasListToChart = becasListToChart;
+    public void setTipoMovilidadSelected(TipoMovilidad tipoMovilidadSelected) {
+        this.tipoMovilidadSelected = tipoMovilidadSelected;
     }
 
-    public double getMontoBecas() {
-        return montoBecas;
+    public List<String> getCategoriaMovilidadSelected() {
+        return categoriaMovilidadSelected;
     }
 
-    public void setMontoBecas(double montoBecas) {
-        this.montoBecas = montoBecas;
+    public void setCategoriaMovilidadSelected(List<String> categoriaMovilidadSelected) {
+        this.categoriaMovilidadSelected = categoriaMovilidadSelected;
     }
 
-    public List<Beca> getBecasListToPopUp() {
-        return becasListToPopUp;
+    public List<TipoMovilidad> getTipoMovilidadList() {
+        return tipoMovilidadList;
     }
 
-    public void setBecasListToPopUp(List<Beca> becasListToPopUp) {
-        this.becasListToPopUp = becasListToPopUp;
+    public void setTipoMovilidadList(List<TipoMovilidad> tipoMovilidadList) {
+        this.tipoMovilidadList = tipoMovilidadList;
     }
 
-    public List<String> getTipoBecaSelected() {
-        return tipoBecaSelected;
+    public List<CategoriaMovilidad> getCategoriaList() {
+        return categoriaList;
     }
 
-    public void setTipoBecaSelected(List<String> tipoBecaSelected) {
-        this.tipoBecaSelected = tipoBecaSelected;
+    public void setCategoriaList(List<CategoriaMovilidad> categoriaList) {
+        this.categoriaList = categoriaList;
     }
 
-    public List<TipoBeca> getTipoBecaList() {
-        return tipoBecaList;
+    public List<PojoMapaMovilidad> getMovilidadesListToChart() {
+        return movilidadesListToChart;
     }
 
-    public void setTipoBecaList(List<TipoBeca> tipoBecaList) {
-        this.tipoBecaList = tipoBecaList;
+    public void setMovilidadesListToChart(List<PojoMapaMovilidad> movilidadesListToChart) {
+        this.movilidadesListToChart = movilidadesListToChart;
+    }
+
+    public double getMontoMovilidades() {
+        return montoMovilidades;
+    }
+
+    public void setMontoMovilidades(double montoMovilidades) {
+        this.montoMovilidades = montoMovilidades;
     }
 
 }
