@@ -6,6 +6,7 @@
 package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
+import com.sisrni.model.PersonaProyecto;
 import com.sisrni.model.Proyecto;
 import com.sisrni.pojo.rpt.PojoMapaInteractivo;
 import com.sisrni.pojo.rpt.PojoProyectosByTipo;
@@ -164,4 +165,17 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         }
 
     }
+    //metodo que retorna si la persona esta vinculada al proyecto
+    public PersonaProyecto isVinculadoPersona(Integer idProyecto, Integer idPersona) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT pp  FROM PersonaProyecto pp WHERE pp.proyecto.idProyecto =:idproyecto AND pp.persona.idPersona =:idpersona ");
+            q.setParameter("idproyecto", idProyecto);
+            q.setParameter("idpersona", idPersona);
+            return (PersonaProyecto) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    } 
 }

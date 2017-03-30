@@ -7,6 +7,7 @@ package com.sisrni.service;
 
 import com.sisrni.dao.ProyectoDao;
 import com.sisrni.dao.generic.GenericDao;
+import com.sisrni.model.PersonaProyecto;
 import com.sisrni.model.Proyecto;
 import com.sisrni.pojo.rpt.PojoMapaInteractivo;
 import com.sisrni.pojo.rpt.RptProyectoPojo;
@@ -59,5 +60,9 @@ public class ProyectoService extends GenericService<Proyecto, Integer> {
     }
     public void desvincularInterno(Integer proyectoId, Integer personaId) {
         proyectoDao.desvincularInterno(proyectoId, personaId);
+    }
+    //metodo que retorna si la persona esta vinculada al proyecto
+    public PersonaProyecto isVinculadoPersona(Integer idProyecto, Integer idPersona) {
+        return proyectoDao.isVinculadoPersona(idProyecto, idPersona);
     }
 }
