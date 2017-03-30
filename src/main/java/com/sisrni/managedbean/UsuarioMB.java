@@ -277,7 +277,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
                    String encode = passwordEncoder.encode(clave);
                    usuario.setClave(encode);  
                    usuario.setFechaUltimamodificacion(new Date());
-                   ssUsuarioService.save(usuario);
+                   ssUsuarioService.merge(usuario);
                    enviarCorreo2();
                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", msg));    
           }else{
@@ -314,7 +314,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
                             encode = passwordEncoder.encode(clave2);
                             usuario.setClave(encode);  
                             usuario.setFechaUltimamodificacion(new Date());
-                            ssUsuarioService.save(usuario);
+                            ssUsuarioService.merge(usuario);
                             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", usuario.getCodigoUsuario()));
                         }
                         else{
