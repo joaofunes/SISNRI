@@ -77,7 +77,7 @@ public class registrarMovilidadMB {
     OrganismoCooperanteMB organismoCooperanteMB;
     @Inject
     TipoCambioMB tipoCambioMB;
-    @Inject 
+    @Inject
     EtapaMovilidadMB etapaMovilidadMB;
     @Inject
     ProgramaMovilidadMB programaMovilidadMB;
@@ -2394,34 +2394,72 @@ public class registrarMovilidadMB {
         RequestContext contextDestino = RequestContext.getCurrentInstance();
         contextDestino.update("formAdmin:acordion:institucionDestino");
     }
-    
-    public void addNewtipoCambioIfIsNecesary(){
-         if (tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio()).getNombreDivisa().equalsIgnoreCase("Agregar Nuevo")) {
+
+    public void addNewtipoCambioIfIsNecesary() {
+        if (tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio()).getNombreDivisa().equalsIgnoreCase("Agregar Nuevo")) {
             tipoCambioMB.init();
             RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('tipocambioDialog').show()");
         }
     }
-    
-    
-    public void addNewEtapaMovilidadIfIsNecesary(){
-        if(movilidad.getIdEtapaMovilidad().getNombreEtapa().equalsIgnoreCase("Agregar Nuevo")){
+
+    public void addNewEtapaMovilidadIfIsNecesary() {
+        if (movilidad.getIdEtapaMovilidad().getNombreEtapa().equalsIgnoreCase("Agregar Nuevo")) {
             etapaMovilidadMB.init();
             RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('etapaMovilidadDialog').show()");
         }
     }
-    
-    public void addNewProgramaMovilidadIfIsNecesary(){
-        if(movilidad.getIdProgramaMovilidad().getNombreProgramaMovilidad().equalsIgnoreCase("Agregar Nuevo")){
+
+    public void addNewProgramaMovilidadIfIsNecesary() {
+        if (movilidad.getIdProgramaMovilidad().getNombreProgramaMovilidad().equalsIgnoreCase("Agregar Nuevo")) {
             programaMovilidadMB.init();
             RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('programaMovilidadDialog').show()");
         }
     }
+
+    public void preEliminarMovilidad(Integer IdMovilidad) {
+        try {
+            movilidad = movilidadService.findById(IdMovilidad);
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarDialog').show()");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void cancelarEliminarMovilidad() {
+        try {
+
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            cargarMovilidadPersona();
+            ajax.execute("PF('eliminarDialog').hide()");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
-    
-    
+
+    public void eliminarMovilidad() {
+          try{
+              //Eliminando tablas intermedias
+              facultadService.eliminarIntermediaMovilidadFacultad(movilidad);
+              unidadService.eliminarIntermediaMovilidadUnidad(movilidad);
+              personaMovilidadService.eliminarIntemediaPersonaMovilidad(movilidad);
+              //Eliminando la movilidad
+              movilidadService.delete(movilidad);
+              cargarMovilidadPersona();
+              
+              RequestContext ajax = RequestContext.getCurrentInstance();
+              ajax.execute("PF('eliminarDialog').hide()");
+              
+          }catch(Exception e){
+              e.printStackTrace();
+          }
+    }
 
     //GETTER Y SETTER
     public List<ProgramaMovilidad> getListProgramaMovilidad() {

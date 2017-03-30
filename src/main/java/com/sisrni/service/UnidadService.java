@@ -8,6 +8,7 @@ package com.sisrni.service;
 import com.sisrni.dao.UnidadDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.Movilidad;
 import com.sisrni.model.Unidad;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
@@ -45,5 +46,9 @@ public class UnidadService extends GenericService<Unidad, Integer>{
     
     public Unidad getUnidadById(Integer idUni){
         return unidadDao.getUnidadById(idUni);
+    }
+    
+    public void eliminarIntermediaMovilidadUnidad(Movilidad mov){
+        unidadDao.eliminarIntermediaMovilidadUnidad(mov);
     }
 }

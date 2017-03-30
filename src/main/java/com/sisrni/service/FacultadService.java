@@ -9,6 +9,7 @@ import com.sisrni.dao.FacultadDao;
 import com.sisrni.dao.generic.GenericDao;
 
 import com.sisrni.model.Facultad;
+import com.sisrni.model.Movilidad;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,10 @@ public class FacultadService extends GenericService<Facultad, Integer> {
     
      public Facultad getFacultadById(Integer idFac){
          return facultadDao.getFacultadById(idFac);
+     }
+     
+     public void eliminarIntermediaMovilidadFacultad(Movilidad mov){
+         facultadDao.eliminarIntermediaMovilidadFacultad(mov);
      }
 
 }
