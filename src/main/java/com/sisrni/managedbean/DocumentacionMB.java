@@ -7,7 +7,6 @@ package com.sisrni.managedbean;
 
 import com.sisrni.model.Documento;
 import com.sisrni.service.DocumentoService;
-import java.io.File;
 import java.io.IOException;
 
 import java.io.Serializable;
@@ -31,14 +30,12 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.apache.commons.io.IOUtils;
 import org.primefaces.model.DefaultStreamedContent;
 
-import org.artofsolving.jodconverter.OfficeDocumentConverter;
-import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
-import org.artofsolving.jodconverter.office.OfficeManager;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.context.annotation.Scope;
@@ -97,13 +94,27 @@ public class DocumentacionMB implements Serializable {
             listPropuestaConvenio = new ArrayList<PropuestaConvenio>();
             propuestaConvenio = new PropuestaConvenio();
             listPropuestaConvenio = propuestaConvenioService.findAll();
-            listTipoDocumento = tipoDocumentoService.findAll();
-
+            listTipoDocumento = tipoDocumentoService.findAll();            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    
+    /**
+     * Metodo para cargar propuetsa
+     */
+    public void cargarPropuesta(){
+        try {
+             documento=new Documento();
+             RequestContext context = RequestContext.getCurrentInstance();
+             context.execute("PF('AddDocDialog').show();");             
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }
+    
+    
     /**
      * metodo para realizar busquedas de documentacion por nombre de convcenio
      */
@@ -130,6 +141,7 @@ public class DocumentacionMB implements Serializable {
         return filteredThemes;
     }
 
+    
     /**
      * metodo para cagar de convenio
      */
@@ -173,7 +185,7 @@ public class DocumentacionMB implements Serializable {
                 documento = new Documento();
             }
             documento.setDocumento(content);
-            documento.setNombreDocumento(event.getFile().getFileName());
+            documento.setNombreDocumento(event.getFile().getFileName());                        
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -188,15 +200,15 @@ public class DocumentacionMB implements Serializable {
 
             documento.setIdPropuesta(propuestaConvenio);
             documento.setFechaRecibido(new Date());
-            documento.setIdTipoDocumento(tipoDocumento);
+            //documento.setIdTipoDocumento(tipoDocumento);
             documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
             documentoService.save(documento);
             getDataConvenio();
-            // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Succesful", "Documento agregado exitosamente"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Succesful", "Documento agregado exitosamente"));
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        } 
     }
 
     /**
@@ -301,27 +313,7 @@ public class DocumentacionMB implements Serializable {
 
             content = new DefaultStreamedContent(stream, contentType, documento.getNombreDocumento());
 
-//            
-//            byte[] bytes = documento.getDocumento();    
-//            String fileName = documento.getNombreDocumento();    
-//
-//    FacesContext faces = FacesContext.getCurrentInstance();    
-//    HttpServletResponse response = (HttpServletResponse) faces.getExternalContext().getResponse();    
-//    response.reset();    
-//    response.setContentType(contentType);    
-//    response.setContentLength(bytes.length);    
-//    response.setHeader("Content-disposition", "attachment; filename=\"" + fileName + "\"");    
-//
-//    
-//
-//            
-//        out = new BufferedOutputStream(response.getOutputStream());        
-//        out.write(bytes);        
-//        out.flush();    
-//   
-//        
-//
-//    faces.responseComplete();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -330,110 +322,6 @@ public class DocumentacionMB implements Serializable {
             }
         } // Gently close stream.    
 
-    }
-
-    /**
-     * *********************************
-     */
-//    public void onPrerender(ComponentSystemEvent event) {  
-//  
-//        try {  
-//            /*******prueba eliminar**/
-//            String filePath="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.docx";
-//             File file = new File(filePath);
-//             FileInputStream fis = new FileInputStream(file.getAbsolutePath());
-//             XWPFDocument pr = new XWPFDocument(fis);
-//
-//             List<XWPFParagraph> paragraphs = pr.getParagraphs();
-//
-//                
-//            /*******prueba eliminar**/
-//                    
-//            
-//            ByteArrayOutputStream out = new ByteArrayOutputStream();  
-//  
-//            //Document document = new Document();  
-//            //PdfWriter.getInstance(document, out); 
-//            PdfOptions options = PdfOptions.create().fontEncoding("windows-1250");
-//            PdfConverter.getInstance().convert(pr, out, options);
-//            //document.open();  
-//  
-////             for (XWPFParagraph para : paragraphs) {
-////                    System.out.println(para.getText());
-////                    document.add(new Paragraph(para.getText()));  
-////                }
-////            
-////            fis.close();
-////            document.close();  
-//            content = new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/pdf");  
-//        } catch (Exception e) {  
-//            e.printStackTrace();  
-//        }  
-//    }  
-    public void convertImage() {
-        try {
-//       
-//               String sourcePath="C:\\Users\\Joao\\USI\\SISNRI\\src\\main\\webapp\\WEB-INF\\reports\\MANUAL CONVENIOS AÑO 2011-definitivo.docx";
-//               Document doc = new Document(sourcePath);  
-//               ImageSaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);  
-//               options.setJpegQuality(100);  
-//               options.setResolution(100);  
-//               options.setUseHighQualityRendering(true);  
-//               for (int i = 0; i < doc.getPageCount(); i++) {  
-//                    String imageFilePath = "E://"+ "images" + File.separator + "img_" + i + ".jpeg";  
-//                    options.setPageIndex(i);  
-//                    doc.save(imageFilePath, options);  
-//               }  
-//               System.out.println("Done...");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static Integer ConvertDocToPNG(String doc) {
-        OfficeManager officeManager = null;
-        Integer result = -1;
-        try {
-            officeManager = new DefaultOfficeManagerConfiguration()
-                    //.setOfficeHome("/home/dryize/openoffice4")
-                    //.setConnectionProtocol(OfficeConnectionProtocol.PIPE)
-                    .buildOfficeManager();
-            officeManager.start();
-
-            // 2) Create JODConverter converter
-            OfficeDocumentConverter converter = new OfficeDocumentConverter(
-                    officeManager);
-
-            File pdf = new File(doc + "raw.pdf");
-            converter.convert(new File(doc), pdf);
-            /*
-             PDFDocument document = new PDFDocument();
-             document.load(pdf);
-             SimpleRenderer renderer = new SimpleRenderer();
-
-             // set resolution (in DPI)
-             renderer.setResolution(72);
-             java.util.List<Image> images = renderer.render(document);
-
-
-             new File(doc.path() + "png/").mkdirs();
-             for (int i = 0; i < images.size(); i++) {
-
-             ImageIO.write((RenderedImage) images.get(i), "jpg", new File(doc.path() + "png/" + (i + 1) + ".jpg"));
-             }
-
-             result =images.size();
-             */
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            // 4) Stop LibreOffice in headless mode.
-            if (officeManager != null) {
-                officeManager.stop();
-            }
-        }
-
-        return result;
     }
 
     public static boolean getRandomBoolean() {

@@ -30,6 +30,7 @@ public class DocumentoDao extends GenericDao<Documento, Integer> {
             q.setParameter("id", propuestaConvenio);
             return q.list();
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

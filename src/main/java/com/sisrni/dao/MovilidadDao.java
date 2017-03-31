@@ -443,17 +443,17 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
             campoUnion = campoUnion + "m.ID_PAIS_DESTINO";
         }
 
-        String query = "SELECT\n"
-                + "  cm.NOMBRE_CATEGORIA_MOVILIDAD categoria,\n"
-                + "  count(*) cantidad"
+        String query = "SELECT \n"
+                + " cm.NOMBRE_CATEGORIA categoria,\n"
+                + " count(*) cantidad"
                 + " FROM movilidad m INNER JOIN pais p ON " + campoUnion + " = p.ID_PAIS"
-                + "INNER JOIN CATEGORIA_MOVILIDAD cm on cm.ID_CATEGORIA_MOVILIDAD=m.ID_CATEGORIA"
+                + " INNER JOIN CATEGORIA_MOVILIDAD cm on cm.ID_CATEGORIA_MOVILIDAD=m.ID_CATEGORIA"
                 + " WHERE m.ID_TIPO_MOVILIDAD = " + tipoMovilidad
                 + " and m.ID_ETAPA_MOVILIDAD=3 "
                 + " and YEAR(m.FECHA_INICIO) BETWEEN " + Integer.parseInt(desde) + " and " + Integer.parseInt(hasta)
                 + " and " + campoUnion + " IN " + "(" + String.join(",", paisSelected) + ")"
                 + " and  m.ID_CATEGORIA IN " + "(" + String.join(",", categoriaSelected) + ")"
-                + "GROUP BY cm.ID_CATEGORIA_MOVILIDAD";
+                + " GROUP BY cm.ID_CATEGORIA_MOVILIDAD";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("categoria", new StringType())
                 .addScalar("cantidad", new IntegerType())
