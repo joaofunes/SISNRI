@@ -358,7 +358,7 @@ public class ProyectosMB {
         escuelaDeptoList = new ArrayList<EscuelaDepartamento>();
         escuelaDeptoListSol = new ArrayList<EscuelaDepartamento>();
         escuelaDeptoListAsis = new ArrayList<EscuelaDepartamento>();
-        proyectoList = proyectoService.findAll();
+        proyectoList = proyectoService.getAllProyecto();
         tipoCambioList = tipoCambioService.findAll();
         //Objetos
         proyecto = new Proyecto();

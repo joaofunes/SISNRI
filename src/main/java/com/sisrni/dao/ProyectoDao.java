@@ -108,6 +108,17 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         }
         return null;
     }
+    //metodo para cargar la tabla de gestion, todos los proyectos registrados
+    public List<Proyecto> getAllProyecto() {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Proyecto a ORDER BY a.idProyecto DESC");
+            return q.list();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public List<RptProyectoPojo> getDataProyectosGestionadosReportes() {
         String query = "select b.NOMBRE_PROYECTO nombre, b.OBJETIVO objetivo FROM proyecto b";

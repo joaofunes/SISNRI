@@ -41,6 +41,9 @@ public class ProyectoService extends GenericService<Proyecto, Integer> {
     public Proyecto getProyectoByID(Integer idProyecto) {
         return proyectoDao.getProyectoByID(idProyecto);
     }
+    public List<Proyecto> getAllProyecto() {
+        return proyectoDao.getAllProyecto();
+    }
 
     public List<RptProyectoPojo> getDataProyectosGestionadosReportes() {
         return proyectoDao.getDataProyectosGestionadosReportes();

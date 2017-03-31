@@ -78,6 +78,8 @@ public class Movilidad implements Serializable {
     @Column(name = "FECHA_INGRESO")
     @Temporal(TemporalType.DATE)
     private Date fechaIngreso;
+    @Column(name = "COSTO_CONSULTORIA", precision = 13, scale = 2)
+    private BigDecimal costoConsultoria;
     @JoinTable(name = "MOVILIDAD_UNIDAD", joinColumns = {
         @JoinColumn(name = "ID_MOVILIDAD", referencedColumnName = "ID_MOVILIDAD", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD", nullable = false)})
@@ -294,6 +296,14 @@ public class Movilidad implements Serializable {
 
     public void setPersonaMovilidadList(List<PersonaMovilidad> personaMovilidadList) {
         this.personaMovilidadList = personaMovilidadList;
+    }
+
+    public BigDecimal getCostoConsultoria() {
+        return costoConsultoria;
+    }
+
+    public void setCostoConsultoria(BigDecimal costoConsultoria) {
+        this.costoConsultoria = costoConsultoria;
     }
 
     @Override
