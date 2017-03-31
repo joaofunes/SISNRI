@@ -37,13 +37,13 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         List<String> paisesFinales = new ArrayList<String>();
 
         if (paisSelected.size() > 0) {
-            wherePais = wherePais + " AND pa.ID_PAIS IN (" + String.join(",", paisSelected) + ")";
+//            wherePais = wherePais + " AND pa.ID_PAIS IN (" + String.join(",", paisSelected) + ")";
         } else {
             limite += " LIMIT 5";
         }
 
         if (tipoProyectoSelected.size() > 0) {
-            whereTipoProyecto += " AND pr.ID_TIPO_PROYECTO IN (" + String.join(",", tipoProyectoSelected) + ")";
+//            whereTipoProyecto += " AND pr.ID_TIPO_PROYECTO IN (" + String.join(",", tipoProyectoSelected) + ")";
         }
 
         String query = "SELECT pa.ID_PAIS as idPais,pa.CODIGO_PAIS as codigoPais, pa.NOMBRE_PAIS as nombrePais, SUM(pr.MONTO_PROYECTO) as montoCooperacion,COUNT(pr.ID_PROYECTO) as cantidadProyectos\n"
@@ -66,10 +66,7 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                 for (PojoMapaInteractivo pj : listPojos) {
                     paisesFinales.add(pj.idPais.toString().trim());
                 }
-                String qt = "SELECT tp.ID_TIPO_PROYECTO as idTipoProyecto,tp.NOMBRE_TIPO_PROYECTO as nombreTipoProyecto,count(pr.ID_PROYECTO) as cantidadProyectos FROM PROYECTO pr INNER JOIN TIPO_PROYECTO tp ON pr.ID_TIPO_PROYECTO = tp.ID_TIPO_PROYECTO\n"
-                        + " WHERE pr.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta) + "\n"
-                        + "AND pr.ID_PAIS_COOPERANTE IN(" + String.join(",", paisesFinales) + ")" + whereTipoProyecto + " GROUP BY tp.NOMBRE_TIPO_PROYECTO";
-
+                String qt = "";
                 Query rtp = getSessionFactory().getCurrentSession().createSQLQuery(qt)
                         .addScalar("idTipoProyecto", new IntegerType())
                         .addScalar("nombreTipoProyecto", new StringType())
