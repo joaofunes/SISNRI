@@ -6,6 +6,7 @@
 package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
+import com.sisrni.model.PersonaProyecto;
 import com.sisrni.model.Proyecto;
 import com.sisrni.pojo.rpt.PojoMapaInteractivo;
 import com.sisrni.pojo.rpt.PojoProyectosByTipo;
@@ -123,7 +124,7 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
 
     }
     public List<RptProyectosFinanciadosPojo> getDataProyectosFinanciadosReportes(Integer desde, Integer hasta){
-        String query = "SELECT p.ANIO_GESTION as anioGestion, sum(p.MONTO_PROYECTO) as suma from proyecto p where p.ANIO_GESTION BETWEEN \n" 
+        String query = "SELECT p.ANIO_GESTION as anioGestion, sum(p.MONTO_PROYECTO) as suma from PROYECTO p where p.ANIO_GESTION BETWEEN \n" 
                 + desde + " AND " + hasta +  " GROUP BY p.ANIO_GESTION \n" 
                 + " ORDER BY p.ANIO_GESTION asc ";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
@@ -133,7 +134,7 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         return q.list();
     }
     public List<RptProyectosPorPaisPojo> getDataProyectosPorPais(Integer desde, Integer hasta){
-        String query = "SELECT pa.NOMBRE_PAIS as nombrePais, sum(p.MONTO_PROYECTO) as suma from proyecto p join pais pa on (p.ID_PAIS_COOPERANTE=pa.ID_PAIS) where p.ANIO_GESTION BETWEEN \n" 
+        String query = "SELECT pa.NOMBRE_PAIS as nombrePais, sum(p.MONTO_PROYECTO) as suma from PROYECTO p join PAIS pa on (p.ID_PAIS_COOPERANTE=pa.ID_PAIS) where p.ANIO_GESTION BETWEEN \n" 
                 + desde + " AND " + hasta +  " GROUP BY pa.NOMBRE_PAIS \n" 
                 + " ORDER BY pa.NOMBRE_PAIS asc ";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
@@ -143,7 +144,7 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         return q.list();
     }
     public List<RptProyectosFinanciadosPojo> getDataProyectosTotales(Integer desde, Integer hasta){
-        String query = "SELECT p.ANIO_GESTION as anioGestion, count(p.ID_PROYECTO) as suma from proyecto p where p.ANIO_GESTION BETWEEN \n" 
+        String query = "SELECT p.ANIO_GESTION as anioGestion, count(p.ID_PROYECTO) as suma from PROYECTO p where p.ANIO_GESTION BETWEEN \n" 
                 + desde + " AND " + hasta +  " GROUP BY p.ANIO_GESTION \n" 
                 + " ORDER BY p.ANIO_GESTION asc ";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
@@ -161,4 +162,17 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         }
 
     }
+    //metodo que retorna si la persona esta vinculada al proyecto
+    public PersonaProyecto isVinculadoPersona(Integer idProyecto, Integer idPersona) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT pp  FROM PersonaProyecto pp WHERE pp.proyecto.idProyecto =:idproyecto AND pp.persona.idPersona =:idpersona ");
+            q.setParameter("idproyecto", idProyecto);
+            q.setParameter("idpersona", idPersona);
+            return (PersonaProyecto) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    } 
 }

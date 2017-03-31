@@ -130,12 +130,12 @@ public class MapaInteractivoMovilidades implements Serializable {
         }
         if (tipoMovilidadSelected.getIdTipoMovilidad() != null && !paisSelected.isEmpty() && !categoriaMovilidadSelected.isEmpty() && !badyears) {
             movilidadesListToChart = movilidadService.getBecastListToCharts(tipoMovilidadSelected.getIdTipoMovilidad(), paisSelected, categoriaMovilidadSelected, yearDesde.trim(), yearHasta.trim());
-            movilidadesListToChartType = movilidadService.getBecastListToChartsCate(yearActual, paisSelected, paisSelected, yearDesde, yearHasta);
+            movilidadesListToChartType = movilidadService.getBecastListToChartsCate(tipoMovilidadSelected.getIdTipoMovilidad(), paisSelected, categoriaMovilidadSelected, yearDesde.trim(), yearHasta.trim());
             montoMovilidades = calcularMonto(movilidadesListToChart);
             if (!movilidadesListToChart.isEmpty()) {
                 crearMapa();
                 createPieModel();
-                //createPieTipo();
+                createPieTipo();
                 noHayRegistros = Boolean.FALSE;
             } else {
                 noHayRegistros = Boolean.TRUE;

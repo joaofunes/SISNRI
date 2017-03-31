@@ -6,6 +6,7 @@
 package com.sisrni.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,8 +53,8 @@ public class Proyecto implements Serializable {
     @Size(max = 100)
     @Column(name = "LUGAR_PROYECTO", length = 100)
     private String lugarProyecto;
-    @Column(name = "MONTO_PROYECTO")
-    private Long montoProyecto;
+    @Column(name = "MONTO_PROYECTO", precision = 13, scale = 2)
+    private BigDecimal montoProyecto;
     @Column(name = "ANIO_GESTION")
     private Integer anioGestion;
     @Column(name = "ID_UNIDAD")
@@ -140,11 +141,11 @@ public class Proyecto implements Serializable {
         this.lugarProyecto = lugarProyecto;
     }
 
-    public Long getMontoProyecto() {
+    public BigDecimal getMontoProyecto() {
         return montoProyecto;
     }
 
-    public void setMontoProyecto(Long montoProyecto) {
+    public void setMontoProyecto(BigDecimal montoProyecto) {
         this.montoProyecto = montoProyecto;
     }
 

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_proyectos_gestionados" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="09827370-de1a-4458-b232-447fc2e04db5">
+	<property name="ireport.zoom" value="0.9090909090909091"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="desde" class="java.lang.String"/>
+	<parameter name="hasta" class="java.lang.String"/>
+	<parameter name="uesImageUrl" class="java.lang.String"/>
+	<parameter name="srniImageUrl" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="AGU" class="java.sql.Date">
+		<fieldDescription><![CDATA[AGU]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	</field>
+	<field name="firmado" class="java.sql.Date">
+		<fieldDescription><![CDATA[firmado]]></fieldDescription>
+	</field>
+	<field name="CSU" class="java.sql.Date">
+		<fieldDescription><![CDATA[CSU]]></fieldDescription>
+	</field>
+	<field name="fiscalia" class="java.sql.Date">
+		<fieldDescription><![CDATA[fiscalia]]></fieldDescription>
+	</field>
+	<field name="finalidad" class="java.lang.String">
+		<fieldDescription><![CDATA[finalidad]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="150" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="0" y="2" width="802" height="32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Universidad de El Salvador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="0" y="35" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Secretaria de Relaciones Nacionales e Internacionales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="65" width="802" height="25" forecolor="#5B63B1"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Estados de Convenios y Propuestas Gestionados]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="90" width="421" height="20" forecolor="#786C6C"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Fecha de creacion: "]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="421" y="90" width="381" height="20" forecolor="#786C6C"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement uuid="5ab41911-8cd6-4622-945d-5a4d4b0adbf4" x="0" y="0" width="65" height="65"/>
+				<imageExpression><![CDATA[$P{uesImageUrl}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="6e9f9fb3-cbdf-4180-be6a-94ab603ba8aa" x="737" y="0" width="65" height="65"/>
+				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="ba2c10b7-11e9-40b1-87da-1673b0faeade" x="314" y="130" width="74" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{desde}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a18924c4-d7fe-4346-81fe-7ff1c311023e" x="470" y="130" width="71" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{hasta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="9c9174c5-48c3-47cc-8881-abe8d985b42d" x="260" y="-20" width="55" height="20"/>
+				<textElement/>
+				<text><![CDATA[Desde:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ce5171d8-63d3-476a-bba3-9e81f7bf2001" x="424" y="-20" width="47" height="20"/>
+				<textElement/>
+				<text><![CDATA[Hasta:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b411be6d-bf86-4f72-9d58-2cc2de7a37fe" mode="Opaque" x="55" y="1" width="147" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="09b7cbb2-f0b0-4fd8-961b-abdb4121d367" mode="Opaque" x="202" y="1" width="100" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dictamen de Fiscalia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="54eae7ea-bd06-4c40-9a16-a5c3f50dd155" mode="Opaque" x="301" y="1" width="100" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aprobado por CSU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f47f69b8-c48a-4f43-82e9-3966957fe102" mode="Opaque" x="401" y="1" width="100" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ratificado por AGU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4deb6125-0d67-4422-b05b-a4cce3aa3a2b" mode="Opaque" x="501" y="1" width="100" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firmado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ac3a6789-dc42-4030-b002-a6bfb5d6c1b5" mode="Opaque" x="601" y="1" width="142" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Finalidad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="768ff90b-4ca4-4d38-8e4d-81ebdf044954" x="55" y="0" width="147" height="28"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
+				<reportElement uuid="2930e7bf-0002-4a37-b503-83327ef94e12" x="202" y="0" width="100" height="28"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{fiscalia}==null?"Pendiente":$F{fiscalia}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
+				<reportElement uuid="d1f02abc-9b59-4f88-9c89-61f2e2abb94d" x="301" y="0" width="100" height="28"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CSU}==null?"Pendiente de Aprobación":$F{CSU}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
+				<reportElement uuid="74687b4a-589a-4d4f-8ba6-a3cd7df679f4" x="401" y="0" width="100" height="28"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{AGU}==null?"Pendiente de Ratificación":$F{AGU}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
+				<reportElement uuid="1ffca0d8-e92c-4e4f-940c-99639081e090" x="501" y="0" width="100" height="28"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{firmado}==null?"Pendiente de Firma":$F{firmado}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement uuid="ccd7df89-adbd-45a5-b561-7fd040a14748" x="601" y="0" width="142" height="28"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{finalidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="14" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement uuid="eeda6176-7a25-4b3a-8f5b-a50febe620c2" x="351" y="4" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="19693062-d823-4ea9-95b0-7d738c1b8bfe" x="431" y="4" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="26" splitType="Stretch"/>
+	</summary>
+</jasperReport>
