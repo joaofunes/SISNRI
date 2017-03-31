@@ -9,6 +9,7 @@ import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoConvenioEstado;
 import com.sisrni.service.PropuestaConvenioService;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -29,6 +30,7 @@ public class ConsultarEstadoConvenioMB implements Serializable{
     
     private static final long serialVersionUID = 1113799434508676095L;
     
+    private Date fechaActual;
     private List<PojoConvenioEstado> listadoPropuestaConvenio;
     private List<PojoConvenioEstado> listadoConvenio;
     
@@ -36,7 +38,7 @@ public class ConsultarEstadoConvenioMB implements Serializable{
     @Qualifier(value = "propuestaConvenioService")
     private PropuestaConvenioService propuestaConvenioService;
     
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         try {
            iniciliazar();
@@ -47,6 +49,7 @@ public class ConsultarEstadoConvenioMB implements Serializable{
     private void iniciliazar() {
         try {
            listadoPropuestaConvenio=propuestaConvenioService.getPropuestasConvenioWithEstado();
+           fechaActual= new Date();
            listadoConvenio=propuestaConvenioService.getConveioWithEstado();
         } catch (Exception e) {
           e.printStackTrace();
@@ -67,6 +70,14 @@ public class ConsultarEstadoConvenioMB implements Serializable{
 
     public void setListadoConvenio(List<PojoConvenioEstado> listadoConvenio) {
         this.listadoConvenio = listadoConvenio;
+    }
+
+    public Date getFechaActual() {
+        return fechaActual;
+    }
+
+    public void setFechaActual(Date fechaActual) {
+        this.fechaActual = fechaActual;
     }
 
    
