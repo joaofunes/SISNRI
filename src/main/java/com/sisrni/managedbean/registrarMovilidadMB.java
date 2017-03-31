@@ -597,7 +597,7 @@ public class registrarMovilidadMB {
                     mostrarSaliente = true;
                     listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
                     //mascaraTelefonoMovilidad = "(503)-9999-9999";
-                    mascaraTelefonoMovilidad = "(503)-####-####";
+                    mascaraTelefonoMovilidad = "+503 #### ####";
                     mostrarBuscadorSaliente = true;
                     mostrarBuscadorEntrante = false;
                     personaMovilidadGenerico.setIdOrganismo(organismoService.findById(1));
@@ -1956,7 +1956,7 @@ public class registrarMovilidadMB {
                 if (movilidad.getIdTipoMovilidad().getIdTipoMovilidad() == 2) { //movilidad Saliente
                     mostrarEntrante = false;
                     mostrarSaliente = true;
-                    mascaraTelefonoMovilidad = "(503)-####-####";
+                    mascaraTelefonoMovilidad = "+503 #### ####";
 
                     //Cargando lista de facultades y unidades
                     listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto

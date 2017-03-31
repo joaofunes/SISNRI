@@ -51,7 +51,8 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
         if (idMovSearch > 0) {
             query = query + " AND mv.ID_MOVILIDAD =" + idMovSearch;
         }
-        query = query + " ORDER BY mv.FECHA_INGRESO DESC";
+        //query = query + " ORDER BY mv.FECHA_INGRESO DESC";
+        query = query + "ORDER BY mv.ID_MOVILIDAD DESC";
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                     .addScalar("idMovilidad", new IntegerType())
