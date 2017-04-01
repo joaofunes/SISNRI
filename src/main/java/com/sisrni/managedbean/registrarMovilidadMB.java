@@ -274,6 +274,9 @@ public class registrarMovilidadMB {
     private Boolean habilitarBuscadorReferente;
     private Boolean mostrarBotonNuevoDocente;
     private Boolean mostrarBotonNuevoReferente;
+    
+    private Boolean consultoria;
+    private Boolean disableConsultoria;
 
     private String txtBotonGuardar;
     private String txtBotonRegresar;
@@ -533,6 +536,9 @@ public class registrarMovilidadMB {
         habilitarBuscadorReferente = false;
         mostrarBotonNuevoDocente = false;
         mostrarBotonNuevoReferente = false;
+        consultoria = false;
+        disableConsultoria = true;
+        
 
         txtBotonGuardar = "Guardar";
         txtBotonRegresar = "Regresar";
@@ -700,6 +706,15 @@ public class registrarMovilidadMB {
             unidadRftFactTmp = unidadService.findById(id);
             listEscuelaDepartamentoRefFact = new ArrayList<EscuelaDepartamento>();
 
+        }
+    }
+    
+    
+    public void onchangeConsultoria(){
+        if(consultoria == true){
+            disableConsultoria = false;
+        }else{
+            disableConsultoria = true; 
         }
     }
 
@@ -1616,6 +1631,15 @@ public class registrarMovilidadMB {
                 d = d.multiply(aux.getDolaresPorUnidad());
                 movilidad.setVoletoAereo(d);
             }
+            
+            if(movilidad.getCostoConsultoria() == null){
+                movilidad.setCostoConsultoria(new BigDecimal(0.00));
+            }else{
+               TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+               BigDecimal d = movilidad.getCostoConsultoria();
+               d = d.multiply(aux.getDolaresPorUnidad());
+               movilidad.setCostoConsultoria(d);
+            }
 
             //Agregando a la movilidad las facultades o unidades beneficiadas
             getArreglosFacultadesUnidadesBeneficiadas();
@@ -1928,6 +1952,11 @@ public class registrarMovilidadMB {
                 existeMovilidad = true;
                 //Estableciendo el tipo de cambio por defecto
                 tipoCambioSelected.setIdTipoCambio(2);
+                
+                if(movilidad.getCostoConsultoria()!=null){
+                    consultoria=true;
+                    onchangeConsultoria();
+                }
 
                 programaMovilidad = programaMovilidadService.findById(movilidad.getIdProgramaMovilidad().getIdProgramaMovilidad());
 
@@ -3295,5 +3324,23 @@ public class registrarMovilidadMB {
     public void setTxtBotonRegresar(String txtBotonRegresar) {
         this.txtBotonRegresar = txtBotonRegresar;
     }
+
+    public Boolean getConsultoria() {
+        return consultoria;
+    }
+
+    public void setConsultoria(Boolean consultoria) {
+        this.consultoria = consultoria;
+    }
+
+    public Boolean getDisableConsultoria() {
+        return disableConsultoria;
+    }
+
+    public void setDisableConsultoria(Boolean disableConsultoria) {
+        this.disableConsultoria = disableConsultoria;
+    }
+    
+    
 
 }
