@@ -143,21 +143,27 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
      */
     public void preCrearUsuario(Persona persona){
         try {
-            
             this.persona=persona;
-            codigo = persona.getNombrePersona().substring(0,3)+ persona.getApellidoPersona().substring(0,2)+persona.getIdPersona().toString(); 
+            String msg = "";
+            RequestContext context = RequestContext.getCurrentInstance();
+            usuario = new SsUsuarios();
             rolesSource = new ArrayList<SsRoles>();
             rolesTarget = new ArrayList<SsRoles>();
-            rolesTargetTemp = new ArrayList<SsRoles>();
-
-            //ssUsuariosRol = ssUsuarioService.findByUser("JoaFu78");
-
-            //rolesTarget = ssRolesService.findAll();
-            //rolesTargetTemp = ssRolesService.findAll();
+            usuario=  ssUsuarioService.findByIdPersona(persona.getIdPersona());
             rolesSource = ssRolesService.findAll();
-
-            //rolesSource.removeAll(rolesTarget);//elimina las roles  ya seleccionadas para usuario             
+            //codigo = persona.getNombrePersona().substring(0,3)+ persona.getApellidoPersona().substring(0,2)+persona.getIdPersona().toString(); 
+          if(usuario!=null){
+              //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", "Encontrado"));
+              codigo= usuario.getCodigoUsuario();
+              rolesTarget = usuario.getSsRolesList();
+              msg = "PF('UsuarioEditDialog').show();";
+          }else{
+              codigo=persona.getEmailPersona();
+              msg = "PF('UsuarioCreateDialog').show();";
+          }
+            rolesSource.removeAll(rolesTarget);//elimina las roles  ya seleccionadas para usuario             
             roles = new DualListModel<SsRoles>(rolesSource, rolesTarget);
+            context.execute(msg);
         } catch (Exception e) {
         }
     }
@@ -296,12 +302,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
        
      public void cambiarPass(){
         try {
-          //  String msg = "";
-                  // usuario =  ssUsuarioService.findByUser(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-            //       msg =FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-                 /*  clave = getCadenaAlfanumAleatoria (9); 
-                   String 
-                   */
+        
                    usuario = new SsUsuarios();
                    ssUsuariosRol = new SsUsuarios();
                    AppUserDetails user = currentUserSessionBean.getSessionUser();
@@ -315,7 +316,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
                             usuario.setClave(encode);  
                             usuario.setFechaUltimamodificacion(new Date());
                             ssUsuarioService.merge(usuario);
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", usuario.getCodigoUsuario()));
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", "Clave cambiada con Exito"));
                         }
                         else{
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "Clave antigua incorrecta"));
