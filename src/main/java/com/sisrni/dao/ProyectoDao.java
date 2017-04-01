@@ -185,5 +185,29 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         }
         return null;
 
-    } 
+    }
+    //Elimina todos los objetos de las intermedia persona de proyecto
+    public void eliminarIntermediaPersona(Proyecto proyecto) {
+        String query = "Delete from PERSONA_PROYECTO WHERE ID_PROYECTO=" + proyecto.getIdProyecto();
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+        q.executeUpdate();
+    }
+    //Elimina todos los objetos de las intermedia facultad de proyecto
+    public void eliminarIntermediaFacultad(Proyecto proyecto) {
+        String query = "Delete from FACULTAD_PROYECTO WHERE ID_PROYECTO=" + proyecto.getIdProyecto();
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+        q.executeUpdate();
+    }
+    //Elimina todos los objetos de las intermedia area de conocimiento de proyecto
+    public void eliminarIntermediaArea(Proyecto proyecto) {
+        String query = "Delete from PROYECTO_AREA WHERE ID_PROYECTO=" + proyecto.getIdProyecto();
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+        q.executeUpdate();
+    }
+    //Elimina todos los objetos de las intermedia organismo de proyecto
+    public void eliminarIntermediaOrganismo(Proyecto proyecto) {
+        String query = "Delete from PROYECTO_ORGANISMO WHERE ID_PROYECTO=" + proyecto.getIdProyecto();
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+        q.executeUpdate();
+    }
 }

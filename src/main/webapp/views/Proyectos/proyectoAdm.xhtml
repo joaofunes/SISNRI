@@ -61,6 +61,10 @@
                                            title="Consultar" value="Consultar"
                                            actionListener="#{proyectoConsultarMB.preConsultarProyecto(proyecto.idProyecto)}" update=":formAdmin"/>
                         </div>
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-closethick" title="Eliminar" 
+                                           value="Eliminar" actionListener="#{proyectosMB.preEliminar(proyecto.idProyecto)}"/>
+                        </div>
                     </p:column>
             </p:dataTable>
 
@@ -79,9 +83,12 @@
                 <!--<p:commandButton id="citySubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />-->
 
             </h:form>
-
-
         </p:dialog> 
+        
+             <p:confirmDialog widgetVar="eliminarProyectoDialogo" message="¿Est&aacute; seguro que desea eliminar el proyecto?" header="Eliminar Proyecto"  global="true">
+                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.eliminarProyecto()}" process="@this" update=":formProyecto"/>
+                 <p:commandButton value="No"  styleClass="ui-confirmdialog-no" icon="ui-icon-check"  action="#{proyectosMB.cancelareEiminarProyecto()}" process="@this" update=":formProyecto"/>
+            </p:confirmDialog>
 
     </ui:define>
 
