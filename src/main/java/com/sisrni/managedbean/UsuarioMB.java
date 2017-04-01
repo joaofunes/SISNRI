@@ -296,12 +296,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
        
      public void cambiarPass(){
         try {
-          //  String msg = "";
-                  // usuario =  ssUsuarioService.findByUser(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-            //       msg =FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-                 /*  clave = getCadenaAlfanumAleatoria (9); 
-                   String 
-                   */
+        
                    usuario = new SsUsuarios();
                    ssUsuariosRol = new SsUsuarios();
                    AppUserDetails user = currentUserSessionBean.getSessionUser();
@@ -315,7 +310,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
                             usuario.setClave(encode);  
                             usuario.setFechaUltimamodificacion(new Date());
                             ssUsuarioService.merge(usuario);
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", usuario.getCodigoUsuario()));
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", "Clave cambiada con Exito"));
                         }
                         else{
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "Clave antigua incorrecta"));
