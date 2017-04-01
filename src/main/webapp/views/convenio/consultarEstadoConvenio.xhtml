@@ -11,7 +11,9 @@
     >
                     
     <ui:define name="content">
-            
+            <f:metadata>            
+            <f:viewAction action="#{consultarEstadoConvenioMB.init}" />
+        </f:metadata>   
         
             <h:form id="formAdmin">
                 
@@ -46,11 +48,11 @@
                     <p:column>
                         <h:outputText value="#{convenio.fecha_cambio_estado}" />
                     </p:column>                    
-                    <p:column headerText="Activo">
-                        <p:graphicImage  value="#{convenio.nombre_estado.equalsIgnoreCase('ACTIVO')?'/img/animation/clock_v.gif':'0'}" />
+                    <p:column headerText="Vigente">
+                        <p:graphicImage cache="false"  value="#{convenio.vigencia.before(consultarEstadoConvenioMB.fechaActual)?'/img/animation/clock_v.gif':'/img/animation/clock_v.gif'}" />                      
                     </p:column>
-                    <p:column headerText="Inactivo">
-                        <p:graphicImage value="#{convenio.nombre_estado.equalsIgnoreCase('INACTIVA')?'/img/animation/clock_r.gif':'0'}" />
+                    <p:column headerText="No Vigente">
+                        <p:graphicImage cache="false"  value="#{convenio.vigencia.before(consultarEstadoConvenioMB.fechaActual)?'/img/animation/clock_v.gif':'/img/animation/fondo_blanco.png'}" />                      
                     </p:column>
                  
                    

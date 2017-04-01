@@ -10,6 +10,8 @@ import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoConvenioEstado;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.pojo.rpt.RptBitacoraEstadosPojo;
+import com.sisrni.pojo.rpt.RptConteoConveniosPorTipoPojo;
 import com.sisrni.pojo.rpt.RptConveniosPorAnioPojo;
 import java.math.BigInteger;
 import java.util.List;
@@ -486,5 +488,45 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
         return q.list().size();
 
+    }
+    // conteo de todos los tipos de propuestas
+    public List<RptConteoConveniosPorTipoPojo> conteoPropuestaConvenioByTipoPropuesta(Integer desde, Integer hasta) {
+        try {
+            String sql = "select tipo.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio, sum(pc.ID_PROPUESTA) as suma from propuesta_convenio pc inner join tipo_propuesta_convenio tipo on (pc.ID_TIPO_PROPUESTA_CONVENIO=ID_TIPO_PROPUESTA) WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
+                    + desde +  " AND "  + hasta + " GROUP BY tipo.ID_TIPO_PROPUESTA" + " ORDER BY pc.ID_PROPUESTA DESC";
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
+                    .addScalar("tipoConvenio", new StringType())
+                    .addScalar("suma", new IntegerType())
+                    .setResultTransformer(Transformers.aliasToBean(RptConteoConveniosPorTipoPojo.class));
+                return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    // retorna los estados que tiene cada convenio o propuesta
+    public List<RptBitacoraEstadosPojo> estadosPropuestaConvenioBitacora(Integer desde, Integer hasta) {
+        try {
+            String sql = "SELECT pc.NOMBRE_PROPUESTA AS Nombre,\n" +
+"(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=6) AS Fiscalia,\n" +
+"(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=7) AS CSU,\n" +
+"(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=8) as AGU,\n" +
+"(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=10) AS Firmado,\n" +
+"pc.FINALIDAD_PROPUESTA AS Finalidad\n" +
+"FROM `propuesta_convenio` pc WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
+                    + desde +  " AND "  + hasta + " ORDER BY pc.ID_PROPUESTA DESC";
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
+                    .addScalar("Nombre", new StringType())
+                    .addScalar("Fiscalia", new DateType())
+                    .addScalar("CSU", new DateType())
+                    .addScalar("AGU", new DateType())
+                    .addScalar("Firmado", new DateType())
+                    .addScalar("Finalidad", new StringType())
+                    .setResultTransformer(Transformers.aliasToBean(RptBitacoraEstadosPojo.class));
+                return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

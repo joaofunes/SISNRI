@@ -400,15 +400,17 @@
                                             <p:outputLabel for="consultoria" value="Consultoria"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="consultoria" style="width: 180px">
-                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/> 
+                                            <p:selectOneMenu id="consultoria" value="#{registrarMovilidadMB.consultoria}" style="width: 180px">
+                                                <f:selectItem itemLabel="SI" itemValue= "true"/>
+                                                <f:selectItem itemLabel="NO" itemValue= "false"/> 
+                                                <p:ajax listener="#{registrarMovilidadMB.onchangeConsultoria()}" process="@this" update="costoConsultoria"/>
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel for="costoConsultoria" value="Costos de consultoria"/>
                                         </p:column>
                                         <p:column>
-                                            <poue:inputNumber id="costoConsultoria"/>
+                                            <poue:inputNumber id="costoConsultoria" value="#{registrarMovilidadMB.movilidad.costoConsultoria}" disabled="#{registrarMovilidadMB.disableConsultoria}"/>
                                         </p:column>
 
                                         <p:column>
@@ -617,7 +619,7 @@
                                                     <p:outputLabel for="telPersonaFacultad" value="Tel&eacute;fono institucional"/>
                                                 </p:column>
                                                 <p:column>
-                                                    <p:inputMask id="telPersonaFacultad" label="telPersona" mask="(503)-####-####"  value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
+                                                    <p:inputMask id="telPersonaFacultad" label="telPersona" mask="+503 #### ####"  value="#{registrarMovilidadMB.telFijoPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
                                                 </p:column>
                                             </p:row>
                                             <p:row>
@@ -625,7 +627,7 @@
                                                     <p:outputLabel for="celPersonaFacultad" value="Tel&eacute;fono movil"/>
                                                 </p:column>
                                                 <p:column>
-                                                    <p:inputMask id="celPersonaFacultad" label="celPersonaFacultad" mask="(503)-####-####"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
+                                                    <p:inputMask id="celPersonaFacultad" label="celPersonaFacultad" mask="+503 #### ####"  value="#{registrarMovilidadMB.telCelPersonaFacultad.numeroTelefono}" disabled="#{registrarMovilidadMB.activarReferente}"/>
                                                 </p:column>
                                             </p:row>
                                             <p:row>

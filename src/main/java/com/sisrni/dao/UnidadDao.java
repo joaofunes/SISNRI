@@ -7,6 +7,7 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.Movilidad;
 import com.sisrni.model.Unidad;
 import java.util.List;
 import org.hibernate.Query;
@@ -62,6 +63,16 @@ public class UnidadDao extends GenericDao<Unidad, Integer> {
             e.printStackTrace();
         }
        return null;  
+    }
+    
+    public void eliminarIntermediaMovilidadUnidad(Movilidad mov){
+        try{
+            String query = "DELETE FROM MOVILIDAD_UNIDAD WHERE ID_MOVILIDAD = "+ mov.getIdMovilidad();
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+            q.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

@@ -314,13 +314,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="(503)-####-####" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
+                                            <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="+503 #### ####" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="(503)-####-####" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
+                                            <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="+503 #### ####" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>
@@ -458,13 +458,13 @@
                                             <p:outputLabel value="Tel&eacute;fono Institucional:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="(503)-####-####" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaAsistente) and proyectosMB.asistenteNull)}"/>
+                                            <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="+503 #### ####" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaAsistente) and proyectosMB.asistenteNull)}"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:inputMask id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}" mask="(503)-####-####" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and !proyectosMB.disablePersonaAsistente) or (proyectosMB.actualizar and activarBotonNuevaPersonaAsistente and proyectosMB.tabAsis)}"/>
+                                            <p:inputMask id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}" mask="+503 #### ####" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and !proyectosMB.disablePersonaAsistente) or (proyectosMB.actualizar and activarBotonNuevaPersonaAsistente and proyectosMB.tabAsis)}"/>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>

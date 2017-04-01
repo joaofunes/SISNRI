@@ -7,6 +7,7 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Facultad;
+import com.sisrni.model.Movilidad;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -48,6 +49,22 @@ public class FacultadDao extends GenericDao<Facultad, Integer> {
         }
         return null;
 
+    }
+    
+    
+    /**
+     * Elimina la relacion entre movilidad y facultad
+     * @param mov
+     */
+    public void eliminarIntermediaMovilidadFacultad(Movilidad mov){
+        try{
+        String query ="DELETE FROM MOVILIDAD_FACULTAD WHERE ID_MOVILIDAD = "+ mov.getIdMovilidad();  
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+        q.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
     }
 
 }

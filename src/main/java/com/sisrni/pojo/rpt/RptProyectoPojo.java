@@ -5,6 +5,8 @@
  */
 package com.sisrni.pojo.rpt;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Joao
@@ -18,7 +20,7 @@ public class RptProyectoPojo{
     private String paisCooperante;
     private String contraparteExterna;
     private String beneficiadoUES;
-    private Long monto;
+    private BigDecimal monto;
 
     public String getNombre() {
         return nombre;
@@ -76,12 +78,13 @@ public class RptProyectoPojo{
         this.beneficiadoUES = beneficiadoUES;
     }
 
-    public Long getMonto() {
+    public BigDecimal getMonto() {
         return monto;
     }
 
-    public void setMonto(Long monto) {
+    public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
+    
 
 }
