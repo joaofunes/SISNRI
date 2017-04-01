@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="false" appendTo="@(body)"  header="Editar Usuario" >
+                        
+            <h:form id="UsuarioEditForm">
+
+                <h:panelGroup id="display">                   
+                     <h:panelGrid >
+                        <p:row>
+                        <p:column>                           
+                             <p:outputLabel value="Usuario:   "/>
+                        </p:column>                                         
+                        <p:column> 
+                            <p:inputText id="codigoUsuario" value="#{usuarioMB.codigo}" required="true" disabled="true" size="26" />                           
+                        </p:column> 
+                        </p:row>    
+                        <p:row>    
+                        <p:column>                           
+                               <p:outputLabel value="Bloqueado: " for="bloqueado" />
+                        </p:column>                                         
+                        <p:column> 
+                             <p:selectOneMenu id="bloqueado" value="#{personaMB.usuario.bloqueado}"  style="width: 42%" required="true" >
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="S&iacute;Â­" itemValue="S" />
+                                <f:selectItem itemLabel="No" itemValue="N" />
+                               </p:selectOneMenu>                            
+                        </p:column> 
+                        </p:row>    
+                        <p:row>    
+                        <p:column >                                         
+                                <p:pickList id="pickList" value="#{usuarioMB.roles}" var="opc" 
+                                            itemLabel="#{opc.nombreRol}" itemValue="#{opc}"  converter="#{rolesConverter}" >
+                                    <f:facet name="sourceCaption">Disponibles</f:facet>
+                                    <f:facet name="targetCaption">Seleccionados</f:facet>
+                                </p:pickList>    
+                        </p:column>
+                       </p:row>    
+                    </h:panelGrid>
+                    <p:commandButton value="Guardar Usuario" id="idGuardarPersona" actionListener="#{usuarioMB.crearUsuario()}" process="@form" update="@form" icon="ui-icon-disk"/>
+                    <p:commandButton value="Cancelar" id="idCerrar" process="@this" icon="ui-icon-cancel" immediate="true" onclick="PF('PersonaEditDialog').close();" />
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
