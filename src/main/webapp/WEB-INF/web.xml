@@ -28,8 +28,12 @@
     
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/spring-context.xml</param-value>
+        <param-value>/WEB-INF/spring/spring-context.xml</param-value>       
     </context-param>
+<!--    <context-param>
+        <param-name>contextConfigLocation</param-name>        
+        <param-value>/WEB-INF/spring/spring-quartz.xml</param-value>
+    </context-param>-->
     <!--    <context-param>
         <param-name>com.sun.faces.expressionFactory</param-name>
         <param-value>com.sun.el.ExpressionFactoryImpl</param-value>
