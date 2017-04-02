@@ -408,8 +408,9 @@ body{
     background: url(../img/img_c.png) no-repeat;
 }
 .img_t{
-    margin-right: 5px;
-    width:28px;
+    margin-right: -2px;
+    margin-left: -5px;
+    width:38px;
     height:38px;
     float:left;
     background: url(../img/vctor.png) no-repeat;

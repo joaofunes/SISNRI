@@ -41,6 +41,7 @@ public class ProyectoService extends GenericService<Proyecto, Integer> {
     public Proyecto getProyectoByID(Integer idProyecto) {
         return proyectoDao.getProyectoByID(idProyecto);
     }
+
     public List<Proyecto> getAllProyecto() {
         return proyectoDao.getAllProyecto();
     }
@@ -52,20 +53,41 @@ public class ProyectoService extends GenericService<Proyecto, Integer> {
     public List<Proyecto> getProyectosDesdeHasta(Integer desde, Integer hasta) {
         return proyectoDao.getProyectosDesdeHasta(desde, hasta);
     }
+
     public List<RptProyectosFinanciadosPojo> getDataProyectosFinanciadosReportes(Integer desde, Integer hasta) {
         return proyectoDao.getDataProyectosFinanciadosReportes(desde, hasta);
     }
+
     public List<RptProyectosPorPaisPojo> getDataProyectosPorPais(Integer desde, Integer hasta) {
         return proyectoDao.getDataProyectosPorPais(desde, hasta);
     }
+
     public List<RptProyectosFinanciadosPojo> getDataProyectosTotales(Integer desde, Integer hasta) {
         return proyectoDao.getDataProyectosTotales(desde, hasta);
     }
+
     public void desvincularInterno(Integer proyectoId, Integer personaId) {
         proyectoDao.desvincularInterno(proyectoId, personaId);
     }
+
     //metodo que retorna si la persona esta vinculada al proyecto
     public PersonaProyecto isVinculadoPersona(Integer idProyecto, Integer idPersona) {
         return proyectoDao.isVinculadoPersona(idProyecto, idPersona);
+    }
+
+    public void eliminarIntermediaPersona(Proyecto proyecto) {
+        proyectoDao.eliminarIntermediaPersona(proyecto);
+    }
+
+    public void eliminarIntermediaFacultad(Proyecto proyecto) {
+        proyectoDao.eliminarIntermediaFacultad(proyecto);
+    }
+
+    public void eliminarIntermediaArea(Proyecto proyecto) {
+        proyectoDao.eliminarIntermediaArea(proyecto);
+    }
+
+    public void eliminarIntermediaOrganismo(Proyecto proyecto) {
+        proyectoDao.eliminarIntermediaOrganismo(proyecto);
     }
 }

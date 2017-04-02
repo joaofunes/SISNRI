@@ -6,6 +6,7 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.AreaConocimiento;
+import com.sisrni.model.Documento;
 import com.sisrni.model.Facultad;
 import com.sisrni.model.Organismo;
 import com.sisrni.model.Pais;
@@ -24,6 +25,7 @@ import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.service.AreaConocimientoService;
+import com.sisrni.service.DocumentoService;
 import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
@@ -114,6 +116,8 @@ public class ProyectosMB {
     private EscuelaDepartamentoService escuelaDepartamentoService;
     @Autowired
     private TipoCambioService tipoCambioService;
+    @Autowired
+    private DocumentoService documentoService;
 
 //Definicion de objetos    
     private Proyecto proyecto;
@@ -596,7 +600,7 @@ public class ProyectosMB {
     public void guardarProyecto() {
         try {
             //validacion al guardar proyecto vacio
-            if ((siBuscoPersona == false && actualizar==false) || (siBuscoPersonaExterna == false && actualizar==false)) {
+            if ((siBuscoPersona == false && actualizar == false) || (siBuscoPersonaExterna == false && actualizar == false)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Requerido", "Debe ingresar toda la información correspondiente"));
             } else {
                 //guardar persona solicitante
@@ -880,7 +884,7 @@ public class ProyectosMB {
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
         }
-  
+
     }
 
     private List<PojoFacultadesUnidades> getListFacultadesUnidades(List<Facultad> facs, List<Unidad> unidades) {
@@ -1822,6 +1826,39 @@ public class ProyectosMB {
         Organismo org = organismoService.findById(organismoSelectedRefExt.getIdOrganismo());
         codigoPais = paisService.findById(org.getIdPais()).getCodigoPais();
         mascaraTelefono = telefonoService.getMask(codigoPais);
+    }
+    public void preEliminar(Integer proyectoId) {
+        try {
+            proyecto = proyectoService.findById(proyectoId);
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarProyectoDialogo').show()");
+        } catch (Exception e) {
+        }
+    }
+
+    //elimina un objeto proyecto y todas las intermedias vinculadas
+    public void eliminarProyecto() {
+        try {
+//            Documento doc = documentoService.findProyectowithDocumento(proyecto.getIdProyecto());
+                documentoService.eliminarDocumento(proyecto);
+                proyectoService.eliminarIntermediaPersona(proyecto);
+                proyectoService.eliminarIntermediaFacultad(proyecto);
+                proyectoService.eliminarIntermediaArea(proyecto);
+                proyectoService.eliminarIntermediaOrganismo(proyecto);
+                proyectoService.delete(proyecto);
+                inicializador();
+                RequestContext ajax = RequestContext.getCurrentInstance();
+                ajax.execute("PF('eliminarProyectoDialogo').hide()");
+        } catch (Exception e) {
+        }
+    }
+    public void cancelareEiminarProyecto() {
+        try {
+            inicializador();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarProyectoDialogo').hide()");
+        } catch (Exception e) {
+        }
     }
 
     public TipoProyecto getProyectoSelected() {

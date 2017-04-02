@@ -9,6 +9,7 @@ import com.sisrni.dao.DocumentoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Documento;
 import com.sisrni.model.PropuestaConvenio;
+import com.sisrni.model.Proyecto;
 import com.sisrni.service.generic.GenericService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +38,15 @@ public class DocumentoService extends GenericService<Documento, Integer> {
         return documentoDao.getDocumentFindBeca(idBeca);
     }
 
-
     public List<Documento> getDocumentFindProyecto(Integer idProyecto) {
         return documentoDao.getDocumentFindProyecto(idProyecto);
     }
 
- public List<Documento> getDocumentoFindMovilidad(Integer idMovilidad) {
+    public List<Documento> getDocumentoFindMovilidad(Integer idMovilidad) {
         return documentoDao.getDocumentoFindMovilidad(idMovilidad);
     }
 
+    public void eliminarDocumento(Proyecto proyecto) {
+        documentoDao.eliminarDocumento(proyecto);
+    }
 }

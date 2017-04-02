@@ -14,7 +14,8 @@
         <ui:include src="../persona/crearPersona.xhtml"/>
         <ui:include src="../persona/editPersona.xhtml"/>
         <ui:include src="../persona/eliminarPersona.xhtml"/>
-        <ui:include src="../persona/usuario.xhtml"/>
+        <ui:include src="../persona/crearUsuario.xhtml"/>
+        <ui:include src="../persona/editarUsuario.xhtml"/>
         <f:metadata>            
             <f:viewAction action="#{personaMB.init}" />
         </f:metadata> 
@@ -96,8 +97,7 @@
                     </div>
                      <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-person" title="Usuario" 
-                                       value="Editar" actionListener="#{usuarioMB.preCrearUsuario(item.persona)}"
-                                       oncomplete="PF('UsuarioCreateDialog').show();"
+                                       value="Editar" actionListener="#{usuarioMB.preCrearUsuario(item.persona)}"  
                                        update=":UsuarioCreateDlg"/>
                     </div>
                    

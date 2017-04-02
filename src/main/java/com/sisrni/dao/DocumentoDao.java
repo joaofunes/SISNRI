@@ -7,6 +7,7 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Documento;
+import com.sisrni.model.Proyecto;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -63,5 +64,11 @@ public class DocumentoDao extends GenericDao<Documento, Integer> {
             
         }
         return null;
+    }
+    
+    public void eliminarDocumento(Proyecto proyecto) {
+        String query = "Delete from DOCUMENTO WHERE ID_PROYECTO=" + proyecto.getIdProyecto();
+        Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
+        q.executeUpdate();
     }
 }
