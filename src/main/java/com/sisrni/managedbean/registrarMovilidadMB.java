@@ -1600,7 +1600,7 @@ public class registrarMovilidadMB {
                 personaFacultadGenerico.getTelefonoList().add(telCelPersonaFacultad);
 
                 //Guardado-actualizado referente de la facultad
-                if ((existeReferente == false && actualizar == false)) {
+                if ((existeReferente == false && actualizar == false) ||(existeReferente == false && desvinculadoRfte == true) ) {  //<----
                     personaService.save(personaFacultadGenerico);
                 } else if ((existeReferente == true && siEditarReferente == true) || actualizar == true) {
                     personaService.merge(personaFacultadGenerico);
@@ -2094,11 +2094,12 @@ public class registrarMovilidadMB {
 
                     //desabilitando campos del refrente  <-----------------------
                     mostrarBotonEditarReferente = false; //ocultar boton de editar referente
-                    deshabilitarCamposDocente();
-                    habilitarBuscadorReferente = false; //habilita el buscador de eferente
+                    //deshabilitarCamposDocente();
+                    desabilitarCamposReferente();
+                    habilitarBuscadorReferente = false; //habilita el buscador de referente
                 }
                 //Actualizando el Panel de la persona en movilidad
-                RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad");
+                //RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad");
 
             }
 
