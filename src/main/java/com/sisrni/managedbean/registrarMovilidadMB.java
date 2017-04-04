@@ -405,8 +405,8 @@ public class registrarMovilidadMB {
         //obsequioSelected = null;
         //personaMovilidad = new Persona();
         personaMovilidadGenerico = new Persona();
-        personaMovilidadGenerico.setIdOrganismo(new Organismo());
-        personaMovilidadGenerico.setIdEscuelaDepto(new EscuelaDepartamento());
+        //personaMovilidadGenerico.setIdOrganismo(new Organismo());
+        //personaMovilidadGenerico.setIdEscuelaDepto(new EscuelaDepartamento());
 
         //personaFacultadSelected = new Persona();
         personaFacultadGenerico = new Persona();
@@ -663,8 +663,10 @@ public class registrarMovilidadMB {
         } else if ((result = facultadPersonaMovilidad.indexOf(",2")) > -1) {
             id = Integer.parseInt(facultadPersonaMovilidad.substring(0, result));
             //agregando la unidad seleccionada a una variable temporral
-            unidadPersonMovTmp = unidadService.findById(id);
-            escuelaDepartamentoPersonaMovilidad = null;
+            //unidadPersonMovTmp = unidadService.findById(id);
+            personaMovilidadGenerico.setIdUnidad(unidadService.findById(id));
+            //escuelaDepartamentoPersonaMovilidad = null;
+            personaMovilidadGenerico.setIdEscuelaDepto(null);
             listEscuelaDepartamentoPersonaMovilidad = new ArrayList<EscuelaDepartamento>();
 
         }
@@ -703,7 +705,9 @@ public class registrarMovilidadMB {
         } else if ((result = facultadDeReferente.indexOf(",2")) > -1) {
             id = Integer.parseInt(facultadDeReferente.substring(0, result));
             //Afrefando la unidad seleccionada a una variable temporal
-            unidadRftFactTmp = unidadService.findById(id);
+            //unidadRftFactTmp = unidadService.findById(id);
+            personaFacultadGenerico.setIdUnidad(unidadService.findById(id));
+            personaFacultadGenerico.setIdEscuelaDepto(null);
             listEscuelaDepartamentoRefFact = new ArrayList<EscuelaDepartamento>();
 
         }
@@ -904,12 +908,16 @@ public class registrarMovilidadMB {
 
     //Metodo que habilita para agregar nuevo referente manualmente
     public void agregarNuevoReferente() {
-        personaMovilidadGenerico = new Persona();
-        telFijoPersonaMovilidad = new Telefono();
-        telCelPersonaMovilidad = new Telefono();
-        facultadPersonaMovilidad = "";
-        escuelaDepartamentoPersonaMovilidad = null;
-        institucionPersonaMovilidadSelected = null;
+        //personaMovilidadGenerico = new Persona();
+        //telFijoPersonaMovilidad = new Telefono();
+        //telCelPersonaMovilidad = new Telefono();
+        //facultadPersonaMovilidad = "";
+        //escuelaDepartamentoPersonaMovilidad = null;
+        //institucionPersonaMovilidadSelected = null;
+        personaFacultadGenerico = new Persona();
+        telFijoPersonaFacultad = new Telefono();
+        telCelPersonaFacultad = new Telefono();
+        facultadDeReferente="";
         existeReferente = false;
         habilitarCamposReferente();
         //RequestContext.getCurrentInstance().update("panelReferente");
@@ -1528,10 +1536,10 @@ public class registrarMovilidadMB {
                     personaMovilidadGenerico.setExtranjero(true);
                     personaMovilidadGenerico.setDuiPersona("00000000-0");
                     //si a la persona se le asigno una unidad
-                    if (unidadPersonMovTmp != null) {
-                        personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
-                        personaMovilidadGenerico.setIdEscuelaDepto(null);
-                    }
+                  //  if (unidadPersonMovTmp != null) {
+                  //      personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
+                  //      personaMovilidadGenerico.setIdEscuelaDepto(null);
+                  //  }
 
                 } else {   //Si es saliente
                     personaMovilidadGenerico.setActivo(true);
@@ -1539,10 +1547,10 @@ public class registrarMovilidadMB {
                     personaMovilidadGenerico.setIdOrganismo(institucionUES); //revisar esto
                     personaMovilidadGenerico.setPasaporte("--");
                     //si a la persona se le asigno una unidad
-                    if (unidadPersonMovTmp != null) {
-                        personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
-                        personaMovilidadGenerico.setIdEscuelaDepto(null);
-                    }
+                //    if (unidadPersonMovTmp != null) {
+                //        personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
+                //        personaMovilidadGenerico.setIdEscuelaDepto(null);
+                //    }
 
                 }
                 //Telefonos de persona en movilidad Saliente
@@ -1592,7 +1600,7 @@ public class registrarMovilidadMB {
                 personaFacultadGenerico.getTelefonoList().add(telCelPersonaFacultad);
 
                 //Guardado-actualizado referente de la facultad
-                if ((existeReferente == false && actualizar == false)) {
+                if ((existeReferente == false && actualizar == false) ||(existeReferente == false && desvinculadoRfte == true) ) {  //<----
                     personaService.save(personaFacultadGenerico);
                 } else if ((existeReferente == true && siEditarReferente == true) || actualizar == true) {
                     personaService.merge(personaFacultadGenerico);
@@ -2086,11 +2094,12 @@ public class registrarMovilidadMB {
 
                     //desabilitando campos del refrente  <-----------------------
                     mostrarBotonEditarReferente = false; //ocultar boton de editar referente
-                    deshabilitarCamposDocente();
-                    habilitarBuscadorReferente = false; //habilita el buscador de eferente
+                    //deshabilitarCamposDocente();
+                    desabilitarCamposReferente();
+                    habilitarBuscadorReferente = false; //habilita el buscador de referente
                 }
                 //Actualizando el Panel de la persona en movilidad
-                RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad");
+                //RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad");
 
             }
 
@@ -2122,6 +2131,11 @@ public class registrarMovilidadMB {
             e.printStackTrace();
         }
 
+    }
+    
+    public void confirmarDesvincularReferente(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dlgConfirmarDesvincularReferente').show();");
     }
 
     /**
