@@ -2132,6 +2132,11 @@ public class registrarMovilidadMB {
         }
 
     }
+    
+    public void confirmarDesvincularReferente(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dlgConfirmarDesvincularReferente').show();");
+    }
 
     /**
      * Consultar Movilidad
