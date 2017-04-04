@@ -11,6 +11,7 @@ import com.sisrni.model.TipoOrganismo;
 import com.sisrni.service.TipoOrganismoService;
 import com.sisrni.service.generic.GenericService;
 import com.sisrni.utils.JsfUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -100,7 +101,25 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
             e.printStackTrace();
         }
         cargarTipoOrganismo();
-    } 
+    }
+     //lista los tipos de organismos de forma ordenada
+     public List<TipoOrganismo> listaOrganismos() {
+        listadoTipoOrganismo = tipoOrganismoService.getAllByNameAsc();
+        TipoOrganismo tipoOrganismoNew1=new TipoOrganismo();
+        List<TipoOrganismo> copy = new ArrayList<TipoOrganismo>();
+        for (TipoOrganismo tipoOrganismoNew : listadoTipoOrganismo) {
+            if(!tipoOrganismoNew.getNombreTipo().equalsIgnoreCase("Agregar Nuevo"))
+            {
+                copy.add(tipoOrganismoNew);
+            }else{
+                tipoOrganismoNew1=tipoOrganismoNew;
+            }
+        }
+        copy.add(tipoOrganismoNew1);
+        listadoTipoOrganismo.clear();
+        return listadoTipoOrganismo=copy;
+    }
+
      
      /**
       * Metodo para Actualizar registro en Tipo Organismo

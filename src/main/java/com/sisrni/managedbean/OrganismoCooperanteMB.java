@@ -27,6 +27,7 @@ import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,6 +42,8 @@ public class OrganismoCooperanteMB {
     /**
      * Creates a new instance of OrganismoCooperanteMB
      */
+    @Inject
+    TipoOrganismoMB tipoOrganismoMB;
     private Organismo organismoCooperante ;
     @Autowired
     TipoOrganismoService tipoOrganismoService;
@@ -216,6 +219,16 @@ public class OrganismoCooperanteMB {
         } catch (Exception e) {
         }
 
+    }
+     //metodo para crear un nuevo elemento en el combo box tipo de organismo
+     public void addNewTipoOrganismo() {
+         TipoOrganismo tipoorganismo = tipoOrganismoService.findById(organismoSelected.getIdTipoOrganismo());
+        if (tipoorganismo.getNombreTipo().equals("Agregar Nuevo")) {
+            tipoOrganismoMB.init();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('tipoorganismoDialog').show()");
+            organismoSelected = new TipoOrganismo();
+        }
     }
      
     public Integer getTipoSelected() {
