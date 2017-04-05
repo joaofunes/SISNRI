@@ -632,7 +632,7 @@
                                             </p:row>
                                             <p:row>
                                                 <p:column>
-                                                    <p:commandButton value="Desvincular referente" actionListener="#{registrarMovilidadMB.desvincularReferente()}" process="@this" rendered="#{registrarMovilidadMB.mostrarBotonDesvincular}"/>
+                                                    <p:commandButton value="Desvincular referente" actionListener="#{registrarMovilidadMB.confirmarDesvincularReferente()}" process="@this" rendered="#{registrarMovilidadMB.mostrarBotonDesvincular}"/>
                                                 </p:column>
                                             </p:row>    
                                             <!--    <p:column>
@@ -719,18 +719,22 @@
                 <p:confirmDialog widgetVar="dlgEdicionDocente" id="dialogDocenteUpdate" header="Modificar Persona" message="Esta seguro que desea modificar los datos del docente en movilidad"
                                  global="true" showEffect="fade" hideEffect="fade">
 
-                    <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarDocente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarDocente()}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="No" type="submit" action="#{registrarMovilidadMB.noModificarDocente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />               
 
                 </p:confirmDialog>    
 
                 <p:confirmDialog widgetVar="dlgEdicionReferente" id="dialogReferenteUpdate" header="Modificar Persona" message="Esta seguro que desea modificar los datos del Referente"
                                  global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarReferente()}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="No" type="submit" action="#{registrarMovilidadMB.noModificarReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                 
                 </p:confirmDialog>
                 
-                
+                <p:confirmDialog widgetVar="dlgConfirmarDesvincularReferente" id="dialogDesvincularReferente" header="Desvicular Referente" message="Esta seguro que desea desvincular al referente de la facultad?"
+                    global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.desvincularReferente()}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="submit" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('dlgConfirmarDesvincularReferente').hide();"/>
+                </p:confirmDialog>
             </ui:define>
 
         </ui:composition>

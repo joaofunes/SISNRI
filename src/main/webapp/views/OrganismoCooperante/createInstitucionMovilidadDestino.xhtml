@@ -80,7 +80,7 @@
                     </p:column>
                     <p:column> 
                         <p:commandButton styleClass="boton" rendered="#{!organismoCooperanteMB.actualizar}"
-                                         actionListener="#{organismoCooperanteMB.guardarOrganismo()}" action="#{registrarMovilidadMB.updateListInstitucionDestino()}" value="Guardarr"  process="@this :formOrganismoDestino" onclick="PF('organismoDestDialog').hide();"/>
+                                         actionListener="#{organismoCooperanteMB.guardarOrganismo()}" action="#{registrarMovilidadMB.updateListInstitucionDestino()}" value="Guardar"  process="@this :formOrganismoDestino" onclick="PF('organismoDestDialog').hide();"/>
 
                         <p:commandButton styleClass="boton" rendered="#{organismoCooperanteMB.actualizar}"
                                          actionListener="#{organismoCooperanteMB.cancelarOrganismo()}" immediate="true" value="Cancelar" update="formOrganismoDestino"  process="@this" />
