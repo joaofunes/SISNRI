@@ -8,6 +8,7 @@ package com.sisrni.service;
 import com.sisrni.dao.DocumentoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Documento;
+import com.sisrni.model.Movilidad;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.Proyecto;
 import com.sisrni.service.generic.GenericService;
@@ -49,4 +50,8 @@ public class DocumentoService extends GenericService<Documento, Integer> {
     public void eliminarDocumento(Proyecto proyecto) {
         documentoDao.eliminarDocumento(proyecto);
     }
+    
+     public void eliminarDocumentosMovilidad(Movilidad movilidad){
+         documentoDao.eliminarDocumentosMovilidad(movilidad);
+     }
 }

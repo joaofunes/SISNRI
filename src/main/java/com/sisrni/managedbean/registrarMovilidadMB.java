@@ -21,6 +21,7 @@ import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.pojo.rpt.PojoMovilidadAdm;
 import com.sisrni.service.CategoriaMovilidadService;
+import com.sisrni.service.DocumentoService;
 import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.EtapaMovilidadService;
 import com.sisrni.service.FacultadService;
@@ -274,7 +275,7 @@ public class registrarMovilidadMB {
     private Boolean habilitarBuscadorReferente;
     private Boolean mostrarBotonNuevoDocente;
     private Boolean mostrarBotonNuevoReferente;
-    
+
     private Boolean consultoria;
     private Boolean disableConsultoria;
 
@@ -330,6 +331,9 @@ public class registrarMovilidadMB {
 
     @Autowired
     private TipoCambioService tipoCambioService;
+
+    @Autowired
+    private DocumentoService documentoService;
 
     /**
      * Constructor
@@ -538,7 +542,6 @@ public class registrarMovilidadMB {
         mostrarBotonNuevoReferente = false;
         consultoria = false;
         disableConsultoria = true;
-        
 
         txtBotonGuardar = "Guardar";
         txtBotonRegresar = "Regresar";
@@ -712,13 +715,12 @@ public class registrarMovilidadMB {
 
         }
     }
-    
-    
-    public void onchangeConsultoria(){
-        if(consultoria == true){
+
+    public void onchangeConsultoria() {
+        if (consultoria == true) {
             disableConsultoria = false;
-        }else{
-            disableConsultoria = true; 
+        } else {
+            disableConsultoria = true;
         }
     }
 
@@ -917,7 +919,7 @@ public class registrarMovilidadMB {
         personaFacultadGenerico = new Persona();
         telFijoPersonaFacultad = new Telefono();
         telCelPersonaFacultad = new Telefono();
-        facultadDeReferente="";
+        facultadDeReferente = "";
         existeReferente = false;
         habilitarCamposReferente();
         //RequestContext.getCurrentInstance().update("panelReferente");
@@ -1536,10 +1538,10 @@ public class registrarMovilidadMB {
                     personaMovilidadGenerico.setExtranjero(true);
                     personaMovilidadGenerico.setDuiPersona("00000000-0");
                     //si a la persona se le asigno una unidad
-                  //  if (unidadPersonMovTmp != null) {
-                  //      personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
-                  //      personaMovilidadGenerico.setIdEscuelaDepto(null);
-                  //  }
+                    //  if (unidadPersonMovTmp != null) {
+                    //      personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
+                    //      personaMovilidadGenerico.setIdEscuelaDepto(null);
+                    //  }
 
                 } else {   //Si es saliente
                     personaMovilidadGenerico.setActivo(true);
@@ -1547,10 +1549,10 @@ public class registrarMovilidadMB {
                     personaMovilidadGenerico.setIdOrganismo(institucionUES); //revisar esto
                     personaMovilidadGenerico.setPasaporte("--");
                     //si a la persona se le asigno una unidad
-                //    if (unidadPersonMovTmp != null) {
-                //        personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
-                //        personaMovilidadGenerico.setIdEscuelaDepto(null);
-                //    }
+                    //    if (unidadPersonMovTmp != null) {
+                    //        personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
+                    //        personaMovilidadGenerico.setIdEscuelaDepto(null);
+                    //    }
 
                 }
                 //Telefonos de persona en movilidad Saliente
@@ -1600,7 +1602,7 @@ public class registrarMovilidadMB {
                 personaFacultadGenerico.getTelefonoList().add(telCelPersonaFacultad);
 
                 //Guardado-actualizado referente de la facultad
-                if ((existeReferente == false && actualizar == false) ||(existeReferente == false && desvinculadoRfte == true) ) {  //<----
+                if ((existeReferente == false && actualizar == false) || (existeReferente == false && desvinculadoRfte == true)) {  //<----
                     personaService.save(personaFacultadGenerico);
                 } else if ((existeReferente == true && siEditarReferente == true) || actualizar == true) {
                     personaService.merge(personaFacultadGenerico);
@@ -1639,14 +1641,14 @@ public class registrarMovilidadMB {
                 d = d.multiply(aux.getDolaresPorUnidad());
                 movilidad.setVoletoAereo(d);
             }
-            
-            if(movilidad.getCostoConsultoria() == null){
+
+            if (movilidad.getCostoConsultoria() == null) {
                 movilidad.setCostoConsultoria(new BigDecimal(0.00));
-            }else{
-               TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
-               BigDecimal d = movilidad.getCostoConsultoria();
-               d = d.multiply(aux.getDolaresPorUnidad());
-               movilidad.setCostoConsultoria(d);
+            } else {
+                TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
+                BigDecimal d = movilidad.getCostoConsultoria();
+                d = d.multiply(aux.getDolaresPorUnidad());
+                movilidad.setCostoConsultoria(d);
             }
 
             //Agregando a la movilidad las facultades o unidades beneficiadas
@@ -1960,9 +1962,9 @@ public class registrarMovilidadMB {
                 existeMovilidad = true;
                 //Estableciendo el tipo de cambio por defecto
                 tipoCambioSelected.setIdTipoCambio(2);
-                
-                if(movilidad.getCostoConsultoria()!=null){
-                    consultoria=true;
+
+                if (movilidad.getCostoConsultoria() != null) {
+                    consultoria = true;
                     onchangeConsultoria();
                 }
 
@@ -2132,8 +2134,8 @@ public class registrarMovilidadMB {
         }
 
     }
-    
-    public void confirmarDesvincularReferente(){
+
+    public void confirmarDesvincularReferente() {
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlgConfirmarDesvincularReferente').show();");
     }
@@ -2484,24 +2486,26 @@ public class registrarMovilidadMB {
             e.printStackTrace();
         }
     }
-    
 
     public void eliminarMovilidad() {
-          try{
-              //Eliminando tablas intermedias
-              facultadService.eliminarIntermediaMovilidadFacultad(movilidad);
-              unidadService.eliminarIntermediaMovilidadUnidad(movilidad);
-              personaMovilidadService.eliminarIntemediaPersonaMovilidad(movilidad);
-              //Eliminando la movilidad
-              movilidadService.delete(movilidad);
-              cargarMovilidadPersona();
-              
-              RequestContext ajax = RequestContext.getCurrentInstance();
-              ajax.execute("PF('eliminarDialog').hide()");
-              
-          }catch(Exception e){
-              e.printStackTrace();
-          }
+        try {
+
+            //eliminando documentos de la movilidad
+            documentoService.eliminarDocumentosMovilidad(movilidad);
+            //Eliminando tablas intermedias
+            facultadService.eliminarIntermediaMovilidadFacultad(movilidad);
+            unidadService.eliminarIntermediaMovilidadUnidad(movilidad);
+            personaMovilidadService.eliminarIntemediaPersonaMovilidad(movilidad);
+            //Eliminando la movilidad
+            movilidadService.delete(movilidad);
+            cargarMovilidadPersona();
+
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarDialog').hide()");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //GETTER Y SETTER
@@ -3354,7 +3358,5 @@ public class registrarMovilidadMB {
     public void setDisableConsultoria(Boolean disableConsultoria) {
         this.disableConsultoria = disableConsultoria;
     }
-    
-    
 
 }
