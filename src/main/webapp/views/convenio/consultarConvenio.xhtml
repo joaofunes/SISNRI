@@ -105,17 +105,15 @@
                     </p:column>
                     <p:column>
                         <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="Estado:" style="font-weight:bold"/>
-                    </p:column>
+                    </p:column>                    
                     <p:column>
-                        <p:selectOneMenu id="idEstado" value="#{consultarConvenioMB.estado}" converter="#{estadoConverter}" panelStyle="width:250px" style="width:200px">
-                            <f:selectItems value="#{consultarConvenioMB.listadoEstados}" var="theme" itemLabel="#{theme.nombreEstado}" itemValue="#{theme}" />                      
-                        </p:selectOneMenu>
-                    </p:column>                        
+                            <h:outputText value="Fecha de Vigencia: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <p:calendar id="idFechaVigencia" required="true" value="#{consultarConvenioMB.propuestaConvenio.vigencia}" pattern="dd-MM-yyyy" mask="true" />
+                    </p:column>
                     <p:column>                        
-                        <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarConvenioMB.eliminarConvenio()}" process="idCambiarEstado" update=":formAdmin" onclick="PF('dlgEstado').hide();" />
+                        <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarConvenioMB.actualizarConvenio()}" process="idCambiarEstado" update=":formAdmin" onclick="PF('dlgEstado').hide();" />
                          <p:commandButton value="No"  icon="ui-icon-close" onclick="PF('dlgEstado').hide();" process="@this" />
                     </p:column>
                     <p:column></p:column>

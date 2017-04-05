@@ -529,4 +529,16 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         }
         return null;
     }
+    
+    
+    public List<PropuestaConvenio> getConvenioVigentes() {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM PropuestaConvenio a  WHERE a.vigencia is not null");            
+            return q.list();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

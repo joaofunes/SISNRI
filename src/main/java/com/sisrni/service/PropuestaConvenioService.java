@@ -91,4 +91,8 @@ public class PropuestaConvenioService extends GenericService<PropuestaConvenio, 
      public List<RptBitacoraEstadosPojo> estadosPropuestaConvenioBitacora(Integer desde, Integer hasta) {
          return propuestaConvenioDao.estadosPropuestaConvenioBitacora(desde, hasta);
      }
+     
+     public List<PropuestaConvenio> getConvenioVigentes(){
+       return propuestaConvenioDao.getConvenioVigentes();
+     }
 }
