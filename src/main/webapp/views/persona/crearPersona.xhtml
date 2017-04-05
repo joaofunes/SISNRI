@@ -97,7 +97,26 @@
                                 <f:selectItems value="#{personaMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
                             </p:selectOneMenu>                                                                               
                         </p:column>-->
-
+                        
+                                                <p:column>
+                                                    <p:outputLabel for="facultadBeneficiadaPersona" value="Facultad/unidad"/> 
+                                                </p:column>
+                                                <p:column>
+                                                    <p:selectOneMenu id="facultadBeneficiadaPersona" value="#{registrarMovilidadMB.facultadDeReferente}" style="width: 180px" required="true">
+                                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{registrarMovilidadMB.listFacultadUnidadReferenteFactBnf}" var="facultadBenefPersona" itemLabel="#{facultadBenefPersona.label}" itemValue="#{facultadBenefPersona.value}"/>
+                                                        <p:ajax listener="#{registrarMovilidadMB.mostrarEscuelaReferenteFact()}" update="escuelaDepartamentoReferenteFactBnf" process="@this" partialSubmit="true"/>
+                                                    </p:selectOneMenu>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:outputLabel for="escuelaDepartamentoReferenteFactBnf" value="Escuela/Departamento"/> 
+                                                </p:column>   
+                                                <p:column>
+                                                    <p:selectOneMenu id="escuelaDepartamentoReferenteFactBnf" value="#{registrarMovilidadMB.personaFacultadGenerico.idEscuelaDepto}" style="width: 180px" converter="#{EscuelaDepartamentoDocenteConverter}" disabled="#{registrarMovilidadMB.mostrarEscuelaReferente}" required="#{registrarMovilidadMB.escuelaReferenteRequerido}">
+                                                        <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{registrarMovilidadMB.listEscuelaDepartamentoRefFact}" var="unidadPersona" itemLabel="#{unidadPersona.nombreEscuelaDepto}" itemValue="#{unidadPersona}"/>
+                                                    </p:selectOneMenu>
+                                                </p:column>    
 
                         <p:column> 
                             <p:commandButton value="Guardar Persona" id="idGuardarPersona" actionListener="#{personaMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaCreateDialog').close();" />
