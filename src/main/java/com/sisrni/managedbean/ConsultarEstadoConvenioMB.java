@@ -9,9 +9,9 @@ import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoConvenioEstado;
 import com.sisrni.service.PropuestaConvenioService;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,6 +30,8 @@ public class ConsultarEstadoConvenioMB implements Serializable{
     
     private static final long serialVersionUID = 1113799434508676095L;
     
+    String pattern = "MM/dd/yyyy";
+    SimpleDateFormat format = new SimpleDateFormat(pattern);
     private Date fechaActual;
     private List<PojoConvenioEstado> listadoPropuestaConvenio;
     private List<PojoConvenioEstado> listadoConvenio;
@@ -51,11 +53,36 @@ public class ConsultarEstadoConvenioMB implements Serializable{
            listadoPropuestaConvenio=propuestaConvenioService.getPropuestasConvenioWithEstado();
            fechaActual= new Date();
            listadoConvenio=propuestaConvenioService.getConveioWithEstado();
+           verificarEstadoConvenio();
         } catch (Exception e) {
           e.printStackTrace();
         }
     }
 
+    /**
+     * Metodo para verficar si es Vigente
+     */
+    private void verificarEstadoConvenio(){
+        try {
+            
+            List<PropuestaConvenio> convenioVigentes = propuestaConvenioService.getConvenioVigentes();
+            
+            for(PropuestaConvenio propC: convenioVigentes){
+                if(propC.getVigencia().after(fechaActual)){                    
+                    propC.setActivo(true);
+                    propuestaConvenioService.merge(propC);
+                } else{
+                    propC.setActivo(false);
+                    propuestaConvenioService.merge(propC);                    
+                }
+            }
+            
+        } catch (Exception e) {
+         e.printStackTrace();
+        }
+    }
+    
+    
     public List<PojoConvenioEstado> getListadoPropuestaConvenio() {
         return listadoPropuestaConvenio;
     }

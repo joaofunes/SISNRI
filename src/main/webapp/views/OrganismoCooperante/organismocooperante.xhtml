@@ -11,7 +11,7 @@
 
     <ui:define name="content">
         <center>
-            
+            <ui:include src="../TipoOrganismo/Create.xhtml"/>
             <p:panel style="width: 90%" header="Administraci&oacute;n de Organismos Cooperantes">  
                 
                 <h:form id="formOrganismo">
@@ -27,9 +27,10 @@
                         <h:outputLabel for="tipo" value="Tipo de Organismo: "/>
                         <p:selectOneMenu id="tipo" value="#{organismoCooperanteMB.organismoSelected.idTipoOrganismo}" style="width: 100%" >
                       <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                      <c:forEach var="tipoOrg" items="#{organismoCooperanteMB.tipoOrganismoList}">
+                      <c:forEach var="tipoOrg" items="#{tipoOrganismoMB.listaOrganismos()}">
                         <f:selectItem itemLabel="#{tipoOrg.nombreTipo}" itemValue="#{tipoOrg.idTipoOrganismo}"/>
                     </c:forEach>
+                       <p:ajax event="change" listener="#{organismoCooperanteMB.addNewTipoOrganismo}" process="@this" update="formOrganismo:tipo"/>
                 </p:selectOneMenu>
                         <p:column>
                             <p:outputLabel for="region" value="Región:"/>
