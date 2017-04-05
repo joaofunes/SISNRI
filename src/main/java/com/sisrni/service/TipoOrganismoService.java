@@ -10,6 +10,7 @@ import com.sisrni.dao.TipoOrganismoDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoOrganismo;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,9 @@ public class TipoOrganismoService extends GenericService<TipoOrganismo, Integer>
     public GenericDao<TipoOrganismo, Integer> getDao() {
       return tipoOrganismoDao;
     }
-    
+    public List<TipoOrganismo> getAllByNameAsc(){
+        return tipoOrganismoDao.getAllByNameAsc();
+    }
     
     
 }

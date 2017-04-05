@@ -5,6 +5,7 @@ import com.sisrni.model.SsMenus;
 import com.sisrni.model.SsOpciones;
 import com.sisrni.model.SsRoles;
 import com.sisrni.security.AppUserDetails;
+import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.SsMenusService;
 import com.sisrni.service.SsOpcionesService;
 import com.sisrni.service.SsRolesService;
@@ -14,11 +15,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.WebApplicationContext;
@@ -36,7 +43,7 @@ public class CurrentUserSessionBean implements Serializable{
     private SsMenusService ssMenusService;
     @Autowired
     private SsRolesService ssRolesService;
-
+            
     private CurrentUserSessionForm currentUserSessionForm;
 
     public CurrentUserSessionBean() {
@@ -99,5 +106,5 @@ public class CurrentUserSessionBean implements Serializable{
         }
         return currentUserSessionForm;
     }
-
+          
 }

@@ -13,7 +13,9 @@ import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -27,21 +29,19 @@ import org.springframework.web.context.WebApplicationContext;
  *
  * @author Joao
  */
-
 @Named("consultarConvenioMB")
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
-public class ConsultarConvenioMB implements Serializable{
-    
-    private static final long serialVersionUID = 1L;  
-    
+public class ConsultarConvenioMB implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Inject
     PropuestaConvenioMB propuestaConvenioMB;
-    
-    
+
     @Autowired
     @Qualifier(value = "propuestaConvenioService")
     private PropuestaConvenioService propuestaConvenioService;
-    
+
     @Autowired
     @Qualifier(value = "personaService")
     private PersonaService personaService;
@@ -49,92 +49,107 @@ public class ConsultarConvenioMB implements Serializable{
     @Autowired
     @Qualifier(value = "estadoService")
     private EstadoService estadoService;
-    
-    
+
     @Autowired
     @Qualifier(value = "propuestaEstadoService")
     private PropuestaEstadoService propuestaEstadoService;
-    
+
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
     private PojoPropuestaConvenio pojoPropuestaConvenio;
     private List<Estado> listadoEstados;
     private Estado estado;
-    
-    
-   // @PostConstruct
+
+    // @PostConstruct
     public void init() {
-        try {          
-           inicializador();              
+        try {
+            inicializador();
         } catch (Exception e) {
         }
-    } 
+    }
 
     private void inicializador() {
         try {
-            propuestaConvenio = new PropuestaConvenio();    
+            propuestaConvenio = new PropuestaConvenio();
             estado = new Estado();
-            listadoPropuestaConvenio= propuestaConvenioService.getAllConvenioSQL();
+            listadoPropuestaConvenio = propuestaConvenioService.getAllConvenioSQL();
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void preEliminar(PojoPropuestaConvenio pojo){
+    public void preEliminar(PojoPropuestaConvenio pojo) {
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
-            estado=estadoService.findById(pojo.getID_ESTADO());
+            estado = estadoService.findById(pojo.getID_ESTADO());
            // RequestContext context = RequestContext.getCurrentInstance();              
-           // context.execute("PF('dataChangeDlg').show();");
-           //RequestContext.getCurrentInstance().update(":formPrincipal");
+            // context.execute("PF('dataChangeDlg').show();");
+            //RequestContext.getCurrentInstance().update(":formPrincipal");
         } catch (Exception e) {
-         e.printStackTrace();
-        }
-    }
-    
-    
-    public void preView(PojoPropuestaConvenio pojo){
-        try {
-            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
-            estado=estadoService.findById(pojo.getID_ESTADO());
-        } catch (Exception e) {
-         e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
-    
-    public void preEditar(PojoPropuestaConvenio pj){
+    public void preView(PojoPropuestaConvenio pojo) {
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            estado = estadoService.findById(pojo.getID_ESTADO());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void preEditar(PojoPropuestaConvenio pj) {
         try {
             propuestaConvenioMB.inicializador();
-            propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));            
+            propuestaConvenioMB.setSolicitante(personaService.getByID(pj.getID_SOLICITANTE()));
             propuestaConvenioMB.setReferenteInterno(personaService.getByID(pj.getID_REF_INTERNO()));
-            propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));  
+            propuestaConvenioMB.setReferenteExterno(personaService.getByID(pj.getID_REF_EXTERNO()));
             propuestaConvenioMB.postInit();
-            propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());   
-                        
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();  
-           
+            propuestaConvenioMB.cargarPropuestaConvenio(pj.getID_PROPUESTA());
+
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+
             String outcome = "propuestaCovenio.xhtml";
             FacesContext.getCurrentInstance().getExternalContext().redirect("propuestaCovenio.xhtml");
-            
+
             //context.redirect(context.getRequestContextPath() + "/views/convenio/propuestaCovenio.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
+
     }
-    
-    public void eliminarConvenio(){
-        try {                    
-            propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(),estado.getIdEstado());                    
+
+    public void actualizarConvenio() {
+        try {
+            Date now = new Date();
+            if (propuestaConvenio.getVigencia().after(now)) {
+                propuestaConvenioService.merge(propuestaConvenio);
+                propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
+                inicializador();
+
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Convenio", "la propuesta pasa a ser convenio"));
+
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Fecha de Vigencia debe ser mayor a la actual"));
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void eliminarConvenio() {
+        try {
+            propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
             inicializador();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
+
     public PropuestaConvenio getPropuestaConvenio() {
         return propuestaConvenio;
     }
