@@ -12,10 +12,14 @@ import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.Facultad;
 import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.SsUsuarios;
+import com.sisrni.model.Unidad;
+import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.pojo.rpt.PojoPersonaTelefono;
 import com.sisrni.security.CustomPasswordEncoder;
+import com.sisrni.service.FacultadService;
 import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
@@ -69,7 +73,9 @@ public class PersonaMB implements Serializable{
     
     private PojoPersonaTelefono pojoPersonaExtranjera;
     private List<PojoPersonaTelefono> listPojoPersonaExtranjera;
-    
+    private List<PojoFacultadesUnidades> listFacultadUnidad;
+    private List<Facultad> listFacultadBnfUes;
+    private List<Unidad> listUnidadBnfUes;
     
     private List<Telefono> listadoTelefono;
     private String clave;
@@ -118,6 +124,9 @@ public class PersonaMB implements Serializable{
     @Autowired
     FreeMarkerMailService mailService;
     
+    @Autowired
+    private FacultadService facultadService;
+    
     //declaracion de listas
     @PostConstruct
     public void init() {
@@ -146,6 +155,9 @@ public class PersonaMB implements Serializable{
              listadoTipoPersona = tipoPersonaService.findAll();            
              listadoTelefono = telefonoService.findAll();
              listaPersona = personaService.findAll();
+             listFacultadBnfUes = facultadService.getFacultadesByUniversidad(1); //revisar esto
+             listUnidadBnfUes = unidadService.getUnidadesByUniversidad(1);     //revisar esto
+             listFacultadUnidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
              llenarPojoPersona(); 
              llenarPojoPersonaExtranjera(); 
          } catch (Exception e) {
@@ -473,6 +485,26 @@ public class PersonaMB implements Serializable{
         }
     } 
     
+    /**
+     * Metodo para unir en una lista las Sub listas de facultad y unidad
+     */
+    private List<PojoFacultadesUnidades> getListFacultadesUnidades(List<Facultad> facs, List<Unidad> unidades) {
+
+        List<PojoFacultadesUnidades> lista = new ArrayList<PojoFacultadesUnidades>();
+        for (Facultad fac : facs) {
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
+            pojo.setValue(fac.getIdFacultad() + ",1");
+            pojo.setLabel(fac.getNombreFacultad());
+            lista.add(pojo);
+        }
+        for (Unidad uni : unidades) {
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
+            pojo.setValue(uni.getIdUnidad() + ",2");
+            pojo.setLabel(uni.getNombreUnidad());
+            lista.add(pojo);
+        }
+        return lista;
+    }
     
     String getCadenaAlfanumAleatoria (int longitud){
     String cadenaAleatoria = "";
@@ -667,7 +699,14 @@ public class PersonaMB implements Serializable{
         this.listPojoPersonaExtranjera = listPojoPersonaExtranjera;
     }
 
-    
+
+    public List<PojoFacultadesUnidades> getListFacultadUnidad() {
+        return listFacultadUnidad;
+    }
+
+    public void setListFacultadUnidad(List<PojoFacultadesUnidades> listFacultadUnidad) {
+        this.listFacultadUnidad = listFacultadUnidad;
+    }
 
     
 }

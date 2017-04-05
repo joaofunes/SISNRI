@@ -11,7 +11,7 @@
 
 
     <ui:composition>
-        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creacion Persona" closeOnEscape="true">
+        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creaci&oacute;n de Personas Internas" closeOnEscape="true">
             <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
 
             <h:form id="formNewPersona">
@@ -88,7 +88,7 @@
                                 <f:selectItems value="#{personaMB.listadoUnidad}" var="unidad" itemLabel="#{unidad.nombreUnidad}" itemValue="#{unidad}"/>  
                             </p:selectOneMenu>    
                         </p:column>-->
-                        <p:column>  
+<!--                        <p:column>  
                             <p:outputLabel for="idOrganismo" value="Organismo" />
                         </p:column>                                         
                         <p:column>                                         
@@ -96,7 +96,8 @@
                                 <f:selectItem itemLabel="Organismo" itemValue="null" noSelectionOption="true" />  
                                 <f:selectItems value="#{personaMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
                             </p:selectOneMenu>                                                                               
-                        </p:column>
+                        </p:column>-->
+
 
                         <p:column> 
                             <p:commandButton value="Guardar Persona" id="idGuardarPersona" actionListener="#{personaMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaCreateDialog').close();" />
