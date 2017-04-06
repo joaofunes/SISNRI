@@ -78,25 +78,25 @@
     <body>
 
         <p>
-            Tenga un cordial saludo, el motivo del presente es para informarle que la propuesta convenio a cambiado de estado su detalla a continuaci&oacute;n.
+            Tenga un cordial saludo, el motivo del presente es para informarle que el convenio ha cambiado vigencia, se detalla a continuaci&oacute;n.
         </p>
-        <p>Estados de propuestas de convenio</p>
+        <p>Vigencia de convenio</p>
         <div>
             <table class="table1">
                 <thead>
                     <tr>                        
-                        <th scope="col" abbr="name persona">Estado Anterior</th>
-                        <th scope="col" abbr="Tipo">Estado Actual</th>                       
+                        <th scope="col" abbr="name persona">Fecha de Vigencia Anterior</th>
+                        <th scope="col" abbr="Tipo">Fecha de Vigencia Actual</th>                       
                     </tr>
                 </thead>
                 <tr>
-                    <td>${obj.estadoTemp}</td>
-                    <td>${obj.estado}</td>                    
+                    <td>${obj.propuestaConvenioTemp.vigencia}</td>
+                    <td>${obj.propuestaConvenio.vigencia}</td>                    
                 </tr>
             </table>
 
         </div>
-        <p>Personal Involucrado en propuesta de convenio.</p>
+        <p>Personal Involucrado en el convenio.</p>
         <div>
             <table class="table1">
                 <thead>
@@ -117,7 +117,7 @@
             </table>
 
         </div>
-        <p>Detalle de propuesta de convenio ingresada.</p>
+        <p>Detalle de convenio ingresada.</p>
         <div>
             <table border="1">
                 <tr>

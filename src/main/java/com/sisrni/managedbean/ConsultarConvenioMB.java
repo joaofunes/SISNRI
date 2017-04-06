@@ -6,15 +6,19 @@
 package com.sisrni.managedbean;
 
 import com.sisrni.model.Estado;
+import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.service.EstadoService;
+import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -37,6 +41,9 @@ public class ConsultarConvenioMB implements Serializable {
 
     @Inject
     PropuestaConvenioMB propuestaConvenioMB;
+    
+    @Autowired
+    FreeMarkerMailService mailService;
 
     @Autowired
     @Qualifier(value = "propuestaConvenioService")
@@ -56,6 +63,7 @@ public class ConsultarConvenioMB implements Serializable {
 
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
+    private PropuestaConvenio propuestaConvenioTemp;
     private PojoPropuestaConvenio pojoPropuestaConvenio;
     private List<Estado> listadoEstados;
     private Estado estado;
@@ -71,6 +79,8 @@ public class ConsultarConvenioMB implements Serializable {
     private void inicializador() {
         try {
             propuestaConvenio = new PropuestaConvenio();
+            propuestaConvenioTemp = new PropuestaConvenio();
+            
             estado = new Estado();
             listadoPropuestaConvenio = propuestaConvenioService.getAllConvenioSQL();
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
@@ -86,6 +96,17 @@ public class ConsultarConvenioMB implements Serializable {
            // RequestContext context = RequestContext.getCurrentInstance();              
             // context.execute("PF('dataChangeDlg').show();");
             //RequestContext.getCurrentInstance().update(":formPrincipal");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void preCambiarVigencia(PojoPropuestaConvenio pojo) {
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            estado = estadoService.findById(pojo.getID_ESTADO());
+            propuestaConvenio = propuestaConvenioService.findById(pojo.getID_PROPUESTA());  
+            propuestaConvenioTemp = propuestaConvenio;  
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,7 +150,7 @@ public class ConsultarConvenioMB implements Serializable {
                 propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
                 inicializador();
 
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Convenio", "la propuesta pasa a ser convenio"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Convenio", "la propuesta ha cambiado Vigencia"));
 
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Fecha de Vigencia debe ser mayor a la actual"));
@@ -141,6 +162,7 @@ public class ConsultarConvenioMB implements Serializable {
         }
     }
 
+    
     public void eliminarConvenio() {
         try {
             propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
@@ -150,6 +172,36 @@ public class ConsultarConvenioMB implements Serializable {
         }
     }
 
+      /**
+     * Metodo para envio de correo informativo de creacion de propuesta
+     */
+    public void enviarCorreo() {
+        try {
+
+            // propuestaConvenio = propuestaConvenioService.getByIDPropuestaWithPersona(propuestaConvenio.getIdPropuesta());
+            propuestaConvenio = propuestaConvenioService.getByIDPropuestaWithPersona(propuestaConvenio.getIdPropuesta());
+
+            // Create data for template
+            Map<String, Object> templateData = new HashMap<String, Object>();
+            templateData.put("subJect", "Cambio Vigencia de Convenio");
+
+            //templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.txt");
+            templateData.put("nameTemplate", "vigencia_convenio_mailTemplat.xhtml");
+            templateData.put("propuestaConvenio", propuestaConvenio);
+            templateData.put("propuestaConvenioTemp",propuestaConvenioTemp);
+           
+
+            for (PersonaPropuesta p : propuestaConvenio.getPersonaPropuestaList()) {
+                templateData.put("setToMail", p.getPersona().getEmailPersona());                
+                mailService.sendEmailMap(templateData);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     public PropuestaConvenio getPropuestaConvenio() {
         return propuestaConvenio;
     }
@@ -188,5 +240,13 @@ public class ConsultarConvenioMB implements Serializable {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public PropuestaConvenio getPropuestaConvenioTemp() {
+        return propuestaConvenioTemp;
+    }
+
+    public void setPropuestaConvenioTemp(PropuestaConvenio propuestaConvenioTemp) {
+        this.propuestaConvenioTemp = propuestaConvenioTemp;
     }
 }

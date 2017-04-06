@@ -234,7 +234,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
 
                     context.execute("PF('dlgEstado').hide();");
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Convenio", "la propuesta pasa a ser convenio"));
-                    enviarCorreo();//camabiar porq pasa a hacer conevio
+                    enviarCorreoConvenio();//camabiar porq pasa a hacer conevio
                 } else {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Fecha de Vigencia debe ser mayor a la actual"));
 
@@ -283,6 +283,37 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
 
             //templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.txt");
             templateData.put("nameTemplate", "estado_propuesta_convenio_mailTemplat.xhtml");
+            templateData.put("propuesta", propuestaConvenio);
+            templateData.put("PersonaPropuesta", propuestaConvenio.getPersonaPropuestaList());
+            templateData.put("estado", estado.getNombreEstado()); //estado actual
+            templateData.put("estadoTemp", estadoTemp.getNombreEstado()); // estado anterior
+
+            for (PersonaPropuesta p : propuestaConvenio.getPersonaPropuestaList()) {
+                templateData.put("setToMail", p.getPersona().getEmailPersona());
+
+                //mailService.sendEmail(propuestaConvenio, "Creacion de propuesta de convenio", "joao.hfunes@gmail.com", "propuesta_convenio_mailTemplat.txt");
+                mailService.sendEmailMap(templateData);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Metodo para envio de correo informativo para informar que ha pasado a ser Convenio
+     */
+    public void enviarCorreoConvenio() {
+        try {
+
+            // propuestaConvenio = propuestaConvenioService.getByIDPropuestaWithPersona(propuestaConvenio.getIdPropuesta());
+            propuestaConvenio = propuestaConvenioService.getByIDPropuestaWithPersona(propuestaConvenio.getIdPropuesta());
+
+            // Create data for template
+            Map<String, Object> templateData = new HashMap<String, Object>();
+            templateData.put("subJect", "Propuesta a pasado ha hacer convenio");
+
+            
+            templateData.put("nameTemplate", "informacion_convenio_mailTemplat.xhtml");
             templateData.put("propuesta", propuestaConvenio);
             templateData.put("PersonaPropuesta", propuestaConvenio.getPersonaPropuestaList());
             templateData.put("estado", estado.getNombreEstado()); //estado actual

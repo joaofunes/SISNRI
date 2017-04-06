@@ -32,13 +32,14 @@
                         </p:row>
                        
                         <p:row>
+                            <p:column headerText="REVISION" />
                             <p:column headerText="DISE&Ntilde;O CONVENIO" />
                             <p:column headerText="DISE&Ntilde;O DE INTERESADOS" />
                             <p:column headerText="FISCALIA" />
                             <p:column headerText="CSU" />
                             <p:column headerText="AGU" />
-                            <p:column headerText="PROCESP DE FIRMA" />
-                            <p:column headerText="REVISION" />
+                            <p:column headerText="PROCESO DE FIRMA" />
+                           
                         </p:row>
                     </p:columnGroup>
                    
@@ -51,7 +52,7 @@
                     <p:column style="width: 50%; margin: 0px auto;" headerText="Revision">
                        <p:graphicImage style="display: block; margin: 0px auto;" value="#{convenio.nombre_estado.equalsIgnoreCase('REVISION')?'/img/animation/clock_v.gif':'0'}" />        
                     </p:column>
-                    <p:column style="width: 50%; margin: 0px auto;" headerText="Dise&ntilde;o de Convenio" style="align-content: center">
+                    <p:column style="width: 50%; margin: 0px auto; align-content: center;" headerText="Dise&ntilde;o de Convenio" >
                         <p:graphicImage style="display: block; margin: 0px auto;" value="#{convenio.nombre_estado.equalsIgnoreCase('DISENIO CONVENIO')?'/img/animation/clock_r.gif':'0'}" />
                     </p:column>
                     <p:column style="width: 50%; margin: 0px auto;" headerText="Dise&ntilde;o de Interesados">                       
@@ -63,10 +64,10 @@
                     <p:column style="width: 50%; margin: 0px auto;" headerText="CSU">
                        <p:graphicImage style="display: block; margin: 0px auto;" value="#{convenio.nombre_estado.equalsIgnoreCase('CSU')?'/img/animation/clock_r.gif':'0'}" />    
                     </p:column>
-                    <p:column style="width: 50%; margin: 0px auto;" headerText="AGU" style="align-items: center">
+                    <p:column style="width: 50%; margin: 0px auto; align-items: center" headerText="AGU">
                         <p:graphicImage style="display: block; margin: 0px auto;" value="#{convenio.nombre_estado.equalsIgnoreCase('AGU')?'/img/animation/clock_a.gif':'0'}" />      
                     </p:column>
-                    <p:column style="width: 50%; margin: 0px auto;" headerText="Proceso de Firma">
+                    <p:column style="width: 50%; margin: 0px auto; align-items: center" headerText="Proceso de Firma">
                         <p:graphicImage style="display: block; margin: 0px auto;" value="#{convenio.nombre_estado.equalsIgnoreCase('PROCESO DE FIRMA')?'/img/animation/clock_v.gif':'0'}" />       
                     </p:column>
                                       

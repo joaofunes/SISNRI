@@ -153,33 +153,5 @@
                    filterSecurityInterceptor" />
         </security:filter-chain-map>
     </bean>
-    
-    
-    <!--jobs-->
-    
-    <!-- Definición de jobs -->
-<!-- Un job necesita de un identificador único -->
-<bean id="uniqueJobIdentifier" class="org.springframework.scheduling.quartz.JobDetailBean">
-      <!-- Es necesario indicar la clase que contienen tu tarea -->
-      <property name="jobClass" value="com.sisrni.config.JobClass" />
-      <!-- También indicaremos aquellos servicios que se usarán en la tarea, en caso de que se requiera de alguno, para que Spring los incluya en el contexto -->
-      <property name="jobDataAsMap">
-            <map>
-                  <entry key ="propuestaConvenioService" value-ref="propuestaConvenioService"/>                  
-            </map>
-      </property>
-</bean>
-
-<!-- Configuración del sistema -->
-<!-- Finalmente usaremos la clase SchedulerFactoryBean de Quartz para programar e iniciar el sistema de tareas -->
-<bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-      <property name="jobDetails">
-            <!-- En esta lista añadiremos todos los jobs definidos previamente -->
-            <list>                  
-                  <ref bean="uniqueJobIdentifier"/>
-            </list>
-      </property>
-     
-</bean>
-    
+  
 </beans>
