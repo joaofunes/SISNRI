@@ -42,10 +42,10 @@
                         <h:outputText value="#{pconvenios.ACTIVO?'Si':'No'}" />
                     </p:column>
                     <p:column headerText="Opciones" >
-                        <div style="float: left">
+<!--                        <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
                                            value="Editar" actionListener="#{consultarConvenioMB.preEditar(pconvenios)}" />
-                        </div>
+                        </div>-->
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-calendar"
                                            title="Cambiar Vigencia" value="Cambiar Vigencia"
@@ -61,7 +61,15 @@
                                            actionListener="#{consultarConvenioMB.preView(pconvenios)}"
                                            oncomplete="PF('dlgVerConvenio').show();"/>
 
-                        </div>                        
+                        </div>  
+                        <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
+                                               title="Descargar" value="Descargar Archivo" 
+                                               actionListener="#{consultarConvenioMB.FileDownloadView(pconvenios)}"
+                                               process="@this" update="formAdmin" ajax="false">
+                                    <p:fileDownload value="#{consultarConvenioMB.content}" />                                
+                                </p:commandLink>    
+                         </div>
                     </p:column>
                 </p:dataTable>
             </h:form>   

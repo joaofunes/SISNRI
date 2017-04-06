@@ -5,15 +5,21 @@
  */
 package com.sisrni.managedbean;
 
+import com.sisrni.model.Documento;
 import com.sisrni.model.Estado;
 import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.service.DocumentoService;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +30,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -60,6 +68,10 @@ public class ConsultarConvenioMB implements Serializable {
     @Autowired
     @Qualifier(value = "propuestaEstadoService")
     private PropuestaEstadoService propuestaEstadoService;
+    
+    @Autowired
+    @Qualifier(value = "documentoService")
+    private DocumentoService documentoService;
 
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
@@ -67,6 +79,11 @@ public class ConsultarConvenioMB implements Serializable {
     private PojoPropuestaConvenio pojoPropuestaConvenio;
     private List<Estado> listadoEstados;
     private Estado estado;
+    private List<Documento> listadoDocumento;
+    
+    private StreamedContent content;
+    
+    private static final String TIPO_DOCUMENTO="Convenio Firmado";
 
     // @PostConstruct
     public void init() {
@@ -79,8 +96,7 @@ public class ConsultarConvenioMB implements Serializable {
     private void inicializador() {
         try {
             propuestaConvenio = new PropuestaConvenio();
-            propuestaConvenioTemp = new PropuestaConvenio();
-            
+            propuestaConvenioTemp = new PropuestaConvenio();            
             estado = new Estado();
             listadoPropuestaConvenio = propuestaConvenioService.getAllConvenioSQL();
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
@@ -201,6 +217,60 @@ public class ConsultarConvenioMB implements Serializable {
         }
     }
     
+    /**
+     * Metodo para realizar las descargar de archivos
+     *
+     * @param documento
+     */
+    public void FileDownloadView(PojoPropuestaConvenio pojo) throws IOException {
+        BufferedOutputStream out = null;
+        try {
+            String extension = null;
+            String nombre = null;
+            String contentType = null;
+            InputStream stream = null;
+            listadoDocumento = documentoService.getDocumentFindCovenio(pojo.getID_PROPUESTA());
+            
+            for(Documento doc: listadoDocumento){
+                if(doc.getIdTipoDocumento().getNombreDocumento().equalsIgnoreCase(TIPO_DOCUMENTO)){
+                    stream = new ByteArrayInputStream(doc.getDocumento());
+                    extension = getFileExtension(doc.getNombreDocumento());   
+                    nombre = doc.getNombreDocumento();   
+                }
+            }
+           
+            if(extension != null){
+                if (extension.equalsIgnoreCase("docx")) {
+                    contentType = "application/vnd.ms-word.document";
+                } else if (extension.equalsIgnoreCase("pdf")) {
+                    contentType = "Application/pdf";
+                } else if (extension.equalsIgnoreCase("xls")) {
+                    contentType = "application/vnd.ms-excel";
+                } else if (extension.equalsIgnoreCase("xlsx")) {
+                    contentType = "application/vnd.ms-excel";
+                } else if (extension.equalsIgnoreCase("doc")) {
+                    contentType = "application/ms-word";
+                }
+                 content = new DefaultStreamedContent(stream, contentType,nombre);
+            }                              
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        } 
+
+    }
+    
+     private static String getFileExtension(String fileName) {
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
+        } else {
+            return "";
+        }
+    }
+
     
     public PropuestaConvenio getPropuestaConvenio() {
         return propuestaConvenio;
@@ -248,5 +318,21 @@ public class ConsultarConvenioMB implements Serializable {
 
     public void setPropuestaConvenioTemp(PropuestaConvenio propuestaConvenioTemp) {
         this.propuestaConvenioTemp = propuestaConvenioTemp;
+    }
+
+    public StreamedContent getContent() {
+        return content;
+    }
+
+    public void setContent(StreamedContent content) {
+        this.content = content;
+    }
+
+    public List<Documento> getListadoDocumento() {
+        return listadoDocumento;
+    }
+
+    public void setListadoDocumento(List<Documento> listadoDocumento) {
+        this.listadoDocumento = listadoDocumento;
     }
 }
