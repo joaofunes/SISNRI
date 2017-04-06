@@ -845,6 +845,7 @@ public class BecaMB implements Serializable {
                     tabExternoBoolean = Boolean.TRUE;
                     mostrarTabExterno = Boolean.TRUE;
                     noEstabaExterno = false;
+                    disableExternoInputs = Boolean.FALSE;
                 }
                 buscarBecario(becario.getEmailPersona());
                 if (asesorInterno != null) {
@@ -932,7 +933,7 @@ public class BecaMB implements Serializable {
 
     public void desvincularExterno() {
         try {
-            becaService.desvincularInterno(beca.getIdBeca(), asesorInterno.getIdPersona());
+            becaService.desvincularInterno(beca.getIdBeca(), asesorExterno.getIdPersona());
             tabExternoBoolean = Boolean.FALSE;
             mostrarTabExterno = Boolean.FALSE;
             noEstabaExterno = true;
