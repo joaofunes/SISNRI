@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:pe="http://primefaces.org/ui/extensions" 
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 >
+
+    <ui:define name="content">
+        <f:metadata>            
+            <f:viewAction action="#{consultarConvenioMB.init}" />
+        </f:metadata>    
+
+
+        <p:fieldset legend="Consultar Convenios"> 
+            <h:form id="formAdmin">
+
+                <p:dataTable var="pconvenios" value="#{consultarConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
+                             >    
+                    <p:column headerText="Nombre Convenio">
+                        <h:outputText value="#{pconvenios.NOMBRE_PROPUESTA}" />
+                    </p:column>                    
+                    <p:column headerText="Tipo de Propuesta">
+                        <h:outputText value="#{pconvenios.TIPO_CONVENIO}" />
+                    </p:column>
+                    <p:column headerText="Estado Propuesta">
+                        <h:outputText value="#{pconvenios.NOMBRE_ESTADO}" />
+                    </p:column>
+                    <p:column headerText="Vigencia">
+                        <h:outputText value="#{pconvenios.VIGENCIA}">                       
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Activo">
+                        <h:outputText value="#{pconvenios.ACTIVO?'Si':'No'}" />
+                    </p:column>
+                    <p:column headerText="Opciones" >                     
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-arrow-2-ne-sw"
+                                           title="Ver Convenio" value="Ver Convenio"
+                                           update=":idVerConvenio"
+                                           actionListener="#{consultarConvenioMB.preView(pconvenios)}"
+                                           oncomplete="PF('dlgVerConvenio').show();"/>
+
+                        </div>  
+                        <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
+                                               title="Descargar" value="Descargar Archivo" 
+                                               actionListener="#{consultarConvenioMB.FileDownloadView(pconvenios)}"
+                                               process="@this" update="formAdmin" ajax="false">
+                                    <p:fileDownload value="#{consultarConvenioMB.content}" />                                
+                                </p:commandLink>    
+                         </div>
+                    </p:column>
+                </p:dataTable>
+            </h:form>   
+        </p:fieldset>   
+
+        <p:dialog header="Ver Convenio " widgetVar="dlgVerConvenio" modal="true" appendTo="@(body)" >                         
+            <h:form id="idVerConvenio"> 
+                <p:panelGrid columns="2" id="display" >
+                    <p:column>
+                        <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="Objetivo: "  style="font-weight:bold" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="Solicitante: "  style="font-weight:bold" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.SOLICITANTE}" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="Referente Interno: "  style="font-weight:bold" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.INTERNO}" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="Referente Externo: "  style="font-weight:bold" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.EXTERNO}" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="Estado:" style="font-weight:bold"/>
+                    </p:column>                   
+                    <p:column>
+                        <h:outputText value="#{consultarConvenioMB.estado.nombreEstado}" />
+                    </p:column> 
+                    <p:column> 
+                        <h:outputText value="Vigencia:" style="font-weight:bold"/>
+                    </p:column>                   
+                    <p:column>
+                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.VIGENCIA}">                       
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column> 
+                    <p:column> 
+                        <h:outputText value="Activo:" style="font-weight:bold"/>
+                    </p:column>
+                    <p:column >
+                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.ACTIVO?'Si':'No'}" />
+                    </p:column>
+                    <p:column>                                                
+                        <p:commandButton value="Cerrar"  icon="ui-icon-close" onclick="PF('dlgVerConvenio').hide();" process="@this" />
+                    </p:column>
+                    <p:column></p:column>
+                </p:panelGrid>
+            </h:form>      
+        </p:dialog>        
+
+
+
+</ui:composition>

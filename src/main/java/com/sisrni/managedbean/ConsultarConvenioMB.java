@@ -49,7 +49,7 @@ public class ConsultarConvenioMB implements Serializable {
 
     @Inject
     PropuestaConvenioMB propuestaConvenioMB;
-    
+
     @Autowired
     FreeMarkerMailService mailService;
 
@@ -68,7 +68,7 @@ public class ConsultarConvenioMB implements Serializable {
     @Autowired
     @Qualifier(value = "propuestaEstadoService")
     private PropuestaEstadoService propuestaEstadoService;
-    
+
     @Autowired
     @Qualifier(value = "documentoService")
     private DocumentoService documentoService;
@@ -80,10 +80,10 @@ public class ConsultarConvenioMB implements Serializable {
     private List<Estado> listadoEstados;
     private Estado estado;
     private List<Documento> listadoDocumento;
-    
+
     private StreamedContent content;
-    
-    private static final String TIPO_DOCUMENTO="Convenio Firmado";
+
+    private static final String TIPO_DOCUMENTO = "Convenio Firmado";
 
     // @PostConstruct
     public void init() {
@@ -96,7 +96,7 @@ public class ConsultarConvenioMB implements Serializable {
     private void inicializador() {
         try {
             propuestaConvenio = new PropuestaConvenio();
-            propuestaConvenioTemp = new PropuestaConvenio();            
+            propuestaConvenioTemp = new PropuestaConvenio();
             estado = new Estado();
             listadoPropuestaConvenio = propuestaConvenioService.getAllConvenioSQL();
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
@@ -109,20 +109,20 @@ public class ConsultarConvenioMB implements Serializable {
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
             estado = estadoService.findById(pojo.getID_ESTADO());
-           // RequestContext context = RequestContext.getCurrentInstance();              
+            // RequestContext context = RequestContext.getCurrentInstance();              
             // context.execute("PF('dataChangeDlg').show();");
             //RequestContext.getCurrentInstance().update(":formPrincipal");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public void preCambiarVigencia(PojoPropuestaConvenio pojo) {
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
             estado = estadoService.findById(pojo.getID_ESTADO());
-            propuestaConvenio = propuestaConvenioService.findById(pojo.getID_PROPUESTA());  
-            propuestaConvenioTemp = propuestaConvenio;  
+            propuestaConvenio = propuestaConvenioService.findById(pojo.getID_PROPUESTA());
+            propuestaConvenioTemp = propuestaConvenio;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -178,7 +178,6 @@ public class ConsultarConvenioMB implements Serializable {
         }
     }
 
-    
     public void eliminarConvenio() {
         try {
             propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
@@ -188,7 +187,7 @@ public class ConsultarConvenioMB implements Serializable {
         }
     }
 
-      /**
+    /**
      * Metodo para envio de correo informativo de creacion de propuesta
      */
     public void enviarCorreo() {
@@ -204,11 +203,10 @@ public class ConsultarConvenioMB implements Serializable {
             //templateData.put("nameTemplate", "propuesta_convenio_mailTemplat.txt");
             templateData.put("nameTemplate", "vigencia_convenio_mailTemplat.xhtml");
             templateData.put("propuestaConvenio", propuestaConvenio);
-            templateData.put("propuestaConvenioTemp",propuestaConvenioTemp);
-           
+            templateData.put("propuestaConvenioTemp", propuestaConvenioTemp);
 
             for (PersonaPropuesta p : propuestaConvenio.getPersonaPropuestaList()) {
-                templateData.put("setToMail", p.getPersona().getEmailPersona());                
+                templateData.put("setToMail", p.getPersona().getEmailPersona());
                 mailService.sendEmailMap(templateData);
             }
 
@@ -216,7 +214,7 @@ public class ConsultarConvenioMB implements Serializable {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Metodo para realizar las descargar de archivos
      *
@@ -230,16 +228,16 @@ public class ConsultarConvenioMB implements Serializable {
             String contentType = null;
             InputStream stream = null;
             listadoDocumento = documentoService.getDocumentFindCovenio(pojo.getID_PROPUESTA());
-            
-            for(Documento doc: listadoDocumento){
-                if(doc.getIdTipoDocumento().getNombreDocumento().equalsIgnoreCase(TIPO_DOCUMENTO)){
+
+            for (Documento doc : listadoDocumento) {
+                if (doc.getIdTipoDocumento().getNombreDocumento().equalsIgnoreCase(TIPO_DOCUMENTO)) {
                     stream = new ByteArrayInputStream(doc.getDocumento());
-                    extension = getFileExtension(doc.getNombreDocumento());   
-                    nombre = doc.getNombreDocumento();   
+                    extension = getFileExtension(doc.getNombreDocumento());
+                    nombre = doc.getNombreDocumento();
                 }
             }
-           
-            if(extension != null){
+
+            if (extension != null) {
                 if (extension.equalsIgnoreCase("docx")) {
                     contentType = "application/vnd.ms-word.document";
                 } else if (extension.equalsIgnoreCase("pdf")) {
@@ -251,19 +249,21 @@ public class ConsultarConvenioMB implements Serializable {
                 } else if (extension.equalsIgnoreCase("doc")) {
                     contentType = "application/ms-word";
                 }
-                 content = new DefaultStreamedContent(stream, contentType,nombre);
-            }                              
+                content = new DefaultStreamedContent(stream, contentType, nombre);
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Documento", "No se cuenta con documento firmado para descargar"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (out != null) {
                 out.close();
             }
-        } 
+        }
 
     }
-    
-     private static String getFileExtension(String fileName) {
+
+    private static String getFileExtension(String fileName) {
         if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
             return fileName.substring(fileName.lastIndexOf(".") + 1);
         } else {
@@ -271,7 +271,6 @@ public class ConsultarConvenioMB implements Serializable {
         }
     }
 
-    
     public PropuestaConvenio getPropuestaConvenio() {
         return propuestaConvenio;
     }
