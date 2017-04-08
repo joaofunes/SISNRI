@@ -11,18 +11,23 @@
                 >
     
     <ui:define name="content">
+        <ui:include src="../persona/crearPersonaExtranjera.xhtml"/>
+        <ui:include src="../persona/editPersonaExtranjera.xhtml"/>
+        <f:metadata>            
+            <f:viewAction action="#{personaMB.init()}" />
+        </f:metadata> 
     <h:form id="RegistrogarantiarealListForm">
 
-        <p:panel header="Administracion de Personas Extranjeras">
+        <p:panel header="Administraci&oacute;n de Personas Externas">
             
 
-             <p:dataTable  value="#{personaMB.listPojoPersonaExtranjera}" var="item" paginator="true" rows="15"
+             <p:dataTable  value="#{personaMB.listPojoPersonaExtranjera}" var="item" paginator="true" rows="5"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="5,10,15"                       
+                         rowsPerPageTemplate="5,10,15"   paginatorPosition="bottom" 
+                         
                         >    
                 
-              
-                 <p:column sortBy="#{item.persona.nombrePersona}" filterBy="#{item.persona.nombrePersona}">
+                <p:column sortBy="#{item.persona.nombrePersona}" filterBy="#{item.persona.nombrePersona}">
                     <f:facet name="header">
                         <h:outputText value="Nombre"/>
                     </f:facet>
@@ -40,34 +45,28 @@
                     </f:facet>
                     <h:outputText value="#{item.persona.emailPersona}"/>
                 </p:column>
-                <p:column sortBy="#{item.persona.duiPersona}" filterBy="#{item.persona.duiPersona}">
-                    <f:facet name="header">
-                        <h:outputText value="DUI"/>
-                    </f:facet>
-                    <h:outputText value="#{item.persona.duiPersona}"/>
-                </p:column>
-                <p:column sortBy="#{item.persona.cargoPersona}" filterBy="#{item.persona.cargoPersona}">
-                    <f:facet name="header">
-                        <h:outputText value="Cargo"/>
-                    </f:facet>
-                    <h:outputText value="#{item.persona.cargoPersona}"/>
-                </p:column>
                 <p:column sortBy="#{item.persona.pasaporte}" filterBy="#{item.persona.pasaporte}">
                     <f:facet name="header">
                         <h:outputText value="Pasaporte"/>
                     </f:facet>
                     <h:outputText value="#{item.persona.pasaporte}"/>
                 </p:column>
-             
+                <p:column sortBy="#{item.persona.idOrganismo.nombreOrganismo}" filterBy="#{item.persona.idOrganismo.nombreOrganismo}">
+                    <f:facet name="header">
+                        <h:outputText value="Organismo"/>
+                    </f:facet>
+                    <h:outputText value="#{item.persona.idOrganismo.nombreOrganismo}"/>
+                </p:column>
+                 
                  <p:column sortBy="#{item.telefonoFijo.numeroTelefono}" filterBy="#{item.telefonoFijo.numeroTelefono}">
                     <f:facet name="header">
-                        <h:outputText value="Telefono Fijo"/>
+                        <h:outputText value="Tel&eacute;fono Fijo"/>
                     </f:facet>
                     <h:outputText value="#{item.telefonoFijo.numeroTelefono}"/>
                 </p:column>
                 <p:column sortBy="#{item.telefonoCelular.numeroTelefono}" filterBy="#{item.telefonoCelular.numeroTelefono}">
                     <f:facet name="header">
-                        <h:outputText value="Telefono Celular"/>
+                        <h:outputText value="Tel&eacute;fono Celular"/>
                     </f:facet>
                     <h:outputText value="#{item.telefonoCelular.numeroTelefono}"/>
                 </p:column>
@@ -79,23 +78,25 @@
                                        oncomplete="PF('PersonaEditDialog').show();"
                                        update=":PersonaEditDlg"/>
                     </div>
-                    <div style="float: left">
+<!--                    <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                        title="Eliminar" value="Eliminar"
                                        actionListener="#{personaMB.preEditar(item.persona)}"
                                         oncomplete="PF('PersonaDeleteDialog').show();"
                                        update=":PersonaDeleteDlg"/>
                     </div>
+                     <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-person" title="Usuario" 
+                                       value="Editar" actionListener="#{usuarioMB.preCrearUsuario(item.persona)}" 
+                                       update=":UsuarioEditDlg :UsuarioCreateDlg" />
+                    </div>-->
                    
                 </p:column> 
                  
                  
                 <f:facet name="footer">
                     <div class="footer-section">
-                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{registrogarantiarealController.prepareCreate}" />
-<!--                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":RegistrogarantiarealViewForm" oncomplete="RegistrogarantiarealViewDialog.show()" disabled="#{empty registrogarantiarealController.selected}"/>
-                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RegistrogarantiarealEditForm" oncomplete="RegistrogarantiarealEditDialog.show()" disabled="#{empty registrogarantiarealController.selected}"/>
-                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{registrogarantiarealController.delete}" update=":growl,datalist" disabled="#{empty registrogarantiarealController.selected}"/>-->
+                        <p:commandButton id="createButton" icon="ui-icon-plus" value="Agregar" actionListener="#{personaMB.crearPersona}" process="@this" oncomplete="PF('PersonaCreateDialog').show();" />
                     </div>
                 </f:facet>
 

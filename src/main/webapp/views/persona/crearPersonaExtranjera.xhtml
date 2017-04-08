@@ -11,7 +11,10 @@
 
 
     <ui:composition>
-        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creacion Persona Extranjera" closeOnEscape="true">
+         <f:metadata>            
+             <f:viewAction action="#{personaMB.init()}" />
+        </f:metadata> 
+        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creaci&oacute;n de Personas Internas" closeOnEscape="true">
             <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
 
             <h:form id="formNewPersona">
@@ -34,57 +37,69 @@
                             <p:watermark for="idApellido" value="Apellido de la Persona" id="watermarkApeliido" />
                             <p:message for="idApellido" />
                         </p:column>
-
-                        <p:column> 
+                        <p:column>
+                             <p:outputLabel for="emailPersona" value="Correo Electr&oacute;nico"/>
+                        </p:column>
+                        <p:column>
+                             <p:inputText id="emailPersona" label="emailPersona" value="#{personaMB.persona.emailPersona}" required="true" >
+                               <f:validator validatorId="com.sisrni.validator.emailValidator"/>
+                             </p:inputText>
+                               <p:watermark for="emailPersona" value="email@email.com" id="watermarkEmail" />
+                            <p:message for="emailPersona" display="tooltip" />   
+                        </p:column>
+                        
+                         <p:column>
+                           <p:outputLabel for="telPersona" value="Tel&eacute;fono Institucional"/>
+                         </p:column>
+                         <p:column>
+                           <p:inputMask id="telPersona" label="telPersona" mask="+503 9999-9999"  value="#{personaMB.telefonoFijo.numeroTelefono}"/>
+                            <p:watermark for="telPersona" value="+503 9999-9999"  />   
+                         </p:column>
+                         <p:column>
+                             <p:outputLabel for="celPersona" value="Tel&eacute;fono m&oacute;vil"/>
+                         </p:column>
+                         <p:column>
+                            <p:inputMask id="celPersona" label="celPersona" mask="+503 9999-9999"  value="#{personaMB.telefonoCell.numeroTelefono}"/>
+                             <p:watermark for="celPersona" value="+503 9999-9999"  />     
+                         </p:column>
+                          <p:column> 
                             <p:outputLabel for="passaporte" value="Pasaporte" />
                         </p:column> 
                         <p:column> 
-                            <p:inputText id="passaporte"  required="true" label="pasaporte" value="#{personaMB.persona.pasaporte}"/>
+                            <p:inputText id="passaporte" label="pasaporte" value="#{personaMB.persona.pasaporte}"/>
                             <p:watermark for="passaporte" value="pasaporte" id="watermarkPass" />
                             <p:message for="passaporte" /> 
                         </p:column> 
 
                         <p:column>  
-                            <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
-                        </p:column>      
-                        <p:column> 
-                            <p:inputText id="email" required="true" value="#{personaMB.persona.emailPersona}">
-                                <f:validator validatorId="com.sisrni.validator.emailValidator" />
-                            </p:inputText>
-                            <p:watermark for="email" value="email@email.com" id="watermarkEmail" />
-                            <p:message for="email" display="tooltip" />                                         
-                        </p:column>    
-
-                        <p:column>  
                             <p:outputLabel for="idOrganismo" value="Organismo" />
                         </p:column>                                         
                         <p:column>                                         
-                            <p:selectOneMenu id="idOrganismo"  panelStyle="width:160px" style="width:160px" value="#{personaMB.persona.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
-                                <f:selectItem itemLabel="Organismo" itemValue="null" noSelectionOption="true" />  
+                            <p:selectOneMenu id="idOrganismo"  panelStyle="width:160px" style="width: 100%" value="#{personaMB.persona.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="null" noSelectionOption="true" />  
                                 <f:selectItems value="#{personaMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
                             </p:selectOneMenu>                                                                               
                         </p:column> 
 
-                        <p:column>  
-                            <p:outputLabel for="idTelefonoCellEx" value="Tel&eacute;no Celular" />
-                        </p:column>                                         
-                        <p:column> 
-                            <p:inputMask id="phoneCell" value="#{personaMB.telefonoFijo.numeroTelefono}" mask="(999) 999-9999"/>
-                            <p:watermark for="phoneCell" value="(999) 999-9999"  />                                                       
-                        </p:column>                               
-                        <p:column>  
-                            <p:outputLabel for="idTelefonoFijoEx" value="Tel&eacute;no Fijo" />
-                        </p:column>                                         
-                        <p:column> 
-                            <p:inputMask id="phoneFijo" value="#{personaMB.telefonoCell.numeroTelefono}" mask="(999) 999-9999"/>
-                            <p:watermark for="phoneFijo" value="(999) 999-9999"  />                                                       
-                        </p:column>                               
+                        <p:column>
+                            <p:outputLabel for="personaActivo" value="Estado:"/>
+                        </p:column>
+                         <p:column>
+                             <p:selectOneMenu id="personaActivo" value="#{personaMB.persona.activo}"  style="width: 100%" required="true" >
+                                 <f:selectItem itemLabel="--Seleccione--" itemValue="null" noSelectionOption="true" /> 
+                                <f:selectItem itemLabel="Inactivo" itemValue="#{false}" />
+                                <f:selectItem itemLabel="Activo" itemValue="#{true}" />
+                            </p:selectOneMenu>
+                        </p:column>   
 
                         <p:column> 
-                            <p:commandButton value="Guardar Persona" id="idGuardarPersona" actionListener="#{personaMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaCreateDialog').hide();" />
+                            <p:commandButton value="Guardar Persona" id="idGuardarPersona" actionListener="#{personaMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaCreateDialog').close();" />
+                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('PersonaCreateDialog').close();" />
                         </p:column>
 
-                    </h:panelGrid>               
+
+                    </h:panelGrid>
+
                 </center>    
             </h:form>  
 
