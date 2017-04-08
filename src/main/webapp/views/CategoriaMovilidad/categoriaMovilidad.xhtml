@@ -29,13 +29,13 @@
                                              actionListener="#{categoriaMovilidadMB.guardarCategoriaMovilidad}" value="Guardar"  update="formCategoriaMovilidad :formTablaCategoriaMovilidades" process="@this :formCategoriaMovilidad"/>
 
                             <p:commandButton styleClass="boton" rendered="#{categoriaMovilidadMB.actualizar}"
-                                             actionListener="#{categoriaMovilidadMB.actualizarCategoriaMovilidad()}" update="formCategoriaMovilidad :formTablaCategoriaMovilidades "
-                                             value="Actualizar" />
-
-                            <p:commandButton styleClass="boton" rendered="#{categoriaMovilidadMB.actualizar}"
                                              actionListener="#{categoriaMovilidadMB.cancelarCategoriaMovilidad()}" immediate="true" value="Cancelar" update="formCategoriaMovilidad"  process="@this" />
 
-
+                            
+                            <p:commandButton styleClass="boton" rendered="#{categoriaMovilidadMB.actualizar}"
+                                             actionListener="#{categoriaMovilidadMB.actualizarCategoriaMovilidad()}" update="formCategoriaMovilidad :formTablaCategoriaMovilidades "
+                                             value="Actualizar" />
+                            
                         </p:column>
                     </p:panelGrid>
 
@@ -75,7 +75,7 @@
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
-                    <h:outputLabel value="Nombre Categoria de Movilidad:"/>
+                    <h:outputLabel value="Nombre:"/>
                     <h:outputText value="#{categoriaMovilidadMB.categoriaMovilidad.nombreCategoria}"/>
                 </p:panelGrid>
                 <br/>

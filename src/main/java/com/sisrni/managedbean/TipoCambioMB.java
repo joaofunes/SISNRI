@@ -135,7 +135,7 @@ public class TipoCambioMB  extends GenericManagedBean<TipoCambio, Integer> {
             actualizar=false;
             cancelarTipoCambio();
             cargarTipoCambio();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualizar tipo de cambio");
         }

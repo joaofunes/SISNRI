@@ -40,11 +40,12 @@
                                              actionListener="#{tipoDocumentoMB.guardarTipoDocumento}" value="Guardar"  update="formTipoDocumento :formTablaTipoDocumentoes" process="@this :formTipoDocumento"/>
 
                             <p:commandButton styleClass="boton" rendered="#{tipoDocumentoMB.actualizar}"
+                                             actionListener="#{tipoDocumentoMB.cancelarTipoDocumento()}" immediate="true" value="Cancelar" update="formTipoDocumento"  process="@this" />
+                            
+                            
+                            <p:commandButton styleClass="boton" rendered="#{tipoDocumentoMB.actualizar}"
                                              actionListener="#{tipoDocumentoMB.actualizarTipoDocumento()}" update="formTipoDocumento :formTablaTipoDocumentoes "
                                              value="Actualizar" />
-
-                            <p:commandButton styleClass="boton" rendered="#{tipoDocumentoMB.actualizar}"
-                                             actionListener="#{tipoDocumentoMB.cancelarTipoDocumento()}" immediate="true" value="Cancelar" update="formTipoDocumento"  process="@this" />
 
 
                         </p:column>

@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,7 +30,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * @author Luis
  */
 @Named(value = "tipoDocumentoMB")
-@RequestScoped
+@ViewScoped
 public class TipoDocumentoMB{
       /*Para Errores*/
     private final static Log log = LogFactory.getLog(TipoDocumentoMB.class);
@@ -126,7 +127,7 @@ public class TipoDocumentoMB{
             tipoDocumentoService.merge(tipoDocumento);
             actualizar = false;
             cancelarTipoDocumento(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Tipo de Documento");
             e.printStackTrace();

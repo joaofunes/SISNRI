@@ -33,7 +33,7 @@
                        <p:ajax event="change" listener="#{organismoCooperanteMB.addNewTipoOrganismo}" process="@this" update="formOrganismo:tipo"/>
                 </p:selectOneMenu>
                         <p:column>
-                            <p:outputLabel for="region" value="Región:"/>
+                            <p:outputLabel for="region" value="Regi&oacute;n:"/>
                              </p:column>
                         <p:column>
                              <p:selectOneMenu id="region" value="#{organismoCooperanteMB.regionSelected.idRegion}" style="width: 100%" required="true">
@@ -62,7 +62,7 @@
                             <p:inputText id="correo" value="#{organismoCooperanteMB.organismoCooperante.correoOrganismo}" required="true" size="40"/>
                         </p:column>
                          <p:column>
-                <p:outputLabel for="direccion" value="Dirección:"/>
+                <p:outputLabel for="direccion" value="Direcci&oacute;n:"/>
                         </p:column>
                          <p:column>  
                              <p:inputText id="direccion" value="#{organismoCooperanteMB.organismoCooperante.direccionOrganismo}" required="true" size="40"/>
@@ -75,7 +75,7 @@
                         </p:column>
                          <p:column>
                              
-                <p:outputLabel for="codigo" value="Código Postal:"/>
+                <p:outputLabel for="codigo" value="C&oacute;digo Postal:"/>
                         </p:column>
                             <p:column>
                                 <p:inputText id="codigo" value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}" required="true" size="40"/> 
@@ -107,7 +107,7 @@
                             <h:outputText value="#{organismo.tipo}" />
                     </p:column>
                     
-<!--                     <p:column headerText="Región" sortBy="#{organismo.nRegion}" filterBy="#{organismo.nRegion}" >
+<!--                     <p:column headerText="Regi&oacute;n" sortBy="#{organismo.nRegion}" filterBy="#{organismo.nRegion}" >
                         <h:outputText value="#{organismo.nRegion}" />
                     </p:column> 
                         -->
@@ -119,7 +119,7 @@
                         <h:outputText value="#{organismo.correo}" />
                     </p:column>
                     
-                    <p:column headerText="Dirección" style="width: 20%">
+                    <p:column headerText="Direcci&oacute;n" style="width: 20%">
                         <h:outputText value="#{organismo.direccion}"/>
                     </p:column>
                         
@@ -127,7 +127,7 @@
                         <h:outputText value="#{organismo.tel}" />
                     </p:column>    
                        
-                    <p:column headerText="Código Postal" style="width: 20%" >
+                    <p:column headerText="C&oacute;digo Postal" style="width: 20%" >
                         <h:outputText value="#{organismo.codigo}"/>
                     </p:column>
                     
@@ -145,7 +145,7 @@
             </p:panel>     
         </center>    
         <!--'Dialog de confirmacin de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteOrganismo Dlg" header="Borrar Organismo Cooperante" message="¿Confirma la eliminación del Organismo Cooperante?" 
+        <p:confirmDialog widgetVar="confirmDeleteOrganismo Dlg" header="Borrar Organismo Cooperante" message="¿Confirma la eliminaci&oacute;n del Organismo Cooperante?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">

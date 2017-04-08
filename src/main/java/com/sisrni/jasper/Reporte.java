@@ -526,7 +526,7 @@ public class Reporte { // OJO: NO ES SERIALIZABLE, NO PUEDE POR SU CONTENIDO
                 tipoMimeTypeMap.put("htmlx", "text/html");
                 tipoMimeTypeMap.put("css", "text/css");
                 /*
-                 Extensión	Mime/Tipo
+                 Extensi&oacute;n	Mime/Tipo
                  .htm	text/html
                  .html	text/html
                  .shtml	text/html

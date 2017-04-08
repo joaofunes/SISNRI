@@ -36,12 +36,12 @@
                                          value="Guardar" />
                        
                         <p:commandButton rendered="#{etapaMovilidadMB.actualizar}" styleClass="boton"
-                                         actionListener="#{etapaMovilidadMB.updateEtapaMovilidad()}" update="formAdmin :formPrincipal"
-                                         value="Actualizar" />
+                                         actionListener="#{etapaMovilidadMB.cancelarEtapaMovilidad()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
+                       
                        
                         <p:commandButton rendered="#{etapaMovilidadMB.actualizar}" styleClass="boton"
-                                         actionListener="#{etapaMovilidadMB.cancelarEtapaMovilidad()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
-                        
+                                         actionListener="#{etapaMovilidadMB.updateEtapaMovilidad()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" /> 
                           
                        
                     </p:column>
@@ -82,14 +82,14 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Ãƒâ€šÃ‚&iquest;EstÃƒÆ’Ã‚Â¡ seguro que desea eliminar la Etapa de Movilidad?" header="Eliminar Etapa de Movilidad"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="&iota;Est&aacute; seguro que desea eliminar la Etapa de Movilidad?" header="Eliminar Etapa de Movilidad"  global="true">
             <h:form id="idEliminacion"> 
              
-                 <h:outputText value="Nombre de la Etapa de Movilidad : "  style="font-weight:bold"/>
+                 <h:outputText value="Nombre: "  style="font-weight:bold"/>
                  <h:outputText value="#{etapaMovilidadMB.delEtapaMovilidad.nombreEtapa}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripci&oacute;n de la Etapa de Movilidad : "  style="font-weight:bold" />
+                 <h:outputText value="Descripci&oacute;n : "  style="font-weight:bold" />
                  <h:outputText value="#{etapaMovilidadMB.delEtapaMovilidad.descripcion}" />
              
             </h:form>    

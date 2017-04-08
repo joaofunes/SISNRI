@@ -112,7 +112,7 @@ public class CategoriaDocumentoMB{
             categoriaDocumentoService.merge(categoriaDocumento);
             actualizar = false;
             cancelarCategoriaDocumento(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar la Categoría Documento");
             e.printStackTrace();
