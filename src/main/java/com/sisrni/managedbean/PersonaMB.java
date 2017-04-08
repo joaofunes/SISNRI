@@ -443,9 +443,9 @@ public class PersonaMB implements Serializable{
             llenarPojoPersona(); 
             llenarPojoPersonaExtranjera(); 
             init();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
             RequestContext context = RequestContext.getCurrentInstance();    
-            context.execute("PF('PersonaEditDialog').hide();");
+            context.execute("PF('PersonaEditDialog').close()");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
         } catch (Exception e) {
             e.printStackTrace();
         }

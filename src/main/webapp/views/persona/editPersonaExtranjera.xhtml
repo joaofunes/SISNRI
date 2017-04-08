@@ -12,7 +12,7 @@
 
     <ui:composition>
         <p:dialog id="PersonaEditDlg" widgetVar="PersonaEditDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Edici&oacute;n de Persona Interna" closeOnEscape="true">
-            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
+<!--            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  -->
 
             <h:form id="formEditPersona">
                 <center>                  
@@ -91,7 +91,7 @@
                         </p:column>     
                                
                         <p:column> 
-                            <p:commandButton value="Editar" id="idGuardarPersona" actionListener="#{personaMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" />
+                            <p:commandButton value="Editar" id="idGuardarPersona" actionListener="#{personaMB.editar()}" process="@form" update="@form" icon="ui-icon-disk" onclick="PF('PersonaEditDialog').close();"/>
                             <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('PersonaEditDialog').close();" />
                         </p:column>
                     </h:panelGrid>
