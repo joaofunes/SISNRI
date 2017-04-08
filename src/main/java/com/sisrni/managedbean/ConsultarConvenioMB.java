@@ -21,6 +21,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -99,6 +101,14 @@ public class ConsultarConvenioMB implements Serializable {
             propuestaConvenioTemp = new PropuestaConvenio();
             estado = new Estado();
             listadoPropuestaConvenio = propuestaConvenioService.getAllConvenioSQL();
+            
+             Collections.sort(listadoPropuestaConvenio, new Comparator<PojoPropuestaConvenio>() {
+                @Override
+                public int compare(PojoPropuestaConvenio lhs, PojoPropuestaConvenio rhs) {
+                    return rhs.getID_PROPUESTA().compareTo(lhs.getID_PROPUESTA());
+                }
+            });
+            
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
         } catch (Exception e) {
             e.printStackTrace();
