@@ -20,11 +20,10 @@
         <f:metadata>            
             <f:viewAction action="#{propuestaConvenioMB.onload}" />
         </f:metadata>
-
-       
-        <center>
-            <p:fieldset legend="Ingreso de Propuesta de Convenio"> 
+        <h2 class="title ui-widget-header ui-corner-all" align="center">Ingreso de Propuesta de Convenio</h2>
         
+        <center>
+            
             <p:panel style="width: 80%">  
                 <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
                     <p:tab title="Datos del Solicitante">
@@ -710,7 +709,7 @@
                                 </p:row>
                                 <p:row>
                                     <p:column>
-                                        <p:outputLabel for="idDescripcionPropuesta" value="Descripci&oacute;n" />
+                                        <p:outputLabel for="idDescripcionPropuesta" value="Finalidad" />
                                     </p:column>
                                     <p:column>
                                         <p:inputTextarea id="idDescripcionPropuesta" required="true" label="descripcion" rows="3" maxlength="300" value="#{propuestaConvenioMB.propuestaConvenio.finalidadPropuesta}"  style="width: 300px;" />
@@ -732,7 +731,7 @@
                     </p:tab>
                 </p:accordionPanel>                                                                                               
             </p:panel>
-            </p:fieldset>
+            
         </center>    
 
         <script type="text/javascript">
