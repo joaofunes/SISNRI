@@ -99,7 +99,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             Collections.sort(listadoPropuestaConvenio, new Comparator<PojoPropuestaConvenio>() {
                 @Override
                 public int compare(PojoPropuestaConvenio lhs, PojoPropuestaConvenio rhs) {
-                    return rhs.getFECHA_INGRESO().compareTo(lhs.getFECHA_INGRESO());
+                    return rhs.getID_PROPUESTA().compareTo(lhs.getID_PROPUESTA());
                 }
             });
 
@@ -261,6 +261,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             if (pojo.getID_PROPUESTA() != null) {
                 documentacionMB.iniciliazar();
                 documentacionMB.getDataConvenio(pojo.getID_PROPUESTA());
+                documentacionMB.setAddDocumentoEspecifico(true);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("../documentacion/documentacion.xhtml");
             }
         } catch (Exception e) {

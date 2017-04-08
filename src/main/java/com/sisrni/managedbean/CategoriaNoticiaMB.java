@@ -112,7 +112,7 @@ public class CategoriaNoticiaMB{
             categoriaNoticiaService.merge(categoriaNoticia);
             actualizar = false;
             cancelarCategoriaNoticia(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Categoría de Noticia");
             e.printStackTrace();

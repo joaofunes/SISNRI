@@ -28,14 +28,14 @@
                             <p:commandButton styleClass="boton" rendered="#{!tipoProyectoMB.actualizar}"
                                              actionListener="#{tipoProyectoMB.guardarTipoProyecto}" value="Guardar"  update="formTipoProyecto :formTablaTipoProyectoes" process="@this :formTipoProyecto"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{tipoProyectoMB.actualizar}"
-                                             actionListener="#{tipoProyectoMB.actualizarTipoProyecto()}" update="formTipoProyecto :formTablaTipoProyectoes "
-                                             value="Actualizar" />
 
                             <p:commandButton styleClass="boton" rendered="#{tipoProyectoMB.actualizar}"
                                              actionListener="#{tipoProyectoMB.cancelarTipoProyecto()}" immediate="true" value="Cancelar" update="formTipoProyecto"  process="@this" />
 
-
+                            
+                            <p:commandButton styleClass="boton" rendered="#{tipoProyectoMB.actualizar}"
+                                             actionListener="#{tipoProyectoMB.actualizarTipoProyecto()}" update="formTipoProyecto :formTablaTipoProyectoes "
+                                             value="Actualizar" />                 
                         </p:column>
                     </p:panelGrid>
 

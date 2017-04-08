@@ -28,14 +28,15 @@
                             <p:commandButton styleClass="boton" rendered="#{!areaConocimientoMB.actualizar}"
                                              actionListener="#{areaConocimientoMB.guardarAreaConocimiento}" value="Guardar"  update="formAreaConocimiento :formTablaAreaConocimientos" process="@this :formAreaConocimiento"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{areaConocimientoMB.actualizar}"
-                                             actionListener="#{areaConocimientoMB.actualizarAreaConocimiento()}" update="formAreaConocimiento :formTablaAreaConocimientos "
-                                             value="Actualizar" />
 
                             <p:commandButton styleClass="boton" rendered="#{areaConocimientoMB.actualizar}"
                                              actionListener="#{areaConocimientoMB.cancelarAreaConocimiento()}" immediate="true" value="Cancelar" update="formAreaConocimiento"  process="@this" />
 
-
+                            
+                            
+                            <p:commandButton styleClass="boton" rendered="#{areaConocimientoMB.actualizar}"
+                                             actionListener="#{areaConocimientoMB.actualizarAreaConocimiento()}" update="formAreaConocimiento :formTablaAreaConocimientos "
+                                             value="Actualizar" />
                         </p:column>
                     </p:panelGrid>
 
@@ -69,11 +70,11 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteAreaConocimientoDlg" header="Borrar AreaConocimiento" message="&iquest;Confirma la eliminación del Area de Conocimiento?" 
+        <p:confirmDialog widgetVar="confirmDeleteAreaConocimientoDlg" header="Borrar Area de Conocimiento" message="&iquest;Confirma la eliminaci&oacute;n del Area de Conocimiento?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
-                    <h:outputLabel value="Nombre Area de Conocimiento:"/>
+                    <h:outputLabel value="Nombre:"/>
                     <h:outputText value="#{areaConocimientoMB.areaConocimiento.nombreArea}"/>
                 </p:panelGrid>
                 <br/>

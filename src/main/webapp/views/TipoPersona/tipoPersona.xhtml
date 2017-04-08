@@ -39,13 +39,12 @@
                                          value="Guardar" />
                        
                         <p:commandButton rendered="#{tipoPersonaMB.actualizar}" styleClass="boton"
-                                         actionListener="#{tipoPersonaMB.updateTipoPersona()}" update="formAdmin :formPrincipal"
-                                         value="Actulizar" />
-                       
-                        <p:commandButton rendered="#{tipoPersonaMB.actualizar}" styleClass="boton"
                                          actionListener="#{tipoPersonaMB.cancelarTipoPersona()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
-                          
+                         
+                        <p:commandButton rendered="#{tipoPersonaMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoPersonaMB.updateTipoPersona()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" /> 
                        
                     </p:column>
                  
@@ -84,14 +83,14 @@
           </center> 
      
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar tipo persona?" header="Eliminar Tipo Persona"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="&iquest;Est&aacute; seguro que desea eliminar tipo persona?" header="Eliminar Tipo Persona"  global="true">
             <h:form id="idEliminacion"> 
              
-                 <h:outputText value="Nombre de Persona : "  style="font-weight:bold"/>
+                 <h:outputText value="Nombre : "  style="font-weight:bold"/>
                  <h:outputText value="#{tipoPersonaMB.delTipoPersona.nombreTipoPersona}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripci&oacute;n de Persona : "  style="font-weight:bold" />
+                 <h:outputText value="Descripci&oacute;n : "  style="font-weight:bold" />
                  <h:outputText value="#{tipoPersonaMB.delTipoPersona.descripcion}" />
              
             </h:form>    

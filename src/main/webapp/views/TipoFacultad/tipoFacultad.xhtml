@@ -36,13 +36,13 @@
                                          value="Guardar" />
                        
                         <p:commandButton rendered="#{tipoFacultadMB.actualizar}" styleClass="boton"
-                                         actionListener="#{tipoFacultadMB.updateTipoFacultad()}" update="formAdmin :formPrincipal"
-                                         value="Actualizar" />
-                       
-                        <p:commandButton rendered="#{tipoFacultadMB.actualizar}" styleClass="boton"
                                          actionListener="#{tipoFacultadMB.cancelarTipoFacultad()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
-                          
+                         
+                       
+                        <p:commandButton rendered="#{tipoFacultadMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoFacultadMB.updateTipoFacultad()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" /> 
                        
                     </p:column>
                  
@@ -82,7 +82,7 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Ãƒâ€šÃ‚&iquest;EstÃƒÆ’Ã‚Â¡ seguro que desea eliminar el Tipo de Facultad?" header="Eliminar Tipo Facultad"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="&iquest;Est&aacute; seguro que desea eliminar el Tipo de Facultad?" header="Eliminar Tipo Facultad"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre del Tipo de Facultad : "  style="font-weight:bold"/>

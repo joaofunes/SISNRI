@@ -14,10 +14,8 @@
     <ui:define name="content">
         <f:metadata>            
             <f:viewAction action="#{consultarConvenioMB.init}" />
-        </f:metadata>    
-
-
-        <p:fieldset legend="Consultar Convenios"> 
+        </f:metadata>            
+        <h2 class="title ui-widget-header ui-corner-all" align="center">Consultar Convenios</h2>
             <h:form id="formAdmin">
 
                 <p:dataTable var="pconvenios" value="#{consultarConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
@@ -73,7 +71,7 @@
                     </p:column>
                 </p:dataTable>
             </h:form>   
-        </p:fieldset>   
+       
 
         <p:dialog header="Cambiar Estado" widgetVar="dlgEstado" modal="true" appendTo="@(body)" >                         
             <h:form id="idCambiarEstado"> 

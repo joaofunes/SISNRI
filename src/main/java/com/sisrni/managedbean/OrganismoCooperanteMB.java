@@ -121,7 +121,7 @@ public class OrganismoCooperanteMB {
             telefonoFijo.setIdTipoTelefono(tipoTelefono);
             telefonoService.save(telefonoFijo);
             inicializarVariables();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Información se ha registrado correctamente!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Informaci&oacute;n se ha registrado correctamente!"));
             
                     
         } catch (Exception e) {

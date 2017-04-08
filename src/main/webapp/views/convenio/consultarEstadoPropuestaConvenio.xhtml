@@ -13,8 +13,8 @@
     <ui:define name="content">
         <f:metadata>            
             <f:viewAction action="#{consultarEstadoConvenioMB.init()}" />
-        </f:metadata>
-
+        </f:metadata>        
+        <h2 class="title ui-widget-header ui-corner-all" align="center">Consultar Estados de Propuesta Convenios</h2>
         <h:form id="formAdmin">
 
             <p:dataTable var="convenio" value="#{consultarEstadoConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
@@ -22,9 +22,7 @@
                          rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
                          >    
 
-                <f:facet name="header">
-                    Propuestas de Convenios
-                </f:facet>
+               
 
                 <p:columnGroup type="header">
                     <p:row>

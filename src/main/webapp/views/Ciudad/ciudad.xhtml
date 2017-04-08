@@ -51,12 +51,12 @@
                                              actionListener="#{ciudadMB.guardarCiudad}" value="Guardar"  update="formCiudad :formTablaCiudades" process="@this :formCiudad"/>
 
                             <p:commandButton styleClass="boton" rendered="#{ciudadMB.actualizar}"
+                                             actionListener="#{ciudadMB.cancelarCiudad()}" immediate="true" value="Cancelar" update="formCiudad"  process="@this" />
+                            
+                            
+                            <p:commandButton styleClass="boton" rendered="#{ciudadMB.actualizar}"
                                              actionListener="#{ciudadMB.actualizarCiudad()}" update="formCiudad :formTablaCiudades "
                                              value="Actualizar" />
-
-                            <p:commandButton styleClass="boton" rendered="#{ciudadMB.actualizar}"
-                                             actionListener="#{ciudadMB.cancelarCiudad()}" immediate="true" value="Cancelar" update="formCiudad"  process="@this" />
-
 
                         </p:column>
                     </p:panelGrid>
