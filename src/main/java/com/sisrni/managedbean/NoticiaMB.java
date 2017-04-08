@@ -47,7 +47,7 @@ import org.springframework.web.context.WebApplicationContext;
  * @author Cortez
  */
 @Named("noticiaMB")
-@Scope(WebApplicationContext.SCOPE_APPLICATION)
+@Scope(WebApplicationContext.SCOPE_SESSION)
 public class NoticiaMB implements Serializable {
 
     private static final long serialVersionUID = 1L;
