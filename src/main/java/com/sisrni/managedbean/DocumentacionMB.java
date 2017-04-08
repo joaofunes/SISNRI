@@ -269,7 +269,7 @@ public class DocumentacionMB implements Serializable {
     public void preView(Documento documento) {
         try {
             this.documento = documento;
-            System.out.println("TYPO::::::::::::::::::::::" + getFileExtension(documento.getNombreDocumento()));
+            
 
             if (getFileExtension(documento.getNombreDocumento()).equals("pdf")) {
                 content = new DefaultStreamedContent(new ByteArrayInputStream(documento.getDocumento()), "application/pdf");

@@ -41,19 +41,7 @@
                     <p:column headerText="Activo">
                         <h:outputText value="#{pconvenios.ACTIVO?'Si':'No'}" />
                     </p:column>
-                    <p:column headerText="Opciones" >
-<!--                        <div style="float: left">
-                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                           value="Editar" actionListener="#{consultarConvenioMB.preEditar(pconvenios)}" />
-                        </div>-->
-                        <div style="float: left">
-                            <p:commandLink styleClass="ui-icon ui-icon-calendar"
-                                           title="Cambiar Vigencia" value="Cambiar Vigencia"
-                                           update=":idCambiarEstado"
-                                           actionListener="#{consultarConvenioMB.preCambiarVigencia(pconvenios)}"
-                                           oncomplete="PF('dlgEstado').show();"/>
-
-                        </div>                        
+                    <p:column headerText="Opciones" >                     
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-arrow-2-ne-sw"
                                            title="Ver Convenio" value="Ver Convenio"
@@ -74,61 +62,6 @@
                 </p:dataTable>
             </h:form>   
         </p:fieldset>   
-
-        <p:dialog header="Cambiar Estado" widgetVar="dlgEstado" modal="true" appendTo="@(body)" >                         
-            <h:form id="idCambiarEstado"> 
-                <p:panelGrid columns="2" id="display" >
-                    <p:column>
-                        <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Objetivo: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Solicitante: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.SOLICITANTE}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Referente Interno: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.INTERNO}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Referente Externo: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.EXTERNO}" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
-                    </p:column>                    
-                    <p:column>
-                        <h:outputText value="Fecha de Vigencia: "  style="font-weight:bold" />
-                    </p:column>
-                    <p:column>
-                        <p:calendar id="idFechaVigencia" required="true" value="#{consultarConvenioMB.propuestaConvenio.vigencia}" pattern="dd-MM-yyyy" mask="true" />
-                    </p:column>
-                    <p:column>                        
-                        <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarConvenioMB.actualizarConvenio()}" process="idCambiarEstado" update=":formAdmin" onclick="PF('dlgEstado').hide();" />
-                        <p:commandButton value="No"  icon="ui-icon-close" onclick="PF('dlgEstado').hide();" process="@this" />
-                    </p:column>
-                    <p:column></p:column>
-                </p:panelGrid>
-            </h:form>      
-        </p:dialog>    
-
 
         <p:dialog header="Ver Convenio " widgetVar="dlgVerConvenio" modal="true" appendTo="@(body)" >                         
             <h:form id="idVerConvenio"> 
@@ -197,24 +130,6 @@
             </h:form>      
         </p:dialog>        
 
-
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar convenio?" header="Eliminar Convenio"  global="true">
-            <h:form id="idEliminacion">              
-                <br/>
-                <br/>
-                <h:outputText value="Estado Propuesta: "  style="font-weight:bold" />
-                <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.NOMBRE_ESTADO}" />
-                <br/>
-                <br/>
-                <h:outputText value="VIGENCIA: "  style="font-weight:bold" />
-                <h:outputText value="#{consultarConvenioMB.pojoPropuestaConvenio.VIGENCIA}" />             
-            </h:form>                
-            <p:separator />
-            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarConvenioMB.eliminarConvenio()}" process="@this" update=":formAdmin"/>
-            <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-        </p:confirmDialog>
-
-    </ui:define>
 
 
 </ui:composition>

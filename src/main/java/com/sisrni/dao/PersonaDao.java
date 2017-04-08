@@ -166,6 +166,24 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         return null;
     }
 
+       /**
+     * Metodo para obtener listados de personass
+     *
+     * @param extranjero
+     * @return
+     */
+    public List<Persona> getPersonaList2(boolean extranjero) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  a.extranjero =:extranjero")
+                    .setBoolean("extranjero", extranjero);
+            return q.list();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     /**
      * Metodo para relaizar por DUI de personas
      *

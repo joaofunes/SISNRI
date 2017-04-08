@@ -195,6 +195,7 @@ public class BecaMB implements Serializable {
     private Boolean remplazarExterno;
 
     private Boolean desvinculoInterno;
+    private Boolean desvinculoExterno;
     //Mascara de telefonos de personas externas
     private String codigoPais;
     private String mascaraTelefono;
@@ -374,6 +375,7 @@ public class BecaMB implements Serializable {
         remplazarExterno = Boolean.FALSE;
 
         desvinculoInterno = Boolean.FALSE;
+        desvinculoExterno = Boolean.FALSE;
         //Mascara de telenonos de personas externas
         codigoPais = "";
         mascaraTelefono = "";
@@ -843,6 +845,7 @@ public class BecaMB implements Serializable {
                     tabExternoBoolean = Boolean.TRUE;
                     mostrarTabExterno = Boolean.TRUE;
                     noEstabaExterno = false;
+                    disableExternoInputs = Boolean.FALSE;
                 }
                 buscarBecario(becario.getEmailPersona());
                 if (asesorInterno != null) {
@@ -928,9 +931,31 @@ public class BecaMB implements Serializable {
         }
     }
 
+    public void desvincularExterno() {
+        try {
+            becaService.desvincularInterno(beca.getIdBeca(), asesorExterno.getIdPersona());
+            tabExternoBoolean = Boolean.FALSE;
+            mostrarTabExterno = Boolean.FALSE;
+            noEstabaExterno = true;
+            disableExternoInputs = Boolean.TRUE;
+            limpiarAsesorExterno();
+            banderasAsesorExternoFalsas();
+            desvinculoExterno = Boolean.TRUE;
+            asesorExternoAux = new Persona();
+            preUpdate(beca.getIdBeca());
+        } catch (Exception e) {
+
+        }
+    }
+
     public void confirmarDesvincularInterno() {
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataDesvincularInternoDlg').show();");
+    }
+
+    public void confirmarDesvincularExterno() {
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataDesvincularExternoDlg').show();");
     }
 
     public void getUniversidadesPorPais(Integer idPais) {
@@ -1196,6 +1221,18 @@ public class BecaMB implements Serializable {
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                if (list.isEmpty()) {
+                    renderActualizarPersonaBecarioButton = Boolean.FALSE;
+                    renderNuevaPersonaBecarioButton = Boolean.TRUE;
+                    disableBecarioInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botones");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+                } else {
+                    renderNuevaPersonaBecarioButton = Boolean.FALSE;
+                    disableBecarioInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botones");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+                }
                 return list;
             } else if (tipoBusquedaBecario.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
@@ -1205,7 +1242,18 @@ public class BecaMB implements Serializable {
                 } else {
                     boolean add = list.add(becarioAux);
                 }
-
+                if (list.isEmpty()) {
+                    renderActualizarPersonaBecarioButton = Boolean.FALSE;
+                    renderNuevaPersonaBecarioButton = Boolean.TRUE;
+                    disableBecarioInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botones");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+                } else {
+                    renderNuevaPersonaBecarioButton = Boolean.FALSE;
+                    disableBecarioInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botones");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelBecario");
+                }
                 return list;
             }
             return list;
@@ -1243,6 +1291,18 @@ public class BecaMB implements Serializable {
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                if (list.isEmpty()) {
+                    renderActualizarPersonaInternaButton = Boolean.FALSE;
+                    renderNuevaPersonaInternaButton = Boolean.TRUE;
+                    disableInternoInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesInterno");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelInterno");
+                } else {
+                    renderNuevaPersonaInternaButton = Boolean.FALSE;
+                    disableInternoInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesInterno");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelInterno");
+                }
                 return list;
             } else if (tipoBusquedaAsesorInterno.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
@@ -1252,7 +1312,18 @@ public class BecaMB implements Serializable {
                 } else {
                     boolean add = list.add(asesorInternoAux);
                 }
-
+                if (list.isEmpty()) {
+                    renderActualizarPersonaInternaButton = Boolean.FALSE;
+                    renderNuevaPersonaInternaButton = Boolean.TRUE;
+                    disableInternoInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesInterno");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelInterno");
+                } else {
+                    renderNuevaPersonaInternaButton = Boolean.FALSE;
+                    disableInternoInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesInterno");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelInterno");
+                }
                 return list;
             }
             return list;
@@ -1265,6 +1336,7 @@ public class BecaMB implements Serializable {
     //buscar asesor interno
     public List<Persona> methodSearchAsesorExterno(String query) {
         try {
+            limpiarAsesorExterno();
             List<Persona> list = new ArrayList<Persona>();
             if (tipoBusquedaAsesorExterno.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getReferenteExternoByName(query);
@@ -1289,6 +1361,18 @@ public class BecaMB implements Serializable {
                 for (Persona us : listAll) {
                     list.add(us);
                 }
+                if (list.isEmpty()) {
+                    renderActualizarPersonaExternaButton = Boolean.FALSE;
+                    renderNuevaPersonaExternaButton = Boolean.TRUE;
+                    disableExternoInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesExterno");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelExterno");
+                } else {
+                    renderNuevaPersonaExternaButton = Boolean.FALSE;
+                    disableExternoInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesExterno");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelExterno");
+                }
                 return list;
             } else if (tipoBusquedaAsesorExterno.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
@@ -1298,7 +1382,18 @@ public class BecaMB implements Serializable {
                 } else {
                     boolean add = list.add(asesorExternoAux);
                 }
-
+                if (list.isEmpty()) {
+                    renderActualizarPersonaExternaButton = Boolean.FALSE;
+                    renderNuevaPersonaExternaButton = Boolean.TRUE;
+                    disableExternoInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesExterno");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelExterno");
+                } else {
+                    renderNuevaPersonaExternaButton = Boolean.FALSE;
+                    disableExternoInputs = Boolean.TRUE;
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:botonesExterno");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:panelExterno");
+                }
                 return list;
             }
             return list;

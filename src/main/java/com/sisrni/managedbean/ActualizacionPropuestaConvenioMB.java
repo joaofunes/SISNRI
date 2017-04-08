@@ -1829,6 +1829,15 @@ Persona existePersonaByMail = personaService.existePersonaByMail(solicitante.get
         }
     }
 
+    
+    public void volver(){            
+        try {
+              FacesContext.getCurrentInstance().getExternalContext().redirect("../convenio/consultarPropuestaConvenio.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public Persona getReferenteInterno() {
         return referenteInterno;
     }

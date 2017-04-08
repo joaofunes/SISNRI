@@ -735,7 +735,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.actualizarPropuesta()}" process="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" update="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" value="Actualizar"  id="btnGuardar" icon="ui-icon-disk" title="Actualizar Propuesta Convenio" /></td>                                                                             
-                                                <td colspan="3"><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.volver()}" process="formAdmin" update="formAdmin" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
+                                                <td colspan="3"><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.volver()}" process="@this" update="@this" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
                                             </tr>
                                         </tfoot>
                                     </table>  
