@@ -24,7 +24,7 @@
                             <p:watermark for="nombreProvincia" value="Nombre Estado/Departamento/Provincia" id="watermarkNombreProvincia"/>
                         </p:column>
                         <p:column>
-                            <p:outputLabel for="paisProvincia" value="País:"/>
+                            <p:outputLabel for="paisProvincia" value="Pa&iacute;s:"/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="paisProvincia" value="#{provinciaMB.pais.idPais}"  style="width: 100%" required="true">
@@ -58,7 +58,7 @@
                         <p:column headerText="Provincia"  filterBy="#{provincia.nombreProvincia}">
                             <h:outputText value="#{provincia.nombreProvincia}"/>
                         </p:column>
-                        <p:column headerText="País" filterBy="#{provincia.idPais.nombrePais}">
+                        <p:column headerText="Pa&iacute;s" filterBy="#{provincia.idPais.nombrePais}">
                             <h:outputText value="#{provincia.idPais.nombrePais}"/>
                         </p:column> 
                         <p:column headerText="Opciones" style="width: 15%">
@@ -96,7 +96,7 @@
                 <br/>
                 <br/>
             </h:form>
-             <p:commandButton value="Sí"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+             <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
                               actionListener="#{provinciaMB.borrarProvincia()}" update=":formTablaProvinciaes"/>
              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
