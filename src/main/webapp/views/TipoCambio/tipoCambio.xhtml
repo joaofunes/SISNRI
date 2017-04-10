@@ -32,7 +32,7 @@
                     </p:column>
                     
                     <p:column>
-                        <p:outputLabel for="dolares" value="Dolares por Unidad($):" />
+                        <p:outputLabel for="dolares" value="D&oacute;lares por Unidad($):" />
                     </p:column>
                     <p:column>
                         <poue:inputNumber  id="dolares" value="#{tipoCambioMB.tipoCambio.dolaresPorUnidad}" style="width: 100%"  required="true"/>
@@ -45,12 +45,12 @@
                                          value="Guardar" />
                        
                         <p:commandButton rendered="#{tipoCambioMB.actualizar}" styleClass="boton"
-                                         actionListener="#{tipoCambioMB.updateTipoCambio()}" update="formAdmin :formPrincipal"
-                                         value="Actualizar" />
-                       
-                        <p:commandButton rendered="#{tipoCambioMB.actualizar}" styleClass="boton"
                                          actionListener="#{tipoCambioMB.cancelarTipoCambio()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
+                        
+                        <p:commandButton rendered="#{tipoCambioMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoCambioMB.updateTipoCambio()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" />
                     </p:column>
                  
                 </p:panelGrid>
@@ -93,18 +93,18 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Ãƒâ€šÃ‚&iquest;EstÃƒÆ’Ã‚Â¡ seguro que desea eliminar el Tipo de Cambio?" header="Eliminar Tipo de Cambio"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="&iquest;Est&aacute; seguro que desea eliminar el Tipo de Cambio?" header="Eliminar Tipo de Cambio"  global="true">
             <h:form id="idEliminacion"> 
              
-                 <h:outputText value="Nombre de la Divisa: "  style="font-weight:bold"/>
+                 <h:outputText value="Nombre: "  style="font-weight:bold"/>
                  <h:outputText value="#{tipoCambioMB.delTipoCambio.nombreDivisa}" />
                  <br/>
                  <br/>
-                 <h:outputText value="C&oacute;digo de Divisa: "  style="font-weight:bold" />
+                 <h:outputText value="C&oacute;digo: "  style="font-weight:bold" />
                  <h:outputText value="#{tipoCambioMB.delTipoCambio.codigoDivisa}" />
                  <br/>
                  <br/>
-                 <h:outputText value="D&oacute;lares por Unidad: "  style="font-weight:bold" />
+                 <h:outputText value="D&oacute;lares: "  style="font-weight:bold" />
                  <h:outputText value="$#{tipoCambioMB.delTipoCambio.dolaresPorUnidad}" />
              
             </h:form>    

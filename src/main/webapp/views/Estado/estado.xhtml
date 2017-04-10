@@ -41,13 +41,12 @@
                                          value="Guardar" />
                        
                         <p:commandButton rendered="#{estadoMB.actualizar}" styleClass="boton"
-                                         actionListener="#{estadoMB.updateEstado()}" update="formAdmin :formPrincipal"
-                                         value="Actualizar" />
-                       
-                        <p:commandButton rendered="#{estadoMB.actualizar}" styleClass="boton"
                                          actionListener="#{estadoMB.cancelarEstado()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
-                          
+                       
+                        <p:commandButton rendered="#{estadoMB.actualizar}" styleClass="boton"
+                                         actionListener="#{estadoMB.updateEstado()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" />   
                        
                     </p:column>
                  
@@ -93,7 +92,7 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Ãƒâ€šÃ‚&iquest;EstÃƒÆ’Ã‚Â¡ seguro que desea eliminar el Estado?" header="Eliminar Estado"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€š&iquest;EstÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡ seguro que desea eliminar el Estado?" header="Eliminar Estado"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre del Estado: "  style="font-weight:bold"/>

@@ -38,13 +38,12 @@
                                          value="Guardar" />
                        
                         <p:commandButton rendered="#{programaMovilidadMB.actualizar}" styleClass="boton"
-                                         actionListener="#{programaMovilidadMB.updateProgramaMovilidad()}" update="formAdmin :formPrincipal"
-                                         value="Actulizar" />
-                       
-                        <p:commandButton rendered="#{programaMovilidadMB.actualizar}" styleClass="boton"
                                          actionListener="#{programaMovilidadMB.cancelarProgramaMovilidad()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
-                        
-                          
+                                                
+                         
+                        <p:commandButton rendered="#{programaMovilidadMB.actualizar}" styleClass="boton"
+                                         actionListener="#{programaMovilidadMB.updateProgramaMovilidad()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" /> 
                        
                     </p:column>
                  
@@ -58,7 +57,7 @@
                              paginator="true">
 
 
-                    <p:column headerText="Nombre MenÃƒÂº" sortBy="#{programaMovilidad.nombreProgramaMovilidad}" filterBy="#{programaMovilidad.nombreProgramaMovilidad}">
+                    <p:column headerText="Nombre" sortBy="#{programaMovilidad.nombreProgramaMovilidad}" filterBy="#{programaMovilidad.nombreProgramaMovilidad}">
                         <h:outputText value="#{programaMovilidad.nombreProgramaMovilidad}" />
                     </p:column>
 
@@ -83,14 +82,14 @@
           </center> 
      
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Ã‚Â¿EstÃƒÂ¡ seguro que desea eliminar el Programa de Movilidad?" header="Eliminar Programa de Movilidad"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="&iquest;Est&aacute; seguro que desea eliminar el Programa de Movilidad?" header="Eliminar Programa de Movilidad"  global="true">
             <h:form id="idEliminacion"> 
              
-                 <h:outputText value="Nombre de Programa de Movilidad : "  style="font-weight:bold"/>
+                 <h:outputText value="Nombre : "  style="font-weight:bold"/>
                  <h:outputText value="#{programaMovilidadMB.delProgramaMovilidad.nombreProgramaMovilidad}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripcion de Programa de Movilidad : "  style="font-weight:bold" />
+                 <h:outputText value="Descripci&oacute;n : "  style="font-weight:bold" />
                  <h:outputText value="#{programaMovilidadMB.delProgramaMovilidad.descripcion}" />
              
             </h:form>    

@@ -116,7 +116,7 @@ public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
             actualizar=false;
             cancelarTipoFacultad();
             cargarTipoFacultad();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar tipo de facultad");
         }

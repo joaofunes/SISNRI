@@ -316,7 +316,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Usuario no Asigando", msg));  
           }
            }else{ 
-               msg ="No existe información vinculada a su correo electrónico!"; 
+               msg ="No existe informaci&oacute;n vinculada a su correo electr&oacute;nico!"; 
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No Registrado!!", msg));  
                 }
             

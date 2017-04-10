@@ -28,14 +28,15 @@
                             <p:commandButton styleClass="boton" rendered="#{!categoriaDocumentoMB.actualizar}"
                                              actionListener="#{categoriaDocumentoMB.guardarCategoriaDocumento}" value="Guardar"  update="formCategoriaDocumento :formTablaCategoriaDocumentoes" process="@this :formCategoriaDocumento"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{categoriaDocumentoMB.actualizar}"
-                                             actionListener="#{categoriaDocumentoMB.actualizarCategoriaDocumento()}" update="formCategoriaDocumento :formTablaCategoriaDocumentoes "
-                                             value="Actualizar" />
 
                             <p:commandButton styleClass="boton" rendered="#{categoriaDocumentoMB.actualizar}"
                                              actionListener="#{categoriaDocumentoMB.cancelarCategoriaDocumento()}" immediate="true" value="Cancelar" update="formCategoriaDocumento"  process="@this" />
 
-
+                            
+                            <p:commandButton styleClass="boton" rendered="#{categoriaDocumentoMB.actualizar}"
+                                             actionListener="#{categoriaDocumentoMB.actualizarCategoriaDocumento()}" update="formCategoriaDocumento :formTablaCategoriaDocumentoes "
+                                             value="Actualizar" />
+                            
                         </p:column>
                     </p:panelGrid>
 
@@ -75,7 +76,7 @@
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
-                    <h:outputLabel value="Nombre Categor&iacute;a de Documento:"/>
+                    <h:outputLabel value="Nombre:"/>
                     <h:outputText value="#{categoriaDocumentoMB.categoriaDocumento.nombreCategoria}"/>
                 </p:panelGrid>
                 <br/>

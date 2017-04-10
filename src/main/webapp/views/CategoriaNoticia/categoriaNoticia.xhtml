@@ -28,14 +28,14 @@
                             <p:commandButton styleClass="boton" rendered="#{!categoriaNoticiaMB.actualizar}"
                                              actionListener="#{categoriaNoticiaMB.guardarCategoriaNoticia}" value="Guardar"  update="formCategoriaNoticia :formTablaCategoriaNoticiaes" process="@this :formCategoriaNoticia"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{categoriaNoticiaMB.actualizar}"
-                                             actionListener="#{categoriaNoticiaMB.actualizarCategoriaNoticia()}" update="formCategoriaNoticia :formTablaCategoriaNoticiaes "
-                                             value="Actualizar" />
 
                             <p:commandButton styleClass="boton" rendered="#{categoriaNoticiaMB.actualizar}"
                                              actionListener="#{categoriaNoticiaMB.cancelarCategoriaNoticia()}" immediate="true" value="Cancelar" update="formCategoriaNoticia"  process="@this" />
 
-
+                            
+                            <p:commandButton styleClass="boton" rendered="#{categoriaNoticiaMB.actualizar}"
+                                             actionListener="#{categoriaNoticiaMB.actualizarCategoriaNoticia()}" update="formCategoriaNoticia :formTablaCategoriaNoticiaes "
+                                             value="Actualizar" />
                         </p:column>
                     </p:panelGrid>
 

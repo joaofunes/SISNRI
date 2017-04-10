@@ -29,13 +29,12 @@
                                              actionListener="#{tipoBecaMB.guardarTipoBeca}" value="Guardar"  update="formTipoBeca :formTablaTipoBecaes" process="@this :formTipoBeca"/>
 
                             <p:commandButton styleClass="boton" rendered="#{tipoBecaMB.actualizar}"
-                                             actionListener="#{tipoBecaMB.actualizarTipoBeca()}" update="formTipoBeca :formTablaTipoBecaes "
-                                             value="Actualizar" />
-
-                            <p:commandButton styleClass="boton" rendered="#{tipoBecaMB.actualizar}"
                                              actionListener="#{tipoBecaMB.cancelarTipoBeca()}" immediate="true" value="Cancelar" update="formTipoBeca"  process="@this" />
 
-
+                            <p:commandButton styleClass="boton" rendered="#{tipoBecaMB.actualizar}"
+                                             actionListener="#{tipoBecaMB.actualizarTipoBeca()}" update="formTipoBeca :formTablaTipoBecaes "
+                                             value="Actualizar" />
+                            
                         </p:column>
                     </p:panelGrid>
 

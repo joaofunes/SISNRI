@@ -47,7 +47,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 
 @Named("documentacionProyectoMB")
-@Scope(WebApplicationContext.SCOPE_APPLICATION)
+@Scope(WebApplicationContext.SCOPE_SESSION)
 
 public class DocumentacionProyectoMB implements Serializable {
 

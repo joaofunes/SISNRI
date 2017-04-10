@@ -36,13 +36,13 @@
                                          value="Guardar" />
                        
                         <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
-                                         actionListener="#{tipoOrganismoMB.updateTipoOrganismo()}" update="formAdmin :formPrincipal"
-                                         value="Actualizar" />
-                       
-                        <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
                                          actionListener="#{tipoOrganismoMB.cancelarTipoOrganismo()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
-                          
+                         
+                       
+                        <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
+                                         actionListener="#{tipoOrganismoMB.updateTipoOrganismo()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" /> 
                        
                     </p:column>
                  
@@ -82,7 +82,7 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Ãƒâ€šÃ‚&iquest;EstÃƒÆ’Ã‚Â¡ seguro que desea eliminar el Tipo de Organismo?" header="Eliminar Tipo Organismo"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="&iquest;Est&aacute; seguro que desea eliminar el Tipo de Organismo?" header="Eliminar Tipo Organismo"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre del Tipo de Organismo : "  style="font-weight:bold"/>

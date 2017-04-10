@@ -74,13 +74,14 @@
                             <p:commandButton styleClass="boton" rendered="#{!escuelaDepartamentoMB.actualizar}"
                                              actionListener="#{escuelaDepartamentoMB.guardarEscuelaDepartamento}" value="Guardar"  update="formEscuelaDepartamento :formTablaEscuelaDepartamentoes" process="@this :formEscuelaDepartamento"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{escuelaDepartamentoMB.actualizar}"
-                                             actionListener="#{escuelaDepartamentoMB.actualizarEscuelaDepartamento()}" update="formEscuelaDepartamento :formTablaEscuelaDepartamentoes "
-                                             value="Actualizar" />
 
                             <p:commandButton styleClass="boton" rendered="#{escuelaDepartamentoMB.actualizar}"
                                              actionListener="#{escuelaDepartamentoMB.cancelarEscuelaDepartamento()}" immediate="true" value="Cancelar" update="formEscuelaDepartamento"  process="@this" />
-
+                             
+                            
+                            <p:commandButton styleClass="boton" rendered="#{escuelaDepartamentoMB.actualizar}"
+                                             actionListener="#{escuelaDepartamentoMB.actualizarEscuelaDepartamento()}" update="formEscuelaDepartamento :formTablaEscuelaDepartamentoes "
+                                             value="Actualizar" />
 
                         </p:column>
                     </p:panelGrid>

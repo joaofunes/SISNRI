@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Gestión de Usuarios">  
+            <p:panel style="width: 70%" header="Gesti&oacute;n de Usuarios">  
                 <h:form id="formAdmin">
             <p:panelGrid >
                 <p:row>
@@ -60,7 +60,7 @@
                           
                 <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
                     <f:facet name="header">
-                        <h:outputText value="Descripción"/>
+                        <h:outputText value="Descripci&oacute;n"/>
                     </f:facet>
                     <h:outputText value="#{item.descripcion}"/>
                 </p:column>
@@ -106,7 +106,7 @@
 <!--                                <p:inputText id="bloqueado" value="#{usuarioMB.selected.bloqueado}" title="#{myBundle.CreateSsUsuariosTitle_bloqueado}"/>-->
                                  <p:selectOneMenu id="bloqueado" value="#{usuarioMB.selected.bloqueado}"  style="width: 100%" required="true" >
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
-                                <f:selectItem itemLabel="Sí" itemValue="S" />
+                                <f:selectItem itemLabel="S&iacute;" itemValue="S" />
                                 <f:selectItem itemLabel="No" itemValue="N" />
                                 </p:selectOneMenu>                            
                                
