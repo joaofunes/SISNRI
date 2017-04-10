@@ -659,11 +659,12 @@ public class registrarMovilidadMB {
     public void onchangeListFacultadPersonaMovilidad() {
         int result = -1;
         Integer id;
-        if ((result = facultadPersonaMovilidad.indexOf(",1")) > -1) {
+        if ((result = facultadPersonaMovilidad.indexOf(",1")) > -1) { //facultad
             id = Integer.parseInt(facultadPersonaMovilidad.substring(0, result));
             listEscuelaDepartamentoPersonaMovilidad = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(id);
+            personaMovilidadGenerico.setIdUnidad(null);
 
-        } else if ((result = facultadPersonaMovilidad.indexOf(",2")) > -1) {
+        } else if ((result = facultadPersonaMovilidad.indexOf(",2")) > -1) { //unidad
             id = Integer.parseInt(facultadPersonaMovilidad.substring(0, result));
             //agregando la unidad seleccionada a una variable temporral
             //unidadPersonMovTmp = unidadService.findById(id);
@@ -701,11 +702,11 @@ public class registrarMovilidadMB {
     public void onchangeListFacultadReferente() {
         int result = -1;
         Integer id;
-        if ((result = facultadDeReferente.indexOf(",1")) > -1) {
+        if ((result = facultadDeReferente.indexOf(",1")) > -1) {  //facultad
             id = Integer.parseInt(facultadDeReferente.substring(0, result));
             listEscuelaDepartamentoRefFact = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(id);
-
-        } else if ((result = facultadDeReferente.indexOf(",2")) > -1) {
+            personaFacultadGenerico.setIdUnidad(null);
+        } else if ((result = facultadDeReferente.indexOf(",2")) > -1) {  //unidad
             id = Integer.parseInt(facultadDeReferente.substring(0, result));
             //Afrefando la unidad seleccionada a una variable temporal
             //unidadRftFactTmp = unidadService.findById(id);
@@ -2096,6 +2097,7 @@ public class registrarMovilidadMB {
 
                     //desabilitando campos del refrente  <-----------------------
                     mostrarBotonEditarReferente = false; //ocultar boton de editar referente
+                    mostrarBotonDesvincular = false;     //ocultar el boton de desvincular el referente
                     //deshabilitarCamposDocente();
                     desabilitarCamposReferente();
                     habilitarBuscadorReferente = false; //habilita el buscador de referente
