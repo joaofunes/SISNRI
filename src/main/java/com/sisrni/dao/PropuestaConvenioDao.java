@@ -69,6 +69,41 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         }
         return null;
     }
+    
+    
+    /**
+     * listdo convenio marcos 
+     * @return 
+     */
+    
+    public List<PropuestaConvenio> getConveniosMarcos() {
+        try {
+            String sql = "SELECT PRO.ID_PROPUESTA idPropuesta,NOMBRE_PROPUESTA nombrePropuesta,FINALIDAD_PROPUESTA finalidadPropuesta,VIGENCIA vigencia,ID_TIPO_PROPUESTA_CONVENIO\n"
+                    + "FROM PROPUESTA_CONVENIO PRO \n"
+                    + "INNER JOIN PROPUESTA_ESTADO P_ESTADO \n"
+                    + "ON PRO.ID_PROPUESTA=P_ESTADO.ID_PROPUESTA \n"
+                    + "INNER JOIN ESTADO \n"
+                    + "ON ESTADO.ID_ESTADO=P_ESTADO.ID_ESTADO\n"
+                    + "WHERE PRO.VIGENCIA IS NOT NULL\n"
+                    + "AND ESTADO.NOMBRE_ESTADO='FIRMADO' "
+                    + "AND PRO.ID_TIPO_PROPUESTA_CONVENIO=2 "
+                    + "AND PRO.ACTIVO IS TRUE";
+
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
+                    .addScalar("idPropuesta", new IntegerType())
+                    .addScalar("nombrePropuesta", new StringType())
+                    .addScalar("finalidadPropuesta", new StringType())
+                    .addScalar("vigencia", new DateType())
+                    //.addScalar("ID_TIPO_PROPUESTA_CONVENIO",new IntegerType())
+                    .setResultTransformer(Transformers.aliasToBean(PropuestaConvenio.class));
+
+            return q.list();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * obtiene todos las propuestas convenios SQL sin id solicitante
