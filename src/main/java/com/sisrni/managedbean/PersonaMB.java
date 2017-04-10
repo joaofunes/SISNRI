@@ -12,10 +12,15 @@ import com.sisrni.model.Telefono;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.Facultad;
 import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.SsUsuarios;
+import com.sisrni.model.Unidad;
+import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.pojo.rpt.PojoPersonaTelefono;
 import com.sisrni.security.CustomPasswordEncoder;
+import com.sisrni.service.EscuelaDepartamentoService;
+import com.sisrni.service.FacultadService;
 import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PersonaService;
@@ -63,14 +68,18 @@ public class PersonaMB implements Serializable{
     private List<Persona> listaPersonaExtrajera;
     private List<Persona> listaPersonaUsuario;
     private Persona selected;
+    private Organismo organismo;
+    
     
     private PojoPersonaTelefono pojoPersona;
     private List<PojoPersonaTelefono> listPojoPersona;
     
     private PojoPersonaTelefono pojoPersonaExtranjera;
     private List<PojoPersonaTelefono> listPojoPersonaExtranjera;
-    
-    
+    private List<PojoFacultadesUnidades> listFacultadUnidad;
+    private List<Facultad> listFacultadBnfUes;
+    private List<Unidad> listUnidadBnfUes;
+    private registrarMovilidadMB registrarMovilidadMB;
     private List<Telefono> listadoTelefono;
     private String clave;
     private String codigo;
@@ -83,7 +92,13 @@ public class PersonaMB implements Serializable{
     private TipoTelefono tipoTelefono;
     private CharSequence charSequence;
     public String nDocumento;
-    
+    private String facultadDeReferente;
+    private List<PojoFacultadesUnidades> listFacultadUnidadReferenteFactBnf;
+    private Boolean mostrarEscuelaReferente;
+    private Boolean escuelaReferenteRequerido;
+    private List<EscuelaDepartamento> listEscuelaDepartamentoRefFact;
+    private Persona personaFacultadGenerico;
+     
     @Autowired
     @Qualifier(value = "organismoService")
     private OrganismoService organismoService;
@@ -118,6 +133,12 @@ public class PersonaMB implements Serializable{
     @Autowired
     FreeMarkerMailService mailService;
     
+    @Autowired
+    private FacultadService facultadService;
+    
+    @Autowired
+    private EscuelaDepartamentoService escuelaDepartamentoService;
+    
     //declaracion de listas
     @PostConstruct
     public void init() {
@@ -132,8 +153,12 @@ public class PersonaMB implements Serializable{
             persona = new Persona();
             telefonoFijo = new Telefono();
             telefonoCell = new Telefono();
+            personaFacultadGenerico = new Persona();
+            facultadDeReferente = "";
             clave = "";
             codigo = "";
+            mostrarEscuelaReferente = false;
+            escuelaReferenteRequerido = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,6 +171,9 @@ public class PersonaMB implements Serializable{
              listadoTipoPersona = tipoPersonaService.findAll();            
              listadoTelefono = telefonoService.findAll();
              listaPersona = personaService.findAll();
+             listFacultadBnfUes = facultadService.getFacultadesByUniversidad(1); //revisar esto
+             listUnidadBnfUes = unidadService.getUnidadesByUniversidad(1);     //revisar esto
+             listFacultadUnidadReferenteFactBnf = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
              llenarPojoPersona(); 
              llenarPojoPersonaExtranjera(); 
          } catch (Exception e) {
@@ -159,7 +187,7 @@ public class PersonaMB implements Serializable{
     private void llenarPojoPersona() {
         try {
             listPojoPersona = new ArrayList<PojoPersonaTelefono>();
-            listaPersona=personaService.getPersonaList(false);
+            listaPersona=personaService.getPersonaList2(false);
             for (Persona prs : listaPersona) {
                 pojoPersona = new PojoPersonaTelefono();
                 pojoPersona.setPersona(prs);
@@ -174,8 +202,9 @@ public class PersonaMB implements Serializable{
                         pojoPersona.setTelefonoCelular(tel); 
                     }
                 }
-
-                listPojoPersona.add(pojoPersona);
+                if(pojoPersona.getPersona().getExtranjero()==false){
+                   listPojoPersona.add(pojoPersona);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -187,7 +216,7 @@ public class PersonaMB implements Serializable{
     private void llenarPojoPersonaExtranjera() {
         try {
             listPojoPersonaExtranjera = new ArrayList<PojoPersonaTelefono>();
-            listaPersonaExtrajera=personaService.getPersonaList(true);
+            listaPersonaExtrajera=personaService.getPersonaList2(true);
             for (Persona prs : listaPersonaExtrajera) {
                 pojoPersona = new PojoPersonaTelefono();
                 pojoPersona.setPersona(prs);
@@ -224,16 +253,25 @@ public class PersonaMB implements Serializable{
     public void guardar(){
         try {
             String msg = "Persona Almacenado Exitosamente!";   
+            organismo= organismoService.findById(1);
+            
+            persona.setExtranjero(false);
+            persona.setIdOrganismo(organismo);
+            personaService.save(persona);
             
             tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
             telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoFijo.setIdPersona(persona);
             telefonoService.save(telefonoFijo);
                     
             tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
             telefonoCell.setIdTipoTelefono(tipoTelefono);
+            telefonoCell.setIdPersona(persona);
             telefonoService.save(telefonoCell);
-            persona.setExtranjero(false);
-            personaService.save(persona);
+             RequestContext context = RequestContext.getCurrentInstance();    
+             context.execute("PF('PersonaCreateDialog').hide();");
+            
+            init();
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
         } catch (Exception e) {
@@ -311,6 +349,8 @@ public class PersonaMB implements Serializable{
             this.persona=persona;
             telefonoFijo = new Telefono();
             telefonoCell = new Telefono();
+            Unidad unidadRft = new Unidad();
+            Persona personaFacultadSelected = new Persona();
             List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(persona);
             
             for(Telefono tel: telefonosByPersona){
@@ -321,10 +361,62 @@ public class PersonaMB implements Serializable{
                      telefonoCell=tel;
                 }
             }
+            
+             EscuelaDepartamento escuelaDepartamentoRft = new EscuelaDepartamento();   
+            //personaFacultadGenerico = persona;
+               
+
+                    //Obteniendo escuela_departamento y facultad de la persona seleccionada
+                    if ((escuelaDepartamentoRft = persona.getIdEscuelaDepto()) != null) {
+                        listEscuelaDepartamentoRefFact = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(escuelaDepartamentoRft.getIdFacultad().getIdFacultad());
+                        //escuelaDepartamentoReferenteFactBnfSelected = escuelaDepartamentoRft.getIdEscuelaDepto();
+                        facultadDeReferente = escuelaDepartamentoRft.getIdFacultad().getIdFacultad().toString() + ",1";
+                        mostrarEscuelaReferente = false;
+                        escuelaReferenteRequerido = true;
+                    }
+                    if ((unidadRft = persona.getIdUnidad()) != null) {
+                        facultadDeReferente = unidadRft.getIdUnidad().toString() + ",2";
+                        listEscuelaDepartamentoRefFact = new ArrayList<EscuelaDepartamento>();
+                        mostrarEscuelaReferente = true;
+                        escuelaReferenteRequerido = false;
+                    }
+
            
         } catch (Exception e) {
         }
     }
+    
+    public void mostrarEscuelaReferenteFact() {
+        int result = -1;
+        if ((result = facultadDeReferente.indexOf(",2")) > -1) {
+            mostrarEscuelaReferente = true;
+            escuelaReferenteRequerido = false;
+            onchangeListFacultadReferente();
+        } else {
+            mostrarEscuelaReferente = false;
+            escuelaReferenteRequerido = true;
+            onchangeListFacultadReferente();
+        }
+    }
+    
+     public void onchangeListFacultadReferente() {
+     int result = -1;
+     Integer id;
+     if ((result = facultadDeReferente.indexOf(",1")) > -1) {
+         id = Integer.parseInt(facultadDeReferente.substring(0, result));
+         listEscuelaDepartamentoRefFact = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(id);
+
+     } else if ((result = facultadDeReferente.indexOf(",2")) > -1) {
+         id = Integer.parseInt(facultadDeReferente.substring(0, result));
+         //Afrefando la unidad seleccionada a una variable temporal
+         //unidadRftFactTmp = unidadService.findById(id);
+         persona.setIdUnidad(unidadService.findById(id));
+         persona.setIdEscuelaDepto(null);
+         listEscuelaDepartamentoRefFact = new ArrayList<EscuelaDepartamento>();
+
+     }
+ }
+
     
     
     /**
@@ -342,10 +434,17 @@ public class PersonaMB implements Serializable{
             telefonoCell.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));           
             telefonoService.saveOrUpdate(telefonoCell);
             
+           //Revisar
+            if(facultadDeReferente==null){
+                persona.setIdUnidad(null);
+            }
+            
             personaService.merge(persona);   
             llenarPojoPersona(); 
             llenarPojoPersonaExtranjera(); 
-            
+            init();
+            RequestContext context = RequestContext.getCurrentInstance();    
+            context.execute("PF('PersonaEditDialog').close()");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
         } catch (Exception e) {
             e.printStackTrace();
@@ -473,6 +572,26 @@ public class PersonaMB implements Serializable{
         }
     } 
     
+    /**
+     * Metodo para unir en una lista las Sub listas de facultad y unidad
+     */
+    private List<PojoFacultadesUnidades> getListFacultadesUnidades(List<Facultad> facs, List<Unidad> unidades) {
+
+        List<PojoFacultadesUnidades> lista = new ArrayList<PojoFacultadesUnidades>();
+        for (Facultad fac : facs) {
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
+            pojo.setValue(fac.getIdFacultad() + ",1");
+            pojo.setLabel(fac.getNombreFacultad());
+            lista.add(pojo);
+        }
+        for (Unidad uni : unidades) {
+            PojoFacultadesUnidades pojo = new PojoFacultadesUnidades();
+            pojo.setValue(uni.getIdUnidad() + ",2");
+            pojo.setLabel(uni.getNombreUnidad());
+            lista.add(pojo);
+        }
+        return lista;
+    }
     
     String getCadenaAlfanumAleatoria (int longitud){
     String cadenaAleatoria = "";
@@ -513,7 +632,23 @@ public class PersonaMB implements Serializable{
     public void setListadoOrganismo(List<Organismo> listadoOrganismo) {
         this.listadoOrganismo = listadoOrganismo;
     }
+    
+    public Organismo getOrganismo() {
+        return organismo;
+    }
 
+    public void setOrganismo(Organismo organismo) {
+        this.organismo = organismo;
+    }
+    
+    public registrarMovilidadMB getRegistrarMovilidadMB() {
+        return registrarMovilidadMB;
+    }
+
+    public void setRegistrarMovilidadMB(registrarMovilidadMB registrarMovilidadMB) {
+        this.registrarMovilidadMB = registrarMovilidadMB;
+    }
+    
     public Persona getPersona() {
         return persona;
     }
@@ -667,7 +802,62 @@ public class PersonaMB implements Serializable{
         this.listPojoPersonaExtranjera = listPojoPersonaExtranjera;
     }
 
+
+    public List<PojoFacultadesUnidades> getListFacultadUnidad() {
+        return listFacultadUnidad;
+    }
+
+    public void setListFacultadUnidad(List<PojoFacultadesUnidades> listFacultadUnidad) {
+        this.listFacultadUnidad = listFacultadUnidad;
+    }
+
+     public String getFacultadDeReferente() {
+        return facultadDeReferente;
+    }
+
+    public void setFacultadDeReferente(String facultadDeReferente) {
+        this.facultadDeReferente = facultadDeReferente;
+    }
+
+    public List<PojoFacultadesUnidades> getListFacultadUnidadReferenteFactBnf() {
+        return listFacultadUnidadReferenteFactBnf;
+    }
+
+    public void setListFacultadUnidadReferenteFactBnf(List<PojoFacultadesUnidades> listFacultadUnidadReferenteFactBnf) {
+        this.listFacultadUnidadReferenteFactBnf = listFacultadUnidadReferenteFactBnf;
+    }
+
+    public Boolean getMostrarEscuelaReferente() {
+        return mostrarEscuelaReferente;
+    }
+
+    public void setMostrarEscuelaReferente(Boolean mostrarEscuelaReferente) {
+        this.mostrarEscuelaReferente = mostrarEscuelaReferente;
+    }
+
+    public Boolean getEscuelaReferenteRequerido() {
+        return escuelaReferenteRequerido;
+    }
+
+    public void setEscuelaReferenteRequerido(Boolean escuelaReferenteRequerido) {
+        this.escuelaReferenteRequerido = escuelaReferenteRequerido;
+    }
     
 
+    public List<EscuelaDepartamento> getListEscuelaDepartamentoRefFact() {
+        return listEscuelaDepartamentoRefFact;
+    }
+
+    public void setListEscuelaDepartamentoRefFact(List<EscuelaDepartamento> listEscuelaDepartamentoRefFact) {
+        this.listEscuelaDepartamentoRefFact = listEscuelaDepartamentoRefFact;
+    }
+
+    public Persona getPersonaFacultadGenerico() {
+        return personaFacultadGenerico;
+    }
+
+    public void setPersonaFacultadGenerico(Persona personaFacultadGenerico) {
+        this.personaFacultadGenerico = personaFacultadGenerico;
+    }
     
 }

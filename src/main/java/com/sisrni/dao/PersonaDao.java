@@ -43,7 +43,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getReferenteInternoByName(String query) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE (lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name) AND a.activo=1 AND a.extranjero=0");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a WHERE (lower(a.nombrePersona) LIKE :name OR lower(a.apellidoPersona) LIKE :name) AND a.activo=1 AND a.extranjero=0 AND a.idCarrera is null");
             q.setParameter("name", '%' + query.toLowerCase() + '%');
             return q.list();
 
@@ -80,7 +80,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getReferenteInternoByEmail(String email) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is false");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  lower(a.emailPersona) LIKE :email AND a.activo is true AND a.extranjero is false AND a.idCarrera is null");
             //q.setParameter("email",email);
             q.setParameter("email", '%' + email.toLowerCase() + '%');
             return q.list();
@@ -166,6 +166,24 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         return null;
     }
 
+       /**
+     * Metodo para obtener listados de personass
+     *
+     * @param extranjero
+     * @return
+     */
+    public List<Persona> getPersonaList2(boolean extranjero) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  a.extranjero =:extranjero")
+                    .setBoolean("extranjero", extranjero);
+            return q.list();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     /**
      * Metodo para relaizar por DUI de personas
      *

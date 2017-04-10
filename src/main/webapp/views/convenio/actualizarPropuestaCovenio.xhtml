@@ -24,9 +24,8 @@
         <h:form id="formAdmin">
         </h:form>   
 
-        <center>
-            <p:fieldset legend="Actualizacion de Propuesta de Convenio"> 
-
+        <center>    
+            <h2 class="title ui-widget-header ui-corner-all" align="center">Actualizacion de Propuesta de Convenio</h2>            
                 <p:panel style="width: 80%">  
                     <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
                         <p:tab title="Datos del Solicitante">
@@ -735,7 +734,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.actualizarPropuesta()}" process="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" update="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" value="Actualizar"  id="btnGuardar" icon="ui-icon-disk" title="Actualizar Propuesta Convenio" /></td>                                                                             
-                                                <td colspan="3"><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.volver()}" process="formAdmin" update="formAdmin" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
+                                                <td colspan="3"><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.volver()}" process="@this" update="@this" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
                                             </tr>
                                         </tfoot>
                                     </table>  

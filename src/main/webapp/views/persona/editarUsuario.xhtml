@@ -28,9 +28,9 @@
                                <p:outputLabel value="Bloqueado: " for="bloqueado" />
                         </p:column>                                         
                         <p:column> 
-                             <p:selectOneMenu id="bloqueado" value="#{personaMB.usuario.bloqueado}"  style="width: 42%" required="true" >
+                            <p:selectOneMenu id="bloqueado" value="#{usuarioMB.bloqueado}"  style="width: 42%" required="true" >
                                 <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
-                                <f:selectItem itemLabel="S&iacute;Â­" itemValue="S" />
+                                <f:selectItem itemLabel="S&iacute;­" itemValue="S" />
                                 <f:selectItem itemLabel="No" itemValue="N" />
                                </p:selectOneMenu>                            
                         </p:column> 
@@ -45,7 +45,7 @@
                         </p:column>
                        </p:row>    
                     </h:panelGrid>
-                    <p:commandButton value="Guardar Usuario" id="idGuardarPersona" actionListener="#{usuarioMB.crearUsuario()}" process="@form" update="@form" icon="ui-icon-disk"/>
+                    <p:commandButton value="Guardar Usuario" id="idGuardarPersona" actionListener="#{usuarioMB.editarUsuario()}" process="@form" update="@form" icon="ui-icon-disk"/>
                     <p:commandButton value="Cancelar" id="idCerrar" process="@this" icon="ui-icon-cancel" immediate="true" onclick="PF('PersonaEditDialog').close();" />
                 </h:panelGroup>
 

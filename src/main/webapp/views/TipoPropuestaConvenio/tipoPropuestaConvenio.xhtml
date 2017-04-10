@@ -36,13 +36,12 @@
                                          value="Guardar" />
                        
                         <p:commandButton rendered="#{tipoPropuestaConvenioMB.actualizar}" styleClass="boton"
-                                         actionListener="#{tipoPropuestaConvenioMB.updateTipoPropuestaConvenio()}" update="formAdmin :formPrincipal"
-                                         value="Actualizar" />
+                                         actionListener="#{tipoPropuestaConvenioMB.cancelarTipoPropuestaConvenio()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
+  
                        
                         <p:commandButton rendered="#{tipoPropuestaConvenioMB.actualizar}" styleClass="boton"
-                                         actionListener="#{tipoPropuestaConvenioMB.cancelarTipoPropuestaConvenio()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
-                        
-                          
+                                         actionListener="#{tipoPropuestaConvenioMB.updateTipoPropuestaConvenio()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" />  
                        
                     </p:column>
                  
@@ -82,7 +81,7 @@
          </p:panel>     
         </center> 
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Ãƒâ€šÃ‚&iquest;EstÃƒÆ’Ã‚Â¡ seguro que desea eliminar el Tipo de Propuesta de Convenio?" header="Eliminar Tipo Propuesta de Convenio"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="&iquest;Est&aacute; seguro que desea eliminar el Tipo de Propuesta de Convenio?" header="Eliminar Tipo Propuesta de Convenio"  global="true">
             <h:form id="idEliminacion"> 
              
                  <h:outputText value="Nombre del Tipo de Propuesta de Convenio : "  style="font-weight:bold"/>

@@ -56,7 +56,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
         if (idBecaSearch > 0) {
             query = query + " AND bec.ID_BECA=" + idBecaSearch;
         }
-        query += " ORDER BY bec.FECHA_INGRESO DESC";
+        query += " ORDER BY bec.ID_BECA DESC";
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                     .addScalar("idBeca", new IntegerType())

@@ -70,6 +70,11 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         return null;
     }
 
+    /**
+     * obtiene todos las propuestas convenios SQL sin id solicitante
+     *
+     * @return
+     */
     public List<PojoPropuestaConvenio> getAllPropuestaConvenioSQL() {
 
         String sql = "SELECT * FROM  \n"
@@ -118,6 +123,86 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                 + "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='REFERENTE EXTERNO') TB_EXTERNO\n"
                 + "ON TB_SOLICITANTE.PROPUESTA=TB_EXTERNO.PROPUESTA) TB_PERSONAS\n"
                 + "ON TB_CONVENIO.ID_PROPUESTA=TB_PERSONAS.PROPUESTA";
+
+        try {
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
+                    .addScalar("NOMBRE_PROPUESTA", new StringType())
+                    .addScalar("FINALIDAD_PROPUESTA", new StringType())
+                    .addScalar("TIPO_CONVENIO", new StringType())
+                    .addScalar("NOMBRE_ESTADO", new StringType())
+                    .addScalar("ID_PROPUESTA", new IntegerType())
+                    .addScalar("SOLICITANTE", new StringType())
+                    .addScalar("INTERNO", new StringType())
+                    .addScalar("EXTERNO", new StringType())
+                    .addScalar("PROPUESTA", new IntegerType())
+                    .addScalar("VIGENCIA", new StringType())
+                    .addScalar("ID_SOLICITANTE", new IntegerType())
+                    .addScalar("ID_REF_INTERNO", new IntegerType())
+                    .addScalar("ID_REF_EXTERNO", new IntegerType())
+                    .addScalar("ID_ESTADO", new IntegerType())
+                    .addScalar("FECHA_INGRESO", new DateType())
+                    .setResultTransformer(Transformers.aliasToBean(PojoPropuestaConvenio.class));
+
+            return q.list();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * obtiene todos las propuestas convenios SQL por id solicitante
+     */
+    public List<PojoPropuestaConvenio> getAllPropuestaConvenioSQL(int idSolicitante) {
+
+        String sql = "SELECT * FROM  \n"
+                + "(SELECT P_CONVENIO.NOMBRE_PROPUESTA,P_CONVENIO.FINALIDAD_PROPUESTA,\n"
+                + "T_PRO_CONVE.NOMBRE_PROPUESTA_CONVENIO AS TIPO_CONVENIO,STA.NOMBRE_ESTADO,P_CONVENIO.VIGENCIA,\n"
+                + "P_CONVENIO.ID_PROPUESTA,\n"
+                + "P_ESTADO.ID_ESTADO,\n"
+                + "P_CONVENIO.FECHA_INGRESO FECHA_INGRESO\n"
+                + "FROM PROPUESTA_CONVENIO P_CONVENIO\n"
+                + "INNER JOIN TIPO_PROPUESTA_CONVENIO T_PRO_CONVE\n"
+                + "ON P_CONVENIO.ID_TIPO_PROPUESTA_CONVENIO = T_PRO_CONVE.ID_TIPO_PROPUESTA \n"
+                + "INNER JOIN PROPUESTA_ESTADO P_ESTADO \n"
+                + "ON P_CONVENIO.ID_PROPUESTA = P_ESTADO.ID_PROPUESTA\n"
+                + "INNER JOIN ESTADO STA\n"
+                + "ON P_ESTADO.ID_ESTADO=STA.ID_ESTADO\n"
+                + "WHERE  P_CONVENIO.VIGENCIA IS NULL\n"
+                + "AND STA.NOMBRE_ESTADO <> 'FIRMADO'  ORDER BY FECHA_INGRESO DESC ) TB_CONVENIO\n"
+                + "\n"
+                + "LEFT JOIN\n"
+                + "\n"
+                + "(SELECT TB_SOLICITANTE.SOLICITANTE,TB_INTERNO.INTERNO,TB_EXTERNO.EXTERNO,TB_SOLICITANTE.PROPUESTA ,TB_SOLICITANTE.ID_SOLICITANTE,TB_INTERNO.ID_REF_INTERNO,TB_EXTERNO.ID_REF_EXTERNO \n"
+                + "FROM \n"
+                + "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS SOLICITANTE,PRS_PROP.ID_PROPUESTA AS PROPUESTA,PRS.ID_PERSONA AS ID_SOLICITANTE\n"
+                + "FROM PERSONA_PROPUESTA PRS_PROP \n"
+                + "INNER JOIN PERSONA PRS\n"
+                + "ON PRS_PROP.ID_PERSONA=PRS.ID_PERSONA\n"
+                + "INNER JOIN TIPO_PERSONA TP_PRS\n"
+                + "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n"
+                + "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='SOLICITANTE') TB_SOLICITANTE\n"
+                + "LEFT JOIN\n"
+                + "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS INTERNO,PRS_PROP.ID_PROPUESTA AS PROPUESTA, PRS.ID_PERSONA AS ID_REF_INTERNO\n"
+                + "FROM PERSONA_PROPUESTA PRS_PROP \n"
+                + "INNER JOIN PERSONA PRS\n"
+                + "ON PRS_PROP.ID_PERSONA=PRS.ID_PERSONA\n"
+                + "INNER JOIN TIPO_PERSONA TP_PRS\n"
+                + "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n"
+                + "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='REFERENTE INTERNO') TB_INTERNO\n"
+                + "ON TB_SOLICITANTE.PROPUESTA=TB_INTERNO.PROPUESTA\n"
+                + "LEFT JOIN\n"
+                + "(SELECT CONCAT(PRS.NOMBRE_PERSONA,' ',PRS.APELLIDO_PERSONA) AS EXTERNO,PRS_PROP.ID_PROPUESTA AS PROPUESTA,PRS.ID_PERSONA AS ID_REF_EXTERNO\n"
+                + "FROM PERSONA_PROPUESTA PRS_PROP \n"
+                + "INNER JOIN PERSONA PRS\n"
+                + "ON PRS_PROP.ID_PERSONA=PRS.ID_PERSONA\n"
+                + "INNER JOIN TIPO_PERSONA TP_PRS\n"
+                + "ON PRS_PROP.ID_TIPO_PERSONA=TP_PRS.ID_TIPO_PERSONA\n"
+                + "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='REFERENTE EXTERNO') TB_EXTERNO\n"
+                + "ON TB_SOLICITANTE.PROPUESTA=TB_EXTERNO.PROPUESTA) TB_PERSONAS\n"
+                + "ON TB_CONVENIO.ID_PROPUESTA=TB_PERSONAS.PROPUESTA\n"
+                + "WHERE ID_SOLICITANTE="+idSolicitante;
 
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
@@ -489,32 +574,36 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         return q.list().size();
 
     }
+
     // conteo de todos los tipos de propuestas
+
     public List<RptConteoConveniosPorTipoPojo> conteoPropuestaConvenioByTipoPropuesta(Integer desde, Integer hasta) {
         try {
             String sql = "select tipo.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio, sum(pc.ID_PROPUESTA) as suma from propuesta_convenio pc inner join tipo_propuesta_convenio tipo on (pc.ID_TIPO_PROPUESTA_CONVENIO=ID_TIPO_PROPUESTA) WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
-                    + desde +  " AND "  + hasta + " GROUP BY tipo.ID_TIPO_PROPUESTA" + " ORDER BY pc.ID_PROPUESTA DESC";
+                    + desde + " AND " + hasta + " GROUP BY tipo.ID_TIPO_PROPUESTA" + " ORDER BY pc.ID_PROPUESTA DESC";
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                     .addScalar("tipoConvenio", new StringType())
                     .addScalar("suma", new IntegerType())
                     .setResultTransformer(Transformers.aliasToBean(RptConteoConveniosPorTipoPojo.class));
-                return q.list();
+            return q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
     // retorna los estados que tiene cada convenio o propuesta
+
     public List<RptBitacoraEstadosPojo> estadosPropuestaConvenioBitacora(Integer desde, Integer hasta) {
         try {
-            String sql = "SELECT pc.NOMBRE_PROPUESTA AS Nombre,\n" +
-"(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=6) AS Fiscalia,\n" +
-"(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=7) AS CSU,\n" +
-"(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=8) as AGU,\n" +
-"(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=10) AS Firmado,\n" +
-"pc.FINALIDAD_PROPUESTA AS Finalidad\n" +
-"FROM `propuesta_convenio` pc WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
-                    + desde +  " AND "  + hasta + " ORDER BY pc.ID_PROPUESTA DESC";
+            String sql = "SELECT pc.NOMBRE_PROPUESTA AS Nombre,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=6) AS Fiscalia,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=7) AS CSU,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=8) as AGU,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=10) AS Firmado,\n"
+                    + "pc.FINALIDAD_PROPUESTA AS Finalidad\n"
+                    + "FROM `propuesta_convenio` pc WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
+                    + desde + " AND " + hasta + " ORDER BY pc.ID_PROPUESTA DESC";
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                     .addScalar("Nombre", new StringType())
                     .addScalar("Fiscalia", new DateType())
@@ -523,17 +612,16 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     .addScalar("Firmado", new DateType())
                     .addScalar("Finalidad", new StringType())
                     .setResultTransformer(Transformers.aliasToBean(RptBitacoraEstadosPojo.class));
-                return q.list();
+            return q.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
-    
+
     public List<PropuestaConvenio> getConvenioVigentes() {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM PropuestaConvenio a  WHERE a.vigencia is not null");            
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM PropuestaConvenio a  WHERE a.vigencia is not null");
             return q.list();
 
         } catch (Exception e) {

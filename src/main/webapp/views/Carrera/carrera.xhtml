@@ -58,11 +58,11 @@
                                              actionListener="#{carreraMB.guardarCarrera}" value="Guardar"  update="formCarrera :formTablaCarreraes" process="@this :formCarrera"/>
 
                             <p:commandButton styleClass="boton" rendered="#{carreraMB.actualizar}"
+                                             actionListener="#{carreraMB.cancelarCarrera()}" immediate="true" value="Cancelar" update="formCarrera"  process="@this" />
+                            
+                            <p:commandButton styleClass="boton" rendered="#{carreraMB.actualizar}"
                                              actionListener="#{carreraMB.actualizarCarrera()}" update="formCarrera :formTablaCarreraes "
                                              value="Actualizar" />
-
-                            <p:commandButton styleClass="boton" rendered="#{carreraMB.actualizar}"
-                                             actionListener="#{carreraMB.cancelarCarrera()}" immediate="true" value="Cancelar" update="formCarrera"  process="@this" />
 
 
                         </p:column>

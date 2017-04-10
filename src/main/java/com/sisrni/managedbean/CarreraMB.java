@@ -147,7 +147,7 @@ public class CarreraMB{
             carreraService.merge(carrera);
             actualizar = false;
             cancelarCarrera(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualización!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Carrera");
             e.printStackTrace();

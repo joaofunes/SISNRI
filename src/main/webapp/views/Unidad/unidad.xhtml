@@ -38,13 +38,14 @@
                             <p:commandButton styleClass="boton" rendered="#{!unidadMB.actualizar}"
                                              actionListener="#{unidadMB.guardarUnidad}" value="Guardar"  update="formUnidad :formTablaUnidades" process="@this :formUnidad"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{unidadMB.actualizar}"
-                                             actionListener="#{unidadMB.actualizarUnidad()}" update="formUnidad :formTablaUnidades "
-                                             value="Actualizar" />
 
                             <p:commandButton styleClass="boton" rendered="#{unidadMB.actualizar}"
                                              actionListener="#{unidadMB.cancelarUnidad()}" immediate="true" value="Cancelar" update="formUnidad"  process="@this" />
-
+                            
+                            
+                            <p:commandButton styleClass="boton" rendered="#{unidadMB.actualizar}"
+                                             actionListener="#{unidadMB.actualizarUnidad()}" update="formUnidad :formTablaUnidades "
+                                             value="Actualizar" />
 
                         </p:column>
                     </p:panelGrid>
@@ -84,7 +85,7 @@
         
         
         <!--'Dialog de confirmacion de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteUnidadDlg" header="Borrar Unidad" message="&iquest;Confirma la eliminacion de la Unidad?" 
+        <p:confirmDialog widgetVar="confirmDeleteUnidadDlg" header="Borrar Unidad" message="&iquest;Confirma la eliminaci&oacute;n de la Unidad?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">

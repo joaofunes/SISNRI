@@ -17,11 +17,11 @@
         <ui:include src="../persona/crearUsuario.xhtml"/>
         <ui:include src="../persona/editarUsuario.xhtml"/>
         <f:metadata>            
-            <f:viewAction action="#{personaMB.init}" />
+            <f:viewAction action="#{personaMB.init()}" />
         </f:metadata> 
     <h:form id="RegistrogarantiarealListForm">
 
-        <p:panel header="Administraci&oacute;n de Personas">
+        <p:panel header="Administraci&oacute;n de Personas Internas">
             
 
              <p:dataTable  value="#{personaMB.listPojoPersona}" var="item" paginator="true" rows="5"
@@ -61,11 +61,25 @@
                     <h:outputText value="#{item.persona.cargoPersona}"/>
                 </p:column>
                
-                <p:column sortBy="#{item.persona.idOrganismo.nombreOrganismo}" filterBy="#{item.persona.idOrganismo.nombreOrganismo}">
+                 <p:column sortBy="#{item.persona.idUnidad.nombreUnidad}" filterBy="#{item.persona.idUnidad.nombreUnidad}">
                     <f:facet name="header">
-                        <h:outputText value="Organismo"/>
+                        <h:outputText value="Unidad"/>
                     </f:facet>
-                    <h:outputText value="#{item.persona.idOrganismo.nombreOrganismo}"/>
+                    <h:outputText value="#{item.persona.idUnidad.nombreUnidad}"/>
+                </p:column>
+                 
+                 <p:column sortBy="#{item.persona.idEscuelaDepto.idFacultad.nombreFacultad}" filterBy="#{item.persona.idEscuelaDepto.idFacultad.nombreFacultad}">
+                    <f:facet name="header">
+                        <h:outputText value="Facultad"/>
+                    </f:facet>
+                    <h:outputText value="#{item.persona.idEscuelaDepto.idFacultad.nombreFacultad}"/>
+                </p:column>
+                 
+                 <p:column sortBy="#{item.persona.idEscuelaDepto.nombreEscuelaDepto}" filterBy="#{item.persona.idEscuelaDepto.nombreEscuelaDepto}">
+                    <f:facet name="header">
+                        <h:outputText value="Escuela/Depto"/>
+                    </f:facet>
+                    <h:outputText value="#{item.persona.idEscuelaDepto.nombreEscuelaDepto}"/>
                 </p:column>
                  
                  <p:column sortBy="#{item.telefonoFijo.numeroTelefono}" filterBy="#{item.telefonoFijo.numeroTelefono}">
@@ -88,13 +102,13 @@
                                        oncomplete="PF('PersonaEditDialog').show();"
                                        update=":PersonaEditDlg"/>
                     </div>
-                    <div style="float: left">
+<!--                    <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                        title="Eliminar" value="Eliminar"
                                        actionListener="#{personaMB.preEditar(item.persona)}"
                                         oncomplete="PF('PersonaDeleteDialog').show();"
                                        update=":PersonaDeleteDlg"/>
-                    </div>
+                    </div>-->
                      <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-person" title="Usuario" 
                                        value="Editar" actionListener="#{usuarioMB.preCrearUsuario(item.persona)}" 

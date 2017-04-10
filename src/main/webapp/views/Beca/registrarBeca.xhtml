@@ -618,6 +618,11 @@
                                                 <p:inputMask id="telefonoCelularAsesorExterno" mask="#{becaMB.mascaraTelefono}" value="#{becaMB.telefonoCelularAsesorExterno.numeroTelefono}" disabled="#{becaMB.disableExternoInputs}"/>
                                             </p:column>
                                         </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <p:commandButton value="Desvincular asesor Externo" actionListener="#{becaMB.confirmarDesvincularExterno()}" process="@this" rendered="#{becaMB.actualizar and !becaMB.noEstabaExterno}"/>
+                                            </p:column>
+                                        </p:row>
                                     </p:panelGrid>
                                     <p:outputLabel value="Para ingresar datoss del Coordinador Academico Externo active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabExterno}"/>
                                 </h:panelGroup>
@@ -646,6 +651,10 @@
             <p:confirmDialog widgetVar="dataDesvincularInternoDlg" message="Seguro que desea desvincular el coordinador Academico Intenro?" header="Desvincular Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.desvincularInterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('dataDesvincularInternoDlg').hide();"/>
+            </p:confirmDialog>
+            <p:confirmDialog widgetVar="dataDesvincularExternoDlg" message="Seguro que desea desvincular el coordinador Academico Externo?" header="Desvincular Coordinador Externo"  global="true">
+                <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.desvincularExterno()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('dataDesvincularExternoDlg').hide();"/>
             </p:confirmDialog>
         </ui:define>
     </ui:composition>

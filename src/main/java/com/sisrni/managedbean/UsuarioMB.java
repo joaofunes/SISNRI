@@ -64,6 +64,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
     private String clave2;
     private String codigo;
     private String email;
+    private String bloqueado;
     public SsUsuarios usuario;
     private List<SsUsuarios> listadoUsuarios;
     private SsUsuarios ssUsuariosRol;
@@ -85,6 +86,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
         clave2 = "";
         codigo = "";
         email = "";
+        bloqueado = "";
         ssUsuariosRol = new SsUsuarios();
         rolesSource = new ArrayList<SsRoles>();
         rolesTarget = new ArrayList<SsRoles>();
@@ -149,13 +151,17 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
             usuario = new SsUsuarios();
             rolesSource = new ArrayList<SsRoles>();
             rolesTarget = new ArrayList<SsRoles>();
+            rolesTargetTemp = new ArrayList<SsRoles>();
+
             usuario=  ssUsuarioService.findByIdPersona(persona.getIdPersona());
             rolesSource = ssRolesService.findAll();
             //codigo = persona.getNombrePersona().substring(0,3)+ persona.getApellidoPersona().substring(0,2)+persona.getIdPersona().toString(); 
           if(usuario!=null){
               //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", "Encontrado"));
               codigo= usuario.getCodigoUsuario();
+              bloqueado = usuario.getBloqueado();
               rolesTarget = usuario.getSsRolesList();
+              rolesTargetTemp = usuario.getSsRolesList();
               msg = "PF('UsuarioEditDialog').show();";
           }else{
               codigo=persona.getEmailPersona();
@@ -188,12 +194,12 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
             usuario.setIdPersona(persona.getIdPersona());
             usuario.setNombreUsuario(persona.getNombrePersona()+ " " + persona.getApellidoPersona());
             usuario.setCargo(persona.getCargoPersona());
+            usuario.setBloqueado(bloqueado);
             ssUsuarioService.save(usuario);
             asignarRol();
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!", msg));
            RequestContext context = RequestContext.getCurrentInstance();
-           context.execute("PF('UsuarioCreateDialog').close();");
-           //context.update("RegistrogarantiarealListForm");
+           context.execute("PF('UsuarioCreateDialog').hide();");
            enviarCorreo();
           }else{
             msg ="Ya existe este Usuario!";  
@@ -205,6 +211,23 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
         }
     }
     
+    
+     public void editarUsuario(){
+        try {
+            usuario = new SsUsuarios();
+            usuario =  ssUsuarioService.findByUser(codigo);
+            usuario.setFechaUltimamodificacion(new Date());
+            usuario.setBloqueado(bloqueado);
+            ssUsuarioService.merge(usuario);
+            asignarRol();
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado!!","Usuario editado con exito"));
+           RequestContext context = RequestContext.getCurrentInstance();
+           context.execute("PF('UsuarioEditDialog').hide();");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void asignarRol() {
          try {
              for (SsRoles us : rolesTargetTemp) {
@@ -285,13 +308,15 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
                    usuario.setFechaUltimamodificacion(new Date());
                    ssUsuarioService.merge(usuario);
                    enviarCorreo2();
-                   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", msg));    
+                   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", msg)); 
+                   RequestContext context = RequestContext.getCurrentInstance();
+                   context.execute("PF('RecuperarPassDialog').hide();");
           }else{
             msg ="No existen usuarios vinculados a su persona!";  
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Usuario no Asigando", msg));  
           }
            }else{ 
-               msg ="No existe información vinculada a su correo electrónico!"; 
+               msg ="No existe informaci&oacute;n vinculada a su correo electr&oacute;nico!"; 
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No Registrado!!", msg));  
                 }
             
@@ -317,6 +342,8 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
                             usuario.setFechaUltimamodificacion(new Date());
                             ssUsuarioService.merge(usuario);
                             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Confirmado!!", "Clave cambiada con Exito"));
+                            RequestContext context = RequestContext.getCurrentInstance();
+                            context.execute("PF('RecuperarPassDialog').hide();");
                         }
                         else{
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "Clave antigua incorrecta"));
@@ -421,6 +448,14 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+   
+    public String getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(String bloqueado) {
+        this.bloqueado = bloqueado;
     }
     
     public SsUsuarios getSsUsuariosRol() {

@@ -68,14 +68,14 @@ public class CategoriaMovilidadMB {
      * correspondiente de la base de datos
      */
     public void guardarCategoriaMovilidad() {
-        String msg = "Categoría de Movilidad Almacenada Exitosamente!";
+        String msg = "Categor&iacute;a de Movilidad Almacenada Exitosamente!";
         try {
             categoriaMovilidad.setIdCategoriaMovilidad(Integer.MIN_VALUE);
             categoriaMovilidadService.save(categoriaMovilidad);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardada!!", msg));
 
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Guardar Categoría de Movilidad!");
+            JsfUtil.addErrorMessage("Error al Guardar Categor&iacute;a de Movilidad!");
             e.printStackTrace();
         }
         cargarCategoriaMovilidad();
@@ -101,15 +101,15 @@ public class CategoriaMovilidadMB {
      * 'CategoriaMovilidad' seleccionada
      */
     public void actualizarCategoriaMovilidad() {
-        String msg = "Categoría de Movilidad Actualizada Exitosamente!";
+        String msg = "Categor&iacute;a de Movilidad Actualizada Exitosamente!";
         try {
             //actualizando la instancia
             categoriaMovilidadService.merge(categoriaMovilidad);
             actualizar = false;
             cancelarCategoriaMovilidad();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualizaci&oacute;n!!", msg));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Actualizar Categoría de Movilidad");
+            JsfUtil.addErrorMessage("Error al Actualizar Categor&iacute;a de Movilidad");
             e.printStackTrace();
         }
         cargarCategoriaMovilidad();
@@ -135,7 +135,7 @@ public class CategoriaMovilidadMB {
      * datos
      */
     public void borrarCategoriaMovilidad() {
-        String msg = "Categoría de Movilidad Eliminada Exitosamente!";
+        String msg = "Categor&iacute;a de Movilidad Eliminada Exitosamente!";
         try {
             //Borrando la instancia de categoriaMovilidad
             categoriaMovilidadService.delete(categoriaMovilidad);
@@ -144,7 +144,7 @@ public class CategoriaMovilidadMB {
             context.execute("PF('confirmDeleteCategoriaMovilidadDlg').hide();");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminada!!", msg));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Eliminar Categoría de Movilidad!");
+            JsfUtil.addErrorMessage("Error al Eliminar Categor&iacute;a de Movilidad!");
             e.printStackTrace();
         } finally {
             actualizar = false;
@@ -157,7 +157,7 @@ public class CategoriaMovilidadMB {
      * actualizacion de CategoriaMovilidad
      */
     public void cancelarCategoriaMovilidad() {
-        String msg = "Categoría de Movilidad cancelado";
+        String msg = "Categor&iacute;a de Movilidad cancelado";
         try {
             categoriaMovilidad = null;
             categoriaMovilidad = new CategoriaMovilidad();

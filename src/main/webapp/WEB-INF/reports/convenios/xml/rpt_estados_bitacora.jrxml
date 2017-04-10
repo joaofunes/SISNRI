@@ -147,7 +147,7 @@
 	<detail>
 		<band height="29" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement uuid="768ff90b-4ca4-4d38-8e4d-81ebdf044954" x="55" y="0" width="147" height="28"/>
+				<reportElement uuid="768ff90b-4ca4-4d38-8e4d-81ebdf044954" positionType="Float" stretchType="RelativeToTallestObject" x="55" y="0" width="147" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -158,7 +158,7 @@
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement uuid="2930e7bf-0002-4a37-b503-83327ef94e12" x="202" y="0" width="100" height="28"/>
+				<reportElement uuid="2930e7bf-0002-4a37-b503-83327ef94e12" positionType="Float" stretchType="RelativeToTallestObject" x="202" y="0" width="100" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -169,7 +169,7 @@
 				<textFieldExpression><![CDATA[$F{fiscalia}==null?"Pendiente":$F{fiscalia}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement uuid="d1f02abc-9b59-4f88-9c89-61f2e2abb94d" x="301" y="0" width="100" height="28"/>
+				<reportElement uuid="d1f02abc-9b59-4f88-9c89-61f2e2abb94d" positionType="Float" stretchType="RelativeToTallestObject" x="301" y="0" width="100" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -180,7 +180,7 @@
 				<textFieldExpression><![CDATA[$F{CSU}==null?"Pendiente de Aprobación":$F{CSU}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement uuid="74687b4a-589a-4d4f-8ba6-a3cd7df679f4" x="401" y="0" width="100" height="28"/>
+				<reportElement uuid="74687b4a-589a-4d4f-8ba6-a3cd7df679f4" positionType="Float" stretchType="RelativeToTallestObject" x="401" y="0" width="100" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -191,7 +191,7 @@
 				<textFieldExpression><![CDATA[$F{AGU}==null?"Pendiente de Ratificación":$F{AGU}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement uuid="1ffca0d8-e92c-4e4f-940c-99639081e090" x="501" y="0" width="100" height="28"/>
+				<reportElement uuid="1ffca0d8-e92c-4e4f-940c-99639081e090" positionType="Float" stretchType="RelativeToTallestObject" x="501" y="0" width="100" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -202,7 +202,7 @@
 				<textFieldExpression><![CDATA[$F{firmado}==null?"Pendiente de Firma":$F{firmado}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
-				<reportElement uuid="ccd7df89-adbd-45a5-b561-7fd040a14748" x="601" y="0" width="142" height="28"/>
+				<reportElement uuid="ccd7df89-adbd-45a5-b561-7fd040a14748" positionType="Float" stretchType="RelativeToTallestObject" x="601" y="0" width="142" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>

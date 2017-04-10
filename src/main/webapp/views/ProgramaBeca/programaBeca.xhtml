@@ -38,13 +38,12 @@
                                          value="Guardar" />
                        
                         <p:commandButton rendered="#{programaBecaMB.actualizar}" styleClass="boton"
-                                         actionListener="#{programaBecaMB.updateProgramaBeca()}" update="formAdmin :formPrincipal"
-                                         value="Actulizar" />
-                       
-                        <p:commandButton rendered="#{programaBecaMB.actualizar}" styleClass="boton"
                                          actionListener="#{programaBecaMB.cancelarProgramaBeca()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
-                          
+                         
+                        <p:commandButton rendered="#{programaBecaMB.actualizar}" styleClass="boton"
+                                         actionListener="#{programaBecaMB.updateProgramaBeca()}" update="formAdmin :formPrincipal"
+                                         value="Actualizar" /> 
                        
                     </p:column>
                  
@@ -58,7 +57,7 @@
                              paginator="true">
 
 
-                    <p:column headerText="Nombre MenÃƒÆ’Ã‚Âº" sortBy="#{programaBeca.nombrePrograma}" filterBy="#{programaBeca.nombrePrograma}">
+                    <p:column headerText="Nombre" sortBy="#{programaBeca.nombrePrograma}" filterBy="#{programaBeca.nombrePrograma}">
                         <h:outputText value="#{programaBeca.nombrePrograma}" />
                     </p:column>
 
@@ -83,14 +82,14 @@
           </center> 
      
         
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Ãƒâ€šÃ‚&iquest;EstÃƒÆ’Ã‚Â¡ seguro que desea eliminar el Programa de Beca?" header="Eliminar Programa de Beca"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="&iquest;Est&aacute; seguro que desea eliminar el Programa de Beca?" header="Eliminar Programa de Beca"  global="true">
             <h:form id="idEliminacion"> 
              
-                 <h:outputText value="Nombre de Programa de Beca : "  style="font-weight:bold"/>
+                 <h:outputText value="Nombre : "  style="font-weight:bold"/>
                  <h:outputText value="#{programaBecaMB.delProgramaBeca.nombrePrograma}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripci&oacute;n de Programa de Beca : "  style="font-weight:bold" />
+                 <h:outputText value="Descripci&oacute;n : "  style="font-weight:bold" />
                  <h:outputText value="#{programaBecaMB.delProgramaBeca.descripcion}" />
              
             </h:form>    

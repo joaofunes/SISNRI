@@ -10,7 +10,6 @@ import com.sisrni.service.DocumentoService;
 import java.io.IOException;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,9 +75,10 @@ public class DocumentacionMB implements Serializable {
     private UploadedFile file;
 
     private StreamedContent content;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMMM/yyyy");
 
-    @PostConstruct
+    private Boolean addDocumentoEspecifico;
+
+    //@PostConstruct
     public void init() {
         try {
             iniciliazar();
@@ -94,27 +94,26 @@ public class DocumentacionMB implements Serializable {
             listPropuestaConvenio = new ArrayList<PropuestaConvenio>();
             propuestaConvenio = new PropuestaConvenio();
             listPropuestaConvenio = propuestaConvenioService.findAll();
-            listTipoDocumento = tipoDocumentoService.findAll();            
+            listTipoDocumento = tipoDocumentoService.getTipoDocumentosByCategory(1);
+            addDocumentoEspecifico = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    
     /**
      * Metodo para cargar propuetsa
      */
-    public void cargarPropuesta(){
+    public void cargarPropuesta() {
         try {
-             documento=new Documento();
-             RequestContext context = RequestContext.getCurrentInstance();
-             context.execute("PF('AddDocDialog').show();");             
+            documento = new Documento();
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('AddDocDialog').show();");
         } catch (Exception e) {
-          e.printStackTrace();
+            e.printStackTrace();
         }
     }
-    
-    
+
     /**
      * metodo para realizar busquedas de documentacion por nombre de convcenio
      */
@@ -141,16 +140,15 @@ public class DocumentacionMB implements Serializable {
         return filteredThemes;
     }
 
-    
     /**
-     * metodo para cagar de convenio
+     * metodo para cargar de convenio
      */
     public void getDataConvenio() {
         try {
             if (propuestaConvenio != null) {
                 pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(propuestaConvenio.getIdPropuesta());
                 searchDocumentoConvenio(propuestaConvenio.getIdPropuesta());
-            }            
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -185,7 +183,7 @@ public class DocumentacionMB implements Serializable {
                 documento = new Documento();
             }
             documento.setDocumento(content);
-            documento.setNombreDocumento(event.getFile().getFileName());                        
+            documento.setNombreDocumento(event.getFile().getFileName());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -197,18 +195,21 @@ public class DocumentacionMB implements Serializable {
      */
     public void addDocument() {
         try {
-
-            documento.setIdPropuesta(propuestaConvenio);
-            documento.setFechaRecibido(new Date());
-            //documento.setIdTipoDocumento(tipoDocumento);
-            documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
-            documentoService.save(documento);
-            getDataConvenio();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Succesful", "Documento agregado exitosamente"));
+            if ((documento != null) && (documento.getDocumento().length > 0)) {
+                documento.setIdPropuesta(propuestaConvenio);
+                documento.setFechaRecibido(new Date());
+                documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
+                documentoService.save(documento);
+                getDataConvenio();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", "Documento agregado exitosamente"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "error", "Documento no ha sido agregado"));
+            }
 
         } catch (Exception e) {
-            e.printStackTrace();
-        } 
+            String message = "Error Agregado documento : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        }
     }
 
     /**
@@ -269,7 +270,6 @@ public class DocumentacionMB implements Serializable {
     public void preView(Documento documento) {
         try {
             this.documento = documento;
-            System.out.println("TYPO::::::::::::::::::::::" + getFileExtension(documento.getNombreDocumento()));
 
             if (getFileExtension(documento.getNombreDocumento()).equals("pdf")) {
                 content = new DefaultStreamedContent(new ByteArrayInputStream(documento.getDocumento()), "application/pdf");
@@ -312,7 +312,6 @@ public class DocumentacionMB implements Serializable {
             }
 
             content = new DefaultStreamedContent(stream, contentType, documento.getNombreDocumento());
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -435,6 +434,14 @@ public class DocumentacionMB implements Serializable {
 
     public void setUser(CurrentUserSessionBean user) {
         this.user = user;
+    }
+
+    public Boolean getAddDocumentoEspecifico() {
+        return addDocumentoEspecifico;
+    }
+
+    public void setAddDocumentoEspecifico(Boolean addDocumentoEspecifico) {
+        this.addDocumentoEspecifico = addDocumentoEspecifico;
     }
 
 }
