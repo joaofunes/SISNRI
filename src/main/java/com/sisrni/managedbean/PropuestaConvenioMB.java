@@ -74,8 +74,7 @@ public class PropuestaConvenioMB implements Serializable {
     private static final String REFERENTE_INTERNO = "REFERENTE INTERNO";
     private static final String REFERENTE_EXTERNO = "REFERENTE EXTERNO";
     private static final String CONVENIO_MARCO = "CONVENIO MARCO";
-    private static final String ESTADO = "REVISION";
-    //private  List<String> ROL = "ROL_ADM_CONV"; //ROL_ADMI
+    private static final String ESTADO = "REVISION";    
     private final List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
 
     @Inject
@@ -252,19 +251,7 @@ public class PropuestaConvenioMB implements Serializable {
 
     private JCMail mail;
 
-//    @PostConstruct
-//    public void init() {
-//        try {
-//            // RequestContext.getCurrentInstance().reset(":formAdmin");
-//            inicializador();
-//            inicializadorListados();
-//            getListFacultadesUnidades();
-//            cargarUsuario();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
     public void onload() {
         try {
             inicializador();

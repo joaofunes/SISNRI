@@ -8,7 +8,9 @@ package com.sisrni.managedbean;
 import com.sisrni.model.Estado;
 import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.PropuestaConvenio;
+import com.sisrni.model.SsRoles;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.PersonaService;
@@ -16,6 +18,7 @@ import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -44,7 +47,14 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static final String FIRMADO = "FIRMADO";
+    private final List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
+     
+    private SsRoles rol;
+    
+    private CurrentUserSessionBean user;
+    private AppUserDetails usuario;
 
+    
     @Inject
     ActualizacionPropuestaConvenioMB actualizacionPropuestaConvenioMB;
 
@@ -85,6 +95,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
         try {
 
             inicializador();
+           
 
         } catch (Exception e) {
         }
@@ -92,9 +103,20 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
 
     private void inicializador() {
         try {
+            usuario = null;
+            user = new CurrentUserSessionBean();
+            usuario = user.getSessionUser();
+            cargarUsuario();
+            
             propuestaConvenio = new PropuestaConvenio();
             estado = new Estado();
-            listadoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQL();
+            
+            if(rol!=null){
+                listadoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQL();
+            }else{                
+                listadoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQL(usuario.getUsuario().getIdPersona());
+            }
+            
 
             Collections.sort(listadoPropuestaConvenio, new Comparator<PojoPropuestaConvenio>() {
                 @Override
@@ -108,6 +130,30 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             e.printStackTrace();
         }
     }
+    
+    
+    /**
+     * cargar datos de usuario logeado
+     */
+    private void cargarUsuario() {
+        try {
+            rol = null;
+            if (usuario != null && usuario.getUsuario() != null) {
+                for (SsRoles rols : usuario.getUsuario().getSsRolesList()) {
+                    for (String rl : ROL) {
+                        if (rols.getCodigoRol().equalsIgnoreCase(rl)) {
+                            rol = new SsRoles();
+                            rol = rols;
+                        }
+                    }
+                }
+            }
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 
     public void preEditar(PojoPropuestaConvenio pj) {
         try {
@@ -394,5 +440,29 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
 
     public void setEstadoTemp(Estado estadoTemp) {
         this.estadoTemp = estadoTemp;
+    }
+
+    public SsRoles getRol() {
+        return rol;
+    }
+
+    public void setRol(SsRoles rol) {
+        this.rol = rol;
+    }
+
+    public CurrentUserSessionBean getUser() {
+        return user;
+    }
+
+    public void setUser(CurrentUserSessionBean user) {
+        this.user = user;
+    }
+
+    public AppUserDetails getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(AppUserDetails usuario) {
+        this.usuario = usuario;
     }
 }
