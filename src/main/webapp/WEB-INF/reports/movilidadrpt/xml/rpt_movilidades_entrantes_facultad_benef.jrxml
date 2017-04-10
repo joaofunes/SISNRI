@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidades_entrantes_facultad_benef" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="368"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -16,6 +16,9 @@
 		<fieldDescription><![CDATA[nombreFacultad]]></fieldDescription>
 	</field>
 	<variable name="cantidad_1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{cantidad}]]></variableExpression>
+	</variable>
+	<variable name="cantidad_2" class="java.lang.Integer" calculation="Sum">
 		<variableExpression><![CDATA[$F{cantidad}]]></variableExpression>
 	</variable>
 	<background>
@@ -162,42 +165,27 @@
 	</pageFooter>
 	<summary>
 		<band height="220" splitType="Stretch">
-			<pieChart>
+			<bar3DChart>
 				<chart>
-					<reportElement uuid="b444ea80-c694-4d87-9187-f36add5bebac" x="76" y="26" width="352" height="194"/>
+					<reportElement uuid="83215e5b-d146-4c22-952a-5246bae9ed26" x="37" y="22" width="453" height="187">
+						<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+					</reportElement>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
-				<pieDataset>
-					<keyExpression><![CDATA[$F{nombreFacultad}]]></keyExpression>
-					<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
-				</pieDataset>
-				<piePlot labelFormat="{2}">
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nombreFacultad}]]></seriesExpression>
+						<categoryExpression><![CDATA[""]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
 					<plot/>
 					<itemLabel/>
-				</piePlot>
-			</pieChart>
-			<textField>
-				<reportElement uuid="1424187b-158a-463b-9ab5-22c64ee8bfc4" x="305" y="0" width="123" height="20"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{cantidad_1}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="6881fdd6-eb00-4092-a3d4-bb564ac92439" x="76" y="0" width="229" height="20"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[TOTAL]]></text>
-			</staticText>
+				</bar3DPlot>
+			</bar3DChart>
 		</band>
 	</summary>
 </jasperReport>

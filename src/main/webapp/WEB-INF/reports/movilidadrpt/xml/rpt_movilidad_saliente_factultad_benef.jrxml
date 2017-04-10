@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidad_saliente_facultad_benef" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.1000000000000132"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="144"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -87,7 +87,7 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="278" y="0" width="144" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="5e86fe2a-18a1-42fe-8321-aa8d00d09121" mode="Opaque" x="295" y="0" width="144" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -101,7 +101,7 @@
 				<text><![CDATA[Movilidades]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="70" y="0" width="208" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="8af337d9-8055-4f7e-9c2a-b600219d76b0" mode="Opaque" x="87" y="0" width="208" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -119,7 +119,7 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="501875ab-2809-4df2-8131-8dd6686dd5ea" x="70" y="0" width="208" height="20"/>
+				<reportElement uuid="501875ab-2809-4df2-8131-8dd6686dd5ea" x="87" y="0" width="208" height="20"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -130,7 +130,7 @@
 				<textFieldExpression><![CDATA[$F{nombreFacultad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="418f9061-0ef6-4841-9f80-295dd09b5d29" x="278" y="0" width="144" height="20"/>
+				<reportElement uuid="418f9061-0ef6-4841-9f80-295dd09b5d29" x="295" y="0" width="144" height="20"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -162,48 +162,27 @@
 	</pageFooter>
 	<summary>
 		<band height="220" splitType="Stretch">
-			<pieChart>
+			<bar3DChart>
 				<chart>
-					<reportElement uuid="f742591e-adf3-456d-b612-f80d62de7682" x="89" y="35" width="333" height="185"/>
+					<reportElement uuid="cc9d18b3-d5a8-46fb-b4b4-16ed0683e7c0" x="40" y="12" width="451" height="196">
+						<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+					</reportElement>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
-				<pieDataset>
-					<keyExpression><![CDATA[$F{nombreFacultad}]]></keyExpression>
-					<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
-				</pieDataset>
-				<piePlot labelFormat="{2}">
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nombreFacultad}]]></seriesExpression>
+						<categoryExpression><![CDATA[""]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
 					<plot/>
 					<itemLabel/>
-				</piePlot>
-			</pieChart>
-			<textField>
-				<reportElement uuid="e4293292-0a65-4ac7-af1b-cf836393fcb7" x="278" y="0" width="144" height="20"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{cantidad_1}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="74b42642-302d-4c60-99fe-ccd72168ac6f" x="70" y="0" width="208" height="20"/>
-				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[TOTAL]]></text>
-			</staticText>
+				</bar3DPlot>
+			</bar3DChart>
 		</band>
 	</summary>
 </jasperReport>
