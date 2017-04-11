@@ -74,7 +74,8 @@ public class PropuestaConvenioMB implements Serializable {
     private static final String REFERENTE_INTERNO = "REFERENTE INTERNO";
     private static final String REFERENTE_EXTERNO = "REFERENTE EXTERNO";
     private static final String CONVENIO_MARCO = "CONVENIO MARCO";
-    private static final String ESTADO = "REVISION";    
+    private static final String CONVENIO_ESPECIFICO = "CONVENIO ESPECIFICO";
+    private static final String ESTADO = "REVISION";
     private final List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
 
     @Inject
@@ -250,7 +251,6 @@ public class PropuestaConvenioMB implements Serializable {
     private SsRoles rol;
 
     private JCMail mail;
-
 
     public void onload() {
         try {
@@ -1404,7 +1404,11 @@ public class PropuestaConvenioMB implements Serializable {
                 if (propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_MARCO)) {
                     flagConvenioMarco = true;
                 } else {
-                    listadoPropuestaConvenio = propuestaConvenioService.getConvenios();
+                    if (propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_ESPECIFICO)) {
+                        listadoPropuestaConvenio = propuestaConvenioService.getConveniosMarcos();
+                    } else {
+                        listadoPropuestaConvenio = propuestaConvenioService.getConvenios();
+                    }
                     flagConvenioMarco = false;
                 }
 
@@ -1806,9 +1810,9 @@ public class PropuestaConvenioMB implements Serializable {
             e.printStackTrace();
         }
     }
-    
-    public List<TipoPropuestaConvenio> obtenerListadoTipoPrpouesta(){
-      // listTipoProyecto = tipoProyectoService.getAllByNameAsc();
+
+    public List<TipoPropuestaConvenio> obtenerListadoTipoPrpouesta() {
+        // listTipoProyecto = tipoProyectoService.getAllByNameAsc();
         TipoPropuestaConvenio tipoPropuesta = new TipoPropuestaConvenio();
         List<TipoPropuestaConvenio> copy = new ArrayList<TipoPropuestaConvenio>();
         for (TipoPropuestaConvenio tipoPropuestaConv : listadoTipoPrpouestaConvenio) {
@@ -1823,7 +1827,7 @@ public class PropuestaConvenioMB implements Serializable {
         listadoTipoPrpouestaConvenio = copy;
         return listadoTipoPrpouestaConvenio;
     }
-            
+
     public Persona getReferenteInterno() {
         return referenteInterno;
     }
@@ -1984,7 +1988,7 @@ public class PropuestaConvenioMB implements Serializable {
         this.propuestaConvenio = propuestaConvenio;
     }
 
-    public List<TipoPropuestaConvenio> getListadoTipoPrpouestaConvenio() {       
+    public List<TipoPropuestaConvenio> getListadoTipoPrpouestaConvenio() {
         return listadoTipoPrpouestaConvenio;
     }
 
