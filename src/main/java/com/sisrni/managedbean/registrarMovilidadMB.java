@@ -278,6 +278,7 @@ public class registrarMovilidadMB {
 
     private Boolean consultoria;
     private Boolean disableConsultoria;
+    private Boolean facultadDocenteRequerido;
 
     private String txtBotonGuardar;
     private String txtBotonRegresar;
@@ -542,6 +543,7 @@ public class registrarMovilidadMB {
         mostrarBotonNuevoReferente = false;
         consultoria = false;
         disableConsultoria = true;
+        facultadDocenteRequerido = false;
 
         txtBotonGuardar = "Guardar";
         txtBotonRegresar = "Regresar";
@@ -600,6 +602,15 @@ public class registrarMovilidadMB {
                     mascaraTelefonoMovilidad = "";
                     mostrarBuscadorEntrante = true;
                     mostrarBuscadorSaliente = false;
+                    //Seteando  pais destino por defecto
+                    movilidad.setIdPaisDestino(222);
+                    changePaisDestino();
+                    movilidad.setIdUniversidadDestino(1);
+                    
+                    movilidad.setIdPaisOrigen(null);
+                    movilidad.setIdUniversidadOrigen(null);
+                    onchangeListPaisOrigen();
+                   facultadDocenteRequerido = false;
 
                 } else {  //movilidad Saliente
                     mostrarEntrante = false;
@@ -610,6 +621,17 @@ public class registrarMovilidadMB {
                     mostrarBuscadorSaliente = true;
                     mostrarBuscadorEntrante = false;
                     personaMovilidadGenerico.setIdOrganismo(organismoService.findById(1));
+                    //Setetando pais origen por defecto
+                    movilidad.setIdPaisOrigen(222);
+                    changePaisOrigen();
+                    movilidad.setIdUniversidadOrigen(1);
+                    
+                    movilidad.setIdPaisDestino(null);
+                    movilidad.setIdUniversidadDestino(null);
+                    onchangeListPaisDestino();
+                    
+                    facultadDocenteRequerido =true;
+                    
                 }
 
             } else {
@@ -681,6 +703,8 @@ public class registrarMovilidadMB {
             if (movilidad.getIdPaisOrigen() != null) {
                 //listOrganismosOrigen = organismoService.getOrganismosPorPaisYTipo(movilidad.getIdPaisOrigen(), 1); //REVISAR ESTO
                 listOrganismosOrigen = listaOrganismos(movilidad.getIdPaisOrigen());
+            }else{
+                listOrganismosOrigen = new ArrayList<Organismo>();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -693,6 +717,8 @@ public class registrarMovilidadMB {
                 //nota: validar si no se recibe ningun organismo
                 //listOrganismosDestino = organismoService.getOrganismosPorPaisYTipo(movilidad.getIdPaisDestino(), 1);
                 listOrganismosDestino = listaOrganismos(movilidad.getIdPaisDestino());
+            }else{
+                listOrganismosDestino = new ArrayList<Organismo>();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1467,7 +1493,7 @@ public class registrarMovilidadMB {
 
     public void preGuardadoMovilidad() {
         //comprobando si las personas tienen asignada su escuela o unidad
-        if (personaMovilidadGenerico.getIdEscuelaDepto() != null || personaMovilidadGenerico.getIdUnidad() != null) {
+       // if (personaMovilidadGenerico.getIdEscuelaDepto() != null || personaMovilidadGenerico.getIdUnidad() != null) {
             if (personaFacultadGenerico.getIdEscuelaDepto() != null || personaFacultadGenerico.getIdUnidad() != null) {
                 if (fueEditadoDocente == true) {
                     RequestContext context = RequestContext.getCurrentInstance();
@@ -1479,10 +1505,10 @@ public class registrarMovilidadMB {
                 //mensage facultad referente es un campo requerido
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Requerido!", "Facultad/Unidad, para la persona Referente es un campo requerido"));
             }
-        } else {
+       // } else {
             //mensage facultad docente campo requerido
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Requerido!", "Facultad/Unidad, para la persona Docente en movilidad es un campo requerido"));
-        }
+       //     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Requerido!", "Facultad/Unidad, para la persona Docente en movilidad es un campo requerido"));
+       // }
 
     }
 
@@ -3360,5 +3386,14 @@ public class registrarMovilidadMB {
     public void setDisableConsultoria(Boolean disableConsultoria) {
         this.disableConsultoria = disableConsultoria;
     }
+
+    public Boolean getFacultadDocenteRequerido() {
+        return facultadDocenteRequerido;
+    }
+
+    public void setFacultadDocenteRequerido(Boolean facultadDocenteRequerido) {
+        this.facultadDocenteRequerido = facultadDocenteRequerido;
+    }
+    
 
 }

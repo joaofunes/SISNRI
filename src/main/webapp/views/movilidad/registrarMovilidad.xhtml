@@ -194,11 +194,6 @@
 
 
 
-                                    <!--  <p:outputLabel value="Documento"/>
-                                        <p:inputText id="searchDocPersonaMovilidad" value="#{registrarMovilidadMB.docSearchPersonaMovilidad}" />
-                                        <p:commandButton value="Buscar" actionListener="#{registrarMovilidadMB.buscarPersonaEnMovilidadEntrante()}"  icon="ui-icon-search" process="searchDocPersonaMovilidad @this" update="panelPersonaEnMovilidad" rendered="#{registrarMovilidadMB.mostrarEntrante}"/>
-                                        <p:commandButton value="Buscar" actionListener="#{registrarMovilidadMB.buscarPersonaEnMovilidadSaliente()}"  icon="ui-icon-search" process="searchDocPersonaMovilidad @this" update="panelPersonaEnMovilidad" rendered="#{registrarMovilidadMB.mostrarSaliente}"/>
-                                    -->
 
                                     <p:separator/>
                                     <!--INGRESO DE DATOS DE DOCENTES-->
@@ -257,7 +252,7 @@
                                                 <p:outputLabel for="facultadPersona" value="Facultad/Unidad"/>  
                                             </p:column>
                                             <p:column>
-                                                <p:selectOneMenu id="facultadPersona" value="#{registrarMovilidadMB.facultadPersonaMovilidad}" style="width: 180px" required="true" disabled="#{registrarMovilidadMB.activarDocente}">
+                                                <p:selectOneMenu id="facultadPersona" value="#{registrarMovilidadMB.facultadPersonaMovilidad}" style="width: 180px" required="#{registrarMovilidadMB.facultadDocenteRequerido}" disabled="#{registrarMovilidadMB.activarDocente}">
                                                     <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                     <f:selectItems value="#{registrarMovilidadMB.listFacultadesUnidadesPersonaMovilidad}" var="facultadPersona" itemLabel="#{facultadPersona.label}" itemValue="#{facultadPersona.value}"/>
                                                     <p:ajax listener="#{registrarMovilidadMB.mostrarEscuelaDocenteMovilidad()}" update="escuelaDepartamentoPersona" process="@this" partialSubmit="true"/>
@@ -440,16 +435,7 @@
                                         <p:column>
                                             <p:calendar id="fechaEntregaMined" pattern="dd/MM/yyyy"  style=" width: 100px" navigator="true" yearRange="c-50:c+10" value="#{registrarMovilidadMB.movilidad.fechaEntregaMined}"/>
                                         </p:column>
-                                        <!--<p:column>
-                                                 <p:outputLabel for="obsequio" value="Obsequio"/> 
-                                             </p:column>
-                                             <p:column>
-                                                 <p:selectOneMenu id="obsequio" value="#{registrarMovilidadMB.obsequioSelected}" style="width: 180px"> 
-                                                     <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
-                                                     <f:selectItem itemLabel="SI" itemValue="true"/>
-                                                     <f:selectItem itemLabel="NO" itemValue="false"/>
-                                                 </p:selectOneMenu>
-                                             </p:column>-->
+                                        
                                         <p:column>
                                             <p:outputLabel for="facultadBeneficiada" value="Facultades/Unidades beneficiadas"/>  
                                         </p:column>
@@ -531,24 +517,11 @@
                                         <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizacionReferente()}" process="@this" update="GroupReferente,grup3" rendered="#{registrarMovilidadMB.mostrarBotonEditarReferente}"/>
                                     </h:panelGroup>
 
-                                    <!--     <p:outputLabel value="Documento"/>
-                                         <p:inputText id="searchDocReferenteFact" value="#{registrarMovilidadMB.docSearchReferente}" />
-                                         <p:commandButton value="Buscar" actionListener="#{registrarMovilidadMB.buscarReferente()}"  icon="ui-icon-search" process="searchDocReferenteFact @this" update="panelReferente"/> -->
+                                   
                                     <p:separator/>
                                     <h:panelGroup id="GroupReferente">
                                         <p:panelGrid  id="panelReferente">
-                                            <!--<p:column>
-                                                   <p:outputLabel for="listaPersonaFacultad" value="Referente de la facultad"/> 
-                                               </p:column>
-                                               <p:column>
-                                                   <p:selectOneMenu id="listaPersonaFacultad" value="#{registrarMovilidadMB.personaFacultadSelected}" style="width: 180px"  converter="#{personaConverter}">
-                                                       <f:selectItem itemLabel="-Seleccione-" noSelectionOption="true"/>
-                                                       <f:selectItems value="#{registrarMovilidadMB.listPersonaReferenteFacultad}" var="coordinador" itemLabel="#{coordinador.nombrePersona} #{coordinador.apellidoPersona}" itemValue="#{coordinador}"/>
-                                                       <f:ajax listener="#{registrarMovilidadMB.onchangeListReferenteFacultad()}" render="nombrePersonaFacultad apellidoPersonaFacultad duiPersonaFacultad nitPersonaFacultad cargoPersonaFacultad facultadBeneficiadaPersona escuelaDepartamentoReferenteFactBnf emailPersonaFacultad telPersonaFacultad celPersonaFacultad faxPersonaFacultad"/>
-                                                   </p:selectOneMenu>
-                                               </p:column>
-                                               <p:column><h:panelGroup/></p:column>  
-                                               <p:column><h:panelGroup/></p:column>-->
+                                            
                                             <p:row>
                                                 <p:column>
                                                     <p:outputLabel for="nombrePersonaFacultad" value="Nombres"/>
