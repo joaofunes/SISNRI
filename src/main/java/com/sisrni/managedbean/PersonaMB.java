@@ -270,10 +270,9 @@ public class PersonaMB implements Serializable{
             telefonoService.save(telefonoCell);
              RequestContext context = RequestContext.getCurrentInstance();    
              context.execute("PF('PersonaCreateDialog').hide();");
-            
-            init();
-            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+            init();        
+            FacesContext.getCurrentInstance().getExternalContext().redirect("List.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -399,13 +398,14 @@ public class PersonaMB implements Serializable{
         }
     }
     
+    
      public void onchangeListFacultadReferente() {
      int result = -1;
      Integer id;
      if ((result = facultadDeReferente.indexOf(",1")) > -1) {
          id = Integer.parseInt(facultadDeReferente.substring(0, result));
          listEscuelaDepartamentoRefFact = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(id);
-
+         persona.setIdUnidad(null);
      } else if ((result = facultadDeReferente.indexOf(",2")) > -1) {
          id = Integer.parseInt(facultadDeReferente.substring(0, result));
          //Afrefando la unidad seleccionada a una variable temporal
@@ -416,6 +416,7 @@ public class PersonaMB implements Serializable{
 
      }
  }
+
 
     
     
@@ -442,10 +443,11 @@ public class PersonaMB implements Serializable{
             personaService.merge(persona);   
             llenarPojoPersona(); 
             llenarPojoPersonaExtranjera(); 
-            init();
             RequestContext context = RequestContext.getCurrentInstance();    
             context.execute("PF('PersonaEditDialog').hide()");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
+            init();        
+            FacesContext.getCurrentInstance().getExternalContext().redirect("List.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }
