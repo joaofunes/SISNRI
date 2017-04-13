@@ -72,7 +72,7 @@ public class RolesMB implements Serializable{
               usuario = user.getSessionUser();
             
 //             for(SsRoles iter: usuario.getUsuario().getSsRolesSet()){
-                listadoRoles = rolesService.findAll();
+                listadoRoles = rolesService.getAllByIdDesc();
                   
 //            }
         } catch (Exception e) {
@@ -144,7 +144,7 @@ public class RolesMB implements Serializable{
 			getRoles();
 			RequestContext.getCurrentInstance().update("formAdmin");
 			RequestContext.getCurrentInstance().update("formRol");
-			JsfUtil.addSuccessMessage("Guardado Exitósamente");
+			JsfUtil.addSuccessMessage("Guardado Exitosamente");
 
 		} catch (Exception e) {
 			e.printStackTrace();

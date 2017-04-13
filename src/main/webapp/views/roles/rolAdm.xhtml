@@ -12,12 +12,17 @@
     
     
     <ui:define name="content">
+        <center>
+            
+            <p:panel style="width: 70%">  
+                <h2 class="title ui-widget-header ui-corner-all" align="center">Gesti&oacute;n de Roles</h2>
         <h:form id="formAdmin">
             <p:panelGrid >
-                <p:row>
-                  
+
                         <p:column>
-                            Nombre Rol
+                            <p:outputLabel for="namerol" value="Nombre:"/>
+                        </p:column>
+                        <p:column>
                             <p:inputText id="namerol"   value="#{rolesMB.ssRoles.nombreRol}" required="true" size="50" />
                         </p:column>
                     <p:column  >
@@ -31,7 +36,7 @@
                                              actionListener="#{rolesMB.cancelar()}" immediate="true" update=":formAdmin"
                                              value="Cancelar" />
                         </p:column>
-                </p:row>
+        
 
             </p:panelGrid>
         </h:form>
@@ -61,22 +66,13 @@
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
                                        value="Editar" actionListener="#{rolesMB.preEditar(rol)}" />
                     </div>
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-closethick"
-                                       title="Eliminar" value="Eliminar"
-                                       actionListener="#{rolesMB.preEliminar(rol)}" />
-                    </div>
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-document-b"
-                                       title="Opciones" value="Agregar Opciones a Role"
-                                       onclick="dlg2.show();"
-                                       actionListener="#{rolesMB.addOpciones(rol)}" />
-                    </div>
                 </p:column>
             </p:dataTable>
  
 
         </h:form>
+           </p:panel>     
+        </center> 
 
 
         <p:dialog header="Agregar Opciones" widgetVar="dlg2"  appendTo="@(body)" modal="true" height="100">

@@ -39,4 +39,10 @@ public class SsRolesDao extends GenericDao<SsRoles, Integer> {
         }
         return null;
     }
+    
+         public List<SsRoles> getAllByIdDesc(){
+       String query="Select r from SsRoles r order by r.idRol desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 }
