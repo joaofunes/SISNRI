@@ -24,4 +24,10 @@ public class EscuelaDepartamentoDao extends GenericDao<EscuelaDepartamento, Inte
         q.setParameter("id", id);
         return q.list();
     }
+    
+     public List<EscuelaDepartamento> getAllByIdDesc(){
+       String query="Select ed from EscuelaDepartamento ed order by ed.idEscuelaDepto desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 }

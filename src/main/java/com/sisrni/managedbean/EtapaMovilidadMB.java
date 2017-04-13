@@ -75,7 +75,7 @@ public class EtapaMovilidadMB  extends GenericManagedBean<EtapaMovilidad, Intege
         try {
             actualizar=false;
             etapaMovilidad = new EtapaMovilidad();
-            listadoEtapaMovilidad = etapaMovilidadService.findAll();
+            listadoEtapaMovilidad = etapaMovilidadService.getAllByIdDesc();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
 
@@ -117,7 +117,7 @@ public class EtapaMovilidadMB  extends GenericManagedBean<EtapaMovilidad, Intege
             actualizar=false;
             cancelarEtapaMovilidad();
             cargarEtapaMovilidad();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar etapa de movilidad");
         }
@@ -145,13 +145,13 @@ public class EtapaMovilidadMB  extends GenericManagedBean<EtapaMovilidad, Intege
         String msg = "Etapa Movilidad Eliminada Exitosamente!";       
         try {            
             etapaMovilidadService.delete(this.delEtapaMovilidad);                         
-            listadoEtapaMovilidad = etapaMovilidadService.findAll(); 
+            listadoEtapaMovilidad = etapaMovilidadService.getAllByIdDesc(); 
             RequestContext.getCurrentInstance().update(":formPrincipal");
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro etapa de movilidad");
+            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de registro Etapa de movilidad");
         }finally{
              actualizar=false;
             delEtapaMovilidad = new EtapaMovilidad();

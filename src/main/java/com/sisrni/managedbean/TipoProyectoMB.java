@@ -59,7 +59,7 @@ public class TipoProyectoMB {
      */
     public void cargarTipoProyecto() {
         tipoProyecto = new TipoProyecto();
-        listTipoProyecto = tipoProyectoService.findAll();
+        listTipoProyecto = tipoProyectoService.getAllByIdDesc();
         actualizar = false;
     }
 
@@ -124,7 +124,7 @@ public class TipoProyectoMB {
             tipoProyectoService.merge(tipoProyecto);
             actualizar = false;
             cancelarTipoProyecto();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualizaci&oacute;n!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualizacion!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al Actualizar Tipo de Proyecto");
             e.printStackTrace();
@@ -160,7 +160,7 @@ public class TipoProyectoMB {
             context.execute("PF('confirmDeleteTipoProyectoDlg').hide();");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado!!", msg));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Eliminar Tipo de Proyecto!");
+            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Tipo de Proyecto!");
             e.printStackTrace();
         } finally {
             actualizar = false;

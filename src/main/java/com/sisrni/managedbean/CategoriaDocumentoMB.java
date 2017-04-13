@@ -65,7 +65,7 @@ public class CategoriaDocumentoMB{
     
     public void cargarCategoriaDocumento(){
         categoriaDocumento = new CategoriaDocumento();
-        listCategoriaDocumento = categoriaDocumentoService.findAll();
+        listCategoriaDocumento = categoriaDocumentoService.getAllByIdDesc();
         actualizar = false;
     }
     
@@ -75,14 +75,14 @@ public class CategoriaDocumentoMB{
      * correspondiente de la base de datos
      */
     public void guardarCategoriaDocumento(){
-        String msg ="Categor&iacute;a de Documento Almacenada Exitosamente!";
+        String msg ="Categoria de Documento Almacenada Exitosamente!";
         try{
            categoriaDocumento.setIdCategoriaDoc(Integer.MIN_VALUE);
            categoriaDocumentoService.save(categoriaDocumento);
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardada!!", msg));
            
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Guardar Categor&iacute;a de Documento!");
+            JsfUtil.addErrorMessage("Error al Guardar Categoria de Documento!");
             e.printStackTrace();
         }
         cargarCategoriaDocumento();
@@ -106,13 +106,13 @@ public class CategoriaDocumentoMB{
      * seleccionada
      */
     public void actualizarCategoriaDocumento(){
-        String msg ="Categor&iacute;a de Documento Actualizada Exitosamente!";
+        String msg ="Categoria de Documento Actualizada Exitosamente!";
         try{
             //actualizando la instancia
             categoriaDocumentoService.merge(categoriaDocumento);
             actualizar = false;
             cancelarCategoriaDocumento(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar la Categor&iacute;a Documento");
             e.printStackTrace();
@@ -139,7 +139,7 @@ public class CategoriaDocumentoMB{
      * Metodo que borra una instancia de 'CategoriaDocumento' de la Base de datos
      */
     public void borrarCategoriaDocumento(){ 
-        String msg ="Categor&iacute;a de Documento Eliminada Exitosamente!";
+        String msg ="Categoria de Documento Eliminada Exitosamente!";
         try{
             //Borrando la instancia de categoriaDocumento
             categoriaDocumentoService.delete(categoriaDocumento);
@@ -148,7 +148,7 @@ public class CategoriaDocumentoMB{
             context.execute("PF('confirmDeleteCategoriaDocumentoDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminada!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Categor&iacute;a de Documento!");
+            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Categor&iacute;a de Documento!");
             e.printStackTrace();
         }finally{
             actualizar = false;

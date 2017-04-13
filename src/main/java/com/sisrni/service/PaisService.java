@@ -48,5 +48,9 @@ public class PaisService extends GenericService<Pais, Integer> {
      public Pais getPaisCodigoPais(String codPais){
          return paisDao.getPaisCodigoPais(codPais);
      }
+     
+     public List<Pais> getAllByIdDesc(){
+        return paisDao.getAllByIdDesc();
+    }  
 
 }

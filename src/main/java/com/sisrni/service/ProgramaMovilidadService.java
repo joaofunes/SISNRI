@@ -27,4 +27,8 @@ public class ProgramaMovilidadService extends GenericService<ProgramaMovilidad, 
      public List<ProgramaMovilidad> geyAllProgramaMovilidadByNameAsc(){
          return programaMovilidadDao.getAllProgramaMovilidadByNameAsc();
      }
+     
+       public List<ProgramaMovilidad> getAllByIdDesc(){
+        return programaMovilidadDao.getAllByIdDesc();
+    }
 }

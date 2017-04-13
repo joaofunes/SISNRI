@@ -101,5 +101,11 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
         return q.list();
     }
+    
+    public List<Organismo> getAllByIdDesc(){
+       String query="Select o from Organismo o order by o.idOrganismo desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
   
 }

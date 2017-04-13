@@ -66,7 +66,7 @@ public class TipoBecaMB{
     
     public void cargarTipoBeca(){
         tipoBeca = new TipoBeca();
-        listTipoBeca = tipoBecaService.findAll();
+        listTipoBeca = tipoBecaService.getAllByIdDesc();
         actualizar = false;
     }
     
@@ -129,7 +129,7 @@ public class TipoBecaMB{
             tipoBecaService.merge(tipoBeca);
             actualizar = false;
             cancelarTipoBeca(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar el Tipo de Beca");
             e.printStackTrace();
@@ -165,7 +165,7 @@ public class TipoBecaMB{
             context.execute("PF('confirmDeleteTipoBecaDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Tipo de Beca!");
+            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Tipo de Beca!");
             e.printStackTrace();
         }finally{
             actualizar = false;

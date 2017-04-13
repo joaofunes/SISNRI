@@ -74,7 +74,7 @@ public class TipoPropuestaConvenioMB  extends GenericManagedBean<TipoPropuestaCo
         try {
             actualizar=false;
             tipoPropuestaConvenio = new TipoPropuestaConvenio();
-            listadoTipoPropuestaConvenio = tipoPropuestaConvenioService.findAll();
+            listadoTipoPropuestaConvenio = tipoPropuestaConvenioService.getAllByIdDesc();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
 
@@ -132,7 +132,7 @@ public class TipoPropuestaConvenioMB  extends GenericManagedBean<TipoPropuestaCo
             actualizar=false;
             cancelarTipoPropuestaConvenio();
             cargarTipoPropuestaConvenio();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar tipo de Propuesta de Convenio");
         }
@@ -160,13 +160,13 @@ public class TipoPropuestaConvenioMB  extends GenericManagedBean<TipoPropuestaCo
         String msg = "Tipo de Propuesta de Convenio Eliminado Exitosamente!";       
         try {            
             tipoPropuestaConvenioService.delete(this.delTipoPropuestaConvenio);                         
-            listadoTipoPropuestaConvenio = tipoPropuestaConvenioService.findAll(); 
+            listadoTipoPropuestaConvenio = tipoPropuestaConvenioService.getAllByIdDesc(); 
             RequestContext.getCurrentInstance().update(":formPrincipal");
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro tipo de Propuesta de Convenio");
+            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de Propuesta de Convenio");
         }finally{
              actualizar=false;
             delTipoPropuestaConvenio = new TipoPropuestaConvenio();

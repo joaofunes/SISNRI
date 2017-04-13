@@ -74,5 +74,11 @@ public class UnidadDao extends GenericDao<Unidad, Integer> {
             e.printStackTrace();
         }
     }
+    
+    public List<Unidad> getAllByIdDesc(){
+       String query="Select u from Unidad u order by u.idUnidad desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+     }
 
 }

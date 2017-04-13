@@ -23,4 +23,10 @@ public class EtapaMovilidadDao extends GenericDao<EtapaMovilidad, Integer> {
         return null;
     }
     
+    public List<EtapaMovilidad> getAllByIdDesc(){
+       String query="Select e from EtapaMovilidad e order by e.idEtapa desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
+    
 }

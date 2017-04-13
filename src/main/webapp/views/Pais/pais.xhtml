@@ -46,13 +46,12 @@
                                              actionListener="#{paisMB.guardarPais}" value="Guardar"  update="formPais :formTablaPaises" process="@this :formPais"/>
 
                             <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
-                                             actionListener="#{paisMB.actualizarPais()}" update="formPais :formTablaPaises "
-                                             value="Actualizar" />
-
-                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
                                              actionListener="#{paisMB.cancelarPais()}" immediate="true" value="Cancelar" update="formPais"  process="@this" />
 
-
+                            
+                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
+                                             actionListener="#{paisMB.actualizarPais()}" update="formPais :formTablaPaises "
+                                             value="Actualizar" />
                         </p:column>
                     </p:panelGrid>
 

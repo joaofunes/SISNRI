@@ -51,4 +51,8 @@ public class UnidadService extends GenericService<Unidad, Integer>{
     public void eliminarIntermediaMovilidadUnidad(Movilidad mov){
         unidadDao.eliminarIntermediaMovilidadUnidad(mov);
     }
+    
+    public List<Unidad> getAllByIdDesc(){
+        return unidadDao.getAllByIdDesc();
+    }
 }

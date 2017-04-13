@@ -7,6 +7,8 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoPropuestaConvenio;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,4 +19,9 @@ import org.springframework.stereotype.Repository;
 @Repository(value = "tipoPropuestaConvenioDao")
 public class TipoPropuestaConvenioDao extends GenericDao<TipoPropuestaConvenio, Integer>{
     
+    public List<TipoPropuestaConvenio> getAllByIdDesc(){
+       String query="Select t from TipoPropuestaConvenio t order by t.idTipoPropuesta desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+     }
 }

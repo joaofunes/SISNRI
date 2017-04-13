@@ -74,7 +74,7 @@ public class TipoPersonaMB  extends GenericManagedBean<TipoPersona, Integer> {
         try {
             actualizar=false;
             tipoPersona = new TipoPersona();
-            listadoTipoPersona = tipoPersonaService.findAll();
+            listadoTipoPersona = tipoPersonaService.getAllByIdDesc();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
 
@@ -144,13 +144,13 @@ public class TipoPersonaMB  extends GenericManagedBean<TipoPersona, Integer> {
         String msg = "Tipo Persona Eliminado Exitosamente!";       
         try {            
             tipoPersonaService.delete(this.delTipoPersona);                         
-            listadoTipoPersona = tipoPersonaService.findAll(); 
+            listadoTipoPersona = tipoPersonaService.getAllByIdDesc(); 
             RequestContext.getCurrentInstance().update(":formPrincipal");
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro tipo de persona");
+            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de persona");
         }finally{
              actualizar=false;
             delTipoPersona = new TipoPersona();

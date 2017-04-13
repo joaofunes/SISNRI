@@ -7,6 +7,7 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoPersona;
+import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -29,5 +30,9 @@ public class TipoPersonaDao extends GenericDao<TipoPersona, Integer>{
         return null;         
     }
 
-    
+     public List<TipoPersona> getAllByIdDesc(){
+       String query="Select t from TipoPersona t order by t.idTipoPersona desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+     }
 }

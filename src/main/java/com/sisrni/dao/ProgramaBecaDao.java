@@ -24,4 +24,10 @@ public class ProgramaBecaDao extends GenericDao<ProgramaBeca, Integer> {
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
         return q.list();
     }
+    
+     public List<ProgramaBeca> getAllByIdDesc(){
+       String query="Select pg from ProgramaBeca pg order by pg.idPrograma desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 }

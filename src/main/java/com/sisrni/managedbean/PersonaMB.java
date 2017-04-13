@@ -166,11 +166,11 @@ public class PersonaMB implements Serializable{
     
      private void inicializarListas() {
          try {
-             listadoOrganismo = organismoService.findAll();
-             //listadoUnidad = unidadService.findAll();
-             listadoTipoPersona = tipoPersonaService.findAll();            
+             listadoOrganismo = organismoService.getAllByIdDesc();
+             //listadoUnidad = unidadService.getAllByIdDesc();
+             listadoTipoPersona = tipoPersonaService.getAllByIdDesc();            
              listadoTelefono = telefonoService.findAll();
-             listaPersona = personaService.findAll();
+             listaPersona = personaService.getAllByIdDesc();
              listFacultadBnfUes = facultadService.getFacultadesByUniversidad(1); //revisar esto
              listUnidadBnfUes = unidadService.getUnidadesByUniversidad(1);     //revisar esto
              listFacultadUnidadReferenteFactBnf = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
@@ -444,7 +444,7 @@ public class PersonaMB implements Serializable{
             llenarPojoPersonaExtranjera(); 
             init();
             RequestContext context = RequestContext.getCurrentInstance();    
-            context.execute("PF('PersonaEditDialog').close()");
+            context.execute("PF('PersonaEditDialog').hide()");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
         } catch (Exception e) {
             e.printStackTrace();

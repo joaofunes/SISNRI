@@ -75,7 +75,7 @@ public class EstadoMB  extends GenericManagedBean<Estado, Integer> {
         try {
             actualizar=false;
             estado = new Estado();
-            listadoEstado = estadoService.findAll();
+            listadoEstado = estadoService.getAllByIdDesc();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
 
@@ -119,7 +119,7 @@ public class EstadoMB  extends GenericManagedBean<Estado, Integer> {
             actualizar=false;
             cancelarEstado();
             cargarEstado();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar Estado");
         }
@@ -147,13 +147,13 @@ public class EstadoMB  extends GenericManagedBean<Estado, Integer> {
         String msg = "Estado Eliminado Exitosamente!";       
         try {            
             estadoService.delete(this.delEstado);                         
-            listadoEstado = estadoService.findAll(); 
+            listadoEstado = estadoService.getAllByIdDesc(); 
             RequestContext.getCurrentInstance().update(":formPrincipal");
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro de Estado");
+            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de registro de Estado");
         }finally{
              actualizar=false;
             delEstado = new Estado();

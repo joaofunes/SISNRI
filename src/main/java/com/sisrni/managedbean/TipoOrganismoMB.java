@@ -75,7 +75,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
         try {
             actualizar=false;
             tipoOrganismo = new TipoOrganismo();
-            listadoTipoOrganismo = tipoOrganismoService.findAll();
+            listadoTipoOrganismo = tipoOrganismoService.getAllByIdDesc();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
 
@@ -135,7 +135,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
             actualizar=false;
             cancelarTipoOrganismo();
             cargarTipoOrganismo();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar tipo de organismo");
         }
@@ -163,13 +163,13 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
         String msg = "Tipo de Organismo Eliminado Exitosamente!";       
         try {            
             tipoOrganismoService.delete(this.delTipoOrganismo);                         
-            listadoTipoOrganismo = tipoOrganismoService.findAll(); 
+            listadoTipoOrganismo = tipoOrganismoService.getAllByIdDesc(); 
             RequestContext.getCurrentInstance().update(":formPrincipal");
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro tipo de organismo");
+            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de organismo");
         }finally{
              actualizar=false;
             delTipoOrganismo = new TipoOrganismo();

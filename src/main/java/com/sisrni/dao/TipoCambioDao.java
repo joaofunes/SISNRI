@@ -37,6 +37,11 @@ public class TipoCambioDao extends GenericDao<TipoCambio, Integer>{
        Query q= getSessionFactory().getCurrentSession().createQuery(query);
        return q.list();
    }
-
+    
+     public List<TipoCambio> getAllByIdDesc(){
+       String query="Select t from TipoCambio t order by t.idTipoCambio desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+     }
     
 }

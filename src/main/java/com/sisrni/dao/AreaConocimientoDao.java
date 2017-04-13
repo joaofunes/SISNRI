@@ -35,4 +35,10 @@ public class AreaConocimientoDao extends GenericDao<AreaConocimiento, Integer >{
        Query q= getSessionFactory().getCurrentSession().createQuery(query);
        return q.list();
    }
+    
+    public List<AreaConocimiento> getAllByIdDesc(){
+       String query="Select a from AreaConocimiento a order by a.idAreaConocimiento desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 }

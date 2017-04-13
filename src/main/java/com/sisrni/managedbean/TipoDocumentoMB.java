@@ -76,8 +76,8 @@ public class TipoDocumentoMB{
     public void cargarTipoDocumento(){
         tipoDocumento = new TipoDocumento();
         categoriaDocumento = new CategoriaDocumento();
-        listCategoriaDocumento = categoriaDocumentoService.findAll();
-        listTipoDocumento = tipoDocumentoService.findAll();
+        listCategoriaDocumento = categoriaDocumentoService.getAllByIdDesc();
+        listTipoDocumento = tipoDocumentoService.getAllByIdDesc();
         actualizar = false;
     }
     
@@ -127,7 +127,7 @@ public class TipoDocumentoMB{
             tipoDocumentoService.merge(tipoDocumento);
             actualizar = false;
             cancelarTipoDocumento(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Tipo de Documento");
             e.printStackTrace();
@@ -164,7 +164,7 @@ public class TipoDocumentoMB{
             context.execute("PF('confirmDeleteTipoDocumentoDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Tipo de Documento!");
+            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Tipo de Documento!");
             e.printStackTrace();
         }finally{
             actualizar = false;

@@ -34,4 +34,8 @@ public class AreaConocimientoService extends GenericService<AreaConocimiento, In
     public List<AreaConocimiento> getAllByNameAsc(){
         return areaConocimientoDao.getAllByNameAsc();
     }
+    
+     public List<AreaConocimiento> getAllByIdDesc(){
+        return areaConocimientoDao.getAllByIdDesc();
+    }
 }

@@ -23,4 +23,9 @@ public class CategoriaNoticiaDao extends GenericDao<CategoriaNoticia, Integer> {
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
         return q.list();
     }
+        public List<CategoriaNoticia> getAllByIdDesc(){
+       String query="Select c from CategoriaNoticia c order by c.idCategoriaNoticia desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 }

@@ -31,4 +31,9 @@ public class CategoriaNoticiaService extends GenericService<CategoriaNoticia, In
     public List<String> getCategoriaNoticiaName() {
         return categoriaNoticiaDao.getCategoriaNoticiaName();
     }
+    
+    
+         public List<CategoriaNoticia> getAllByIdDesc(){
+        return categoriaNoticiaDao.getAllByIdDesc();
+    }
 }

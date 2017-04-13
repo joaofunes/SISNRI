@@ -401,5 +401,11 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         }
         return null;
     }
+    
+      public List<Persona> getAllByIdDesc(){
+       String query="Select p from Persona p order by p.idPersona desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 
 }

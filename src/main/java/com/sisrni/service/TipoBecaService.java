@@ -32,4 +32,8 @@ public class TipoBecaService extends GenericService<TipoBeca, Integer>  {
     public List<TipoBeca> getAllByNameAsc(){
         return tipoBecaDao.getAllByNameAsc();
     }
+    
+    public List<TipoBeca> getAllByIdDesc(){
+        return tipoBecaDao.getAllByIdDesc();
+    }
 }

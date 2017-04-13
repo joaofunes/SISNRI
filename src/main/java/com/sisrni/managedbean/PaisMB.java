@@ -77,7 +77,7 @@ public class PaisMB{
         pais = new Pais();
         region = new Region();
         listRegion = regionService.findAll();
-        listPais = paisService.findAll();
+        listPais = paisService.getAllByIdDesc();
         actualizar = false;
     }
     
@@ -179,7 +179,7 @@ public class PaisMB{
             context.execute("PF('confirmDeletePaisDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Pais!");
+            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Pais!");
             e.printStackTrace();
         }finally{
             actualizar = false;

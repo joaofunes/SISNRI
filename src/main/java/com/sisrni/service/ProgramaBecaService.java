@@ -31,4 +31,8 @@ public class ProgramaBecaService extends GenericService<ProgramaBeca, Integer> {
     public List<ProgramaBeca> getAllByNameAsc() {
         return programaBecaDoa.getAllByNameAsc();
     }
+    
+      public List<ProgramaBeca> getAllByIdDesc(){
+        return programaBecaDoa.getAllByIdDesc();
+    } 
 }
