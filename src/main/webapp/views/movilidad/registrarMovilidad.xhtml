@@ -242,7 +242,7 @@
                                                 <p:outputLabel for="InstitucionPersona" value="Instituci&oacute;n"/>
                                             </p:column>
                                             <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
-                                                <p:selectOneMenu id="InstitucionPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.idOrganismo}" converter="#{institucionDocenteMovilidadConverter}" style="width: 180px" disabled="#{registrarMovilidadMB.activarDocente}">
+                                                <p:selectOneMenu id="InstitucionPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.idOrganismo}" converter="#{institucionDocenteMovilidadConverter}" style="width: 180px" disabled="#{registrarMovilidadMB.activarDocente}" required="#{!registrarMovilidadMB.facultadDocenteRequerido}">
                                                     <f:selectItem itemLabel="--Seleccione--" itemValue="#{registrarMovilidadMB.institucionPersonaMovilidadSelected}" noSelectionOption="true"/>
                                                     <f:selectItems value="#{registrarMovilidadMB.listOrganismoPersonaMovilidad}" var="institucionPersona" itemLabel="#{institucionPersona.nombreOrganismo}" itemValue="#{institucionPersona}"/>
                                                     <p:ajax listener="#{registrarMovilidadMB.onchangeListInstitucionPersonaMovilidad()}"  update="facultadPersona,telPersona,celPersona"/>
@@ -440,7 +440,7 @@
                                             <p:outputLabel for="facultadBeneficiada" value="Facultades/Unidades beneficiadas"/>  
                                         </p:column>
                                         <p:column>
-                                            <p:selectCheckboxMenu id="facultadBeneficiada" value="#{registrarMovilidadMB.listFacultadesUnidadesBeneficiadasSelected}"  label="Facultades Beneficiadas" panelStyle="width: 250px" style="width: 180px" filter="true" filterMatchMode="startsWith">
+                                            <p:selectCheckboxMenu id="facultadBeneficiada" value="#{registrarMovilidadMB.listFacultadesUnidadesBeneficiadasSelected}"  label="Facultades Beneficiadas" panelStyle="width: 250px" style="width: 180px" filter="true" filterMatchMode="startsWith" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
                                                 <f:selectItems value="#{registrarMovilidadMB.listFacultadUnidad}" var="facultadBenef" itemLabel="#{facultadBenef.label}" itemValue="#{facultadBenef.value}"/>
                                             </p:selectCheckboxMenu>
