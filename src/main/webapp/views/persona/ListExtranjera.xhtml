@@ -13,17 +13,28 @@
     <ui:define name="content">
         <ui:include src="../persona/crearPersonaExtranjera.xhtml"/>
         <ui:include src="../persona/editPersonaExtranjera.xhtml"/>
-        <f:metadata>            
+          <ui:include src="../persona/eliminarPersona.xhtml"/>
+           <f:metadata>            
             <f:viewAction action="#{personaMB.init()}" />
         </f:metadata> 
-    <h:form id="RegistrogarantiarealListForm">
+     <center> 
+            <p:panel style="width: 100%" > 
+                <h2 class="title ui-widget-header ui-corner-all" align="center">Administraci&oacute;n de Personas Externas</h2> 
+                <p:panelGrid >
+                <p:row>
+                    <p:column  >
+                       <p:commandButton id="createButton" icon="ui-icon-plus" value="Agregar" actionListener="#{personaMB.crearPersona}" process="@this" oncomplete="PF('PersonaCreateDialog').show();" />
+                    </p:column>
+                </p:row>
 
-        <p:panel header="Administraci&oacute;n de Personas Externas">
+            </p:panelGrid>
+    <h:form id="RegistrogarantiarealListForm">
+        <p:panel>
             
 
              <p:dataTable  value="#{personaMB.listPojoPersonaExtranjera}" var="item" paginator="true" rows="5"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="5,10,15"   paginatorPosition="bottom" 
+                         rowsPerPageTemplate="5,10,15"  
                          
                         >    
                 
@@ -78,14 +89,14 @@
                                        oncomplete="PF('PersonaEditDialog').show();"
                                        update=":PersonaEditDlg"/>
                     </div>
-<!--                    <div style="float: left">
+                   <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                        title="Eliminar" value="Eliminar"
                                        actionListener="#{personaMB.preEditar(item.persona)}"
                                         oncomplete="PF('PersonaDeleteDialog').show();"
                                        update=":PersonaDeleteDlg"/>
                     </div>
-                     <div style="float: left">
+                    <!--  <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-person" title="Usuario" 
                                        value="Editar" actionListener="#{usuarioMB.preCrearUsuario(item.persona)}" 
                                        update=":UsuarioEditDlg :UsuarioCreateDlg" />
@@ -95,14 +106,14 @@
                  
                  
                 <f:facet name="footer">
-                    <div class="footer-section">
-                        <p:commandButton id="createButton" icon="ui-icon-plus" value="Agregar" actionListener="#{personaMB.crearPersona}" process="@this" oncomplete="PF('PersonaCreateDialog').show();" />
-                    </div>
+                   
                 </f:facet>
 
             </p:dataTable>
 
         </p:panel>
     </h:form>
+    </p:panel>     
+    </center> 
 </ui:define>  
 </ui:composition>

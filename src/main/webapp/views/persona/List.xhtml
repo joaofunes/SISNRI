@@ -19,96 +19,101 @@
         <f:metadata>            
             <f:viewAction action="#{personaMB.init()}" />
         </f:metadata> 
+    <center> 
+            <p:panel style="width: 100%" > 
+                <h2 class="title ui-widget-header ui-corner-all" align="center">Administraci&oacute;n de Personas Internas</h2>     
     <h:form id="RegistrogarantiarealListForm">
-
-        <p:panel header="Administraci&oacute;n de Personas Internas">
+         <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus" value="Agregar" actionListener="#{personaMB.crearPersona}" process="@this" oncomplete="PF('PersonaCreateDialog').show();" />
+                    </div>
+        <p:panel>
             
 
-             <p:dataTable  value="#{personaMB.listPojoPersona}" var="item" paginator="true" rows="5"
+             <p:dataTable  value="#{personaMB.listPojoPersona}" var="item" paginator="true" rows="10"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="5,10,15"   paginatorPosition="bottom" 
+                         rowsPerPageTemplate="5,10,15"  
                          
                         >    
                 
-                <p:column sortBy="#{item.persona.nombrePersona}" filterBy="#{item.persona.nombrePersona}">
+                <p:column sortBy="#{item.persona.nombrePersona}" filterBy="#{item.persona.nombrePersona}" style="width: 10%">
                     <f:facet name="header">
-                        <h:outputText value="Nombre"/>
+                        <h:outputText value="Nombre Completo"/>
                     </f:facet>
-                    <h:outputText value="#{item.persona.nombrePersona}"/>
+                    <h:outputText value="#{item.persona.nombrePersona} #{item.persona.apellidoPersona}"/>
                 </p:column>
-                <p:column sortBy="#{item.persona.apellidoPersona}" filterBy="#{item.persona.apellidoPersona}">
+<!--                <p:column sortBy="#{item.persona.apellidoPersona}" filterBy="#{item.persona.apellidoPersona}">
                     <f:facet name="header">
                         <h:outputText value="Apellido"/>
                     </f:facet>
                     <h:outputText value="#{item.persona.apellidoPersona}"/>
-                </p:column>
-                <p:column sortBy="#{item.persona.emailPersona}" filterBy="#{item.persona.emailPersona}">
+                </p:column>-->
+                <p:column sortBy="#{item.persona.emailPersona}" filterBy="#{item.persona.emailPersona}" style="width: 15%">
                     <f:facet name="header">
                         <h:outputText value="Email"/>
                     </f:facet>
                     <h:outputText value="#{item.persona.emailPersona}"/>
                 </p:column>
-                <p:column sortBy="#{item.persona.duiPersona}" filterBy="#{item.persona.duiPersona}">
-                    <f:facet name="header">
+                <p:column sortBy="#{item.persona.duiPersona}" filterBy="#{item.persona.duiPersona}" style="width: 10%">
+                    <f:facet name="header"  >
                         <h:outputText value="DUI"/>
                     </f:facet>
                     <h:outputText value="#{item.persona.duiPersona}"/>
                 </p:column>
-                <p:column sortBy="#{item.persona.cargoPersona}" filterBy="#{item.persona.cargoPersona}">
+                <p:column sortBy="#{item.persona.cargoPersona}" filterBy="#{item.persona.cargoPersona}" style="width: 10%">
                     <f:facet name="header">
                         <h:outputText value="Cargo"/>
                     </f:facet>
                     <h:outputText value="#{item.persona.cargoPersona}"/>
                 </p:column>
                
-                 <p:column sortBy="#{item.persona.idUnidad.nombreUnidad}" filterBy="#{item.persona.idUnidad.nombreUnidad}">
+                 <p:column sortBy="#{item.persona.idUnidad.nombreUnidad}" filterBy="#{item.persona.idUnidad.nombreUnidad}" style="width: 10%">
                     <f:facet name="header">
                         <h:outputText value="Unidad"/>
                     </f:facet>
                     <h:outputText value="#{item.persona.idUnidad.nombreUnidad}"/>
                 </p:column>
                  
-                 <p:column sortBy="#{item.persona.idEscuelaDepto.idFacultad.nombreFacultad}" filterBy="#{item.persona.idEscuelaDepto.idFacultad.nombreFacultad}">
+<!--                 <p:column sortBy="#{item.persona.idEscuelaDepto.idFacultad.nombreFacultad}" filterBy="#{item.persona.idEscuelaDepto.idFacultad.nombreFacultad}" style="width: 10%">
                     <f:facet name="header">
                         <h:outputText value="Facultad"/>
                     </f:facet>
                     <h:outputText value="#{item.persona.idEscuelaDepto.idFacultad.nombreFacultad}"/>
-                </p:column>
+                </p:column>-->
                  
-                 <p:column sortBy="#{item.persona.idEscuelaDepto.nombreEscuelaDepto}" filterBy="#{item.persona.idEscuelaDepto.nombreEscuelaDepto}">
+                 <p:column sortBy="#{item.persona.idEscuelaDepto.nombreEscuelaDepto}" filterBy="#{item.persona.idEscuelaDepto.nombreEscuelaDepto}" style="width: 10%">
                     <f:facet name="header">
                         <h:outputText value="Escuela/Depto"/>
                     </f:facet>
                     <h:outputText value="#{item.persona.idEscuelaDepto.nombreEscuelaDepto}"/>
                 </p:column>
                  
-                 <p:column sortBy="#{item.telefonoFijo.numeroTelefono}" filterBy="#{item.telefonoFijo.numeroTelefono}">
+                 <p:column sortBy="#{item.telefonoFijo.numeroTelefono}" filterBy="#{item.telefonoFijo.numeroTelefono}" style="width: 10%">
                     <f:facet name="header">
                         <h:outputText value="Tel&eacute;fono Fijo"/>
                     </f:facet>
                     <h:outputText value="#{item.telefonoFijo.numeroTelefono}"/>
                 </p:column>
-                <p:column sortBy="#{item.telefonoCelular.numeroTelefono}" filterBy="#{item.telefonoCelular.numeroTelefono}">
+                <p:column sortBy="#{item.telefonoCelular.numeroTelefono}" filterBy="#{item.telefonoCelular.numeroTelefono}" style="width: 10%">
                     <f:facet name="header">
                         <h:outputText value="Tel&eacute;fono Celular"/>
                     </f:facet>
                     <h:outputText value="#{item.telefonoCelular.numeroTelefono}"/>
                 </p:column>
              
-                <p:column headerText="Opciones" >
+                <p:column headerText="Opciones" style="width: 7%">
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
                                        value="Editar" actionListener="#{personaMB.preEditar(item.persona)}"
                                        oncomplete="PF('PersonaEditDialog').show();"
                                        update=":PersonaEditDlg"/>
                     </div>
-<!--                    <div style="float: left">
+                    <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                        title="Eliminar" value="Eliminar"
                                        actionListener="#{personaMB.preEditar(item.persona)}"
                                         oncomplete="PF('PersonaDeleteDialog').show();"
                                        update=":PersonaDeleteDlg"/>
-                    </div>-->
+                    </div>
                      <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-person" title="Usuario" 
                                        value="Editar" actionListener="#{usuarioMB.preCrearUsuario(item.persona)}" 
@@ -119,14 +124,14 @@
                  
                  
                 <f:facet name="footer">
-                    <div class="footer-section">
-                        <p:commandButton id="createButton" icon="ui-icon-plus" value="Agregar" actionListener="#{personaMB.crearPersona}" process="@this" oncomplete="PF('PersonaCreateDialog').show();" />
-                    </div>
+                  
                 </f:facet>
 
             </p:dataTable>
 
         </p:panel>
     </h:form>
+    </p:panel>     
+    </center> 
 </ui:define>  
 </ui:composition>

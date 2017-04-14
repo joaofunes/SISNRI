@@ -23,6 +23,7 @@ import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PaisService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.SsUsuariosService;
 import com.sisrni.service.TelefonoService;
@@ -98,6 +99,10 @@ public class PersonaMB implements Serializable{
     private Boolean escuelaReferenteRequerido;
     private List<EscuelaDepartamento> listEscuelaDepartamentoRefFact;
     private Persona personaFacultadGenerico;
+    //Mascara de telefonos de personas externas
+    private String codigoPais;
+    private String mascaraTelefono;
+    
      
     @Autowired
     @Qualifier(value = "organismoService")
@@ -139,6 +144,9 @@ public class PersonaMB implements Serializable{
     @Autowired
     private EscuelaDepartamentoService escuelaDepartamentoService;
     
+    @Autowired
+    private PaisService paisService;
+    
     //declaracion de listas
     @PostConstruct
     public void init() {
@@ -157,6 +165,9 @@ public class PersonaMB implements Serializable{
             facultadDeReferente = "";
             clave = "";
             codigo = "";
+            //Mascara de telenonos de personas externas
+            codigoPais = "";
+            mascaraTelefono = "";
             mostrarEscuelaReferente = false;
             escuelaReferenteRequerido = false;
         } catch (Exception e) {
@@ -278,6 +289,37 @@ public class PersonaMB implements Serializable{
         }
     } 
     
+        
+    /**
+     * Metodo para almacenar una nueva persona extranjera
+     */ 
+    public void guardarExtranjero(){
+        try {
+            String msg = "Persona Almacenado Exitosamente!";   
+            
+            persona.setExtranjero(true);
+            personaService.save(persona);
+            
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoFijo.setIdPersona(persona);
+            telefonoService.save(telefonoFijo);
+                    
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
+            telefonoCell.setIdTipoTelefono(tipoTelefono);
+            telefonoCell.setIdPersona(persona);
+            telefonoService.save(telefonoCell);
+       
+            RequestContext context = RequestContext.getCurrentInstance();    
+            context.execute("PF('PersonaCreateDialog').hide();");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+            init();        
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListExtranjera.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
     /**
      * Metodo para almacenar una nueva persona y un Usuario
      */ 
@@ -311,32 +353,7 @@ public class PersonaMB implements Serializable{
             e.printStackTrace();
         }
     } 
-    
-    /**
-     * Metodo para almacenar una nueva persona extranjera
-     */ 
-    public void guardarExtranjero(){
-        try {
-            String msg = "Persona Almacenado Exitosamente!";   
-            
-            tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
-            telefonoFijo.setIdTipoTelefono(tipoTelefono);
-            telefonoService.save(telefonoFijo);
-                    
-            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
-            telefonoCell.setIdTipoTelefono(tipoTelefono);
-            telefonoService.save(telefonoCell);
-            
-            persona.setExtranjero(true);
-            personaService.save(persona);
-            
-            llenarPojoPersona(); 
-             llenarPojoPersonaExtranjera(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    } 
+
     
     
     /**
@@ -513,6 +530,13 @@ public class PersonaMB implements Serializable{
             e.printStackTrace();
         }
     } 
+    
+       //Metodo que se encarga de mostrar mascara de personas externas en los telefonos
+    public void onchangeListInstitucionPersona() {
+        Organismo org = organismoService.findById(persona.getIdOrganismo().getIdOrganismo());
+        codigoPais = paisService.findById(org.getIdPais()).getCodigoPais();
+        mascaraTelefono = telefonoService.getMask(codigoPais);
+    }
     
            /**
      * Metodo para setear persona a ser crear Usuario a persona
@@ -862,4 +886,11 @@ public class PersonaMB implements Serializable{
         this.personaFacultadGenerico = personaFacultadGenerico;
     }
     
+    public String getMascaraTelefono() {
+        return mascaraTelefono;
+    }
+
+    public void setMascaraTelefono(String mascaraTelefono) {
+        this.mascaraTelefono = mascaraTelefono;
+    }
 }

@@ -78,6 +78,8 @@ public class OrganismoCooperanteMB {
     private Integer tipoSelected;
     private Integer nPaisSelected;
     private PojoOrganismo pojoOrganismo;
+    private String mascaraTelefono;
+    private String codigoPais;
 
     
 
@@ -91,13 +93,13 @@ public class OrganismoCooperanteMB {
     organismoCooperante =new Organismo();
     telefonoFijo = new Telefono();
     pojoOrganismo = new PojoOrganismo();
-    tipoOrganismoList = tipoOrganismoService.findAll();
+    tipoOrganismoList = tipoOrganismoService.getAllByIdDesc();
     organismoSelected=new TipoOrganismo();
-    organismosList=organismoService.findAll();
+    organismosList=organismoService.getAllByIdDesc();
     paisList = paisService.getCountriesOrderByNameAsc();
     regionSelected = new Region();
     paisSelected = new Pais();
-    regionList = regionService.findAll();
+    regionList = regionService.getAllByIdDesc();
     paisPojoList = paisService.getPaises(0);
     organismoPojoList=organismoService.getOrganismos();
     pojoPaisSelected = new PojoPais();
@@ -105,7 +107,8 @@ public class OrganismoCooperanteMB {
     actualizar=false;
     tipoSelected = 0;
     nPaisSelected =0;
-    
+    mascaraTelefono="";
+    codigoPais="";
     }
     
     public void guardarOrganismo(){
@@ -121,7 +124,7 @@ public class OrganismoCooperanteMB {
             telefonoFijo.setIdTipoTelefono(tipoTelefono);
             telefonoService.save(telefonoFijo);
             inicializarVariables();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Informaci&oacute;n se ha registrado correctamente!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Informacion se ha registrado correctamente!"));
             
                     
         } catch (Exception e) {
@@ -229,6 +232,13 @@ public class OrganismoCooperanteMB {
             ajax.execute("PF('tipoorganismoDialog').show()");
             organismoSelected = new TipoOrganismo();
         }
+    }
+     
+         //Metodo que se encarga de mostrar mascara en los telefonos
+    public void onchangePais() {
+         codigoPais = paisService.findById(paisSelected.getIdPais()).getCodigoPais();
+        mascaraTelefono = telefonoService.getMask(codigoPais);
+       // mascaraTelefono = telefonoService.getMask(paisSelected.getCodigoPais());
     }
      
     public Integer getTipoSelected() {
@@ -371,5 +381,13 @@ public class OrganismoCooperanteMB {
 
     public void setTipoTelefono(TipoTelefono tipoTelefono) {
         this.tipoTelefono = tipoTelefono;
+    }
+
+    public String getMascaraTelefono() {
+        return mascaraTelefono;
+    }
+
+    public void setMascaraTelefono(String mascaraTelefono) {
+        this.mascaraTelefono = mascaraTelefono;
     }
 }
