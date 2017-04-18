@@ -55,5 +55,10 @@ public class PaisDao extends GenericDao<Pais, Integer> {
         return (Pais) q.uniqueResult();
     }
 
+       public List<Pais> getAllByIdDesc(){
+       String query="Select p from Pais p order by p.idPais desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 
 }

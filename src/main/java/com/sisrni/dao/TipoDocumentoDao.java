@@ -29,4 +29,10 @@ public class TipoDocumentoDao extends GenericDao<TipoDocumento, Integer> {
         }
         return list;
     }
+    
+    public List<TipoDocumento> getAllByIdDesc(){
+       String query="Select t from TipoDocumento t order by t.idTipoDocumento desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+     }
 }

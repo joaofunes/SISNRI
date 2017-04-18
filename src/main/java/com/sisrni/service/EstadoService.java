@@ -35,5 +35,9 @@ public class EstadoService extends GenericService<Estado, Integer> {
      public List<Estado> getEstadoPropuestasConvenio(){
           return estadoDao.getEstadoPropuestasConvenio();
      }
+     
+        public List<Estado> getAllByIdDesc(){
+        return estadoDao.getAllByIdDesc();
+    } 
     
 }

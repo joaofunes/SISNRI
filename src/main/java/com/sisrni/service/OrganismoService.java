@@ -50,5 +50,8 @@ public class OrganismoService extends GenericService<Organismo, Integer> {
         return organismoDao.getAllByNameAsc();
     }
       
+     public List<Organismo> getAllByIdDesc(){
+        return organismoDao.getAllByIdDesc();
+    }  
     
 }

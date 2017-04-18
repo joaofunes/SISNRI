@@ -10,6 +10,7 @@ import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoFacultad;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,4 +34,7 @@ public class TipoFacultadService extends GenericService<TipoFacultad, Integer>  
      return tipoFacultadDao.getTipoFacultadByNombre(name);
     }
     
+       public List<TipoFacultad> getAllByIdDesc(){
+        return tipoFacultadDao.getAllByIdDesc();
+    }
 }

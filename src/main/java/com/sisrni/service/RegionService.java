@@ -9,6 +9,7 @@ import com.sisrni.dao.RegionDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Region;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,8 @@ public class RegionService extends GenericService<Region, Integer>  {
     public GenericDao<Region, Integer> getDao() {
       return regionDao;
     }
+        public List<Region> getAllByIdDesc(){
+        return regionDao.getAllByIdDesc();
+    }  
     
 }

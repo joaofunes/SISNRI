@@ -7,6 +7,8 @@ package com.sisrni.dao;
 
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.Region;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,5 +17,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository(value = "regionDao")
 public class RegionDao extends GenericDao<Region, Integer> {
+    
+     public List<Region> getAllByIdDesc(){
+       String query="Select r from Region r order by r.idRegion desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
     
 }

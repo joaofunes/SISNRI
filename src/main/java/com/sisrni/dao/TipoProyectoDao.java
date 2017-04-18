@@ -22,4 +22,11 @@ public class TipoProyectoDao extends GenericDao<TipoProyecto, Integer>{
        Query q= getSessionFactory().getCurrentSession().createQuery(query);
        return q.list();
    }
+   
+    public List<TipoProyecto> getAllByIdDesc(){
+       String query="Select t from TipoProyecto t order by t.idTipoProyecto desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+     }
+   
 }

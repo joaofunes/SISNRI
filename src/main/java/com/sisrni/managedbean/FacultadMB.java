@@ -83,9 +83,9 @@ public class FacultadMB{
         facultad = new Facultad();
          paisSelected = new Pais();
          organismo = new Organismo();
-        paisesList = paisService.findAll();
-        listOrganismo = organismoService.findAll();
-        listFacultad = facultadService.findAll();
+        paisesList = paisService.getAllByIdDesc();
+        listOrganismo = organismoService.getAllByIdDesc();
+        listFacultad = facultadService.getAllByIdDesc();
         actualizar = false;
     }
     
@@ -182,7 +182,7 @@ public class FacultadMB{
             context.execute("PF('confirmDeleteFacultadDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Facultad!");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Facultad!"));
             e.printStackTrace();
         }finally{
             actualizar = false;

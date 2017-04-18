@@ -18,6 +18,11 @@ public class ProgramaMovilidadDao  extends GenericDao<ProgramaMovilidad, Integer
             e.printStackTrace();
         }
         return null;
-    }
+    }  
+       public List<ProgramaMovilidad> getAllByIdDesc(){
+       String query="Select p from ProgramaMovilidad p order by p.idProgramaMovilidad desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
     
 }

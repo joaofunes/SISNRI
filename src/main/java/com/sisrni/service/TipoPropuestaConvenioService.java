@@ -9,6 +9,7 @@ import com.sisrni.dao.TipoPropuestaConvenioDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,10 @@ public class TipoPropuestaConvenioService extends GenericService<TipoPropuestaCo
     @Override
     public GenericDao<TipoPropuestaConvenio, Integer> getDao() {
       return tipoPropuestaConvenioDao;
+    }
+    
+        public List<TipoPropuestaConvenio> getAllByIdDesc(){
+        return tipoPropuestaConvenioDao.getAllByIdDesc();
     }
     
 }

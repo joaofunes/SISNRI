@@ -31,5 +31,9 @@ public class EtapaMovilidadService extends GenericService<EtapaMovilidad, Intege
      public List<EtapaMovilidad> getAllEtapasByNameAsc(){
          return etapaMovilidadDao.getAllEtapasByNameAsc();
      }
+     
+          public List<EtapaMovilidad> getAllByIdDesc(){
+        return etapaMovilidadDao.getAllByIdDesc();
+    }
     
 }

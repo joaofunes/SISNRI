@@ -40,4 +40,7 @@ public class EscuelaDepartamentoService extends GenericService<EscuelaDepartamen
         return escuelaDepartamentoDao.findById(id);
     }
     
+         public List<EscuelaDepartamento> getAllByIdDesc(){
+        return escuelaDepartamentoDao.getAllByIdDesc();
+    } 
 }

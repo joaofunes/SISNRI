@@ -124,4 +124,8 @@ public class PersonaService extends GenericService<Persona, Integer> {
     public Persona existePersonaByMail(String email) {
         return personaDao.existePersonaByMail(email);
     }
+    
+     public List<Persona> getAllByIdDesc(){
+        return personaDao.getAllByIdDesc();
+    } 
 }

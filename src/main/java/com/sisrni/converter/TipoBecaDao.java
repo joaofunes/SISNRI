@@ -22,4 +22,10 @@ public class TipoBecaDao extends GenericDao<TipoBeca, Integer>{
        Query q= getSessionFactory().getCurrentSession().createQuery(query);
        return q.list();
    }
+    
+    public List<TipoBeca> getAllByIdDesc(){
+       String query="Select t from TipoBeca t order by t.idTipoBeca desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+     }
 }

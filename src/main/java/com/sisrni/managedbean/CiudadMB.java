@@ -82,10 +82,10 @@ public class CiudadMB{
     public void cargarCiudad(){
         ciudad = new Ciudad();
         provincia = new Provincia();
-        listProvincia = provinciaService.findAll();
-        listCiudad = ciudadService.findAll();
+        listProvincia = provinciaService.getAllByIdDesc();
+        listCiudad = ciudadService.getAllByIdDesc();
         paisSelected = new Pais();
-        paisesList = paisService.findAll();
+        paisesList = paisService.getAllByIdDesc();
         actualizar = false;
     }
     
@@ -136,7 +136,7 @@ public class CiudadMB{
             ciudadService.merge(ciudad);
             actualizar = false;
             cancelarCiudad(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Ciudad");
             e.printStackTrace();
@@ -182,7 +182,7 @@ public class CiudadMB{
             context.execute("PF('confirmDeleteCiudadDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminada!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Ciudad!");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Ciudad!"));
             e.printStackTrace();
         }finally{
             actualizar = false;

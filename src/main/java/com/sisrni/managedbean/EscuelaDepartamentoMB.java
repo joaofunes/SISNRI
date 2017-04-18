@@ -92,10 +92,10 @@ public class EscuelaDepartamentoMB{
         facultad = new Facultad();
         organismoSelected = new Organismo();
         paisSelected = new Pais();
-        paisesList = paisService.findAll();
-        organismosList = organismoService.findAll();
-        listFacultad = facultadService.findAll();
-        listEscuelaDepartamento = escuelaDepartamentoService.findAll();
+        paisesList = paisService.getAllByIdDesc();
+        organismosList = organismoService.getAllByIdDesc();
+        listFacultad = facultadService.getAllByIdDesc();
+        listEscuelaDepartamento = escuelaDepartamentoService.getAllByIdDesc();
         actualizar = false;
     }
         
@@ -204,7 +204,7 @@ public class EscuelaDepartamentoMB{
             context.execute("PF('confirmDeleteEscuelaDepartamentoDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Escuela o Departamento!");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Escuela o Departamento!"));
             e.printStackTrace();
         }finally{
             actualizar = false;

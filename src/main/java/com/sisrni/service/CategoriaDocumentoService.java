@@ -31,5 +31,10 @@ public class CategoriaDocumentoService extends GenericService<CategoriaDocumento
      public List<Integer> getCategoriasDocumentoProyecto(Integer id){
         return categoriaDocumentoDao.getCategoriasDocumentoProyecto(id);
     }
+     
+      public List<CategoriaDocumento> getAllByIdDesc(){
+        return categoriaDocumentoDao.getAllByIdDesc();
+    }
+     
     
 }

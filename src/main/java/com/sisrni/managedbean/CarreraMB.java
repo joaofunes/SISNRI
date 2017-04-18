@@ -92,10 +92,10 @@ public class CarreraMB{
         facultad = new Facultad();
         organismoSelected = new Organismo();
         paisSelected = new Pais();
-        paisesList = paisService.findAll();
-        organismosList = organismoService.findAll();
-        listFacultad = facultadService.findAll();
-        listCarrera = carreraService.findAll();
+        paisesList = paisService.getAllByIdDesc();
+        organismosList = organismoService.getAllByIdDesc();
+        listFacultad = facultadService.getAllByIdDesc();
+        listCarrera = carreraService.getAllByIdDesc();
         actualizar = false;
     }
     
@@ -147,7 +147,7 @@ public class CarreraMB{
             carreraService.merge(carrera);
             actualizar = false;
             cancelarCarrera(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Carrera");
             e.printStackTrace();
@@ -205,7 +205,7 @@ public class CarreraMB{
             context.execute("PF('confirmDeleteCarreraDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Carrera!");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Carrera!"));
             e.printStackTrace();
         }finally{
             actualizar = false;
@@ -228,8 +228,7 @@ public class CarreraMB{
         facultad = new Facultad();
         RequestContext.getCurrentInstance().reset(":formCarrera");
         if(actualizar)
-        JsfUtil.addSuccessMessage(msg);
-        
+        JsfUtil.addSuccessMessage(msg); 
         }catch(Exception e){
              System.out.println(e.getMessage());
         }

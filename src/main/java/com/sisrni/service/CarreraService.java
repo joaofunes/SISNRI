@@ -31,4 +31,8 @@ public class CarreraService extends GenericService<Carrera, Integer>{
     public List<Carrera> getCarrerasByFacultad(int idFacultad){
     return carreraDao.getCarrerasByFacultad(idFacultad);
     }
+    
+    public List<Carrera> getAllByIdDesc(){
+        return carreraDao.getAllByIdDesc();
+    }
 }

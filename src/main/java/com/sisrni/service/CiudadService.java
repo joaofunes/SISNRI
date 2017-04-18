@@ -32,4 +32,8 @@ public class CiudadService extends GenericService<Ciudad, Integer>{
     public List<Ciudad> getCiudadesByProvinciaId(Integer id){
     return ciudadDao.getCiudadesByProvinciaId(id);
     }
+   
+         public List<Ciudad> getAllByIdDesc(){
+        return ciudadDao.getAllByIdDesc();
+    }
 }

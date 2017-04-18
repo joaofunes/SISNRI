@@ -31,4 +31,8 @@ public class TipoDocumentoService extends GenericService<TipoDocumento, Integer>
     public List<TipoDocumento> getTipoDocumentosByCategory(Integer idCategoria) {
         return documentoDao.getTipoDocumentosByCategory(idCategoria);
     }
+    
+     public List<TipoDocumento> getAllByIdDesc(){
+        return documentoDao.getAllByIdDesc();
+    }
 }

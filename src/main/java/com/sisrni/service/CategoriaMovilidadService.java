@@ -31,5 +31,9 @@ public class CategoriaMovilidadService extends GenericService<CategoriaMovilidad
       public List<CategoriaMovilidad> getAllCategoriasByNameAsc(){
           return categoriaMovilidadDao.getAllCategoriasByNameAsc();
       }
+      
+         public List<CategoriaMovilidad> getAllByIdDesc(){
+        return categoriaMovilidadDao.getAllByIdDesc();
+    }
     
 }

@@ -23,12 +23,14 @@ import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.OrganismoService;
+import com.sisrni.service.PaisService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.SsUsuariosService;
 import com.sisrni.service.TelefonoService;
 import com.sisrni.service.TipoPersonaService;
 import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
+import com.sisrni.utils.JsfUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -98,6 +100,10 @@ public class PersonaMB implements Serializable{
     private Boolean escuelaReferenteRequerido;
     private List<EscuelaDepartamento> listEscuelaDepartamentoRefFact;
     private Persona personaFacultadGenerico;
+    //Mascara de telefonos de personas externas
+    private String codigoPais;
+    private String mascaraTelefono;
+    
      
     @Autowired
     @Qualifier(value = "organismoService")
@@ -139,6 +145,9 @@ public class PersonaMB implements Serializable{
     @Autowired
     private EscuelaDepartamentoService escuelaDepartamentoService;
     
+    @Autowired
+    private PaisService paisService;
+    
     //declaracion de listas
     @PostConstruct
     public void init() {
@@ -157,6 +166,9 @@ public class PersonaMB implements Serializable{
             facultadDeReferente = "";
             clave = "";
             codigo = "";
+            //Mascara de telenonos de personas externas
+            codigoPais = "";
+            mascaraTelefono = "";
             mostrarEscuelaReferente = false;
             escuelaReferenteRequerido = false;
         } catch (Exception e) {
@@ -166,11 +178,11 @@ public class PersonaMB implements Serializable{
     
      private void inicializarListas() {
          try {
-             listadoOrganismo = organismoService.findAll();
-             //listadoUnidad = unidadService.findAll();
-             listadoTipoPersona = tipoPersonaService.findAll();            
+             listadoOrganismo = organismoService.getAllByIdDesc();
+             //listadoUnidad = unidadService.getAllByIdDesc();
+             listadoTipoPersona = tipoPersonaService.getAllByIdDesc();            
              listadoTelefono = telefonoService.findAll();
-             listaPersona = personaService.findAll();
+             listaPersona = personaService.getAllByIdDesc();
              listFacultadBnfUes = facultadService.getFacultadesByUniversidad(1); //revisar esto
              listUnidadBnfUes = unidadService.getUnidadesByUniversidad(1);     //revisar esto
              listFacultadUnidadReferenteFactBnf = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
@@ -252,7 +264,10 @@ public class PersonaMB implements Serializable{
      */ 
     public void guardar(){
         try {
-            String msg = "Persona Almacenado Exitosamente!";   
+            String msg = "Persona Almacenado Exitosamente!";  
+            personaFacultadGenerico = new Persona();
+            personaFacultadGenerico= personaService.getPersonaByEmail(persona.getEmailPersona());
+            if(personaFacultadGenerico==null){
             organismo= organismoService.findById(1);
             
             persona.setExtranjero(false);
@@ -270,10 +285,48 @@ public class PersonaMB implements Serializable{
             telefonoService.save(telefonoCell);
              RequestContext context = RequestContext.getCurrentInstance();    
              context.execute("PF('PersonaCreateDialog').hide();");
-            
-            init();
-            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+            init();        
+            FacesContext.getCurrentInstance().getExternalContext().redirect("List.xhtml");
+            }else{
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Duplicado", "Ya hay informacion vinculada a este correo electronico"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+    
+        
+    /**
+     * Metodo para almacenar una nueva persona extranjera
+     */ 
+    public void guardarExtranjero(){
+        try {
+            String msg = "Persona Almacenado Exitosamente!";   
+            personaFacultadGenerico = new Persona();
+            personaFacultadGenerico= personaService.getPersonaByEmail(persona.getEmailPersona());
+            if(personaFacultadGenerico==null){
+            persona.setExtranjero(true);
+            personaService.save(persona);
+            
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoFijo.setIdPersona(persona);
+            telefonoService.save(telefonoFijo);
+                    
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
+            telefonoCell.setIdTipoTelefono(tipoTelefono);
+            telefonoCell.setIdPersona(persona);
+            telefonoService.save(telefonoCell);
+       
+            RequestContext context = RequestContext.getCurrentInstance();    
+            context.execute("PF('PersonaCreateDialog').hide();");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
+            init();        
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListExtranjera.xhtml");
+             }else{
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Duplicado", "Ya hay informacion vinculada a este correo electronico"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -312,32 +365,7 @@ public class PersonaMB implements Serializable{
             e.printStackTrace();
         }
     } 
-    
-    /**
-     * Metodo para almacenar una nueva persona extranjera
-     */ 
-    public void guardarExtranjero(){
-        try {
-            String msg = "Persona Almacenado Exitosamente!";   
-            
-            tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
-            telefonoFijo.setIdTipoTelefono(tipoTelefono);
-            telefonoService.save(telefonoFijo);
-                    
-            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
-            telefonoCell.setIdTipoTelefono(tipoTelefono);
-            telefonoService.save(telefonoCell);
-            
-            persona.setExtranjero(true);
-            personaService.save(persona);
-            
-            llenarPojoPersona(); 
-             llenarPojoPersonaExtranjera(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Guardado", msg));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    } 
+
     
     
     /**
@@ -386,6 +414,137 @@ public class PersonaMB implements Serializable{
         }
     }
     
+     /**
+     * Metodo para editar una persona Interna
+     */ 
+    public void editar(){
+        try {
+            String msg = "Persona Editada Exitosamente!";  
+             boolean guardar = false;
+            personaFacultadGenerico= personaService.getPersonaByEmail(persona.getEmailPersona());
+            if(personaFacultadGenerico!=null){
+                if( personaFacultadGenerico.getIdPersona()==persona.getIdPersona())
+                  guardar = true;
+                else
+                   guardar = false;
+            }else
+                guardar = true;
+            
+                if( guardar){
+            //Telefonos
+            persona.getTelefonoList().clear();
+            //Fijo
+             telefonoFijo.setIdPersona(persona);
+             telefonoFijo.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+             persona.getTelefonoList().add(telefonoFijo);
+            //Cel
+            telefonoCell.setIdPersona(persona);
+            telefonoCell.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+            persona.getTelefonoList().add(telefonoCell);
+                
+            personaService.merge(persona);   
+            llenarPojoPersona(); 
+            llenarPojoPersonaExtranjera(); 
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
+            RequestContext context = RequestContext.getCurrentInstance(); 
+            context.execute("PF('PersonaEditDialog').hide()");
+            init();        
+            FacesContext.getCurrentInstance().getExternalContext().redirect("List.xhtml");
+            }else{
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Duplicado", "Ya hay informacion vinculada a este correo electronico"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+        
+    
+    /**
+     * Metodo para setear persona extranjera a ser editada
+     * @param persona 
+     */
+    public void preEditarExtranjero(Persona persona){
+        try {
+            this.persona=persona;
+            telefonoFijo = new Telefono();
+            telefonoCell = new Telefono();
+            List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(persona);
+            
+            for(Telefono tel: telefonosByPersona){
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)){
+                     telefonoFijo=tel;
+                }
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)){
+                     telefonoCell=tel;
+                }
+            }
+           onchangeListInstitucionPersona();
+        } catch (Exception e) {
+        }
+    }
+    
+    
+      /**
+     * Metodo para editar una persona Externa
+     */ 
+    public void editarExterna(){
+        try {
+            String msg = "Persona Editada Exitosamente!"; 
+            boolean guardar = false;
+            personaFacultadGenerico= personaService.getPersonaByEmail(persona.getEmailPersona());
+            if(personaFacultadGenerico!=null){
+                if( personaFacultadGenerico.getIdPersona()==persona.getIdPersona())
+                  guardar = true;
+                else
+                   guardar = false;
+            }else
+                guardar = true;
+            
+                if( guardar){
+                    persona.getTelefonoList().clear();
+                    //Fijo
+                    telefonoFijo.setIdPersona(persona);
+                    telefonoFijo.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));
+                    persona.getTelefonoList().add(telefonoFijo);
+                    //Cel
+                    telefonoCell.setIdPersona(persona);
+                    telefonoCell.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));
+                    persona.getTelefonoList().add(telefonoCell);
+                    
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
+                    personaService.merge(persona);
+                    RequestContext context = RequestContext.getCurrentInstance(); 
+                    context.execute("PF('PersonaEditDialog').hide()");
+                    init();        
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("ListExtranjera.xhtml");
+                }else{
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Duplicado", "Ya hay informacion vinculada a este correo electronico"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+        /**
+     * Metodo que se encarga de limpiar el formulario de creacion y 
+     * actualizacion de Ciudad
+     */
+    public void cancelarPersona(){
+        String msg ="Accion Cancelada";
+        try{
+        persona = null;
+        persona = new Persona();
+        RequestContext.getCurrentInstance().reset(":formNewPersona");
+        RequestContext context = RequestContext.getCurrentInstance();    
+        context.execute("PF('PersonaEditDialog').hide()");
+         //if(actualizar)
+        JsfUtil.addSuccessMessage(msg);
+        //FacesContext.getCurrentInstance().getExternalContext().redirect("List.xhtml");
+        }catch(Exception e){
+             System.out.println(e.getMessage());
+        }
+       init();
+    }
+    
     public void mostrarEscuelaReferenteFact() {
         int result = -1;
         if ((result = facultadDeReferente.indexOf(",2")) > -1) {
@@ -399,13 +558,14 @@ public class PersonaMB implements Serializable{
         }
     }
     
+    
      public void onchangeListFacultadReferente() {
      int result = -1;
      Integer id;
      if ((result = facultadDeReferente.indexOf(",1")) > -1) {
          id = Integer.parseInt(facultadDeReferente.substring(0, result));
          listEscuelaDepartamentoRefFact = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(id);
-
+         persona.setIdUnidad(null);
      } else if ((result = facultadDeReferente.indexOf(",2")) > -1) {
          id = Integer.parseInt(facultadDeReferente.substring(0, result));
          //Afrefando la unidad seleccionada a una variable temporal
@@ -416,40 +576,8 @@ public class PersonaMB implements Serializable{
 
      }
  }
-
     
-    
-    /**
-     * Metodo para almacenar una nueva persona
-     */ 
-    public void editar(){
-        try {
-            String msg = "Persona Editada Exitosamente!";  
-            
-            telefonoFijo.setIdPersona(persona);            
-            telefonoFijo.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(FIJO));           
-            telefonoService.saveOrUpdate(telefonoFijo);
-            
-            telefonoCell.setIdPersona(persona);            
-            telefonoCell.setIdTipoTelefono(tipoTelefonoService.getTipoByDesc(CELULAR));           
-            telefonoService.saveOrUpdate(telefonoCell);
-            
-           //Revisar
-            if(facultadDeReferente==null){
-                persona.setIdUnidad(null);
-            }
-            
-            personaService.merge(persona);   
-            llenarPojoPersona(); 
-            llenarPojoPersonaExtranjera(); 
-            init();
-            RequestContext context = RequestContext.getCurrentInstance();    
-            context.execute("PF('PersonaEditDialog').close()");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    } 
+   
     
     
     /**
@@ -511,6 +639,13 @@ public class PersonaMB implements Serializable{
             e.printStackTrace();
         }
     } 
+    
+       //Metodo que se encarga de mostrar mascara de personas externas en los telefonos
+    public void onchangeListInstitucionPersona() {
+        Organismo org = organismoService.findById(persona.getIdOrganismo().getIdOrganismo());
+        codigoPais = paisService.findById(org.getIdPais()).getCodigoPais();
+        mascaraTelefono = telefonoService.getMask(codigoPais);
+    }
     
            /**
      * Metodo para setear persona a ser crear Usuario a persona
@@ -860,4 +995,11 @@ public class PersonaMB implements Serializable{
         this.personaFacultadGenerico = personaFacultadGenerico;
     }
     
+    public String getMascaraTelefono() {
+        return mascaraTelefono;
+    }
+
+    public void setMascaraTelefono(String mascaraTelefono) {
+        this.mascaraTelefono = mascaraTelefono;
+    }
 }

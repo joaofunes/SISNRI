@@ -76,7 +76,7 @@ public class ProgramaBecaMB extends GenericManagedBean<ProgramaBeca, Integer> {
         try {
             actualizar = false;
             programaBeca = new ProgramaBeca();
-            listadoProgramaBeca = programaBecaService.findAll();
+            listadoProgramaBeca = programaBecaService.getAllByIdDesc();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
 
@@ -117,7 +117,7 @@ public class ProgramaBecaMB extends GenericManagedBean<ProgramaBeca, Integer> {
             actualizar = false;
             cancelarProgramaBeca();
             cargarProgramaBeca();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualizaci&oacute;n!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualizacion!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar Programa de Beca");
         }
@@ -146,13 +146,13 @@ public class ProgramaBecaMB extends GenericManagedBean<ProgramaBeca, Integer> {
         String msg = "Programa de Beca Eliminado Exitosamente!";
         try {
             programaBecaService.delete(this.delProgramaBeca);
-            listadoProgramaBeca = programaBecaService.findAll();
+            listadoProgramaBeca = programaBecaService.getAllByIdDesc();
             RequestContext.getCurrentInstance().update(":formPrincipal");
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').hide();");
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro Programa de Beca");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Programa de Beca"));
         } finally {
             actualizar = false;
             delProgramaBeca = new ProgramaBeca();

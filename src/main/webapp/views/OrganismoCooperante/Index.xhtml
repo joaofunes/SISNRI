@@ -9,6 +9,9 @@
                  xmlns:p="http://primefaces.org/ui" 
 
                  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      <f:metadata>            
+             <f:viewAction action="#{organismoCooperanteMB.init()}" />
+        </f:metadata> 
 
 
     <ui:define name="content">
@@ -61,7 +64,7 @@
                             <h:outputText id="pais" value="#{organismo.nPais}" escape="false"/>
                          </p:column>
                          <p:column>
-                          <p:outputLabel value="Correo:"/>
+                          <p:outputLabel value="Sitio Web:"/>
                           <h:outputText id="correo" value="#{organismo.correo}" escape="false"/>
                           </p:column>
                           <p:column>
@@ -72,10 +75,10 @@
                             <p:outputLabel value="Teléfono:"/>
                               <h:outputText id="tel" value="#{organismo.tel}" escape="false"/>
                             </p:column>
-                            <p:column>
-                            <p:outputLabel value="C&oacute;digo:"/>
+       <!--                       <p:column>
+                          <p:outputLabel value="C&oacute;digo:"/>
                             <h:outputText id="codigo" value="#{organismo.codigo}" escape="false"/>
-                            </p:column>
+                            </p:column>-->
                               
                         </p:panelGrid>
                     </p:panel>

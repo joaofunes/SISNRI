@@ -174,7 +174,7 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
      */
     public List<Persona> getPersonaList2(boolean extranjero) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  a.extranjero =:extranjero")
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Persona a  WHERE  a.extranjero =:extranjero order by a.idPersona desc")
                     .setBoolean("extranjero", extranjero);
             return q.list();
 
@@ -401,5 +401,11 @@ public class PersonaDao extends GenericDao<Persona, Integer> {
         }
         return null;
     }
+    
+      public List<Persona> getAllByIdDesc(){
+       String query="Select p from Persona p order by p.idPersona desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 
 }

@@ -37,4 +37,8 @@ public class TipoCambioService extends GenericService<TipoCambio, Integer>  {
     public List<TipoCambio> getAllByNameAsc(){
         return tipoCambioDao.getAllByNameAsc();
     }
+    
+     public List<TipoCambio> getAllByIdDesc(){
+        return tipoCambioDao.getAllByIdDesc();
+    }
 }
