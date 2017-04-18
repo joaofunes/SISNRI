@@ -191,11 +191,7 @@ public class registrarMovilidadMB {
     //private Persona personaMovilidad;
     private Persona personaMovilidadGenerico;
 
-    //private PersonaMovilidad personaMovilidadReferenteFact;
-    //private PersonaMovilidadPK personaMovilidadReferenteFactPK;
-    //private PersonaMovilidad personaEnMovilidad;
-    //  private PersonaMovilidadPK personaEnMovilidadPK;
-    //private Persona personaFacultadSelected;
+    
     private Persona personaFacultadGenerico;
 
     private Persona personaMovAux;//----------------------
@@ -419,10 +415,7 @@ public class registrarMovilidadMB {
         personaMovAux = new Persona();
         personaReftAux = new Persona();
 
-        //personaMovilidadReferenteFact = new PersonaMovilidad();
-        //personaMovilidadReferenteFactPK = new PersonaMovilidadPK();
-        //personaEnMovilidad = new PersonaMovilidad();
-        //  personaEnMovilidadPK = new PersonaMovilidadPK();
+       
         fechaInicioSelected = null;
         fechaFinSelected = null;
         fechaEntregaMinedSelected = null;
@@ -642,27 +635,7 @@ public class registrarMovilidadMB {
         }
     }
 
-//    public void onchangeCategoriaMovilidadList() {
-//        try {
-//            if (categoriaMovilidadSelected != null) {
-//                categoriaMovilidad = categoriaMovilidadService.findById(categoriaMovilidadSelected);
-//            } else {
-//                categoriaMovilidad = null;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-    //  public void onchangeListPersonaMovilidad() {
-    //      try {
-    //          if (personaMovilidad != null) {
-    //              personaMovilidadGenerico = personaMovilidad;
-    //              // personaMovilidad = new Persona();
-    //          }
-    //      } catch (Exception e) {
-    //
-    //      }
-    //  }
+
     public void onchangeListInstitucionPersonaMovilidad() {
         listFacultadByInst = facultadService.getFacultadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listUnidadByInst = unidadService.getUnidadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
@@ -1356,47 +1329,7 @@ public class registrarMovilidadMB {
         }
     }
 
-    // public void onchangeListReferenteFacultad() {
-    //     EscuelaDepartamento escuelaDepartamentoRft = new EscuelaDepartamento();
-    //     Facultad facultadRft = new Facultad();
-    //     Unidad unidadRft = new Unidad();
-    //     try {
-    //        if (personaFacultadSelected != null) {
-    //            personaFacultadGenerico = personaFacultadSelected;
-    //            existeReferente = true;
-    //            //personaFacultadSelected = new Persona();
-    //
-    //            //Obteniendo escuela_departamento y facultad de la persona seleccionada
-    //            if ((escuelaDepartamentoRft = personaFacultadSelected.getIdEscuelaDepto()) != null) {
-    //                listEscuelaDepartamentoRefFact = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(escuelaDepartamentoRft.getIdFacultad().getIdFacultad());
-    //               escuelaDepartamentoReferenteFactBnfSelected = escuelaDepartamentoRft.getIdEscuelaDepto();
-    //
-    //               facultadDeReferente = escuelaDepartamentoRft.getIdFacultad().getIdFacultad().toString() + ",1";
-    //           }
-    //           if ((unidadRft = personaFacultadSelected.getIdUnidad()) != null) {
-    //               facultadDeReferente = unidadRft.getIdUnidad().toString() + ",2";
-    //               listEscuelaDepartamentoRefFact = new ArrayList<EscuelaDepartamento>();
-    //           }
-    // 
-    //           // escuelaDepartamentoReferenteFactBnfSelected = personaFacultadSelected.getIdEscuelaDepto().getIdEscuelaDepto();
-    //           //obteniendo telefonos de la persona seleccionada
-    //           List<Telefono> listTelefonosPersonaFacultad = telefonoService.getTelefonosByPersona(personaFacultadSelected);
-    //           for (Telefono tlfx : listTelefonosPersonaFacultad) {
-    //               if (tlfx.getIdTipoTelefono().getNombre().equals(FIJO)) {
-    //                   telFijoPersonaFacultad = tlfx;
-    //               }
-    //               if (tlfx.getIdTipoTelefono().getNombre().equals(CELULAR)) {
-    //                   telCelPersonaFacultad = tlfx;
-    //               }
-    //               if (tlfx.getIdTipoTelefono().getNombre().equals(FAX)) {
-    //                   faxPersonaFacultad = tlfx;
-    //                }
-    //             }
-    //         }
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //      }
-    //  }
+ 
     /**
      * Metodo para guardar en arreglos las facultades y unidades beneficiadas
      */
@@ -1730,203 +1663,8 @@ public class registrarMovilidadMB {
 
     }
 
-    public void crearMovilidad() {
-//        try {
-//
-//            if (movilidad.getEntregaDeInforme() == null) {
-//                movilidad.setEntregaDeInforme(false);
-//            }
-//            if (movilidad.getObsequio() == null) {
-//                movilidad.setObsequio(false);
-//            }
-//            if (movilidad.getPagoDeCurso() == null) {
-//                movilidad.setPagoDeCurso(new BigDecimal(0.00));
-//            } else {
-//                if (tipoCambioSelected.getIdTipoCambio() == 1) {
-//                    TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
-//                    BigDecimal d = movilidad.getPagoDeCurso();
-//                    d = d.multiply(aux.getDolaresPorUnidad());
-//                    movilidad.setPagoDeCurso(d);
-//                }
-//            }
-//            if (movilidad.getViaticos() == null) {
-//                movilidad.setViaticos(new BigDecimal(0.00));
-//            } else {
-//                if (tipoCambioSelected.getIdTipoCambio() == 1) {
-//                    TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
-//                    BigDecimal d = movilidad.getViaticos();
-//                    d = d.multiply(aux.getDolaresPorUnidad());
-//                    movilidad.setViaticos(d);
-//                }
-//            }
-//            if (movilidad.getVoletoAereo() == null) {
-//                movilidad.setVoletoAereo(new BigDecimal(0.00));
-//            } else {
-//                if (tipoCambioSelected.getIdTipoCambio() == 1) {
-//                    TipoCambio aux = tipoCambioService.findById(tipoCambioSelected.getIdTipoCambio());
-//                    BigDecimal d = movilidad.getVoletoAereo();
-//                    d = d.multiply(aux.getDolaresPorUnidad());
-//                    movilidad.setVoletoAereo(d);
-//                }
-//            }
-//
-//            //Seteando algunos datos de la persona referente de la facultad beneficiada
-//            getArreglosFacultadesUnidadesBeneficiadas();
-//
-//            //Si el referente pertenece a una unidad
-//            if (unidadRftFactTmp != null) {
-//                personaFacultadGenerico.setIdUnidad(unidadRftFactTmp);
-//                personaFacultadGenerico.setIdEscuelaDepto(null);
-//                escuelaDepartamentoReferenteFactBnfSelected = null;
-//            }
-//
-//            //datos adicionales de persona Referente Facultad Beneficiada
-//            personaFacultadGenerico.setActivo(true);
-//            personaFacultadGenerico.setExtranjero(false);
-//            personaFacultadGenerico.setIdOrganismo(organismoService.findById(1));  //revisar esto
-//            personaFacultadGenerico.setPasaporte("--");                    //revisar esto
-//
-//            //Seteando Datos adicionales de persona en movilidad
-//            if (movilidad.getIdTipoMovilidad().getIdTipoMovilidad() == 1) { //Si es Entrante
-//                //personaMovilidadGenerico.setIdOrganismo(idOrganismo);
-//                personaMovilidadGenerico.setActivo(true);
-//                personaMovilidadGenerico.setExtranjero(true);
-////                personaMovilidadGenerico.setIdOrganismo(organismoService.findById(institucionPersonaMovilidadSelected));
-//                personaMovilidadGenerico.setDuiPersona("00000000-0");
-//                //si a la persona se le asigno una unidad
-//                if (unidadPersonMovTmp != null) {
-//                    personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
-//                    personaMovilidadGenerico.setIdEscuelaDepto(null);
-//                }
-//
-//            } else {   //Si es saliente
-//                personaMovilidadGenerico.setActivo(true);
-//                personaMovilidadGenerico.setExtranjero(false);
-//                personaMovilidadGenerico.setIdOrganismo(organismoService.findById(1)); //revisar esto
-//                personaMovilidadGenerico.setPasaporte("--");
-//                //si a la persona se le asigno una unidad
-//                if (unidadPersonMovTmp != null) {
-//                    personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
-//                    personaMovilidadGenerico.setIdEscuelaDepto(null);
-//                }
-//
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
-    }
 
-    public void guardarMovilidadPersona() {
-//        String msg = "Movilidad guardada exitosamente!!";
-//
-//        try {
-//            crearMovilidad();
-//
-//            if (existeMovilidad == true) {
-//                movilidadService.merge(movilidad);
-//            } else {
-//                movilidad.setFechaIngreso(new Date());
-//                movilidadService.save(movilidad);
-//
-//            }
-//
-//            //Guardando persona en Movilidad
-//            //Guardando telefonos de persona en movilidad
-//            personaMovilidadGenerico.getTelefonoList().clear();
-//
-//            //Guardando telefonos de persona en movilidad
-//            telFijoPersonaMovilidad.setIdPersona(personaMovilidadGenerico);
-//            telFijoPersonaMovilidad.setIdTipoTelefono(tipoTelefonoFijo);
-//            personaMovilidadGenerico.getTelefonoList().add(telFijoPersonaMovilidad);
-//            //telefonoService.save(telFijoPersonaMovilidad);
-//
-//            telCelPersonaMovilidad.setIdPersona(personaMovilidadGenerico);
-//            telCelPersonaMovilidad.setIdTipoTelefono(tipoTelefonoCel);
-//            personaMovilidadGenerico.getTelefonoList().add(telCelPersonaMovilidad);
-//            //telefonoService.save(telCelPersonaMovilidad);
-//
-//            //faxPersonaMovilidad.setIdPersona(personaMovilidadGenerico);
-//            //   faxPersonaMovilidad.setIdTipoTelefono(tipoTelefonoFax);
-//            //   personaMovilidadGenerico.getTelefonoList().add(faxPersonaMovilidad);
-//            //telefonoService.save(faxPersonaMovilidad);
-//            if (usadoBuscadorPersonaMov == false && existePersonaMovilidad == false) { //se esta digitando la persona directamente
-//                personaService.save(personaMovilidadGenerico);
-//            } else {
-//                personaService.merge(personaMovilidadGenerico);
-//            }
-//
-//            if (actualizarPersonaMov == false) {
-//                //Guardando en tabla intermedia de persona movilidad
-//                PersonaMovilidadPK personaEnMovilidadPK = new PersonaMovilidadPK();
-//                personaEnMovilidadPK.setIdPersona(personaMovilidadGenerico.getIdPersona());
-//                personaEnMovilidadPK.setIdMovilidad(movilidad.getIdMovilidad());
-//
-//                PersonaMovilidad personaEnMovilidad = new PersonaMovilidad();
-//                personaEnMovilidad.setMovilidad(movilidad);
-//                personaEnMovilidad.setPersona(personaMovilidadGenerico);
-//                personaEnMovilidad.setIdTipoPersona(tipoPersonaMovilidad);
-//                personaEnMovilidad.setPersonaMovilidadPK(personaEnMovilidadPK);
-//                movilidad.getPersonaMovilidadList().add(personaEnMovilidad);
-//            }
-//
-//            //Guardando persona Referente
-//            //Guardando telefonos de persona referente facultad beneficiada
-//            personaFacultadGenerico.getTelefonoList().clear();
-//            telFijoPersonaFacultad.setIdPersona(personaFacultadGenerico);
-//            telFijoPersonaFacultad.setIdTipoTelefono(tipoTelefonoFijo);
-//            personaFacultadGenerico.getTelefonoList().add(telFijoPersonaFacultad);
-//
-//            telCelPersonaFacultad.setIdPersona(personaFacultadGenerico);
-//            telCelPersonaFacultad.setIdTipoTelefono(tipoTelefonoCel);
-//
-//            personaFacultadGenerico.getTelefonoList().add(telCelPersonaFacultad);
-//
-//            //    faxPersonaFacultad.setIdPersona(personaFacultadGenerico);
-//            //    faxPersonaFacultad.setIdTipoTelefono(tipoTelefonoFax);
-//            //    personaFacultadGenerico.getTelefonoList().add(faxPersonaFacultad);
-//            if (usadoBuscadorPersonaRefte == false && existeReferente == false) {
-//                personaService.save(personaFacultadGenerico);
-//            } else {
-//                personaService.merge(personaFacultadGenerico);
-//            }
-//
-//            //     if (existeReferente == false) {
-//            //         personaService.save(personaFacultadGenerico);
-//            //     } else {
-//            //         personaService.merge(personaFacultadGenerico);
-//            //     }
-//            //Guardando en la tabla intermedia persona_movilidad para el referente de la facultad beneficiada
-//            if (desvinculadoRfte == true) {
-//                PersonaMovilidadPK personaMovilidadReferenteFactPK = new PersonaMovilidadPK();
-//                personaMovilidadReferenteFactPK.setIdPersona(personaFacultadGenerico.getIdPersona());
-//                personaMovilidadReferenteFactPK.setIdMovilidad(movilidad.getIdMovilidad());
-//
-//                PersonaMovilidad personaMovilidadReferenteFact = new PersonaMovilidad();
-//                personaMovilidadReferenteFact.setMovilidad(movilidad);
-//                personaMovilidadReferenteFact.setPersona(personaFacultadGenerico);
-//                personaMovilidadReferenteFact.setIdTipoPersona(tipoPersonaReferenteFact);
-//                personaMovilidadReferenteFact.setPersonaMovilidadPK(personaMovilidadReferenteFactPK);
-//                movilidad.getPersonaMovilidadList().add(personaMovilidadReferenteFact);
-//            }
-//
-//            //      if (existeReferente == false) {
-//            //          personaMovilidadService.saveOrUpdate(personaMovilidadReferenteFact); 
-//            //      }else{
-//            //          personaMovilidadService.merge(personaMovilidadReferenteFact);
-//            //      }
-//            movilidadService.merge(movilidad);
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardar!!", msg));
-//            //    } catch (MailExisteException e) {
-//            //        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Esta persona ya existe", "Esta persona ya existe"));
-//            //        e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//
-//        }
-//        regresar();
-    }
 
     public Persona comprobarEmail(String emailIngresado) {
         Persona persona = null;
@@ -1965,7 +1703,7 @@ public class registrarMovilidadMB {
         //mostrarBotonEditarDocente = true;
 
         mostrarBotonDesvincular = true;
-        tituloRegistroEdicion = "Actualizacion de movilidad";
+        tituloRegistroEdicion = "Actualizaci&oacute;n de movilidad";
         txtBotonGuardar = "Actualizar";
         txtBotonRegresar = "Cancelar";
 
@@ -2473,6 +2211,7 @@ public class registrarMovilidadMB {
             tipoCambioMB.init();
             RequestContext ajax = RequestContext.getCurrentInstance();
             ajax.execute("PF('tipocambioDialog').show()");
+            tipoCambioSelected = new TipoCambio();
         }
     }
 
