@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="BancoListForm">
+        <br/>
+        <br/>
+             <h2 class="title ui-widget-header ui-corner-all" align="center">Mantenimiento Mail</h2>
+             
+            <p:dataTable id="datalist" var="item" value="#{mantenimientoMailMB.listParametros}" paginator="true" rows="5"  
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"  
+                         rowsPerPageTemplate="5,10,15"   paginatorPosition="bottom">
+
+
+                <f:facet name="header">  
+                    #{crudbundle.ListBancoTitle}
+                </f:facet>  
+
+                <p:column filterBy="#{item.cuentaCorreo}" width="15%" >
+                    <f:facet name="header">
+                        <h:outputText value="Email"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cuentaCorreo}"/>
+                </p:column>
+                <p:column filterBy="#{item.puerto}" width="70%">
+                    <f:facet name="header">
+                        <h:outputText value="Puerto"/>
+                    </f:facet>
+                    <h:outputText value="#{item.puerto}"/>
+                </p:column>
+                <p:column filterBy="#{item.smtp}"  width="15%" >
+                    <f:facet name="header">
+                        <h:outputText value="smtp"/>
+                    </f:facet>
+                    <h:outputText value="#{item.smtp}"/>
+                </p:column>
+                <p:column filterBy="#{item.activo}"  width="15%" >
+                    <f:facet name="header">
+                        <h:outputText value="Activo"/>
+                    </f:facet>
+                    <h:outputText value="#{item.activo}"/>
+                </p:column>
+
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{mantenimientoMailMB.prepareCreate}" update=" @(#BancoCreateForm)" oncomplete="BancoCreateDialog.show()"/>
+                        <span>&nbsp;</span>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{crudbundle.View}" update="@(#BancoViewForm)" oncomplete="BancoViewDialog.show()" disabled="#{empty mantenimientoMailMB.selected}"/>
+                        <span>&nbsp;</span>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{crudbundle.Edit}" update="@(#BancoEditForm)" oncomplete="BancoEditDialog.show()" disabled="#{empty mantenimientoMailMB.selected}"/>
+                        <!--<p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" actionListener="#{mantenimientoMailMB.print}" oncomplete="print(xhr, status, args)"/>-->                        
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+
+
+    </h:form>
+</ui:composition>
