@@ -148,7 +148,7 @@ public class CategoriaDocumentoMB{
             context.execute("PF('confirmDeleteCategoriaDocumentoDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminada!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Categor&iacute;a de Documento!");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Categor&iacute;a de Documento!"));
             e.printStackTrace();
         }finally{
             actualizar = false;

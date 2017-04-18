@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
@@ -115,6 +117,14 @@ public class RolesMB implements Serializable{
 		      
             }
 	}
+        
+        public void preBorradoRol(SsRoles ssRoles){
+        //guardando en 'pais' la instancia de 'Pais' que se recibe como argumento
+        this.ssRoles = ssRoles; 
+        RequestContext context = RequestContext.getCurrentInstance();
+        //Desplegando el 'Dialog'
+        context.execute("PF('confirmDeleteRolDlg').show();");
+    }
 	
 	
 	public void editar() throws Exception{
@@ -133,18 +143,44 @@ public class RolesMB implements Serializable{
 		}
 	}
 	
+           /**
+     * Metodo que borra una instancia de 'Rol' de la Base de datos
+     */
+    public void borrarRol(){ 
+        String msg ="Rol Eliminado Exitosamente!";
+        try{
+            //Borrando la instancia de rol
+            rolesService.delete(ssRoles);
+            init();
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('confirmDeleteRolDlg').hide();"); 
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
+        }catch(Exception e){
+              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Rol!"));
+           //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Rol!");
+            e.printStackTrace();
+        }finally{
+            actualizar = false;
+        }
+        
+        
+    }
 	
 	public void guardar(){
 		try {	
+                      usuario = user.getSessionUser();
+                      String username;
+                      username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
                         getSsRoles().setFechaRegistro(new Date());
-                        getSsRoles().setUsuarioRegistro("UsuarioPrueba3");
+                        getSsRoles().setUsuarioRegistro(usuario.getUsuario().getCodigoUsuario());
                        // getSsRoles().setSsRolesSet(usuario.getUsuario().getSsRolesSet());
                 
 		        rolesService.getDao().save(getSsRoles());
 			getRoles();
 			RequestContext.getCurrentInstance().update("formAdmin");
 			RequestContext.getCurrentInstance().update("formRol");
-			JsfUtil.addSuccessMessage("Guardado Exitosamente");
+                        JsfUtil.addSuccessMessage(username);
+			//JsfUtil.addSuccessMessage("Guardado Exitosamente");
 
 		} catch (Exception e) {
 			e.printStackTrace();

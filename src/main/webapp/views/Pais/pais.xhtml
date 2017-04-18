@@ -61,7 +61,7 @@
                     <p:dataTable var="pais" value="#{paisMB.listPais}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen paises registrados actualmente" >
-                        <p:column headerText="C&oacute;digo"  style="width: 15%">
+                        <p:column headerText="C&oacute;digo"  filterBy="#{pais.codigoPais}" style="width: 15%">
                             <h:outputText value="#{pais.codigoPais}"/>
                         </p:column>
                         <p:column headerText="Pa&iacute;s"  filterBy="#{pais.nombrePais}">

@@ -111,8 +111,8 @@
                         </p:column>   
                                
                         <p:column> 
-                            <p:commandButton value="Guardar" id="idGuardarPersona" actionListener="#{personaMB.editar()}" process="@form" update="@form" icon="ui-icon-disk"/>
-                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('PersonaEditDialog').close();" />
+                            <p:commandButton value="Guardar" id="idGuardarPersona" actionListener="#{personaMB.editar()}" process="@form" update="PersonaCreateDlg" icon="ui-icon-disk"/>
+                            <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-closethick" immediate="true" actionListener="#{personaMB.cancelarPersona()}"  />
                         </p:column>
                     </h:panelGrid>
                 </center>    

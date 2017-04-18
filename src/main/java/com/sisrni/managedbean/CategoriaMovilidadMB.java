@@ -144,7 +144,7 @@ public class CategoriaMovilidadMB {
             context.execute("PF('confirmDeleteCategoriaMovilidadDlg').hide();");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminada!!", msg));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Categoria de Movilidad!");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Categoria de Movilidad!"));
             e.printStackTrace();
         } finally {
             actualizar = false;

@@ -169,7 +169,7 @@ public class TipoOrganismoMB  extends GenericManagedBean<TipoOrganismo, Integer>
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de organismo");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de organismo"));
         }finally{
              actualizar=false;
             delTipoOrganismo = new TipoOrganismo();

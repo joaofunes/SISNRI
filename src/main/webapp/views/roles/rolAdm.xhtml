@@ -1,98 +1,120 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <ui:composition 
-                template="/WEB-INF/templates/layout.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                >
-    
-    
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
     <ui:define name="content">
         <center>
             
             <p:panel style="width: 70%">  
-                <h2 class="title ui-widget-header ui-corner-all" align="center">Gesti&oacute;n de Roles</h2>
-        <h:form id="formAdmin">
-            <p:panelGrid >
+                 <h2 class="title ui-widget-header ui-corner-all" align="center">Gestión de Roles</h2>
+                <h:form id="formRol">
+                    <p:panelGrid columns="2">
+                         <p:column>
+                            <p:outputLabel for="nombreRol" value="Nombre:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nombreRol" value="#{rolesMB.ssRoles.nombreRol}" required="true" size="50" />
+                            <p:watermark for="nombreRol" value="Nombre del Rol" id="watermarkNombreRol"/>
+                        </p:column>
+                        
+                        <p:column>
+                            <p:outputLabel for="codigoRol" value="C&oacute;digo del Rol:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="codigoRol" value="#{rolesMB.ssRoles.codigoRol}"  required="true" size="50"/>
+                            <p:watermark for="codigoRol" value="C&oacute;digo" id="watermarkCodigoRol"/>
+                        </p:column>
+                          <p:column>
+                        <p:outputLabel for= "descri" value="Descripci&oacute;n del Rol" />
+                    </p:column>
+                    <p:column>
+                        <p:inputTextarea id="descri" value="#{rolesMB.ssRoles.descripcion}" rows="2" maxlength="300" style="width: 100%" required="true" />
+                         <p:watermark for="descri" value="Descripci&oacute;n " id="watermarkDescri"/>
+                    </p:column>
+                       
+                        <p:column>
+                            <p:commandButton styleClass="boton" rendered="#{!rolesMB.actualizar}"
+                                             actionListener="#{rolesMB.editar()}" value="Guardar"  update="formRol :formTablaRoles" process="@this :formRol"/>
 
-                        <p:column>
-                            <p:outputLabel for="namerol" value="Nombre:"/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="namerol"   value="#{rolesMB.ssRoles.nombreRol}" required="true" size="50" />
-                        </p:column>
-                    <p:column  >
-                            <p:commandButton rendered="#{!rolesMB.actualizar}"  styleClass="boton"
-                                             actionListener="#{rolesMB.guardar()}" update=":formAdmin :formRol" process="@this :formAdmin"
-                                             value="Guardar" />
-                            <p:commandButton rendered="#{rolesMB.actualizar}" styleClass="boton"
-                                             actionListener="#{rolesMB.editar()}" update=":formAdmin"
+                            <p:commandButton styleClass="boton" rendered="#{rolesMB.actualizar}"
+                                             actionListener="#{rolesMB.cancelar()}" immediate="true" value="Cancelar" update="formRol"  process="@this" />
+
+                            
+                            <p:commandButton styleClass="boton" rendered="#{rolesMB.actualizar}"
+                                             actionListener="#{rolesMB.editar()}" update="formRol :formTablaRoles "
                                              value="Actualizar" />
-                            <p:commandButton rendered="#{rolesMB.actualizar}" styleClass="boton"
-                                             actionListener="#{rolesMB.cancelar()}" immediate="true" update=":formAdmin"
-                                             value="Cancelar" />
                         </p:column>
-        
+                    </p:panelGrid>
 
-            </p:panelGrid>
-        </h:form>
-        <h:outputLabel style="margin-bottom: 20px;"/>
-        <h:form id="formRol">
-            <p:dataTable var="rol" value="#{rolesMB.listadoRoles}" paginator="true" rows="15"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="5,10,15"                       
-                        >
-                
-                <p:column headerText="Id" sortBy="#{rol.idRol}" filterBy="#{rol.idRol}">
-                    <h:outputText value="#{rol.idRol}" />
-                </p:column>
-                <p:column headerText="Nombre Rol" sortBy="#{rol.nombreRol}" filterBy="#{rol.nombreRol}">
-                    <h:outputText value="#{rol.nombreRol}" />
-                </p:column>
-                <p:column headerText="Fecha" sortBy="#{rol.fechaRegistro}" filterBy="#{rol.fechaRegistro}">
-                    <h:outputText value="#{rol.fechaRegistro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                    </h:outputText>    
-                </p:column>
-                <p:column headerText="Registrado Por" sortBy="#{rol.usuarioRegistro}" filterBy="#{rol.usuarioRegistro}">
-                    <h:outputText value="#{rol.usuarioRegistro}" />
-                </p:column>
-                <p:column headerText="Opciones" >
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       value="Editar" actionListener="#{rolesMB.preEditar(rol)}" />
-                    </div>
-                </p:column>
-            </p:dataTable>
- 
+                </h:form>
+                <br></br>
+                <h:form id="formTablaRoles">
+                    <p:dataTable var="rol" value="#{rolesMB.listadoRoles}" rows="10" 
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen roles registrados actualmente" >
+                        <p:column headerText="Nombre"  filterBy="#{rol.nombreRol}">
+                            <h:outputText value="#{rol.nombreRol}" />
+                        </p:column>
+                        <p:column headerText="C&oacute;digo"  filterBy="#{rol.codigoRol}">
+                            <h:outputText value="#{rol.codigoRol}"/>
+                        </p:column>
+                         <p:column headerText="Descripci&oacute;n"  filterBy="#{rol.descripcion}">
+                             <h:outputText value="#{rol.descripcion}"/>
+                        </p:column>
+                         <p:column headerText="Fecha de Registro" >
+                             <h:outputText value="#{rol.fechaRegistro}"/>
+                        </p:column>
+                         <p:column headerText="Registrado Por" >
+                             <h:outputText value="#{rol.usuarioRegistro}"/>
+                        </p:column>
+                       
+                        <p:column headerText="Opciones" style="width: 15%">
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" value="Editar"
+                                               actionListener="#{rolesMB.preEditar(rol)}" update=":formRol" process="@form:formTablaRoles">
+                                </p:commandLink>
+                            </div>
+                            
+                            
+                            
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                               title="Eliminar" value="Eliminar"
+                                               actionListener="#{rolesMB.preBorradoRol(rol)}" update=":idEliminacion" />
+                            </div> 
+                        </p:column>
 
-        </h:form>
-           </p:panel>     
+                    </p:dataTable>
+                </h:form>
+            </p:panel>     
         </center> 
-
-
-        <p:dialog header="Agregar Opciones" widgetVar="dlg2"  appendTo="@(body)" modal="true" height="100">
-            <h:outputText value="This is a Modal Dialog." />
-
-            <h:form>
-              
-                
-                <h3 style="margin-top: 0">Seleccionar opciones del menu</h3>
-              
-               
-   
-
-                <!--<p:commandButton id="citySubmit" value="Submit" update="displayCities" oncomplete="PF('cityDialog').show()" style="margin-top:5px" />-->
-
-            </h:form>
-                    
-                    
-        </p:dialog> 
         
+        
+        <!--'Dialog de confirmacion de la operacion de Borrado'-->
+        <p:confirmDialog widgetVar="confirmDeleteRolDlg" header="Borrar Rol" message="&iquest;Confirma la eliminaci&oacute;n del Rol?" 
+                         global="true" showEffect="fade" hideEffect="fade">
+            <h:form id="idEliminacion">
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="Nombre del Rol:"/>
+                    <h:outputText value="#{rolesMB.ssRoles.nombreRol}"/>
+                    <h:outputLabel  value="C&oacute;digo del Rol:"/>
+                    <h:outputText value="#{rolesMB.ssRoles.codigoRol}"/>
+                    <h:outputLabel  value="Descripci&oacute;n del Rol:"/>
+                    <h:outputText value="#{rolesMB.ssRoles.descripcion}"/>
+                </p:panelGrid>
+                <br/>
+                <br/>
+            </h:form>
+             <p:commandButton value="S&iacute;"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@this"
+                              actionListener="#{rolesMB.borrarRol()}" update=":formTablaRoles"/>
+             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
     </ui:define>
-    
- </ui:composition> 
+</ui:composition>

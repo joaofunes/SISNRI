@@ -151,7 +151,7 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Programa de Movilidad");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Programa de Movilidad"));
         }finally{
              actualizar=false;
             delProgramaMovilidad = new ProgramaMovilidad();

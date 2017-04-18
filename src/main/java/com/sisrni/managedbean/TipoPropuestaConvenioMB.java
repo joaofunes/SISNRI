@@ -166,7 +166,7 @@ public class TipoPropuestaConvenioMB  extends GenericManagedBean<TipoPropuestaCo
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de Propuesta de Convenio");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de Propuesta de Convenio"));
         }finally{
              actualizar=false;
             delTipoPropuestaConvenio = new TipoPropuestaConvenio();

@@ -62,6 +62,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
 
     private String clave;
     private String clave2;
+    private Boolean existe;
     private String codigo;
     private String email;
     private String bloqueado;
@@ -86,6 +87,7 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
         clave2 = "";
         codigo = "";
         email = "";
+        existe = false;
         bloqueado = "";
         ssUsuariosRol = new SsUsuarios();
         rolesSource = new ArrayList<SsRoles>();
@@ -115,6 +117,19 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
         }
     }
     
+    public boolean usuarioExiste(Persona persona){
+        try {
+            usuario = new SsUsuarios();
+            usuario=  ssUsuarioService.findByIdPersona(persona.getIdPersona());
+           if(usuario!=null){
+             existe = true;
+          }else{
+             existe = false;
+          }
+        } catch (Exception e) {
+        }
+        return existe;
+    }
     
      public void guardarUsuario(){
         String msg ="";
@@ -514,4 +529,11 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
         this.listadoUsuarios = listadoUsuarios;
     }
 
+    public Boolean getExiste() {
+        return existe;
+    }
+
+    public void setExiste(Boolean existe) {
+        this.existe = existe;
+    }
 }

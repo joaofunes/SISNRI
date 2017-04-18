@@ -8,7 +8,8 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                >
+                    
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     
     <ui:define name="content">
         <ui:include src="../persona/crearPersona.xhtml"/>
@@ -114,12 +115,20 @@
                                         oncomplete="PF('PersonaDeleteDialog').show();"
                                        update=":PersonaDeleteDlg"/>
                     </div>
+    
+             
                      <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-person" title="Usuario" 
+                        <p:commandLink styleClass="ui-icon ui-icon-unlocked" title="Modificar Usuario" 
                                        value="Editar" actionListener="#{usuarioMB.preCrearUsuario(item.persona)}" 
-                                       update=":UsuarioEditDlg :UsuarioCreateDlg" />
+                                       update=":UsuarioEditDlg :UsuarioCreateDlg" rendered="#{usuarioMB.usuarioExiste(item.persona)}"  />
                     </div>
-                   
+                    
+                      <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-locked" title="Asignar Usuario" 
+                                       value="Crear" actionListener="#{usuarioMB.preCrearUsuario(item.persona)}" 
+                                       update=":UsuarioEditDlg :UsuarioCreateDlg" rendered="#{!usuarioMB.usuarioExiste(item.persona)}"  />
+                    </div>
+
                 </p:column> 
                  
                  

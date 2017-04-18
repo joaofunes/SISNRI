@@ -160,7 +160,7 @@ public class TipoProyectoMB {
             context.execute("PF('confirmDeleteTipoProyectoDlg').hide();");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado!!", msg));
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Tipo de Proyecto!");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Tipo de Proyecto!"));
             e.printStackTrace();
         } finally {
             actualizar = false;

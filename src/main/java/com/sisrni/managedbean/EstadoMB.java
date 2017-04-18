@@ -153,7 +153,7 @@ public class EstadoMB  extends GenericManagedBean<Estado, Integer> {
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de registro de Estado");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de registro de Estado"));
         }finally{
              actualizar=false;
             delEstado = new Estado();

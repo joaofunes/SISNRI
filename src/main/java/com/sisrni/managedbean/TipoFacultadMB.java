@@ -150,7 +150,7 @@ public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de facultad");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de facultad"));
         }finally{
              actualizar=false;
             delTipoFacultad = new TipoFacultad();

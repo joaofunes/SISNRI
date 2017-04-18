@@ -40,16 +40,16 @@
                 
                 <p:column sortBy="#{item.persona.nombrePersona}" filterBy="#{item.persona.nombrePersona}">
                     <f:facet name="header">
-                        <h:outputText value="Nombre"/>
+                        <h:outputText value="Nombre Completo"/>
                     </f:facet>
-                    <h:outputText value="#{item.persona.nombrePersona}"/>
+                    <h:outputText value="#{item.persona.nombrePersona} #{item.persona.apellidoPersona}"/>
                 </p:column>
-                <p:column sortBy="#{item.persona.apellidoPersona}" filterBy="#{item.persona.apellidoPersona}">
+<!--                <p:column sortBy="#{item.persona.apellidoPersona}" filterBy="#{item.persona.apellidoPersona}">
                     <f:facet name="header">
                         <h:outputText value="Apellido"/>
                     </f:facet>
                     <h:outputText value="#{item.persona.apellidoPersona}"/>
-                </p:column>
+                </p:column>-->
                 <p:column sortBy="#{item.persona.emailPersona}" filterBy="#{item.persona.emailPersona}">
                     <f:facet name="header">
                         <h:outputText value="Email"/>
@@ -85,7 +85,7 @@
                 <p:column headerText="Opciones" >
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       value="Editar" actionListener="#{personaMB.preEditar(item.persona)}"
+                                       value="Editar" actionListener="#{personaMB.preEditarExtranjero(item.persona)}"
                                        oncomplete="PF('PersonaEditDialog').show();"
                                        update=":PersonaEditDlg"/>
                     </div>

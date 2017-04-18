@@ -169,7 +169,7 @@ public class TipoCambioMB  extends GenericManagedBean<TipoCambio, Integer> {
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de cambio");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de cambio"));
         }finally{
              actualizar=false;
             delTipoCambio = new TipoCambio();
