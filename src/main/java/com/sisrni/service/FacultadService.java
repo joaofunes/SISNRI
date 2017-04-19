@@ -45,5 +45,9 @@ public class FacultadService extends GenericService<Facultad, Integer> {
      public void eliminarIntermediaMovilidadFacultad(Movilidad mov){
          facultadDao.eliminarIntermediaMovilidadFacultad(mov);
      }
+     
+      public List<Facultad> getAllByIdDesc(){
+        return facultadDao.getAllByIdDesc();
+    }
 
 }

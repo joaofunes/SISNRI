@@ -31,5 +31,8 @@ public class TipoOrganismoService extends GenericService<TipoOrganismo, Integer>
         return tipoOrganismoDao.getAllByNameAsc();
     }
     
+       public List<TipoOrganismo> getAllByIdDesc(){
+        return tipoOrganismoDao.getAllByIdDesc();
+    }
     
 }

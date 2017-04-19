@@ -24,4 +24,10 @@ public class CategoriaMovilidadDao extends GenericDao<CategoriaMovilidad, Intege
         return null;
     }
     
+     public List<CategoriaMovilidad> getAllByIdDesc(){
+       String query="Select c from CategoriaMovilidad c order by c.idCategoriaMovilidad desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
+    
 }

@@ -75,7 +75,7 @@ public class TipoCambioMB  extends GenericManagedBean<TipoCambio, Integer> {
         try {
             actualizar=false;
             tipoCambio = new TipoCambio();
-            listadoTipoCambio = tipoCambioService.findAll();
+            listadoTipoCambio = tipoCambioService.getAllByIdDesc();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
 
@@ -135,7 +135,7 @@ public class TipoCambioMB  extends GenericManagedBean<TipoCambio, Integer> {
             actualizar=false;
             cancelarTipoCambio();
             cargarTipoCambio();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualizar tipo de cambio");
         }
@@ -163,13 +163,13 @@ public class TipoCambioMB  extends GenericManagedBean<TipoCambio, Integer> {
         String msg = "Tipo Cambio Eliminado Exitosamente!";       
         try {            
             tipoCambioService.delete(this.delTipoCambio);                         
-            listadoTipoCambio = tipoCambioService.findAll(); 
+            listadoTipoCambio = tipoCambioService.getAllByIdDesc(); 
             RequestContext.getCurrentInstance().update(":formPrincipal");
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro tipo de cambio");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de cambio"));
         }finally{
              actualizar=false;
             delTipoCambio = new TipoCambio();

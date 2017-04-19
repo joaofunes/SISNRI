@@ -74,7 +74,7 @@ public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
         try {
             actualizar=false;
             tipoFacultad = new TipoFacultad();
-            listadoTipoFacultad = tipoFacultadService.findAll();
+            listadoTipoFacultad = tipoFacultadService.getAllByIdDesc();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
 
@@ -116,7 +116,7 @@ public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
             actualizar=false;
             cancelarTipoFacultad();
             cargarTipoFacultad();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar tipo de facultad");
         }
@@ -144,13 +144,13 @@ public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
         String msg = "Tipo de Facultad Eliminado Exitosamente!";       
         try {            
             tipoFacultadService.delete(this.delTipoFacultad);                         
-            listadoTipoFacultad = tipoFacultadService.findAll(); 
+            listadoTipoFacultad = tipoFacultadService.getAllByIdDesc(); 
             RequestContext.getCurrentInstance().update(":formPrincipal");
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro tipo de facultad");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de tipo de facultad"));
         }finally{
              actualizar=false;
             delTipoFacultad = new TipoFacultad();

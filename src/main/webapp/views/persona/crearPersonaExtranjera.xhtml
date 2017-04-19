@@ -11,10 +11,14 @@
 
 
     <ui:composition>
+        <script type="text/javascript">
+                    $.mask.definitions['9'] = '';
+                    $.mask.definitions['#'] = '[0-9]';
+                </script>
          <f:metadata>            
              <f:viewAction action="#{personaMB.init()}" />
         </f:metadata> 
-        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creaci&oacute;n de Personas Internas" closeOnEscape="true">
+        <p:dialog id="PersonaCreateDlg" widgetVar="PersonaCreateDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Creaci&oacute;n de Personas Externas" closeOnEscape="true">
             <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
 
             <h:form id="formNewPersona">
@@ -48,19 +52,30 @@
                             <p:message for="emailPersona" display="tooltip" />   
                         </p:column>
                         
+                        <p:column>  
+                            <p:outputLabel for="idOrganismo" value="Organismo" />
+                        </p:column>                                         
+                        <p:column>                                         
+                            <p:selectOneMenu id="idOrganismo"  panelStyle="width:160px" style="width: 100%" value="#{personaMB.persona.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="null" noSelectionOption="true" />  
+                                <f:selectItems value="#{personaMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>
+                                 <p:ajax listener="#{personaMB.onchangeListInstitucionPersona()}"  update="telPersona,celPersona"/>
+                            </p:selectOneMenu>                                                                               
+                        </p:column> 
+                        
                          <p:column>
                            <p:outputLabel for="telPersona" value="Tel&eacute;fono Institucional"/>
                          </p:column>
                          <p:column>
-                           <p:inputMask id="telPersona" label="telPersona" mask="+503 9999-9999"  value="#{personaMB.telefonoFijo.numeroTelefono}"/>
-                            <p:watermark for="telPersona" value="+503 9999-9999"  />   
+                           <p:inputMask id="telPersona" label="telPersona" mask="#{personaMB.mascaraTelefono}"  value="#{personaMB.telefonoFijo.numeroTelefono}"/>
+                            <p:watermark for="telPersona" value="#{personaMB.mascaraTelefono}"  />   
                          </p:column>
                          <p:column>
                              <p:outputLabel for="celPersona" value="Tel&eacute;fono m&oacute;vil"/>
                          </p:column>
                          <p:column>
-                            <p:inputMask id="celPersona" label="celPersona" mask="+503 9999-9999"  value="#{personaMB.telefonoCell.numeroTelefono}"/>
-                             <p:watermark for="celPersona" value="+503 9999-9999"  />     
+                            <p:inputMask id="celPersona" label="celPersona" mask="#{personaMB.mascaraTelefono}"  value="#{personaMB.telefonoCell.numeroTelefono}"/>
+                             <p:watermark for="celPersona" value="#{personaMB.mascaraTelefono}"  />     
                          </p:column>
                           <p:column> 
                             <p:outputLabel for="passaporte" value="Pasaporte" />
@@ -71,29 +86,19 @@
                             <p:message for="passaporte" /> 
                         </p:column> 
 
-                        <p:column>  
-                            <p:outputLabel for="idOrganismo" value="Organismo" />
-                        </p:column>                                         
-                        <p:column>                                         
-                            <p:selectOneMenu id="idOrganismo"  panelStyle="width:160px" style="width: 100%" value="#{personaMB.persona.idOrganismo}"  effect="fade" converter="#{organismoConverter}" required="true">                                           
-                                <f:selectItem itemLabel="--Seleccione--" itemValue="null" noSelectionOption="true" />  
-                                <f:selectItems value="#{personaMB.listadoOrganismo}" var="organismo" itemLabel="#{organismo.nombreOrganismo}" itemValue="#{organismo}"/>  
-                            </p:selectOneMenu>                                                                               
-                        </p:column> 
-
                         <p:column>
                             <p:outputLabel for="personaActivo" value="Estado:"/>
                         </p:column>
                          <p:column>
                              <p:selectOneMenu id="personaActivo" value="#{personaMB.persona.activo}"  style="width: 100%" required="true" >
-                                 <f:selectItem itemLabel="--Seleccione--" itemValue="null" noSelectionOption="true" /> 
-                                <f:selectItem itemLabel="Inactivo" itemValue="#{false}" />
+                                <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true"/>
                                 <f:selectItem itemLabel="Activo" itemValue="#{true}" />
+                                <f:selectItem itemLabel="Inactivo" itemValue="#{false}" />
                             </p:selectOneMenu>
                         </p:column>   
 
                         <p:column> 
-                            <p:commandButton value="Guardar Persona" id="idGuardarPersona" actionListener="#{personaMB.guardar()}" process="@form" update="@form" icon="ui-icon-disk" oncomplete="PF('PersonaCreateDialog').close();" />
+                            <p:commandButton value="Guardar Persona" id="idGuardarPersona" actionListener="#{personaMB.guardarExtranjero()}" process="@form" update="@form" icon="ui-icon-disk" />
                             <p:commandButton value="Cerrar" id="idCerrar" process="@this" icon="ui-icon-disk" immediate="true" onclick="PF('PersonaCreateDialog').close();" />
                         </p:column>
 

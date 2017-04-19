@@ -12,8 +12,8 @@
     <ui:define name="content">
         <center>
             
-            <p:panel style="width: 70%" header="Paises Cooperantes">  
-                
+            <p:panel style="width: 70%">  
+                 <h2 class="title ui-widget-header ui-corner-all" align="center">Paises Cooperantes</h2>
                 <h:form id="formPais">
                     <p:panelGrid columns="2">
                         <p:column>
@@ -46,13 +46,12 @@
                                              actionListener="#{paisMB.guardarPais}" value="Guardar"  update="formPais :formTablaPaises" process="@this :formPais"/>
 
                             <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
-                                             actionListener="#{paisMB.actualizarPais()}" update="formPais :formTablaPaises "
-                                             value="Actualizar" />
-
-                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
                                              actionListener="#{paisMB.cancelarPais()}" immediate="true" value="Cancelar" update="formPais"  process="@this" />
 
-
+                            
+                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
+                                             actionListener="#{paisMB.actualizarPais()}" update="formPais :formTablaPaises "
+                                             value="Actualizar" />
                         </p:column>
                     </p:panelGrid>
 
@@ -62,7 +61,7 @@
                     <p:dataTable var="pais" value="#{paisMB.listPais}" rows="10" 
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  rowsPerPageTemplate="5,10,15,20" paginator="true"  emptyMessage="No existen paises registrados actualmente" >
-                        <p:column headerText="C&oacute;digo"  style="width: 15%">
+                        <p:column headerText="C&oacute;digo"  filterBy="#{pais.codigoPais}" style="width: 15%">
                             <h:outputText value="#{pais.codigoPais}"/>
                         </p:column>
                         <p:column headerText="Pa&iacute;s"  filterBy="#{pais.nombrePais}">

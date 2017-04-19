@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BancoEditDlg" widgetVar="BancoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{crudbundle.EditBancoTitle}" closeOnEscape="true">
+
+            <h:form id="BancoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{bancoManagedBean.selected != null}">
+
+                        <p:outputLabel value="#{crudbundle.BancoLabel_bancoNombre}" for="bancoNombre" />
+                        <h:panelGroup>
+                            <p:inputText id="bancoNombre" value="#{bancoManagedBean.selected.bancoNombre}" title="#{crudbundle.BancoTitle_bancoNombre}" required="true" requiredMessage="#{crudbundle.BancoRequiredMessage_bancoNombre}" size="100" maxlength="100"/>
+                            <p:tooltip for="bancoNombre" value="#{bancoManagedBean.getComponentMessages('bancoNombre', crudbundle.BancoHelpText_bancoNombre)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{crudbundle.Label_activo}" for="activo" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="activo" value="#{bancoManagedBean.selected.activo}" required="true" requiredMessage="#{crudbundle.RequiredMessage_activo}">
+                                <f:selectItem itemLabel="#{crudbundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{bancoManagedBean.activoOptions}"
+                                               var="activoItem"
+                                               itemValue="#{activoItem.value}"
+                                               itemLabel="#{activoItem.description}"/>
+                            </p:selectOneMenu>
+                            <p:tooltip for="activo" value="#{bancoManagedBean.getComponentMessages('activo', crudbundle.HelpText_activo)}"/>
+                        </h:panelGroup>
+
+
+
+
+                    </p:panelGrid>
+                    <br/>
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{bancoManagedBean.save}" value="#{crudbundle.Save}" update="display,:BancoListForm,:growl" oncomplete="handleSubmit(xhr,status,args,BancoEditDialog);"/>
+                    <span>&nbsp;</span>
+                    <p:commandButton icon="ui-icon-closethick" value="#{crudbundle.Cancel}" onclick="BancoEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

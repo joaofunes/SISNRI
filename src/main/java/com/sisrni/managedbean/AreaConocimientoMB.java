@@ -66,7 +66,7 @@ public class AreaConocimientoMB{
     
     public void cargarAreaConocimiento(){
         areaConocimiento = new AreaConocimiento();
-        listAreaConocimiento = areaConocimientoService.findAll();
+        listAreaConocimiento = areaConocimientoService.getAllByIdDesc();
         actualizar = false;
     }
     
@@ -130,7 +130,7 @@ public class AreaConocimientoMB{
             areaConocimientoService.merge(areaConocimiento);
             actualizar = false;
             cancelarAreaConocimiento(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Area de Conocimiento");
             e.printStackTrace();
@@ -166,7 +166,7 @@ public class AreaConocimientoMB{
             context.execute("PF('confirmDeleteAreaConocimientoDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminada!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Area de Conocimiento!");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Area de Conocimiento!"));
             e.printStackTrace();
         }finally{
             actualizar = false;

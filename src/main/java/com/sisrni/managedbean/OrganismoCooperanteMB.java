@@ -78,6 +78,8 @@ public class OrganismoCooperanteMB {
     private Integer tipoSelected;
     private Integer nPaisSelected;
     private PojoOrganismo pojoOrganismo;
+    private String mascaraTelefono;
+    private String codigoPais;
 
     
 
@@ -91,13 +93,13 @@ public class OrganismoCooperanteMB {
     organismoCooperante =new Organismo();
     telefonoFijo = new Telefono();
     pojoOrganismo = new PojoOrganismo();
-    tipoOrganismoList = tipoOrganismoService.findAll();
+    tipoOrganismoList = tipoOrganismoService.getAllByIdDesc();
     organismoSelected=new TipoOrganismo();
-    organismosList=organismoService.findAll();
+    organismosList=organismoService.getAllByIdDesc();
     paisList = paisService.getCountriesOrderByNameAsc();
     regionSelected = new Region();
     paisSelected = new Pais();
-    regionList = regionService.findAll();
+    regionList = regionService.getAllByIdDesc();
     paisPojoList = paisService.getPaises(0);
     organismoPojoList=organismoService.getOrganismos();
     pojoPaisSelected = new PojoPais();
@@ -105,7 +107,8 @@ public class OrganismoCooperanteMB {
     actualizar=false;
     tipoSelected = 0;
     nPaisSelected =0;
-    
+    mascaraTelefono="";
+    codigoPais="";
     }
     
     public void guardarOrganismo(){
@@ -121,7 +124,7 @@ public class OrganismoCooperanteMB {
             telefonoFijo.setIdTipoTelefono(tipoTelefono);
             telefonoService.save(telefonoFijo);
             inicializarVariables();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Informaci&oacute;n se ha registrado correctamente!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "La Informacion se ha registrado correctamente!"));
             
                     
         } catch (Exception e) {
@@ -188,6 +191,29 @@ public class OrganismoCooperanteMB {
         }
     }
     
+       /**
+     * Metodo  de Pre- borrado, que obtiene una instancia de la Entity a Borrar
+     * y despliega un 'p:dialog' donde se solicita la confirmacion de la 
+     * operacion de borrado
+     * @param Organismo
+     */
+    public void preBorrar(PojoOrganismo pojoOrganismoCooperante){
+        //guardando en 'carrera' la instancia de 'Carrera' que se recibe como argumento
+        this.pojoOrganismo = pojoOrganismoCooperante;
+        this.organismoCooperante = organismoService.findById(pojoOrganismoCooperante.getIdOrg());
+        telefonoFijo = new Telefono();
+            List<Telefono> telefonosByOrganismo = telefonoService.getTelefonosByOrganismo(this.organismoCooperante);
+            
+            for(Telefono tel: telefonosByOrganismo){
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)){
+                     telefonoFijo=tel;
+                }
+            }
+        RequestContext context = RequestContext.getCurrentInstance();
+        //Desplegando el 'Dialog'
+        context.execute("PF('confirmDeleteOrganismoDlg').show();");
+    }
+    
       public void onchangeRegion() {
         try {
             if (regionSelected.getIdRegion()!= null && !regionSelected.getIdRegion().equals("")) {
@@ -198,6 +224,30 @@ public class OrganismoCooperanteMB {
             e.printStackTrace();
         }
     }
+      
+      
+     /**
+     * Metodo que borra una instancia de 'Carrera' de la Base de datos
+     */
+    public void borrar(){ 
+        String msg ="Organismo Cooperante Eliminado Exitosamente!";
+        try{
+            //Borrando la instancia de carrera
+            telefonoService.delete(telefonoFijo);
+            organismoService.delete(organismoCooperante);
+            init();
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('confirmDeleteOrganismoDlg').hide();"); 
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
+        }catch(Exception e){
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Organismo Cooperante! "));
+            e.printStackTrace();
+        }finally{
+            actualizar = false;
+        }
+        
+        
+    } 
       
      public void cancelarOrganismo(){
         String msg ="Organismo cancelado";
@@ -229,6 +279,13 @@ public class OrganismoCooperanteMB {
             ajax.execute("PF('tipoorganismoDialog').show()");
             organismoSelected = new TipoOrganismo();
         }
+    }
+     
+         //Metodo que se encarga de mostrar mascara en los telefonos
+    public void onchangePais() {
+         codigoPais = paisService.findById(paisSelected.getIdPais()).getCodigoPais();
+        mascaraTelefono = telefonoService.getMask(codigoPais);
+       // mascaraTelefono = telefonoService.getMask(paisSelected.getCodigoPais());
     }
      
     public Integer getTipoSelected() {
@@ -371,5 +428,13 @@ public class OrganismoCooperanteMB {
 
     public void setTipoTelefono(TipoTelefono tipoTelefono) {
         this.tipoTelefono = tipoTelefono;
+    }
+
+    public String getMascaraTelefono() {
+        return mascaraTelefono;
+    }
+
+    public void setMascaraTelefono(String mascaraTelefono) {
+        this.mascaraTelefono = mascaraTelefono;
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository(value = "provinciaDao")
 public class ProvinciaDao extends GenericDao<Provincia, Integer>  {
     
-     //retorna la lista de provinciaes perteneciente a una región
+     //retorna la lista de provinciaes perteneciente a una regiï¿½n
     public List<Provincia> getProvinciasByPaisId(Integer id){
         Query q =getSessionFactory().getCurrentSession().createQuery("FROM Provincia p WHERE p.idPais.idPais = :id");
         q.setParameter("id",id);
@@ -26,4 +26,9 @@ public class ProvinciaDao extends GenericDao<Provincia, Integer>  {
         return q.list();        
    }
     
+      public List<Provincia> getAllByIdDesc(){
+       String query="Select p from Provincia p order by p.idProvincia desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 }

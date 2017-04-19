@@ -75,7 +75,7 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
         try {
             actualizar=false;
             programaMovilidad = new ProgramaMovilidad();
-            listadoProgramaMovilidad = programaMovilidadService.findAll();
+            listadoProgramaMovilidad = programaMovilidadService.getAllByIdDesc();
         } catch (Exception e) {
             log.debug("Error al tratar de cargar las solicitudes listar para realizar un analisis..." + e.getStackTrace());
 
@@ -117,7 +117,7 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
             actualizar=false;
             cancelarProgramaMovilidad();
             cargarProgramaMovilidad();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!!", msg));
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al actualziar Programa de Movilidad");
         }
@@ -145,13 +145,13 @@ public class ProgramaMovilidadMB  extends GenericManagedBean<ProgramaMovilidad, 
         String msg = "Programa de Movilidad Eliminado Exitosamente!";       
         try {            
             programaMovilidadService.delete(this.delProgramaMovilidad);                         
-            listadoProgramaMovilidad = programaMovilidadService.findAll(); 
+            listadoProgramaMovilidad = programaMovilidadService.getAllByIdDesc(); 
             RequestContext.getCurrentInstance().update(":formPrincipal");
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlg').hide();");   
              JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Error al eliminar registro Programa de Movilidad");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Programa de Movilidad"));
         }finally{
              actualizar=false;
             delProgramaMovilidad = new ProgramaMovilidad();

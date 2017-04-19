@@ -75,8 +75,8 @@ public class ProvinciaMB{
     public void cargarProvincia(){
         provincia = new Provincia();
         pais = new Pais();
-        listPais = paisService.findAll();
-        listProvincia = provinciaService.findAll();
+        listPais = paisService.getAllByIdDesc();
+        listProvincia = provinciaService.getAllByIdDesc();
         actualizar = false;
     }
     
@@ -126,7 +126,7 @@ public class ProvinciaMB{
             provinciaService.merge(provincia);
             actualizar = false;
             cancelarProvincia(); 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizaci&oacute;n!!", msg));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Actualizacion!!", msg));
         }catch(Exception e){
             JsfUtil.addErrorMessage("Error al Actualizar Estado/Departamento/Provincia");
             e.printStackTrace();
@@ -162,7 +162,7 @@ public class ProvinciaMB{
             context.execute("PF('confirmDeleteProvinciaDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Estado/Departamento/Provincia!");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Estado/Departamento/Provincia!"));
             e.printStackTrace();
         }finally{
             actualizar = false;

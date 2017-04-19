@@ -66,5 +66,12 @@ public class FacultadDao extends GenericDao<Facultad, Integer> {
         }
         
     }
+    
+    public List<Facultad> getAllByIdDesc(){
+       String query="Select f from Facultad f order by f.idFacultad desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
+    
 
 }

@@ -50,7 +50,7 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
                 + "INNER JOIN TIPO_ORGANISMO AS tipoOrg ON org.ID_TIPO_ORGANISMO = "
                 + "tipoOrg.ID_TIPO_ORGANISMO INNER JOIN TELEFONO AS telefon ON org.ID_ORGANISMO = "
                 + "telefon.ID_ORGANISMO INNER JOIN PAIS as pais ON org.ID_PAIS = pais.ID_PAIS INNER JOIN "
-                + "REGION AS reg ON org.ID_REGION = reg.ID_REGION ";
+                + "REGION AS reg ON org.ID_REGION = reg.ID_REGION order by org.ID_ORGANISMO desc";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("idOrg", new IntegerType())
                 .addScalar("nombre", new StringType())
@@ -101,5 +101,11 @@ public class OrganismoDao extends GenericDao<Organismo, Integer> {
         Query q = getSessionFactory().getCurrentSession().createQuery(query);
         return q.list();
     }
+    
+    public List<Organismo> getAllByIdDesc(){
+       String query="Select o from Organismo o order by o.idOrganismo desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
   
 }

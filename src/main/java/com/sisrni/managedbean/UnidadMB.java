@@ -75,8 +75,8 @@ public class UnidadMB{
     public void cargarUnidad(){
         unidad = new Unidad();
         organismo = new Organismo();
-        listOrganismo = organismoService.findAll();
-        listUnidad = unidadService.findAll();
+        listOrganismo = organismoService.getAllByIdDesc();
+        listUnidad = unidadService.getAllByIdDesc();
         actualizar = false;
     }
     
@@ -162,7 +162,7 @@ public class UnidadMB{
             context.execute("PF('confirmDeleteUnidadDlg').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
-            JsfUtil.addErrorMessage("Error al Eliminar Unidad!");
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Unidad!"));
             e.printStackTrace();
         }finally{
             actualizar = false;
@@ -184,7 +184,8 @@ public class UnidadMB{
         organismo=null;
         organismo = new Organismo();
         RequestContext.getCurrentInstance().reset(":formUnidad");
-        JsfUtil.addSuccessMessage(msg);
+        if(actualizar)
+         JsfUtil.addSuccessMessage(msg);
         }catch(Exception e){
              System.out.println(e.getMessage());
         }

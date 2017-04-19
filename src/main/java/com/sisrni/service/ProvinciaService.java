@@ -32,4 +32,8 @@ public class ProvinciaService extends GenericService<Provincia, Integer>{
     public List<Provincia> getProvinciasByPaisId(Integer id){
     return provinciaDao.getProvinciasByPaisId(id);
     }
+    
+      public List<Provincia> getAllByIdDesc(){
+        return provinciaDao.getAllByIdDesc();
+    }
 }

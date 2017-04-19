@@ -31,4 +31,8 @@ public class TipoProyectoService extends GenericService<TipoProyecto, Integer> {
         return tipoProyectoDao.getAllByNameAsc();
     }
     
+   public List<TipoProyecto> getAllByIdDesc(){
+        return tipoProyectoDao.getAllByIdDesc();
+    }
+    
 }

@@ -23,4 +23,10 @@ public class TipoOrganismoDao extends GenericDao<TipoOrganismo, Integer>{
        Query q= getSessionFactory().getCurrentSession().createQuery(query);
        return q.list();
    }
+    
+     public List<TipoOrganismo> getAllByIdDesc(){
+       String query="Select t from TipoOrganismo t order by t.idTipoOrganismo desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+     }
 }

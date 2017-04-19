@@ -26,4 +26,10 @@ public class CarreraDao extends GenericDao<Carrera, Integer> {
         return q.list();
        // return null;
     }
+    
+       public List<Carrera> getAllByIdDesc(){
+       String query="Select c from Carrera c order by c.idCarrera desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
 }

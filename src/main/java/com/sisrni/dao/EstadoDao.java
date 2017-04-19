@@ -53,4 +53,10 @@ public class EstadoDao extends GenericDao<Estado, Integer>{
         return null;
     }
     
+    public List<Estado> getAllByIdDesc(){
+       String query="Select e from Estado e order by e.idEstado desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
+    
 }

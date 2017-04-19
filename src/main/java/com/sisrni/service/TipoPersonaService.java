@@ -9,6 +9,7 @@ import com.sisrni.dao.TipoPersonaDao;
 import com.sisrni.dao.generic.GenericDao;
 import com.sisrni.model.TipoPersona;
 import com.sisrni.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,4 +33,7 @@ public class TipoPersonaService extends GenericService<TipoPersona, Integer>  {
      return tipoPersonaDao.getTipoPersonaByNombre(name);
     }
     
+       public List<TipoPersona> getAllByIdDesc(){
+        return tipoPersonaDao.getAllByIdDesc();
+    }
 }

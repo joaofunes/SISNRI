@@ -31,4 +31,10 @@ public class CategoriaDocumentoDao extends GenericDao<CategoriaDocumento, Intege
         return null;
     }
     
+    public List<CategoriaDocumento> getAllByIdDesc(){
+       String query="Select c from CategoriaDocumento c order by c.idCategoriaDoc desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
+    
 }

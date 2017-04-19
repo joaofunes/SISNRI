@@ -26,4 +26,10 @@ public class CiudadDao extends GenericDao<Ciudad, Integer>  {
         return q.list();        
    }
     
+     public List<Ciudad> getAllByIdDesc(){
+       String query="Select c from Ciudad c order by c.idCiudad desc";
+       Query q= getSessionFactory().getCurrentSession().createQuery(query);
+       return q.list();
+   }
+    
 }
