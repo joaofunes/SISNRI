@@ -191,6 +191,29 @@ public class OrganismoCooperanteMB {
         }
     }
     
+       /**
+     * Metodo  de Pre- borrado, que obtiene una instancia de la Entity a Borrar
+     * y despliega un 'p:dialog' donde se solicita la confirmacion de la 
+     * operacion de borrado
+     * @param Organismo
+     */
+    public void preBorrar(PojoOrganismo pojoOrganismoCooperante){
+        //guardando en 'carrera' la instancia de 'Carrera' que se recibe como argumento
+        this.pojoOrganismo = pojoOrganismoCooperante;
+        this.organismoCooperante = organismoService.findById(pojoOrganismoCooperante.getIdOrg());
+        telefonoFijo = new Telefono();
+            List<Telefono> telefonosByOrganismo = telefonoService.getTelefonosByOrganismo(this.organismoCooperante);
+            
+            for(Telefono tel: telefonosByOrganismo){
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)){
+                     telefonoFijo=tel;
+                }
+            }
+        RequestContext context = RequestContext.getCurrentInstance();
+        //Desplegando el 'Dialog'
+        context.execute("PF('confirmDeleteOrganismoDlg').show();");
+    }
+    
       public void onchangeRegion() {
         try {
             if (regionSelected.getIdRegion()!= null && !regionSelected.getIdRegion().equals("")) {
@@ -201,6 +224,30 @@ public class OrganismoCooperanteMB {
             e.printStackTrace();
         }
     }
+      
+      
+     /**
+     * Metodo que borra una instancia de 'Carrera' de la Base de datos
+     */
+    public void borrar(){ 
+        String msg ="Organismo Cooperante Eliminado Exitosamente!";
+        try{
+            //Borrando la instancia de carrera
+            telefonoService.delete(telefonoFijo);
+            organismoService.delete(organismoCooperante);
+            init();
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('confirmDeleteOrganismoDlg').hide();"); 
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
+        }catch(Exception e){
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Organismo Cooperante! "));
+            e.printStackTrace();
+        }finally{
+            actualizar = false;
+        }
+        
+        
+    } 
       
      public void cancelarOrganismo(){
         String msg ="Organismo cancelado";
