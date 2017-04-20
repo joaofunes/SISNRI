@@ -543,12 +543,19 @@ public class BecaMB implements Serializable {
 
             //actualizando beca
             becaService.merge(beca);
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Los datos han sido registrados con exito."));
+            if (actualizar) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Registro modificado exitosamente."));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Registro guardado exitosamente"));
+            }
             inicializador();
             FacesContext.getCurrentInstance().getExternalContext().redirect("becaAdm.xhtml");
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "error."));
+            if (actualizar) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error al modificar el registro."));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error al guardar el registro"));
+            }
         }
     }
 

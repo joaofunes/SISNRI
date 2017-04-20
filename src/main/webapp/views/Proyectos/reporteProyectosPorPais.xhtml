@@ -9,17 +9,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    
+
     <ui:define name="content">
-       <ui:include src="../common/Print.xhtml"/>
-  
-       <h:form id="form">
+        <ui:include src="../common/Print.xhtml"/>
+
+        <h:form id="form">
 
             <div align="center" style="border: 1px black solid">
-                <h3 align="center">Reporte de Proyectos Internacionales por Pa&iacute;s</h3>
-                <h1 class="title ui-widget-header ui-corner-all" align="center">SISRNI</h1>
-
-
+                <h2 class="title ui-widget-header ui-corner-all" align="center">Reporte de Proyectos Internacionales por Pa&iacute;s</h2>
                 <p:panelGrid  columns="2" columnClasses="column">
                 </p:panelGrid>
                 <p:fieldset legend="Parametros de Entrada" style="font-size: 17px">
@@ -65,6 +62,6 @@
             </div>
 
         </h:form>
-       
-</ui:define>  
+
+    </ui:define>  
 </ui:composition>

@@ -882,7 +882,11 @@ public class ProyectosMB {
                 regresar();
             }
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La Informacion no ha sido registrada."));
+            if (actualizar) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error al modificar el registro."));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error al guardar el registro"));
+            }
         }
 
     }
@@ -1827,6 +1831,7 @@ public class ProyectosMB {
         codigoPais = paisService.findById(org.getIdPais()).getCodigoPais();
         mascaraTelefono = telefonoService.getMask(codigoPais);
     }
+
     public void preEliminar(Integer proyectoId) {
         try {
             proyecto = proyectoService.findById(proyectoId);
@@ -1840,18 +1845,19 @@ public class ProyectosMB {
     public void eliminarProyecto() {
         try {
 //            Documento doc = documentoService.findProyectowithDocumento(proyecto.getIdProyecto());
-                documentoService.eliminarDocumento(proyecto);
-                proyectoService.eliminarIntermediaPersona(proyecto);
-                proyectoService.eliminarIntermediaFacultad(proyecto);
-                proyectoService.eliminarIntermediaArea(proyecto);
-                proyectoService.eliminarIntermediaOrganismo(proyecto);
-                proyectoService.delete(proyecto);
-                inicializador();
-                RequestContext ajax = RequestContext.getCurrentInstance();
-                ajax.execute("PF('eliminarProyectoDialogo').hide()");
+            documentoService.eliminarDocumento(proyecto);
+            proyectoService.eliminarIntermediaPersona(proyecto);
+            proyectoService.eliminarIntermediaFacultad(proyecto);
+            proyectoService.eliminarIntermediaArea(proyecto);
+            proyectoService.eliminarIntermediaOrganismo(proyecto);
+            proyectoService.delete(proyecto);
+            inicializador();
+            RequestContext ajax = RequestContext.getCurrentInstance();
+            ajax.execute("PF('eliminarProyectoDialogo').hide()");
         } catch (Exception e) {
         }
     }
+
     public void cancelareEiminarProyecto() {
         try {
             inicializador();
