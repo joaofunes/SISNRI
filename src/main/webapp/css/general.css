@@ -12,14 +12,31 @@ a, a:hover, .btn{outline:none!important;}
 .btn-search{background: #FD3A13; border-color: #FD3A13; color: #fff; padding: 7px 10px}
 .btn-search:hover{background: #ca1b1b; border-color: #ca1b1b}
 section{padding: 30px 0; float: left; width: 100%}
-.card{float: left; width:100%; min-height: 200px !Important;}
+.card{
+    float: left; 
+    width:100%; 
+    background:#fff;
+    transition:all 0.2s ease;
+    border:2px dashed #dadada;
+    margin-top: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-clip: padding-box;
+    padding:0 20px 20px 20px;
+    min-height:340px;
+}
 .navbar {border: medium none; float: left; margin-bottom: 0px; width: 100%;  border-radius: 0}
 .title-large {font-size: 20px; margin: 10px 0 5px; line-height: 27px; color: #141517;}
 .title-small { color: #141517; font-size: 16px; font-weight: 400; line-height: 23px; margin: 6px 0 0;}
 .title-x-small {font-size: 18px; margin: 0px;}
 .title-large a, .title-small a, .title-x-small a{color: inherit}
 .banner-sec{float: left; width: 100%; background: #EBEBEB}
-.card-block{padding:0 10px 10px;}
+.card-block{
+    padding: 16px;
+    border-radius: 0 0 2px 2px;
+    background-clip: padding-box;
+    box-sizing: border-box;
+}
 .card-text{margin: 0}
 .text-time{color: #ff0000; font-weight: 600;}
 .banner-sec .card-img-overlay{padding: 0; top: 3px; left: 7px; height: 20%}
@@ -42,7 +59,7 @@ header{float: left; width:100%}
 #search {float: right; margin-top: 9px; width: 250px;}
 .search {padding: 5px 0; width: 230px; height: 30px; position: relative; left: 10px; float: left; line-height: 22px;}
 .search input {background: #d0d0d0; border: medium none; border-radius: 3px 0 0 3px; float: left; height: 36px; line-height: 18px; margin-left: 210px; padding: 0 9px; position: absolute; top: 4px; width: 0; -webkit-transition: all 0.7s ease-in-out; -moz-transition: all 0.7s ease-in-out;
--o-transition: all 0.7s ease-in-out; transition: all 0.7s ease-in-out;}
+               -o-transition: all 0.7s ease-in-out; transition: all 0.7s ease-in-out;}
 .search:hover input, .search input:focus { width: 200px; margin-left: 0px; background: #d0d0d0;}
 .top-nav .btn {position: absolute;right: 0;top: 4px;border-radius:3px;}
 
