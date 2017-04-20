@@ -279,6 +279,8 @@ public class registrarMovilidadMB {
     private String txtBotonGuardar;
     private String txtBotonRegresar;
     private String codigoPais;
+    private String iconRegresarCancelar;
+    private String iconGuardarActualizar;
 
     //Services
     @Autowired
@@ -541,6 +543,8 @@ public class registrarMovilidadMB {
         txtBotonGuardar = "Guardar";
         txtBotonRegresar = "Regresar";
         codigoPais = "";
+        iconRegresarCancelar="ui-icon-arrowreturnthick-1-w";
+        iconGuardarActualizar="ui-icon-disk";
     }
 
     public void mostrarEscuelaDocenteMovilidad() {
@@ -1706,6 +1710,8 @@ public class registrarMovilidadMB {
         tituloRegistroEdicion = "Actualizaci&oacute;n de movilidad";
         txtBotonGuardar = "Actualizar";
         txtBotonRegresar = "Cancelar";
+        iconRegresarCancelar="ui-icon-cancel";
+        iconGuardarActualizar = "ui-icon-pencil";
 
         //deshabilita el selectOnmenu de tipo de movilidad
         isHabilidado = Boolean.TRUE;
@@ -3132,6 +3138,14 @@ public class registrarMovilidadMB {
 
     public void setFacultadDocenteRequerido(Boolean facultadDocenteRequerido) {
         this.facultadDocenteRequerido = facultadDocenteRequerido;
+    }
+
+    public String getIconRegresarCancelar() {
+        return iconRegresarCancelar;
+    }
+
+    public String getIconGuardarActualizar() {
+        return iconGuardarActualizar;
     }
     
 

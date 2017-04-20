@@ -17,7 +17,7 @@
                     <p:panelGrid>
                         <p:column>
                             <p:row>
-                                <p:commandButton styleClass="botton" actionListener="#{registrarMovilidadMB.irnuevaMovilidad()}" update="" process="@this :formCrearMovilidad" value="Nueva Movilidad"/>
+                                <p:commandButton styleClass="botton" icon="ui-icon-plus" actionListener="#{registrarMovilidadMB.irnuevaMovilidad()}" update="" process="@this :formCrearMovilidad" value="Nueva Movilidad"/>
                             </p:row>
                         </p:column>
                     </p:panelGrid>
@@ -69,9 +69,9 @@
                                      
                     </p:dataTable>
                 </h:form>
-                <p:confirmDialog widgetVar="eliminarDialog" message="Seguro que desea eliminar el registro?" header="Eliminar registro de Movilidad" global="true">
+                <p:confirmDialog widgetVar="eliminarDialog" message="¿Est&aacute; seguro que desea eliminar la movilidad?" header="Eliminar Movilidad" global="true">
                     <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{registrarMovilidadMB.eliminarMovilidad()}" process="@this" update="formAdmMovilidad"/>
-                    <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-check" action="#{registrarMovilidadMB.cancelarEliminarMovilidad()}" process="@this" update="formAdmMovilidad"/>
+                    <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{registrarMovilidadMB.cancelarEliminarMovilidad()}" process="@this" update="formAdmMovilidad"/>
                 </p:confirmDialog>
                 
             </ui:define>

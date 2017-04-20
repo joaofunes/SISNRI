@@ -101,7 +101,7 @@
                                                 <p:selectOneMenu id="tipoBusquedaSal" value="#{registrarMovilidadMB.tipoBusquedaSaliente}"  style="width:125px">  
                                                     <p:ajax  listener="#{registrarMovilidadMB.habilitarAutoSaliente}" update="grup1,groupPersonaMovilidad"  process="tipoBusquedaSal" />
                                                     <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
-                                                    <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
+                                                    <f:selectItem itemLabel="Nombres/Apellidos" itemValue="nombre" />                                                                           
                                                     <f:selectItem itemLabel="E-mail" itemValue="email" />
                                                     <f:selectItem itemLabel="Documento" itemValue="doc" />  
                                                 </p:selectOneMenu>
@@ -154,7 +154,7 @@
                                                 <p:selectOneMenu id="tipoBusquedaEnt" value="#{registrarMovilidadMB.tipoBusquedaEntrante}"  style="width:125px">  
                                                     <p:ajax  listener="#{registrarMovilidadMB.habilitarAutoEntrante}" update="grup2,groupPersonaMovilidad"  process="tipoBusquedaEnt" />
                                                     <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
-                                                    <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
+                                                    <f:selectItem itemLabel="Nombres/Apellidos" itemValue="nombre" />                                                                           
                                                     <f:selectItem itemLabel="E-mail" itemValue="email" />
                                                 </p:selectOneMenu>
                                             </p:column>
@@ -188,8 +188,8 @@
                                     </h:panelGroup>
                                     <!--Panel Group botones Docente en movilidad-->
                                     <h:panelGroup id="grupDocente">
-                                        <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad" rendered="#{registrarMovilidadMB.mostrarBotonNuevoDocente}"/>
-                                        <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad" rendered="#{registrarMovilidadMB.mostrarBotonEditarDocente}"/>
+                                        <p:commandButton value="Nueva Persona" icon="ui-icon-plus" actionListener="#{registrarMovilidadMB.agregarNuevoDocente()}" process="@this" update="groupPersonaMovilidad" rendered="#{registrarMovilidadMB.mostrarBotonNuevoDocente}"/>
+                                        <p:commandButton value="Editar Persona" icon="ui-icon-pencil" actionListener="#{registrarMovilidadMB.habilitarActualizarDocente()}" process="@this" update="groupPersonaMovilidad" rendered="#{registrarMovilidadMB.mostrarBotonEditarDocente}"/>
                                     </h:panelGroup>
 
 
@@ -513,8 +513,8 @@
                                         </p:panelGrid>
                                     </h:panelGroup>
                                     <h:panelGroup id="grupReferente">
-                                        <p:commandButton value="Nueva Persona" actionListener="#{registrarMovilidadMB.agregarNuevoReferente()}" process="@this" update="GroupReferente" rendered="#{registrarMovilidadMB.mostrarBotonNuevoReferente}"/>
-                                        <p:commandButton value="Editar Persona" actionListener="#{registrarMovilidadMB.habilitarActualizacionReferente()}" process="@this" update="GroupReferente,grup3" rendered="#{registrarMovilidadMB.mostrarBotonEditarReferente}"/>
+                                        <p:commandButton value="Nueva Persona" icon="ui-icon-plus" actionListener="#{registrarMovilidadMB.agregarNuevoReferente()}" process="@this" update="GroupReferente" rendered="#{registrarMovilidadMB.mostrarBotonNuevoReferente}"/>
+                                        <p:commandButton value="Editar Persona" icon="ui-icon-pencil" actionListener="#{registrarMovilidadMB.habilitarActualizacionReferente()}" process="@this" update="GroupReferente,grup3" rendered="#{registrarMovilidadMB.mostrarBotonEditarReferente}"/>
                                     </h:panelGroup>
 
                                    
@@ -605,7 +605,7 @@
                                             </p:row>
                                             <p:row>
                                                 <p:column>
-                                                    <p:commandButton value="Desvincular referente" actionListener="#{registrarMovilidadMB.confirmarDesvincularReferente()}" process="@this" rendered="#{registrarMovilidadMB.mostrarBotonDesvincular}"/>
+                                                    <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{registrarMovilidadMB.confirmarDesvincularReferente()}" process="@this" rendered="#{registrarMovilidadMB.mostrarBotonDesvincular}"/>
                                                 </p:column>
                                             </p:row>    
                                             <!--    <p:column>
@@ -624,10 +624,10 @@
                                         <h:panelGroup/>
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.regresar()}"  process="@this"   value="#{registrarMovilidadMB.txtBotonRegresar}"  id="btnRegresar" title="Regresar" />
+                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.regresar()}"  process="@this" icon="#{registrarMovilidadMB.iconRegresarCancelar}"  value="#{registrarMovilidadMB.txtBotonRegresar}"  id="btnRegresar" title="Regresar" />
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.preGuardadoMovilidad()}" process="formAdmin" update="formAdmin"  value="#{registrarMovilidadMB.txtBotonGuardar}"  id="btnModificar"  title="Guardar Movilidad" />                                 
+                                        <p:commandButton styleClass="boton" actionListener="#{registrarMovilidadMB.preGuardadoMovilidad()}" process="formAdmin" update="formAdmin"  icon="#{registrarMovilidadMB.iconGuardarActualizar}" value="#{registrarMovilidadMB.txtBotonGuardar}"  id="btnModificar"  title="Guardar Movilidad" />                                 
                                     </p:column>
                                     <p:column>
                                         <h:panelGroup/>
@@ -689,7 +689,7 @@
                        <p:commandButton value="Cancelar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaReft()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                    </p:confirmDialog>-->     
 
-                <p:confirmDialog widgetVar="dlgEdicionDocente" id="dialogDocenteUpdate" header="Modificar Persona" message="Esta seguro que desea modificar los datos del docente en movilidad"
+                <p:confirmDialog widgetVar="dlgEdicionDocente" id="dialogDocenteUpdate" header="Modificar Persona" message="Ya existe el docente que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?"
                                  global="true" showEffect="fade" hideEffect="fade">
 
                     <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarDocente()}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -697,13 +697,13 @@
 
                 </p:confirmDialog>    
 
-                <p:confirmDialog widgetVar="dlgEdicionReferente" id="dialogReferenteUpdate" header="Modificar Persona" message="Esta seguro que desea modificar los datos del Referente"
+                <p:confirmDialog widgetVar="dlgEdicionReferente" id="dialogReferenteUpdate" header="Modificar Persona" message="Ya existe el referente que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?"
                                  global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.siModificarReferente()}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="No" type="submit" action="#{registrarMovilidadMB.noModificarReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                 
                 </p:confirmDialog>
                 
-                <p:confirmDialog widgetVar="dlgConfirmarDesvincularReferente" id="dialogDesvincularReferente" header="Desvicular Referente" message="Esta seguro que desea desvincular al referente de la facultad?"
+                <p:confirmDialog widgetVar="dlgConfirmarDesvincularReferente" id="dialogDesvincularReferente" header="Desvicular Referente" message="¿Est&aacute; seguro que desea desvincular al referente de la facultad?"
                     global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Si" type="submit" action="#{registrarMovilidadMB.desvincularReferente()}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
                     <p:commandButton value="No" type="submit" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('dlgConfirmarDesvincularReferente').hide();"/>
