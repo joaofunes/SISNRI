@@ -31,4 +31,8 @@ public class ParametrosService extends GenericService<Parametros, Integer>{
      public Parametros getParametrosMail(){
          return parametrosDao.getParametrosMail();
      }
+     
+      public void updateParametrosMail(){
+           parametrosDao.updateParametrosMail();
+      }
 }

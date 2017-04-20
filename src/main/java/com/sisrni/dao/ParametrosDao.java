@@ -14,12 +14,11 @@ import org.springframework.stereotype.Repository;
  *
  * @author Joao
  */
-
 @Repository(value = "parametrosDao")
 public class ParametrosDao extends GenericDao<Parametros, Integer> {
-    
-    public Parametros getParametrosMail(){
-      try {
+
+    public Parametros getParametrosMail() {
+        try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM Parametros p WHERE p.activo is true ");
             return (Parametros) q.uniqueResult();
         } catch (Exception e) {
@@ -27,5 +26,14 @@ public class ParametrosDao extends GenericDao<Parametros, Integer> {
         }
         return null;
     }
-    
+
+    public void updateParametrosMail() {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery("UPDATE parametros SET activo=FALSE");
+            q.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -8,40 +8,75 @@
 
     <ui:composition>
 
-        <p:dialog id="BancoCreateDlg" widgetVar="BancoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{crudbundle.CreateBancoTitle}" closeOnEscape="true">
-            <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
-            <h:form id="BancoCreateForm">
+        <p:dialog id="EmailCreateDlg" widgetVar="EmailCreateDialog" modal="true" resizable="false" appendTo="@(body)"  closeOnEscape="true">
+
+            <h:form id="EmailCreateForm">
 
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2">
-
-                        <p:outputLabel value="#{crudbundle.BancoLabel_bancoNombre}" for="bancoNombre" />
-                        <h:panelGroup>
-                            <p:inputText id="bancoNombre" value="#{bancoManagedBean.selected.bancoNombre}" title="#{crudbundle.BancoTitle_bancoNombre}" required="true" requiredMessage="#{crudbundle.BancoRequiredMessage_bancoNombre}" size="100" maxlength="100"/>
-                            <p:tooltip for="bancoNombre" value="#{bancoManagedBean.getComponentMessages('bancoNombre', crudbundle.BancoHelpText_bancoNombre)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{crudbundle.Label_activo}" for="activo" />
-                        <h:panelGroup>
-                            <p:selectOneMenu id="activo" value="#{bancoManagedBean.selected.activo}" required="true" requiredMessage="#{crudbundle.RequiredMessage_activo}">
-                                <f:selectItem itemLabel="#{crudbundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{bancoManagedBean.activoOptions}"
-                                               var="activoItem"
-                                               itemValue="#{activoItem.value}"
-                                               itemLabel="#{activoItem.description}"/>
-                            </p:selectOneMenu>
-                            <p:tooltip for="activo" value="#{bancoManagedBean.getComponentMessages('activo', crudbundle.HelpText_activo)}"/>
-                        </h:panelGroup>
+                        <p:column>
+                            <p:outputLabel for="emailSolicitante" value="Correo Electr&oacute;nico" />     
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="emailSolicitante" required="true" value="#{mantenimientoMailMB.parametros.cuentaCorreo}">
+                                <f:validator validatorId="com.sisrni.validator.emailValidator" />
+                            </p:inputText>
+                            <p:message for="emailSolicitante" display="tooltip" />  
+                            <p:watermark for="emailSolicitante" value="correo@email.com"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel for="idPuerto" value="Puerto" />     
+                        </p:column>                        
+                        <p:column>
+                            <p:spinner required="true" id="idPuerto" value="#{mantenimientoMailMB.parametros.puerto}" />     
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel for="idSmtp" value="SMTP" />     
+                        </p:column>                        
+                        <p:column>
+                            <p:inputText id="idSmtp" required="true" value="#{mantenimientoMailMB.parametros.smtp}"/>   
+                        </p:column> 
+                        <p:column>
+                            <p:outputLabel for="idActivo" value="Ativo" />     
+                        </p:column>                        
+                        <p:column>
+                            <p:selectBooleanCheckbox id="idActivo" value="#{mantenimientoMailMB.parametros.activo}" />
+                        </p:column>
 
                     </p:panelGrid>
                     <br/>
-                    <p:commandButton icon="ui-icon-disk" actionListener="#{bancoManagedBean.saveNew}" value="#{crudbundle.Save}" update="display,:BancoListForm,:growl" oncomplete="handleSubmit(xhr,status,args,BancoCreateDialog);"/>
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{mantenimientoMailMB.save}" value="Guardar" 
+                                     update=":BancoListForm" 
+                                     process="@form"
+                                     oncomplete="PF('EmailCreateDialog').hide();"
+                                     />
                     <span>&nbsp;</span>
-                    <p:commandButton icon="ui-icon-closethick" value="#{crudbundle.Cancel}" onclick="BancoCreateDialog.hide()"/>
+                    <p:commandButton icon="ui-icon-closethick" value="#{crudbundle.Cancel}" onclick="EmailCreateDialog.hide()" immediate="true"/>
                 </h:panelGroup>
 
             </h:form>
         </p:dialog>
+
+        <p:confirmDialog widgetVar="deleteDlg" message="Desea eliminar, parametro de correo?" header="Eliminar parametro"  global="true">                        
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{mantenimientoMailMB.siRemplazarBecario()}" process="@this" update=":BancoListForm"/>
+            <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  process="@this" update=":BancoListForm"/>
+        </p:confirmDialog>
+
+        <script type="text/javascript">
+
+            PrimeFaces.validator['custom.emailValidator'] = {
+                pattern: /\S+@\S+/,
+                validate: function (element, value) {
+                    if (!this.pattern.test(value)) {
+                        throw {
+                            summary: 'Validation Error',
+                            detail: value + ' is not a valid email.'
+                        }
+                    }
+                }
+            };
+
+        </script>
 
     </ui:composition>
 
