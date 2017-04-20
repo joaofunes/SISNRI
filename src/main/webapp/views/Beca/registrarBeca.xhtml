@@ -638,15 +638,15 @@
             <p:separator/>
             <p:confirmDialog widgetVar="dataChangeBecarioDlg" message="Ya existe el becario que desea ingresar, Est&aacute;a seguro que desea Actualizar los datos?" header="Existe Becario"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarBecario()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-check" action="#{becaMB.noRemplazarBecario()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{becaMB.noRemplazarBecario()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
             <p:confirmDialog widgetVar="dataChangeInternoDlg" message="Ya existe el coordinador academico Interno que desea ingresar, Est&aacute; seguro que desea Actualizar los datos?" header="Existe Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarInterno()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-check" action="#{becaMB.noRemplazarInterno()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{becaMB.noRemplazarInterno()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
             <p:confirmDialog widgetVar="dataChangeExternoDlg" message="Ya existe el coordinador Externo que desea ingresar, Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador externo"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarExterno()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{becaMB.noRemplazarExterno()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{becaMB.noRemplazarExterno()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
             <p:confirmDialog widgetVar="dataDesvincularInternoDlg" message="Seguro que desea desvincular el coordinador Academico Intenro?" header="Desvincular Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.desvincularInterno()}" process="@this" update=":formAdmin"/>

@@ -79,7 +79,7 @@
             </h:form>
             <p:confirmDialog widgetVar="eliminarBecaDialogo" message="¿Est&aacute; seguro que desea eliminar la beca?" header="Eliminar Beca"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.eliminarBeca()}" process="@this" update=":formTable"/>
-                <p:commandButton value="No"  styleClass="ui-confirmdialog-no" icon="ui-icon-check"  action="#{becaMB.cancelareEiminarBeca()}" process="@this" update=":formTable"/>
+                <p:commandButton value="No"  styleClass="ui-confirmdialog-no" icon="ui-icon-close"  action="#{becaMB.cancelareEiminarBeca()}" process="@this" update=":formTable"/>
             </p:confirmDialog>
         </ui:define>
     </ui:composition>
