@@ -77,7 +77,7 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
-            <p:confirmDialog widgetVar="eliminarBecaDialogo" message="Seguro que desea eliminar el registro?" header="Eliminar registro de beca"  global="true">
+            <p:confirmDialog widgetVar="eliminarBecaDialogo" message="¿Est&aacute; seguro que desea eliminar la beca?" header="Eliminar Beca"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.eliminarBeca()}" process="@this" update=":formTable"/>
                 <p:commandButton value="No"  styleClass="ui-confirmdialog-no" icon="ui-icon-check"  action="#{becaMB.cancelareEiminarBeca()}" process="@this" update=":formTable"/>
             </p:confirmDialog>

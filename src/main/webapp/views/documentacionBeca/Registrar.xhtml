@@ -31,7 +31,7 @@
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column>
-                                <p:commandButton  styleClass="boton"
+                                <p:commandButton  styleClass="boton" icon="ui-icon-plus"
                                                   update=":idAddDocument" process="@this"
                                                   value="Agregar Documento"
                                                   oncomplete="PF('AddDocDialog').show();"/>
@@ -146,14 +146,14 @@
                                                actionListener="#{documentacionBecaMB.preView(doc)}"
                                                oncomplete="PF('previewDialog').show();" process="@this" update=":idPreview"
                                                rendered="#{doc.nombreDocumento.contains('.pdf')}"/>
-                                <div style="float: left">
-                                    <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
-                                                   title="Descargar" value="Descargar Archivo"
-                                                   actionListener="#{documentacionBecaMB.FileDownloadView(doc)}"
-                                                   process="@this" update="formDocsTable" ajax="false">
-                                        <p:fileDownload value="#{documentacionBecaMB.content}" />
-                                    </p:commandLink>
-                                </div>
+                            </div>
+                            <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
+                                               title="Descargar" value="Descargar Archivo"
+                                               actionListener="#{documentacionBecaMB.FileDownloadView(doc)}"
+                                               process="@this" update="formDocsTable" ajax="false">
+                                    <p:fileDownload value="#{documentacionBecaMB.content}" />
+                                </p:commandLink>
                             </div>
                         </p:column>
                     </p:dataTable>
