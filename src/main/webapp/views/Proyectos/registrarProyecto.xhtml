@@ -11,14 +11,14 @@
     <ui:composition template="/WEB-INF/templates/layout.xhtml">
         <ui:define name="content">
             <script type="text/javascript">
-                    $.mask.definitions['9'] = '';
-                    $.mask.definitions['#'] = '[0-9]';
-                </script>
-             <ui:include src="../TipoProyecto/Create.xhtml"/>
-             <ui:include src="../TipoCambio/Create.xhtml"/>
-             <ui:include src="../Pais/Create.xhtml"/>
-             <ui:include src="../OrganismoCooperante/Create.xhtml"/>
-             <ui:include src="../AreaConocimiento/Create.xhtml"/>
+                $.mask.definitions['9'] = '';
+                $.mask.definitions['#'] = '[0-9]';
+            </script>
+            <ui:include src="../TipoProyecto/Create.xhtml"/>
+            <ui:include src="../TipoCambio/Create.xhtml"/>
+            <ui:include src="../Pais/Create.xhtml"/>
+            <ui:include src="../OrganismoCooperante/Create.xhtml"/>
+            <ui:include src="../AreaConocimiento/Create.xhtml"/>
             <p:outputPanel id="pageTituloRegistrar" rendered="#{!proyectosMB.actualizar}">
                 <center>
                     <h1 style="background: #cc0000;color: white;border-radius: 10px">Registro de Proyectos Internacionales</h1>
@@ -35,159 +35,159 @@
                         <p:accordionPanel multiple="true" activeIndex="0,1,2,3" id="acordion">
                             <p:tab title="Datos del Proyecto">
                                 <h:panelGroup id="iddatosproyecto">
-                                <p:panelGrid columns="4" >
-                                    <p:column>
-                                        <p:outputLabel for="tipoproyecto" value="Tipo de Proyecto:" />
-                                    </p:column>
-                                    <p:column >
-                                        <p:selectOneMenu id="tipoproyecto" value="#{proyectosMB.proyectoSelected}" converter="#{tipoProyectoConverter}" style="width:180px" required="true">
-                                            
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/> 
-                                            <f:selectItems value="#{tipoProyectoMB.listaProyectos()}" var="reg" itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg}" /> 
-                                            <p:ajax event="change" listener="#{proyectosMB.addNewTipoProyectoIfNecessary}" process="@this" update="formAdmin:acordion:tipoproyecto"/>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Nombre de convenio:" />
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputLink id="fade" value="#">
-                                            <p:selectOneMenu id="propuesta" value="#{proyectosMB.propuestaConvenioSelected.idPropuesta}" style="width:180px">
+                                    <p:panelGrid columns="4" >
+                                        <p:column>
+                                            <p:outputLabel for="tipoproyecto" value="Tipo de Proyecto:" />
+                                        </p:column>
+                                        <p:column >
+                                            <p:selectOneMenu id="tipoproyecto" value="#{proyectosMB.proyectoSelected}" converter="#{tipoProyectoConverter}" style="width:180px" required="true">
+
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/> 
+                                                <f:selectItems value="#{tipoProyectoMB.listaProyectos()}" var="reg" itemLabel="#{reg.nombreTipoProyecto}" itemValue="#{reg}" /> 
+                                                <p:ajax event="change" listener="#{proyectosMB.addNewTipoProyectoIfNecessary}" process="@this" update="formAdmin:acordion:tipoproyecto"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Nombre de convenio:" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputLink id="fade" value="#">
+                                                <p:selectOneMenu id="propuesta" value="#{proyectosMB.propuestaConvenioSelected.idPropuesta}" style="width:180px">
+                                                    <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                    <c:forEach var="propuesta" items="#{proyectosMB.propuestaConvenioList}">
+                                                        <f:selectItem itemLabel="#{propuesta.nombrePropuesta}" itemValue="#{propuesta.idPropuesta}" />
+                                                    </c:forEach>
+                                                </p:selectOneMenu>
+                                            </h:outputLink>
+                                            <p:tooltip id="toolTipFade" for="fade" value="Este campo es unicamente para proyectos que se relacionen a un convenio"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="facultadproyecto" value="Facultad/Unidad:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="facultadproyecto" value="#{proyectosMB.facultadSelectedPojoP}" style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                                <c:forEach var="propuesta" items="#{proyectosMB.propuestaConvenioList}">
-                                                    <f:selectItem itemLabel="#{propuesta.nombrePropuesta}" itemValue="#{propuesta.idPropuesta}" />
+
+                                                <c:forEach var="fac" items="#{proyectosMB.facultadesUnidadesList}">
+                                                    <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
                                                 </c:forEach>
                                             </p:selectOneMenu>
-                                        </h:outputLink>
-                                        <p:tooltip id="toolTipFade" for="fade" value="Este campo es unicamente para proyectos que se relacionen a un convenio"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="facultadproyecto" value="Facultad/Unidad:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="facultadproyecto" value="#{proyectosMB.facultadSelectedPojoP}" style="width:180px" required="true">
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-
-                                            <c:forEach var="fac" items="#{proyectosMB.facultadesUnidadesList}">
-                                                <f:selectItem itemLabel="#{fac.label}" itemValue="#{fac.value}"/>
-                                            </c:forEach>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel for="desde" value="A&ntilde;o de Gesti&oacute;n: " />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="desde" value="#{proyectosMB.anio}" style="width:180px" required="true">
-                                            <c:forEach begin="0" end="125" varStatus="loop">
-                                                <c:set var="currentYear" value="${proyectosMB.yearActual-loop.index} " />
-                                                <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
-                                            </c:forEach>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Tipo de Moneda:" />
-                                    </p:column>
-                                    <p:column >
-                                        <p:selectOneMenu id="tipomoneda" value="#{proyectosMB.tipoCambioSelected.idTipoCambio}" style="width: 180px">
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
-                                            <c:forEach var="mon" items="#{tipoCambioMB.listaTipoCambio()}">
-                                                <f:selectItem itemLabel="#{mon.nombreDivisa}" itemValue="#{mon.idTipoCambio}"/>
-                                            </c:forEach>
-                                            <p:ajax event="change" listener="#{proyectosMB.addNewTipoMoneda()}" process="@this" update="formAdmin:acordion:tipomoneda"/>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Monto del Proyecto:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <poue:inputNumber id="montoproyecto" value="#{proyectosMB.proyecto.montoProyecto}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Lugar de Ejecuci&oacute;n:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText value="#{proyectosMB.proyecto.lugarProyecto}"/>
-                                    </p:column>
-                                    <p:column >
-                                        <p:outputLabel for="nombreproyecto" value="Nombre del Proyecto:"  />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputTextarea id="nombreproyecto" value="#{proyectosMB.proyecto.nombreProyecto}"  rows="2" maxlength="300" style="width:180px" required="true">
-                                        </p:inputTextarea>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Objetivo del Proyecto:" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputTextarea value="#{proyectosMB.proyecto.objetivo}" rows="2" maxlength="1000" style="width:180px">
-                                        </p:inputTextarea>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Fecha Inicio:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:calendar id="desdeMovilidad" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaI}">
-                                            <p:ajax event="dateSelect" update="fechafin" />
-                                        </p:calendar>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Fecha Finalizaci&oacute;n:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:calendar id="fechafin" pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaF}">
-                                            <f:attribute name="desdeMovilidad" value="#{proyectosMB.fechaI}"/>
-                                            <f:validator validatorId="fechaMayorValidator"/>
-                                        </p:calendar>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Pais cooperante:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="paiscooperante" value="#{proyectosMB.paisCooperanteSelected.idPais}" style="width:180px">
-                                            <f:selectItem itemLabel="--Seleccione--" itemValue="" />
-                                            <c:forEach var="pais" items="#{paisMB.listaPaises()}">
-                                                <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
-                                            </c:forEach>
-                                            <p:ajax event="change" listener="#{proyectosMB.addNewPais()}" process="@this" update="formAdmin:acordion:paiscooperante"/>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Organismos cooperantes:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectCheckboxMenu id="organismoproy" value="#{proyectosMB.organismoProySelected}" label="Seleccione"
-                                                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
-                                            <c:forEach var="org" items="#{organismoCooperanteMB.listaOrganismos()}">
-                                                <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
-                                            </c:forEach>
-                                            <p:ajax event="change" listener="#{proyectosMB.addNewOrganismo()}" process="@this" update="formAdmin:acordion:organismoproy"/>
-                                        </p:selectCheckboxMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Area de Conocimiento:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectCheckboxMenu id="areaconocimiento" value="#{proyectosMB.areaConocimientoSelected}" label="Seleccione"
-                                                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
-                                            <c:forEach var="reg" items="#{areaConocimientoMB.listaAreas()}">
-                                                <f:selectItem itemLabel="#{reg.nombreArea}" itemValue="#{reg.idAreaConocimiento}"/>
-                                            </c:forEach>
-                                            <p:ajax event="change" listener="#{proyectosMB.addNewArea()}" process="@this" update="formAdmin:acordion:areaconocimiento"/>
-                                        </p:selectCheckboxMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:outputLabel value="Facultad Beneficiada:"/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectCheckboxMenu id="facultadbeneficiada" value="#{proyectosMB.facultadBeneficiadaSelected}" label="Seleccione"
-                                                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
-                                            <c:forEach var="fac" items="#{proyectosMB.facultadBeneficiadaList}">
-                                                <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
-                                            </c:forEach>
-                                        </p:selectCheckboxMenu>
-                                    </p:column>
-                                </p:panelGrid>
-                            </h:panelGroup>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="desde" value="A&ntilde;o de Gesti&oacute;n: " />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="desde" value="#{proyectosMB.anio}" style="width:180px" required="true">
+                                                <c:forEach begin="0" end="125" varStatus="loop">
+                                                    <c:set var="currentYear" value="${proyectosMB.yearActual-loop.index} " />
+                                                    <f:selectItem itemValue="#{currentYear}" itemLabel="#{currentYear}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Tipo de Moneda:" />
+                                        </p:column>
+                                        <p:column >
+                                            <p:selectOneMenu id="tipomoneda" value="#{proyectosMB.tipoCambioSelected.idTipoCambio}" style="width: 180px">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <c:forEach var="mon" items="#{tipoCambioMB.listaTipoCambio()}">
+                                                    <f:selectItem itemLabel="#{mon.nombreDivisa}" itemValue="#{mon.idTipoCambio}"/>
+                                                </c:forEach>
+                                                <p:ajax event="change" listener="#{proyectosMB.addNewTipoMoneda()}" process="@this" update="formAdmin:acordion:tipomoneda"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Monto del Proyecto:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <poue:inputNumber id="montoproyecto" value="#{proyectosMB.proyecto.montoProyecto}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Lugar de Ejecuci&oacute;n:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText value="#{proyectosMB.proyecto.lugarProyecto}"/>
+                                        </p:column>
+                                        <p:column >
+                                            <p:outputLabel for="nombreproyecto" value="Nombre del Proyecto:"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputTextarea id="nombreproyecto" value="#{proyectosMB.proyecto.nombreProyecto}"  rows="2" maxlength="300" style="width:180px" required="true">
+                                            </p:inputTextarea>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Objetivo del Proyecto:" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputTextarea value="#{proyectosMB.proyecto.objetivo}" rows="2" maxlength="1000" style="width:180px">
+                                            </p:inputTextarea>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Fecha Inicio:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:calendar id="desdeMovilidad" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaI}">
+                                                <p:ajax event="dateSelect" update="fechafin" />
+                                            </p:calendar>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Fecha Finalizaci&oacute;n:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:calendar id="fechafin" pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaF}">
+                                                <f:attribute name="desdeMovilidad" value="#{proyectosMB.fechaI}"/>
+                                                <f:validator validatorId="fechaMayorValidator"/>
+                                            </p:calendar>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Pais cooperante:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="paiscooperante" value="#{proyectosMB.paisCooperanteSelected.idPais}" style="width:180px">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" />
+                                                <c:forEach var="pais" items="#{paisMB.listaPaises()}">
+                                                    <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
+                                                </c:forEach>
+                                                <p:ajax event="change" listener="#{proyectosMB.addNewPais()}" process="@this" update="formAdmin:acordion:paiscooperante"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Organismos cooperantes:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectCheckboxMenu id="organismoproy" value="#{proyectosMB.organismoProySelected}" label="Seleccione"
+                                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
+                                                <c:forEach var="org" items="#{organismoCooperanteMB.listaOrganismos()}">
+                                                    <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
+                                                </c:forEach>
+                                                <p:ajax event="change" listener="#{proyectosMB.addNewOrganismo()}" process="@this" update="formAdmin:acordion:organismoproy"/>
+                                            </p:selectCheckboxMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Area de Conocimiento:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectCheckboxMenu id="areaconocimiento" value="#{proyectosMB.areaConocimientoSelected}" label="Seleccione"
+                                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
+                                                <c:forEach var="reg" items="#{areaConocimientoMB.listaAreas()}">
+                                                    <f:selectItem itemLabel="#{reg.nombreArea}" itemValue="#{reg.idAreaConocimiento}"/>
+                                                </c:forEach>
+                                                <p:ajax event="change" listener="#{proyectosMB.addNewArea()}" process="@this" update="formAdmin:acordion:areaconocimiento"/>
+                                            </p:selectCheckboxMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel value="Facultad Beneficiada:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectCheckboxMenu id="facultadbeneficiada" value="#{proyectosMB.facultadBeneficiadaSelected}" label="Seleccione"
+                                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
+                                                <c:forEach var="fac" items="#{proyectosMB.facultadBeneficiadaList}">
+                                                    <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
+                                                </c:forEach>
+                                            </p:selectCheckboxMenu>
+                                        </p:column>
+                                    </p:panelGrid>
+                                </h:panelGroup>
                             </p:tab>
                             <p:tab title="Datos del Coordinador del proyecto">
                                 <h:panelGroup id="grup1">
@@ -246,7 +246,7 @@
                                     <p:column>
                                         <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersona()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.actualizar)}" update="GroupSolicitanteInterno"/>
                                         <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersona()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersona)}" update="GroupSolicitanteInterno"/>                                       
-                                        <p:commandButton value="Desvincular Coordinador Interno" actionListener="#{proyectosMB.confirmarDesvincularInterno()}" process="@this" rendered="#{proyectosMB.actualizar}" update="grup1"/>
+                                        <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{proyectosMB.confirmarDesvincularInterno()}" process="@this" rendered="#{proyectosMB.actualizar}" update="grup1"/>
                                     </p:column>   
                                 </h:panelGroup>
                                 <p:separator/>
@@ -390,7 +390,7 @@
                                     <p:column>
                                         <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersonaAsistente()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroAsistente and !proyectosMB.asistenteNull and !proyectosMB.actualizar)}" update="GroupSolicitanteAsistente"/>
                                         <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersonaAsistente()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersonaAsistente)}" update="GroupSolicitanteAsistente"/>
-                                        <p:commandButton value="Desvincular Coordinador T&eacute;cnico" actionListener="#{proyectosMB.confirmarDesvincularAsistente()}" process="@this" update="GroupSolicitanteAsistente" rendered="#{proyectosMB.actualizar and proyectosMB.tabAsis and !proyectosMB.asistenteNull}"/>
+                                        <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{proyectosMB.confirmarDesvincularAsistente()}" process="@this" update="GroupSolicitanteAsistente" rendered="#{proyectosMB.actualizar and proyectosMB.tabAsis and !proyectosMB.asistenteNull}"/>
                                     </p:column>   
                                 </h:panelGroup>
                                 <p:separator />
@@ -516,7 +516,7 @@
                                     <p:column>
                                         <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersonaExterna()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroRefExt and !proyectosMB.actualizar)}" update="GroupSolicitanteExterno"/>
                                         <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersonaExterna()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersonaExterna)}" update="GroupSolicitanteExterno"/>
-                                        <p:commandButton value="Desvincular Coordinador Externo" actionListener="#{proyectosMB.confirmarDesvincularExterno()}" process="@this" update="GroupSolicitanteExterno" rendered="#{proyectosMB.actualizar}"/>
+                                        <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{proyectosMB.confirmarDesvincularExterno()}" process="@this" update="GroupSolicitanteExterno" rendered="#{proyectosMB.actualizar}"/>
                                     </p:column>   
                                 </h:panelGroup>
                                 <p:separator/>
@@ -586,33 +586,33 @@
                             </p:tab>
                         </p:accordionPanel>                                                                         
                     </p:panel>
-                    <p:commandButton rendered="#{proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.regresar()}" process="@this" value="Cancelar" id="btnCancelar" title="Cancelar"/>
-                    <p:commandButton rendered="#{proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin " update="formAdmin" value="Actualizar" id="btnActualizar" title="Actualizar Proyecto"/>
-                    <p:commandButton rendered="#{!proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.regresar()}" process="@this" update="formAdmin" value="Cancelar" id="btnregresar" title="volver"/>
-                    <p:commandButton rendered="#{!proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin" update="formAdmin" value="Guardar" id="btnGuardarBeca" title="Guardar Proyecto"/>
+                    <p:commandButton rendered="#{proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.regresar()}" process="@this" value="Cancelar" icon="ui-icon-cancel" id="btnCancelar" title="Cancelar"/>
+                    <p:commandButton rendered="#{proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin " update="formAdmin" value="Actualizar" icon="ui-icon-refresh" id="btnActualizar" title="Actualizar Proyecto"/>
+                    <p:commandButton rendered="#{!proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.regresar()}" process="@this" update="formAdmin" value="Cancelar" icon="ui-icon-cancel" id="btnregresar" title="volver"/>
+                    <p:commandButton rendered="#{!proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin" update="formAdmin" value="Guardar" icon="ui-icon-disk" id="btnGuardarBeca" title="Guardar Proyecto"/>
                 </center>
             </h:form>
             <p:confirmDialog widgetVar="dataChangeDlg" message="Ya existe el coordinador interno que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersona()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersona()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{proyectosMB.noReemplazarPersona()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
             <p:confirmDialog widgetVar="dataChangeDlgAsistente" message="Ya existe el coordinador tecnico que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador tecnico"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{proyectosMB.noReemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
             <p:confirmDialog widgetVar="dataChangeDlgExterno" message="Ya existe el coordinador Externo que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador externo"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{proyectosMB.noReemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="confirmarDesvincular" message="¿Est&aacute; seguro que desea desvincular al Coordinador?" header="Cambiar Coordinador interno"  global="true">
+            <p:confirmDialog widgetVar="confirmarDesvincular" message="¿Est&aacute; seguro que desea desvincular al Coordinador?" header="Desvincular Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.desvincularInterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('confirmarDesvincular').hide();"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="confirmarDesvincularAsistente" message="¿Est&aacute; seguro que desea desvincular al Coordinador T&eacute;cnico?" header="Cambiar Coordinador t&eacute;cnico"  global="true">
+            <p:confirmDialog widgetVar="confirmarDesvincularAsistente" message="¿Est&aacute; seguro que desea desvincular al Coordinador T&eacute;cnico?" header="Desvincular Coordinador T&eacute;cnico"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.desvincularAsistente()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('confirmarDesvincularAsistente').hide();"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="confirmarDesvincularExterno" message="¿Est&aacute; seguro que desea desvincular al Coordinador Externo?" header="Cambiar Coordinador externo"  global="true">
+            <p:confirmDialog widgetVar="confirmarDesvincularExterno" message="¿Est&aacute; seguro que desea desvincular al Coordinador Externo?" header="Desvincular Coordinador Externo"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.desvincularExterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('confirmarDesvincularExterno').hide();"/>
             </p:confirmDialog>

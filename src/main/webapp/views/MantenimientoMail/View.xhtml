@@ -13,30 +13,30 @@
             <h:form id="BancoViewForm">
 
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{bancoManagedBean.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{mantenimientoMailMB.selected != null}">
 
                         <h:outputText value="#{crudbundle.BancoLabel_bancoId}"/>
-                        <h:outputText value="#{bancoManagedBean.selected.bancoId}" title="#{crudbundle.BancoTitle_bancoId}"/>
+                        <h:outputText value="#{mantenimientoMailMB.selected.bancoId}" title="#{crudbundle.BancoTitle_bancoId}"/>
 
                         <h:outputText value="#{crudbundle.BancoLabel_bancoNombre}"/>
-                        <h:outputText value="#{bancoManagedBean.selected.bancoNombre}" title="#{crudbundle.BancoTitle_bancoNombre}"/>
+                        <h:outputText value="#{mantenimientoMailMB.selected.bancoNombre}" title="#{crudbundle.BancoTitle_bancoNombre}"/>
 
                         <h:outputText value="#{crudbundle.Label_activo}"/>
-                        <h:outputText value="#{bancoManagedBean.selected.activo}" title="#{crudbundle.Title_activo}"/>
+                        <h:outputText value="#{mantenimientoMailMB.selected.activo}" title="#{crudbundle.Title_activo}"/>
 
                         <h:outputText value="#{crudbundle.Label_usuarioRegistro}"/>
-                        <h:outputText value="#{bancoManagedBean.selected.usuarioRegistro}" title="#{crudbundle.Title_usuarioRegistro}"/>
+                        <h:outputText value="#{mantenimientoMailMB.selected.usuarioRegistro}" title="#{crudbundle.Title_usuarioRegistro}"/>
 
                         <h:outputText value="#{crudbundle.Label_fechaRegistro}"/>
-                        <h:outputText value="#{bancoManagedBean.selected.fechaRegistro}" title="#{crudbundle.Title_fechaRegistro}">
+                        <h:outputText value="#{mantenimientoMailMB.selected.fechaRegistro}" title="#{crudbundle.Title_fechaRegistro}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
 
                         <h:outputText value="#{crudbundle.Label_usuarioUltimamodificacion}"/>
-                        <h:outputText value="#{bancoManagedBean.selected.usuarioUltimamodificacion}" title="#{crudbundle.Title_usuarioUltimamodificacion}"/>
+                        <h:outputText value="#{mantenimientoMailMB.selected.usuarioUltimamodificacion}" title="#{crudbundle.Title_usuarioUltimamodificacion}"/>
 
                         <h:outputText value="#{crudbundle.Label_fechaUltimamodificacion}"/>
-                        <h:outputText value="#{bancoManagedBean.selected.fechaUltimamodificacion}" title="#{crudbundle.Title_fechaUltimamodificacion}">
+                        <h:outputText value="#{mantenimientoMailMB.selected.fechaUltimamodificacion}" title="#{crudbundle.Title_fechaUltimamodificacion}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
 

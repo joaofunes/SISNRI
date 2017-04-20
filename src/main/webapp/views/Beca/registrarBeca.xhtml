@@ -25,7 +25,7 @@
             </p:outputPanel>
             <p:outputPanel id="pageTituloActualizar" rendered="#{becaMB.actualizar}">
                 <center>
-                    <h1 style="background: #cc0000;color: white;border-radius: 10px">Actualizacion de Beca</h1>
+                    <h1 style="background: #cc0000;color: white;border-radius: 10px">Actualizaci&oacute;n de Beca</h1>
                 </center>   
             </p:outputPanel>
             <h:form id="formAdmin">
@@ -486,7 +486,7 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:commandButton value="Desvincular asesor Interno" actionListener="#{becaMB.confirmarDesvincularInterno()}" process="@this" rendered="#{becaMB.actualizar and !becaMB.noEstabaInterno}"/>
+                                                <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{becaMB.confirmarDesvincularInterno()}" process="@this" rendered="#{becaMB.actualizar and !becaMB.noEstabaInterno}"/>
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
@@ -620,7 +620,7 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:commandButton value="Desvincular asesor Externo" actionListener="#{becaMB.confirmarDesvincularExterno()}" process="@this" rendered="#{becaMB.actualizar and !becaMB.noEstabaExterno}"/>
+                                                <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{becaMB.confirmarDesvincularExterno()}" process="@this" rendered="#{becaMB.actualizar and !becaMB.noEstabaExterno}"/>
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
@@ -629,24 +629,24 @@
                             </p:tab>
                         </p:accordionPanel>
                     </p:panel>
-                    <p:commandButton rendered="#{becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.cancelar()}" process="@this" value="Cancelar" id="btnCancelar" title="Cancelar"/>
-                    <p:commandButton rendered="#{becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.guardarBeca()}" process="formAdmin " update="formAdmin" value="Actualizar" id="btnActualizar" title="Actualizar Beca"/>
-                    <p:commandButton rendered="#{!becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.cancelar()}" process="@this" update="formAdmin" value="Cancelar" id="btnregresar" title="volver"/>
-                    <p:commandButton rendered="#{!becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.preGuardar()}" process="formAdmin" update="formAdmin" value="Guardar" id="btnGuardarBeca" title="Guardar Beca"/>
+                    <p:commandButton rendered="#{becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.cancelar()}" process="@this" value="Cancelar" icon="ui-icon-cancel" id="btnCancelar" title="Cancelar"/>
+                    <p:commandButton rendered="#{becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.guardarBeca()}" process="formAdmin " update="formAdmin" value="Actualizar" icon="ui-icon-refresh" id="btnActualizar" title="Actualizar Beca"/>
+                    <p:commandButton rendered="#{!becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.cancelar()}" process="@this" update="formAdmin" value="Cancelar" icon="ui-icon-cancel" id="btnregresar" title="volver"/>
+                    <p:commandButton rendered="#{!becaMB.actualizar}" styleClass="boton" actionListener="#{becaMB.preGuardar()}" process="formAdmin" update="formAdmin" value="Guardar" icon="ui-icon-disk" id="btnGuardarBeca" title="Guardar Beca"/>
                 </center>
             </h:form>
             <p:separator/>
             <p:confirmDialog widgetVar="dataChangeBecarioDlg" message="Ya existe el becario que desea ingresar, Est&aacute;a seguro que desea Actualizar los datos?" header="Existe Becario"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarBecario()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{becaMB.noRemplazarBecario()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{becaMB.noRemplazarBecario()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
             <p:confirmDialog widgetVar="dataChangeInternoDlg" message="Ya existe el coordinador academico Interno que desea ingresar, Est&aacute; seguro que desea Actualizar los datos?" header="Existe Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarInterno()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{becaMB.noRemplazarInterno()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{becaMB.noRemplazarInterno()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
             <p:confirmDialog widgetVar="dataChangeExternoDlg" message="Ya existe el coordinador Externo que desea ingresar, Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador externo"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarExterno()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{becaMB.noRemplazarExterno()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{becaMB.noRemplazarExterno()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
             <p:confirmDialog widgetVar="dataDesvincularInternoDlg" message="Seguro que desea desvincular el coordinador Academico Intenro?" header="Desvincular Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.desvincularInterno()}" process="@this" update=":formAdmin"/>

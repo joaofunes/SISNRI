@@ -17,7 +17,7 @@
             <p:panelGrid >
                 <p:row>
                     <p:column  >
-                        <p:commandButton styleClass="boton"
+                        <p:commandButton styleClass="boton" icon="ui-icon-plus"
                                          actionListener="#{proyectosMB.preUpdateProyecto()}" update=":formAdmin :formProyecto" process="@this :formAdmin"
                                          value="Nuevo Proyecto" />
                     </p:column>
@@ -84,10 +84,9 @@
 
             </h:form>
         </p:dialog> 
-        
              <p:confirmDialog widgetVar="eliminarProyectoDialogo" message="¿Est&aacute; seguro que desea eliminar el proyecto?" header="Eliminar Proyecto"  global="true">
                  <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.eliminarProyecto()}" process="@this" update=":formProyecto"/>
-                 <p:commandButton value="No"  styleClass="ui-confirmdialog-no" icon="ui-icon-check"  action="#{proyectosMB.cancelareEiminarProyecto()}" process="@this" update=":formProyecto"/>
+                 <p:commandButton value="No"  styleClass="ui-confirmdialog-no" icon="ui-icon-close"  action="#{proyectosMB.cancelareEiminarProyecto()}" process="@this" update=":formProyecto"/>
             </p:confirmDialog>
 
     </ui:define>

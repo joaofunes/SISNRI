@@ -8,7 +8,6 @@
     <h:form id="BancoListForm">
         <br/>
         <br/>
-             <h2 class="title ui-widget-header ui-corner-all" align="center">Mantenimiento Mail</h2>
              
             <p:dataTable id="datalist" var="item" value="#{mantenimientoMailMB.listParametros}" paginator="true" rows="5"  
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"  
@@ -19,13 +18,13 @@
                     #{crudbundle.ListBancoTitle}
                 </f:facet>  
 
-                <p:column filterBy="#{item.cuentaCorreo}" width="15%" >
+                <p:column filterBy="#{item.cuentaCorreo}" width="30%" >
                     <f:facet name="header">
                         <h:outputText value="Email"/>
                     </f:facet>
                     <h:outputText value="#{item.cuentaCorreo}"/>
                 </p:column>
-                <p:column filterBy="#{item.puerto}" width="70%">
+                <p:column filterBy="#{item.puerto}" width="15%">
                     <f:facet name="header">
                         <h:outputText value="Puerto"/>
                     </f:facet>
@@ -43,15 +42,32 @@
                     </f:facet>
                     <h:outputText value="#{item.activo}"/>
                 </p:column>
+                <p:column headerText="Opciones" >
+                                              
+                        <div style="float: left">
+                            <p:commandLink styleClass="ui-icon ui-icon-pencil"
+                                           title="Editar" value="Editar"    
+                                           actionListener="#{mantenimientoMailMB.preEdit(item)}"
+                                           update=":EmailEditForm"
+                                           process="@this"
+                                           oncomplete="PF('EmailEditDialog').show();"/>
+
+                        </div>  
+                        <div style="float: left">
+                                <p:commandLink styleClass="ui-icon ui-icon-closethick"
+                                               title="Eliminar" value="Eliminar" 
+                                               actionListener="#{mantenimientoMailMB.preDelete(item)}"
+                                               update=":EmailEditForm"
+                                               process="@this"
+                                               oncomplete="PF('deleteDlg').show();"/>                                                                                                     
+                         </div>
+                </p:column>
 
                 <f:facet name="footer">
                     <div class="footer-section">
-                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{mantenimientoMailMB.prepareCreate}" update=" @(#BancoCreateForm)" oncomplete="BancoCreateDialog.show()"/>
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{mantenimientoMailMB.preSave()}" update=":EmailCreateForm" process="@this" oncomplete="PF('EmailCreateDialog').show();"/>
                         <span>&nbsp;</span>
-                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{crudbundle.View}" update="@(#BancoViewForm)" oncomplete="BancoViewDialog.show()" disabled="#{empty mantenimientoMailMB.selected}"/>
-                        <span>&nbsp;</span>
-                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{crudbundle.Edit}" update="@(#BancoEditForm)" oncomplete="BancoEditDialog.show()" disabled="#{empty mantenimientoMailMB.selected}"/>
-                        <!--<p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" actionListener="#{mantenimientoMailMB.print}" oncomplete="print(xhr, status, args)"/>-->                        
+                       
                     </div>
                 </f:facet>
 

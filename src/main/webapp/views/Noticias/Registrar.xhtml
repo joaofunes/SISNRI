@@ -59,10 +59,10 @@
                             </p:outputPanel>
 
                         </h:panelGrid>
-                        <p:commandButton rendered="#{noticiaMB.actualizar or noticiaMB.eliminar}" value="Cancelar" actionListener="#{noticiaMB.inicializador()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+                        <p:commandButton rendered="#{noticiaMB.actualizar or noticiaMB.eliminar}"  value="Cancelar" actionListener="#{noticiaMB.inicializador()}" icon="ui-icon-cancel" update="formNoticia,:administracion"/>
                         <p:commandButton rendered="#{!noticiaMB.actualizar and !noticiaMB.eliminar}" value="Guardar" actionListener="#{noticiaMB.guardarNoticia}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
-                        <p:commandButton rendered="#{noticiaMB.actualizar}" value="Actualizar" actionListener="#{noticiaMB.updateNoticia()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
-                        <p:commandButton rendered="#{noticiaMB.eliminar}" value="Eliminar" actionListener="#{noticiaMB.eliminar()}" icon="ui-icon-disk" update="formNoticia,:administracion"/>
+                        <p:commandButton rendered="#{noticiaMB.actualizar}" value="Actualizar" actionListener="#{noticiaMB.updateNoticia()}" icon="ui-icon-refresh" update="formNoticia,:administracion"/>
+                        <p:commandButton rendered="#{noticiaMB.eliminar}" value="Eliminar" actionListener="#{noticiaMB.eliminar()}" icon="ui-icon-close" update="formNoticia,:administracion"/>
                     </p:panel>
                 </h:form>
                 <h:form id="socketForm">

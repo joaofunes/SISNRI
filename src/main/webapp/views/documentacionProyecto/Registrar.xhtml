@@ -31,7 +31,7 @@
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column>
-                                <p:commandButton  styleClass="boton"
+                                <p:commandButton  styleClass="boton" icon="ui-icon-plus"
                                                   update=":idAddDocument" process="@this"
                                                   value="Agregar Documento"
                                                   oncomplete="PF('AddDocDialog').show();"/>
@@ -152,6 +152,7 @@
                                                actionListener="#{documentacionProyectoMB.preView(doc)}"
                                                oncomplete="PF('previewDialog').show();" process="@this" update=":idPreview"
                                                rendered="#{doc.nombreDocumento.contains('.pdf')}"/>
+                                 </div>
                                 <div style="float: left">
                                     <p:commandLink styleClass="ui-icon ui-icon-arrowthick-1-s"
                                                    title="Descargar" value="Descargar Archivo"
@@ -160,7 +161,7 @@
                                         <p:fileDownload value="#{documentacionProyectoMB.content}" />
                                     </p:commandLink>
                                 </div>
-                            </div>
+                           
                         </p:column>
                     </p:dataTable>
 
