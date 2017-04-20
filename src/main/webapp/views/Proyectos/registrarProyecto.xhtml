@@ -246,7 +246,7 @@
                                     <p:column>
                                         <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersona()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.actualizar)}" update="GroupSolicitanteInterno"/>
                                         <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersona()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersona)}" update="GroupSolicitanteInterno"/>                                       
-                                        <p:commandButton value="Desvincular Coordinador Interno" actionListener="#{proyectosMB.confirmarDesvincularInterno()}" process="@this" rendered="#{proyectosMB.actualizar}" update="grup1"/>
+                                        <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{proyectosMB.confirmarDesvincularInterno()}" process="@this" rendered="#{proyectosMB.actualizar}" update="grup1"/>
                                     </p:column>   
                                 </h:panelGroup>
                                 <p:separator/>
@@ -390,7 +390,7 @@
                                     <p:column>
                                         <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersonaAsistente()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroAsistente and !proyectosMB.asistenteNull and !proyectosMB.actualizar)}" update="GroupSolicitanteAsistente"/>
                                         <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersonaAsistente()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersonaAsistente)}" update="GroupSolicitanteAsistente"/>
-                                        <p:commandButton value="Desvincular Coordinador T&eacute;cnico" actionListener="#{proyectosMB.confirmarDesvincularAsistente()}" process="@this" update="GroupSolicitanteAsistente" rendered="#{proyectosMB.actualizar and proyectosMB.tabAsis and !proyectosMB.asistenteNull}"/>
+                                        <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{proyectosMB.confirmarDesvincularAsistente()}" process="@this" update="GroupSolicitanteAsistente" rendered="#{proyectosMB.actualizar and proyectosMB.tabAsis and !proyectosMB.asistenteNull}"/>
                                     </p:column>   
                                 </h:panelGroup>
                                 <p:separator />
@@ -516,7 +516,7 @@
                                     <p:column>
                                         <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersonaExterna()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroRefExt and !proyectosMB.actualizar)}" update="GroupSolicitanteExterno"/>
                                         <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersonaExterna()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersonaExterna)}" update="GroupSolicitanteExterno"/>
-                                        <p:commandButton value="Desvincular Coordinador Externo" actionListener="#{proyectosMB.confirmarDesvincularExterno()}" process="@this" update="GroupSolicitanteExterno" rendered="#{proyectosMB.actualizar}"/>
+                                        <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{proyectosMB.confirmarDesvincularExterno()}" process="@this" update="GroupSolicitanteExterno" rendered="#{proyectosMB.actualizar}"/>
                                     </p:column>   
                                 </h:panelGroup>
                                 <p:separator/>
@@ -586,33 +586,33 @@
                             </p:tab>
                         </p:accordionPanel>                                                                         
                     </p:panel>
-                    <p:commandButton rendered="#{proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.regresar()}" process="@this" value="Cancelar" id="btnCancelar" title="Cancelar"/>
-                    <p:commandButton rendered="#{proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin " update="formAdmin" value="Actualizar" id="btnActualizar" title="Actualizar Proyecto"/>
-                    <p:commandButton rendered="#{!proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.regresar()}" process="@this" update="formAdmin" value="Cancelar" id="btnregresar" title="volver"/>
-                    <p:commandButton rendered="#{!proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin" update="formAdmin" value="Guardar" id="btnGuardarBeca" title="Guardar Proyecto"/>
+                    <p:commandButton rendered="#{proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.regresar()}" process="@this" value="Cancelar" icon="ui-icon-cancel" id="btnCancelar" title="Cancelar"/>
+                    <p:commandButton rendered="#{proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin " update="formAdmin" value="Actualizar" icon="ui-icon-refresh" id="btnActualizar" title="Actualizar Proyecto"/>
+                    <p:commandButton rendered="#{!proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.regresar()}" process="@this" update="formAdmin" value="Cancelar" icon="ui-icon-cancel" id="btnregresar" title="volver"/>
+                    <p:commandButton rendered="#{!proyectosMB.actualizar}" styleClass="boton" actionListener="#{proyectosMB.preGuardarProyecto()}" process="formAdmin" update="formAdmin" value="Guardar" icon="ui-icon-disk" id="btnGuardarBeca" title="Guardar Proyecto"/>
                 </center>
             </h:form>
             <p:confirmDialog widgetVar="dataChangeDlg" message="Ya existe el coordinador interno que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersona()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersona()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersona()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
             <p:confirmDialog widgetVar="dataChangeDlgAsistente" message="Ya existe el coordinador tecnico que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador tecnico"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersonaAsistente()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
             <p:confirmDialog widgetVar="dataChangeDlgExterno" message="Ya existe el coordinador Externo que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?" header="Existe Coordinador externo"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.reemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
-                <p:commandButton value="No" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-check" action="#{proyectosMB.noReemplazarPersonaExterno()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="confirmarDesvincular" message="¿Est&aacute; seguro que desea desvincular al Coordinador?" header="Cambiar Coordinador interno"  global="true">
+            <p:confirmDialog widgetVar="confirmarDesvincular" message="¿Est&aacute; seguro que desea desvincular al Coordinador?" header="Desvincular Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.desvincularInterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('confirmarDesvincular').hide();"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="confirmarDesvincularAsistente" message="¿Est&aacute; seguro que desea desvincular al Coordinador T&eacute;cnico?" header="Cambiar Coordinador t&eacute;cnico"  global="true">
+            <p:confirmDialog widgetVar="confirmarDesvincularAsistente" message="¿Est&aacute; seguro que desea desvincular al Coordinador T&eacute;cnico?" header="Desvincular Coordinador T&eacute;cnico"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.desvincularAsistente()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('confirmarDesvincularAsistente').hide();"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="confirmarDesvincularExterno" message="¿Est&aacute; seguro que desea desvincular al Coordinador Externo?" header="Cambiar Coordinador externo"  global="true">
+            <p:confirmDialog widgetVar="confirmarDesvincularExterno" message="¿Est&aacute; seguro que desea desvincular al Coordinador Externo?" header="Desvincular Coordinador Externo"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.desvincularExterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('confirmarDesvincularExterno').hide();"/>
             </p:confirmDialog>
