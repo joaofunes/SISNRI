@@ -365,10 +365,7 @@
                             </p:tab>
                         </p:accordionPanel>
                     </p:panel>
-                    <p:commandButton rendered="#{becaConsultarMB.actualizar}" styleClass="boton" actionListener="#{becaConsultarMB.cancelar()}" process="@this" value="Cancelar" id="btnCancelar" title="Cancelar"/>
-                    <p:commandButton rendered="#{becaConsultarMB.actualizar}" styleClass="boton" actionListener="#{becaConsultarMB.guardarBeca()}" process="formAdmin " update="formAdmin" value="Actualizar" id="btnActualizar" title="Actualizar Beca"/>
-                    <p:commandButton rendered="#{!becaConsultarMB.actualizar}" styleClass="boton" actionListener="#{becaConsultarMB.cancelar()}" process="@this" update="formAdmin" value="Cancelar" id="btnregresar" title="volver"/>
-                    <p:commandButton rendered="#{!becaConsultarMB.actualizar}" styleClass="boton" actionListener="#{becaConsultarMB.guardarBeca()}" process="formAdmin" update="formAdmin" value="Guardar" id="btnGuardarBeca" title="Guardar Beca"/>
+                    <p:commandButton rendered="#{becaConsultarMB.actualizar}" styleClass="boton" actionListener="#{becaConsultarMB.cancelar()}" process="@this" value="Regresar" icon=" ui-icon-arrowreturn-1-w" id="btnCancelar" title="Cancelar"/>
                 </center>
             </h:form>
             <p:separator/>

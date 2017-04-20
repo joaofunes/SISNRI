@@ -17,7 +17,7 @@
                 <p:panelGrid >
                     <p:row>
                         <p:column  >
-                            <p:commandButton styleClass="boton"
+                            <p:commandButton styleClass="boton" icon="ui-icon-plus"
                                              actionListener="#{becaMB.crearNuevo()}" process="@this" update=":formTable"
                                              value="Nueva Beca" />
                         </p:column>
@@ -71,7 +71,7 @@
                                            value="Consultar" actionListener="#{becaConsultarMB.preUpdate(beca.idBeca)}"/>
                         </div>
                         <div style="float: left">
-                            <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Eliminar" 
+                            <p:commandLink styleClass="ui-icon ui-icon-close" title="Eliminar" 
                                            value="Eliminar" actionListener="#{becaMB.preEliminar(beca.idBeca)}"/>
                         </div>
                     </p:column>
