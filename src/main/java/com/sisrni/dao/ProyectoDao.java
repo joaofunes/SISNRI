@@ -37,13 +37,13 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         List<String> paisesFinales = new ArrayList<String>();
 
         if (paisSelected.size() > 0) {
-//            wherePais = wherePais + " AND pa.ID_PAIS IN (" + String.join(",", paisSelected) + ")";
+            wherePais = wherePais + " AND pa.ID_PAIS IN (" + String.join(",", paisSelected) + ")";
         } else {
             limite += " LIMIT 5";
         }
 
         if (tipoProyectoSelected.size() > 0) {
-//            whereTipoProyecto += " AND pr.ID_TIPO_PROYECTO IN (" + String.join(",", tipoProyectoSelected) + ")";
+            whereTipoProyecto += " AND pr.ID_TIPO_PROYECTO IN (" + String.join(",", tipoProyectoSelected) + ")";
         }
 
         String query = "SELECT pa.ID_PAIS as idPais,pa.CODIGO_PAIS as codigoPais, pa.NOMBRE_PAIS as nombrePais, SUM(pr.MONTO_PROYECTO) as montoCooperacion,COUNT(pr.ID_PROYECTO) as cantidadProyectos\n"
@@ -66,7 +66,10 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                 for (PojoMapaInteractivo pj : listPojos) {
                     paisesFinales.add(pj.idPais.toString().trim());
                 }
-                String qt = "";
+                String qt = "SELECT tp.ID_TIPO_PROYECTO as idTipoProyecto,tp.NOMBRE_TIPO_PROYECTO as nombreTipoProyecto,count(pr.ID_PROYECTO) as cantidadProyectos FROM PROYECTO pr INNER JOIN TIPO_PROYECTO tp ON pr.ID_TIPO_PROYECTO = tp.ID_TIPO_PROYECTO\n"
+                        + " WHERE pr.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta) + "\n"
+                        + "AND pr.ID_PAIS_COOPERANTE IN(" + String.join(",", paisesFinales) + ")" + whereTipoProyecto + " GROUP BY tp.NOMBRE_TIPO_PROYECTO";
+
                 Query rtp = getSessionFactory().getCurrentSession().createSQLQuery(qt)
                         .addScalar("idTipoProyecto", new IntegerType())
                         .addScalar("nombreTipoProyecto", new StringType())
@@ -105,7 +108,9 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         }
         return null;
     }
+
     //metodo para cargar la tabla de gestion, todos los proyectos registrados
+
     public List<Proyecto> getAllProyecto() {
         try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT a FROM Proyecto a ORDER BY a.idProyecto DESC");
@@ -134,9 +139,10 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         return q.list();
 
     }
-    public List<RptProyectosFinanciadosPojo> getDataProyectosFinanciadosReportes(Integer desde, Integer hasta){
-        String query = "SELECT p.ANIO_GESTION as anioGestion, sum(p.MONTO_PROYECTO) as suma from PROYECTO p where p.ANIO_GESTION BETWEEN \n" 
-                + desde + " AND " + hasta +  " GROUP BY p.ANIO_GESTION \n" 
+
+    public List<RptProyectosFinanciadosPojo> getDataProyectosFinanciadosReportes(Integer desde, Integer hasta) {
+        String query = "SELECT p.ANIO_GESTION as anioGestion, sum(p.MONTO_PROYECTO) as suma from PROYECTO p where p.ANIO_GESTION BETWEEN \n"
+                + desde + " AND " + hasta + " GROUP BY p.ANIO_GESTION \n"
                 + " ORDER BY p.ANIO_GESTION asc ";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("anioGestion", new IntegerType())
@@ -144,9 +150,10 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                 .setResultTransformer(Transformers.aliasToBean(RptProyectosFinanciadosPojo.class));
         return q.list();
     }
-    public List<RptProyectosPorPaisPojo> getDataProyectosPorPais(Integer desde, Integer hasta){
-        String query = "SELECT pa.NOMBRE_PAIS as nombrePais, sum(p.MONTO_PROYECTO) as suma from PROYECTO p join PAIS pa on (p.ID_PAIS_COOPERANTE=pa.ID_PAIS) where p.ANIO_GESTION BETWEEN \n" 
-                + desde + " AND " + hasta +  " GROUP BY pa.NOMBRE_PAIS \n" 
+
+    public List<RptProyectosPorPaisPojo> getDataProyectosPorPais(Integer desde, Integer hasta) {
+        String query = "SELECT pa.NOMBRE_PAIS as nombrePais, sum(p.MONTO_PROYECTO) as suma from PROYECTO p join PAIS pa on (p.ID_PAIS_COOPERANTE=pa.ID_PAIS) where p.ANIO_GESTION BETWEEN \n"
+                + desde + " AND " + hasta + " GROUP BY pa.NOMBRE_PAIS \n"
                 + " ORDER BY pa.NOMBRE_PAIS asc ";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("nombrePais", new StringType())
@@ -154,9 +161,10 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                 .setResultTransformer(Transformers.aliasToBean(RptProyectosPorPaisPojo.class));
         return q.list();
     }
-    public List<RptProyectosFinanciadosPojo> getDataProyectosTotales(Integer desde, Integer hasta){
-        String query = "SELECT p.ANIO_GESTION as anioGestion, count(p.ID_PROYECTO) as suma from PROYECTO p where p.ANIO_GESTION BETWEEN \n" 
-                + desde + " AND " + hasta +  " GROUP BY p.ANIO_GESTION \n" 
+
+    public List<RptProyectosFinanciadosPojo> getDataProyectosTotales(Integer desde, Integer hasta) {
+        String query = "SELECT p.ANIO_GESTION as anioGestion, count(p.ID_PROYECTO) as suma from PROYECTO p where p.ANIO_GESTION BETWEEN \n"
+                + desde + " AND " + hasta + " GROUP BY p.ANIO_GESTION \n"
                 + " ORDER BY p.ANIO_GESTION asc ";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("anioGestion", new IntegerType())
@@ -164,6 +172,7 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                 .setResultTransformer(Transformers.aliasToBean(RptProyectosFinanciadosPojo.class));
         return q.list();
     }
+
     public void desvincularInterno(Integer proyectoId, Integer personaId) {
         try {
             String query = "Delete from PERSONA_PROYECTO WHERE ID_PERSONA=" + personaId + " AND ID_PROYECTO=" + proyectoId;
@@ -173,7 +182,9 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         }
 
     }
+
     //metodo que retorna si la persona esta vinculada al proyecto
+
     public PersonaProyecto isVinculadoPersona(Integer idProyecto, Integer idPersona) {
         try {
             Query q = getSessionFactory().getCurrentSession().createQuery("SELECT pp  FROM PersonaProyecto pp WHERE pp.proyecto.idProyecto =:idproyecto AND pp.persona.idPersona =:idpersona ");
@@ -186,25 +197,33 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
         return null;
 
     }
+
     //Elimina todos los objetos de las intermedia persona de proyecto
+
     public void eliminarIntermediaPersona(Proyecto proyecto) {
         String query = "Delete from PERSONA_PROYECTO WHERE ID_PROYECTO=" + proyecto.getIdProyecto();
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
         q.executeUpdate();
     }
+
     //Elimina todos los objetos de las intermedia facultad de proyecto
+
     public void eliminarIntermediaFacultad(Proyecto proyecto) {
         String query = "Delete from FACULTAD_PROYECTO WHERE ID_PROYECTO=" + proyecto.getIdProyecto();
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
         q.executeUpdate();
     }
+
     //Elimina todos los objetos de las intermedia area de conocimiento de proyecto
+
     public void eliminarIntermediaArea(Proyecto proyecto) {
         String query = "Delete from PROYECTO_AREA WHERE ID_PROYECTO=" + proyecto.getIdProyecto();
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
         q.executeUpdate();
     }
+
     //Elimina todos los objetos de las intermedia organismo de proyecto
+
     public void eliminarIntermediaOrganismo(Proyecto proyecto) {
         String query = "Delete from PROYECTO_ORGANISMO WHERE ID_PROYECTO=" + proyecto.getIdProyecto();
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
