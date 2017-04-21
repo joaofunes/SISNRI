@@ -26,15 +26,15 @@
                         </p:column>
                         
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!categoriaDocumentoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{!categoriaDocumentoMB.actualizar}" icon="ui-icon-disk"
                                              actionListener="#{categoriaDocumentoMB.guardarCategoriaDocumento}" value="Guardar"  update="formCategoriaDocumento :formTablaCategoriaDocumentoes" process="@this :formCategoriaDocumento"/>
 
 
-                            <p:commandButton styleClass="boton" rendered="#{categoriaDocumentoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{categoriaDocumentoMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{categoriaDocumentoMB.cancelarCategoriaDocumento()}" immediate="true" value="Cancelar" update="formCategoriaDocumento"  process="@this" />
 
                             
-                            <p:commandButton styleClass="boton" rendered="#{categoriaDocumentoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{categoriaDocumentoMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{categoriaDocumentoMB.actualizarCategoriaDocumento()}" update="formCategoriaDocumento :formTablaCategoriaDocumentoes "
                                              value="Actualizar" />
                             

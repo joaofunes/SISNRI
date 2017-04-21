@@ -35,15 +35,15 @@
                             </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!unidadMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{!unidadMB.actualizar}" icon="ui-icon-disk"
                                              actionListener="#{unidadMB.guardarUnidad}" value="Guardar"  update="formUnidad :formTablaUnidades" process="@this :formUnidad"/>
 
 
-                            <p:commandButton styleClass="boton" rendered="#{unidadMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{unidadMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{unidadMB.cancelarUnidad()}" immediate="true" value="Cancelar" update="formUnidad"  process="@this" />
                             
                             
-                            <p:commandButton styleClass="boton" rendered="#{unidadMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{unidadMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{unidadMB.actualizarUnidad()}" update="formUnidad :formTablaUnidades "
                                              value="Actualizar" />
 

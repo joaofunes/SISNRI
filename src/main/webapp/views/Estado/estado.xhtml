@@ -37,15 +37,15 @@
 
                            
                     <p:column  >
-                        <p:commandButton rendered="#{!estadoMB.actualizar}"  styleClass="boton"
+                        <p:commandButton rendered="#{!estadoMB.actualizar}"  styleClass="boton" icon="ui-icon-disk"
                                          actionListener="#{estadoMB.guardarEstado()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
                                          value="Guardar" />
                        
-                        <p:commandButton rendered="#{estadoMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{estadoMB.actualizar}" styleClass="boton" icon="ui-icon-cancel"
                                          actionListener="#{estadoMB.cancelarEstado()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
                        
-                        <p:commandButton rendered="#{estadoMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{estadoMB.actualizar}" styleClass="boton" icon="ui-icon-refresh"
                                          actionListener="#{estadoMB.updateEstado()}" update="formAdmin :formPrincipal"
                                          value="Actualizar" />   
                        

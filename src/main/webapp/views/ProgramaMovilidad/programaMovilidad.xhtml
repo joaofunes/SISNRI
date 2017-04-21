@@ -34,15 +34,15 @@
                     </p:column>
                     
                     <p:column  >
-                        <p:commandButton rendered="#{!programaMovilidadMB.actualizar}"  styleClass="boton"
+                        <p:commandButton rendered="#{!programaMovilidadMB.actualizar}"  styleClass="boton" icon="ui-icon-disk"
                                          actionListener="#{programaMovilidadMB.guardarProgramaMovilidad()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
                                          value="Guardar" />
                        
-                        <p:commandButton rendered="#{programaMovilidadMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{programaMovilidadMB.actualizar}" styleClass="boton" icon="ui-icon-cancel"
                                          actionListener="#{programaMovilidadMB.cancelarProgramaMovilidad()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                                                 
                          
-                        <p:commandButton rendered="#{programaMovilidadMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{programaMovilidadMB.actualizar}" styleClass="boton" icon="ui-icon-refresh"
                                          actionListener="#{programaMovilidadMB.updateProgramaMovilidad()}" update="formAdmin :formPrincipal"
                                          value="Actualizar" /> 
                        

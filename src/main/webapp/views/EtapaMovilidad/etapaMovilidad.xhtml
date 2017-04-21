@@ -32,15 +32,15 @@
                     </p:column>
                     
                     <p:column  >
-                        <p:commandButton rendered="#{!etapaMovilidadMB.actualizar}"  styleClass="boton"
+                        <p:commandButton rendered="#{!etapaMovilidadMB.actualizar}"  styleClass="boton" icon="ui-icon-disk"
                                          actionListener="#{etapaMovilidadMB.guardarEtapaMovilidad()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
                                          value="Guardar" />
                        
-                        <p:commandButton rendered="#{etapaMovilidadMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{etapaMovilidadMB.actualizar}" styleClass="boton" icon="ui-icon-cancel"
                                          actionListener="#{etapaMovilidadMB.cancelarEtapaMovilidad()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                        
                        
-                        <p:commandButton rendered="#{etapaMovilidadMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{etapaMovilidadMB.actualizar}" styleClass="boton" icon="ui-icon-refresh"
                                          actionListener="#{etapaMovilidadMB.updateEtapaMovilidad()}" update="formAdmin :formPrincipal"
                                          value="Actualizar" /> 
                           

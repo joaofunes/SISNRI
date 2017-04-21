@@ -32,15 +32,15 @@
                     </p:column>
                     
                     <p:column  >
-                        <p:commandButton rendered="#{!tipoPropuestaConvenioMB.actualizar}"  styleClass="boton"
+                        <p:commandButton rendered="#{!tipoPropuestaConvenioMB.actualizar}"  styleClass="boton" icon="ui-icon-disk"
                                          actionListener="#{tipoPropuestaConvenioMB.guardarTipoPropuestaConvenio()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
                                          value="Guardar" />
                        
-                        <p:commandButton rendered="#{tipoPropuestaConvenioMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{tipoPropuestaConvenioMB.actualizar}" styleClass="boton" icon="ui-icon-cancel"
                                          actionListener="#{tipoPropuestaConvenioMB.cancelarTipoPropuestaConvenio()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
   
                        
-                        <p:commandButton rendered="#{tipoPropuestaConvenioMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{tipoPropuestaConvenioMB.actualizar}" styleClass="boton" icon="ui-icon-refresh"
                                          actionListener="#{tipoPropuestaConvenioMB.updateTipoPropuestaConvenio()}" update="formAdmin :formPrincipal"
                                          value="Actualizar" />  
                        

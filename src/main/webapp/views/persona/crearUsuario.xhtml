@@ -78,8 +78,8 @@
                         </p:column>
                        </p:row>    
                     </h:panelGrid>
-                    <p:commandButton value="Guardar Usuario" id="idGuardarPersona" actionListener="#{usuarioMB.crearUsuario()}" process="@form" update="@form" icon="ui-icon-disk"/>
                     <p:commandButton value="Cancelar" id="idCerrar" process="@this" icon="ui-icon-cancel" immediate="true" onclick="PF('PersonaCreateDialog').close();" />
+                    <p:commandButton value="Guardar" id="idGuardarPersona" actionListener="#{usuarioMB.crearUsuario()}" process="@form" update="@form" icon="ui-icon-disk"/>
                 </h:panelGroup>
 
             </h:form>

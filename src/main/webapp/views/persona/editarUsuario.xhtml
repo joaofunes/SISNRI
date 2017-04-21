@@ -45,8 +45,9 @@
                         </p:column>
                        </p:row>    
                     </h:panelGrid>
-                    <p:commandButton value="Guardar Usuario" id="idGuardarPersona" actionListener="#{usuarioMB.editarUsuario()}" process="@form" update="@form" icon="ui-icon-disk"/>
                     <p:commandButton value="Cancelar" id="idCerrar" process="@this" icon="ui-icon-cancel" immediate="true" onclick="PF('PersonaEditDialog').close();" />
+                    <p:commandButton value="Actualizar" id="idGuardarPersona" actionListener="#{usuarioMB.editarUsuario()}" process="@form" update="@form" icon="ui-icon-refresh"/>
+                    
                 </h:panelGroup>
 
             </h:form>

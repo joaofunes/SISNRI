@@ -72,15 +72,15 @@
                             <p:watermark for="descripcionEscuelaDepto" value="Descripci&oacute;n de Escuela o Departamento" id="watermarkDescripcionEscuelaDepartamento"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!escuelaDepartamentoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{!escuelaDepartamentoMB.actualizar}" icon="ui-icon-disk"
                                              actionListener="#{escuelaDepartamentoMB.guardarEscuelaDepartamento}" value="Guardar"  update="formEscuelaDepartamento :formTablaEscuelaDepartamentoes" process="@this :formEscuelaDepartamento"/>
 
 
-                            <p:commandButton styleClass="boton" rendered="#{escuelaDepartamentoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{escuelaDepartamentoMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{escuelaDepartamentoMB.cancelarEscuelaDepartamento()}" immediate="true" value="Cancelar" update="formEscuelaDepartamento"  process="@this" />
                              
                             
-                            <p:commandButton styleClass="boton" rendered="#{escuelaDepartamentoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{escuelaDepartamentoMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{escuelaDepartamentoMB.actualizarEscuelaDepartamento()}" update="formEscuelaDepartamento :formTablaEscuelaDepartamentoes "
                                              value="Actualizar" />
 

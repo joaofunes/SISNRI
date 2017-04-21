@@ -32,16 +32,16 @@
                     </p:column>
                     
                     <p:column  >
-                        <p:commandButton rendered="#{!tipoOrganismoMB.actualizar}"  styleClass="boton"
+                        <p:commandButton rendered="#{!tipoOrganismoMB.actualizar}"  styleClass="boton" icon="ui-icon-disk"
                                          actionListener="#{tipoOrganismoMB.guardarTipoOrganismo()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
                                          value="Guardar" />
                        
-                        <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton" icon="ui-icon-cancel"
                                          actionListener="#{tipoOrganismoMB.cancelarTipoOrganismo()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
                          
                        
-                        <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{tipoOrganismoMB.actualizar}" styleClass="boton" icon="ui-icon-refresh"
                                          actionListener="#{tipoOrganismoMB.updateTipoOrganismo()}" update="formAdmin :formPrincipal"
                                          value="Actualizar" /> 
                        

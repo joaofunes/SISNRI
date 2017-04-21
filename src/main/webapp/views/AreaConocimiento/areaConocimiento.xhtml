@@ -25,16 +25,16 @@
                         </p:column>
                         
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!areaConocimientoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{!areaConocimientoMB.actualizar}" icon="ui-icon-disk"
                                              actionListener="#{areaConocimientoMB.guardarAreaConocimiento}" value="Guardar"  update="formAreaConocimiento :formTablaAreaConocimientos" process="@this :formAreaConocimiento"/>
 
 
-                            <p:commandButton styleClass="boton" rendered="#{areaConocimientoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{areaConocimientoMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{areaConocimientoMB.cancelarAreaConocimiento()}" immediate="true" value="Cancelar" update="formAreaConocimiento"  process="@this" />
 
                             
                             
-                            <p:commandButton styleClass="boton" rendered="#{areaConocimientoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{areaConocimientoMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{areaConocimientoMB.actualizarAreaConocimiento()}" update="formAreaConocimiento :formTablaAreaConocimientos "
                                              value="Actualizar" />
                         </p:column>

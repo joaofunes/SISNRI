@@ -37,14 +37,14 @@
                             </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!tipoDocumentoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{!tipoDocumentoMB.actualizar}" icon="ui-icon-disk"
                                              actionListener="#{tipoDocumentoMB.guardarTipoDocumento}" value="Guardar"  update="formTipoDocumento :formTablaTipoDocumentoes" process="@this :formTipoDocumento"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{tipoDocumentoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{tipoDocumentoMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{tipoDocumentoMB.cancelarTipoDocumento()}" immediate="true" value="Cancelar" update="formTipoDocumento"  process="@this" />
                             
                             
-                            <p:commandButton styleClass="boton" rendered="#{tipoDocumentoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{tipoDocumentoMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{tipoDocumentoMB.actualizarTipoDocumento()}" update="formTipoDocumento :formTablaTipoDocumentoes "
                                              value="Actualizar" />
 

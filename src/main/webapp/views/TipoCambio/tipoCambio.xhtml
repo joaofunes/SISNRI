@@ -41,15 +41,15 @@
                     <p:column>
                     </p:column>
                     <p:column>   
-                        <p:commandButton rendered="#{!tipoCambioMB.actualizar}"  styleClass="boton"
+                        <p:commandButton rendered="#{!tipoCambioMB.actualizar}"  styleClass="boton" icon="ui-icon-disk"
                                          actionListener="#{tipoCambioMB.guardarTipoCambio()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
                                          value="Guardar" />
                        
-                        <p:commandButton rendered="#{tipoCambioMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{tipoCambioMB.actualizar}" styleClass="boton" icon="ui-icon-cancel"
                                          actionListener="#{tipoCambioMB.cancelarTipoCambio()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
                         
-                        <p:commandButton rendered="#{tipoCambioMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{tipoCambioMB.actualizar}" styleClass="boton" icon="ui-icon-refresh"
                                          actionListener="#{tipoCambioMB.updateTipoCambio()}" update="formAdmin :formPrincipal"
                                          value="Actualizar" />
                     </p:column>

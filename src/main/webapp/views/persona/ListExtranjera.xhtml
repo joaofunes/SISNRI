@@ -20,7 +20,7 @@
      <center> 
             <p:panel style="width: 100%" > 
                 <h2 class="title ui-widget-header ui-corner-all" align="center">Administraci&oacute;n de Personas Externas</h2> 
-                <p:panelGrid >
+                <p:panelGrid style="float: left">
                 <p:row>
                     <p:column  >
                        <p:commandButton id="createButton" icon="ui-icon-plus" value="Agregar" actionListener="#{personaMB.crearPersona}" process="@this" oncomplete="PF('PersonaCreateDialog').show();" />
@@ -28,6 +28,8 @@
                 </p:row>
 
             </p:panelGrid>
+                <br></br>
+                <br></br>
     <h:form id="RegistrogarantiarealListForm">
         <p:panel>
             

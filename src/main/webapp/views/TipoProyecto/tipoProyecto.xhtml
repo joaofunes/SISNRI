@@ -25,15 +25,15 @@
                         </p:column>
                         
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!tipoProyectoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{!tipoProyectoMB.actualizar}" icon="ui-icon-disk"
                                              actionListener="#{tipoProyectoMB.guardarTipoProyecto}" value="Guardar"  update="formTipoProyecto :formTablaTipoProyectoes" process="@this :formTipoProyecto"/>
 
 
-                            <p:commandButton styleClass="boton" rendered="#{tipoProyectoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{tipoProyectoMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{tipoProyectoMB.cancelarTipoProyecto()}" immediate="true" value="Cancelar" update="formTipoProyecto"  process="@this" />
 
                             
-                            <p:commandButton styleClass="boton" rendered="#{tipoProyectoMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{tipoProyectoMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{tipoProyectoMB.actualizarTipoProyecto()}" update="formTipoProyecto :formTablaTipoProyectoes "
                                              value="Actualizar" />                 
                         </p:column>

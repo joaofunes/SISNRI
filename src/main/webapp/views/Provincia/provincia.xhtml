@@ -36,14 +36,14 @@
                             </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!provinciaMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{!provinciaMB.actualizar}" icon="ui-icon-disk"
                                              actionListener="#{provinciaMB.guardarProvincia}" value="Guardar"  update="formProvincia :formTablaProvinciaes" process="@this :formProvincia"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{provinciaMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{provinciaMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{provinciaMB.actualizarProvincia()}" update="formProvincia :formTablaProvinciaes "
                                              value="Actualizar" />
 
-                            <p:commandButton styleClass="boton" rendered="#{provinciaMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{provinciaMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{provinciaMB.cancelarProvincia()}" immediate="true" value="Cancelar" update="formProvincia"  process="@this" />
 
 

@@ -48,14 +48,14 @@
                             </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!facultadMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{!facultadMB.actualizar}" icon="ui-icon-disk"
                                              actionListener="#{facultadMB.guardarFacultad}" value="Guardar"  update="formFacultad :formTablaFacultades" process="@this :formFacultad"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{facultadMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{facultadMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{facultadMB.cancelarFacultad()}" immediate="true" value="Cancelar" update="formFacultad"  process="@this" />
 
                             
-                            <p:commandButton styleClass="boton" rendered="#{facultadMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{facultadMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{facultadMB.actualizarFacultad()}" update="formFacultad :formTablaFacultades "
                                              value="Actualizar" />
                         </p:column>

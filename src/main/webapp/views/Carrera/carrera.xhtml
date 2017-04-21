@@ -54,13 +54,13 @@
                         <p:column>
                         </p:column>
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!carreraMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{!carreraMB.actualizar}" icon="ui-icon-disk"
                                              actionListener="#{carreraMB.guardarCarrera}" value="Guardar"  update="formCarrera :formTablaCarreraes" process="@this :formCarrera"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{carreraMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{carreraMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{carreraMB.cancelarCarrera()}" immediate="true" value="Cancelar" update="formCarrera"  process="@this" />
                             
-                            <p:commandButton styleClass="boton" rendered="#{carreraMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{carreraMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{carreraMB.actualizarCarrera()}" update="formCarrera :formTablaCarreraes "
                                              value="Actualizar" />
 

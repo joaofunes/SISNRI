@@ -34,15 +34,15 @@
                     </p:column>
                     
                     <p:column  >
-                        <p:commandButton rendered="#{!programaBecaMB.actualizar}"  styleClass="boton"
+                        <p:commandButton rendered="#{!programaBecaMB.actualizar}"  styleClass="boton" icon="ui-icon-disk"
                                          actionListener="#{programaBecaMB.guardarProgramaBeca()}" update="formAdmin :formPrincipal" process="@this :formAdmin"
                                          value="Guardar" />
                        
-                        <p:commandButton rendered="#{programaBecaMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{programaBecaMB.actualizar}" styleClass="boton" icon="ui-icon-cancel"
                                          actionListener="#{programaBecaMB.cancelarProgramaBeca()}" immediate="true" value="Cancelar" update="formAdmin"  process="@this" />
                         
                          
-                        <p:commandButton rendered="#{programaBecaMB.actualizar}" styleClass="boton"
+                        <p:commandButton rendered="#{programaBecaMB.actualizar}" styleClass="boton" icon="ui-icon-refresh"
                                          actionListener="#{programaBecaMB.updateProgramaBeca()}" update="formAdmin :formPrincipal"
                                          value="Actualizar" /> 
                        

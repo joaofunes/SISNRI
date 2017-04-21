@@ -42,14 +42,14 @@
                             </p:selectOneMenu>
                         </p:column>
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!paisMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{!paisMB.actualizar}" icon="ui-icon-disk"
                                              actionListener="#{paisMB.guardarPais}" value="Guardar"  update="formPais :formTablaPaises" process="@this :formPais"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{paisMB.cancelarPais()}" immediate="true" value="Cancelar" update="formPais"  process="@this" />
 
                             
-                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{paisMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{paisMB.actualizarPais()}" update="formPais :formTablaPaises "
                                              value="Actualizar" />
                         </p:column>
