@@ -244,8 +244,8 @@
                                 <p:separator/>
                                 <h:panelGroup id="idbotonesPersona">
                                     <p:column>
-                                        <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersona()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.actualizar)}" update="GroupSolicitanteInterno"/>
-                                        <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersona()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersona)}" update="GroupSolicitanteInterno"/>                                       
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{proyectosMB.editarPersona()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroCoordinador and !proyectosMB.actualizar)}" update="GroupSolicitanteInterno"/>
+                                        <p:commandButton value="Nuevo" icon="ui-icon-plus" actionListener="#{proyectosMB.nuevaPersona()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersona)}" update="GroupSolicitanteInterno"/>                                       
                                         <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{proyectosMB.confirmarDesvincularInterno()}" process="@this" rendered="#{proyectosMB.actualizar}" update="grup1"/>
                                     </p:column>   
                                 </h:panelGroup>
@@ -388,8 +388,8 @@
                                 <p:separator/>
                                 <h:panelGroup id="idbotonesPersonaAsistente">
                                     <p:column>
-                                        <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersonaAsistente()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroAsistente and !proyectosMB.asistenteNull and !proyectosMB.actualizar)}" update="GroupSolicitanteAsistente"/>
-                                        <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersonaAsistente()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersonaAsistente)}" update="GroupSolicitanteAsistente"/>
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{proyectosMB.editarPersonaAsistente()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroAsistente and !proyectosMB.asistenteNull and !proyectosMB.actualizar)}" update="GroupSolicitanteAsistente"/>
+                                        <p:commandButton value="Nuevo" icon="ui-icon-plus" actionListener="#{proyectosMB.nuevaPersonaAsistente()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersonaAsistente)}" update="GroupSolicitanteAsistente"/>
                                         <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{proyectosMB.confirmarDesvincularAsistente()}" process="@this" update="GroupSolicitanteAsistente" rendered="#{proyectosMB.actualizar and proyectosMB.tabAsis and !proyectosMB.asistenteNull}"/>
                                     </p:column>   
                                 </h:panelGroup>
@@ -514,8 +514,8 @@
                                 <p:separator/>
                                 <h:panelGroup id="idbotonesPersonaExterna">
                                     <p:column>
-                                        <p:commandButton value="Editar Persona" actionListener="#{proyectosMB.editarPersonaExterna()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroRefExt and !proyectosMB.actualizar)}" update="GroupSolicitanteExterno"/>
-                                        <p:commandButton value="Nueva Persona" actionListener="#{proyectosMB.nuevaPersonaExterna()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersonaExterna)}" update="GroupSolicitanteExterno"/>
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{proyectosMB.editarPersonaExterna()}" process="@this" rendered="#{(proyectosMB.buscoYEncontroRefExt and !proyectosMB.actualizar)}" update="GroupSolicitanteExterno"/>
+                                        <p:commandButton value="Nuevo" icon="ui-icon-plus" actionListener="#{proyectosMB.nuevaPersonaExterna()}" process="@this" rendered="#{(proyectosMB.activarBotonNuevaPersonaExterna)}" update="GroupSolicitanteExterno"/>
                                         <p:commandButton value="Desvincular" icon="ui-icon-person" actionListener="#{proyectosMB.confirmarDesvincularExterno()}" process="@this" update="GroupSolicitanteExterno" rendered="#{proyectosMB.actualizar}"/>
                                     </p:column>   
                                 </h:panelGroup>

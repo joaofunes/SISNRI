@@ -88,8 +88,8 @@
                                 </h:panelGroup>
                                 <h:panelGroup id="botones">
                                     <p:column>
-                                        <p:commandButton value="Nueva Persona" actionListener="#{becaMB.presionoNuevoBecario()}" rendered="#{becaMB.renderNuevaPersonaBecarioButton}" process="@this" update="panelBecario"/>
-                                        <p:commandButton value="Actualizar Becario" actionListener="#{becaMB.presionoActualizarBecario()}" rendered="#{becaMB.renderActualizarPersonaBecarioButton}" process="@this" update="panelBecario"/>
+                                        <p:commandButton value="Nuevo" icon="ui-icon-plus" actionListener="#{becaMB.presionoNuevoBecario()}" rendered="#{becaMB.renderNuevaPersonaBecarioButton}" process="@this" update="panelBecario"/>
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{becaMB.presionoActualizarBecario()}" rendered="#{becaMB.renderActualizarPersonaBecarioButton}" process="@this" update="panelBecario"/>
                                     </p:column>
                                 </h:panelGroup>
                                 <p:separator/>
@@ -401,8 +401,8 @@
                                     </h:panelGroup>
                                     <h:panelGroup id="botonesInterno">
                                         <p:column>
-                                            <p:commandButton value="Nueva Persona" actionListener="#{becaMB.presionoNuevoInterno()}" rendered="#{becaMB.renderNuevaPersonaInternaButton and becaMB.mostrarTabInterno}" process="@this" update="panelInterno"/>
-                                            <p:commandButton value="Actualizar Coordinador Interno" actionListener="#{becaMB.presionoActualizarInterno()}" rendered="#{becaMB.renderActualizarPersonaInternaButton and becaMB.mostrarTabInterno}" process="@this" update="panelInterno"/>
+                                            <p:commandButton value="Nuevo" icon="ui-icon-plus" actionListener="#{becaMB.presionoNuevoInterno()}" rendered="#{becaMB.renderNuevaPersonaInternaButton and becaMB.mostrarTabInterno}" process="@this" update="panelInterno"/>
+                                            <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{becaMB.presionoActualizarInterno()}" rendered="#{becaMB.renderActualizarPersonaInternaButton and becaMB.mostrarTabInterno}" process="@this" update="panelInterno"/>
                                         </p:column>
                                     </h:panelGroup>
                                     <p:separator rendered="#{becaMB.mostrarTabInterno}"/>
@@ -548,8 +548,8 @@
                                     </h:panelGroup>
                                     <h:panelGroup id="botonesExterno">
                                         <p:column>
-                                            <p:commandButton value="Nueva Persona" actionListener="#{becaMB.presionoNuevoExterno()}" rendered="#{becaMB.renderNuevaPersonaExternaButton}" process="@this" update="panelExt"/>
-                                            <p:commandButton value="Actualizar Coordinador Externo" actionListener="#{becaMB.presionoActualizarExterno()}" rendered="#{becaMB.renderActualizarPersonaExternaButton}" process="@this" update="panelExt"/>
+                                            <p:commandButton value="Nuevo" icon="ui-icon-plus" actionListener="#{becaMB.presionoNuevoExterno()}" rendered="#{becaMB.renderNuevaPersonaExternaButton}" process="@this" update="panelExt"/>
+                                            <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{becaMB.presionoActualizarExterno()}" rendered="#{becaMB.renderActualizarPersonaExternaButton}" process="@this" update="panelExt"/>
                                         </p:column>
                                     </h:panelGroup>
                                     <p:separator rendered="#{becaMB.mostrarTabExterno}"/>
