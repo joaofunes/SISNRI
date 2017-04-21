@@ -49,7 +49,7 @@ public class SsRoles implements Serializable {
     @Column(name = "DESCRIPCION", length = 150)
     private String descripcion;
     @Size(max = 15)
-    @Column(name = "USUARIO_REGISTRO", length = 15)
+    @Column(name = "USUARIO_REGISTRO", length = 60)
     private String usuarioRegistro;
     @Column(name = "FECHA_REGISTRO")
     @Temporal(TemporalType.TIMESTAMP)
