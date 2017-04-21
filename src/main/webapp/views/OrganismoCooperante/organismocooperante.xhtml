@@ -91,13 +91,13 @@
                               <p:inputText id="codigo" value="#{organismoCooperanteMB.organismoCooperante.codigoPostal}" required="true" size="40"/> 
                          </p:column>-->
                          <p:column> 
-                             <p:commandButton styleClass="boton" rendered="#{!organismoCooperanteMB.actualizar}"
+                             <p:commandButton styleClass="boton" rendered="#{!organismoCooperanteMB.actualizar}" icon="ui-icon-disk"
                                               actionListener="#{organismoCooperanteMB.guardarOrganismo()}" value="Guardar"  update="formOrganismo :formTablaOrganismos" process="@this :formOrganismo"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{organismoCooperanteMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{organismoCooperanteMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{organismoCooperanteMB.cancelarOrganismo()}" immediate="true" value="Cancelar" update="formOrganismo"  process="@this" />
                             
-                              <p:commandButton styleClass="boton" rendered="#{organismoCooperanteMB.actualizar}"
+                              <p:commandButton styleClass="boton" rendered="#{organismoCooperanteMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{organismoCooperanteMB.updateorganismo()}" update="formOrganismo :formTablaOrganismos "
                                              value="Actualizar" />
 
@@ -160,7 +160,7 @@
             </p:panel>     
         </center>    
         <!--'Dialog de confirmacin de la operacion de Borrado'-->
-        <p:confirmDialog widgetVar="confirmDeleteOrganismoDlg" header="Borrar Organismo Cooperante" message="¿Confirma la eliminaci&oacute;n del Organismo Cooperante?" 
+        <p:confirmDialog widgetVar="confirmDeleteOrganismoDlg" header="Borrar Organismo Cooperante" message="&iquest;Est&aacute; seguro que desea eliminar el Organismo Cooperante?" 
                          global="true" showEffect="fade" hideEffect="fade">
             <h:form id="idEliminacion">
                 <p:panelGrid columns="2">
