@@ -39,7 +39,7 @@ public class SsUsuarios implements Serializable {
     @Column(name = "ID_USUARIO", nullable = false)
     private Integer idUsuario;
     @Size(max = 15)
-    @Column(name = "CODIGO_USUARIO", length = 30)
+    @Column(name = "CODIGO_USUARIO", length = 60)
     private String codigoUsuario;
     @Size(max = 100)
     @Column(name = "NOMBRE_USUARIO", length = 100)
