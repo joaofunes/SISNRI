@@ -138,7 +138,7 @@
                    anonymousFilter,
                    exceptionTranslationFilter,
                    filterSecurityInterceptorNotSecure" />   
-             <security:filter-chain pattern="/views/Noticias/Index.xhtml"  filters="
+             <security:filter-chain pattern="/views/Publica/**"  filters="
                    securityContextPersistenceFilter,
                    logoutFilter,
                    authenticationProcessingFilter,

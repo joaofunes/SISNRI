@@ -16,27 +16,28 @@
             <f:viewAction action="#{consultarConvenioMB.init}" />
         </f:metadata>            
         <h2 class="title ui-widget-header ui-corner-all" align="center">Consultar Convenios</h2>
+        <h:outputLabel style="margin-bottom: 20px;"/>
             <h:form id="formAdmin">
 
                 <p:dataTable var="pconvenios" value="#{consultarConvenioMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             rowsPerPageTemplate="5,10,15" paginatorPosition="bottom"                       
+                             rowsPerPageTemplate="5,10,15"                      
                              >    
-                    <p:column headerText="Nombre Convenio">
+                    <p:column headerText="Nombre Convenio" sortBy="#{pconvenios.NOMBRE_PROPUESTA}" filterBy="#{pconvenios.NOMBRE_PROPUESTA}">
                         <h:outputText value="#{pconvenios.NOMBRE_PROPUESTA}" />
                     </p:column>                    
-                    <p:column headerText="Tipo de Propuesta">
+                    <p:column headerText="Tipo de Propuesta" sortBy="#{pconvenios.TIPO_CONVENIO}" filterBy="#{pconvenios.TIPO_CONVENIO}">
                         <h:outputText value="#{pconvenios.TIPO_CONVENIO}" />
                     </p:column>
-                    <p:column headerText="Estado Propuesta">
+                    <p:column headerText="Estado Propuesta" sortBy="#{pconvenios.NOMBRE_ESTADO}" filterBy="#{pconvenios.NOMBRE_ESTADO}">
                         <h:outputText value="#{pconvenios.NOMBRE_ESTADO}" />
                     </p:column>
-                    <p:column headerText="Vigencia">
+                    <p:column headerText="Vigencia" sortBy="#{pconvenios.VIGENCIA}" filterBy="#{pconvenios.VIGENCIA}">
                         <h:outputText value="#{pconvenios.VIGENCIA}">                       
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Activo">
+                    <p:column headerText="Activo" sortBy="#{pconvenios.ACTIVO}" filterBy="#{pconvenios.ACTIVO}">
                         <h:outputText value="#{pconvenios.ACTIVO?'Si':'No'}" />
                     </p:column>
                     <p:column headerText="Opciones" >

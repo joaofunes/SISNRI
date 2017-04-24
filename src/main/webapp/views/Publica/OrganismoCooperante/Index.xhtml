@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  template="/auth/templates/login.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui" 
+
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      <f:metadata>            
+             <f:viewAction action="#{organismoCooperanteMB.init()}" />
+        </f:metadata> 
+
+
+    <ui:define name="content">
+        <h:form> 
+                      <center>
+                <p:panelGrid>
+                  <p:row>
+                        <p:column>
+                            <p:outputLabel for="categoria" value="Filtrar por Tipo:" style="size: 30px"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="categoria" value="#{organismoCooperanteMB.tipoSelected}" style="width:125px">
+                                <f:selectItem itemValue="0" itemLabel="--Todos--"/>
+                                <c:forEach var="cat" items="#{organismoCooperanteMB.tipoOrganismoList}">
+                                    <f:selectItem itemLabel="#{cat.nombreTipo}" itemValue="#{cat.idTipoOrganismo}" />        
+                                </c:forEach>
+                               <p:ajax event="change" update="idDataScroll" listener="#{organismoCooperanteMB.listarOnCatChange()}" process="@this"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                      <p:column>
+                            <p:outputLabel for="catPais" value="Filtrar por Pais:" style="size: 30px"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="catPais" value="#{organismoCooperanteMB.nPaisSelected}" style="width:125px">
+                                <f:selectItem itemValue="0" itemLabel="--Todos--"/>
+                                <c:forEach var="catPais" items="#{organismoCooperanteMB.paisList}">
+                                    <f:selectItem itemLabel="#{catPais.nombrePais}" itemValue="#{catPais.idPais}" />        
+                                </c:forEach>
+                               <p:ajax event="change" update="idDataScroll" listener="#{organismoCooperanteMB.listarOnCatChange()}" process="@this"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </center>
+
+
+            <p:dataScroller id="idDataScroll" value="#{organismoCooperanteMB.organismoPojoList}" var="organismo" chunkSize="10">
+                <f:facet name="header">
+                    <p:outputLabel value="Organismos de Cooperaci&oacute;n" style="font-size: 25px"/>
+                </f:facet>
+                <h:panelGrid  style="width:100%" columnClasses="logo,detail">
+                    <p:panel id="custom" header="Nombre: #{organismo.nombre}" style="margin-bottom:20px">
+                        <p:panelGrid columns="3" layout="grid">            
+                        <p:column>
+                            <p:outputLabel value="Tipo: "/>
+                            <h:outputText id="tipo" value="#{organismo.tipo}" escape="false"/>
+                        </p:column> 
+                         <p:column>
+                            <p:outputLabel value="Pa&iacute;s:"/>
+                            <h:outputText id="pais" value="#{organismo.nPais}" escape="false"/>
+                         </p:column>
+                         <p:column>
+                          <p:outputLabel value="Sitio Web:"/>
+                          <h:outputText id="correo" value="#{organismo.correo}" escape="false"/>
+                          </p:column>
+                          <p:column>
+                          <p:outputLabel value="Direcci&oacute;n:"/>   
+                            <h:outputText id="direccion" value="#{organismo.direccion}" escape="false"/>
+                            </p:column>
+                            <p:column>
+                            <p:outputLabel value="TelÃ©fono:"/>
+                              <h:outputText id="tel" value="#{organismo.tel}" escape="false"/>
+                            </p:column>
+       <!--                       <p:column>
+                          <p:outputLabel value="C&oacute;digo:"/>
+                            <h:outputText id="codigo" value="#{organismo.codigo}" escape="false"/>
+                            </p:column>-->
+                              
+                        </p:panelGrid>
+                    </p:panel>
+                </h:panelGrid>
+            </p:dataScroller>
+        </h:form>
+    </ui:define>
+
+</ui:composition> 

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  template="/auth/templates/login.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui" 
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <h:form> 
+            <center>
+                <h1 style="background: #cc0000;color: white;border-radius: 10px">Noticias Recientes</h1>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="categoria" value="Filtrar:" style="size: 30px"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelectedPublicas}" style="width:125px">
+                                <f:selectItem itemValue="0" itemLabel="-- Todas --"/>
+                                <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
+                                    <f:selectItem itemLabel="#{cat.categoriaNoticia}" itemValue="#{cat.idCategoria}" />        
+                                </c:forEach>
+                                <p:ajax event="change" update="idDataScroll" listener="#{noticiaMB.listarOnCatChange()}" process="@this"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </center>
+
+
+            <p:dataScroller id="idDataScroll" value="#{noticiaMB.noticiasListPublicas}" var="car" chunkSize="10">
+                <!--                <f:facet name="header">
+                                    <p:outputLabel value="Noticias Recientes" style="font-size: 25px"/>
+                                </f:facet>-->
+                <f:facet name="loader">
+                    <p:commandButton type="button" value="Ver M&aacute;s" icon="ui-icon-circle-triangle-s"/>
+                </f:facet>
+                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                    <p:panel id="custom" header="T&Iacute;tulo: #{car.tituloNoticia}" style="margin-bottom:20px">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <h:outputText id="display" value="#{car.descripcionNoticia}" escape="false"/>
+                        </h:panelGrid>
+                        <f:facet name="actions">
+                            <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" actionListener="#{noticiaMB.cargarNoticiaPopUp(car.idNoticia)}" oncomplete="PF('noticiaWV').show();" update=":noticiaPopUpId"><h:outputText styleClass="ui-icon ui-icon-search" /></p:commandLink>
+                        </f:facet>
+                    </p:panel>
+                </h:panelGrid>
+            </p:dataScroller>
+        </h:form>
+        <p:dialog header="Noticia" id="noticiaPopUpId" widgetVar="noticiaWV" modal="true" appendTo="@(body)" width="1100" height="500">
+            <p:panelGrid>
+                <p:row>
+                    <p:column>
+                        <h:outputText value="T&Iacute;tulo:" style="font-size: 25px"/>
+                        <h:outputText value="#{noticiaMB.noticiaPopUp.tituloNoticia}" style="text-align: left;font-size: 25px"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Fecha Creaci&oacute;n:" style="font-size: 14px"/>
+                        <h:outputText value="#{noticiaMB.noticiaPopUp.fechaNoticia}" style="text-align: left">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <p:separator/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText value="#{noticiaMB.noticiaPopUp.contenido}" escape="false" />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </p:dialog>
+    </ui:define>
+</ui:composition> 
