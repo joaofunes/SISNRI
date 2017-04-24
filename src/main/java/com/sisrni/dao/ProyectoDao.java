@@ -68,7 +68,7 @@ public class ProyectoDao extends GenericDao<Proyecto, Integer> {
                 }
                 String qt = "SELECT tp.ID_TIPO_PROYECTO as idTipoProyecto,tp.NOMBRE_TIPO_PROYECTO as nombreTipoProyecto,count(pr.ID_PROYECTO) as cantidadProyectos FROM PROYECTO pr INNER JOIN TIPO_PROYECTO tp ON pr.ID_TIPO_PROYECTO = tp.ID_TIPO_PROYECTO\n"
                         + " WHERE pr.ANIO_GESTION BETWEEN " + Integer.parseInt(desde) + " AND " + Integer.parseInt(hasta) + "\n"
-                        + "AND pr.ID_PAIS_COOPERANTE IN(" + String.join(",", paisesFinales) + ")" + whereTipoProyecto + " GROUP BY tp.NOMBRE_TIPO_PROYECTO";
+                        + "AND pr.ID_PAIS_COOPERANTE IN(" + String.join(",", paisesFinales) + ")" + whereTipoProyecto + " GROUP BY tp.ID_TIPO_PROYECTO";
 
                 Query rtp = getSessionFactory().getCurrentSession().createSQLQuery(qt)
                         .addScalar("idTipoProyecto", new IntegerType())
