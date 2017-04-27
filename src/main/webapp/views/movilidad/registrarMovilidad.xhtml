@@ -99,7 +99,7 @@
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaSal" value="#{registrarMovilidadMB.tipoBusquedaSaliente}"  style="width:125px">  
-                                                    <p:ajax  listener="#{registrarMovilidadMB.habilitarAutoSaliente}" update="grup1,groupPersonaMovilidad"  process="tipoBusquedaSal" />
+                                                    <p:ajax  listener="#{registrarMovilidadMB.habilitarAutoSaliente}" update="grup1,groupPersonaMovilidad,grupDocente"  process="tipoBusquedaSal" />
                                                     <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                                     <f:selectItem itemLabel="Nombres/Apellidos" itemValue="nombre" />                                                                           
                                                     <f:selectItem itemLabel="E-mail" itemValue="email" />
@@ -152,7 +152,7 @@
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaEnt" value="#{registrarMovilidadMB.tipoBusquedaEntrante}"  style="width:125px">  
-                                                    <p:ajax  listener="#{registrarMovilidadMB.habilitarAutoEntrante}" update="grup2,groupPersonaMovilidad"  process="tipoBusquedaEnt" />
+                                                    <p:ajax  listener="#{registrarMovilidadMB.habilitarAutoEntrante}" update="grup2,groupPersonaMovilidad,grupDocente"  process="tipoBusquedaEnt" />
                                                     <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                                     <f:selectItem itemLabel="Nombres/Apellidos" itemValue="nombre" />                                                                           
                                                     <f:selectItem itemLabel="E-mail" itemValue="email" />
@@ -244,7 +244,8 @@
                                             <p:column rendered="#{registrarMovilidadMB.mostrarEntrante}">
                                                 <p:selectOneMenu id="InstitucionPersona" value="#{registrarMovilidadMB.personaMovilidadGenerico.idOrganismo}" converter="#{institucionDocenteMovilidadConverter}" style="width: 180px" disabled="#{registrarMovilidadMB.activarDocente}" required="#{!registrarMovilidadMB.facultadDocenteRequerido}">
                                                     <f:selectItem itemLabel="--Seleccione--" itemValue="#{registrarMovilidadMB.institucionPersonaMovilidadSelected}" noSelectionOption="true"/>
-                                                    <f:selectItems value="#{registrarMovilidadMB.listOrganismoPersonaMovilidad}" var="institucionPersona" itemLabel="#{institucionPersona.nombreOrganismo}" itemValue="#{institucionPersona}"/>
+                                                    <!--<f:selectItems value="#{registrarMovilidadMB.listOrganismoPersonaMovilidad}" var="institucionPersona" itemLabel="#{institucionPersona.nombreOrganismo}" itemValue="#{institucionPersona}"/>-->
+                                                    <f:selectItems value="#{organismoCooperanteMB.listaOrganismos()}" var="institucionPersona" itemLabel="#{institucionPersona.nombreOrganismo}" itemValue="#{institucionPersona}"/>
                                                     <p:ajax listener="#{registrarMovilidadMB.onchangeListInstitucionPersonaMovilidad()}"  update="facultadPersona,telPersona,celPersona"/>
                                                 </p:selectOneMenu>
                                             </p:column> 
@@ -466,7 +467,7 @@
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaRef" value="#{registrarMovilidadMB.tipoBusquedaReferente}"  style="width:125px" disabled="#{registrarMovilidadMB.habilitarBuscadorReferente}">  
-                                                    <p:ajax  listener="#{registrarMovilidadMB.habilitarAutoReferente}" update="grup3,GroupReferente"  process="tipoBusquedaRef" />
+                                                    <p:ajax  listener="#{registrarMovilidadMB.habilitarAutoReferente}" update="grup3,GroupReferente,grupReferente"  process="tipoBusquedaRef" />
                                                     <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />                                                                           
                                                     <f:selectItem itemLabel="Nombres" itemValue="nombre" />                                                                           
                                                     <f:selectItem itemLabel="E-mail" itemValue="email" />
