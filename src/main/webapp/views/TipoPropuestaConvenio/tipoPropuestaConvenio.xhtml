@@ -18,14 +18,14 @@
                 <p:panelGrid id="idGrilPrincipal" columns="2" >
                
                     <p:column>
-                        <p:outputLabel for="nombrePropuestaConvenio" value="Nombre del Tipo de Propuesta de Convenio:" />
+                        <p:outputLabel for="nombrePropuestaConvenio" value="Nombre:" />
                     </p:column>
                     <p:column>
                         <p:inputText id="nombrePropuestaConvenio" value="#{tipoPropuestaConvenioMB.tipoPropuestaConvenio.nombrePropuestaConvenio}" required="true" size="50" />
                     </p:column>
                
                     <p:column>
-                        <p:outputLabel for="descri" value="Descripci&oacute;n del Tipo de Propuesta de Convenio:" />
+                        <p:outputLabel for="descri" value="Descripci&oacute;n:" />
                     </p:column>
                     <p:column>
                         <p:inputTextarea id="descri" value="#{tipoPropuestaConvenioMB.tipoPropuestaConvenio.descripcion}" rows="2" maxlength="300" style="width: 100%" required="true" />
@@ -57,7 +57,7 @@
                              paginator="true">
 
 
-                    <p:column headerText="Nombre Tipo de Propuesta de Convenio" sortBy="#{organismo.nombrePropuestaConvenio}" filterBy="#{organismo.nombrePropuestaConvenio}">
+                    <p:column headerText="Nombre" sortBy="#{organismo.nombrePropuestaConvenio}" filterBy="#{organismo.nombrePropuestaConvenio}">
                         <h:outputText value="#{organismo.nombrePropuestaConvenio}" />
                     </p:column>
 
@@ -85,11 +85,11 @@
         <p:confirmDialog widgetVar="dataChangeDlg" message="&iquest;Est&aacute; seguro que desea eliminar el Tipo de Propuesta de Convenio?" header="Eliminar Tipo Propuesta de Convenio"  global="true">
             <h:form id="idEliminacion"> 
              
-                 <h:outputText value="Nombre del Tipo de Propuesta de Convenio : "  style="font-weight:bold"/>
+                 <h:outputText value="Nombre: "  style="font-weight:bold"/>
                  <h:outputText value="#{tipoPropuestaConvenioMB.delTipoPropuestaConvenio.nombrePropuestaConvenio}" />
                  <br/>
                  <br/>
-                 <h:outputText value="Descripci&oacute;n del Tipo de Propuesta de Convenio : "  style="font-weight:bold" />
+                 <h:outputText value="Descripci&oacute;n: "  style="font-weight:bold" />
                  <h:outputText value="#{tipoPropuestaConvenioMB.delTipoPropuestaConvenio.descripcion}" />
              
             </h:form>    

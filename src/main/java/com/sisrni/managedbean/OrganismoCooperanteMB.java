@@ -198,7 +198,6 @@ public class OrganismoCooperanteMB {
      * @param Organismo
      */
     public void preBorrar(PojoOrganismo pojoOrganismoCooperante){
-        //guardando en 'carrera' la instancia de 'Carrera' que se recibe como argumento
         this.pojoOrganismo = pojoOrganismoCooperante;
         this.organismoCooperante = organismoService.findById(pojoOrganismoCooperante.getIdOrg());
         telefonoFijo = new Telefono();
@@ -232,14 +231,18 @@ public class OrganismoCooperanteMB {
     public void borrar(){ 
         String msg ="Organismo Cooperante Eliminado Exitosamente!";
         try{
-            //Borrando la instancia de carrera
+            //Borrando la instancia del Organismo Cooperante
             telefonoService.delete(telefonoFijo);
             organismoService.delete(organismoCooperante);
             init();
             RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('confirmDeleteOrganismoDlg').hide();"); 
+            context.execute("PF('PersonaDeleteDialog').hide();"); 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
         }catch(Exception e){
+              tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdOrganismo(organismoCooperante);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoFijo);
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Organismo Cooperante! "));
             e.printStackTrace();
         }finally{

@@ -1,6 +1,5 @@
 package com.sisrni.managedbean;
 
-//import com.sisrni.exceptions.MailExisteException;
 import com.sisrni.model.CategoriaMovilidad;
 import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.EtapaMovilidad;
@@ -39,27 +38,21 @@ import com.sisrni.service.TipoTelefonoService;
 import com.sisrni.service.UnidadService;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import javax.swing.JOptionPane;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.mail.MailException;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
@@ -97,7 +90,7 @@ public class registrarMovilidadMB {
     private Boolean isHabilidado;
     private Boolean isHabilitadoRfte;
 
-    private Boolean usadoBuscadorPersonaMov;   //<---------------------------------
+    private Boolean usadoBuscadorPersonaMov;   
     private boolean usadoBuscadorPersonaRefte;
 
     private Boolean flagSearchDuiSaliente;
@@ -132,7 +125,7 @@ public class registrarMovilidadMB {
     private Integer paisDestinoSelected;
     private Integer institucionDestinoSelected;
     private Boolean entregaInformeSelected;
-    // private Boolean obsequioSelected;
+    
     private Integer etapaMovilidadSelected;
     private Integer escuelaDepartamentoReferenteFactBnfSelected;
     private Integer escuelaDepartamentoPersonaMovilidad;
@@ -142,7 +135,7 @@ public class registrarMovilidadMB {
     private static final String FAX = "FAX";
     private static final String CELULAR = "CELULAR";
 
-    //private String[] facultadesUnidadesBeneficiadasSelected;
+    
     private String facultadDeReferente;
     private String facultadPersonaMovilidad;
 
@@ -191,11 +184,10 @@ public class registrarMovilidadMB {
     //private Persona personaMovilidad;
     private Persona personaMovilidadGenerico;
 
-    
     private Persona personaFacultadGenerico;
 
-    private Persona personaMovAux;//----------------------
-    private Persona personaReftAux;//---------------------
+    private Persona personaMovAux;
+    private Persona personaReftAux;
 
     private TipoPersona tipoPersonaReferenteFact;
 
@@ -223,7 +215,7 @@ public class registrarMovilidadMB {
     private List<Pais> listPaisOrigenMovilidad;
     private List<Pais> listPaisDestinoMovilidad;
     private List<Persona> listPersonaMovilidad;
-    private List<Persona> listPersonaReferenteFacultad;  //para lista de personas referentes de facultad beneficiada
+    private List<Persona> listPersonaReferenteFacultad;  
     private List<Organismo> listOrganismosOrigen;
     private List<Organismo> listOrganismosDestino;
     private List<EtapaMovilidad> listEtapaMovilidad;
@@ -259,7 +251,7 @@ public class registrarMovilidadMB {
 
     private TipoCambio tipoCambioSelected;
 
-    //-----------------------------------------------------------------
+    //--------------------------------------
     private static Organismo institucionUES;
     private Boolean fueEditadoDocente;
     private Boolean fueEditadoReferente;
@@ -352,7 +344,7 @@ public class registrarMovilidadMB {
      * Metodo inicializador de variables y objetos
      */
     public void cargarMovilidadPersona() {
-        existeReferente = false;    // sea false no existe
+        existeReferente = false;   
         existePersonaMovilidad = false;
         existeMovilidad = false;
         isEditable = true;
@@ -408,16 +400,12 @@ public class registrarMovilidadMB {
         //obsequioSelected = null;
         //personaMovilidad = new Persona();
         personaMovilidadGenerico = new Persona();
-        //personaMovilidadGenerico.setIdOrganismo(new Organismo());
-        //personaMovilidadGenerico.setIdEscuelaDepto(new EscuelaDepartamento());
-
-        //personaFacultadSelected = new Persona();
+        
         personaFacultadGenerico = new Persona();
 
         personaMovAux = new Persona();
         personaReftAux = new Persona();
 
-       
         fechaInicioSelected = null;
         fechaFinSelected = null;
         fechaEntregaMinedSelected = null;
@@ -426,19 +414,15 @@ public class registrarMovilidadMB {
         escuelaDepartamentoPersonaMovilidad = null;
         institucionPersonaMovilidadSelected = null;
 
-        //mostrarEntrante = true;
-        //mostrarSaliente = true;
         telFijoPersonaMovilidad = new Telefono();
         telCelPersonaMovilidad = new Telefono();
-        //faxPersonaMovilidad = new Telefono();
-
+        
         telFijoPersonaFacultad = new Telefono();
         telCelPersonaFacultad = new Telefono();
-        //faxPersonaFacultad = new Telefono();
-
+       
         tipoCambioSelected = new TipoCambio();
 
-        listMovilidad = movilidadService.findAll(); //para vista movilidadAdm.xhtml
+        listMovilidad = movilidadService.findAll(); 
         listPojoMovilidadAdm = movilidadService.getMovilidadAdm(-1);
 
         listProgramaMovilidad = programaMovilidadService.findAll();
@@ -452,8 +436,8 @@ public class registrarMovilidadMB {
         listFacultadesBeneficiadasSelected = new ArrayList<String>();
         listUnidadesBeneficiadasSelected = new ArrayList<String>();
 
-        listFacultadBnfUes = facultadService.getFacultadesByUniversidad(1); //revisar esto
-        listUnidadBnfUes = unidadService.getUnidadesByUniversidad(1);     //revisar esto
+        listFacultadBnfUes = facultadService.getFacultadesByUniversidad(1); 
+        listUnidadBnfUes = unidadService.getUnidadesByUniversidad(1);   
 
         listFacultadByInst = new ArrayList<Facultad>();
         listUnidadByInst = new ArrayList<Unidad>();
@@ -525,7 +509,7 @@ public class registrarMovilidadMB {
 
         tituloRegistroEdicion = "";
 
-        //-------------------------------------------------------
+        //------------------------------------------
         institucionUES = organismoService.findById(1);
         mostrarBotonEditarDocente = false;
         mostrarBotonEditarReferente = false;
@@ -543,8 +527,8 @@ public class registrarMovilidadMB {
         txtBotonGuardar = "Guardar";
         txtBotonRegresar = "Regresar";
         codigoPais = "";
-        iconRegresarCancelar="ui-icon-arrowreturnthick-1-w";
-        iconGuardarActualizar="ui-icon-disk";
+        iconRegresarCancelar = "ui-icon-arrowreturnthick-1-w";
+        iconGuardarActualizar = "ui-icon-disk";
     }
 
     public void mostrarEscuelaDocenteMovilidad() {
@@ -603,12 +587,13 @@ public class registrarMovilidadMB {
                     movilidad.setIdPaisDestino(222);
                     changePaisDestino();
                     movilidad.setIdUniversidadDestino(1);
-                    
+
                     movilidad.setIdPaisOrigen(null);
                     movilidad.setIdUniversidadOrigen(null);
                     onchangeListPaisOrigen();
-                   facultadDocenteRequerido = false;
-
+                    facultadDocenteRequerido = false;
+                    
+                    personaMovilidadGenerico.setIdOrganismo(null);
                 } else {  //movilidad Saliente
                     mostrarEntrante = false;
                     mostrarSaliente = true;
@@ -622,13 +607,13 @@ public class registrarMovilidadMB {
                     movilidad.setIdPaisOrigen(222);
                     changePaisOrigen();
                     movilidad.setIdUniversidadOrigen(1);
-                    
+
                     movilidad.setIdPaisDestino(null);
                     movilidad.setIdUniversidadDestino(null);
                     onchangeListPaisDestino();
-                    
-                    facultadDocenteRequerido =true;
-                    
+
+                    facultadDocenteRequerido = true;
+
                 }
 
             } else {
@@ -639,13 +624,10 @@ public class registrarMovilidadMB {
         }
     }
 
-
     public void onchangeListInstitucionPersonaMovilidad() {
         listFacultadByInst = facultadService.getFacultadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
         listUnidadByInst = unidadService.getUnidadesByUniversidad(personaMovilidadGenerico.getIdOrganismo().getIdOrganismo());
-        listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadByInst, listUnidadByInst);//revisar esto
-        //codigoPais = personaMovilidadGenerico.getIdOrganismo().getIdPais().toString();
-        //mascaraTelefonoMovilidad = "("+codigoPais+")?##########";
+        listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadByInst, listUnidadByInst);
         codigoPais = paisService.findById(personaMovilidadGenerico.getIdOrganismo().getIdPais()).getCodigoPais();
         mascaraTelefonoMovilidad = telefonoService.getMask(codigoPais);
 
@@ -678,9 +660,8 @@ public class registrarMovilidadMB {
     public void onchangeListPaisOrigen() {
         try {
             if (movilidad.getIdPaisOrigen() != null) {
-                //listOrganismosOrigen = organismoService.getOrganismosPorPaisYTipo(movilidad.getIdPaisOrigen(), 1); //REVISAR ESTO
                 listOrganismosOrigen = listaOrganismos(movilidad.getIdPaisOrigen());
-            }else{
+            } else {
                 listOrganismosOrigen = new ArrayList<Organismo>();
             }
         } catch (Exception e) {
@@ -694,7 +675,7 @@ public class registrarMovilidadMB {
                 //nota: validar si no se recibe ningun organismo
                 //listOrganismosDestino = organismoService.getOrganismosPorPaisYTipo(movilidad.getIdPaisDestino(), 1);
                 listOrganismosDestino = listaOrganismos(movilidad.getIdPaisDestino());
-            }else{
+            } else {
                 listOrganismosDestino = new ArrayList<Organismo>();
             }
         } catch (Exception e) {
@@ -727,8 +708,7 @@ public class registrarMovilidadMB {
             disableConsultoria = true;
         }
     }
-
-    //OJO CON ESTO<------------------------------------
+  
     public void buscarPersonaEnMovilidadEntrante() {
         //Organismo organismoPersonaEnMovilidad = new Organismo();
         Facultad facultadPersonaEnMovilidad = new Facultad();
@@ -782,8 +762,7 @@ public class registrarMovilidadMB {
         }
 
     }
-
-    //OJO CON ESTO <----------------------------------------------------------------  
+  
     public void buscarPersonaEnMovilidadSaliente() {
         Facultad facultadPersonaEnMovilidad = new Facultad();
         Unidad unidadPersonaEnMovilidad = new Unidad();
@@ -827,7 +806,7 @@ public class registrarMovilidadMB {
         }
     }
 
-    //OJO CON ESTO <-------------------------------------------------------------
+    
     public void buscarReferente() {
         EscuelaDepartamento escuelaDepartamentoRft = new EscuelaDepartamento();
         //Facultad facultadRft = new Facultad();
@@ -906,31 +885,34 @@ public class registrarMovilidadMB {
         mostrarEscuelaReferente = true;
     }
 
-    //metodo para habilitar campos del referente de la movilidad
+/**
+ * metodo para habilitar campos del referente de la movilidad
+ */    
+
     public void habilitarCamposReferente() {
         activarReferente = false;
         mostrarEscuelaReferente = false;
     }
 
-    //Metodo que habilita para agregar nuevo referente manualmente
+/**
+ * Metodo que habilita para agregar nuevo referente manualmente
+ */    
+
     public void agregarNuevoReferente() {
-        //personaMovilidadGenerico = new Persona();
-        //telFijoPersonaMovilidad = new Telefono();
-        //telCelPersonaMovilidad = new Telefono();
-        //facultadPersonaMovilidad = "";
-        //escuelaDepartamentoPersonaMovilidad = null;
-        //institucionPersonaMovilidadSelected = null;
         personaFacultadGenerico = new Persona();
         telFijoPersonaFacultad = new Telefono();
         telCelPersonaFacultad = new Telefono();
         facultadDeReferente = "";
         existeReferente = false;
         habilitarCamposReferente();
-        //RequestContext.getCurrentInstance().update("panelReferente");
+       
 
     }
 
-    //Metodo que habilita para agregar un nuevo docente manualmente
+/**
+ * Metodo que habilita para agregar un nuevo docente manualmente
+ */    
+
     public void agregarNuevoDocente() {
         personaMovilidadGenerico = new Persona();
         telFijoPersonaMovilidad = new Telefono();
@@ -942,6 +924,11 @@ public class registrarMovilidadMB {
         habilitarCamposDocente();
     }
 
+/**
+ * Metodo que re inicializa variables y objetos relacionados a la persona en 
+ * movilidad saliente
+ */    
+
     public void limpiarSaliente() {
         personaMovilidadGenerico = new Persona();
         // personaMovilidadSeleccionado = new Persona();
@@ -952,7 +939,11 @@ public class registrarMovilidadMB {
         institucionPersonaMovilidadSelected = null;
     }
 
-//Buscar persona Saliente
+/**
+ * Metodo inicializador de variables prebio a la busqueda de una persona 
+ * en movilidad saliente
+ */
+
     public void habilitarAutoSaliente() {
         flagSearchDuiSaliente = Boolean.FALSE;
         flagSearchEmailSaliente = Boolean.FALSE;
@@ -977,10 +968,15 @@ public class registrarMovilidadMB {
 
     }
 
-    //Metodo Buscar Persona Saliente
+/**
+ * Metodo Buscar Persona Saliente
+ * @param query
+ * @return 
+ */    
     public List<Persona> methodSearchSaliente(String query) {
         try {
             List<Persona> list = new ArrayList<Persona>();
+            limpiarSaliente();
             if (tipoBusquedaSaliente.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getPersonaMovilidadSalienteByName(query);
                 for (Persona us : listAll) {
@@ -990,8 +986,8 @@ public class registrarMovilidadMB {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:groupPersonaMovilidad");
                 }
-                limpiarSaliente();
                 return list;
             } else if (tipoBusquedaSaliente.equalsIgnoreCase("email")) {
                 listAll = personaService.getPersonaMovilidadSalienteByEmail(query);
@@ -1002,19 +998,24 @@ public class registrarMovilidadMB {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:groupPersonaMovilidad");
                 }
-                limpiarSaliente();
                 return list;
             } else if (tipoBusquedaSaliente.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
                 personaMovAux = personaService.getPersonaByDui(query);
-                boolean add = list.add(personaMovAux);
+
+                if (personaMovAux == null) {
+                    limpiarSaliente();
+                } else {
+                    boolean add = list.add(personaMovAux);
+                }
                 if (list.isEmpty()) {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:groupPersonaMovilidad");
                 }
-                limpiarSaliente();
                 return list;
             }
             return list;
@@ -1077,8 +1078,10 @@ public class registrarMovilidadMB {
         facultadDeReferente = "";
         escuelaDepartamentoReferenteFactBnfSelected = null;
     }
-//Buscar persona Referente
 
+/**
+ * Metodo que inicializa variables prebio a la busqueda de una persona referente
+ */
     public void habilitarAutoReferente() {
         flagSearchDuiReferente = Boolean.FALSE;
         flagSearchEmailReferente = Boolean.FALSE;
@@ -1103,10 +1106,15 @@ public class registrarMovilidadMB {
 
     }
 
-    //Metodo Buscar Persona Referente
+/**
+ * Metodo Buscar Persona Referente
+ * @param query
+ * @return 
+ */    
     public List<Persona> methodSearchReferente(String query) {
         try {
             List<Persona> list = new ArrayList<Persona>();
+            limpiarReferente();
             if (tipoBusquedaReferente.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getPersonaMovilidadReferenteByName(query);
                 for (Persona us : listAll) {
@@ -1116,8 +1124,9 @@ public class registrarMovilidadMB {
                     mostrarBotonNuevoReferente = true;
                     mostrarBotonEditarReferente = false;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:grupReferente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupReferente");
                 }
-                limpiarReferente();
+                
                 return list;
             } else if (tipoBusquedaReferente.equalsIgnoreCase("email")) {
                 listAll = personaService.getPersonaMovilidadReferenteByEmail(query);
@@ -1128,19 +1137,24 @@ public class registrarMovilidadMB {
                     mostrarBotonNuevoReferente = true;
                     mostrarBotonEditarReferente = false;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:grupReferente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupReferente");
                 }
-                limpiarReferente();
                 return list;
             } else if (tipoBusquedaReferente.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
                 personaReftAux = personaService.getPersonaByDui(query);
-                boolean add = list.add(personaReftAux);
+                if(personaReftAux == null){
+                    limpiarReferente();
+                }else{
+                   boolean add = list.add(personaReftAux); 
+                }
+                
                 if (list.isEmpty()) {
                     mostrarBotonNuevoReferente = true;
                     mostrarBotonEditarReferente = false;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:grupReferente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupReferente");
                 }
-                limpiarReferente();
                 return list;
             }
             return list;
@@ -1204,7 +1218,10 @@ public class registrarMovilidadMB {
         institucionPersonaMovilidadSelected = null;
     }
 
-    //Buscar persona Entrante
+/**
+ *Metodo que inicializa variables prebio a la busqueda de una persona en movilidad entrante 
+ */    
+
     public void habilitarAutoEntrante() {
         flagSearchDuiEntrante = Boolean.FALSE;
         flagSearchEmailEntrante = Boolean.FALSE;
@@ -1230,10 +1247,15 @@ public class registrarMovilidadMB {
 
     }
 
-    //Metodo Buscar Persona Entrante
+/**
+ * Metodo Buscar Persona Entrante
+ * @param query
+ * @return 
+ */    
     public List<Persona> methodSearchEntrante(String query) {
         try {
             List<Persona> list = new ArrayList<Persona>();
+            limpiarEntrante();
             if (tipoBusquedaEntrante.equalsIgnoreCase("nombre")) {
                 listAll = personaService.getPersonaMovilidadEntranteByName(query);
                 for (Persona us : listAll) {
@@ -1243,8 +1265,9 @@ public class registrarMovilidadMB {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:groupPersonaMovilidad");
                 }
-                limpiarEntrante();
+                
                 return list;
             } else if (tipoBusquedaEntrante.equalsIgnoreCase("email")) {
                 listAll = personaService.getPersonaMovilidadEntranteByEmail(query);
@@ -1255,19 +1278,25 @@ public class registrarMovilidadMB {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:groupPersonaMovilidad");
                 }
-                limpiarEntrante();
+                
                 return list;
             } else if (tipoBusquedaEntrante.equalsIgnoreCase("doc")) {
                 query = query.substring(0, 8) + "-" + query.substring(9);
                 personaMovAux = personaService.getPersonaByDui(query);
-                boolean add = list.add(personaMovAux);
+                if (personaMovAux == null) {
+                    limpiarEntrante();
+                } else {
+                    boolean add = list.add(personaMovAux);
+                }
                 if (list.isEmpty()) {
                     mostrarBotonNuevoDocente = true;
                     mostrarBotonEditarDocente = false;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:grupDocente");
+                    RequestContext.getCurrentInstance().update("formAdmin:acordion:groupPersonaMovilidad");
                 }
-                limpiarEntrante();
+                
                 return list;
             }
             return list;
@@ -1306,6 +1335,9 @@ public class registrarMovilidadMB {
                         telCelPersonaMovilidad = us;
                     }
                 }
+                 //Para obtener la maskara para el telefono de la persona eztrangera
+                 codigoPais = paisService.findById(personaMovilidadGenerico.getIdOrganismo().getIdPais()).getCodigoPais();
+                 mascaraTelefonoMovilidad = telefonoService.getMask(codigoPais);
 
                 if ((institucion = personaMovilidadGenerico.getIdOrganismo()) != null) {
                     institucionPersonaMovilidadSelected = personaMovilidadGenerico.getIdOrganismo().getIdOrganismo();
@@ -1333,7 +1365,6 @@ public class registrarMovilidadMB {
         }
     }
 
- 
     /**
      * Metodo para guardar en arreglos las facultades y unidades beneficiadas
      */
@@ -1428,24 +1459,24 @@ public class registrarMovilidadMB {
         return lista;
     }
 
+/**
+ * Metodo para realizar operaciones previas al guardado de una movilidad
+ */    
     public void preGuardadoMovilidad() {
         //comprobando si las personas tienen asignada su escuela o unidad
-       // if (personaMovilidadGenerico.getIdEscuelaDepto() != null || personaMovilidadGenerico.getIdUnidad() != null) {
-            if (personaFacultadGenerico.getIdEscuelaDepto() != null || personaFacultadGenerico.getIdUnidad() != null) {
-                if (fueEditadoDocente == true) {
-                    RequestContext context = RequestContext.getCurrentInstance();
-                    context.execute("PF('dlgEdicionDocente').show();");
-                } else {
-                    preGuardadoReferente();
-                }
+        // if (personaMovilidadGenerico.getIdEscuelaDepto() != null || personaMovilidadGenerico.getIdUnidad() != null) {
+        if (personaFacultadGenerico.getIdEscuelaDepto() != null || personaFacultadGenerico.getIdUnidad() != null) {
+            if (fueEditadoDocente == true) {
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('dlgEdicionDocente').show();");
             } else {
-                //mensage facultad referente es un campo requerido
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Requerido!", "Facultad/Unidad, para la persona Referente es un campo requerido"));
+                preGuardadoReferente();
             }
-       // } else {
-            //mensage facultad docente campo requerido
-       //     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Requerido!", "Facultad/Unidad, para la persona Docente en movilidad es un campo requerido"));
-       // }
+        } else {
+            //mensage facultad referente es un campo requerido
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Requerido!", "Facultad/Unidad, para la persona Referente es un campo requerido"));
+        }
+       
 
     }
 
@@ -1488,7 +1519,9 @@ public class registrarMovilidadMB {
         guardadoMovilidad();
     }
 
-//Metodo para realizar el guardado de la movilidad
+/**
+ * Metodo para realizar el guardado de una movilidad
+ */
     public void guardadoMovilidad() {
         String msg = "Movilidad guardada exitosamente!!";
         try {
@@ -1501,23 +1534,13 @@ public class registrarMovilidadMB {
                     personaMovilidadGenerico.setActivo(true);
                     personaMovilidadGenerico.setExtranjero(true);
                     personaMovilidadGenerico.setDuiPersona("00000000-0");
-                    //si a la persona se le asigno una unidad
-                    //  if (unidadPersonMovTmp != null) {
-                    //      personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
-                    //      personaMovilidadGenerico.setIdEscuelaDepto(null);
-                    //  }
-
+ 
                 } else {   //Si es saliente
                     personaMovilidadGenerico.setActivo(true);
                     personaMovilidadGenerico.setExtranjero(false);
                     personaMovilidadGenerico.setIdOrganismo(institucionUES); //revisar esto
                     personaMovilidadGenerico.setPasaporte("--");
-                    //si a la persona se le asigno una unidad
-                    //    if (unidadPersonMovTmp != null) {
-                    //        personaMovilidadGenerico.setIdUnidad(unidadPersonMovTmp);
-                    //        personaMovilidadGenerico.setIdEscuelaDepto(null);
-                    //    }
-
+ 
                 }
                 //Telefonos de persona en movilidad Saliente
                 //Fijo
@@ -1551,7 +1574,7 @@ public class registrarMovilidadMB {
                 //datos adicionales de persona Referente Facultad Beneficiada
                 personaFacultadGenerico.setActivo(true);
                 personaFacultadGenerico.setExtranjero(false);
-                personaFacultadGenerico.setIdOrganismo(organismoService.findById(1));  //revisar esto
+                personaFacultadGenerico.setIdOrganismo(organismoService.findById(1));
                 personaFacultadGenerico.setPasaporte("--");
 
                 //Telefonos Referente de la facultad
@@ -1566,7 +1589,7 @@ public class registrarMovilidadMB {
                 personaFacultadGenerico.getTelefonoList().add(telCelPersonaFacultad);
 
                 //Guardado-actualizado referente de la facultad
-                if ((existeReferente == false && actualizar == false) || (existeReferente == false && desvinculadoRfte == true)) {  //<----
+                if ((existeReferente == false && actualizar == false) || (existeReferente == false && desvinculadoRfte == true)) {
                     personaService.save(personaFacultadGenerico);
                 } else if ((existeReferente == true && siEditarReferente == true) || actualizar == true) {
                     personaService.merge(personaFacultadGenerico);
@@ -1667,9 +1690,6 @@ public class registrarMovilidadMB {
 
     }
 
-
-
-
     public Persona comprobarEmail(String emailIngresado) {
         Persona persona = null;
         if ((persona = personaService.existePersonaByMail(emailIngresado)) != null) {
@@ -1710,16 +1730,13 @@ public class registrarMovilidadMB {
         tituloRegistroEdicion = "Actualizaci&oacute;n de movilidad";
         txtBotonGuardar = "Actualizar";
         txtBotonRegresar = "Cancelar";
-        iconRegresarCancelar="ui-icon-cancel";
+        iconRegresarCancelar = "ui-icon-cancel";
         iconGuardarActualizar = "ui-icon-pencil";
 
         //deshabilita el selectOnmenu de tipo de movilidad
         isHabilidado = Boolean.TRUE;
         actualizar = true;
         actualizarPersonaMov = true;
-        //actualizarRefte = true;
-        //deshabilitarCamposDocente();
-        //desabilitarCamposReferente();
         habilitarCamposDocente();
         habilitarCamposReferente();
         existePersonaMovilidad = true;
@@ -1759,7 +1776,7 @@ public class registrarMovilidadMB {
 
                 //Cargando las Personas
                 //Persona en movilidad
-                personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD");  //REVISAR ESTO
+                personaMovilidadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "DOCENTE EN MOVILIDAD");
                 existePersonaMovilidad = true;
 
                 //escuelaDepto = personaMovilidadGenerico.getIdEscuelaDepto();
@@ -1769,7 +1786,7 @@ public class registrarMovilidadMB {
                     mascaraTelefonoMovilidad = "+503 #### ####";
 
                     //Cargando lista de facultades y unidades
-                    listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);//revisar esto
+                    listFacultadesUnidadesPersonaMovilidad = getListFacultadesUnidades(listFacultadBnfUes, listUnidadBnfUes);
 
                     //Si la persona pertenece a una escuala o departamento
                     if (personaMovilidadGenerico.getIdEscuelaDepto() != null) {
@@ -1827,8 +1844,7 @@ public class registrarMovilidadMB {
                     isHabilitadoRfte = true;
                     existeReferente = true;
                     desvinculadoRfte = false;
-                    habilitarBuscadorReferente = true; //deshabililta el buscador del referente
-                    //mostrarBotonEditarReferente = true;  //mostrar el boton de editar referente
+                    habilitarBuscadorReferente = true; 
 
                     //escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
                     if (personaFacultadGenerico.getIdEscuelaDepto() != null) {
@@ -1865,15 +1881,14 @@ public class registrarMovilidadMB {
                     telCelPersonaFacultad = new Telefono();
                     isHabilitadoRfte = Boolean.FALSE;
 
-                    //desabilitando campos del refrente  <-----------------------
+                    //desabilitando campos del refrente  
                     mostrarBotonEditarReferente = false; //ocultar boton de editar referente
                     mostrarBotonDesvincular = false;     //ocultar el boton de desvincular el referente
                     //deshabilitarCamposDocente();
                     desabilitarCamposReferente();
                     habilitarBuscadorReferente = false; //habilita el buscador de referente
                 }
-                //Actualizando el Panel de la persona en movilidad
-                //RequestContext.getCurrentInstance().update("panelPersonaEnMovilidad");
+               
 
             }
 
@@ -1894,6 +1909,10 @@ public class registrarMovilidadMB {
         return null;
     }
 
+/**
+ * Metodo para desvincular una persona referente de una movilidad
+ */    
+
     public void desvincularReferente() {
         try {
             movilidadService.desvincularReferente(movilidad.getIdMovilidad(), personaFacultadGenerico.getIdPersona());
@@ -1907,13 +1926,18 @@ public class registrarMovilidadMB {
 
     }
 
+/**
+ * Metodo para lanzar modal que solicita confirmacion de la operacion de 
+ * desvinculacion de un referente
+ */    
+
     public void confirmarDesvincularReferente() {
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlgConfirmarDesvincularReferente').show();");
     }
 
     /**
-     * Consultar Movilidad
+     * Meetodo para Consultar una Movilidad
      *
      */
     public void consultarMovilidad(Integer idMovilidad) {
@@ -1977,12 +2001,6 @@ public class registrarMovilidadMB {
                         entregaInformeConsultar = "NO";
                     }
                 }
-              //  obsequioSelected = movilidad.getObsequio();
-                //  if (obsequioSelected == true) {
-                //      obsequioConsultar = "SI";
-                //  } else {
-                //      obsequioConsultar = "NO";
-                //  }
 
                 //Total de viaticos mas curso
                 totalViaticosCurso = movilidad.getViaticos().floatValue() + movilidad.getPagoDeCurso().floatValue();
@@ -2056,7 +2074,7 @@ public class registrarMovilidadMB {
                 }
 
                 //Persona Referente Facultad
-                personaFacultadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "REFERENTE FACULTAD BENEFICIADA"); //REVISAR ESTO
+                personaFacultadGenerico = getPersonaMovilidad(movilidad.getPersonaMovilidadList(), "REFERENTE FACULTAD BENEFICIADA"); 
                 //existeReferente = true;
                 //escuelaDeptoReferente = personaFacultadGenerico.getIdEscuelaDepto();
                 if (personaFacultadGenerico.getIdEscuelaDepto() != null) {
@@ -2092,6 +2110,10 @@ public class registrarMovilidadMB {
             e.printStackTrace();
         }
     }
+
+/**
+ * Metodo para regresar a la pagina de Administarcion de movilidades
+ */    
 
     public void regresar() {
         String msg = "Falta Referente de Facultad ";
@@ -2161,6 +2183,11 @@ public class registrarMovilidadMB {
         }
     }
 
+    /**
+     * Metodo para listar los organismos para un determinado pais
+     * @param idPais
+     * @return 
+     */
     public List<Organismo> listaOrganismos(Integer idPais) {
         List<Organismo> organismosListAux = organismoService.getAllByNameAsc();
         Organismo organismoNew1 = new Organismo();
@@ -2260,6 +2287,11 @@ public class registrarMovilidadMB {
         }
     }
 
+    /**
+     * Metodo para realizar la eliminacion de una movilidad y 
+     * de todas sus relaciones
+     */
+    
     public void eliminarMovilidad() {
         try {
 
@@ -2504,12 +2536,7 @@ public class registrarMovilidadMB {
         this.listEtapaMovilidad = listEtapaMovilidad;
     }
 
-//    public Boolean getObsequioSelected() {
-//        return obsequioSelected;
-//    }
-//    public void setObsequioSelected(Boolean obsequioSelected) {
-//        this.obsequioSelected = obsequioSelected;
-//    }
+
     public List<PojoFacultadesUnidades> getListFacultadUnidad() {
         return listFacultadUnidad;
     }
@@ -2534,14 +2561,7 @@ public class registrarMovilidadMB {
         this.listUnidad = listUnidad;
     }
 
-    /* public String[] getFacultadesUnidadesBeneficiadasSelected() {
-     return facultadesUnidadesBeneficiadasSelected;
-     }
-
-     public void setFacultadesUnidadesBeneficiadasSelected(String[] facultadesUnidadesBeneficiadasSelected) {
-     this.facultadesUnidadesBeneficiadasSelected = facultadesUnidadesBeneficiadasSelected;
-     }
-     */
+    
     public Persona getPersonaFacultadGenerico() {
         return personaFacultadGenerico;
     }
@@ -3147,6 +3167,5 @@ public class registrarMovilidadMB {
     public String getIconGuardarActualizar() {
         return iconGuardarActualizar;
     }
-    
 
 }

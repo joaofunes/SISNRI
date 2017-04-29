@@ -216,6 +216,8 @@ public class UsuarioMB extends GenericManagedBean<SsUsuarios, Integer> {
            RequestContext context = RequestContext.getCurrentInstance();
            context.execute("PF('UsuarioCreateDialog').hide();");
            enviarCorreo();
+           init();        
+           FacesContext.getCurrentInstance().getExternalContext().redirect("List.xhtml");
           }else{
             msg ="Ya existe este Usuario!";  
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Duplicado!!", msg));  
