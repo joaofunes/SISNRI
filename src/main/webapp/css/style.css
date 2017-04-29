@@ -917,23 +917,23 @@ table.table1{
 .table1 thead th{
     padding:15px;
     color:#fff;
-    text-shadow:1px 1px 1px #568F23;
-    border:1px solid #93CE37;
-    border-bottom:3px solid #9ED929;
-    background-color:#9DD929;
+    text-shadow:1px 1px 1px #B62A2B;
+    border:1px solid #D03943;
+    border-bottom:3px solid #DA293B;
+    background-color:#DA2964;
     background:-webkit-gradient(
         linear,
         left bottom,
         left top,
-        color-stop(0.02, rgb(123,192,67)),
-        color-stop(0.51, rgb(139,198,66)),
-        color-stop(0.87, rgb(158,217,41))
+        color-stop(0.02, rgb(182,42,43)),
+        color-stop(0.51, rgb(196,86,85)),
+        color-stop(0.87, rgb(222,161,162))
         );
     background: -moz-linear-gradient(
         center bottom,
-        rgb(123,192,67) 2%,
-        rgb(139,198,66) 51%,
-        rgb(158,217,41) 87%
+        rgb(182,42,43) 2%,
+        rgb(196,86,85) 51%,
+        rgb(222,161,162) 87%
         );
     -webkit-border-top-left-radius:5px;
     -webkit-border-top-right-radius:5px;
@@ -956,15 +956,15 @@ table.table1{
         linear,
         left bottom,
         right top,
-        color-stop(0.02, rgb(158,217,41)),
-        color-stop(0.51, rgb(139,198,66)),
-        color-stop(0.87, rgb(123,192,67))
+        color-stop(0.02, rgb(182,42,43)),
+        color-stop(0.51, rgb(196,86,85)),
+        color-stop(0.87, rgb(222,161,162))
         );
     background: -moz-linear-gradient(
         left bottom,
-        rgb(158,217,41) 2%,
-        rgb(139,198,66) 51%,
-        rgb(123,192,67) 87%
+        rgb(182,42,43) 2%,
+        rgb(196,86,85) 51%,
+        rgb(222,161,162) 87%
         );
     -moz-border-radius:5px 0px 0px 5px;
     -webkit-border-top-left-radius:5px;
@@ -985,8 +985,8 @@ table.table1{
 .table1 tbody td{
     padding:10px;
     text-align:center;
-    background-color:#DEF3CA;
-    border: 2px solid #E7EFE0;
+    background-color:#F7E6F7;
+    border: 2px solid #F0E2EA;
     -moz-border-radius:2px;
     -webkit-border-radius:2px;
     border-radius:2px;
