@@ -11,7 +11,7 @@
 
 
     <ui:composition>
-        <p:dialog id="PersonaDeleteDlg" widgetVar="PersonaDeleteDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Eliminar Persona" closeOnEscape="true">
+        <p:dialog id="PersonaDeleteDlg" widgetVar="PersonaDeleteDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Eliminar Persona Externa" closeOnEscape="true">
             <p:ajax event="close"  oncomplete="myrefresh();"></p:ajax>  
 
             <h:form id="formDeletePersona">
@@ -30,13 +30,6 @@
                         <p:column> 
                             <p:outputLabel id="idApellido" value="#{personaMB.persona.apellidoPersona}"/>                          
                         </p:column>
-
-                        <p:column> 
-                            <p:outputLabel for="dui" value="DUI" />
-                        </p:column> 
-                        <p:column> 
-                            <p:outputLabel id="dui" value="#{personaMB.persona.duiPersona}"/>                           
-                        </p:column> 
 
                         <p:column>  
                             <p:outputLabel for="email" value="Correo Electr&oacute;nico" />
@@ -57,20 +50,6 @@
                         <p:column> 
                             <p:outputLabel id="idTelefonoFijoEx" value="#{personaMB.telefonoCell.numeroTelefono}" />                                               
                         </p:column>                               
-                        
-                         <p:column>
-                            <p:outputLabel for="idCargo" value="Cargo" />
-                        </p:column>                                         
-                        <p:column> 
-                            <p:outputLabel id="idCargo" value="#{personaMB.persona.cargoPersona}"/>
-                        </p:column> 
-                        
-                        <p:column>  
-                            <p:outputLabel for="idUnidads" value="Unidad" />
-                        </p:column>                                         
-                        <p:column>   
-                            <p:outputLabel id="idUnidads" value="#{personaMB.persona.idUnidad.nombreUnidad}"/>                            
-                        </p:column>
                         <p:column>  
                             <p:outputLabel for="idOrganismo" value="Organismo" />
                         </p:column>                                         
@@ -80,7 +59,7 @@
 
                         <p:column> 
                              <p:commandButton value="Cancelar" id="idCerrar" process="@this" icon="ui-icon-cancel" immediate="true" onclick="PF('PersonaDeleteDialog').close();" />
-                            <p:commandButton value="Eliminar" id="idGuardarPersona" actionListener="#{personaMB.eliminar()}" process="@form" update="@form" icon="ui-icon-close"/>                        
+                             <p:commandButton value="Eliminar" id="idGuardarPersona" actionListener="#{personaMB.eliminarExterno()}" process="@form" update="@form" icon="ui-icon-close"/>                        
                         </p:column>
 
 

@@ -577,33 +577,114 @@ public class PersonaMB implements Serializable{
      }
  }
     
-   
-    
+     /**
+     * Metodo  de Pre- borrado, que obtiene una instancia de la Entity a Borrar
+     * y despliega un 'p:dialog' donde se solicita la confirmacion de la 
+     * operacion de borrado
+     * @param Persona
+     */
+        public void preEliminar(Persona persona){
+            this.persona=persona;
+            telefonoFijo = new Telefono();
+            telefonoCell = new Telefono();
+            Unidad unidadRft = new Unidad();
+            Persona personaFacultadSelected = new Persona();
+            List<Telefono> telefonosByPersona = telefonoService.getTelefonosByPersona(persona);
+            
+            for(Telefono tel: telefonosByPersona){
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(FIJO)){
+                     telefonoFijo=tel;
+                }
+                if(tel.getIdTipoTelefono().getNombre().equalsIgnoreCase(CELULAR)){
+                     telefonoCell=tel;
+                }
+            }
+            
+             EscuelaDepartamento escuelaDepartamentoRft = new EscuelaDepartamento();   
+            //personaFacultadGenerico = persona;
+               
+
+                    //Obteniendo escuela_departamento y facultad de la persona seleccionada
+                    if ((escuelaDepartamentoRft = persona.getIdEscuelaDepto()) != null) {
+                        listEscuelaDepartamentoRefFact = escuelaDepartamentoService.getEscuelasOrDeptoByFacultadId(escuelaDepartamentoRft.getIdFacultad().getIdFacultad());
+                        //escuelaDepartamentoReferenteFactBnfSelected = escuelaDepartamentoRft.getIdEscuelaDepto();
+                        facultadDeReferente = escuelaDepartamentoRft.getIdFacultad().getIdFacultad().toString() + ",1";
+                        mostrarEscuelaReferente = false;
+                        escuelaReferenteRequerido = true;
+                    }
+                    if ((unidadRft = persona.getIdUnidad()) != null) {
+                        facultadDeReferente = unidadRft.getIdUnidad().toString() + ",2";
+                        listEscuelaDepartamentoRefFact = new ArrayList<EscuelaDepartamento>();
+                        mostrarEscuelaReferente = true;
+                        escuelaReferenteRequerido = false;
+                    }
+    }
     
     /**
      * Metodo para eliminar una persona
      */ 
     public void eliminar(){
-        try {
-            String msg = "Persona Eliminada Exitosamente!";  
+           String msg ="Persona Eliminada exitosamente!";
+        try{
+            //Borrando la instancia de la persona
+            telefonoService.delete(telefonoFijo);
+            telefonoService.delete(telefonoCell);
+            personaService.delete(persona);
+            init();
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('PersonaDeleteDialog').hide();"); 
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminada!!", msg));
+        }catch(Exception e){
+             tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdPersona(persona);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoFijo);
             
-            if(persona != null){
-               persona.setActivo(Boolean.FALSE);
-               personaService.merge(persona);            
-            }
-            llenarPojoPersona(); 
-            llenarPojoPersonaExtranjera(); 
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Editado", msg));
-        } catch (Exception e) {
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
+            telefonoCell.setIdTipoTelefono(tipoTelefono);
+            telefonoCell.setIdPersona(persona);
+            telefonoService.save(telefonoCell);
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Persona! "));
             e.printStackTrace();
-        } finally{
+        }finally{
             telefonoFijo = null;
             telefonoCell = null;
             persona= new Persona();
         }
     } 
     
+        /**
+     * Metodo para eliminar una persona Externa
+     */ 
+    public void eliminarExterno(){
+           String msg ="Persona Eliminada exitosamente!";
+        try{
+            //Borrando la instancia de la persona
+            telefonoService.delete(telefonoFijo);
+            telefonoService.delete(telefonoCell);
+            personaService.delete(persona);
+            init();
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('PersonaDeleteDialog').hide();"); 
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminada!!", msg));
+        }catch(Exception e){
+             tipoTelefono=tipoTelefonoService.getTipoByDesc(FIJO);
+            telefonoFijo.setIdPersona(persona);
+            telefonoFijo.setIdTipoTelefono(tipoTelefono);
+            telefonoService.save(telefonoFijo);
+            
+            tipoTelefono=tipoTelefonoService.getTipoByDesc(CELULAR);
+            telefonoCell.setIdTipoTelefono(tipoTelefono);
+            telefonoCell.setIdPersona(persona);
+            telefonoService.save(telefonoCell);
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Persona! "));
+            e.printStackTrace();
+        }finally{
+            telefonoFijo = null;
+            telefonoCell = null;
+            persona= new Persona();
+        }
+    }
     
     
     /**

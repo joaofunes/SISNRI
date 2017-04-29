@@ -13,7 +13,7 @@
     <ui:define name="content">
         <ui:include src="../persona/crearPersonaExtranjera.xhtml"/>
         <ui:include src="../persona/editPersonaExtranjera.xhtml"/>
-          <ui:include src="../persona/eliminarPersona.xhtml"/>
+          <ui:include src="../persona/eliminarPersonaExterna.xhtml"/>
            <f:metadata>            
             <f:viewAction action="#{personaMB.init()}" />
         </f:metadata> 
@@ -94,7 +94,7 @@
                    <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                        title="Eliminar" value="Eliminar"
-                                       actionListener="#{personaMB.preEditar(item.persona)}"
+                                       actionListener="#{personaMB.preEditarExtranjero(item.persona)}"
                                         oncomplete="PF('PersonaDeleteDialog').show();"
                                        update=":PersonaDeleteDlg"/>
                     </div>
