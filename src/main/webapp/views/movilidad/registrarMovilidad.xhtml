@@ -665,30 +665,7 @@
                        <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.sobreEscribirPersonaEnmovilidad()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                        <p:commandButton value="Cancelar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaMov}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                    </p:confirmDialog> -->
-
-                <!--Dialog persona referente-->
-                <!--   <p:confirmDialog widgetVar="dlgExisteReferente" id="dialogoperref" header="Persona ya existe en el sistema"
-                                    global="true" showEffect="fade" hideEffect="fade">
-                       <f:facet name="message">
-                           <h:outputText value="#{registrarMovilidadMB.msgPersonaRefExiste}" escape="false"/>
-                       </f:facet>
-                       <h:form id="dialogPersonaRefExiste">
-                           <p:panelGrid columns="2">
-                               <h:outputLabel value="Nombre: "/>
-                               <h:outputText value="#{registrarMovilidadMB.personaReftAux.nombrePersona}"/>
-                               <h:outputLabel value="Apellidos: "/>
-                               <h:outputText value="#{registrarMovilidadMB.personaReftAux.apellidoPersona}"/>
-                               <h:outputLabel value="Cargo: "/>
-                               <h:outputText value="#{registrarMovilidadMB.personaReftAux.cargoPersona}"/>
-                               <h:outputLabel value="Institucion: "/>
-                               <h:outputText value="#{registrarMovilidadMB.personaReftAux.idOrganismo.nombreOrganismo}"/>
-                               <h:outputLabel value="Email: "/>
-                               <h:outputText value="#{registrarMovilidadMB.personaReftAux.emailPersona}"/>
-                           </p:panelGrid>
-                       </h:form>
-                       <p:commandButton value="Aceptar" type="submit" action="#{registrarMovilidadMB.sobreEscribirPersonaReferente()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                       <p:commandButton value="Cancelar" type="submit" action="#{registrarMovilidadMB.closeDlgPersonaReft()}" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                   </p:confirmDialog>-->     
+   
 
                 <p:confirmDialog widgetVar="dlgEdicionDocente" id="dialogDocenteUpdate" header="Modificar Persona" message="Ya existe el docente que desea ingresar, ¿Est&aacute; seguro que desea reemplazar los datos?"
                                  global="true" showEffect="fade" hideEffect="fade">
