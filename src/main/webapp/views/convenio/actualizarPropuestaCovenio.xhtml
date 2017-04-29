@@ -93,17 +93,17 @@
                                         <p:column>
                                             <p:commandButton id="btnDesvincularSolicitante" 
                                                              actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
-                                                             value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Interno" />                                               
+                                                             value="Desvincular"   icon="ui-icon-person" title="Desvincular Referente Interno" />                                               
                                         </p:column>
                                         <p:column>
                                             <p:commandButton id="btnEditarSolicitante" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditSolicitante}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.preEditeSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
-                                                             value="Editar"   icon="ui-icon-disk" title="Editar Referente Interno" />                                               
+                                                             value="Editar"   icon="ui-icon-pencil" title="Editar Referente Interno" />                                               
                                         </p:column>
                                         <p:column>                                                                                  
                                             <p:commandButton id="btnNuevoSolicitante" disabled="#{!actualizacionPropuestaConvenioMB.habilitarBotonSaveSolicitante}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.preEditeGuardarSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
-                                                             value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Interno" />                                               
+                                                             value="Nuevo"   icon="ui-icon-plus" title="Nuevo Referente Interno" />                                               
 
                                         </p:column>
 
@@ -235,7 +235,7 @@
                                         <p:column>
                                             <p:commandButton id="btnEditarSolicitante" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditSolicitanteDos}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.actualizarSolicitante()}" process="@form" update="acordion:GroupSolicitante,acordion:Group" 
-                                                             value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Interno" />                                               
+                                                             value="Actualizar"   icon="ui-icon-refresh" title="Actualizar datos Interno" />                                               
                                             <p:commandButton id="btnNuevoSolicitante" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonSaveSolicitanteDos}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.guardarSolicitante}" process="@form" update="acordion:GroupSolicitante,acordion:Group" 
                                                              value="Guardar"   icon="ui-icon-disk" title="Guardar datos Interno" />                                                                                                                                                                                                               
@@ -244,7 +244,7 @@
                                         <p:column>
                                             <p:commandButton rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditSolicitanteDos || actualizacionPropuestaConvenioMB.habilitarBotonSaveSolicitanteDos}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.preCancelarSolicitante()}" process="@this" update="acordion:Group,@form" 
-                                                             value="Cancelar"  id="btnCancelarInterno" icon="ui-icon-disk" title="Cancelar" />                                               
+                                                             value="Cancelar"  id="btnCancelarInterno" icon="ui-icon-cancel" title="Cancelar" />                                               
 
                                         </p:column>
                                     </p:row>
@@ -316,17 +316,17 @@
                                         <p:column>
                                             <p:commandButton id="btnDesvincularInterno"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteInterno()}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
-                                                             value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Interno" />                                               
+                                                             value="Desvincular"   icon="ui-icon-person" title="Desvincular Referente Interno" />                                               
                                         </p:column>
                                         <p:column>
                                             <p:commandButton id="btnEditarInterno" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditInterno}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.preEditeReferenteInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
-                                                             value="Editar"   icon="ui-icon-disk" title="Editar Referente Interno" />                                               
+                                                             value="Editar"   icon="ui-icon-pencil" title="Editar Referente Interno" />                                               
                                         </p:column>
                                         <p:column>                                                                                  
                                             <p:commandButton id="btnNuevoInterno" disabled="#{!actualizacionPropuestaConvenioMB.habilitarBotonSaveInterno}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.preEditeGuardarInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
-                                                             value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Interno" />                                               
+                                                             value="Nuevo"   icon="ui-icon-plus" title="Nuevo Referente Interno" />                                               
 
                                         </p:column>
 
@@ -460,7 +460,7 @@
                                         <p:column>
                                             <p:commandButton id="btnEditarInterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditInternoDos}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.actualizarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno,acordion:grup1" 
-                                                             value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Interno" />                                               
+                                                             value="Actualizar"   icon="ui-icon-refresh" title="Actualizar datos Interno" />                                               
                                             <p:commandButton id="btnNuevoInterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonSaveInternoDos}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.guardarReferenteInterno()}" process="@form" update="acordion:GroupSolicitanteInterno,acordion:grup1" 
                                                              value="Guardar"   icon="ui-icon-disk" title="Guardar datos Interno" />                                                                                                                                                                                                               
@@ -469,7 +469,7 @@
                                         <p:column>
                                             <p:commandButton rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditInternoDos || actualizacionPropuestaConvenioMB.habilitarBotonSaveInternoDos}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.preCancelarInterno}" process="@this" update="acordion:grup1,@form" 
-                                                             value="Cancelar"  id="btnCancelarInterno" icon="ui-icon-disk" title="Cancelar" />                                               
+                                                             value="Cancelar"  id="btnCancelarInterno" icon="ui-icon-cancel" title="Cancelar" />                                               
 
                                         </p:column>
                                     </p:row>
@@ -537,17 +537,17 @@
                                     <p:column>
                                         <p:commandButton id="btnDesvincularExterno" 
                                                          actionListener="#{actualizacionPropuestaConvenioMB.deleteReferenteExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
-                                                         value="Desvincular"   icon="ui-icon-disk" title="Desvincular Referente Externo" />                                               
+                                                         value="Desvincular"   icon="ui-icon-person" title="Desvincular Referente Externo" />                                               
                                     </p:column>
                                     <p:column>
                                         <p:commandButton id="btnEditarExterno" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditExterno}"
                                                          actionListener="#{actualizacionPropuestaConvenioMB.preEditeReferenteExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
-                                                         value="Editar"   icon="ui-icon-disk" title="Editar Referente Externo" />                                               
+                                                         value="Editar"   icon="ui-icon-pencil" title="Editar Referente Externo" />                                               
                                     </p:column>
                                     <p:column>                                                                                  
                                         <p:commandButton id="btnNuevoExterno" disabled="#{!actualizacionPropuestaConvenioMB.habilitarBotonSaveExterno}"
                                                          actionListener="#{actualizacionPropuestaConvenioMB.preEditeGuardarExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
-                                                         value="Nuevo"   icon="ui-icon-disk" title="Nuevo Referente Externo" />                                               
+                                                         value="Nuevo"   icon="ui-icon-plus" title="Nuevo Referente Externo" />                                               
 
                                     </p:column>
 
@@ -662,7 +662,7 @@
                                         <p:column>
                                             <p:commandButton id="btnEditarExterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditExternoDos}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.actualizarReferenteExterno()}" process="@form" update="acordion:GroupSolicitanteExterno,acordion:grup2" 
-                                                             value="Actualizar"   icon="ui-icon-disk" title="Actualizar datos Externos" />                                               
+                                                             value="Actualizar"   icon="ui-icon-refresh" title="Actualizar datos Externos" />                                               
                                             <p:commandButton id="btnNuevoExterno2" rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonSaveExternoDos}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.guardarReferenteExterno()}" process="@form" update="acordion:GroupSolicitanteExterno,acordion:grup2" 
                                                              value="Guardar"   icon="ui-icon-disk" title="Guardar datos Externos" />                                                                                                                                                                                                               
@@ -671,7 +671,7 @@
                                         <p:column>
                                             <p:commandButton rendered="#{actualizacionPropuestaConvenioMB.habilitarBotonEditExternoDos || actualizacionPropuestaConvenioMB.habilitarBotonSaveExternoDos}"
                                                              actionListener="#{actualizacionPropuestaConvenioMB.preCancelarExterno}" process="@this" update="acordion:grup2,@form" 
-                                                             value="Cancelar"  id="btnCancelarExterno" icon="ui-icon-disk" title="Cancelar" />                                               
+                                                             value="Cancelar"  id="btnCancelarExterno" icon="ui-icon-cancel" title="Cancelar" />                                               
 
                                         </p:column>
                                     </p:row>
@@ -733,8 +733,8 @@
                                             <tr align="right"> 
                                                 <td></td>
                                                 <td></td>
-                                                <td><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.actualizarPropuesta()}" process="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" update="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" value="Actualizar"  id="btnGuardar" icon="ui-icon-disk" title="Actualizar Propuesta Convenio" /></td>                                                                             
-                                                <td colspan="3"><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.volver()}" process="@this" update="@this" value="Volver"  id="btnAtras" icon="ui-icon-disk" title="Volver Consulta Convenio" /></td>                                 
+                                                <td><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.actualizarPropuesta()}" process="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" update="@form,acordion:GroupSolicitanteExterno,acordion:GroupSolicitanteInterno,acordion:GroupSolicitante" value="Actualizar"  id="btnGuardar" icon="ui-icon-refresh" title="Actualizar Propuesta Convenio" /></td>                                                                             
+                                                <td colspan="3"><p:commandButton  actionListener="#{actualizacionPropuestaConvenioMB.volver()}" process="@this" update="@this" value="Volver"  id="btnAtras" icon=" ui-icon-arrowreturnthick-1-w" title="Volver Consulta Convenio" /></td>                                 
                                             </tr>
                                         </tfoot>
                                     </table>  
