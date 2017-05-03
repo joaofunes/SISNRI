@@ -38,7 +38,7 @@ public class SsUsuarios implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_USUARIO", nullable = false)
     private Integer idUsuario;
-    @Size(max = 15)
+    @Size(max = 60)
     @Column(name = "CODIGO_USUARIO", length = 60)
     private String codigoUsuario;
     @Size(max = 100)
