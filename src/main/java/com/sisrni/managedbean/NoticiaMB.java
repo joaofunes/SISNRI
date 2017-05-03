@@ -103,7 +103,7 @@ public class NoticiaMB implements Serializable {
         eliminar = false;
         noticiaPopUp = new Noticia();
         renderFbButton = Boolean.FALSE;
-        publicarEnFacebook = Boolean.TRUE;
+        publicarEnFacebook = Boolean.FALSE;
         fileForFb = null;
         fileToPublish = null;
 

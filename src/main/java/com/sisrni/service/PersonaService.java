@@ -40,6 +40,10 @@ public class PersonaService extends GenericService<Persona, Integer> {
         return personaDao.getReferenteInternoByEmail(email);
     }
 
+    public List<Persona> getBecarioByEmail(String email) {
+        return personaDao.getBecarioByEmail(email);
+    }
+
     public List<Persona> getReferenteExternoByName(String query) {
         return personaDao.getReferenteExternoByName(query);
     }
@@ -63,7 +67,7 @@ public class PersonaService extends GenericService<Persona, Integer> {
     public List<Persona> getPersonaList(boolean extranjero) {
         return personaDao.getPersonaList(extranjero);
     }
-    
+
     public List<Persona> getPersonaList2(boolean extranjero) {
         return personaDao.getPersonaList2(extranjero);
     }
@@ -71,11 +75,10 @@ public class PersonaService extends GenericService<Persona, Integer> {
     public Persona getPersonaByDui(String dui) {
         return personaDao.getPersonaByDui(dui);
     }
-   
-     public Persona getPersonaByEmail(String email) {
+
+    public Persona getPersonaByEmail(String email) {
         return personaDao.getPersonaByEmail(email);
     }
-    
 
     public Persona getPersonaByPasaporte(String pasaporte) {
         return personaDao.getPersonaByPasaporte(pasaporte);
@@ -108,11 +111,11 @@ public class PersonaService extends GenericService<Persona, Integer> {
     public List<Persona> getPersonaMovilidadReferenteByEmail(String email) {
         return personaDao.getPersonaMovilidadReferenteByEmail(email);
     }
-    
+
     public List<Persona> getPersonaMovilidadEntranteByName(String query) {
         return personaDao.getPersonaMovilidadEntranteByName(query);
     }
-    
+
     public List<Persona> getPersonaMovilidadEntranteByEmail(String email) {
         return personaDao.getPersonaMovilidadEntranteByEmail(email);
     }
@@ -120,12 +123,12 @@ public class PersonaService extends GenericService<Persona, Integer> {
     public Persona existePersona(String name, String lastName, String email) {
         return personaDao.existePersona(name, lastName, email);
     }
-    
+
     public Persona existePersonaByMail(String email) {
         return personaDao.existePersonaByMail(email);
     }
-    
-     public List<Persona> getAllByIdDesc(){
+
+    public List<Persona> getAllByIdDesc() {
         return personaDao.getAllByIdDesc();
-    } 
+    }
 }

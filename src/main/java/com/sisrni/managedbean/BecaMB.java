@@ -1025,7 +1025,7 @@ public class BecaMB implements Serializable {
     public void buscarBecario(String valior) {
         try {
             if (!valior.equalsIgnoreCase("")) {
-                Persona aux = personaService.getReferenteInternoByEmail(valior).get(0);
+                Persona aux = personaService.getBecarioByEmail(valior).get(0);
                 if (aux != null) {
                     becario = aux;
                     telefonoFijoBecario = getTelefono(becario.getTelefonoList(), FIJO);

@@ -38,7 +38,7 @@
 			</rectangle>
 			<elementGroup>
 				<staticText>
-					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="110" y="0" width="418" height="36" forecolor="#666666"/>
+					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="132" y="0" width="396" height="36" forecolor="#666666"/>
 					<textElement textAlignment="Center" verticalAlignment="Top">
 						<font fontName="Arial" size="29" isBold="true" isUnderline="false" isStrikeThrough="false"/>
 						<paragraph rightIndent="10"/>
@@ -46,7 +46,7 @@
 					<text><![CDATA[ Universidad de El Salvador]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="108" y="36" width="418" height="22" forecolor="#666666"/>
+					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="132" y="36" width="396" height="22" forecolor="#666666"/>
 					<textElement textAlignment="Center">
 						<font size="14" isBold="true" isUnderline="false"/>
 						<paragraph rightIndent="1" spacingAfter="20" tabStopWidth="50"/>
@@ -77,9 +77,6 @@
 				<reportElement uuid="90eb5825-6963-4859-8499-875af0f38ccd" x="10" y="2" width="122" height="54"/>
 				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
 			</image>
-			<line>
-				<reportElement uuid="b5f4959f-b41e-4d0a-b293-6ae17689aef1" x="649" y="54" width="7" height="56" forecolor="#999999"/>
-			</line>
 		</band>
 	</title>
 	<pageHeader>
