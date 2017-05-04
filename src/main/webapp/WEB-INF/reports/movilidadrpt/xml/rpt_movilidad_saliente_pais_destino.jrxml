@@ -20,22 +20,7 @@
 	</background>
 	<title>
 		<band height="139" splitType="Stretch">
-			<elementGroup>
-				<staticText>
-					<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="65" y="0" width="398" height="32"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Arial" size="24" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Universidad de El Salvador]]></text>
-				</staticText>
-				<staticText>
-					<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="65" y="32" width="398" height="20"/>
-					<textElement textAlignment="Center">
-						<font size="14"/>
-					</textElement>
-					<text><![CDATA[Secretaria de Relaciones Nacionales e Internacionales]]></text>
-				</staticText>
-			</elementGroup>
+			<elementGroup/>
 			<staticText>
 				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="68" width="528" height="25" forecolor="#5B63B1"/>
 				<textElement textAlignment="Center">
@@ -53,14 +38,6 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Fecha de creación: "]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="0" y="0" width="65" height="65"/>
-				<imageExpression><![CDATA[$P{uesImageUrl}]]></imageExpression>
-			</image>
-			<image>
-				<reportElement uuid="3513898a-83fd-4bfd-8d8f-383394359e39" x="463" y="0" width="65" height="65"/>
-				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="93" width="528" height="25" forecolor="#5B63B1"/>
 				<textElement textAlignment="Center">
@@ -68,6 +45,31 @@
 				</textElement>
 				<text><![CDATA[según  país destino]]></text>
 			</staticText>
+			<staticText>
+				<reportElement uuid="35fe3571-26c4-408b-9638-78b9c9253400" mode="Opaque" x="0" y="0" width="528" height="68" backcolor="#CCCCCC"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="135" y="42" width="390" height="22" forecolor="#666666"/>
+				<textElement>
+					<font size="14" isBold="true" isUnderline="false"/>
+					<paragraph rightIndent="1" spacingAfter="20" tabStopWidth="50"/>
+				</textElement>
+				<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="135" y="6" width="390" height="36" forecolor="#666666"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="26" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph rightIndent="10"/>
+				</textElement>
+				<text><![CDATA[ Universidad de El Salvador]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="90eb5825-6963-4859-8499-875af0f38ccd" x="8" y="6" width="122" height="54"/>
+				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
