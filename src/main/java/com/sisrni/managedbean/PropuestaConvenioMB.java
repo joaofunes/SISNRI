@@ -24,6 +24,7 @@ import com.sisrni.model.TipoPropuestaConvenio;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.security.AppUserDetails;
+import com.sisrni.service.DocumentoService;
 import com.sisrni.service.EscuelaDepartamentoService;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.FacultadService;
@@ -136,6 +137,10 @@ public class PropuestaConvenioMB implements Serializable {
     @Autowired
     @Qualifier(value = "escuelaDepartamentoService")
     private EscuelaDepartamentoService escuelaDepartamentoService;
+    
+    @Autowired
+    @Qualifier(value = "documentoService")
+    private DocumentoService documentoService;    
 
     @Autowired
     FreeMarkerMailService mailService;
@@ -718,7 +723,7 @@ public class PropuestaConvenioMB implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
     }
-
+    
     /**
      * Metodo para envio de correo informativo de creacion de propuesta
      */

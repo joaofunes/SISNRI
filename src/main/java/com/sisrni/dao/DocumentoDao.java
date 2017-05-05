@@ -78,4 +78,19 @@ public class DocumentoDao extends GenericDao<Documento, Integer> {
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
         q.executeUpdate();
     }
+    
+     public int deleteDocumentosPropuestas(int propuesta){
+        try {
+            
+            String sql="DELETE FROM DOCUMENTO WHERE ID_PROPUESTA ="+propuesta;
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+            getSessionFactory().getCurrentSession().flush();
+            getSessionFactory().getCurrentSession().clear();
+            int executeUpdate = q.executeUpdate();
+            return executeUpdate;
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return 0;
+    }
 }

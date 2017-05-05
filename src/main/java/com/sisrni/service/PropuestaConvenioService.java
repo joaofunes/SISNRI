@@ -105,4 +105,8 @@ public class PropuestaConvenioService extends GenericService<PropuestaConvenio, 
     public List<PropuestaConvenio> getConvenioVigentes() {
         return propuestaConvenioDao.getConvenioVigentes();
     }
+    
+     public int deletePropuestas(int propuesta){
+         return propuestaConvenioDao.deletePropuestas(propuesta);
+     }
 }

@@ -69,13 +69,12 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
         }
         return null;
     }
-    
-    
+
     /**
-     * listdo convenio marcos 
-     * @return 
+     * listdo convenio marcos
+     *
+     * @return
      */
-    
     public List<PropuestaConvenio> getConveniosMarcos() {
         try {
             String sql = "SELECT PRO.ID_PROPUESTA idPropuesta,NOMBRE_PROPUESTA nombrePropuesta,FINALIDAD_PROPUESTA finalidadPropuesta,VIGENCIA vigencia,ID_TIPO_PROPUESTA_CONVENIO\n"
@@ -237,7 +236,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                 + "WHERE TP_PRS.NOMBRE_TIPO_PERSONA='REFERENTE EXTERNO') TB_EXTERNO\n"
                 + "ON TB_SOLICITANTE.PROPUESTA=TB_EXTERNO.PROPUESTA) TB_PERSONAS\n"
                 + "ON TB_CONVENIO.ID_PROPUESTA=TB_PERSONAS.PROPUESTA\n"
-                + "WHERE ID_SOLICITANTE="+idSolicitante;
+                + "WHERE ID_SOLICITANTE=" + idSolicitante;
 
         try {
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
@@ -611,7 +610,6 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
     }
 
     // conteo de todos los tipos de propuestas
-
     public List<RptConteoConveniosPorTipoPojo> conteoPropuestaConvenioByTipoPropuesta(Integer desde, Integer hasta) {
         try {
             String sql = "select tipo.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio, sum(pc.ID_PROPUESTA) as suma from propuesta_convenio pc inner join tipo_propuesta_convenio tipo on (pc.ID_TIPO_PROPUESTA_CONVENIO=ID_TIPO_PROPUESTA) WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
@@ -628,7 +626,6 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
     }
 
     // retorna los estados que tiene cada convenio o propuesta
-
     public List<RptBitacoraEstadosPojo> estadosPropuestaConvenioBitacora(Integer desde, Integer hasta) {
         try {
             String sql = "SELECT pc.NOMBRE_PROPUESTA AS Nombre,\n"
@@ -663,5 +660,19 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
             e.printStackTrace();
         }
         return null;
+    }
+
+    public int deletePropuestas(int propuesta) {
+        try {
+            String sql = "DELETE FROM DOCUMENTO WHERE ID_PROPUESTA =" + propuesta;
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+            getSessionFactory().getCurrentSession().flush();
+            getSessionFactory().getCurrentSession().clear();
+            int executeUpdate = q.executeUpdate();
+            return executeUpdate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

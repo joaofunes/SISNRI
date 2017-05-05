@@ -60,4 +60,19 @@ public class PersonaPropuestaDao extends GenericDao<PersonaPropuesta, Integer> {
         return 0;
     }
     
+    
+    public int deleteByPersonasPropuestas(int propuesta){
+        try {
+            
+            String sql="DELETE FROM PERSONA_PROPUESTA WHERE ID_PROPUESTA="+propuesta;
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+            getSessionFactory().getCurrentSession().flush();
+            getSessionFactory().getCurrentSession().clear();
+            int executeUpdate = q.executeUpdate();
+            return executeUpdate;
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return 0;
+    }
 }

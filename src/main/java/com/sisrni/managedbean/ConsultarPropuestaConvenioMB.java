@@ -11,8 +11,10 @@ import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.SsRoles;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.security.AppUserDetails;
+import com.sisrni.service.DocumentoService;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.FreeMarkerMailService;
+import com.sisrni.service.PersonaPropuestaService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
@@ -79,6 +81,14 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
     @Autowired
     @Qualifier(value = "propuestaEstadoService")
     private PropuestaEstadoService propuestaEstadoService;
+    
+    @Autowired
+    @Qualifier(value = "documentoService")
+    private DocumentoService documentoService;    
+    
+    @Autowired
+    @Qualifier(value = "personaPropuestaService")
+    private PersonaPropuestaService personaPropuestaService;
 
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
@@ -375,6 +385,44 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+     /**
+     * metodo para pre eliminar convenio
+     * @param pojo
+     */
+    public void preEliminarConvenio(PojoPropuestaConvenio pojo){
+        try {
+              pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
+            
+        } catch (Exception e) {
+            String message = "Error Seleccinando Convenio : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        }
+    }
+    
+    /***
+     * metodo para eliminacion de una propuesta     
+     */
+    public void eliminarConvenio(){
+        try {
+            //eliminacion de personas asociadas a la propuesta
+            personaPropuestaService.deleteByPersonasPropuestas(propuestaConvenio.getIdPropuesta());
+            
+            //eliminar estado de la propuesta
+            propuestaEstadoService.deletePropuestaEstado(propuestaConvenio.getIdPropuesta());
+            
+            //eliminar documento
+            documentoService.deleteDocumentosPropuestas(propuestaConvenio.getIdPropuesta());
+       
+            //eliminar propuesta de convenio
+            propuestaConvenioService.deletePropuestas(propuestaConvenio.getIdPropuesta());
+            
+        } catch (Exception e) {
+             String message = "Error Eliminando Propuesta : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
     }
 

@@ -54,4 +54,10 @@ public class DocumentoService extends GenericService<Documento, Integer> {
      public void eliminarDocumentosMovilidad(Movilidad movilidad){
          documentoDao.eliminarDocumentosMovilidad(movilidad);
      }
+     
+     public int deleteDocumentosPropuestas(int propuesta){
+         return documentoDao.deleteDocumentosPropuestas(propuesta);
+     }
+     
+     
 }

@@ -21,19 +21,22 @@ public class PropuestaEstadoService extends GenericService<PropuestaEstado, Inte
 
     @Autowired
     private PropuestaEstadoDao propuestaEstadoDao;
-    
+
     @Override
     public GenericDao<PropuestaEstado, Integer> getDao() {
-       return propuestaEstadoDao;
+        return propuestaEstadoDao;
     }
-    
-    
-    public PropuestaEstado getPrpuestaEstadoByID(int id){
-      return propuestaEstadoDao.getPrpuestaEstadoByID(id);
+
+    public PropuestaEstado getPrpuestaEstadoByID(int id) {
+        return propuestaEstadoDao.getPrpuestaEstadoByID(id);
     }
-    
-     public int updatePropuestaEstado(int idPropuesta,int idEstado){
-       return propuestaEstadoDao.updatePropuestaEstado(idPropuesta, idEstado);
-     }
-    
+
+    public int updatePropuestaEstado(int idPropuesta, int idEstado) {
+        return propuestaEstadoDao.updatePropuestaEstado(idPropuesta, idEstado);
+    }
+
+    public int deletePropuestaEstado(int idPropuesta) {
+        return propuestaEstadoDao.deletePropuestaEstado(idPropuesta);
+    }
+
 }
