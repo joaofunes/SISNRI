@@ -377,9 +377,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             templateData.put("estadoTemp", estadoTemp.getNombreEstado()); // estado anterior
 
             for (PersonaPropuesta p : propuestaConvenio.getPersonaPropuestaList()) {
-                templateData.put("setToMail", p.getPersona().getEmailPersona());
-
-                //mailService.sendEmail(propuestaConvenio, "Creacion de propuesta de convenio", "joao.hfunes@gmail.com", "propuesta_convenio_mailTemplat.txt");
+                templateData.put("setToMail", p.getPersona().getEmailPersona());                
                 mailService.sendEmailMap(templateData);
             }
 
@@ -395,7 +393,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
     public void preEliminarConvenio(PojoPropuestaConvenio pojo){
         try {
               pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
-            propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
+              propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
             
         } catch (Exception e) {
             String message = "Error Seleccinando Convenio : " + e.getMessage();
@@ -419,6 +417,8 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
        
             //eliminar propuesta de convenio
             propuestaConvenioService.deletePropuestas(propuestaConvenio.getIdPropuesta());
+            
+            inicializador();
             
         } catch (Exception e) {
              String message = "Error Eliminando Propuesta : " + e.getMessage();

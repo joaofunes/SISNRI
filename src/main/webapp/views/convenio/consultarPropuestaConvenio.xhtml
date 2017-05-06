@@ -71,6 +71,14 @@
                                        oncomplete="PF('dlgInfoConvenio').show();"/>
 
                     </div> 
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-close"
+                                       title="Eliminar Propuesta" value="Eliminar Propuesta"
+                                       actionListener="#{consultarPropuestaConvenioMB.preEliminarConvenio(pconvenios)}"
+                                       update=":idEliminarPropuesta"
+                                       oncomplete="PF('deleteChangeDlg').show();"/>
+
+                    </div> 
                 </p:column>
             </p:dataTable>
         </h:form>   
@@ -235,7 +243,7 @@
         </p:dialog>        
 
 
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea eliminar convenio?" header="Eliminar Convenio"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea cambiar estado de convenio?" header="Cambiar estado de Convenio"  global="true">
             <h:form id="idEliminacion">              
                 <br/>
                 <br/>
@@ -243,11 +251,24 @@
                 <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_ESTADO}" />
                 <br/>
                 <br/>
-                <h:outputText value="Vigencia: "  style="font-weight:bold" />
+                <h:outputText value=": "  style="font-weight:bold" />
                 <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.VIGENCIA}" />             
             </h:form>                
             <p:separator />
             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.cambiarEstadoConvenio()}" process="@this" update=":formAdmin"/>
+            <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        
+        
+        <p:confirmDialog widgetVar="deleteChangeDlg" message="Esta seguro que desea eliminar propuesta?" header="Eliminar propuesta"  global="true">
+            <h:form id="idEliminarPropuesta">                              
+                <br/>
+                <h:outputText value="Nombre Propuesta: "  style="font-weight:bold" />
+                <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
+                <br/>                
+            </h:form>                
+            <p:separator />
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.eliminarConvenio()}" process="@this" update=":formAdmin" onclick="PF('deleteChangeDlg').hide();"/>
             <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 
