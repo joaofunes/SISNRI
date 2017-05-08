@@ -13,7 +13,10 @@ import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.Facultad;
+import com.sisrni.model.PersonaMovilidad;
 import com.sisrni.model.PersonaPropuesta;
+import com.sisrni.model.PersonaProyecto;
+import com.sisrni.model.PersonaProyectoPK;
 import com.sisrni.model.SsUsuarios;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
@@ -24,6 +27,9 @@ import com.sisrni.service.FacultadService;
 import com.sisrni.service.FreeMarkerMailService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PaisService;
+import com.sisrni.service.PersonaMovilidadService;
+import com.sisrni.service.PersonaPropuestaService;
+import com.sisrni.service.PersonaProyectoService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.SsUsuariosService;
 import com.sisrni.service.TelefonoService;
@@ -103,6 +109,10 @@ public class PersonaMB implements Serializable{
     //Mascara de telefonos de personas externas
     private String codigoPais;
     private String mascaraTelefono;
+    public PersonaMovilidad personaMovilidad;
+    public PersonaProyectoPK personaProyecto;
+    public PersonaPropuesta personaPropuesta;
+
     
      
     @Autowired
@@ -148,6 +158,15 @@ public class PersonaMB implements Serializable{
     @Autowired
     private PaisService paisService;
     
+   @Autowired
+   private PersonaMovilidadService personaMovilidadService;
+    
+   @Autowired
+   private PersonaProyectoService personaProyectoService;
+   
+   @Autowired
+   private PersonaPropuestaService personaPropuestaService;
+    
     //declaracion de listas
     @PostConstruct
     public void init() {
@@ -163,6 +182,9 @@ public class PersonaMB implements Serializable{
             telefonoFijo = new Telefono();
             telefonoCell = new Telefono();
             personaFacultadGenerico = new Persona();
+            personaMovilidad = new PersonaMovilidad();
+            personaProyecto = new PersonaProyectoPK();
+            personaPropuesta = new PersonaPropuesta();
             facultadDeReferente = "";
             clave = "";
             codigo = "";
@@ -524,6 +546,58 @@ public class PersonaMB implements Serializable{
             e.printStackTrace();
         }
     } 
+    
+    /**
+     * Metodo  de Pre- borrado, que obtiene una instancia de la Entity a Borrar
+     * y despliega un 'p:dialog' donde se solicita la confirmacion de la 
+     * operacion de borrado
+     * @param persona
+     */
+    public void preBorradoPersona(Persona persona){
+    try {
+                this.persona = persona;
+             RequestContext context = RequestContext.getCurrentInstance();              
+             //context.execute("PF('dataChangeDlg').show();");
+         } catch (Exception e) {
+         }
+    }
+    
+    /**
+     * Metodo que borra una instancia de 'Persona' de la Base de datos
+     */
+    public void borrarPersona(){ 
+        boolean eliminar = false;
+        String msg ="Persona Eliminada Exitosamente!";
+            personaMovilidad = new PersonaMovilidad();
+            personaProyecto = new PersonaProyectoPK();
+            personaPropuesta = new PersonaPropuesta();
+        try{
+            personaMovilidad = personaMovilidadService.getPersonaMovilidadById(persona.getIdPersona());
+            if(personaMovilidad==null){
+                personaProyecto = personaProyectoService.getPersonaProyectoById2(persona.getIdPersona());
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"1!!", "Persona PMovilidad"));
+                if(personaProyecto==null){
+                    personaPropuesta = personaPropuestaService.getPersonaPropuestaById(persona.getIdPersona());
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"2!!", "Persona Proyecto"));
+                    if(personaPropuesta==null){
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"3!!", "Persona Propuesta")); 
+                          //Borrando la instancia de persona
+                       // personaService.delete(persona);
+                        init();
+                        RequestContext context = RequestContext.getCurrentInstance();
+                        //context.execute("PF('PersonaDeleteDialog').hide();"); 
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
+                    }
+                 }
+            }
+          
+        }catch(Exception e){
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Persona!"));
+            e.printStackTrace();
+        }
+        
+        
+    }
         /**
      * Metodo que se encarga de limpiar el formulario de creacion y 
      * actualizacion de Ciudad

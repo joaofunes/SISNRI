@@ -27,4 +27,16 @@ public class PersonaMovilidadDao extends GenericDao<PersonaMovilidad, Integer>{
         
     }
     
+        
+        public PersonaMovilidad getPersonaMovilidadById(int persona){
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PersonaMovilidad p WHERE p.persona=:persona");
+            q.setParameter("persona", persona);
+            return (PersonaMovilidad) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();        
+        }
+     return null;
+    }
+    
 }

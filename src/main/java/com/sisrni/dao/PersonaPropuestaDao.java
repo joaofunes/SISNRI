@@ -75,4 +75,28 @@ public class PersonaPropuestaDao extends GenericDao<PersonaPropuesta, Integer> {
         }
         return 0;
     }
+    
+    
+        public PersonaPropuesta getPersonaPropuestaById2(int persona){
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PersonaPropuesta p WHERE p.idPersona=:persona");
+            q.setParameter("persona", persona);
+            return (PersonaPropuesta) q.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();        
+        }
+     return null;
+    }
+        
+          public PersonaPropuesta getPersonaPropuestaById(int persona){
+        try {
+            
+            String sql="SELECT * FROM PERSONA_PROPUESTA WHERE ID_PERSONA ="+persona;
+            Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+             return (PersonaPropuesta) q.uniqueResult();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return null;
+    }
 }

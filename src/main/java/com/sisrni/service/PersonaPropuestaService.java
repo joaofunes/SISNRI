@@ -44,4 +44,8 @@ public class PersonaPropuestaService extends GenericService<PersonaPropuesta, In
        return personaPropuestaDao.deleteByPersonasPropuestas(propuesta);
      }
      
+        public PersonaPropuesta getPersonaPropuestaById(int persona){
+        return personaPropuestaDao.getPersonaPropuestaById(persona);
+     }
+     
 }

@@ -45,7 +45,7 @@
                             <p:outputLabel id="email" value="#{personaMB.persona.emailPersona}"/>                                                           
                         </p:column>    
 
-                        <p:column>  
+<!--                        <p:column>  
                             <p:outputLabel for="idTelefonoCellEx" value="Tel&eacute;no Celular" />
                         </p:column>                                         
                         <p:column> 
@@ -56,7 +56,7 @@
                         </p:column>                                         
                         <p:column> 
                             <p:outputLabel id="idTelefonoFijoEx" value="#{personaMB.telefonoCell.numeroTelefono}" />                                               
-                        </p:column>                               
+                        </p:column>                               -->
                         
                          <p:column>
                             <p:outputLabel for="idCargo" value="Cargo" />
@@ -80,7 +80,7 @@
 
                         <p:column> 
                              <p:commandButton value="Cancelar" id="idCerrar" process="@this" icon="ui-icon-cancel" immediate="true" onclick="PF('PersonaDeleteDialog').close();" />
-                            <p:commandButton value="Eliminar" id="idGuardarPersona" actionListener="#{personaMB.eliminar()}" process="@form" update="@form" icon="ui-icon-close"/>                        
+                             <p:commandButton value="Eliminar" id="idGuardarPersona" actionListener="#{personaMB.borrarPersona()}" process="@form" update="@form" icon="ui-icon-close"/>                        
                         </p:column>
 
 

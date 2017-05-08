@@ -26,4 +26,8 @@ public class PersonaMovilidadService extends GenericService<PersonaMovilidad, In
         personamovilidadDao.eliminarIntemediaPersonaMovilidad(mov);
     }
     
+      public PersonaMovilidad getPersonaMovilidadById(int persona){
+        return personamovilidadDao.getPersonaMovilidadById(persona);
+     }
+    
 }
