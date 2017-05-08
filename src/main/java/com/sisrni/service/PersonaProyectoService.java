@@ -17,25 +17,27 @@ import org.springframework.stereotype.Service;
  *
  * @author Joao
  */
-
 @Service(value = "personaproyectoService")
 public class PersonaProyectoService extends GenericService<PersonaProyecto, Integer> {
 
     @Autowired
     private PersonaProyectoDao personaproyectoDao;
+
     @Override
     public GenericDao<PersonaProyecto, Integer> getDao() {
-       return personaproyectoDao;
+        return personaproyectoDao;
     }
-    
-    public int updatePersonaProyecto(int persona, int proyecto,int tipoPersona){
+
+    public int updatePersonaProyecto(int persona, int proyecto, int tipoPersona) {
         return personaproyectoDao.updatePersonaProyecto(persona, proyecto, tipoPersona);
     }
-    
-    
-  public PersonaProyectoPK getPersonaProyectoById2(int persona){
+
+    public PersonaProyectoPK getPersonaProyectoById2(int persona) {
         return personaproyectoDao.getPersonaProyectoById2(persona);
-     }
-  
-  
+    }
+
+    public Integer getCount(Integer persona) {
+        return personaproyectoDao.getCount(persona);
+    }
+
 }
