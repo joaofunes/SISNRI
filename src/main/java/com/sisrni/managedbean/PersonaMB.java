@@ -13,10 +13,6 @@ import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.EscuelaDepartamento;
 import com.sisrni.model.Facultad;
-import com.sisrni.model.PersonaMovilidad;
-import com.sisrni.model.PersonaPropuesta;
-import com.sisrni.model.PersonaProyecto;
-import com.sisrni.model.PersonaProyectoPK;
 import com.sisrni.model.SsUsuarios;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
@@ -109,10 +105,6 @@ public class PersonaMB implements Serializable{
     //Mascara de telefonos de personas externas
     private String codigoPais;
     private String mascaraTelefono;
-    public PersonaMovilidad personaMovilidad;
-    public PersonaProyectoPK personaProyecto;
-    public PersonaPropuesta personaPropuesta;
-
     
      
     @Autowired
@@ -182,9 +174,6 @@ public class PersonaMB implements Serializable{
             telefonoFijo = new Telefono();
             telefonoCell = new Telefono();
             personaFacultadGenerico = new Persona();
-            personaMovilidad = new PersonaMovilidad();
-            personaProyecto = new PersonaProyectoPK();
-            personaPropuesta = new PersonaPropuesta();
             facultadDeReferente = "";
             clave = "";
             codigo = "";
@@ -566,31 +555,84 @@ public class PersonaMB implements Serializable{
      * Metodo que borra una instancia de 'Persona' de la Base de datos
      */
     public void borrarPersona(){ 
-        boolean eliminar = false;
+        Integer movilidad = 0;
+        Integer proyecto = 0;
+        Integer propuesta = 0;
+        usuario = new SsUsuarios();
         String msg ="Persona Eliminada Exitosamente!";
-            personaMovilidad = new PersonaMovilidad();
-            personaProyecto = new PersonaProyectoPK();
-            personaPropuesta = new PersonaPropuesta();
         try{
-            personaMovilidad = personaMovilidadService.getPersonaMovilidadById(persona.getIdPersona());
-            if(personaMovilidad==null){
-                personaProyecto = personaProyectoService.getPersonaProyectoById2(persona.getIdPersona());
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"1!!", "Persona PMovilidad"));
-                if(personaProyecto==null){
-                    personaPropuesta = personaPropuestaService.getPersonaPropuestaById(persona.getIdPersona());
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"2!!", "Persona Proyecto"));
-                    if(personaPropuesta==null){
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"3!!", "Persona Propuesta")); 
+            movilidad = personaMovilidadService.getCount(persona.getIdPersona());
+            if(movilidad==0){
+                proyecto = personaProyectoService.getCount(persona.getIdPersona());
+                if(proyecto==0){
+                    propuesta = personaPropuestaService.getCount(persona.getIdPersona());
+                    if(propuesta==0){
+                         usuario = ssUsuariosService.findByIdPersona(persona.getIdPersona());
+                         if(usuario==null){
                           //Borrando la instancia de persona
-                       // personaService.delete(persona);
+                        personaService.delete(persona);
                         init();
                         RequestContext context = RequestContext.getCurrentInstance();
-                        //context.execute("PF('PersonaDeleteDialog').hide();"); 
+                        context.execute("PF('PersonaDeleteDialog').hide();"); 
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("List.xhtml");
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
-                    }
-                 }
-            }
-          
+                         }else{
+                      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "La persona no se puede eliminar porque esta vinculada a un Usuario"));
+                     }
+                   }else{
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "La persona no se puede eliminar porque esta vinculada a un Convenio"));
+                  }
+                 }else{
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "La persona no se puede eliminar porque esta vinculada a un Proyecto"));
+                  }
+            }  else{
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "La persona no se puede eliminar porque esta vinculada a una Movilidad"));
+                  }
+        }catch(Exception e){
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Persona!"));
+            e.printStackTrace();
+        }
+        
+        
+    }
+    
+    /**
+     * Metodo que borra una instancia de 'Persona Externa' de la Base de datos
+     */
+    public void borrarPersonaExterna(){ 
+        Integer movilidad = 0;
+        Integer proyecto = 0;
+        Integer propuesta = 0;
+        usuario = new SsUsuarios();
+        String msg ="Persona Eliminada Exitosamente!";
+        try{
+            movilidad = personaMovilidadService.getCount(persona.getIdPersona());
+            if(movilidad==0){
+                proyecto = personaProyectoService.getCount(persona.getIdPersona());
+                if(proyecto==0){
+                    propuesta = personaPropuestaService.getCount(persona.getIdPersona());
+                    if(propuesta==0){
+                         usuario = ssUsuariosService.findByIdPersona(persona.getIdPersona());
+                         if(usuario==null){
+                          //Borrando la instancia de persona
+                        personaService.delete(persona);
+                        init();
+                        RequestContext context = RequestContext.getCurrentInstance();
+                        context.execute("PF('PersonaDeleteDialog').hide();"); 
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("ListExtranjera.xhtml");
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Eliminado!!", msg));
+                         }else{
+                      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "La persona no se puede eliminar porque esta vinculada a un Usuario"));
+                     }
+                   }else{
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "La persona no se puede eliminar porque esta vinculada a un Convenio"));
+                  }
+                 }else{
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "La persona no se puede eliminar porque esta vinculada a un Proyecto"));
+                  }
+            }  else{
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error!!", "La persona no se puede eliminar porque esta vinculada a una Movilidad"));
+                  }
         }catch(Exception e){
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"ERROR!!", "Error al Eliminar, verifique que no existan otros elementos vinculados a este registro de Persona!"));
             e.printStackTrace();
@@ -610,6 +652,7 @@ public class PersonaMB implements Serializable{
         RequestContext.getCurrentInstance().reset(":formNewPersona");
         RequestContext context = RequestContext.getCurrentInstance();    
         context.execute("PF('PersonaEditDialog').hide()");
+        context.execute("PF('PersonaDeleteDialog').hide()"); 
          //if(actualizar)
         JsfUtil.addSuccessMessage(msg);
         //FacesContext.getCurrentInstance().getExternalContext().redirect("List.xhtml");

@@ -25,9 +25,7 @@ public class PersonaMovilidadService extends GenericService<PersonaMovilidad, In
     public void eliminarIntemediaPersonaMovilidad(Movilidad mov){
         personamovilidadDao.eliminarIntemediaPersonaMovilidad(mov);
     }
-    
-      public PersonaMovilidad getPersonaMovilidadById(int persona){
-        return personamovilidadDao.getPersonaMovilidadById(persona);
-     }
-    
+    public Integer getCount(Integer persona) {
+        return personamovilidadDao.getCount(persona);
+    }
 }

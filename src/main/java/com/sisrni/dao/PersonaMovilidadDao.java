@@ -26,17 +26,17 @@ public class PersonaMovilidadDao extends GenericDao<PersonaMovilidad, Integer>{
         }
         
     }
-    
-        
-        public PersonaMovilidad getPersonaMovilidadById(int persona){
+           
+    public Integer getCount(Integer persona) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PersonaMovilidad p WHERE p.persona=:persona");
-            q.setParameter("persona", persona);
-            return (PersonaMovilidad) q.uniqueResult();
+            String query = "Select p From PersonaMovilidad p where p.personaMovilidadPK.idPersona="+ persona;
+            Query q = getSessionFactory().getCurrentSession().createQuery(query);
+            return q.list().size();
+
         } catch (Exception e) {
-            e.printStackTrace();        
+            e.printStackTrace();
         }
-     return null;
+        return null;
     }
     
 }

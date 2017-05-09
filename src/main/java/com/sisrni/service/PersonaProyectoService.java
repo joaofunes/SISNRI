@@ -32,10 +32,6 @@ public class PersonaProyectoService extends GenericService<PersonaProyecto, Inte
         return personaproyectoDao.updatePersonaProyecto(persona, proyecto, tipoPersona);
     }
 
-    public PersonaProyectoPK getPersonaProyectoById2(int persona) {
-        return personaproyectoDao.getPersonaProyectoById2(persona);
-    }
-
     public Integer getCount(Integer persona) {
         return personaproyectoDao.getCount(persona);
     }

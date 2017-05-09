@@ -34,7 +34,7 @@
         <p:panel>
             
 
-             <p:dataTable  value="#{personaMB.listPojoPersonaExtranjera}" var="item" paginator="true" rows="5"
+             <p:dataTable  value="#{personaMB.listPojoPersonaExtranjera}" var="item" paginator="true" rows="10"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="5,10,15"  
                          
@@ -94,7 +94,7 @@
                    <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-closethick"
                                        title="Eliminar" value="Eliminar"
-                                       actionListener="#{personaMB.preEditarExtranjero(item.persona)}"
+                                       actionListener="#{personaMB.preBorradoPersona(item.persona)}"
                                         oncomplete="PF('PersonaDeleteDialog').show();"
                                        update=":PersonaDeleteDlg"/>
                     </div>

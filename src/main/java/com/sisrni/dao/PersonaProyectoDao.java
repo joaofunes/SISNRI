@@ -31,29 +31,7 @@ public class PersonaProyectoDao extends GenericDao<PersonaProyecto, Integer> {
         return 0;
     }
 
-    public PersonaProyecto getPersonaProyectoById(int persona) {
-        try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PersonaProyecto p WHERE p.idPersonas=:persona");
-            q.setParameter("persona", persona);
-            return (PersonaProyecto) q.uniqueResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public PersonaProyectoPK getPersonaProyectoById2(Integer persona) {
-        try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT p FROM PersonaProyectoPK p WHERE p.idPersona=:persona");
-            q.setParameter("persona", persona);
-            return (PersonaProyectoPK) q.uniqueResult();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
+    
     public Integer getCount(Integer persona) {
         try {
             String query = "Select p From PersonaProyecto p where p.personaProyectoPK.idPersona="+ persona;
