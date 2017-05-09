@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -137,13 +138,17 @@ public class PropuestaConvenioMB implements Serializable {
     @Autowired
     @Qualifier(value = "escuelaDepartamentoService")
     private EscuelaDepartamentoService escuelaDepartamentoService;
-    
+
     @Autowired
     @Qualifier(value = "documentoService")
-    private DocumentoService documentoService;    
+    private DocumentoService documentoService;
 
     @Autowired
     FreeMarkerMailService mailService;
+
+    @Autowired
+    @ManagedProperty("#{globalCounterView}")
+    private GlobalCounterView globalCounter;
 
     private String numDocumentoInterno;
     private String numDocumentoExterno;
@@ -356,6 +361,7 @@ public class PropuestaConvenioMB implements Serializable {
             bloqueosSolicitante = false;
 
             soloLecturaEmail = false;
+            globalCounter.increment(propuetasEnRevision());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -714,7 +720,7 @@ public class PropuestaConvenioMB implements Serializable {
             }
 
             enviarCorreo();
-
+            globalCounter.increment(propuetasEnRevision());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado", "Propuesta Convenio almacenada"));
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             context.redirect(context.getRequestContextPath() + "/views/convenio/consultarPropuestaConvenio.xhtml");
@@ -723,7 +729,7 @@ public class PropuestaConvenioMB implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
     }
-    
+
     /**
      * Metodo para envio de correo informativo de creacion de propuesta
      */
@@ -779,6 +785,7 @@ public class PropuestaConvenioMB implements Serializable {
             estado.setEstado(stado);
             estado.setPropuestaEstadoPK(new PropuestaEstadoPK(propuestaConvenio.getIdPropuesta(), stado.getIdEstado()));
             propuestaEstadoService.save(estado);
+            globalCounter.increment(propuetasEnRevision());
         } catch (Exception e) {
             throw new Exception("Error class PropuestaConvenioMB - guardarEstado()\n" + e.getMessage(), e.getCause());
         }
@@ -1833,6 +1840,10 @@ public class PropuestaConvenioMB implements Serializable {
         return listadoTipoPrpouestaConvenio;
     }
 
+    public Integer propuetasEnRevision() {
+        return propuestaConvenioService.conteoPropuestasEnRevision();
+    }
+
     public Persona getReferenteInterno() {
         return referenteInterno;
     }
@@ -2527,6 +2538,14 @@ public class PropuestaConvenioMB implements Serializable {
 
     public void setSoloLecturaEmail(boolean soloLecturaEmail) {
         this.soloLecturaEmail = soloLecturaEmail;
+    }
+
+    public GlobalCounterView getGlobalCounter() {
+        return globalCounter;
+    }
+
+    public void setGlobalCounter(GlobalCounterView globalCounter) {
+        this.globalCounter = globalCounter;
     }
 
 }
