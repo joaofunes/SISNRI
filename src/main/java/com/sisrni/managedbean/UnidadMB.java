@@ -13,7 +13,6 @@ import com.sisrni.service.OrganismoService;
 import com.sisrni.utils.JsfUtil;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -22,6 +21,8 @@ import org.apache.commons.logging.LogFactory;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
 
 
 /**
@@ -29,7 +30,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * @author Usuario
  */
 @Named(value = "unidadMB")
-@RequestScoped
+@Scope(WebApplicationContext.SCOPE_SESSION)
 public class UnidadMB{
       /*Para Errores*/
     private final static Log log = LogFactory.getLog(UnidadMB.class);

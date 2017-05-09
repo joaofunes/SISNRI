@@ -14,7 +14,6 @@ import com.sisrni.utils.JsfUtil;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.model.LazyDataModel;
@@ -23,13 +22,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.primefaces.context.RequestContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  *
  * @author Luis
  */
 @Named("tipoFacultadMB")
-@ViewScoped
+@Scope(WebApplicationContext.SCOPE_SESSION)
 public class TipoFacultadMB  extends GenericManagedBean<TipoFacultad, Integer> {
     
     /**para errores*/

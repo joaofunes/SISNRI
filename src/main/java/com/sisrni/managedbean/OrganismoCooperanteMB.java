@@ -25,18 +25,19 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  *
  * @author Luis
  */
 @Named(value = "organismoCooperanteMB")
-@ViewScoped
+@Scope(WebApplicationContext.SCOPE_SESSION)
 public class OrganismoCooperanteMB {
 
     /**
