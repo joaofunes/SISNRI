@@ -126,19 +126,18 @@
                                        update=":PersonaDeleteDlg"/>
                     </div>
     
-             
+                    <c:if test="#{currentUserSessionBean.form.sessionUser.esAdm or currentUserSessionBean.form.sessionUser.esAdmConvenio}">
                      <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-unlocked" title="Modificar Usuario" 
                                        value="Editar" actionListener="#{usuarioMB.preCrearUsuario(item.persona)}" 
                                        update=":UsuarioEditDlg :UsuarioCreateDlg" rendered="#{usuarioMB.usuarioExiste(item.persona)}"  />
                     </div>
-                    
                       <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-locked" title="Asignar Usuario" 
                                        value="Crear" actionListener="#{usuarioMB.preCrearUsuario(item.persona)}" 
                                        update=":UsuarioEditDlg :UsuarioCreateDlg" rendered="#{!usuarioMB.usuarioExiste(item.persona)}"  />
                     </div>
-
+                    </c:if>
                 </p:column> 
                  
                  
