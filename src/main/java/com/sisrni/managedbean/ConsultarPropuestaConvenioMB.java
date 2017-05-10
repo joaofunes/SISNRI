@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -50,13 +51,12 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
 
     private static final String FIRMADO = "FIRMADO";
     private final List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
-     
+
     private SsRoles rol;
-    
+
     private CurrentUserSessionBean user;
     private AppUserDetails usuario;
 
-    
     @Inject
     ActualizacionPropuestaConvenioMB actualizacionPropuestaConvenioMB;
 
@@ -81,14 +81,18 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
     @Autowired
     @Qualifier(value = "propuestaEstadoService")
     private PropuestaEstadoService propuestaEstadoService;
-    
+
     @Autowired
     @Qualifier(value = "documentoService")
-    private DocumentoService documentoService;    
-    
+    private DocumentoService documentoService;
+
     @Autowired
     @Qualifier(value = "personaPropuestaService")
     private PersonaPropuestaService personaPropuestaService;
+
+    @Autowired
+    @ManagedProperty("#{globalCounterView}")
+    private GlobalCounterView globalCounter;
 
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
@@ -105,7 +109,6 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
         try {
 
             inicializador();
-           
 
         } catch (Exception e) {
         }
@@ -117,16 +120,15 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             user = new CurrentUserSessionBean();
             usuario = user.getSessionUser();
             cargarUsuario();
-            
+
             propuestaConvenio = new PropuestaConvenio();
             estado = new Estado();
-            
-            if(rol!=null){
+
+            if (rol != null) {
                 listadoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQL();
-            }else{                
+            } else {
                 listadoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQL(usuario.getUsuario().getIdPersona());
             }
-            
 
             Collections.sort(listadoPropuestaConvenio, new Comparator<PojoPropuestaConvenio>() {
                 @Override
@@ -136,12 +138,12 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             });
 
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
+            globalCounter.increment(propuetasEnRevision());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
+
     /**
      * cargar datos de usuario logeado
      */
@@ -158,12 +160,11 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
                     }
                 }
             }
-           
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
 
     public void preEditar(PojoPropuestaConvenio pj) {
         try {
@@ -356,8 +357,10 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             e.printStackTrace();
         }
     }
+
     /**
-     * Metodo para envio de correo informativo para informar que ha pasado a ser Convenio
+     * Metodo para envio de correo informativo para informar que ha pasado a ser
+     * Convenio
      */
     public void enviarCorreoConvenio() {
         try {
@@ -369,7 +372,6 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             Map<String, Object> templateData = new HashMap<String, Object>();
             templateData.put("subJect", "Propuesta a pasado ha hacer convenio");
 
-            
             templateData.put("nameTemplate", "informacion_convenio_mailTemplat.xhtml");
             templateData.put("propuesta", propuestaConvenio);
             templateData.put("PersonaPropuesta", propuestaConvenio.getPersonaPropuestaList());
@@ -377,7 +379,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             templateData.put("estadoTemp", estadoTemp.getNombreEstado()); // estado anterior
 
             for (PersonaPropuesta p : propuestaConvenio.getPersonaPropuestaList()) {
-                templateData.put("setToMail", p.getPersona().getEmailPersona());                
+                templateData.put("setToMail", p.getPersona().getEmailPersona());
                 mailService.sendEmailMap(templateData);
             }
 
@@ -385,45 +387,51 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             e.printStackTrace();
         }
     }
-    
-     /**
+
+    /**
      * metodo para pre eliminar convenio
+     *
      * @param pojo
      */
-    public void preEliminarConvenio(PojoPropuestaConvenio pojo){
+    public void preEliminarConvenio(PojoPropuestaConvenio pojo) {
         try {
-              pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
-              propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
-            
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
+
         } catch (Exception e) {
             String message = "Error Seleccinando Convenio : " + e.getMessage();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
     }
-    
-    /***
-     * metodo para eliminacion de una propuesta     
+
+    /**
+     * *
+     * metodo para eliminacion de una propuesta
      */
-    public void eliminarConvenio(){
+    public void eliminarConvenio() {
         try {
             //eliminacion de personas asociadas a la propuesta
             personaPropuestaService.deleteByPersonasPropuestas(propuestaConvenio.getIdPropuesta());
-            
+
             //eliminar estado de la propuesta
             propuestaEstadoService.deletePropuestaEstado(propuestaConvenio.getIdPropuesta());
-            
+
             //eliminar documento
             documentoService.deleteDocumentosPropuestas(propuestaConvenio.getIdPropuesta());
-       
+
             //eliminar propuesta de convenio
             propuestaConvenioService.deletePropuestas(propuestaConvenio.getIdPropuesta());
-            
+
             inicializador();
-            
+
         } catch (Exception e) {
-             String message = "Error Eliminando Propuesta : " + e.getMessage();
+            String message = "Error Eliminando Propuesta : " + e.getMessage();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
+    }
+
+    public Integer propuetasEnRevision() {
+        return propuestaConvenioService.conteoPropuestasEnRevision();
     }
 
     public PropuestaConvenio getPropuestaConvenio() {
@@ -513,4 +521,13 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
     public void setUsuario(AppUserDetails usuario) {
         this.usuario = usuario;
     }
+
+    public GlobalCounterView getGlobalCounter() {
+        return globalCounter;
+    }
+
+    public void setGlobalCounter(GlobalCounterView globalCounter) {
+        this.globalCounter = globalCounter;
+    }
+
 }

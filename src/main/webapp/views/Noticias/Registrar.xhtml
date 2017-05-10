@@ -22,7 +22,7 @@
                             <p:outputLabel value="T&iacute;tulo:"  for="titulo"/>
                             <p:inputText id="titulo" value="#{noticiaMB.noticia.tituloNoticia}" size="75" required="true"/>
 
-                            <p:outputLabel for="categoria" value="Categoria:" style="size: 30"/>
+                            <p:outputLabel for="categoria" value="Categor&iacute;a:" style="size: 30"/>
                             <p:selectOneMenu id="categoria" value="#{noticiaMB.categoriaSelected.idCategoria}" style="width:125px" required="true">
                                 <f:selectItem itemValue="#{null}" itemLabel="--Seleccione--" noSelectionOption="true"/>
                                 <c:forEach var="cat" items="#{noticiaMB.categoriaNoticiaList}">
