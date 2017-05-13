@@ -532,8 +532,8 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
     public List<RptConveniosPorAnioPojo> getconveniosPorAnio(Integer desde, Integer hasta) {
         String query = "SELECT tp.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio,p.NOMBRE_PROPUESTA as nombreConvenio, \n"
                 + "p.FINALIDAD_PROPUESTA as finalidad, p.FECHA_INGRESO as fechaIngreso, p.VIGENCIA as vigencia from \n"
-                + "propuesta_convenio p join tipo_propuesta_convenio tp on (p.ID_TIPO_PROPUESTA_CONVENIO=tp.ID_TIPO_PROPUESTA) \n"
-                + "join propuesta_estado pe on (p.ID_PROPUESTA=pe.ID_PROPUESTA) where p.VIGENCIA IS NOT NULL AND pe.ID_ESTADO=10 \n"
+                + "PROPUESTA_CONVENIO p join TIPO_PROPUESTA_CONVENIO tp on (p.ID_TIPO_PROPUESTA_CONVENIO=tp.ID_TIPO_PROPUESTA) \n"
+                + "join PROPUESTA_ESTADO pe on (p.ID_PROPUESTA=pe.ID_PROPUESTA) where p.VIGENCIA IS NOT NULL AND pe.ID_ESTADO=10 \n"
                 + "AND YEAR(p.FECHA_INGRESO) BETWEEN \n"
                 + desde + " AND " + hasta + " GROUP BY p.FECHA_INGRESO \n"
                 + " ORDER BY p.FECHA_INGRESO asc";
@@ -612,7 +612,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
     // conteo de todos los tipos de propuestas
     public List<RptConteoConveniosPorTipoPojo> conteoPropuestaConvenioByTipoPropuesta(Integer desde, Integer hasta) {
         try {
-            String sql = "select tipo.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio, sum(pc.ID_PROPUESTA) as suma from propuesta_convenio pc inner join tipo_propuesta_convenio tipo on (pc.ID_TIPO_PROPUESTA_CONVENIO=ID_TIPO_PROPUESTA) WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
+            String sql = "select tipo.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio, sum(pc.ID_PROPUESTA) as suma from PROPUESTA_CONVENIO pc inner join TIPO_PROPUESTA_CONVENIO tipo on (pc.ID_TIPO_PROPUESTA_CONVENIO=ID_TIPO_PROPUESTA) WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
                     + desde + " AND " + hasta + " GROUP BY tipo.ID_TIPO_PROPUESTA" + " ORDER BY pc.ID_PROPUESTA DESC";
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                     .addScalar("tipoConvenio", new StringType())
@@ -629,12 +629,12 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
     public List<RptBitacoraEstadosPojo> estadosPropuestaConvenioBitacora(Integer desde, Integer hasta) {
         try {
             String sql = "SELECT pc.NOMBRE_PROPUESTA AS Nombre,\n"
-                    + "(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=6) AS Fiscalia,\n"
-                    + "(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=7) AS CSU,\n"
-                    + "(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=8) as AGU,\n"
-                    + "(SELECT be.FECHA_DE_CAMBIO FROM bitacora_estado be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=10) AS Firmado,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM BITACORA_ESTADO be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=6) AS Fiscalia,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM BITACORA_ESTADO be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=7) AS CSU,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM BITACORA_ESTADO be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=8) as AGU,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM BITACORA_ESTADO be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=10) AS Firmado,\n"
                     + "pc.FINALIDAD_PROPUESTA AS Finalidad\n"
-                    + "FROM `propuesta_convenio` pc WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
+                    + "FROM `PROPUESTA_CONVENIO` pc WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
                     + desde + " AND " + hasta + " ORDER BY pc.ID_PROPUESTA DESC";
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                     .addScalar("Nombre", new StringType())

@@ -16,6 +16,7 @@ public class AppUserDetails implements UserDetails {
     private final static Log log = LogFactory.getLog(AppUserDetails.class);
     private SsUsuarios usuario;
     private Boolean esAdmConvenio;
+    private Boolean esAdm;
 
     public AppUserDetails(SsUsuarios usuario) {
         this.usuario = usuario;
@@ -30,6 +31,9 @@ public class AppUserDetails implements UserDetails {
                     for (SsRoles role : usuario.getSsRolesList()) {
                         if (role.getCodigoRol().equalsIgnoreCase("ROL_ADM_CONV")) {
                             esAdmConvenio = Boolean.TRUE;
+                        }
+                        if (role.getCodigoRol().equalsIgnoreCase("ROL_ADMI")) {
+                            esAdm = Boolean.TRUE;
                         }
                         authorities.add(new GrantedAuthorityImpl(role.getCodigoRol()));
                     }
@@ -87,4 +91,11 @@ public class AppUserDetails implements UserDetails {
         this.esAdmConvenio = esAdmConvenio;
     }
 
+      public Boolean getEsAdm() {
+        return esAdm;
+    }
+
+    public void setEsAdm(Boolean esAdm) {
+        this.esAdm = esAdm;
+    }
 }
