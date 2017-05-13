@@ -65,76 +65,76 @@ public class ConvenioReportesMB {
         yearActual = getYearOfDate(new Date());
     }
 
-    public void llenarReporte(String formato) {
-        List<RptProyectoPojo> list = new ArrayList<RptProyectoPojo>();
-        Integer desdeYear = Integer.parseInt(anioDesde.trim());
-        Integer hastaYear = Integer.parseInt(anioHasta.trim());
-        List<Proyecto> comparativoReparacionesDos = proyectoService.getProyectosDesdeHasta(desdeYear, hastaYear);
-        RptProyectoPojo prueba = new RptProyectoPojo();
-
-        for (Proyecto item : comparativoReparacionesDos) {
-            prueba = new RptProyectoPojo();
-            prueba.setNombre(item.getNombreProyecto());
-            prueba.setObjetivo(item.getObjetivo());
-            prueba.setAnioGestion(item.getAnioGestion());
-            prueba.setOrgamismo(obtenerOrganismos(item.getOrganismoList()));
-            prueba.setPaisCooperante(item.getIdPaisCooperante().getNombrePais());
-            prueba.setContraparteExterna(obtenerPersonaExterna(item.getPersonaProyectoList(), tipoPersona));
-            prueba.setBeneficiadoUES(obtenerFacultades(item.getFacultadList()));
-            prueba.setMonto(item.getMontoProyecto());
-            list.add(prueba);
-        }
-
-        print(list, formato);
-    }
-
-    public String obtenerOrganismos(List<Organismo> listOrganismos) {
-        List<String> nombreOrganismo = new ArrayList<String>();
-        for (Organismo organismo : listOrganismos) {
-            nombreOrganismo.add(organismo.getNombreOrganismo());
-        }
-        return String.join(",", nombreOrganismo);
-    }
-
-    public String obtenerPersonaExterna(List<PersonaProyecto> listPersonas, String tipoPersona) {
-        String nombrecompleto = "";
-        for (PersonaProyecto personaExterna : listPersonas) {
-            if (personaExterna.getIdTipoPersona().getNombreTipoPersona().equalsIgnoreCase(tipoPersona)) {
-                nombrecompleto = personaExterna.getPersona().getNombrePersona() + " " + personaExterna.getPersona().getApellidoPersona();
-            }
-        }
-        return nombrecompleto;
-    }
-
-    public String obtenerFacultades(List<Facultad> listFacultades) {
-        List<String> nombreFacultad = new ArrayList<String>();
-        for (Facultad facultad : listFacultades) {
-            nombreFacultad.add(facultad.getNombreFacultad());
-        }
-        return String.join(",", nombreFacultad);
-    }
-
-    public void print(List<RptProyectoPojo> list, String formato) {
-        try {
-            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-            HttpServletRequest request = (HttpServletRequest) context.getRequest();
-            HttpServletResponse response = (HttpServletResponse) context.getResponse();
-            Reporte reporte = new Reporte("proyectos", "rpt_proyectos_gestionados", request);
-            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyectoPojo>(list)));
-            reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
-            reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
-            reporte.addParameter("Desde", anioDesde.trim());
-            reporte.addParameter("Hasta", anioHasta.trim());
-            if (!formato.equalsIgnoreCase("pdf")) {
-                reporte.setTipoMime(formato);
-            }
-            reporte.setReportInSession(request, response);
-            reportName = reporte.getNombreLogico();
-            RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void llenarReporte(String formato) {
+//        List<RptProyectoPojo> list = new ArrayList<RptProyectoPojo>();
+//        Integer desdeYear = Integer.parseInt(anioDesde.trim());
+//        Integer hastaYear = Integer.parseInt(anioHasta.trim());
+//        List<Proyecto> comparativoReparacionesDos = proyectoService.getProyectosDesdeHasta(desdeYear, hastaYear);
+//        RptProyectoPojo prueba = new RptProyectoPojo();
+//
+//        for (Proyecto item : comparativoReparacionesDos) {
+//            prueba = new RptProyectoPojo();
+//            prueba.setNombre(item.getNombreProyecto());
+//            prueba.setObjetivo(item.getObjetivo());
+//            prueba.setAnioGestion(item.getAnioGestion());
+//            prueba.setOrgamismo(obtenerOrganismos(item.getOrganismoList()));
+//            prueba.setPaisCooperante(item.getIdPaisCooperante().getNombrePais());
+//            prueba.setContraparteExterna(obtenerPersonaExterna(item.getPersonaProyectoList(), tipoPersona));
+//            prueba.setBeneficiadoUES(obtenerFacultades(item.getFacultadList()));
+//            prueba.setMonto(item.getMontoProyecto());
+//            list.add(prueba);
+//        }
+//
+//        print(list, formato);
+//    }
+//
+//    public String obtenerOrganismos(List<Organismo> listOrganismos) {
+//        List<String> nombreOrganismo = new ArrayList<String>();
+//        for (Organismo organismo : listOrganismos) {
+//            nombreOrganismo.add(organismo.getNombreOrganismo());
+//        }
+//        return String.join(",", nombreOrganismo);
+//    }
+//
+//    public String obtenerPersonaExterna(List<PersonaProyecto> listPersonas, String tipoPersona) {
+//        String nombrecompleto = "";
+//        for (PersonaProyecto personaExterna : listPersonas) {
+//            if (personaExterna.getIdTipoPersona().getNombreTipoPersona().equalsIgnoreCase(tipoPersona)) {
+//                nombrecompleto = personaExterna.getPersona().getNombrePersona() + " " + personaExterna.getPersona().getApellidoPersona();
+//            }
+//        }
+//        return nombrecompleto;
+//    }
+//
+//    public String obtenerFacultades(List<Facultad> listFacultades) {
+//        List<String> nombreFacultad = new ArrayList<String>();
+//        for (Facultad facultad : listFacultades) {
+//            nombreFacultad.add(facultad.getNombreFacultad());
+//        }
+//        return String.join(",", nombreFacultad);
+//    }
+//
+//    public void print(List<RptProyectoPojo> list, String formato) {
+//        try {
+//            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+//            HttpServletRequest request = (HttpServletRequest) context.getRequest();
+//            HttpServletResponse response = (HttpServletResponse) context.getResponse();
+//            Reporte reporte = new Reporte("proyectos", "rpt_proyectos_gestionados", request);
+//            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyectoPojo>(list)));
+//            reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
+//            reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
+//            reporte.addParameter("Desde", anioDesde.trim());
+//            reporte.addParameter("Hasta", anioHasta.trim());
+//            if (!formato.equalsIgnoreCase("pdf")) {
+//                reporte.setTipoMime(formato);
+//            }
+//            reporte.setReportInSession(request, response);
+//            reportName = reporte.getNombreLogico();
+//            RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void printConveniosPorAnio(String formato) {
         try {
