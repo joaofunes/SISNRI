@@ -418,7 +418,7 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
                 + "  p.NOMBRE_PAIS nombrePais,"
                 + "  count(*) cantidadMovilidades,"
                 + "  SUM(m.VIATICOS+m.PAGO_DE_CURSO+m.VOLETO_AEREO) montoMovilidades "
-                + " FROM movilidad m INNER JOIN pais p ON " + campoUnion + " = p.ID_PAIS"
+                + " FROM MOVILIDAD m INNER JOIN PAIS p ON " + campoUnion + " = p.ID_PAIS"
                 + " WHERE m.ID_TIPO_MOVILIDAD = " + tipoMovilidad
                 + " and m.ID_ETAPA_MOVILIDAD=3 "
                 + " and YEAR(m.FECHA_INICIO) BETWEEN " + Integer.parseInt(desde) + " and " + Integer.parseInt(hasta)
@@ -446,7 +446,7 @@ public class MovilidadDao extends GenericDao<Movilidad, Integer> {
         String query = "SELECT \n"
                 + " cm.NOMBRE_CATEGORIA categoria,\n"
                 + " count(*) cantidad"
-                + " FROM movilidad m INNER JOIN pais p ON " + campoUnion + " = p.ID_PAIS"
+                + " FROM MOVILIDAD m INNER JOIN PAIS p ON " + campoUnion + " = p.ID_PAIS"
                 + " INNER JOIN CATEGORIA_MOVILIDAD cm on cm.ID_CATEGORIA_MOVILIDAD=m.ID_CATEGORIA"
                 + " WHERE m.ID_TIPO_MOVILIDAD = " + tipoMovilidad
                 + " and m.ID_ETAPA_MOVILIDAD=3 "

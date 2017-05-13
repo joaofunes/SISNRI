@@ -52,6 +52,7 @@ public class PersistenceHibernateConfig {
 //        ds.setUrl("jdbc:mysql://srnidb.cdl1mrxlsyzf.sa-east-1.rds.amazonaws.com:3306/sisrni");
 //        ds.setUsername("srnidb");
 //        ds.setPassword("tragra01");
+
 //        // DB Local
 //        ds.setUrl("jdbc:mysql://localhost:3306/sisrni");
 //        ds.setUsername("root");

@@ -68,7 +68,7 @@ public class NoticiaMB implements Serializable {
     private Boolean renderFbButton;
     private File fileForFb;
     private FileInputStream fileToPublish;
-    private static final String tokenFb = "EAAEF5ZAzqmoQBAJCVXVxgsT56JE62dZB8mVXgSL4mv3yewNZBTZAtLzHnMHBjZBiSOvfDOScuEs3ZCEHZBIqQAytLjB88w7ARR8RJMf1yDF2jwKbYZB8G1y3bhixgvs2jJeIyMqol1JkqlN1BAdVAR9E19XNUSNDbXZAIftGi2jZCJgfBjPm8ZC1tPG";
+    private static final String tokenFb = "EAADuZAEJdqZBQBAPdZBu0uy9PfZBnCquAUt5qxb46POARj7ImwGPmIrimH09LyqTBVndc3akEBCuc3UHd5jYJrRofzfyai71M9ZBr2bjEfYTU9qff3ZByZBQpUWeOUR64LYbhUHmGC5lmuZALRGWANrYJzzZBo50Jl9EMtfCt7b7jCF2k6cVQprH9";
 
     @Autowired
     @ManagedProperty("#{globalCounterView}")
@@ -146,7 +146,7 @@ public class NoticiaMB implements Serializable {
         FacebookClient fbClient = new DefaultFacebookClient(tokenFb);
 
         fbClient.publish("me/feed", FacebookType.class, Parameter.with("message", noticia.getTituloNoticia()),
-                Parameter.with("link", "http://52.67.109.233:8080/sisrni/auth/templates/index.xhtml")
+                Parameter.with("link", "http://54.233.194.159:8080/sisrni/views/Noticias/Index.xhtml")
         );
 
         if (fileForFb != null) {
