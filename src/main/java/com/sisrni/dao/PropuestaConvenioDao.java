@@ -535,7 +535,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                 + "PROPUESTA_CONVENIO p join TIPO_PROPUESTA_CONVENIO tp on (p.ID_TIPO_PROPUESTA_CONVENIO=tp.ID_TIPO_PROPUESTA) \n"
                 + "join PROPUESTA_ESTADO pe on (p.ID_PROPUESTA=pe.ID_PROPUESTA) where p.VIGENCIA IS NOT NULL AND pe.ID_ESTADO=10 \n"
                 + "AND YEAR(p.FECHA_INGRESO) BETWEEN \n"
-                + desde + " AND " + hasta + " GROUP BY p.FECHA_INGRESO \n"
+                + desde + " AND " + hasta 
                 + " ORDER BY p.FECHA_INGRESO asc";
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("tipoConvenio", new StringType())
@@ -613,7 +613,7 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
     public List<RptConteoConveniosPorTipoPojo> conteoPropuestaConvenioByTipoPropuesta(Integer desde, Integer hasta) {
         try {
             String sql = "select tipo.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio, sum(pc.ID_PROPUESTA) as suma from PROPUESTA_CONVENIO pc inner join TIPO_PROPUESTA_CONVENIO tipo on (pc.ID_TIPO_PROPUESTA_CONVENIO=ID_TIPO_PROPUESTA) WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
-                    + desde + " AND " + hasta + " GROUP BY tipo.ID_TIPO_PROPUESTA" + " ORDER BY pc.ID_PROPUESTA DESC";
+                    + desde + " AND " + hasta + " GROUP BY tipo.ID_TIPO_PROPUESTA,pc.ID_PROPUESTA";
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                     .addScalar("tipoConvenio", new StringType())
                     .addScalar("suma", new IntegerType())
