@@ -40,14 +40,14 @@
                     </p:column>
                        
                         <p:column>
-                            <p:commandButton styleClass="boton" rendered="#{!rolesMB.actualizar}"
-                                             actionListener="#{rolesMB.editar()}" value="Guardar"  update="formRol :formTablaRoles" process="@this :formRol"/>
+                            <p:commandButton styleClass="boton" rendered="#{!rolesMB.actualizar}" icon="ui-icon-disk"
+                                             actionListener="#{rolesMB.guardar()}" value="Guardar"  update="formRol :formTablaRoles" process="@this :formRol"/>
 
-                            <p:commandButton styleClass="boton" rendered="#{rolesMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{rolesMB.actualizar}" icon="ui-icon-cancel"
                                              actionListener="#{rolesMB.cancelar()}" immediate="true" value="Cancelar" update="formRol"  process="@this" />
 
                             
-                            <p:commandButton styleClass="boton" rendered="#{rolesMB.actualizar}"
+                            <p:commandButton styleClass="boton" rendered="#{rolesMB.actualizar}" icon="ui-icon-refresh"
                                              actionListener="#{rolesMB.editar()}" update="formRol :formTablaRoles "
                                              value="Actualizar" />
                         </p:column>
