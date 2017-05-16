@@ -101,14 +101,14 @@ public class ConsultarConvenioMB implements Serializable {
             propuestaConvenioTemp = new PropuestaConvenio();
             estado = new Estado();
             listadoPropuestaConvenio = propuestaConvenioService.getAllConvenioSQL();
-            
-             Collections.sort(listadoPropuestaConvenio, new Comparator<PojoPropuestaConvenio>() {
+
+            Collections.sort(listadoPropuestaConvenio, new Comparator<PojoPropuestaConvenio>() {
                 @Override
                 public int compare(PojoPropuestaConvenio lhs, PojoPropuestaConvenio rhs) {
                     return rhs.getID_PROPUESTA().compareTo(lhs.getID_PROPUESTA());
                 }
             });
-            
+
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
         } catch (Exception e) {
             e.printStackTrace();
@@ -226,6 +226,7 @@ public class ConsultarConvenioMB implements Serializable {
     }
 
     /**
+     *
      * Metodo para realizar las descargar de archivos
      *
      * @param documento
@@ -241,28 +242,22 @@ public class ConsultarConvenioMB implements Serializable {
 
             for (Documento doc : listadoDocumento) {
                 if (doc.getIdTipoDocumento().getNombreDocumento().equalsIgnoreCase(TIPO_DOCUMENTO)) {
-                    stream = new ByteArrayInputStream(doc.getDocumento());
-                    extension = getFileExtension(doc.getNombreDocumento());
-                    nombre = doc.getNombreDocumento();
+                    if (getFileExtension(doc.getNombreDocumento()).equalsIgnoreCase("pdf")) {
+                        stream = new ByteArrayInputStream(doc.getDocumento());
+                        nombre = doc.getNombreDocumento();
+                    }
                 }
             }
 
             if (extension != null) {
-                if (extension.equalsIgnoreCase("docx")) {
-                    contentType = "application/vnd.ms-word.document";
-                } else if (extension.equalsIgnoreCase("pdf")) {
+                if (extension.equalsIgnoreCase("pdf")) {
                     contentType = "Application/pdf";
-                } else if (extension.equalsIgnoreCase("xls")) {
-                    contentType = "application/vnd.ms-excel";
-                } else if (extension.equalsIgnoreCase("xlsx")) {
-                    contentType = "application/vnd.ms-excel";
-                } else if (extension.equalsIgnoreCase("doc")) {
-                    contentType = "application/ms-word";
                 }
                 content = new DefaultStreamedContent(stream, contentType, nombre);
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Documento", "No se cuenta con documento firmado para descargar"));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
