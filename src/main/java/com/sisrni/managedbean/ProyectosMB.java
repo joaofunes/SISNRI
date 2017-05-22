@@ -1510,11 +1510,11 @@ public class ProyectosMB {
             persona = new Persona();
             personaAux = new Persona();
 //            asistenteNull = Boolean.TRUE;
+            tipoBusquedaInterna = null;
             RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersona");
             RequestContext.getCurrentInstance().update("formAdmin:acordion:grup1");
 //            preUpdateProyecto(proyecto.getIdProyecto());
             JsfUtil.addSuccessMessage(msg);
-
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Error al desvincular el coordinador");
         }
@@ -1539,6 +1539,7 @@ public class ProyectosMB {
             personaAsistente = new Persona();
             asistenteNull = Boolean.TRUE;
             personaAsistenteAux = new Persona();
+            tipoBusquedaAsistente = null;
             preUpdateProyecto(proyecto.getIdProyecto());
             JsfUtil.addSuccessMessage(msg);
         } catch (Exception e) {
@@ -1563,6 +1564,7 @@ public class ProyectosMB {
             organismoSelectedRefExt = new Organismo();
             personaExterna = new Persona();
             personaExternaAux = new Persona();
+            tipoBusquedaExterna = null;
             RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaExterna");
             RequestContext.getCurrentInstance().update("formAdmin:acordion:grup2");
 //            preUpdateProyecto(proyecto.getIdProyecto());
