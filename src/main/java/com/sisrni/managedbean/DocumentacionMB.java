@@ -171,7 +171,7 @@ public class DocumentacionMB implements Serializable {
 
     /**
      * *
-     * Metodo para cargar documneto
+     * Metodo para cargar documento
      *
      * @param event
      */

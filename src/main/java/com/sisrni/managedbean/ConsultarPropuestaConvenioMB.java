@@ -5,10 +5,12 @@
  */
 package com.sisrni.managedbean;
 
+import com.sisrni.model.Documento;
 import com.sisrni.model.Estado;
 import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.PropuestaConvenio;
 import com.sisrni.model.SsRoles;
+import com.sisrni.model.TipoDocumento;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
 import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.DocumentoService;
@@ -18,6 +20,7 @@ import com.sisrni.service.PersonaPropuestaService;
 import com.sisrni.service.PersonaService;
 import com.sisrni.service.PropuestaConvenioService;
 import com.sisrni.service.PropuestaEstadoService;
+import com.sisrni.service.TipoDocumentoService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +36,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.commons.io.IOUtils;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -52,6 +57,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
     private static final String FIRMADO = "FIRMADO";
     private final List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
 
+    private static final String TIPO_DOCUMENTO="Convenio Firmado";
     private SsRoles rol;
 
     private CurrentUserSessionBean user;
@@ -93,6 +99,10 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
     @Autowired
     @ManagedProperty("#{globalCounterView}")
     private GlobalCounterView globalCounter;
+    
+    @Autowired
+    @Qualifier(value = "tipoDocumentoService")
+    private TipoDocumentoService tipoDocumentoService;
 
     private List<PojoPropuestaConvenio> listadoPropuestaConvenio;
     private PropuestaConvenio propuestaConvenio;
@@ -101,8 +111,10 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
     private List<Estado> listadoEstadosTemp;
     private Estado estado;
     private Estado estadoTemp;
-
+    private Documento documento;
+    private List<TipoDocumento> listTipoDocumento;
     private boolean flagBanderaVigencia;
+    private TipoDocumento tipoDocumento;
 
     //@PostConstruct
     public void init() {
@@ -138,6 +150,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             });
 
             listadoEstados = estadoService.getEstadoPropuestasConvenio();
+            listTipoDocumento = tipoDocumentoService.getTipoDocumentosByCategory(1);
             globalCounter.increment(propuetasEnRevision());
         } catch (Exception e) {
             e.printStackTrace();
@@ -215,6 +228,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
             estado = estadoService.findById(pojo.getID_ESTADO());
             estadoTemp = new Estado();
+            documento= new Documento();
             estadoTemp = estado;
             flagBanderaVigencia = false;
             listadoEstadosTemp = new ArrayList<Estado>();
@@ -261,6 +275,20 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
     }
 
     /**
+     * Metodo para precargar documentos incializa la propuesta
+     */
+    public void preCargadocumento(PojoPropuestaConvenio pojo){
+        try {
+             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    /**
      * Metodo para verificar si estado es firmado el cual pasaria de ser
      * propuesta convenio a Convenio
      */
@@ -288,7 +316,13 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
                     propuestaConvenio.setActivo(Boolean.TRUE);
                     propuestaConvenioService.merge(propuestaConvenio);
                     propuestaEstadoService.updatePropuestaEstado(pojoPropuestaConvenio.getID_PROPUESTA(), estado.getIdEstado());
-
+                    
+                    documento.setIdPropuesta(propuestaConvenio);
+                    documento.setIdTipoDocumento(tipoDocumentoService.getTipoDocumento(TIPO_DOCUMENTO));
+                    documento.setFechaRecibido(new Date());
+                    documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
+                    documentoService.save(documento);
+                    
                     context.execute("PF('dlgEstado').hide();");
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Convenio", "la propuesta pasa a ser convenio"));
                     enviarCorreoConvenio();//camabiar porq pasa a hacer conevio
@@ -308,23 +342,7 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
         }
     }
 
-    /**
-     * metodo utilizado para redireccionar a propuesta para editar propuesta
-     *
-     * @param pojo
-     */
-    public void addDocumento(PojoPropuestaConvenio pojo) {
-        try {
-            if (pojo.getID_PROPUESTA() != null) {
-                documentacionMB.iniciliazar();
-                documentacionMB.getDataConvenio(pojo.getID_PROPUESTA());
-                documentacionMB.setAddDocumentoEspecifico(true);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("../documentacion/documentacion.xhtml");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     /**
      * Metodo para envio de correo informativo de creacion de propuesta
@@ -429,7 +447,52 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
     }
+    
+    /**
+     * *
+     * Metodo para cargar documento
+     *
+     * @param event
+     */
+    public void handleFileUpload(FileUploadEvent event) {
+        try {
+            byte[] content = IOUtils.toByteArray(event.getFile().getInputstream());
+            FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+            if (documento == null) {
+                documento = new Documento();
+            }
+            documento.setDocumento(content);
+            documento.setNombreDocumento(event.getFile().getFileName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    
+    /**
+     * Metodo para agregar documentos a convenio
+     */
+    public void addDocument() {
+        try {
+            
+            if ((documento != null) && (documento.getDocumento().length > 0)) {
+                documento.setIdPropuesta(propuestaConvenio);
+                documento.setFechaRecibido(new Date());
+                documento.setUsuarioRecibe(usuario.getUsuario().getNombreUsuario());
+                documentoService.save(documento);
+                inicializador();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", "Documento agregado exitosamente"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "error", "Documento no ha sido agregado"));
+            }
+
+        } catch (Exception e) {
+            String message = "Error Agregado documento : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        }
+    }
+    
     public Integer propuetasEnRevision() {
         return propuestaConvenioService.conteoPropuestasEnRevision();
     }
@@ -528,6 +591,30 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
 
     public void setGlobalCounter(GlobalCounterView globalCounter) {
         this.globalCounter = globalCounter;
+    }
+
+    public Documento getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(Documento documento) {
+        this.documento = documento;
+    }
+
+    public List<TipoDocumento> getListTipoDocumento() {
+        return listTipoDocumento;
+    }
+
+    public void setListTipoDocumento(List<TipoDocumento> listTipoDocumento) {
+        this.listTipoDocumento = listTipoDocumento;
+    }
+
+    public TipoDocumento getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
     }
 
 }

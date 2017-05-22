@@ -66,9 +66,9 @@
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-document"
                                        title="Agregar Documento" value="Agregar Documento"
-                                       actionListener="#{consultarPropuestaConvenioMB.addDocumento(pconvenios)}"
+                                       actionListener="#{consultarPropuestaConvenioMB.preCargadocumento(pconvenios)}"
                                        update=":idInfoConvenio"
-                                       oncomplete="PF('dlgInfoConvenio').show();"/>
+                                       oncomplete="PF('AddDocDialog').show();"/>
 
                     </div> 
                     <div style="float: left">
@@ -149,7 +149,17 @@
                             <p:calendar id="idFechaVigencia" required="true" value="#{consultarPropuestaConvenioMB.propuestaConvenio.vigencia}" pattern="dd-MM-yyyy" mask="true" />
                         </p:column>
                     </p:row>
-
+                    <p:row rendered="#{consultarPropuestaConvenioMB.flagBanderaVigencia}">
+                        <p:column>  
+                            <p:outputLabel for="idDocumenPdf" value="Documento" />
+                        </p:column>                                                                                                                  
+                        <p:column>
+                            <p:fileUpload id="idDocumenPdf" fileUploadListener="#{consultarPropuestaConvenioMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
+                                          sizeLimit="4000000" allowTypes="/(\.|\/)(pdf)$/"
+                                          label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"/>
+                        </p:column>
+                    </p:row>
+                    
                     <p:row>
                         <p:column>                        
                             <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.cambiarEstadoConvenio()}" process="idCambiarEstado" update=":formAdmin"/>
@@ -271,6 +281,40 @@
             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.eliminarConvenio()}" process="@this" update=":formAdmin" onclick="PF('deleteChangeDlg').hide();"/>
             <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
+        
+        <p:dialog id="idAddDocument" widgetVar="AddDocDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Agregar documento" closeOnEscape="true">
+
+            <h:form id="formAddDocument">
+                <center>                  
+                    <h:panelGrid columns="2" >                                   
+                        <p:column>  
+                            <p:outputLabel for="idUnidad" value="Tipo Documento" />
+                        </p:column>                                         
+                        <p:column>                                         
+                            <p:selectOneMenu style="width: 100% !important" id="idUnidad" value="#{consultarPropuestaConvenioMB.documento.idTipoDocumento}" 
+                                             converter="#{tipoDocumentoConverter}" required="true">                                           
+                                <f:selectItem itemLabel="Tipo Documento" itemValue=""  itemDisabled="true" />  
+                                <f:selectItems value="#{consultarPropuestaConvenioMB.listTipoDocumento}" var="tDocumento" itemLabel="#{tDocumento.nombreDocumento}" itemValue="#{tDocumento}"/>  
+                            </p:selectOneMenu>    
+                        </p:column>
+                        <p:column>  
+                            <p:outputLabel for="idDocumen" value="Documento" />
+                        </p:column>                                                                                                                  
+                        <p:column>
+                            <p:fileUpload id="idDocumen" fileUploadListener="#{consultarPropuestaConvenioMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
+                                          sizeLimit="4000000" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/"
+                                          label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"/>
+                        </p:column>
+                        <p:column> 
+                            <p:commandButton value="Agregar" id="idGuardarPersona" actionListener="#{consultarPropuestaConvenioMB.addDocument()}" 
+                                             process="formAddDocument" 
+                                             update=":formAdmin" 
+                                             icon="ui-icon-disk" onsuccess="PF('AddDocDialog').hide()" />
+                        </p:column>                        
+                    </h:panelGrid>
+                </center>    
+            </h:form>  
+        </p:dialog>        
 
     </ui:define>
 
