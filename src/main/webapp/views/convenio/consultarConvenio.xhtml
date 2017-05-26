@@ -40,7 +40,7 @@
                     <p:column headerText="Activo" sortBy="#{pconvenios.ACTIVO}" filterBy="#{pconvenios.ACTIVO}">
                         <h:outputText value="#{pconvenios.ACTIVO?'Si':'No'}" />
                     </p:column>
-                    <p:column headerText="Opciones" >
+                    <p:column headerText="Opciones" visible="#{consultarConvenioMB.rol != null}">
 
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-calendar"

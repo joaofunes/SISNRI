@@ -41,7 +41,7 @@
                 <p:column filterBy="#{pconvenios.NOMBRE_ESTADO}" headerText="Estado convenio">
                     <h:outputText value="#{pconvenios.NOMBRE_ESTADO}" />
                 </p:column>
-                <p:column headerText="Opciones" >
+                <p:column headerText="Opciones"  visible="#{consultarPropuestaConvenioMB.rol != null}">
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
                                        value="Editar" actionListener="#{consultarPropuestaConvenioMB.preEditar(pconvenios)}" />
