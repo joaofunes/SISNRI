@@ -29,10 +29,10 @@
                 <p:column  filterBy="#{pconvenios.SOLICITANTE}" headerText="Solicitante">
                     <h:outputText value="#{pconvenios.SOLICITANTE}" />
                 </p:column>
-                <p:column filterBy="#{pconvenios.INTERNO}"  headerText="Referente Interno">
+                <p:column filterBy="#{pconvenios.INTERNO}"  headerText="Coordinador Interno">
                     <h:outputText value="#{pconvenios.INTERNO}" />
                 </p:column>
-                <p:column filterBy="#{pconvenios.EXTERNO}" headerText="Referente Externo">
+                <p:column filterBy="#{pconvenios.EXTERNO}" headerText="Coordinador Externo">
                     <h:outputText value="#{pconvenios.EXTERNO}" />
                 </p:column>
                 <p:column filterBy="#{pconvenios.TIPO_CONVENIO}" headerText="Tipo de Convenio">
@@ -105,7 +105,7 @@
                     </p:row>
                     <p:row> 
                         <p:column>
-                            <h:outputText value="Referente Interno: "  style="font-weight:bold" />
+                            <h:outputText value="Coordinador Interno: "  style="font-weight:bold" />
                         </p:column>
                         <p:column>
                             <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.INTERNO}" />
@@ -114,7 +114,7 @@
 
                     <p:row>  
                         <p:column>
-                            <h:outputText value="Referente Externo: "  style="font-weight:bold" />
+                            <h:outputText value="Coordinador Externo: "  style="font-weight:bold" />
                         </p:column>
                         <p:column>
                             <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.EXTERNO}" />
