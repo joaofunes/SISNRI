@@ -379,10 +379,7 @@ public class ConsultarConvenioMB implements Serializable {
         this.listadoDocumento = listadoDocumento;
     }
 
-    public void setRol(SsRoles rol) {
-        this.rol = rol;
-    }
-
+   
     public CurrentUserSessionBean getUser() {
         return user;
     }
@@ -397,5 +394,13 @@ public class ConsultarConvenioMB implements Serializable {
 
     public void setUsuario(AppUserDetails usuario) {
         this.usuario = usuario;
+    }
+
+    public SsRoles getRol() {
+        return rol;
+    }
+
+    public void setRol(SsRoles rol) {
+        this.rol = rol;
     }
 }
