@@ -612,8 +612,8 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
     // conteo de todos los tipos de propuestas
     public List<RptConteoConveniosPorTipoPojo> conteoPropuestaConvenioByTipoPropuesta(Integer desde, Integer hasta) {
         try {
-            String sql = "select tipo.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio, sum(pc.ID_PROPUESTA) as suma from PROPUESTA_CONVENIO pc inner join TIPO_PROPUESTA_CONVENIO tipo on (pc.ID_TIPO_PROPUESTA_CONVENIO=ID_TIPO_PROPUESTA) WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
-                    + desde + " AND " + hasta + " GROUP BY tipo.ID_TIPO_PROPUESTA,pc.ID_PROPUESTA";
+            String sql = "select tipo.NOMBRE_PROPUESTA_CONVENIO as tipoConvenio, sum(pc.ID_PROPUESTA) as suma from PROPUESTA_CONVENIO pc inner join TIPO_PROPUESTA_CONVENIO tipo on (pc.ID_TIPO_PROPUESTA_CONVENIO=tipo.ID_TIPO_PROPUESTA) WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
+                    + desde + " AND " + hasta + " GROUP BY tipo.NOMBRE_PROPUESTA_CONVENIO";
             Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql)
                     .addScalar("tipoConvenio", new StringType())
                     .addScalar("suma", new IntegerType())
