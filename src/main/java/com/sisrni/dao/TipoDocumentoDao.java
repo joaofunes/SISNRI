@@ -37,7 +37,7 @@ public class TipoDocumentoDao extends GenericDao<TipoDocumento, Integer> {
     }
 
     public TipoDocumento getTipoDocumento(String tipoDocumento) {
-        Query q = getSessionFactory().getCurrentSession().createQuery("Select t from TipoDocumento t WHERE t.nombreDocumento =: nombre");
+        Query q = getSessionFactory().getCurrentSession().createQuery("Select t from TipoDocumento t WHERE t.nombreDocumento = :nombre");
         q.setParameter("nombre", tipoDocumento);
         return (TipoDocumento) q.uniqueResult();
     }

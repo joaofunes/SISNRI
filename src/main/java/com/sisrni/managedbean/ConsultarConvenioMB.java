@@ -268,7 +268,9 @@ public class ConsultarConvenioMB implements Serializable {
      *
      * Metodo para realizar las descargar de archivos
      *
+     * @param pojo
      * @param documento
+     * @throws java.io.IOException
      */
     public void FileDownloadView(PojoPropuestaConvenio pojo) throws IOException {
         BufferedOutputStream out = null;
@@ -284,6 +286,7 @@ public class ConsultarConvenioMB implements Serializable {
                     if (getFileExtension(doc.getNombreDocumento()).equalsIgnoreCase("pdf")) {
                         stream = new ByteArrayInputStream(doc.getDocumento());
                         nombre = doc.getNombreDocumento();
+                        extension = "pdf";
                     }
                 }
             }
