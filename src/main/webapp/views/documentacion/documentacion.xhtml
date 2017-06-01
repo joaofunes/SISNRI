@@ -100,8 +100,9 @@
                                 <h:outputText value="Vigencia "  style="font-weight:bold" />
                             </p:column>   
                             <p:column>
-                                <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.VIGENCIA}" />                                                      
+                                <h:outputText value="#{documentacionMB.pojoPropuestaConvenio.VIGENCIA}" >                                                      
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
                          </h:outputText>      
                             </p:column> 
                         </p:row>       
