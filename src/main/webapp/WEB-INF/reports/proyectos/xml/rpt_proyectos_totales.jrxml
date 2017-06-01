@@ -24,10 +24,10 @@
 			<elementGroup/>
 			<staticText>
 				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="75" width="528" height="25" forecolor="#5B63B1"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Left">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reporte de Proyectos Gestionados/Aprobados por Año ]]></text>
+				<text><![CDATA[Reporte de Total de Proyectos Gestionados/Aprobados  ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="100" width="264" height="20" forecolor="#786C6C"/>
@@ -53,7 +53,7 @@
 			<staticText>
 				<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="130" y="46" width="398" height="22" forecolor="#666666"/>
 				<textElement textAlignment="Center">
-					<font size="14" isBold="true" isUnderline="false"/>
+					<font size="12" isBold="true" isUnderline="false"/>
 					<paragraph rightIndent="1" spacingAfter="20" tabStopWidth="50"/>
 				</textElement>
 				<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>
@@ -78,7 +78,7 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="809be98f-cc92-46d5-b089-e9832344f085" mode="Opaque" x="13" y="0" width="234" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="809be98f-cc92-46d5-b089-e9832344f085" mode="Opaque" x="110" y="0" width="155" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -91,7 +91,7 @@
 				<text><![CDATA[Año Gestión]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1258d4f5-298e-413d-8a58-9d62cdfc7a2f" stretchType="RelativeToTallestObject" mode="Opaque" x="247" y="0" width="269" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="1258d4f5-298e-413d-8a58-9d62cdfc7a2f" stretchType="RelativeToTallestObject" mode="Opaque" x="265" y="0" width="149" height="20" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -106,9 +106,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement uuid="7c8388af-16fe-44aa-8cc9-22aaae2f3dee" x="13" y="0" width="234" height="20"/>
+				<reportElement uuid="7c8388af-16fe-44aa-8cc9-22aaae2f3dee" x="110" y="0" width="155" height="20"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -119,7 +119,7 @@
 				<textFieldExpression><![CDATA[$F{anioGestion}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0">
-				<reportElement uuid="864f5016-53b3-4540-a6c2-db298c1ae46c" x="247" y="0" width="269" height="20"/>
+				<reportElement uuid="864f5016-53b3-4540-a6c2-db298c1ae46c" x="265" y="0" width="149" height="20"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -132,11 +132,7 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="26" splitType="Stretch">
-			<line>
-				<reportElement uuid="52c1682d-a761-425b-adee-0c857f0badbb" x="0" y="1" width="528" height="1"/>
-			</line>
-		</band>
+		<band height="26" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="21" splitType="Stretch">

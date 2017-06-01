@@ -13,20 +13,32 @@
 	<field name="AGU" class="java.sql.Date">
 		<fieldDescription><![CDATA[AGU]]></fieldDescription>
 	</field>
-	<field name="nombre" class="java.lang.String">
-		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	<field name="CSU" class="java.sql.Date">
+		<fieldDescription><![CDATA[CSU]]></fieldDescription>
+	</field>
+	<field name="disenioConvenio" class="java.sql.Date">
+		<fieldDescription><![CDATA[disenioConvenio]]></fieldDescription>
 	</field>
 	<field name="firmado" class="java.sql.Date">
 		<fieldDescription><![CDATA[firmado]]></fieldDescription>
 	</field>
-	<field name="CSU" class="java.sql.Date">
-		<fieldDescription><![CDATA[CSU]]></fieldDescription>
-	</field>
 	<field name="fiscalia" class="java.sql.Date">
 		<fieldDescription><![CDATA[fiscalia]]></fieldDescription>
 	</field>
+	<field name="disenioInteresados" class="java.sql.Date">
+		<fieldDescription><![CDATA[disenioInteresados]]></fieldDescription>
+	</field>
+	<field name="revision" class="java.sql.Date">
+		<fieldDescription><![CDATA[revision]]></fieldDescription>
+	</field>
 	<field name="finalidad" class="java.lang.String">
 		<fieldDescription><![CDATA[finalidad]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -65,7 +77,7 @@
 			</rectangle>
 			<staticText>
 				<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="157" y="5" width="418" height="36" forecolor="#666666"/>
-				<textElement textAlignment="Left" verticalAlignment="Top">
+				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Arial" size="29" isBold="true" isUnderline="false" isStrikeThrough="false"/>
 					<paragraph rightIndent="10"/>
 				</textElement>
@@ -73,8 +85,8 @@
 			</staticText>
 			<staticText>
 				<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="157" y="43" width="418" height="22" forecolor="#666666"/>
-				<textElement textAlignment="Left">
-					<font size="14" isBold="true" isUnderline="false"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isUnderline="false"/>
 					<paragraph rightIndent="1" spacingAfter="20" tabStopWidth="50"/>
 				</textElement>
 				<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>
@@ -102,53 +114,74 @@
 	<columnHeader>
 		<band height="36" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="b411be6d-bf86-4f72-9d58-2cc2de7a37fe" mode="Opaque" x="55" y="1" width="147" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="b411be6d-bf86-4f72-9d58-2cc2de7a37fe" mode="Opaque" x="1" y="1" width="140" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre Documento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="09b7cbb2-f0b0-4fd8-961b-abdb4121d367" mode="Opaque" x="202" y="1" width="100" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="09b7cbb2-f0b0-4fd8-961b-abdb4121d367" mode="Opaque" x="377" y="1" width="84" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dictamen de Fiscalia]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="54eae7ea-bd06-4c40-9a16-a5c3f50dd155" mode="Opaque" x="301" y="1" width="100" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="54eae7ea-bd06-4c40-9a16-a5c3f50dd155" mode="Opaque" x="462" y="1" width="71" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Aprobado por CSU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="f47f69b8-c48a-4f43-82e9-3966957fe102" mode="Opaque" x="401" y="1" width="100" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="f47f69b8-c48a-4f43-82e9-3966957fe102" mode="Opaque" x="533" y="1" width="76" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ratificado por AGU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="4deb6125-0d67-4422-b05b-a4cce3aa3a2b" mode="Opaque" x="501" y="1" width="100" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="4deb6125-0d67-4422-b05b-a4cce3aa3a2b" mode="Opaque" x="609" y="1" width="84" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Firmado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ac3a6789-dc42-4030-b002-a6bfb5d6c1b5" mode="Opaque" x="601" y="1" width="142" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<reportElement uuid="ac3a6789-dc42-4030-b002-a6bfb5d6c1b5" mode="Opaque" x="693" y="1" width="108" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Finalidad]]></text>
 			</staticText>
+			<staticText>
+				<reportElement uuid="6305b8e8-4877-46c0-9e4f-eeee4cd3c48e" mode="Opaque" x="142" y="1" width="78" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Revisiòn]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="29ddeaf5-76ea-4a9d-b566-90d1b4920c58" mode="Opaque" x="220" y="1" width="77" height="35" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Diseño de Convenio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e505ca9c-f3b9-4190-afcd-370c137fd6fc" mode="Opaque" x="297" y="0" width="80" height="36" forecolor="#FFFFFF" backcolor="#CC0000"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Diseño Interesados]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="29" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement uuid="768ff90b-4ca4-4d38-8e4d-81ebdf044954" positionType="Float" stretchType="RelativeToTallestObject" x="55" y="0" width="147" height="28"/>
+				<reportElement uuid="768ff90b-4ca4-4d38-8e4d-81ebdf044954" positionType="Float" stretchType="RelativeToTallestObject" x="1" y="0" width="140" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -159,7 +192,7 @@
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement uuid="2930e7bf-0002-4a37-b503-83327ef94e12" positionType="Float" stretchType="RelativeToTallestObject" x="202" y="0" width="100" height="28"/>
+				<reportElement uuid="2930e7bf-0002-4a37-b503-83327ef94e12" positionType="Float" stretchType="RelativeToTallestObject" x="377" y="0" width="84" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -170,7 +203,7 @@
 				<textFieldExpression><![CDATA[$F{fiscalia}==null?"Pendiente":$F{fiscalia}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement uuid="d1f02abc-9b59-4f88-9c89-61f2e2abb94d" positionType="Float" stretchType="RelativeToTallestObject" x="301" y="0" width="100" height="28"/>
+				<reportElement uuid="d1f02abc-9b59-4f88-9c89-61f2e2abb94d" positionType="Float" stretchType="RelativeToTallestObject" x="462" y="0" width="71" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -181,7 +214,7 @@
 				<textFieldExpression><![CDATA[$F{CSU}==null?"Pendiente de Aprobación":$F{CSU}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement uuid="74687b4a-589a-4d4f-8ba6-a3cd7df679f4" positionType="Float" stretchType="RelativeToTallestObject" x="401" y="0" width="100" height="28"/>
+				<reportElement uuid="74687b4a-589a-4d4f-8ba6-a3cd7df679f4" positionType="Float" stretchType="RelativeToTallestObject" x="533" y="0" width="76" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -192,7 +225,7 @@
 				<textFieldExpression><![CDATA[$F{AGU}==null?"Pendiente de Ratificación":$F{AGU}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="false">
-				<reportElement uuid="1ffca0d8-e92c-4e4f-940c-99639081e090" positionType="Float" stretchType="RelativeToTallestObject" x="501" y="0" width="100" height="28"/>
+				<reportElement uuid="1ffca0d8-e92c-4e4f-940c-99639081e090" positionType="Float" stretchType="RelativeToTallestObject" x="609" y="0" width="84" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -203,7 +236,7 @@
 				<textFieldExpression><![CDATA[$F{firmado}==null?"Pendiente de Firma":$F{firmado}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
-				<reportElement uuid="ccd7df89-adbd-45a5-b561-7fd040a14748" positionType="Float" stretchType="RelativeToTallestObject" x="601" y="0" width="142" height="28"/>
+				<reportElement uuid="ccd7df89-adbd-45a5-b561-7fd040a14748" positionType="Float" stretchType="RelativeToTallestObject" x="693" y="0" width="108" height="28"/>
 				<box leftPadding="4">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -212,6 +245,39 @@
 				</box>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{finalidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bd9888d0-2c27-4ae2-b99c-a6e81d55906a" stretchType="RelativeToTallestObject" x="142" y="0" width="78" height="28"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{revision}==null?"Pendiente":$F{revision}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="85f0bb0a-257f-4ca8-bbfa-6cb53388811d" stretchType="RelativeToTallestObject" x="297" y="0" width="80" height="28"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{disenioInteresados}==null?"Pendiente":$F{disenioInteresados}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0ec66260-78a9-43a3-8c9e-833586e655d8" stretchType="RelativeToTallestObject" x="220" y="0" width="77" height="28"/>
+				<box leftPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{disenioConvenio}==null?"Pendiente":$F{disenioConvenio}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

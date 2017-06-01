@@ -64,7 +64,7 @@
 			<staticText>
 				<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="133" y="46" width="395" height="22" forecolor="#666666"/>
 				<textElement textAlignment="Center">
-					<font size="14" isBold="true" isUnderline="false"/>
+					<font size="12" isBold="true" isUnderline="false"/>
 					<paragraph rightIndent="1" spacingAfter="20" tabStopWidth="50"/>
 				</textElement>
 				<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>
@@ -114,7 +114,7 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{nombrePais}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern=" $ #,##0.00">
 				<reportElement uuid="05a11f7a-e93d-4d58-b899-fc1a558c86fb" x="262" y="0" width="115" height="20"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.5"/>

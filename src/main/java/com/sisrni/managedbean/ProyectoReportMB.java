@@ -137,7 +137,7 @@ public class ProyectoReportMB {
             HttpServletResponse response = (HttpServletResponse) context.getResponse();
             Reporte reporte = new Reporte("proyectos", "rpt_proyectos_gestionados_por_anio", request);
             List<RptProyectosFinanciadosPojo> dataProyectosFinanciadosReportes = proyectoService.getDataProyectosFinanciadosReportes(desdeYear, hastaYear);
-            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyectosFinanciadosPojo>(dataProyectosFinanciadosReportes)));
+            reporte.setDataSource(new JRBeanCollectionDataSource(dataProyectosFinanciadosReportes));
             reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
             reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
             reporte.addParameter("desde", anioDesde.trim());
@@ -188,7 +188,7 @@ public class ProyectoReportMB {
             HttpServletResponse response = (HttpServletResponse) context.getResponse();
             Reporte reporte = new Reporte("proyectos", "rpt_proyectos_totales", request);
             List<RptProyectosFinanciadosPojo> dataProyectosTotales = proyectoService.getDataProyectosTotales(desdeYear, hastaYear);
-            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyectosFinanciadosPojo>(dataProyectosTotales)));
+            reporte.setDataSource(new JRBeanCollectionDataSource(dataProyectosTotales));
             reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
             reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
             reporte.addParameter("desde", anioDesde.trim());

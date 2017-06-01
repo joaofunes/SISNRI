@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_proyectos_gestionados" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="09827370-de1a-4458-b232-447fc2e04db5">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="22"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="Desde" class="java.lang.String"/>
 	<parameter name="Hasta" class="java.lang.String"/>
@@ -74,17 +74,17 @@
 				<imageExpression><![CDATA[$P{srniImageUrl}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="162" y="7" width="640" height="36" forecolor="#666666"/>
-				<textElement textAlignment="Left" verticalAlignment="Top">
+				<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="162" y="7" width="490" height="36" forecolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Arial" size="29" isBold="true" isUnderline="false" isStrikeThrough="false"/>
 					<paragraph rightIndent="10"/>
 				</textElement>
 				<text><![CDATA[ Universidad de El Salvador]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="162" y="43" width="640" height="22" forecolor="#666666"/>
-				<textElement textAlignment="Left">
-					<font size="14" isBold="true" isUnderline="false"/>
+				<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="162" y="43" width="490" height="22" forecolor="#666666"/>
+				<textElement textAlignment="Center">
+					<font size="13" isBold="true" isUnderline="false"/>
 					<paragraph rightIndent="1" spacingAfter="20" tabStopWidth="50"/>
 				</textElement>
 				<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>

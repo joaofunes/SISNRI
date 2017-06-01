@@ -222,7 +222,7 @@ public class ConvenioReportesMB {
             HttpServletResponse response = (HttpServletResponse) context.getResponse();
             Reporte reporte = new Reporte("convenios", "rpt_estados_bitacora", request);
             List<RptBitacoraEstadosPojo> dataPropuestasConvenioBitacora = propuestaConvenioService.estadosPropuestaConvenioBitacora(desdeYear, hastaYear);
-            reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptBitacoraEstadosPojo>(dataPropuestasConvenioBitacora)));
+            reporte.setDataSource(new JRBeanCollectionDataSource(dataPropuestasConvenioBitacora));
             reporte.addParameter("uesImageUrl", getBaseDir("ues.png"));
             reporte.addParameter("srniImageUrl", getBaseDir("srni.jpg"));
             reporte.addParameter("desde", anioDesde.trim());

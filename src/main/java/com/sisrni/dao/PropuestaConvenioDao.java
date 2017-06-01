@@ -633,6 +633,9 @@ public class PropuestaConvenioDao extends GenericDao<PropuestaConvenio, Integer>
                     + "(SELECT be.FECHA_DE_CAMBIO FROM BITACORA_ESTADO be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=7) AS CSU,\n"
                     + "(SELECT be.FECHA_DE_CAMBIO FROM BITACORA_ESTADO be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=8) as AGU,\n"
                     + "(SELECT be.FECHA_DE_CAMBIO FROM BITACORA_ESTADO be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=10) AS Firmado,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM BITACORA_ESTADO be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=11) AS Revision,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM BITACORA_ESTADO be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=4) AS DisenioConvenio,\n"
+                    + "(SELECT be.FECHA_DE_CAMBIO FROM BITACORA_ESTADO be WHERE be.ID_PROPUESTA=pc.ID_PROPUESTA AND be.ID_ESTADO=5) AS DisenioInteresados,\n"
                     + "pc.FINALIDAD_PROPUESTA AS Finalidad\n"
                     + "FROM `PROPUESTA_CONVENIO` pc WHERE YEAR(pc.FECHA_INGRESO) BETWEEN \n"
                     + desde + " AND " + hasta + " ORDER BY pc.ID_PROPUESTA DESC";

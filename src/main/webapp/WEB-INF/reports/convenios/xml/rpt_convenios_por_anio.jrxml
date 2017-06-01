@@ -68,8 +68,8 @@
 			</staticText>
 			<staticText>
 				<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="132" y="38" width="395" height="22" forecolor="#666666"/>
-				<textElement textAlignment="Left">
-					<font size="14" isBold="true" isUnderline="false"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isUnderline="false"/>
 					<paragraph rightIndent="1" spacingAfter="20" tabStopWidth="50"/>
 				</textElement>
 				<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>

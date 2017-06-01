@@ -19,6 +19,9 @@ public class RptBitacoraEstadosPojo implements Serializable{
     private Date CSU;
     private Date AGU;
     private Date Firmado;
+    private Date Revision;
+    private Date DisenioConvenio;
+    private Date DisenioInteresados;
     private String Finalidad;
 
     public String getNombre() {
@@ -59,6 +62,30 @@ public class RptBitacoraEstadosPojo implements Serializable{
 
     public void setFirmado(Date Firmado) {
         this.Firmado = Firmado;
+    }
+
+    public Date getRevision() {
+        return Revision;
+    }
+
+    public void setRevision(Date Revision) {
+        this.Revision = Revision;
+    }
+
+    public Date getDisenioConvenio() {
+        return DisenioConvenio;
+    }
+
+    public void setDisenioConvenio(Date DisenioConvenio) {
+        this.DisenioConvenio = DisenioConvenio;
+    }
+
+    public Date getDisenioInteresados() {
+        return DisenioInteresados;
+    }
+
+    public void setDisenioInteresados(Date DisenioInteresados) {
+        this.DisenioInteresados = DisenioInteresados;
     }
 
     public String getFinalidad() {
