@@ -46,6 +46,7 @@
                             <p:commandLink styleClass="ui-icon ui-icon-calendar"
                                            title="Cambiar Vigencia" value="Cambiar Vigencia"
                                            update=":idCambiarEstado"
+                                           rendered="#{consultarConvenioMB.rol != null}"
                                            actionListener="#{consultarConvenioMB.preCambiarVigencia(pconvenios)}"
                                            oncomplete="PF('dlgEstado').show();"/>
 
@@ -54,6 +55,7 @@
                             <p:commandLink styleClass="ui-icon ui-icon-arrow-2-ne-sw"
                                            title="Ver Convenio" value="Ver Convenio"
                                            update=":idVerConvenio"
+                                           rendered="#{consultarConvenioMB.rol != null}"
                                            actionListener="#{consultarConvenioMB.preView(pconvenios)}"
                                            oncomplete="PF('dlgVerConvenio').show();"/>
 

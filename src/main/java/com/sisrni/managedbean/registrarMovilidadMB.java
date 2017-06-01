@@ -1731,7 +1731,7 @@ public class registrarMovilidadMB {
         txtBotonGuardar = "Actualizar";
         txtBotonRegresar = "Cancelar";
         iconRegresarCancelar = "ui-icon-cancel";
-        iconGuardarActualizar = "ui-icon-pencil";
+        iconGuardarActualizar = "ui-icon-refresh";
 
         //deshabilita el selectOnmenu de tipo de movilidad
         isHabilidado = Boolean.TRUE;

@@ -9,7 +9,9 @@ import com.sisrni.model.Documento;
 import com.sisrni.model.Estado;
 import com.sisrni.model.PersonaPropuesta;
 import com.sisrni.model.PropuestaConvenio;
+import com.sisrni.model.SsRoles;
 import com.sisrni.pojo.rpt.PojoPropuestaConvenio;
+import com.sisrni.security.AppUserDetails;
 import com.sisrni.service.DocumentoService;
 import com.sisrni.service.EstadoService;
 import com.sisrni.service.FreeMarkerMailService;
@@ -21,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -86,6 +89,13 @@ public class ConsultarConvenioMB implements Serializable {
     private StreamedContent content;
 
     private static final String TIPO_DOCUMENTO = "Convenio Firmado";
+    private final List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
+
+    private CurrentUserSessionBean user;
+    private AppUserDetails usuario;
+    
+    private SsRoles rol;
+
 
     // @PostConstruct
     public void init() {
@@ -102,6 +112,11 @@ public class ConsultarConvenioMB implements Serializable {
             estado = new Estado();
             listadoPropuestaConvenio = propuestaConvenioService.getAllConvenioSQL();
 
+            usuario = null;
+            user = new CurrentUserSessionBean();
+            usuario = user.getSessionUser();
+            cargarUsuario();
+            
             Collections.sort(listadoPropuestaConvenio, new Comparator<PojoPropuestaConvenio>() {
                 @Override
                 public int compare(PojoPropuestaConvenio lhs, PojoPropuestaConvenio rhs) {
@@ -115,6 +130,30 @@ public class ConsultarConvenioMB implements Serializable {
         }
     }
 
+    
+     /**
+     * cargar datos de usuario logeado
+     */
+    private void cargarUsuario() {
+        try {
+            rol = null;
+            if (usuario != null && usuario.getUsuario() != null) {
+                for (SsRoles rols : usuario.getUsuario().getSsRolesList()) {
+                    for (String rl : ROL) {
+                        if (rols.getCodigoRol().equalsIgnoreCase(rl)) {
+                            rol = new SsRoles();
+                            rol = rols;
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     public void preEliminar(PojoPropuestaConvenio pojo) {
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
@@ -229,7 +268,9 @@ public class ConsultarConvenioMB implements Serializable {
      *
      * Metodo para realizar las descargar de archivos
      *
+     * @param pojo
      * @param documento
+     * @throws java.io.IOException
      */
     public void FileDownloadView(PojoPropuestaConvenio pojo) throws IOException {
         BufferedOutputStream out = null;
@@ -245,6 +286,7 @@ public class ConsultarConvenioMB implements Serializable {
                     if (getFileExtension(doc.getNombreDocumento()).equalsIgnoreCase("pdf")) {
                         stream = new ByteArrayInputStream(doc.getDocumento());
                         nombre = doc.getNombreDocumento();
+                        extension = "pdf";
                     }
                 }
             }
@@ -338,5 +380,30 @@ public class ConsultarConvenioMB implements Serializable {
 
     public void setListadoDocumento(List<Documento> listadoDocumento) {
         this.listadoDocumento = listadoDocumento;
+    }
+
+   
+    public CurrentUserSessionBean getUser() {
+        return user;
+    }
+
+    public void setUser(CurrentUserSessionBean user) {
+        this.user = user;
+    }
+
+    public AppUserDetails getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(AppUserDetails usuario) {
+        this.usuario = usuario;
+    }
+
+    public SsRoles getRol() {
+        return rol;
+    }
+
+    public void setRol(SsRoles rol) {
+        this.rol = rol;
     }
 }

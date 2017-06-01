@@ -28,7 +28,7 @@ public class DocumentoDao extends GenericDao<Documento, Integer> {
      */
     public List<Documento> getDocumentFindCovenio(int propuestaConvenio) {
         try {
-            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT doc FROM Documento doc JOIN FETCH doc.idTipoDocumento tipo WHERE doc.idPropuesta.idPropuesta =:id");
+            Query q = getSessionFactory().getCurrentSession().createQuery("SELECT doc FROM Documento doc  WHERE doc.idPropuesta.idPropuesta =:id");
             q.setParameter("id", propuestaConvenio);
             return q.list();
         } catch (Exception e) {

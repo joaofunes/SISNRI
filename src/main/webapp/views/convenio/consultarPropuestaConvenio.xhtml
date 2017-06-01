@@ -29,10 +29,10 @@
                 <p:column  filterBy="#{pconvenios.SOLICITANTE}" headerText="Solicitante">
                     <h:outputText value="#{pconvenios.SOLICITANTE}" />
                 </p:column>
-                <p:column filterBy="#{pconvenios.INTERNO}"  headerText="Referente Interno">
+                <p:column filterBy="#{pconvenios.INTERNO}"  headerText="Coordinador Interno">
                     <h:outputText value="#{pconvenios.INTERNO}" />
                 </p:column>
-                <p:column filterBy="#{pconvenios.EXTERNO}" headerText="Referente Externo">
+                <p:column filterBy="#{pconvenios.EXTERNO}" headerText="Coordinador Externo">
                     <h:outputText value="#{pconvenios.EXTERNO}" />
                 </p:column>
                 <p:column filterBy="#{pconvenios.TIPO_CONVENIO}" headerText="Tipo de Convenio">
@@ -44,6 +44,7 @@
                 <p:column headerText="Opciones" >
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                       rendered="#{consultarPropuestaConvenioMB.rol != null}"
                                        value="Editar" actionListener="#{consultarPropuestaConvenioMB.preEditar(pconvenios)}" />
                     </div>
 
@@ -51,6 +52,7 @@
                         <p:commandLink styleClass="ui-icon ui-icon-transferthick-e-w"
                                        title="Cambiar estado" value="Cambiar estado"
                                        update=":idCambiarEstado"
+                                       rendered="#{consultarPropuestaConvenioMB.rol != null}"
                                        actionListener="#{consultarPropuestaConvenioMB.preCambiarEstado(pconvenios)}"
                                        oncomplete="PF('dlgEstado').show();"/>
 
@@ -74,6 +76,7 @@
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-close"
                                        title="Eliminar Propuesta" value="Eliminar Propuesta"
+                                       rendered="#{consultarPropuestaConvenioMB.rol != null}"
                                        actionListener="#{consultarPropuestaConvenioMB.preEliminarConvenio(pconvenios)}"
                                        update=":idEliminarPropuesta"
                                        oncomplete="PF('deleteChangeDlg').show();"/>
@@ -90,8 +93,9 @@
                         <p:column>
                             <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
                         </p:column>
-                        <p:column>
-                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
+                        <p:column>                            
+                            <p:inputTextarea readonly="true" value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" rows="2" maxlength="300" style="width:300px" >
+                                        </p:inputTextarea>
                         </p:column>
                     </p:row>
 
@@ -105,7 +109,7 @@
                     </p:row>
                     <p:row> 
                         <p:column>
-                            <h:outputText value="Referente Interno: "  style="font-weight:bold" />
+                            <h:outputText value="Coordinador Interno: "  style="font-weight:bold" />
                         </p:column>
                         <p:column>
                             <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.INTERNO}" />
@@ -114,7 +118,7 @@
 
                     <p:row>  
                         <p:column>
-                            <h:outputText value="Referente Externo: "  style="font-weight:bold" />
+                            <h:outputText value="Coordinador Externo: "  style="font-weight:bold" />
                         </p:column>
                         <p:column>
                             <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.EXTERNO}" />
@@ -181,16 +185,18 @@
                         <p:column>
                             <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
                         </p:column>
-                        <p:column>
-                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
+                        <p:column>                            
+                            <p:inputTextarea readonly="true" value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" rows="2" maxlength="300" style="width:300px" >
+                                        </p:inputTextarea>
                         </p:column>
                     </p:row>
                     <p:row>  
                         <p:column>
                             <h:outputText value="Descripci&oacute;n: "  style="font-weight:bold" />
                         </p:column>
-                        <p:column>
-                            <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}"  style="width: 300px;"/>
+                        <p:column>                            
+                            <p:inputTextarea readonly="true" value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" rows="2" maxlength="300" style="width:300px" >
+                                        </p:inputTextarea>
                         </p:column>
                     </p:row>
                     <p:column>
@@ -273,8 +279,9 @@
         <p:confirmDialog widgetVar="deleteChangeDlg" message="Esta seguro que desea eliminar propuesta?" header="Eliminar propuesta"  global="true">
             <h:form id="idEliminarPropuesta">                              
                 <br/>
-                <h:outputText value="Nombre Propuesta: "  style="font-weight:bold" />
-                <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" />
+                <h:outputText value="Nombre Propuesta: "  style="font-weight:bold" />                
+                <p:inputTextarea readonly="true" value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" rows="2" maxlength="300" style="width:300px" >
+                                        </p:inputTextarea>
                 <br/>                
             </h:form>                
             <p:separator />
