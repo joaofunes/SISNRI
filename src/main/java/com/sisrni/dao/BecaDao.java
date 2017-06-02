@@ -105,7 +105,7 @@ public class BecaDao extends GenericDao<Beca, Integer> {
                 + "(SELECT SUM(r.MONTO_TOTAL) FROM beca r WHERE r.OTORGADA=0 and r.ID_PAIS_DESTINO=b.ID_PAIS_DESTINO) montoDenegadas\n"
                 + "from BECA b INNER JOIN PAIS p ON b.ID_PAIS_DESTINO=p.ID_PAIS\n"
                 + "WHERE b.ANIO_GESTION BETWEEN " + desde + " and " + hasta + "\n"
-                + "GROUP BY b.ID_PAIS_DESTINO ORDER BY b.ID_PAIS_DESTINO asc";
+                + "GROUP BY p.NOMBRE_PAIS ORDER BY b.ID_PAIS_DESTINO asc";
 
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("nombrePais", new StringType())

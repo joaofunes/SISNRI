@@ -24,7 +24,7 @@
 			<elementGroup/>
 			<staticText>
 				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="75" width="528" height="25" forecolor="#5B63B1"/>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Center">
 					<font size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Reporte de Total de Proyectos Gestionados/Aprobados  ]]></text>

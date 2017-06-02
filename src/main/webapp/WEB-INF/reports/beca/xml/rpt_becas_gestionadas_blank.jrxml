@@ -32,7 +32,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="176" splitType="Stretch">
+		<band height="152" splitType="Stretch">
 			<rectangle>
 				<reportElement uuid="25701a5f-cae8-4217-8b5c-98c7ae0521da" mode="Opaque" x="0" y="0" width="528" height="58" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
 			</rectangle>
@@ -55,21 +55,21 @@
 				</staticText>
 			</elementGroup>
 			<staticText>
-				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="104" width="528" height="25" forecolor="#5B63B1"/>
+				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="68" width="528" height="25" forecolor="#5B63B1"/>
 				<textElement textAlignment="Center">
 					<font size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Reporte de Becas Internacionales Gestionadas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="129" width="528" height="25" forecolor="#5B63B1"/>
+				<reportElement uuid="473c2043-bff0-48b0-898c-5944e0fce4cc" x="0" y="96" width="528" height="25" forecolor="#5B63B1"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Agrupadas por Año]]></text>
 			</staticText>
 			<textField pattern="MM/dd/yyyy">
-				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="154" width="528" height="20" forecolor="#786C6C"/>
+				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="127" width="528" height="20" forecolor="#786C6C"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Fecha de creación: "+new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
 			</textField>
@@ -222,7 +222,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{becasOtorgadas}]]></textFieldExpression>
 			</textField>
-			<textField pattern="$#,##0.00" isBlankWhenNull="false">
+			<textField pattern="$#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="e2bc8503-97ee-412f-894e-dd5c1a5327b5" x="380" y="0" width="148" height="20"/>
 				<box leftPadding="7">
 					<pen lineWidth="0.5"/>
