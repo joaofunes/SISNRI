@@ -1419,7 +1419,7 @@ public class PropuestaConvenioMB implements Serializable {
                     if (propuestaConvenio.getIdTipoPropuestaConvenio().getNombrePropuestaConvenio().equalsIgnoreCase(CONVENIO_ESPECIFICO)) {
                         listadoPropuestaConvenio = propuestaConvenioService.getConveniosMarcos();
                     } else {
-                        listadoPropuestaConvenio = propuestaConvenioService.getConvenios();
+                        listadoPropuestaConvenio = propuestaConvenioService.getConveniosMarcosEspecifico();
                     }
                     flagConvenioMarco = false;
                 }
