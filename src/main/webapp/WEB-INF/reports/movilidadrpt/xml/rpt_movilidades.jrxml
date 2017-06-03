@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidades" pageWidth="612" pageHeight="792" columnWidth="528" leftMargin="42" rightMargin="42" topMargin="42" bottomMargin="42" uuid="5ff5958f-8431-4cef-8540-a8db4aec94d7">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="128"/>
+	<property name="ireport.y" value="32"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
@@ -26,7 +26,7 @@
 				<textElement textAlignment="Center">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[REPORTE DE MOVILIDADES POR AÑO]]></text>
+				<text><![CDATA[Reporte de Movilidades Académicas por Año]]></text>
 			</staticText>
 			<textField pattern="d/M/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="288" y="119" width="240" height="20" forecolor="#786C6C"/>
@@ -52,15 +52,15 @@
 			</staticText>
 			<staticText>
 				<reportElement uuid="bf521359-c364-4621-800b-8f596dcc44fe" x="134" y="42" width="390" height="22" forecolor="#666666"/>
-				<textElement>
-					<font size="14" isBold="true" isUnderline="false"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isUnderline="false"/>
 					<paragraph rightIndent="1" spacingAfter="20" tabStopWidth="50"/>
 				</textElement>
 				<text><![CDATA[Secretaría de Relaciones Nacionales e Internacionales]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="ac257b65-6773-48ec-88ba-fb7da3729f74" x="134" y="6" width="390" height="36" forecolor="#666666"/>
-				<textElement verticalAlignment="Top">
+				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Arial" size="26" isBold="true" isUnderline="false" isStrikeThrough="false"/>
 					<paragraph rightIndent="10"/>
 				</textElement>
@@ -119,7 +119,7 @@
 		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement uuid="4b57445a-6ddd-45e5-a883-16bbc02c0b6e" x="97" y="0" width="181" height="20"/>
-				<box leftPadding="0">
+				<box leftPadding="5">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5" lineStyle="Solid"/>
 					<leftPen lineWidth="0.5"/>
