@@ -112,21 +112,21 @@
                                             <p:outputLabel for="nombreproyecto" value="Nombre del Proyecto:"  />
                                         </p:column>
                                         <p:column>
-                                            <p:inputTextarea id="nombreproyecto" value="#{proyectosMB.proyecto.nombreProyecto}"  rows="2" maxlength="300" style="width:180px" required="true">
+                                            <p:inputTextarea id="nombreproyecto" value="#{proyectosMB.proyecto.nombreProyecto}" readonly="#{proyectosMB.actualizar==true}" rows="2" maxlength="300" style="width:180px" required="true">
                                             </p:inputTextarea>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Objetivo del Proyecto:" />
                                         </p:column>
                                         <p:column>
-                                            <p:inputTextarea value="#{proyectosMB.proyecto.objetivo}" rows="2" maxlength="1000" style="width:180px">
+                                            <p:inputTextarea value="#{proyectosMB.proyecto.objetivo}" readonly="#{proyectosMB.actualizar==true}" rows="2" maxlength="1000" style="width:180px">
                                             </p:inputTextarea>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Fecha Inicio:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="desdeMovilidad" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaI}">
+                                            <p:calendar id="desdeMovilidad" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaI}" readonly="#{proyectosMB.actualizar==true}">
                                                 <p:ajax event="dateSelect" update="fechafin" />
                                             </p:calendar>
                                         </p:column>
@@ -615,6 +615,10 @@
             <p:confirmDialog widgetVar="confirmarDesvincularExterno" message="¿Est&aacute; seguro que desea desvincular al Coordinador Externo?" header="Desvincular Coordinador Externo"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.desvincularExterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('confirmarDesvincularExterno').hide();"/>
+            </p:confirmDialog>
+            <p:confirmDialog widgetVar="dataChangeDlgconfirmaguardarproyecto" message="¿Est&aacute; seguro que los datos del proyecto est&aacute;n correctos?, ya que algunos datos no podr&aacute;n ser modificados " header="Verificaci&oacute;n de datos"  global="true">
+                <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.guardarProyecto()}" process="@this" update=":formAdmin"/>
+                <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('dataChangeDlgconfirmaguardarproyecto').hide();"/>
             </p:confirmDialog>
         </ui:define>
     </ui:composition>

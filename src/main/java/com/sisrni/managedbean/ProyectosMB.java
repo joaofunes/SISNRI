@@ -540,9 +540,12 @@ public class ProyectosMB {
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dataChangeDlgExterno').show();");
         } else {
-            guardarProyecto();
-        }
-//            guardarProyecto();
+            if(actualizar==true){
+                guardarProyecto();
+            }else{
+            confirmaguardarProyecto();
+            }
+        }       
     }
     //metodo que se utiliza para reemplazar los datos de la vista a los ya existentes de una persona
 
@@ -585,7 +588,11 @@ public class ProyectosMB {
 //        RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlgExterno').hide();");
-        guardarProyecto();
+        if(actualizar==true){
+            guardarProyecto();
+        }else{
+            confirmaguardarProyecto();
+        }
     }
 
     public void noReemplazarPersonaExterno() {
@@ -594,7 +601,15 @@ public class ProyectosMB {
 //        RequestContext.getCurrentInstance().update(":formAdmin");
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dataChangeDlgExterno').hide();");
-        guardarProyecto();
+        if(actualizar==true){
+            guardarProyecto();
+        }else{
+            confirmaguardarProyecto();
+        }
+    }
+    public void confirmaguardarProyecto(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dataChangeDlgconfirmaguardarproyecto').show();");
     }
 
     public void guardarProyecto() {
