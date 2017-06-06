@@ -1203,9 +1203,13 @@ public class ProyectosMB {
                 }
                 if (list.isEmpty()) {
                     activarBotonNuevaPersona = Boolean.TRUE;
+                    siEditoPersona=Boolean.FALSE;
+                    limpiarCoordinador();
                     buscoYEncontroCoordinador = Boolean.FALSE;
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersona");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteInterno");
+                }else{
+                    activarBotonNuevaPersona = Boolean.FALSE;
                 }
                 limpiarCoordinador();
                 return list;
@@ -1217,8 +1221,12 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersona = Boolean.TRUE;
                     buscoYEncontroCoordinador = Boolean.FALSE;
+                    siEditoPersona=Boolean.FALSE;
+                    limpiarCoordinador();
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersona");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteInterno");
+                }else{
+                    activarBotonNuevaPersona = Boolean.FALSE;
                 }
                 limpiarCoordinador();
                 return list;
@@ -1230,8 +1238,12 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersona = Boolean.TRUE;
                     buscoYEncontroCoordinador = Boolean.FALSE;
+                    siEditoPersona=Boolean.FALSE;
+                    limpiarCoordinador();
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersona");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteInterno");
+                }else{
+                    activarBotonNuevaPersona = Boolean.FALSE;
                 }
                 limpiarCoordinador();
                 return list;
@@ -1255,8 +1267,12 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaAsistente = Boolean.TRUE;
                     buscoYEncontroAsistente = Boolean.FALSE;
+                    siEditoPersonaAsistente=Boolean.FALSE;
+                    limpiarAsistente();
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaAsistente");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteAsistente");
+                }else{
+                    activarBotonNuevaPersonaAsistente = Boolean.FALSE;
                 }
                 limpiarAsistente();
                 return list;
@@ -1268,8 +1284,12 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaAsistente = Boolean.TRUE;
                     buscoYEncontroAsistente = Boolean.FALSE;
+                    siEditoPersonaAsistente=Boolean.FALSE;
+                    limpiarAsistente();
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaAsistente");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteAsistente");
+                }else{
+                    activarBotonNuevaPersonaAsistente = Boolean.FALSE;
                 }
                 limpiarAsistente();
                 return list;
@@ -1280,8 +1300,12 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaAsistente = Boolean.TRUE;
                     buscoYEncontroAsistente = Boolean.FALSE;
+                    siEditoPersonaAsistente=Boolean.FALSE;
+                    limpiarAsistente();
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaAsistente");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteAsistente");
+                }else{
+                    activarBotonNuevaPersonaAsistente = Boolean.FALSE;
                 }
                 limpiarAsistente();
                 return list;
@@ -1304,8 +1328,12 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaExterna = Boolean.TRUE;
                     buscoYEncontroRefExt = Boolean.FALSE;
+                    siEditoPersonaExterna=Boolean.FALSE;
+                    limpiarExterno();
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaExterna");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteExterno");
+                }else{
+                    activarBotonNuevaPersonaExterna = Boolean.FALSE;
                 }
                 limpiarExterno();
                 return list;
@@ -1317,8 +1345,12 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaExterna = Boolean.TRUE;
                     buscoYEncontroRefExt = Boolean.FALSE;
+                    siEditoPersonaExterna=Boolean.FALSE;
+                    limpiarExterno();
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaExterna");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteExterno");
+                }else{
+                    activarBotonNuevaPersonaExterna = Boolean.FALSE;
                 }
                 limpiarExterno();
                 return list;
@@ -1329,8 +1361,12 @@ public class ProyectosMB {
                 if (list.isEmpty()) {
                     activarBotonNuevaPersonaExterna = Boolean.TRUE;
                     buscoYEncontroRefExt = Boolean.FALSE;
+                    siEditoPersonaExterna=Boolean.FALSE;
+                    limpiarExterno();
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:idbotonesPersonaExterna");
                     RequestContext.getCurrentInstance().update("formAdmin:acordion:GroupSolicitanteExterno");
+                }else{
+                    activarBotonNuevaPersonaExterna = Boolean.FALSE;
                 }
                 limpiarExterno();
                 return list;
