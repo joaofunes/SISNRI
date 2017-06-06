@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidad_detalle" pageWidth="1190" pageHeight="842" orientation="Landscape" columnWidth="1150" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="09827370-de1a-4458-b232-447fc2e04db5">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="291"/>
+	<property name="ireport.x" value="303"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="Desde" class="java.lang.String"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
@@ -79,7 +79,7 @@
 				<textElement textAlignment="Center">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[REPORTE DE MOVILIDADES GESTIONADAS]]></text>
+				<text><![CDATA[Reporte de Movilidades Gestionadas]]></text>
 			</staticText>
 			<textField pattern="MM/dd/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="0" y="90" width="598" height="20" forecolor="#786C6C"/>

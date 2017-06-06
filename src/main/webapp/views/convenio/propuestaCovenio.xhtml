@@ -92,12 +92,12 @@
                                     <p:column>
                                         <p:commandButton id="btnEditarSolicitante" rendered="#{propuestaConvenioMB.habilitarBotonEditSolicitante}"
                                                          actionListener="#{propuestaConvenioMB.preEditeSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
-                                                         value="Editar"   icon="ui-icon-pencil" title="Editar Referente Interno" />                                               
+                                                         value="Editar"   icon="ui-icon-pencil" title="Editar Coordinador Interno" />                                               
                                     </p:column>
                                     <p:column>                                                                                  
                                         <p:commandButton id="btnNuevoSolicitante" disabled="#{!propuestaConvenioMB.habilitarBotonSaveSolicitante}"
                                                          actionListener="#{propuestaConvenioMB.preEditeGuardarSolicitante()}" process="@this" update="acordion:GroupSolicitante,@form" 
-                                                         value="Nuevo"   icon="ui-icon-plus" title="Nuevo Referente Interno" />                                               
+                                                         value="Nuevo"   icon="ui-icon-plus" title="Nuevo Coordinador Interno" />                                               
 
                                     </p:column>
                                     
@@ -315,12 +315,12 @@
                                     <p:column>
                                         <p:commandButton id="btnEditarInterno" rendered="#{propuestaConvenioMB.habilitarBotonEditInterno}"
                                                          actionListener="#{propuestaConvenioMB.preEditeReferenteInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
-                                                         value="Editar"   icon="ui-icon-pencil" title="Editar Referente Interno" />                                               
+                                                         value="Editar"   icon="ui-icon-pencil" title="Editar Coordinador Interno" />                                               
                                     </p:column>
                                     <p:column>                                                                                  
                                         <p:commandButton id="btnNuevoInterno" disabled="#{!propuestaConvenioMB.habilitarBotonSaveInterno}"
                                                          actionListener="#{propuestaConvenioMB.preEditeGuardarInterno}" process="@this" update="acordion:GroupSolicitanteInterno,@form" 
-                                                         value="Nuevo"   icon="ui-icon-plus" title="Nuevo Referente Interno" />                                               
+                                                         value="Nuevo"   icon="ui-icon-plus" title="Nuevo Coordinador Interno" />                                               
 
                                     </p:column>
 
@@ -531,12 +531,12 @@
                                 <p:column>
                                     <p:commandButton id="btnEditarExterno" rendered="#{propuestaConvenioMB.habilitarBotonEditExterno}"
                                                      actionListener="#{propuestaConvenioMB.preEditeReferenteExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
-                                                     value="Editar"   icon="ui-icon-pencil" title="Editar Referente Externo" />                                               
+                                                     value="Editar"   icon="ui-icon-pencil" title="Editar Coordinador Externo" />                                               
                                 </p:column>
                                 <p:column>                                                                                  
                                     <p:commandButton id="btnNuevoExterno" disabled="#{!propuestaConvenioMB.habilitarBotonSaveExterno}"
                                                      actionListener="#{propuestaConvenioMB.preEditeGuardarExterno()}" process="@this" update="acordion:GroupSolicitanteExterno,@form" 
-                                                     value="Nuevo"   icon="ui-icon-plus" title="Nuevo Referente Externo" />                                               
+                                                     value="Nuevo"   icon="ui-icon-plus" title="Nuevo Coordinador Externo" />                                               
 
                                 </p:column>
 
