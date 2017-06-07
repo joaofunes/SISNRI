@@ -253,6 +253,7 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
                 inicializadorListados();
                 getListFacultadesUnidades();
                 cargarUsuario();
+                valida();
             } else {
                 cargarUsuario();
                 setPrecargar(Boolean.TRUE);
@@ -414,6 +415,32 @@ public class ActualizacionPropuestaConvenioMB implements Serializable {
         }
     }
 
+    
+     private void valida() {
+         try {
+            if(referenteInterno != null){
+                bloqueosInterno = false;
+            }else{
+                bloqueosInterno = true;
+            }
+            if(referenteExterno != null){
+               bloqueosExterno = false;
+            }else{
+              bloqueosExterno = true;
+            }
+            
+            if(solicitante != null){
+                bloqueosSolicitante = false; 
+            }else {
+                bloqueosSolicitante = true;
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+    }
+    
+    
+    
     /**
      * Metodo para realizar busquedas por nombre, email, documento independiente
      *
@@ -2541,5 +2568,7 @@ Persona existePersonaByMail = personaService.existePersonaByMail(solicitante.get
     public void setSoloLecturaEmail(boolean soloLecturaEmail) {
         this.soloLecturaEmail = soloLecturaEmail;
     }
+
+   
 
 }
