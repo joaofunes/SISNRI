@@ -26,7 +26,7 @@
 				<textElement textAlignment="Center">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reporte de Movilidades Aacadémicas Salientes  ]]></text>
+				<text><![CDATA[Reporte de Movilidades Académicas Salientes  ]]></text>
 			</staticText>
 			<textField pattern="d/M/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="284" y="119" width="244" height="20" forecolor="#786C6C"/>
