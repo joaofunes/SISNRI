@@ -42,7 +42,7 @@
 				<textElement textAlignment="Center">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reporte  de Convenios con sus Estados Respectivos]]></text>
+				<text><![CDATA[Reporte  de Propuestas con sus Estados Respectivos]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement uuid="1af49b8e-9413-4968-b528-214453b6cefa" x="264" y="100" width="264" height="20" forecolor="#786C6C"/>
@@ -113,7 +113,7 @@
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement uuid="6c7f4757-20b3-4923-acb1-3cd7da956e3f" stretchType="RelativeToTallestObject" x="42" y="0" width="183" height="20"/>
 				<box leftPadding="5" rightPadding="5">
 					<topPen lineWidth="0.5"/>
