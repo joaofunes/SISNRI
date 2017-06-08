@@ -68,7 +68,7 @@ public class NoticiaMB implements Serializable {
     private Boolean renderFbButton;
     private File fileForFb;
     private FileInputStream fileToPublish;
-    private static final String tokenFb = "EAADuZAEJdqZBQBAPdZBu0uy9PfZBnCquAUt5qxb46POARj7ImwGPmIrimH09LyqTBVndc3akEBCuc3UHd5jYJrRofzfyai71M9ZBr2bjEfYTU9qff3ZByZBQpUWeOUR64LYbhUHmGC5lmuZALRGWANrYJzzZBo50Jl9EMtfCt7b7jCF2k6cVQprH9";
+    private static final String tokenFb = "";
 
     @Autowired
     @ManagedProperty("#{globalCounterView}")
