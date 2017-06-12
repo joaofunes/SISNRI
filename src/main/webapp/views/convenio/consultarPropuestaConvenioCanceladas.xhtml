@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition  template="/WEB-INF/templates/layout.xhtml"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:pe="http://primefaces.org/ui/extensions" 
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 >  
+    <ui:define name="content">
+        <f:metadata>            
+            <f:viewAction action="#{consultarPropuestaConvenioCanceladasMB.init}" />
+        </f:metadata>
+        <h2 class="title ui-widget-header ui-corner-all" align="center">Consultar Propuestas de Convenios</h2>
+        <h:outputLabel style="margin-bottom: 20px;"/>
+        <h:form id="formAdmin">
+
+            <p:dataTable var="pconvenios" value="#{consultarPropuestaConvenioCanceladasMB.listadoPropuestaConvenio}" paginator="true" rows="5"                             
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="5,10,15" 
+                         >    
+                <p:column filterBy="#{pconvenios.NOMBRE_PROPUESTA}"  headerText="Nombre Propuesta">
+                    <h:outputText value="#{pconvenios.NOMBRE_PROPUESTA}" />
+                </p:column>
+
+                <p:column  filterBy="#{pconvenios.SOLICITANTE}" headerText="Solicitante">
+                    <h:outputText value="#{pconvenios.SOLICITANTE}" />
+                </p:column>
+                <p:column filterBy="#{pconvenios.INTERNO}"  headerText="Coordinador Interno">
+                    <h:outputText value="#{pconvenios.INTERNO}" />
+                </p:column>
+                <p:column filterBy="#{pconvenios.EXTERNO}" headerText="Coordinador Externo">
+                    <h:outputText value="#{pconvenios.EXTERNO}" />
+                </p:column>
+                <p:column filterBy="#{pconvenios.TIPO_CONVENIO}" headerText="Tipo de Convenio">
+                    <h:outputText value="#{pconvenios.TIPO_CONVENIO}" />
+                </p:column>
+                <p:column filterBy="#{pconvenios.NOMBRE_ESTADO}" headerText="Estado convenio">
+                    <h:outputText value="#{pconvenios.NOMBRE_ESTADO}" />
+                </p:column>
+                <p:column headerText="Opciones" >
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
+                                       rendered="#{consultarPropuestaConvenioCanceladasMB.rol != null}"
+                                       value="Editar" actionListener="#{consultarPropuestaConvenioCanceladasMB.preEditar(pconvenios)}" />
+                    </div>
+
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-transferthick-e-w"
+                                       title="Cambiar estado" value="Cambiar estado"
+                                       update=":idCambiarEstado"
+                                       rendered="#{consultarPropuestaConvenioCanceladasMB.rol != null}"
+                                       actionListener="#{consultarPropuestaConvenioCanceladasMB.preCambiarEstado(pconvenios)}"
+                                       oncomplete="PF('dlgEstado').show();"/>
+
+                    </div>     
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-circle-zoomin"
+                                       title="Detalle de Propuesta" value="Detalle de Propuesta"
+                                       actionListener="#{consultarPropuestaConvenioCanceladasMB.preEliminar(pconvenios)}"
+                                       update=":idInfoConvenio"
+                                       oncomplete="PF('dlgInfoConvenio').show();"/>
+
+                    </div> 
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-document"
+                                       title="Agregar Documento" value="Agregar Documento"
+                                       actionListener="#{consultarPropuestaConvenioCanceladasMB.preCargadocumento(pconvenios)}"
+                                       update=":idInfoConvenio"
+                                       oncomplete="PF('AddDocDialog').show();"/>
+
+                    </div> 
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-close"
+                                       title="Eliminar Propuesta" value="Eliminar Propuesta"
+                                       rendered="#{consultarPropuestaConvenioCanceladasMB.rol != null}"
+                                       actionListener="#{consultarPropuestaConvenioCanceladasMB.preEliminarConvenio(pconvenios)}"
+                                       update=":idEliminarPropuesta"
+                                       oncomplete="PF('deleteChangeDlg').show();"/>
+
+                    </div> 
+                </p:column>
+            </p:dataTable>
+        </h:form>   
+
+        <p:dialog header="Cambiar Estado" widgetVar="dlgEstado" modal="true" appendTo="@(body)" >                         
+            <h:form id="idCambiarEstado"> 
+                <p:panelGrid id="display" >
+                    <p:row>                                        
+                        <p:column>
+                            <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
+                        </p:column>
+                        <p:column>                            
+                            <p:inputTextarea readonly="true" value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" rows="2" maxlength="300" style="width:300px" >
+                                        </p:inputTextarea>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Solicitante: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.SOLICITANTE}" />
+                        </p:column>
+                    </p:row>
+                    <p:row> 
+                        <p:column>
+                            <h:outputText value="Coordinador Interno: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.INTERNO}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>  
+                        <p:column>
+                            <h:outputText value="Coordinador Externo: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.EXTERNO}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column> 
+                            <h:outputText value="Estado:" style="font-weight:bold"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="idEstado" value="#{consultarPropuestaConvenioCanceladasMB.estado}" converter="#{estadoConverter}" panelStyle="width:250px" style="width:200px">
+                                <p:ajax  listener="#{consultarPropuestaConvenioCanceladasMB.confirmacionEstadoConvenio()}" update="idCambiarEstado"  process="@this" />
+                                <f:selectItems value="#{consultarPropuestaConvenioCanceladasMB.listadoEstadosTemp}" var="theme" itemLabel="#{theme.nombreEstado}" itemValue="#{theme}" />                      
+                            </p:selectOneMenu>
+                        </p:column>  
+                    </p:row>
+
+                    <p:row rendered="#{consultarPropuestaConvenioCanceladasMB.flagBanderaVigencia}">
+                        <p:column>
+                            <h:outputText value="Fecha de Vigencia: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <p:calendar id="idFechaVigencia" required="true" value="#{consultarPropuestaConvenioCanceladasMB.propuestaConvenio.vigencia}" pattern="dd-MM-yyyy" mask="true" />
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{consultarPropuestaConvenioCanceladasMB.flagBanderaVigencia}">
+                        <p:column>  
+                            <p:outputLabel for="idDocumenPdf" value="Documento" />
+                        </p:column>                                                                                                                  
+                        <p:column>
+                            <p:fileUpload id="idDocumenPdf" fileUploadListener="#{consultarPropuestaConvenioCanceladasMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
+                                          sizeLimit="4000000" allowTypes="/(\.|\/)(pdf)$/"
+                                          label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>                        
+                            <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarPropuestaConvenioCanceladasMB.cambiarEstadoConvenio()}" process="idCambiarEstado" update=":formAdmin"/>
+                            <p:commandButton value="No"  icon="ui-icon-close" onclick="PF('dlgEstado').hide();" process="@this" />
+                        </p:column>
+                        <p:column></p:column>
+                    </p:row>
+
+                </p:panelGrid>
+            </h:form>      
+        </p:dialog>   
+
+
+        <p:dialog header="Informacion Convenio" widgetVar="dlgInfoConvenio" modal="true" appendTo="@(body)" >                         
+            <h:form id="idInfoConvenio"> 
+                <p:panelGrid  id="display" >
+
+                    <p:row>                                        
+                        <p:column>
+                            <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
+                        </p:column>
+                        <p:column>                            
+                            <p:inputTextarea readonly="true" value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" rows="2" maxlength="300" style="width:300px" >
+                                        </p:inputTextarea>
+                        </p:column>
+                    </p:row>
+                    <p:row>  
+                        <p:column>
+                            <h:outputText value="Descripci&oacute;n: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>                            
+                            <p:inputTextarea readonly="true" value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.FINALIDAD_PROPUESTA}" rows="2" maxlength="300" style="width:300px" >
+                                        </p:inputTextarea>
+                        </p:column>
+                    </p:row>
+                    <p:column>
+                        <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
+                    </p:column>
+                    <p:row> 
+                        <p:column> 
+                            <h:outputText value="Estado:" style="font-weight:bold"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.estado.nombreEstado}" />
+                        </p:column>
+                    </p:row>
+                    <p:row> 
+                        <p:column>
+                            <h:outputText value="Solicitante: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.SOLICITANTE}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Coordinador Interno: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.INTERNO}" />
+                        </p:column>
+                    </p:row>    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Coordinador Externo: "  style="font-weight:bold" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.EXTERNO}" />
+                        </p:column>
+                    </p:row>    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Fecha de Ingreso: "  style="font-weight:bold" />
+                        </p:column>                        
+                        <p:column>
+                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.FECHA_INGRESO}">                       
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>  
+                    </p:row>    
+                    <p:row>
+                        <p:column>                        
+                            <p:commandButton value="OK"  icon="ui-icon-check" update=":formAdmin" onclick="PF('dlgInfoConvenio').hide();" />                                                
+                        </p:column>
+                        <p:column></p:column>
+                    </p:row>
+
+                </p:panelGrid>
+            </h:form>      
+        </p:dialog>        
+
+
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea cambiar estado de convenio?" header="Cambiar estado de Convenio"  global="true">
+            <h:form id="idEliminacion">              
+                <br/>
+                <br/>
+                <h:outputText value="Estado Propuesta: "  style="font-weight:bold" />
+                <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.NOMBRE_ESTADO}" />
+                <br/>
+                <br/>
+                <h:outputText value=": "  style="font-weight:bold" />
+                <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.VIGENCIA}" />             
+            </h:form>                
+            <p:separator />
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarPropuestaConvenioCanceladasMB.cambiarEstadoConvenio()}" process="@this" update=":formAdmin"/>
+            <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        
+        
+        <p:confirmDialog widgetVar="deleteChangeDlg" message="Esta seguro que desea eliminar propuesta?" header="Eliminar propuesta"  global="true">
+            <h:form id="idEliminarPropuesta">                              
+                <br/>
+                <h:outputText value="Nombre Propuesta: "  style="font-weight:bold" />                
+                <p:inputTextarea readonly="true" value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" rows="2" maxlength="300" style="width:300px" >
+                                        </p:inputTextarea>
+                <br/>                
+            </h:form>                
+            <p:separator />
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarPropuestaConvenioCanceladasMB.eliminarConvenio()}" process="@this" update=":formAdmin" onclick="PF('deleteChangeDlg').hide();"/>
+            <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        
+        <p:dialog id="idAddDocument" widgetVar="AddDocDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Agregar documento" closeOnEscape="true">
+
+            <h:form id="formAddDocument">
+                <center>                  
+                    <h:panelGrid columns="2" >                                   
+                        <p:column>  
+                            <p:outputLabel for="idUnidad" value="Tipo Documento" />
+                        </p:column>                                         
+                        <p:column>                                         
+                            <p:selectOneMenu style="width: 100% !important" id="idUnidad" value="#{consultarPropuestaConvenioCanceladasMB.documento.idTipoDocumento}" 
+                                             converter="#{tipoDocumentoConverter}" required="true">                                           
+                                <f:selectItem itemLabel="Tipo Documento" itemValue=""  itemDisabled="true" />  
+                                <f:selectItems value="#{consultarPropuestaConvenioCanceladasMB.listTipoDocumento}" var="tDocumento" itemLabel="#{tDocumento.nombreDocumento}" itemValue="#{tDocumento}"/>  
+                            </p:selectOneMenu>    
+                        </p:column>
+                        <p:column>  
+                            <p:outputLabel for="idDocumen" value="Documento" />
+                        </p:column>                                                                                                                  
+                        <p:column>
+                            <p:fileUpload id="idDocumen" fileUploadListener="#{consultarPropuestaConvenioCanceladasMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
+                                          sizeLimit="4000000" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/"
+                                          label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"/>
+                        </p:column>
+                        <p:column> 
+                            <p:commandButton value="Agregar" id="idGuardarPersona" actionListener="#{consultarPropuestaConvenioCanceladasMB.addDocument()}" 
+                                             process="formAddDocument" 
+                                             update=":formAdmin" 
+                                             icon="ui-icon-disk" onsuccess="PF('AddDocDialog').hide()" />
+                        </p:column>                        
+                    </h:panelGrid>
+                </center>    
+            </h:form>  
+        </p:dialog>        
+
+    </ui:define>
+
+
+</ui:composition>
