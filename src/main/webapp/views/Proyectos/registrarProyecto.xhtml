@@ -140,7 +140,7 @@
                                             </p:calendar>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Pais cooperante:"/>
+                                            <p:outputLabel value="Pa&iacute;s cooperante:"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectOneMenu id="paiscooperante" value="#{proyectosMB.paisCooperanteSelected.idPais}" style="width:180px">
@@ -193,7 +193,7 @@
                                 <h:panelGroup id="grup1">
                                     <p:panelGrid id="grid">
                                         <p:column>
-                                            <p:outputLabel for="tipoBusquedaInt" value="Criterio de Busqueda:" />
+                                            <p:outputLabel for="tipoBusquedaInt" value="Criterio de B&uacute;squeda:" />
                                         </p:column>
                                         <p:column>                                        
                                             <p:selectOneMenu id="tipoBusquedaInt" value="#{proyectosMB.tipoBusquedaInterna}"  style="width:125px" disabled="#{proyectosMB.actualizar and !proyectosMB.desvincularPersona}">  
@@ -205,7 +205,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel  value="Busqueda" />     
+                                            <p:outputLabel  value="B&uacute;squeda" />     
                                         </p:column>
                                         <p:column> 
                                             <p:autoComplete id="searchDui" minQueryLength="10" size="10" rendered="#{proyectosMB.flagSearchDuiInterno}"  value="#{proyectosMB.personaAux}" completeMethod="#{proyectosMB.methodSearch}"
@@ -317,7 +317,7 @@
                                             <p:inputMask id="telefonosolicitante" value="#{proyectosMB.telefonoSolFijo.numeroTelefono}" mask="+503 #### ####" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
+                                            <p:outputLabel value="Tel&eacute;fono Celular:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="celularsolicitante" value="#{proyectosMB.telefonoSolCel.numeroTelefono}" mask="+503 #### ####" disabled="#{(proyectosMB.disablePersona and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersona))}"/>
@@ -328,7 +328,7 @@
                                     <h:outputLabel value="Agregar Coordinador t&eacute;cnico? " />
                                 </p:column>
                                 <p:column>
-                                    <p:selectBooleanButton id="btnExterno" value="#{proyectosMB.tabAsisMostrar}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                    <p:selectBooleanButton id="btnExterno" value="#{proyectosMB.tabAsisMostrar}" onLabel="S&iacute;" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
                                         <p:ajax update="idTabAsis,GroupSolicitanteAsistente" listener="#{proyectosMB.mostrarTab()}" />
                                     </p:selectBooleanButton>
                                 </p:column>
@@ -337,7 +337,7 @@
                                 <h:panelGroup id="idTabAsis" >
                                     <p:panelGrid rendered="#{proyectosMB.tabAsis}">
                                         <p:column>
-                                            <p:outputLabel for="tipoBusquedaAsis" value="Criterio de Busqueda:" />
+                                            <p:outputLabel for="tipoBusquedaAsis" value="Criterio de B&uacute;squeda:" />
                                         </p:column>
                                         <p:column>                                        
                                             <p:selectOneMenu id="tipoBusquedaAsis" value="#{proyectosMB.tipoBusquedaAsistente}"  style="width:125px" disabled="#{proyectosMB.actualizar and !proyectosMB.desvincularAsistente and !proyectosMB.asistenteNull}">  
@@ -349,7 +349,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel  value="Busqueda" />     
+                                            <p:outputLabel  value="B&uacute;squeda" />     
                                         </p:column>
                                         <p:column> 
                                             <p:autoComplete id="searchDuiAsis" minQueryLength="10" size="10" rendered="#{proyectosMB.flagSearchDuiAsistente}"  value="#{proyectosMB.personaAsistenteAux}" completeMethod="#{proyectosMB.methodSearchAsistente}"
@@ -461,7 +461,7 @@
                                             <p:inputMask id="telefonoasistente" value="#{proyectosMB.telefonoAsisFijo.numeroTelefono}" mask="+503 #### ####" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaAsistente) and proyectosMB.asistenteNull)}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
+                                            <p:outputLabel value="Tel&eacute;fono Celular:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="celularasistente" value="#{proyectosMB.telefonoAsisCel.numeroTelefono}" mask="+503 #### ####" disabled="#{(proyectosMB.disablePersonaAsistente and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and !proyectosMB.disablePersonaAsistente) or (proyectosMB.actualizar and activarBotonNuevaPersonaAsistente and proyectosMB.tabAsis)}"/>
@@ -473,7 +473,7 @@
                                 <h:panelGroup id="grup2" > 
                                     <p:panelGrid>
                                         <p:column>
-                                            <p:outputLabel for="tipoBusquedaExt" value="Criterio de Busqueda:" />
+                                            <p:outputLabel for="tipoBusquedaExt" value="Criterio de B&uacute;squeda:" />
                                         </p:column>
 
                                         <p:column>                                        
@@ -485,7 +485,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Busqueda" />
+                                            <p:outputLabel value="B&uacute;squeda" />
                                         </p:column>
                                         <p:column>
                                             <p:autoComplete id="idNombreExterno" value="#{proyectosMB.personaExternaAux}" rendered="#{proyectosMB.flagSearchNombreExterno}"
@@ -543,7 +543,7 @@
                                             <p:inputText id="pasaporteexterna" value="#{proyectosMB.personaExterna.pasaporte}" disabled="#{(proyectosMB.disablePersonaExterna and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaExterna))}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel for="correoexterna" value="Correo Electronico:"/>
+                                            <p:outputLabel for="correoexterna" value="Correo Electr&oacute;nico:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputText id="correoexterna" value="#{proyectosMB.personaExterna.emailPersona}" rendered="true" disabled="#{(proyectosMB.disablePersonaExterna and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaExterna))}">
@@ -576,7 +576,7 @@
                                             <p:inputMask id="telefonoexterna" mask="#{proyectosMB.mascaraTelefono}" value="#{proyectosMB.telefonoRefextFijo.numeroTelefono}" disabled="#{(proyectosMB.disablePersonaExterna and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaExterna))}"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Tel&eacute;fono Celuluar:"/>
+                                            <p:outputLabel value="Tel&eacute;fono Celular:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask id="celularexterno" mask="#{proyectosMB.mascaraTelefono}" value="#{proyectosMB.telefonoRefextCel.numeroTelefono}" disabled="#{(proyectosMB.disablePersonaExterna and (!proyectosMB.actualizar)) or (proyectosMB.actualizar and (!proyectosMB.disablePersonaExterna))}"/>

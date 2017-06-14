@@ -15,7 +15,7 @@
             <h1 style="background: #cc0000;color: white;border-radius: 10px">Mapa Interactivo de Movilidad</h1>
         </center>    
         <h:form id="formAdmin">
-            <p:panel header="Parametros de Busqueda">
+            <p:panel header="Par&aacute;metros de B&uacute;squeda">
                 <p:panelGrid>
                     <p:row> 
                         <p:column>
@@ -42,7 +42,7 @@
                             </p:selectCheckboxMenu> 
                         </p:column>  
                         <p:column>
-                            <p:outputLabel value="Categoria:"/>
+                            <p:outputLabel value="Categor&iacute;a:"/>
                         </p:column>
                         <p:column>
                             <p:selectCheckboxMenu id="tbId" value="#{mapaInteractivoMovilidades.categoriaMovilidadSelected}" label="--Seleccione--" filter="true" filterMatchMode="startsWith">
@@ -83,13 +83,13 @@
         </h:form> 
 
         <p:outputPanel id="mapaPanel">
-            <p:panel header="Mapa de Cooperacion" toggleable="true" >
-                <pe:gChart value="#{mapaInteractivoMovilidades.chartModel}" title="Mapa de Cooperacion" rendered="#{!mapaInteractivoMovilidades.noHayRegistros}" widgetVar="map"/>
+            <p:panel header="Mapa de Cooperaci&oacute;n" toggleable="true" >
+                <pe:gChart value="#{mapaInteractivoMovilidades.chartModel}" title="Mapa de Cooperaci&oacute;n" rendered="#{!mapaInteractivoMovilidades.noHayRegistros}" widgetVar="map"/>
             </p:panel>
         </p:outputPanel>
 
         <p:outputPanel id="graficosPanel">
-            <p:panel header="Graficos de Pastel" toggleable="true">
+            <p:panel header="Gr&aacute;ficos de Pastel" toggleable="true">
                 <p:panelGrid columns="2" rendered="#{!mapaInteractivoMovilidades.noHayRegistros}">
                     <p:column>
                         <p:panelGrid columns="2" >
