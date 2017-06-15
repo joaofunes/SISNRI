@@ -75,13 +75,13 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <p:outputLabel value="Telefono Fijo:"/>
+                                            <p:outputLabel value="Tel&eacute;fono Fijo:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask readonly="true" id="telefonobecario" value="#{becaConsultarMB.telefonoFijoBecario.numeroTelefono}" mask="+503-####-####"/>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Telefono Celular:"/>
+                                            <p:outputLabel value="Tel&eacute;fono Celular:"/>
                                         </p:column>
                                         <p:column>
                                             <p:inputMask readonly="true" id="telefonoCelular" value="#{becaConsultarMB.telefonoCelularBecario.numeroTelefono}" mask="+503-####-####" />
@@ -278,7 +278,7 @@
                                                 </p:selectOneMenu>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel value="Telefono Fijo:"/>
+                                                <p:outputLabel value="Tel&eacute;fono Fijo:"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputMask readonly="true" id="telefonoFijoAsesorInterno" value="#{becaConsultarMB.telefonoFijoAsesorInterno.numeroTelefono}" mask="+503-####-####"/>
@@ -286,14 +286,14 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Telefono Celular :  "/>
+                                                <p:outputLabel value="Tel&eacute;fono Celular :  "/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputMask readonly="true" id="telefonoCelularAsesorInterno" value="#{becaConsultarMB.telefonoCelularAsesorInterno.numeroTelefono}" mask="+503-####-####"/>
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
-                                    <p:outputLabel value="No se encontraron datos de Coordinador Academico Interno" rendered="#{!becaConsultarMB.mostrarTabInterno}"/>
+                                    <p:outputLabel value="No se encontraron datos de Coordinador Acad&eacute;mico Interno" rendered="#{!becaConsultarMB.mostrarTabInterno}"/>
                                 </h:panelGroup>
                             </p:tab>
                             <p:tab title="Datos del Asesor Externo">
@@ -347,20 +347,20 @@
                                         </p:row>
                                         <p:row>
                                             <p:column>
-                                                <p:outputLabel value="Telefono  Fijo :"/>
+                                                <p:outputLabel value="Tel&eacute;fono  Fijo :"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText readonly="true" id="telefonoFijoAsesorExterno" value="#{becaConsultarMB.telefonoFijoAsesorExterno.numeroTelefono}" />
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel value="Telefono Celular"/>
+                                                <p:outputLabel value="Tel&eacute;fono Celular"/>
                                             </p:column>
                                             <p:column>
                                                 <p:inputText readonly="true" id="telefonoCelularAsesorExterno" value="#{becaConsultarMB.telefonoCelularAsesorExterno.numeroTelefono}"/>
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
-                                    <p:outputLabel value="No se encontraron datos de Coordinador Academico Externo" rendered="#{!becaConsultarMB.mostrarTabExterno}"/>
+                                    <p:outputLabel value="No se encontraron datos de Coordinador Acad&eacute;mico Externo" rendered="#{!becaConsultarMB.mostrarTabExterno}"/>
                                 </h:panelGroup>
                             </p:tab>
                         </p:accordionPanel>

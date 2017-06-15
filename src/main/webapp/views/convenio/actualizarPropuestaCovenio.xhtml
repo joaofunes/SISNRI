@@ -35,7 +35,7 @@
                                 <p:panelGrid >                           
                                     <p:row rendered="#{actualizacionPropuestaConvenioMB.rol != null}">
                                         <p:column>
-                                            <p:outputLabel for="tipoBusquedaSol" value="Criterio de Busqueda:" />
+                                            <p:outputLabel for="tipoBusquedaSol" value="Criterio de B&uacute;squeda:" />
                                         </p:column>
                                         <p:column>                                         
                                             <p:selectOneMenu id="tipoBusquedaSol" value="#{actualizacionPropuestaConvenioMB.tipoBusquedaSolicitante}"  
@@ -218,7 +218,7 @@
                                             <h:outputLabel value="Agregar Solicitante Interno" />
                                         </p:column>
                                         <p:column>
-                                            <p:selectBooleanButton id="btnInterno" value="#{actualizacionPropuestaConvenioMB.tabAsisMostrar}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                            <p:selectBooleanButton id="btnInterno" value="#{actualizacionPropuestaConvenioMB.tabAsisMostrar}" onLabel="S&iacute;" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
                                                 <p:ajax update="acordion:GroupSolicitanteInterno,acordion:grup1" listener="#{actualizacionPropuestaConvenioMB.mostrarTab()}" />
                                             </p:selectBooleanButton>
                                         </p:column>
@@ -226,7 +226,7 @@
                                             <h:outputLabel value="Agregar Solicitante Externo" />
                                         </p:column>
                                         <p:column>
-                                            <p:selectBooleanButton id="btnExterno" value="#{actualizacionPropuestaConvenioMB.tabAsisMostrarExterno}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                            <p:selectBooleanButton id="btnExterno" value="#{actualizacionPropuestaConvenioMB.tabAsisMostrarExterno}" onLabel="S&iacute;" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
                                                 <p:ajax update="acordion:GroupSolicitanteExterno,acordion:grup2" listener="#{actualizacionPropuestaConvenioMB.mostrarTabExterno()}" />
                                             </p:selectBooleanButton>
                                         </p:column>
@@ -257,7 +257,7 @@
                             <h:form id="grup1" > 
                                 <p:panelGrid  rendered="#{actualizacionPropuestaConvenioMB.tabAsis}" >     
                                     <p:column>
-                                        <p:outputLabel for="tipoBusquedaInt" value="Criterio de Busqueda:" />
+                                        <p:outputLabel for="tipoBusquedaInt" value="Criterio de B&uacute;squeda:" />
                                     </p:column>
                                     <p:column>                                         
                                         <p:selectOneMenu id="tipoBusquedaInt" value="#{actualizacionPropuestaConvenioMB.tipoBusquedaInterna}"  style="width:125px"
@@ -346,7 +346,7 @@
                                         <p:column>                                                                                  
                                             <p:selectBooleanButton id="btnMismoInterno" value="#{actualizacionPropuestaConvenioMB.mismoSolicitante}" 
                                                                    disabled="#{actualizacionPropuestaConvenioMB.habilitarMismoSolicitante}"
-                                                                   onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                                                   onLabel="S&iacute;" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
                                                 <p:ajax update="acordion:GroupSolicitanteInterno,acordion:grup1" process="@this" listener="#{actualizacionPropuestaConvenioMB.mismoSolicitantes()}" />
                                             </p:selectBooleanButton>                                    
                                         </p:column>
@@ -481,7 +481,7 @@
                             <h:form id="grup2" >                                
                                 <p:panelGrid rendered="#{actualizacionPropuestaConvenioMB.tabAsisExterno}">     
                                     <p:column>
-                                        <p:outputLabel for="tipoBusquedaExt" value="Tipo de Busqueda:" />
+                                        <p:outputLabel for="tipoBusquedaExt" value="Tipo de B&uacute;squeda:" />
                                     </p:column>
 
                                     <p:column>                                        
