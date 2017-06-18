@@ -5,6 +5,7 @@
  */
 package com.sisrni.managedbean;
 
+import com.sisrni.managedbean.form.CancelarConvenioForm;
 import com.sisrni.model.Documento;
 import com.sisrni.model.Estado;
 import com.sisrni.model.PersonaPropuesta;
@@ -50,7 +51,7 @@ import org.springframework.web.context.WebApplicationContext;
  */
 @Named("consultarPropuestaConvenioMB")
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
-public class ConsultarPropuestaConvenioMB implements Serializable {
+public class ConsultarPropuestaConvenioMB extends CancelarConvenioForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -421,6 +422,21 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
         }
     }
+    /**
+     * metodo para pre cancelar convenio
+     *
+     * @param pojo
+     */
+    public void preCancelarConvenio(PojoPropuestaConvenio pojo) {
+        try {
+            pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
+            propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
+
+        } catch (Exception e) {
+            String message = "Error Seleccinando Convenio : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        }
+    }
 
     /**
      * *
@@ -448,6 +464,32 @@ public class ConsultarPropuestaConvenioMB implements Serializable {
         }
     }
     
+       
+    /**
+     * *
+     * metodo para cancelar de una propuesta
+     */
+    public void cancelarConvenio() {
+        try {
+            
+            int cambiarEstadoCanceladoConvenio = cambiarEstadoCanceladoConvenio(propuestaConvenio.getIdPropuesta());     
+            
+            if(cambiarEstadoCanceladoConvenio==1){
+                String message = "Propuesta Cancelada Exitosame!!" ;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+            }else{
+                String message = "Propuesta no ha sido, cancelada " ;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+            }
+            inicializador();
+
+        } catch (Exception e) {
+            String message = "Error cancelar Propuesta : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        }
+    }
+    
+        
     /**
      * *
      * Metodo para cargar documento

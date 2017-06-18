@@ -82,6 +82,15 @@
                                        oncomplete="PF('deleteChangeDlg').show();"/>
 
                     </div> 
+                    <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-close"
+                                       title="Cancelar Propuesta" value="Cancelar Propuesta"
+                                       rendered="#{consultarPropuestaConvenioMB.rol != null}"
+                                       actionListener="#{consultarPropuestaConvenioMB.preCancelarConvenio(pconvenios)}"
+                                       update=":idCancelarPropuesta"
+                                       oncomplete="PF('cancelarChangeDlg').show();"/>
+
+                    </div> 
                 </p:column>
             </p:dataTable>
         </h:form>   
@@ -286,6 +295,19 @@
             </h:form>                
             <p:separator />
             <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.eliminarConvenio()}" process="@this" update=":formAdmin" onclick="PF('deleteChangeDlg').hide();"/>
+            <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        
+        <p:confirmDialog widgetVar="cancelarChangeDlg" message="Esta seguro que desea cancelar propuesta?" header="Cancelar Propuesta"  global="true" style="width:340px">
+            <h:form id="idCancelarPropuesta">                              
+                <br/>
+                <h:outputText value="Nombre Propuesta: "  style="font-weight:bold" />                
+                <h:outputText value="#{consultarPropuestaConvenioMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}"  style="width:300px" />
+                                        
+                <br/>                
+            </h:form>                
+            <p:separator />
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarPropuestaConvenioMB.cancelarConvenio()}" process="@this" update=":formAdmin" onclick="PF('cancelarChangeDlg').hide();"/>
             <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
         
