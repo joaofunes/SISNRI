@@ -160,15 +160,35 @@ public class ConsultarPropuestaConvenioCanceladasMB extends CancelarConvenioForm
     public void preCambiarEstado(PojoPropuestaConvenio pojo) {
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());
-            propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());
-           
+            propuestaConvenio = propuestaConvenioService.getByID(pojoPropuestaConvenio.getID_PROPUESTA());           
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     
-
+   /**
+    * metodo para activar propuesta de convenio
+    */
+    
+   public void activarPropuestaConvenio(){
+       try {
+          
+           int cambiarEstadoCanceladoConvenio = cambiarEstadoRevisionConvenio(propuestaConvenio.getIdPropuesta());     
+            
+            if(cambiarEstadoCanceladoConvenio==1){
+                String message = "Propuesta Activada Exitosame!!" ;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+            }else{
+                String message = "Propuesta no ha sido, Activada " ;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+            }
+            inicializador();
+       } catch (Exception e) {
+        e.printStackTrace();
+       }
+   }
+    
     public void preEliminar(PojoPropuestaConvenio pojo) {
         try {
             pojoPropuestaConvenio = propuestaConvenioService.getAllPropuestaConvenioSQLByID(pojo.getID_PROPUESTA());

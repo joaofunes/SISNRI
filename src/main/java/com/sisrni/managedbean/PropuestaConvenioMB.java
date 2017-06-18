@@ -798,8 +798,7 @@ public class PropuestaConvenioMB implements Serializable {
         try {
             Persona existePersonaByMail = personaService.existePersonaByMail(solicitante.getEmailPersona());
             if (existePersonaByMail != null && existePersonaByMail.getIdPersona() != null) {
-                solicitante.setIdUnidad(null);
-                //solicitante.setIdCarrera(null);
+                solicitante.setIdUnidad(null);                
                 solicitante.setIdEscuelaDepto(null);
 
                 if (facultadesUnidadesInterno != null) {

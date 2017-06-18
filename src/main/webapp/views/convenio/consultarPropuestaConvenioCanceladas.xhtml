@@ -14,7 +14,7 @@
         <f:metadata>            
             <f:viewAction action="#{consultarPropuestaConvenioCanceladasMB.init}" />
         </f:metadata>
-        <h2 class="title ui-widget-header ui-corner-all" align="center">Consultar Propuestas de Convenios</h2>
+        <h2 class="title ui-widget-header ui-corner-all" align="center">Propuestas de Convenios Canceladas</h2>
         <h:outputLabel style="margin-bottom: 20px;"/>
         <h:form id="formAdmin">
 
@@ -48,6 +48,7 @@
                                        title="Cambiar estado" value="Cambiar estado"                                       
                                        rendered="#{consultarPropuestaConvenioCanceladasMB.rol != null}"
                                        actionListener="#{consultarPropuestaConvenioCanceladasMB.preCambiarEstado(pconvenios)}"
+                                       update=":idCancelar"
                                        oncomplete="PF('dataChangeDlg').show();"/>
 
                     </div>     
@@ -57,7 +58,6 @@
                                        actionListener="#{consultarPropuestaConvenioCanceladasMB.preEliminar(pconvenios)}"
                                        update=":idInfoConvenio"
                                        oncomplete="PF('dlgInfoConvenio').show();"/>
-
                     </div> 
                     
                     <div style="float: left">
@@ -67,7 +67,6 @@
                                        actionListener="#{consultarPropuestaConvenioCanceladasMB.preEliminarConvenio(pconvenios)}"
                                        update=":idEliminarPropuesta"
                                        oncomplete="PF('deleteChangeDlg').show();"/>
-
                     </div> 
                 </p:column>
             </p:dataTable>
@@ -155,29 +154,28 @@
         </p:dialog>        
 
 
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea cambiar estado de  convenio?" header="Cambiar estado de Convenio"  global="true">
-            <h:form id="idEliminacion">              
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea activar propuesta convenio?" header="Activar Propuesta de Convenio" style="width:300px" global="true">
+            <h:form id="idCancelar">              
+                <br/>                
+                <h:outputText value="Estado Actual Propuesta: "  style="font-weight:bold" />
+                <h:outputText value="Cancelada" />
                 <br/>
                 <br/>
-                <h:outputText value="Estado Propuesta: "  style="font-weight:bold" />
-                <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.NOMBRE_ESTADO}" />
-                <br/>
-                <br/>
-                <h:outputText value=": "  style="font-weight:bold" />
-                <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.VIGENCIA}" />             
+                <h:outputText value="Estado al Activar: "  style="font-weight:bold" />
+                <h:outputText value="Revision" />             
             </h:form>                
             <p:separator />
-            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarPropuestaConvenioCanceladasMB.cambiarEstadoConvenio()}" process="@this" update=":formAdmin"/>
+            <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{consultarPropuestaConvenioCanceladasMB.activarPropuestaConvenio()}" onclick="PF('dataChangeDlg').hide();"  process="@this" update="@this :formAdmin"/>
             <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
         
         
-        <p:confirmDialog widgetVar="deleteChangeDlg" message="Esta seguro que desea eliminar propuesta?" header="Eliminar propuesta"  global="true">
+        <p:confirmDialog widgetVar="deleteChangeDlg" message="Esta seguro que desea eliminar propuesta?" header="Eliminar propuesta" style="width:300px"  global="true">
             <h:form id="idEliminarPropuesta">                              
                 <br/>
                 <h:outputText value="Nombre Propuesta: "  style="font-weight:bold" />                
-                <p:inputTextarea readonly="true" value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" rows="2" maxlength="300" style="width:300px" >
-                                        </p:inputTextarea>
+                <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" style="width:300px" />
+                             
                 <br/>                
             </h:form>                
             <p:separator />

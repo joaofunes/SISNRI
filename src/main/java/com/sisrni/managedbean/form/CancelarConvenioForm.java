@@ -108,12 +108,12 @@ public class CancelarConvenioForm {
             //eliminar propuesta de convenio
             m=propuestaConvenioService.deletePropuestas(idPropuesta);
 
-            if(i==0 && l==0 && j==0 && m==0){
-                respuesta=0;
+            if(i==1 && l==1 && j==1 && m==1){
+                respuesta=1;
                 return respuesta;
             }
             else{
-                respuesta =1;
+                respuesta =0;
                 return respuesta;
             }
             

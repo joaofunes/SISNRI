@@ -56,9 +56,9 @@ public class ConsultarPropuestaConvenioMB extends CancelarConvenioForm implement
     private static final long serialVersionUID = 1L;
 
     private static final String FIRMADO = "FIRMADO";
+    private static final String TIPO_DOCUMENTO="Convenio Firmado";
     private final List<String> ROL = Arrays.asList("ROL_ADM_CONV", "ROL_ADMI");
 
-    private static final String TIPO_DOCUMENTO="Convenio Firmado";
     private SsRoles rol;
 
     private CurrentUserSessionBean user;
@@ -444,17 +444,15 @@ public class ConsultarPropuestaConvenioMB extends CancelarConvenioForm implement
      */
     public void eliminarConvenio() {
         try {
-            //eliminacion de personas asociadas a la propuesta
-            personaPropuestaService.deleteByPersonasPropuestas(propuestaConvenio.getIdPropuesta());
-
-            //eliminar estado de la propuesta
-            propuestaEstadoService.deletePropuestaEstado(propuestaConvenio.getIdPropuesta());
-
-            //eliminar documento
-            documentoService.deleteDocumentosPropuestas(propuestaConvenio.getIdPropuesta());
-
-            //eliminar propuesta de convenio
-            propuestaConvenioService.deletePropuestas(propuestaConvenio.getIdPropuesta());
+            int eliminarConvenio = eliminarConvenio(propuestaConvenio.getIdPropuesta());
+            
+             if(eliminarConvenio==1){
+                String message = "Propuesta Eliminada Exitosame!!" ;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+            }else{
+                String message = "Propuesta no ha sido, Eliminada " ;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+            }
 
             inicializador();
 
