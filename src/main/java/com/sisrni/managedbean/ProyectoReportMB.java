@@ -74,6 +74,7 @@ public class ProyectoReportMB {
             prueba.setContraparteExterna(obtenerPersonaExterna(item.getPersonaProyectoList(), tipoPersona));
             prueba.setBeneficiadoUES(obtenerFacultades(item.getFacultadList()));
             prueba.setMonto(item.getMontoProyecto());
+            prueba.setEstado(item.getIdEstadoProyecto().getNombreEstado());
             list.add(prueba);
         }
 
