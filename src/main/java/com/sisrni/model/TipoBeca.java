@@ -23,10 +23,10 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
-@Table(name = "TIPO_BECA", catalog = "sisrni", schema = "", uniqueConstraints = {
+@Table(name = "tipo_beca", catalog = "sisrni", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"NOMBRE_TIPO_BECA"})})
 @NamedQueries({
     @NamedQuery(name = "TipoBeca.findAll", query = "SELECT t FROM TipoBeca t")})

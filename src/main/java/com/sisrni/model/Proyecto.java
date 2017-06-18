@@ -31,10 +31,10 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
-@Table(name = "PROYECTO", catalog = "sisrni", schema = "")
+@Table(name = "proyecto", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Proyecto.findAll", query = "SELECT p FROM Proyecto p")})
 public class Proyecto implements Serializable {
@@ -53,6 +53,7 @@ public class Proyecto implements Serializable {
     @Size(max = 100)
     @Column(name = "LUGAR_PROYECTO", length = 100)
     private String lugarProyecto;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "MONTO_PROYECTO", precision = 13, scale = 2)
     private BigDecimal montoProyecto;
     @Column(name = "ANIO_GESTION")
@@ -68,27 +69,23 @@ public class Proyecto implements Serializable {
     @Column(name = "FECHO_INGRESO")
     @Temporal(TemporalType.DATE)
     private Date fechoIngreso;
-    @JoinTable(name = "PROYECTO_AREA", joinColumns = {
+    @JoinTable(name = "proyecto_area", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO", nullable = false)})
     @ManyToMany
     private List<AreaConocimiento> areaConocimientoList=new ArrayList<AreaConocimiento>();
-    @ManyToMany(mappedBy = "proyectoList")
-    private List<Estado> estadoList=new ArrayList<Estado>();
-    @JoinTable(name = "FACULTAD_PROYECTO", joinColumns = {
+    @JoinTable(name = "facultad_proyecto", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)})
     @ManyToMany
     private List<Facultad> facultadList=new ArrayList<Facultad>();
-    @JoinTable(name = "PROYECTO_ORGANISMO", joinColumns = {
+    @JoinTable(name = "proyecto_organismo", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO", nullable = false)})
     @ManyToMany
     private List<Organismo> organismoList=new ArrayList<Organismo>();
     @OneToMany(mappedBy = "idProyecto")
     private List<Documento> documentoList= new ArrayList<Documento>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
-    private List<PersonaProyecto> personaProyectoList= new ArrayList<PersonaProyecto>();
     @JoinColumn(name = "ID_PROPUESTA_CONVENIO", referencedColumnName = "ID_PROPUESTA")
     @ManyToOne
     private PropuestaConvenio idPropuestaConvenio;
@@ -98,9 +95,14 @@ public class Proyecto implements Serializable {
     @JoinColumn(name = "ID_TIPO_PROYECTO", referencedColumnName = "ID_TIPO_PROYECTO")
     @ManyToOne
     private TipoProyecto idTipoProyecto;
+    @JoinColumn(name = "ID_ESTADO_PROYECTO", referencedColumnName = "ID_ESTADO")
+    @ManyToOne
+    private Estado idEstadoProyecto;
     @JoinColumn(name = "ID_PAIS_COOPERANTE", referencedColumnName = "ID_PAIS")
     @ManyToOne
     private Pais idPaisCooperante;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
+    private List<PersonaProyecto> personaProyectoList= new ArrayList<PersonaProyecto>();
 
     public Proyecto() {
     }
@@ -197,14 +199,6 @@ public class Proyecto implements Serializable {
         this.areaConocimientoList = areaConocimientoList;
     }
 
-    public List<Estado> getEstadoList() {
-        return estadoList;
-    }
-
-    public void setEstadoList(List<Estado> estadoList) {
-        this.estadoList = estadoList;
-    }
-
     public List<Facultad> getFacultadList() {
         return facultadList;
     }
@@ -227,14 +221,6 @@ public class Proyecto implements Serializable {
 
     public void setDocumentoList(List<Documento> documentoList) {
         this.documentoList = documentoList;
-    }
-
-    public List<PersonaProyecto> getPersonaProyectoList() {
-        return personaProyectoList;
-    }
-
-    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
-        this.personaProyectoList = personaProyectoList;
     }
 
     public PropuestaConvenio getIdPropuestaConvenio() {
@@ -261,12 +247,28 @@ public class Proyecto implements Serializable {
         this.idTipoProyecto = idTipoProyecto;
     }
 
+    public Estado getIdEstadoProyecto() {
+        return idEstadoProyecto;
+    }
+
+    public void setIdEstadoProyecto(Estado idEstadoProyecto) {
+        this.idEstadoProyecto = idEstadoProyecto;
+    }
+
     public Pais getIdPaisCooperante() {
         return idPaisCooperante;
     }
 
     public void setIdPaisCooperante(Pais idPaisCooperante) {
         this.idPaisCooperante = idPaisCooperante;
+    }
+
+    public List<PersonaProyecto> getPersonaProyectoList() {
+        return personaProyectoList;
+    }
+
+    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
+        this.personaProyectoList = personaProyectoList;
     }
 
     @Override

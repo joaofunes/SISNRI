@@ -20,11 +20,13 @@ import com.sisrni.model.TipoPersona;
 import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.Estado;
 import com.sisrni.model.TipoCambio;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.service.AreaConocimientoService;
 import com.sisrni.service.EscuelaDepartamentoService;
+import com.sisrni.service.EstadoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PaisService;
@@ -65,6 +67,8 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(WebApplicationContext.SCOPE_APPLICATION)
 
 public class ProyectoConsultarMB {
+    @Inject
+    EstadoMB estadoMB;
 
     @Autowired
     private AreaConocimientoService areaConocimientoService;
@@ -100,6 +104,8 @@ public class ProyectoConsultarMB {
     private EscuelaDepartamentoService escuelaDepartamentoService;
     @Autowired
     private TipoCambioService tipoCambioService;
+    @Autowired
+    private EstadoService estadoService;
 
 //Definicion de objetos    
     private Proyecto proyecto;
@@ -226,6 +232,8 @@ public class ProyectoConsultarMB {
     public Boolean validarFecha;
     private String fechaInicio;
     private String fechaFin;
+    private Estado estadoProyectoSelected;
+    private List<Estado> listadoEstadoProyecto;
 
     /**
      * Creates a new instance of ProyectosMB
@@ -260,6 +268,7 @@ public class ProyectoConsultarMB {
         tipoproyectolist = tipoProyectoService.findAll();
         areaConocimientoList = areaConocimientoService.findAll();
         organismoProyList = organismoService.findAll();
+        listadoEstadoProyecto=estadoService.getAllEstadoByIdDescProyecto();
         //facultadList = new ArrayList<Facultad>();
         facultadList = facultadService.getFacultadesByUniversidad(1);
         propuestaConvenioList = propuestaConvenioService.findAll();
@@ -850,6 +859,9 @@ public class ProyectoConsultarMB {
                 proyectoSelected = tipoProyectoService.findById(proyecto.getIdTipoProyecto().getIdTipoProyecto());
                 tipoproyectolist.clear();
                 tipoproyectolist.add(proyectoSelected);
+                estadoProyectoSelected= estadoService.findById(proyecto.getIdEstadoProyecto().getIdEstado());
+                listadoEstadoProyecto.clear();
+                listadoEstadoProyecto.add(estadoProyectoSelected);
                 tipoCambioSelected=tipoCambioService.findById(2);
                 tipoCambioList.clear();
                 tipoCambioList.add(tipoCambioSelected);
@@ -1758,6 +1770,22 @@ public class ProyectoConsultarMB {
 
     public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+    public Estado getEstadoProyectoSelected() {
+        return estadoProyectoSelected;
+    }
+
+    public void setEstadoProyectoSelected(Estado estadoProyectoSelected) {
+        this.estadoProyectoSelected = estadoProyectoSelected;
+    }
+
+    public List<Estado> getListadoEstadoProyecto() {
+        return listadoEstadoProyecto;
+    }
+
+    public void setListadoEstadoProyecto(List<Estado> listadoEstadoProyecto) {
+        this.listadoEstadoProyecto = listadoEstadoProyecto;
     }
     
 }

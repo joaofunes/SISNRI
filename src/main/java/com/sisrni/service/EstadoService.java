@@ -36,8 +36,11 @@ public class EstadoService extends GenericService<Estado, Integer> {
           return estadoDao.getEstadoPropuestasConvenio();
      }
      
-        public List<Estado> getAllByIdDesc(){
+    public List<Estado> getAllByIdDesc(){
         return estadoDao.getAllByIdDesc();
-    } 
+    }
+    public List<Estado> getAllEstadoByIdDescProyecto(){
+        return estadoDao.getAllEstadoByIdDescProyecto();
+    }
     
 }

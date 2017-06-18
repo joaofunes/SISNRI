@@ -48,6 +48,7 @@ public class EstadoMB  extends GenericManagedBean<Estado, Integer> {
     private Estado estado;
     private Estado delEstado;    
     private List<Estado> listadoEstado;
+    private List<Estado> listadoEstadoProyecto;
     private boolean actualizar;
 
    /**implementacion de GenericManagedBen
@@ -68,8 +69,12 @@ public class EstadoMB  extends GenericManagedBean<Estado, Integer> {
         //inicializacion de loadLazyModels
         loadLazyModels();
         cargarEstado();
+//        cargarEstadoProyecto();
     }
-    
+    public List<Estado> cargarEstadoProyecto(){
+        listadoEstadoProyecto=estadoService.getAllEstadoByIdDescProyecto();
+        return listadoEstadoProyecto;
+    }
     
     
      private void cargarEstado() {
@@ -229,4 +234,13 @@ public class EstadoMB  extends GenericManagedBean<Estado, Integer> {
     public void setDelEstado(Estado delEstado) {
         this.delEstado = delEstado;
     }
+
+    public List<Estado> getListadoEstadoProyecto() {
+        return listadoEstadoProyecto;
+    }
+
+    public void setListadoEstadoProyecto(List<Estado> listadoEstadoProyecto) {
+        this.listadoEstadoProyecto = listadoEstadoProyecto;
+    }
+    
 }

@@ -17,14 +17,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
-@Table(name = "CATEGORIA_DOCUMENTO", catalog = "sisrni", schema = "")
+@Table(name = "categoria_documento", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "CategoriaDocumento.findAll", query = "SELECT c FROM CategoriaDocumento c")})
 public class CategoriaDocumento implements Serializable {
@@ -34,8 +35,10 @@ public class CategoriaDocumento implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_CATEGORIA_DOC", nullable = false)
     private Integer idCategoriaDoc;
-    @Size(max = 25)
-    @Column(name = "NOMBRE_CATEGORIA", length = 25)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "NOMBRE_CATEGORIA", nullable = false, length = 25)
     private String nombreCategoria;
     @OneToMany(mappedBy = "idCategoriaDoc")
     private List<TipoDocumento> tipoDocumentoList;
@@ -45,6 +48,11 @@ public class CategoriaDocumento implements Serializable {
 
     public CategoriaDocumento(Integer idCategoriaDoc) {
         this.idCategoriaDoc = idCategoriaDoc;
+    }
+
+    public CategoriaDocumento(Integer idCategoriaDoc, String nombreCategoria) {
+        this.idCategoriaDoc = idCategoriaDoc;
+        this.nombreCategoria = nombreCategoria;
     }
 
     public Integer getIdCategoriaDoc() {

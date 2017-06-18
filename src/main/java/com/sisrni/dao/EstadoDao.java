@@ -58,5 +58,10 @@ public class EstadoDao extends GenericDao<Estado, Integer>{
        Query q= getSessionFactory().getCurrentSession().createQuery(query);
        return q.list();
    }
+    public List<Estado> getAllEstadoByIdDescProyecto(){
+        String query="Select ep from Estado ep where ep.tipoEstado=3";
+        Query q= getSessionFactory().getCurrentSession().createQuery(query);
+        return q.list();
+    }
     
 }

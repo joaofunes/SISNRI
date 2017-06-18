@@ -21,10 +21,10 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
-@Table(name = "REGION", catalog = "sisrni", schema = "")
+@Table(name = "region", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Region.findAll", query = "SELECT r FROM Region r")})
 public class Region implements Serializable {

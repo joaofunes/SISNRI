@@ -97,10 +97,10 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Monto del Proyecto:"/>
+                                            <p:outputLabel for="montoproyecto" value="Monto del Proyecto:"/>
                                         </p:column>
                                         <p:column>
-                                            <poue:inputNumber id="montoproyecto" value="#{proyectosMB.proyecto.montoProyecto}"/>
+                                            <poue:inputNumber id="montoproyecto" value="#{proyectosMB.proyecto.montoProyecto}" required="true"/>
                                         </p:column>
                                         <p:column>
                                             <p:outputLabel value="Lugar de Ejecuci&oacute;n:"/>
@@ -116,34 +116,34 @@
                                             </p:inputTextarea>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Objetivo del Proyecto:" />
+                                            <p:outputLabel for="objetivoproyecto" value="Objetivo del Proyecto:" />
                                         </p:column>
                                         <p:column>
-                                            <p:inputTextarea value="#{proyectosMB.proyecto.objetivo}" readonly="#{proyectosMB.actualizar==true}" rows="2" maxlength="1000" style="width:180px">
+                                            <p:inputTextarea id="objetivoproyecto" value="#{proyectosMB.proyecto.objetivo}" readonly="#{proyectosMB.actualizar==true}" rows="2" maxlength="1000" style="width:180px" required="true">
                                             </p:inputTextarea>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Fecha Inicio:"/>
+                                            <p:outputLabel for="desdeMovilidad" value="Fecha Inicio:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="desdeMovilidad" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaI}" readonly="#{proyectosMB.actualizar==true}">
+                                            <p:calendar id="desdeMovilidad" pattern="dd/MM/yyyy"  navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaI}" readonly="#{proyectosMB.actualizar==true}" required="true">
                                                 <p:ajax event="dateSelect" update="fechafin" />
                                             </p:calendar>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Fecha Finalizaci&oacute;n:"/>
+                                            <p:outputLabel for="fechafin" value="Fecha Finalizaci&oacute;n:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:calendar id="fechafin" pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaF}">
+                                            <p:calendar id="fechafin" pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" value="#{proyectosMB.fechaF}" required="true">
                                                 <f:attribute name="desdeMovilidad" value="#{proyectosMB.fechaI}"/>
                                                 <f:validator validatorId="fechaMayorValidator"/>
                                             </p:calendar>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Pa&iacute;s cooperante:"/>
+                                            <p:outputLabel for="paiscooperante" value="Pa&iacute;s cooperante:"/>
                                         </p:column>
                                         <p:column>
-                                            <p:selectOneMenu id="paiscooperante" value="#{proyectosMB.paisCooperanteSelected.idPais}" style="width:180px">
+                                            <p:selectOneMenu id="paiscooperante" value="#{proyectosMB.paisCooperanteSelected.idPais}" style="width:180px" required="true">
                                                 <f:selectItem itemLabel="--Seleccione--" itemValue="" />
                                                 <c:forEach var="pais" items="#{paisMB.listaPaises()}">
                                                     <f:selectItem itemLabel="#{pais.nombrePais}" itemValue="#{pais.idPais}"/>
@@ -152,11 +152,11 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Organismos cooperantes:"/>
+                                            <p:outputLabel for="organismoproy" value="Organismos cooperantes:"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectCheckboxMenu id="organismoproy" value="#{proyectosMB.organismoProySelected}" label="Seleccione"
-                                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
+                                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px" rendered="true" required="true">
                                                 <c:forEach var="org" items="#{organismoCooperanteMB.listaOrganismos()}">
                                                     <f:selectItem itemLabel="#{org.nombreOrganismo}" itemValue="#{org.idOrganismo}"/>
                                                 </c:forEach>
@@ -164,11 +164,11 @@
                                             </p:selectCheckboxMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Area de Conocimiento:"/>
+                                            <p:outputLabel for="areaconocimiento" value="Area de Conocimiento:"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectCheckboxMenu id="areaconocimiento" value="#{proyectosMB.areaConocimientoSelected}" label="Seleccione"
-                                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
+                                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px" required="true">
                                                 <c:forEach var="reg" items="#{areaConocimientoMB.listaAreas()}">
                                                     <f:selectItem itemLabel="#{reg.nombreArea}" itemValue="#{reg.idAreaConocimiento}"/>
                                                 </c:forEach>
@@ -176,15 +176,26 @@
                                             </p:selectCheckboxMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel value="Facultad Beneficiada:"/>
+                                            <p:outputLabel for="facultadbeneficiada" value="Facultad Beneficiada:"/>
                                         </p:column>
                                         <p:column>
                                             <p:selectCheckboxMenu id="facultadbeneficiada" value="#{proyectosMB.facultadBeneficiadaSelected}" label="Seleccione"
-                                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px">
+                                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" style="width: 180px" required="true">
                                                 <c:forEach var="fac" items="#{proyectosMB.facultadBeneficiadaList}">
                                                     <f:selectItem itemLabel="#{fac.nombreFacultad}" itemValue="#{fac.idFacultad}"/>
                                                 </c:forEach>
                                             </p:selectCheckboxMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <p:outputLabel for="estadoproyecto" value="Estado de Proyecto:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu id="estadoproyecto" value="#{proyectosMB.estadoProyectoSelected.idEstado}" style="width: 180px" required="true">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" noSelectionOption="true"/>
+                                                <c:forEach var="estado" items="#{estadoMB.cargarEstadoProyecto()}">
+                                                    <f:selectItem itemLabel="#{estado.nombreEstado}" itemValue="#{estado.idEstado}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
                                         </p:column>
                                     </p:panelGrid>
                                 </h:panelGroup>

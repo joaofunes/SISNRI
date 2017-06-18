@@ -16,10 +16,10 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
-@Table(name = "PERSONA_BECA", catalog = "sisrni", schema = "")
+@Table(name = "persona_beca", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "PersonaBeca.findAll", query = "SELECT p FROM PersonaBeca p")})
 public class PersonaBeca implements Serializable {
