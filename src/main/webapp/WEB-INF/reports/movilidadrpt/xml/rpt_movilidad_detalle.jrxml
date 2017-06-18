@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_movilidad_detalle" pageWidth="1190" pageHeight="842" orientation="Landscape" columnWidth="1150" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="09827370-de1a-4458-b232-447fc2e04db5">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="303"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="178"/>
+	<property name="ireport.y" value="19"/>
 	<parameter name="Desde" class="java.lang.String"/>
 	<parameter name="uesImageUrl" class="java.lang.String"/>
 	<parameter name="srniImageUrl" class="java.lang.String"/>
@@ -180,7 +180,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 					<font size="9" isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[Pais origen]]></text>
+				<text><![CDATA[País origen]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="c4ff3705-5200-4042-b843-fb91eb21b3ff" mode="Opaque" x="323" y="0" width="59" height="46" forecolor="#FFFFFF" backcolor="#CC0000"/>
@@ -194,7 +194,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 					<font size="9" isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[Pais Destino]]></text>
+				<text><![CDATA[País Destino]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="a3fe7a82-177e-472d-b269-1b4ee1fe8b53" mode="Opaque" x="382" y="0" width="53" height="46" forecolor="#FFFFFF" backcolor="#CC0000"/>
@@ -260,7 +260,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Viaticos ($)]]></text>
+				<text><![CDATA[Viaticos ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="20b2d488-8fb9-40b1-9341-8ac08c1871d1" mode="Opaque" x="557" y="0" width="53" height="46" forecolor="#FFFFFF" backcolor="#CC0000"/>
@@ -273,7 +273,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Pago de curso($)]]></text>
+				<text><![CDATA[Pago de curso]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="20b2d488-8fb9-40b1-9341-8ac08c1871d1" mode="Opaque" x="610" y="0" width="53" height="46" forecolor="#FFFFFF" backcolor="#CC0000"/>
@@ -286,7 +286,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Total (viaticos+Curso)($)]]></text>
+				<text><![CDATA[Total (viaticos+Curso)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="20b2d488-8fb9-40b1-9341-8ac08c1871d1" mode="Opaque" x="663" y="0" width="44" height="46" forecolor="#FFFFFF" backcolor="#CC0000"/>
@@ -299,7 +299,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Boleto aereo($)]]></text>
+				<text><![CDATA[Boleto aéreo]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="20b2d488-8fb9-40b1-9341-8ac08c1871d1" mode="Opaque" x="707" y="0" width="41" height="46" forecolor="#FFFFFF" backcolor="#CC0000"/>
@@ -313,7 +313,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Total($)]]></text>
+				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="20b2d488-8fb9-40b1-9341-8ac08c1871d1" mode="Opaque" x="748" y="0" width="55" height="46" forecolor="#FFFFFF" backcolor="#CC0000"/>
@@ -501,7 +501,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalDias}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="$#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="473f7b30-1314-4dfe-8932-2b388b951711" positionType="Float" stretchType="RelativeToTallestObject" x="519" y="0" width="38" height="22" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>
@@ -514,7 +514,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{viaticos}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="$#,##0.00;" isBlankWhenNull="true">
 				<reportElement uuid="fe507cbd-1f5d-4111-8e8c-ffeae31220aa" positionType="Float" stretchType="RelativeToTallestObject" x="557" y="0" width="53" height="22" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>
@@ -527,7 +527,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pagoCurso}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="$#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="ae50b916-ebab-4ea5-b793-1a5319910bbb" positionType="Float" stretchType="RelativeToTallestObject" x="706" y="0" width="41" height="22" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>
@@ -631,7 +631,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tipoMovilidad}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="$#,##0.00;" isBlankWhenNull="true">
 				<reportElement uuid="ee2c96b2-8a79-4e30-93c2-12412d742164" positionType="Float" stretchType="RelativeToTallestObject" x="610" y="0" width="52" height="22" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>
@@ -642,7 +642,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{totalViaticosCurso}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00">
+			<textField isStretchWithOverflow="true" pattern="$#,##0.00;">
 				<reportElement uuid="93bea37b-582b-422a-b92e-802abb25ba63" positionType="Float" stretchType="RelativeToTallestObject" x="662" y="0" width="44" height="22" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>

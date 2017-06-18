@@ -36,7 +36,7 @@
                                 <h:panelGroup id="pgroupBuscadorBecario">
                                     <p:panelGrid id="pGridBuscadorBecario">
                                         <p:column>
-                                            <p:outputLabel for="tipoBusquedaBecarioId" value="Criterio de Busqueda:" rendered="#{!becaMB.actualizar}"/>
+                                            <p:outputLabel for="tipoBusquedaBecarioId" value="Criterio de B&uacute;squeda:" rendered="#{!becaMB.actualizar}"/>
                                         </p:column>
                                         <p:column>                                        
                                             <p:selectOneMenu id="tipoBusquedaBecarioId" value="#{becaMB.tipoBusquedaBecario}"  style="width:125px" rendered="#{!becaMB.actualizar}">  
@@ -48,7 +48,7 @@
                                             </p:selectOneMenu>
                                         </p:column>
                                         <p:column>
-                                            <p:outputLabel  value="Busqueda" rendered="#{!becaMB.actualizar}"/>     
+                                            <p:outputLabel  value="B&uacute;squeda" rendered="#{!becaMB.actualizar}"/>     
                                         </p:column>
                                         <p:column>
                                             <p:autoComplete id="searchNombre" rendered="#{becaMB.flagSearchNombreBecario}"
@@ -328,30 +328,30 @@
                                     </p:row>
                                     <p:row>
                                         <p:column>
-                                            <h:outputText value="Agregar Coordinador Academico Interno?: " />
+                                            <h:outputText value="Agregar Coordinador Acad&eacute;mico Interno?: " />
                                         </p:column>
                                         <p:column>
-                                            <p:selectBooleanButton id="btnInterno" value="#{becaMB.tabInternoBoolean}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                            <p:selectBooleanButton id="btnInterno" value="#{becaMB.tabInternoBoolean}" onLabel="S&iacute;" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
                                                 <p:ajax update="aidiInterno" listener="#{becaMB.changeInterno}" />
                                             </p:selectBooleanButton>
                                         </p:column>
                                         <p:column>
-                                            <h:outputText value="Agregar Coordinador Academico Externo?: " />
+                                            <h:outputText value="Agregar Coordinador Acad&eacute;mico Externo?: " />
                                         </p:column>
                                         <p:column>
-                                            <p:selectBooleanButton id="btnExterno" value="#{becaMB.tabExternoBoolean}" onLabel="Si" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+                                            <p:selectBooleanButton id="btnExterno" value="#{becaMB.tabExternoBoolean}" onLabel="S&iacute;" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
                                                 <p:ajax update="aidiExterno" listener="#{becaMB.changeExterno}" />
                                             </p:selectBooleanButton>
                                         </p:column>
                                     </p:row>
                                 </p:panelGrid>
                             </p:tab>
-                            <p:tab title="Datos del Coordinador Academico Interno"  >
+                            <p:tab title="Datos del Coordinador Acad&eacute;mico Interno"  >
                                 <h:panelGroup id="aidiInterno">
                                     <h:panelGroup id="pgroupBuscadorAsesorInterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabInterno or (becaMB.actualizar and becaMB.noEstabaInterno and becaMB.mostrarTabInterno)}">
                                         <p:panelGrid id="pGridBuscadorAsesorInterno">
                                             <p:column>
-                                                <p:outputLabel for="tipoBusquedaAsesorInternoId" value="Tipo de Busqueda:" />
+                                                <p:outputLabel for="tipoBusquedaAsesorInternoId" value="Tipo de B&uacute;squeda:" />
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaAsesorInternoId" value="#{becaMB.tipoBusquedaAsesorInterno}"  style="width:125px">  
@@ -363,7 +363,7 @@
                                                 </p:selectOneMenu>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel  value="Busqueda" />     
+                                                <p:outputLabel  value="B&uacute;squeda" />     
                                             </p:column>
                                             <p:column>
                                                 <p:autoComplete id="searchDuiAsesorInterno" minQueryLength="10" size="10" rendered="#{becaMB.flagSearchDuiAsesorInterno}"  value="#{becaMB.asesorInternoAux}" completeMethod="#{becaMB.methodSearchAsesorInterno}"
@@ -490,15 +490,15 @@
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
-                                    <p:outputLabel value="Para ingresar datoss del Coordinador Academico Interno active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabInterno}"/>
+                                    <p:outputLabel value="Para ingresar datoss del Coordinador Acad&eacute;mico Interno active la opci&oacute;n en la secci&oacute;n de beca" rendered="#{!becaMB.mostrarTabInterno}"/>
                                 </h:panelGroup>
                             </p:tab>
-                            <p:tab title="Datos del Coordinador Academico Externo">
+                            <p:tab title="Datos del Coordinador Acad&eacute;mico Externo">
                                 <h:panelGroup id="aidiExterno">
                                     <h:panelGroup id="pgroupBuscadorAsesorExterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabExterno}">
                                         <p:panelGrid id="pGridBuscadorAsesorExterno">
                                             <p:column>
-                                                <p:outputLabel for="tipoBusquedaAsesorExternoId" value="Tipo de Busqueda:" />
+                                                <p:outputLabel for="tipoBusquedaAsesorExternoId" value="Tipo de B&uacute;squeda:" />
                                             </p:column>
                                             <p:column>                                        
                                                 <p:selectOneMenu id="tipoBusquedaAsesorExternoId" value="#{becaMB.tipoBusquedaAsesorExterno}"  style="width:125px">  
@@ -510,7 +510,7 @@
                                                 </p:selectOneMenu>
                                             </p:column>
                                             <p:column>
-                                                <p:outputLabel  value="Busqueda" />     
+                                                <p:outputLabel  value="B&uacute;squeda" />     
                                             </p:column>
                                             <p:column>
                                                 <p:autoComplete id="searchDuiAsesorExterno" minQueryLength="10" size="10" rendered="#{becaMB.flagSearchDuiAsesorExterno}"  value="#{becaMB.asesorExternoAux}" completeMethod="#{becaMB.methodSearchAsesorExterno}"
@@ -624,7 +624,7 @@
                                             </p:column>
                                         </p:row>
                                     </p:panelGrid>
-                                    <p:outputLabel value="Para ingresar datoss del Coordinador Academico Externo active la opcion en la seccion de beca" rendered="#{!becaMB.mostrarTabExterno}"/>
+                                    <p:outputLabel value="Para ingresar datoss del Coordinador Acad&eacute;mico Externo active la opci&oacute;n en la secci&oacute;n de beca" rendered="#{!becaMB.mostrarTabExterno}"/>
                                 </h:panelGroup>
                             </p:tab>
                         </p:accordionPanel>
@@ -640,7 +640,7 @@
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarBecario()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{becaMB.noRemplazarBecario()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="dataChangeInternoDlg" message="Ya existe el coordinador academico Interno que desea ingresar, Est&aacute; seguro que desea Actualizar los datos?" header="Existe Coordinador Interno"  global="true">
+            <p:confirmDialog widgetVar="dataChangeInternoDlg" message="Ya existe el coordinador acad&eacute;mico Interno que desea ingresar, Est&aacute; seguro que desea Actualizar los datos?" header="Existe Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarInterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{becaMB.noRemplazarInterno()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
@@ -648,11 +648,11 @@
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.siRemplazarExterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" action="#{becaMB.noRemplazarExterno()}" process="@this" update=":formAdmin"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="dataDesvincularInternoDlg" message="Seguro que desea desvincular el coordinador Academico Intenro?" header="Desvincular Coordinador Interno"  global="true">
+            <p:confirmDialog widgetVar="dataDesvincularInternoDlg" message="Seguro que desea desvincular el coordinador Acad&eacute;mico Intenro?" header="Desvincular Coordinador Interno"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.desvincularInterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('dataDesvincularInternoDlg').hide();"/>
             </p:confirmDialog>
-            <p:confirmDialog widgetVar="dataDesvincularExternoDlg" message="Seguro que desea desvincular el coordinador Academico Externo?" header="Desvincular Coordinador Externo"  global="true">
+            <p:confirmDialog widgetVar="dataDesvincularExternoDlg" message="Seguro que desea desvincular el coordinador Acad&eacute;mico Externo?" header="Desvincular Coordinador Externo"  global="true">
                 <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{becaMB.desvincularExterno()}" process="@this" update=":formAdmin"/>
                 <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('dataDesvincularExternoDlg').hide();"/>
             </p:confirmDialog>

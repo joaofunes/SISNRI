@@ -42,19 +42,13 @@
                     <h:outputText value="#{pconvenios.NOMBRE_ESTADO}" />
                 </p:column>
                 <p:column headerText="Opciones" >
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
-                                       rendered="#{consultarPropuestaConvenioCanceladasMB.rol != null}"
-                                       value="Editar" actionListener="#{consultarPropuestaConvenioCanceladasMB.preEditar(pconvenios)}" />
-                    </div>
-
+                    
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-transferthick-e-w"
-                                       title="Cambiar estado" value="Cambiar estado"
-                                       update=":idCambiarEstado"
+                                       title="Cambiar estado" value="Cambiar estado"                                       
                                        rendered="#{consultarPropuestaConvenioCanceladasMB.rol != null}"
                                        actionListener="#{consultarPropuestaConvenioCanceladasMB.preCambiarEstado(pconvenios)}"
-                                       oncomplete="PF('dlgEstado').show();"/>
+                                       oncomplete="PF('dataChangeDlg').show();"/>
 
                     </div>     
                     <div style="float: left">
@@ -65,14 +59,7 @@
                                        oncomplete="PF('dlgInfoConvenio').show();"/>
 
                     </div> 
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-document"
-                                       title="Agregar Documento" value="Agregar Documento"
-                                       actionListener="#{consultarPropuestaConvenioCanceladasMB.preCargadocumento(pconvenios)}"
-                                       update=":idInfoConvenio"
-                                       oncomplete="PF('AddDocDialog').show();"/>
-
-                    </div> 
+                    
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-close"
                                        title="Eliminar Propuesta" value="Eliminar Propuesta"
@@ -85,97 +72,6 @@
                 </p:column>
             </p:dataTable>
         </h:form>   
-
-        <p:dialog header="Cambiar Estado" widgetVar="dlgEstado" modal="true" appendTo="@(body)" >                         
-            <h:form id="idCambiarEstado"> 
-                <p:panelGrid id="display" >
-                    <p:row>                                        
-                        <p:column>
-                            <h:outputText value="Nombre Propuesta : "  style="font-weight:bold"/>
-                        </p:column>
-                        <p:column>                            
-                            <p:inputTextarea readonly="true" value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.NOMBRE_PROPUESTA}" rows="2" maxlength="300" style="width:300px" >
-                                        </p:inputTextarea>
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="Solicitante: "  style="font-weight:bold" />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.SOLICITANTE}" />
-                        </p:column>
-                    </p:row>
-                    <p:row> 
-                        <p:column>
-                            <h:outputText value="Coordinador Interno: "  style="font-weight:bold" />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.INTERNO}" />
-                        </p:column>
-                    </p:row>
-
-                    <p:row>  
-                        <p:column>
-                            <h:outputText value="Coordinador Externo: "  style="font-weight:bold" />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.EXTERNO}" />
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="Tipo Propuesta: "  style="font-weight:bold" />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.pojoPropuestaConvenio.TIPO_CONVENIO}" />
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column> 
-                            <h:outputText value="Estado:" style="font-weight:bold"/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="idEstado" value="#{consultarPropuestaConvenioCanceladasMB.estado}" converter="#{estadoConverter}" panelStyle="width:250px" style="width:200px">
-                                <p:ajax  listener="#{consultarPropuestaConvenioCanceladasMB.confirmacionEstadoConvenio()}" update="idCambiarEstado"  process="@this" />
-                                <f:selectItems value="#{consultarPropuestaConvenioCanceladasMB.listadoEstadosTemp}" var="theme" itemLabel="#{theme.nombreEstado}" itemValue="#{theme}" />                      
-                            </p:selectOneMenu>
-                        </p:column>  
-                    </p:row>
-
-                    <p:row rendered="#{consultarPropuestaConvenioCanceladasMB.flagBanderaVigencia}">
-                        <p:column>
-                            <h:outputText value="Fecha de Vigencia: "  style="font-weight:bold" />
-                        </p:column>
-                        <p:column>
-                            <p:calendar id="idFechaVigencia" required="true" value="#{consultarPropuestaConvenioCanceladasMB.propuestaConvenio.vigencia}" pattern="dd-MM-yyyy" mask="true" />
-                        </p:column>
-                    </p:row>
-                    <p:row rendered="#{consultarPropuestaConvenioCanceladasMB.flagBanderaVigencia}">
-                        <p:column>  
-                            <p:outputLabel for="idDocumenPdf" value="Documento" />
-                        </p:column>                                                                                                                  
-                        <p:column>
-                            <p:fileUpload id="idDocumenPdf" fileUploadListener="#{consultarPropuestaConvenioCanceladasMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
-                                          sizeLimit="4000000" allowTypes="/(\.|\/)(pdf)$/"
-                                          label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"/>
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>                        
-                            <p:commandButton value="Aceptar"  icon="ui-icon-check"  action="#{consultarPropuestaConvenioCanceladasMB.cambiarEstadoConvenio()}" process="idCambiarEstado" update=":formAdmin"/>
-                            <p:commandButton value="No"  icon="ui-icon-close" onclick="PF('dlgEstado').hide();" process="@this" />
-                        </p:column>
-                        <p:column></p:column>
-                    </p:row>
-
-                </p:panelGrid>
-            </h:form>      
-        </p:dialog>   
-
 
         <p:dialog header="Informacion Convenio" widgetVar="dlgInfoConvenio" modal="true" appendTo="@(body)" >                         
             <h:form id="idInfoConvenio"> 
@@ -210,7 +106,7 @@
                             <h:outputText value="Estado:" style="font-weight:bold"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{consultarPropuestaConvenioCanceladasMB.estado.nombreEstado}" />
+                            <h:outputText value="Cancelado" />
                         </p:column>
                     </p:row>
                     <p:row> 
@@ -259,7 +155,7 @@
         </p:dialog>        
 
 
-        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea cambiar estado de convenio?" header="Cambiar estado de Convenio"  global="true">
+        <p:confirmDialog widgetVar="dataChangeDlg" message="Esta seguro que desea cambiar estado de  convenio?" header="Cambiar estado de Convenio"  global="true">
             <h:form id="idEliminacion">              
                 <br/>
                 <br/>
@@ -289,40 +185,7 @@
             <p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
         
-        <p:dialog id="idAddDocument" widgetVar="AddDocDialog"  resizable="false"  modal="true" appendTo="@(body)" header="Agregar documento" closeOnEscape="true">
-
-            <h:form id="formAddDocument">
-                <center>                  
-                    <h:panelGrid columns="2" >                                   
-                        <p:column>  
-                            <p:outputLabel for="idUnidad" value="Tipo Documento" />
-                        </p:column>                                         
-                        <p:column>                                         
-                            <p:selectOneMenu style="width: 100% !important" id="idUnidad" value="#{consultarPropuestaConvenioCanceladasMB.documento.idTipoDocumento}" 
-                                             converter="#{tipoDocumentoConverter}" required="true">                                           
-                                <f:selectItem itemLabel="Tipo Documento" itemValue=""  itemDisabled="true" />  
-                                <f:selectItems value="#{consultarPropuestaConvenioCanceladasMB.listTipoDocumento}" var="tDocumento" itemLabel="#{tDocumento.nombreDocumento}" itemValue="#{tDocumento}"/>  
-                            </p:selectOneMenu>    
-                        </p:column>
-                        <p:column>  
-                            <p:outputLabel for="idDocumen" value="Documento" />
-                        </p:column>                                                                                                                  
-                        <p:column>
-                            <p:fileUpload id="idDocumen" fileUploadListener="#{consultarPropuestaConvenioCanceladasMB.handleFileUpload}" required="true" mode="advanced" dragDropSupport="true"
-                                          sizeLimit="4000000" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf)$/"
-                                          label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar"/>
-                        </p:column>
-                        <p:column> 
-                            <p:commandButton value="Agregar" id="idGuardarPersona" actionListener="#{consultarPropuestaConvenioCanceladasMB.addDocument()}" 
-                                             process="formAddDocument" 
-                                             update=":formAdmin" 
-                                             icon="ui-icon-disk" onsuccess="PF('AddDocDialog').hide()" />
-                        </p:column>                        
-                    </h:panelGrid>
-                </center>    
-            </h:form>  
-        </p:dialog>        
-
+        
     </ui:define>
 
 

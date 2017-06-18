@@ -65,11 +65,19 @@ public class PropuestaConvenioService extends GenericService<PropuestaConvenio, 
     public List<PojoPropuestaConvenio> getAllPropuestaConvenioSQL(int idSolicitante) {
         return propuestaConvenioDao.getAllPropuestaConvenioSQL(idSolicitante);
     }
+    public List<PojoPropuestaConvenio> getAllPropuestaConveniCanceladasSQL(int idSolicitante) {
+        return propuestaConvenioDao.getAllPropuestaConvenioSQL(idSolicitante);
+    }
 
+    
     public PojoPropuestaConvenio getAllPropuestaConvenioSQLByID(Integer id) {
         return propuestaConvenioDao.getAllPropuestaConvenioSQLByID(id);
     }
-
+    
+      public List<PojoPropuestaConvenio> getAllPropuestaCanceladasConvenioSQL() {
+        return propuestaConvenioDao.getAllPropuestaCanceladasConvenioSQL();
+    }
+   
     public PropuestaConvenio getPropuestaCovenioByID(int idPropuesta) {
         return propuestaConvenioDao.getPropuestaCovenioByID(idPropuesta);
     }
