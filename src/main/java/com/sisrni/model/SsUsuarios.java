@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.sisrni.model;
 
 import java.io.Serializable;
@@ -25,7 +26,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
 @Table(name = "ss_usuarios", catalog = "sisrni", schema = "")
@@ -272,5 +273,5 @@ public class SsUsuarios implements Serializable {
     public String toString() {
         return "com.sisrni.model.SsUsuarios[ idUsuario=" + idUsuario + " ]";
     }
-    
+
 }

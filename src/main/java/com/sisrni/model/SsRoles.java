@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
 @Table(name = "ss_roles", catalog = "sisrni", schema = "")
@@ -48,7 +48,7 @@ public class SsRoles implements Serializable {
     @Size(max = 150)
     @Column(name = "DESCRIPCION", length = 150)
     private String descripcion;
-    @Size(max = 15)
+    @Size(max = 60)
     @Column(name = "USUARIO_REGISTRO", length = 60)
     private String usuarioRegistro;
     @Column(name = "FECHA_REGISTRO")

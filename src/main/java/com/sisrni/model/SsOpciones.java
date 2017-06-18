@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
 @Table(name = "ss_opciones", catalog = "sisrni", schema = "")

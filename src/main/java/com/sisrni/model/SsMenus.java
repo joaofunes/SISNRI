@@ -24,16 +24,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
-@Table(name = "ss_menus", catalog = "sisrni", schema = "")
+@Table(name = "ss_menus", catalog = "sisrni", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"ORDEN_MENU"})})
 @NamedQueries({
     @NamedQuery(name = "SsMenus.findAll", query = "SELECT s FROM SsMenus s")})
 public class SsMenus implements Serializable {
@@ -64,13 +64,11 @@ public class SsMenus implements Serializable {
         @JoinColumn(name = "ID_MENU", referencedColumnName = "ID_MENU", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL", nullable = false)})
     @ManyToMany
-    @LazyCollection(LazyCollectionOption.TRUE)
     private List<SsRoles> ssRolesList;
     @JoinTable(name = "ss_menus_opciones", joinColumns = {
         @JoinColumn(name = "ID_MENU", referencedColumnName = "ID_MENU", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_OPCION", referencedColumnName = "ID_OPCION", nullable = false)})
     @ManyToMany
-    @LazyCollection(LazyCollectionOption.TRUE)
     private List<SsOpciones> ssOpcionesList;
     @OneToMany(mappedBy = "ssIdMenu")
     private List<SsMenus> ssMenusList;
@@ -132,6 +130,7 @@ public class SsMenus implements Serializable {
     public void setFechaUltimamodificacion(Date fechaUltimamodificacion) {
         this.fechaUltimamodificacion = fechaUltimamodificacion;
     }
+
     public Integer getOrdenMenu() {
         return ordenMenu;
     }
@@ -139,6 +138,7 @@ public class SsMenus implements Serializable {
     public void setOrdenMenu(Integer ordenMenu) {
         this.ordenMenu = ordenMenu;
     }
+
     public List<SsRoles> getSsRolesList() {
         return ssRolesList;
     }

@@ -17,14 +17,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
-@Table(name = "CATEGORIA_NOTICIA", catalog = "sisrni", schema = "")
+@Table(name = "categoria_noticia", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "CategoriaNoticia.findAll", query = "SELECT c FROM CategoriaNoticia c")})
 public class CategoriaNoticia implements Serializable {
@@ -34,8 +35,10 @@ public class CategoriaNoticia implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_CATEGORIA", nullable = false)
     private Integer idCategoria;
-    @Size(max = 100)
-    @Column(name = "CATEGORIA_NOTICIA", length = 100)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "CATEGORIA_NOTICIA", nullable = false, length = 100)
     private String categoriaNoticia;
     @OneToMany(mappedBy = "idCategoria")
     private List<Noticia> noticiaList;
@@ -45,6 +48,11 @@ public class CategoriaNoticia implements Serializable {
 
     public CategoriaNoticia(Integer idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public CategoriaNoticia(Integer idCategoria, String categoriaNoticia) {
+        this.idCategoria = idCategoria;
+        this.categoriaNoticia = categoriaNoticia;
     }
 
     public Integer getIdCategoria() {

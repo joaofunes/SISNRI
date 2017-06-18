@@ -51,6 +51,9 @@
                         <f:convertNumber pattern="#0.00"/>
                     </h:outputText>
                 </p:column>
+                <p:column headerText="Estado" sortBy="#{proyecto.idEstadoProyecto.nombreEstado}" filterBy="#{proyecto.idEstadoProyecto.nombreEstado}">
+                    <h:outputText value="#{proyecto.idEstadoProyecto.nombreEstado}" />
+                </p:column>
                     <p:column headerText="Opciones" >
                         <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-pencil" title="Editar" 
@@ -61,10 +64,10 @@
                                            title="Consultar" value="Consultar"
                                            actionListener="#{proyectoConsultarMB.preConsultarProyecto(proyecto.idProyecto)}" update=":formAdmin"/>
                         </div>
-                        <div style="float: left">
+<!--                        <div style="float: left">
                             <p:commandLink styleClass="ui-icon ui-icon-closethick" title="Eliminar" 
                                            value="Eliminar" actionListener="#{proyectosMB.preEliminar(proyecto.idProyecto)}"/>
-                        </div>
+                        </div>-->
                     </p:column>
             </p:dataTable>
 
@@ -84,7 +87,7 @@
 
             </h:form>
         </p:dialog> 
-             <p:confirmDialog widgetVar="eliminarProyectoDialogo" message="¿Est&aacute; seguro que desea eliminar el proyecto?" header="Eliminar Proyecto"  global="true">
+             <p:confirmDialog widgetVar="eliminarProyectoDialogo" message="Â¿Est&aacute; seguro que desea eliminar el proyecto?" header="Eliminar Proyecto"  global="true">
                  <p:commandButton value="Si"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  action="#{proyectosMB.eliminarProyecto()}" process="@this" update=":formProyecto"/>
                  <p:commandButton value="No"  styleClass="ui-confirmdialog-no" icon="ui-icon-close"  action="#{proyectosMB.cancelareEiminarProyecto()}" process="@this" update=":formProyecto"/>
             </p:confirmDialog>

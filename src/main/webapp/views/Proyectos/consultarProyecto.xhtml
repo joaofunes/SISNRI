@@ -145,6 +145,16 @@
                                             </c:forEach>
                                         </p:selectCheckboxMenu>
                                     </p:column>
+                                    <p:column>
+                                            <p:outputLabel for="estadoproyecto" value="Estado de Proyecto:"/>
+                                        </p:column>
+                                        <p:column >
+                                            <p:selectOneMenu id="estadoproyecto" value="#{proyectoConsultarMB.estadoProyectoSelected.idEstado}" style="width: 180px">
+                                                <c:forEach var="estado" items="#{proyectoConsultarMB.listadoEstadoProyecto}">
+                                                    <f:selectItem itemLabel="#{estado.nombreEstado}" itemValue="#{estado.idEstado}"/>
+                                                </c:forEach>
+                                            </p:selectOneMenu>
+                                        </p:column>
                                 </p:panelGrid>
                             </p:tab>
                             <p:tab title="Datos del Coordinador del proyecto">

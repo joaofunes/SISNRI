@@ -21,6 +21,7 @@ public class RptProyectoPojo{
     private String contraparteExterna;
     private String beneficiadoUES;
     private BigDecimal monto;
+    private String estado;
 
     public String getNombre() {
         return nombre;
@@ -85,6 +86,12 @@ public class RptProyectoPojo{
     public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
-    
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }

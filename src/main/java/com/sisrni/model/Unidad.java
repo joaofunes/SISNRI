@@ -24,10 +24,10 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
-@Table(name = "UNIDAD", catalog = "sisrni", schema = "")
+@Table(name = "unidad", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Unidad.findAll", query = "SELECT u FROM Unidad u")})
 public class Unidad implements Serializable {

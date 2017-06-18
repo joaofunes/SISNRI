@@ -21,14 +21,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cortez
+ * @author lilian
  */
 @Entity
-@Table(name = "DOCUMENTO", catalog = "sisrni", schema = "")
+@Table(name = "documento", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Documento.findAll", query = "SELECT d FROM Documento d")})
 public class Documento implements Serializable {
@@ -41,11 +42,15 @@ public class Documento implements Serializable {
     @Column(name = "FECHA_RECIBIDO")
     @Temporal(TemporalType.DATE)
     private Date fechaRecibido;
+    @Basic(optional = false)
+    @NotNull
     @Lob
-    @Column(name = "DOCUMENTO")
+    @Column(name = "DOCUMENTO", nullable = false)
     private byte[] documento;
-    @Size(max = 300)
-    @Column(name = "NOMBRE_DOCUMENTO", length = 300)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
+    @Column(name = "NOMBRE_DOCUMENTO", nullable = false, length = 300)
     private String nombreDocumento;
     @Size(max = 30)
     @Column(name = "USUARIO_RECIBE", length = 30)
@@ -71,6 +76,12 @@ public class Documento implements Serializable {
 
     public Documento(Integer idDocumento) {
         this.idDocumento = idDocumento;
+    }
+
+    public Documento(Integer idDocumento, byte[] documento, String nombreDocumento) {
+        this.idDocumento = idDocumento;
+        this.documento = documento;
+        this.nombreDocumento = nombreDocumento;
     }
 
     public Integer getIdDocumento() {

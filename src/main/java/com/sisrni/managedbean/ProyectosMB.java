@@ -22,11 +22,13 @@ import com.sisrni.model.TipoProyecto;
 import com.sisrni.model.TipoTelefono;
 import com.sisrni.model.TipoCambio;
 import com.sisrni.model.EscuelaDepartamento;
+import com.sisrni.model.Estado;
 import com.sisrni.model.Unidad;
 import com.sisrni.pojo.rpt.PojoFacultadesUnidades;
 import com.sisrni.service.AreaConocimientoService;
 import com.sisrni.service.DocumentoService;
 import com.sisrni.service.EscuelaDepartamentoService;
+import com.sisrni.service.EstadoService;
 import com.sisrni.service.FacultadService;
 import com.sisrni.service.OrganismoService;
 import com.sisrni.service.PaisService;
@@ -81,6 +83,8 @@ public class ProyectosMB {
     OrganismoCooperanteMB organismoCooperanteMB;
     @Inject
     AreaConocimientoMB areaConocimientoMB;
+    @Inject
+    EstadoMB estadoMB;
 
     @Autowired
     private AreaConocimientoService areaConocimientoService;
@@ -118,6 +122,8 @@ public class ProyectosMB {
     private TipoCambioService tipoCambioService;
     @Autowired
     private DocumentoService documentoService;
+    @Autowired
+    private EstadoService estadoService;
 
 //Definicion de objetos    
     private Proyecto proyecto;
@@ -188,6 +194,7 @@ public class ProyectosMB {
     private Pais paisSelected;
     private Pais paisCooperanteSelected;
     private TipoCambio tipoCambioSelected;
+    private Estado estadoProyectoSelected;
 //Telefono
 //private Telefono telefono;
     private Telefono telefonoSolFijo;
@@ -343,6 +350,9 @@ public class ProyectosMB {
         paisSelected = new Pais();
         paisCooperanteSelected = new Pais();
         tipoCambioSelected = new TipoCambio();
+        if(actualizar==false){
+        estadoProyectoSelected=estadoService.findById(14);
+        }
         //Listas
         tipoproyectolist = tipoProyectoService.findAll();
         areaConocimientoList = areaConocimientoService.findAll();
@@ -727,6 +737,10 @@ public class ProyectosMB {
                     d = d.multiply(aux.getDolaresPorUnidad());
                     proyecto.setMontoProyecto(d);
                 }
+                //Guardando el estado del proyecto
+                
+                    Estado estado=estadoService.findById(estadoProyectoSelected.getIdEstado());
+                    proyecto.setIdEstadoProyecto(estado);
                 //Intermedia de proyecto y area de conocimiento
                 for (int i = 0; i < areaConocimientoSelected.length; i++) {
                     AreaConocimiento area = areaConocimientoService.findById(Integer.parseInt(areaConocimientoSelected[i]));
@@ -1679,6 +1693,7 @@ public class ProyectosMB {
                 searchByDocReferenteExterno(personaExterna.getEmailPersona());
                 proyectoSelected = proyecto.getIdTipoProyecto();
                 tipoCambioSelected.setIdTipoCambio(2);
+                estadoProyectoSelected= estadoService.findById(proyecto.getIdEstadoProyecto().getIdEstado());
                 fechaI = proyecto.getFechaInicio();
                 fechaF = proyecto.getFechaFin();
                 if (proyecto.getIdPropuestaConvenio() == null) {
@@ -1940,6 +1955,7 @@ public class ProyectosMB {
         } catch (Exception e) {
         }
     }
+    
 
     public TipoProyecto getProyectoSelected() {
         return proyectoSelected;
@@ -3054,4 +3070,12 @@ public class ProyectosMB {
         this.mascaraTelefono = mascaraTelefono;
     }
 
+    public Estado getEstadoProyectoSelected() {
+        return estadoProyectoSelected;
+    }
+
+    public void setEstadoProyectoSelected(Estado estadoProyectoSelected) {
+        this.estadoProyectoSelected = estadoProyectoSelected;
+    }
+    
 }
