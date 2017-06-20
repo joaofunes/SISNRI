@@ -41,17 +41,7 @@
                 <p:column filterBy="#{pconvenios.NOMBRE_ESTADO}" headerText="Estado convenio">
                     <h:outputText value="#{pconvenios.NOMBRE_ESTADO}" />
                 </p:column>
-                <p:column headerText="Opciones" >
-                    
-                    <div style="float: left">
-                        <p:commandLink styleClass="ui-icon ui-icon-transferthick-e-w"
-                                       title="Cambiar estado" value="Cambiar estado"                                       
-                                       rendered="#{consultarPropuestaConvenioCanceladasMB.rol != null}"
-                                       actionListener="#{consultarPropuestaConvenioCanceladasMB.preCambiarEstado(pconvenios)}"
-                                       update=":idCancelar"
-                                       oncomplete="PF('dataChangeDlg').show();"/>
-
-                    </div>     
+                <p:column headerText="Opciones" >                                           
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-circle-zoomin"
                                        title="Detalle de Propuesta" value="Detalle de Propuesta"
@@ -59,7 +49,15 @@
                                        update=":idInfoConvenio"
                                        oncomplete="PF('dlgInfoConvenio').show();"/>
                     </div> 
-                    
+                     <div style="float: left">
+                        <p:commandLink styleClass="ui-icon ui-icon-transferthick-e-w"
+                                       title="Cambiar estado" value="Cambiar estado"                                       
+                                       rendered="#{consultarPropuestaConvenioCanceladasMB.rol != null}"
+                                       actionListener="#{consultarPropuestaConvenioCanceladasMB.preCambiarEstado(pconvenios)}"
+                                       update=":idCancelar"
+                                       oncomplete="PF('dataChangeDlg').show();"/>
+
+                    </div> 
                     <div style="float: left">
                         <p:commandLink styleClass="ui-icon ui-icon-close"
                                        title="Eliminar Propuesta" value="Eliminar Propuesta"

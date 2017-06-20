@@ -252,6 +252,31 @@ public class ConsultarPropuestaConvenioCanceladasMB extends CancelarConvenioForm
     }
 
     
+    /**
+     * *
+     * metodo para eliminacion de una propuesta
+     */
+    public void eliminarConvenio() {
+        try {
+            int eliminarConvenio = eliminarConvenio(propuestaConvenio.getIdPropuesta());
+            
+             if(eliminarConvenio==1){
+                String message = "Propuesta Eliminada Exitosame!!" ;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+            }else{
+                String message = "Propuesta no ha sido, Eliminada " ;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+            }
+
+            inicializador();
+
+        } catch (Exception e) {
+            String message = "Error Eliminando Propuesta : " + e.getMessage();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+        }
+    }
+    
+    
     public Integer propuetasEnRevision() {
         return propuestaConvenioService.conteoPropuestasEnRevision();
     }
