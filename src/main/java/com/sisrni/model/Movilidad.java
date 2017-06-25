@@ -7,6 +7,7 @@ package com.sisrni.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -104,7 +105,7 @@ public class Movilidad implements Serializable {
     @ManyToOne
     private TipoMovilidad idTipoMovilidad;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movilidad")
-    private List<PersonaMovilidad> personaMovilidadList;
+    private List<PersonaMovilidad> personaMovilidadList = new ArrayList<PersonaMovilidad>();
 
     public Movilidad() {
     }
