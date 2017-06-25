@@ -34,7 +34,7 @@ import javax.validation.constraints.Size;
  * @author lilian
  */
 @Entity
-@Table(name = "proyecto", catalog = "sisrni", schema = "")
+@Table(name = "PROYECTO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Proyecto.findAll", query = "SELECT p FROM Proyecto p")})
 public class Proyecto implements Serializable {
@@ -69,23 +69,25 @@ public class Proyecto implements Serializable {
     @Column(name = "FECHO_INGRESO")
     @Temporal(TemporalType.DATE)
     private Date fechoIngreso;
-    @JoinTable(name = "proyecto_area", joinColumns = {
+    @JoinTable(name = "PROYECTO_AREA", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_AREA_CONOCIMIENTO", referencedColumnName = "ID_AREA_CONOCIMIENTO", nullable = false)})
     @ManyToMany
     private List<AreaConocimiento> areaConocimientoList=new ArrayList<AreaConocimiento>();
-    @JoinTable(name = "facultad_proyecto", joinColumns = {
+    @JoinTable(name = "FACULTAD_PROYECTO", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_FACULTAD", referencedColumnName = "ID_FACULTAD", nullable = false)})
     @ManyToMany
     private List<Facultad> facultadList=new ArrayList<Facultad>();
-    @JoinTable(name = "proyecto_organismo", joinColumns = {
+    @JoinTable(name = "PROYECTO_ORGANISMO", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ID_ORGANISMO", referencedColumnName = "ID_ORGANISMO", nullable = false)})
     @ManyToMany
     private List<Organismo> organismoList=new ArrayList<Organismo>();
     @OneToMany(mappedBy = "idProyecto")
     private List<Documento> documentoList= new ArrayList<Documento>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
+    private List<PersonaProyecto> personaProyectoList= new ArrayList<PersonaProyecto>();
     @JoinColumn(name = "ID_PROPUESTA_CONVENIO", referencedColumnName = "ID_PROPUESTA")
     @ManyToOne
     private PropuestaConvenio idPropuestaConvenio;
@@ -101,8 +103,6 @@ public class Proyecto implements Serializable {
     @JoinColumn(name = "ID_PAIS_COOPERANTE", referencedColumnName = "ID_PAIS")
     @ManyToOne
     private Pais idPaisCooperante;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
-    private List<PersonaProyecto> personaProyectoList= new ArrayList<PersonaProyecto>();
 
     public Proyecto() {
     }
@@ -223,6 +223,14 @@ public class Proyecto implements Serializable {
         this.documentoList = documentoList;
     }
 
+    public List<PersonaProyecto> getPersonaProyectoList() {
+        return personaProyectoList;
+    }
+
+    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
+        this.personaProyectoList = personaProyectoList;
+    }
+
     public PropuestaConvenio getIdPropuestaConvenio() {
         return idPropuestaConvenio;
     }
@@ -261,14 +269,6 @@ public class Proyecto implements Serializable {
 
     public void setIdPaisCooperante(Pais idPaisCooperante) {
         this.idPaisCooperante = idPaisCooperante;
-    }
-
-    public List<PersonaProyecto> getPersonaProyectoList() {
-        return personaProyectoList;
-    }
-
-    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
-        this.personaProyectoList = personaProyectoList;
     }
 
     @Override

@@ -30,7 +30,7 @@ import javax.validation.constraints.Size;
  * @author lilian
  */
 @Entity
-@Table(name = "persona", catalog = "sisrni", schema = "")
+@Table(name = "PERSONA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")})
 public class Persona implements Serializable {
@@ -75,10 +75,6 @@ public class Persona implements Serializable {
     @NotNull
     @Column(name = "ACTIVO", nullable = false)
     private boolean activo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<PersonaMovilidad> personaMovilidadList;
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "idPersona")
-    private List<Telefono> telefonoList=new ArrayList<Telefono>();
     @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD")
     @ManyToOne
     private Unidad idUnidad;
@@ -92,11 +88,15 @@ public class Persona implements Serializable {
     @ManyToOne
     private Organismo idOrganismo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<PersonaProyecto> personaProyectoList=new ArrayList<PersonaProyecto>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
     private List<PersonaPropuesta> personaPropuestaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<PersonaBeca> personaBecaList=new ArrayList<PersonaBeca>();
+    private List<PersonaProyecto> personaProyectoList=new ArrayList<PersonaProyecto>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private List<PersonaMovilidad> personaMovilidadList= new ArrayList<PersonaMovilidad>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private List<PersonaBeca> personaBecaList= new ArrayList<PersonaBeca>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "idPersona")
+    private List<Telefono> telefonoList=new ArrayList<Telefono>();
 
     public Persona() {
     }
@@ -194,22 +194,6 @@ public class Persona implements Serializable {
         this.activo = activo;
     }
 
-    public List<PersonaMovilidad> getPersonaMovilidadList() {
-        return personaMovilidadList;
-    }
-
-    public void setPersonaMovilidadList(List<PersonaMovilidad> personaMovilidadList) {
-        this.personaMovilidadList = personaMovilidadList;
-    }
-
-    public List<Telefono> getTelefonoList() {
-        return telefonoList;
-    }
-
-    public void setTelefonoList(List<Telefono> telefonoList) {
-        this.telefonoList = telefonoList;
-    }
-
     public Unidad getIdUnidad() {
         return idUnidad;
     }
@@ -242,14 +226,6 @@ public class Persona implements Serializable {
         this.idOrganismo = idOrganismo;
     }
 
-    public List<PersonaProyecto> getPersonaProyectoList() {
-        return personaProyectoList;
-    }
-
-    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
-        this.personaProyectoList = personaProyectoList;
-    }
-
     public List<PersonaPropuesta> getPersonaPropuestaList() {
         return personaPropuestaList;
     }
@@ -258,12 +234,36 @@ public class Persona implements Serializable {
         this.personaPropuestaList = personaPropuestaList;
     }
 
+    public List<PersonaProyecto> getPersonaProyectoList() {
+        return personaProyectoList;
+    }
+
+    public void setPersonaProyectoList(List<PersonaProyecto> personaProyectoList) {
+        this.personaProyectoList = personaProyectoList;
+    }
+
+    public List<PersonaMovilidad> getPersonaMovilidadList() {
+        return personaMovilidadList;
+    }
+
+    public void setPersonaMovilidadList(List<PersonaMovilidad> personaMovilidadList) {
+        this.personaMovilidadList = personaMovilidadList;
+    }
+
     public List<PersonaBeca> getPersonaBecaList() {
         return personaBecaList;
     }
 
     public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
         this.personaBecaList = personaBecaList;
+    }
+
+    public List<Telefono> getTelefonoList() {
+        return telefonoList;
+    }
+
+    public void setTelefonoList(List<Telefono> telefonoList) {
+        this.telefonoList = telefonoList;
     }
 
     @Override

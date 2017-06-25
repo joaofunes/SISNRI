@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
  * @author lilian
  */
 @Entity
-@Table(name = "beca", catalog = "sisrni", schema = "")
+@Table(name = "BECA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Beca.findAll", query = "SELECT b FROM Beca b")})
 public class Beca implements Serializable {
@@ -73,7 +73,9 @@ public class Beca implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaIngreso;
     @OneToMany(mappedBy = "idBeca")
-    private List<Documento> documentoList;
+    private List<Documento> documentoList= new ArrayList<Documento>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
+    private List<PersonaBeca> personaBecaList= new ArrayList<PersonaBeca>();
     @JoinColumn(name = "ID_UNIVERSIDAD", referencedColumnName = "ID_ORGANISMO")
     @ManyToOne
     private Organismo idUniversidad;
@@ -89,8 +91,6 @@ public class Beca implements Serializable {
     @JoinColumn(name = "ID_TIPO_MODALIDAD", referencedColumnName = "ID_TIPO_MODALIDAD")
     @ManyToOne
     private TipoModalidaBeca idTipoModalidad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beca")
-    private List<PersonaBeca> personaBecaList=new ArrayList<PersonaBeca>();
 
     public Beca() {
     }
@@ -208,6 +208,14 @@ public class Beca implements Serializable {
         this.documentoList = documentoList;
     }
 
+    public List<PersonaBeca> getPersonaBecaList() {
+        return personaBecaList;
+    }
+
+    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
+        this.personaBecaList = personaBecaList;
+    }
+
     public Organismo getIdUniversidad() {
         return idUniversidad;
     }
@@ -246,14 +254,6 @@ public class Beca implements Serializable {
 
     public void setIdTipoModalidad(TipoModalidaBeca idTipoModalidad) {
         this.idTipoModalidad = idTipoModalidad;
-    }
-
-    public List<PersonaBeca> getPersonaBecaList() {
-        return personaBecaList;
-    }
-
-    public void setPersonaBecaList(List<PersonaBeca> personaBecaList) {
-        this.personaBecaList = personaBecaList;
     }
 
     @Override

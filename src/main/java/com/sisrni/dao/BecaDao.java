@@ -98,14 +98,14 @@ public class BecaDao extends GenericDao<Beca, Integer> {
     }
 
     public List<BecasGestionadasPojo> getDataBecasGestionadasGroupPaisDestino(Integer desde, Integer hasta) {
-        String query = "select p.NOMBRE_PAIS nombrePais,count(b.ID_BECA) gestionadas,\n"
-                + "(SELECT COUNT(i.ID_BECA) FROM BECA i WHERE i.OTORGADA=1 and i.ID_PAIS_DESTINO=b.ID_PAIS_DESTINO) becasOtorgadas,\n"
-                + "(SELECT SUM(a.MONTO_TOTAL) FROM BECA a WHERE a.OTORGADA=1 and a.ID_PAIS_DESTINO=b.ID_PAIS_DESTINO) montoOtorgadas,\n"
-                + "(SELECT COUNT(c.ID_BECA) FROM BECA c WHERE c.OTORGADA=0 and c.ID_PAIS_DESTINO=b.ID_PAIS_DESTINO) becasDenegadas,\n"
-                + "(SELECT SUM(r.MONTO_TOTAL) FROM BECA r WHERE r.OTORGADA=0 and r.ID_PAIS_DESTINO=b.ID_PAIS_DESTINO) montoDenegadas\n"
+        String query = "select p.NOMBRE_PAIS nombrePais,count(*) gestionadas,\n"
+                + "sum(if(b.OTORGADA=1,1,0)) becasOtorgadas,\n"
+                + "sum(if(OTORGADA=1,b.MONTO_TOTAL,0.00)) montoOtorgadas,\n"
+                + "sum(if(b.OTORGADA=0,1,0)) becasDenegadas,\n"
+                + "sum(if(OTORGADA=0,b.MONTO_TOTAL,0.00)) montoDenegadas\n"
                 + "from BECA b INNER JOIN PAIS p ON b.ID_PAIS_DESTINO=p.ID_PAIS\n"
                 + "WHERE b.ANIO_GESTION BETWEEN " + desde + " and " + hasta + "\n"
-                + "GROUP BY p.NOMBRE_PAIS ORDER BY b.ID_PAIS_DESTINO asc";
+                + "GROUP BY p.NOMBRE_PAIS ORDER BY p.NOMBRE_PAIS asc";
 
         Query q = getSessionFactory().getCurrentSession().createSQLQuery(query)
                 .addScalar("nombrePais", new StringType())

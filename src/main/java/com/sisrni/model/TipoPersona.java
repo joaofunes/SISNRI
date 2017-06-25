@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
  * @author lilian
  */
 @Entity
-@Table(name = "tipo_persona", catalog = "sisrni", schema = "")
+@Table(name = "TIPO_PERSONA", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "TipoPersona.findAll", query = "SELECT t FROM TipoPersona t")})
 public class TipoPersona implements Serializable {
@@ -41,12 +41,12 @@ public class TipoPersona implements Serializable {
     @Size(max = 100)
     @Column(name = "DESCRIPCION", length = 100)
     private String descripcion;
-    @OneToMany(mappedBy = "idTipoPersona")
-    private List<PersonaMovilidad> personaMovilidadList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoPersona")
-    private List<PersonaProyecto> personaProyectoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoPersona")
     private List<PersonaPropuesta> personaPropuestaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoPersona")
+    private List<PersonaProyecto> personaProyectoList;
+    @OneToMany(mappedBy = "idTipoPersona")
+    private List<PersonaMovilidad> personaMovilidadList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoPersona")
     private List<PersonaBeca> personaBecaList;
 
@@ -81,12 +81,12 @@ public class TipoPersona implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public List<PersonaMovilidad> getPersonaMovilidadList() {
-        return personaMovilidadList;
+    public List<PersonaPropuesta> getPersonaPropuestaList() {
+        return personaPropuestaList;
     }
 
-    public void setPersonaMovilidadList(List<PersonaMovilidad> personaMovilidadList) {
-        this.personaMovilidadList = personaMovilidadList;
+    public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
+        this.personaPropuestaList = personaPropuestaList;
     }
 
     public List<PersonaProyecto> getPersonaProyectoList() {
@@ -97,12 +97,12 @@ public class TipoPersona implements Serializable {
         this.personaProyectoList = personaProyectoList;
     }
 
-    public List<PersonaPropuesta> getPersonaPropuestaList() {
-        return personaPropuestaList;
+    public List<PersonaMovilidad> getPersonaMovilidadList() {
+        return personaMovilidadList;
     }
 
-    public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
-        this.personaPropuestaList = personaPropuestaList;
+    public void setPersonaMovilidadList(List<PersonaMovilidad> personaMovilidadList) {
+        this.personaMovilidadList = personaMovilidadList;
     }
 
     public List<PersonaBeca> getPersonaBecaList() {

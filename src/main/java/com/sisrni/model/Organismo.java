@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author lilian
  */
 @Entity
-@Table(name = "organismo", catalog = "sisrni", schema = "")
+@Table(name = "ORGANISMO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Organismo.findAll", query = "SELECT o FROM Organismo o")})
 public class Organismo implements Serializable {
@@ -61,18 +61,18 @@ public class Organismo implements Serializable {
     @JoinColumn(name = "ID_TIPO_ORGANISMO", referencedColumnName = "ID_TIPO_ORGANISMO")
     @ManyToOne
     private TipoOrganismo idTipoOrganismo;
-    @OneToMany(mappedBy = "idUniversidad")
-    private List<Beca> becaList;
-    @OneToMany(mappedBy = "idOrganismoCooperante")
-    private List<Beca> becaList1;
-    @OneToMany(mappedBy = "idOrganismo")
-    private List<Telefono> telefonoList;
-    @OneToMany(mappedBy = "idOrganismo")
-    private List<Facultad> facultadList;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Persona> personaList;
     @OneToMany(mappedBy = "idOrganismo")
     private List<Unidad> unidadList;
+    @OneToMany(mappedBy = "idOrganismo")
+    private List<Facultad> facultadList;
+    @OneToMany(mappedBy = "idOrganismo")
+    private List<Telefono> telefonoList;
+    @OneToMany(mappedBy = "idUniversidad")
+    private List<Beca> becaList;
+    @OneToMany(mappedBy = "idOrganismoCooperante")
+    private List<Beca> becaList1;
 
     public Organismo() {
     }
@@ -169,38 +169,6 @@ public class Organismo implements Serializable {
         this.idTipoOrganismo = idTipoOrganismo;
     }
 
-    public List<Beca> getBecaList() {
-        return becaList;
-    }
-
-    public void setBecaList(List<Beca> becaList) {
-        this.becaList = becaList;
-    }
-
-    public List<Beca> getBecaList1() {
-        return becaList1;
-    }
-
-    public void setBecaList1(List<Beca> becaList1) {
-        this.becaList1 = becaList1;
-    }
-
-    public List<Telefono> getTelefonoList() {
-        return telefonoList;
-    }
-
-    public void setTelefonoList(List<Telefono> telefonoList) {
-        this.telefonoList = telefonoList;
-    }
-
-    public List<Facultad> getFacultadList() {
-        return facultadList;
-    }
-
-    public void setFacultadList(List<Facultad> facultadList) {
-        this.facultadList = facultadList;
-    }
-
     public List<Persona> getPersonaList() {
         return personaList;
     }
@@ -215,6 +183,38 @@ public class Organismo implements Serializable {
 
     public void setUnidadList(List<Unidad> unidadList) {
         this.unidadList = unidadList;
+    }
+
+    public List<Facultad> getFacultadList() {
+        return facultadList;
+    }
+
+    public void setFacultadList(List<Facultad> facultadList) {
+        this.facultadList = facultadList;
+    }
+
+    public List<Telefono> getTelefonoList() {
+        return telefonoList;
+    }
+
+    public void setTelefonoList(List<Telefono> telefonoList) {
+        this.telefonoList = telefonoList;
+    }
+
+    public List<Beca> getBecaList() {
+        return becaList;
+    }
+
+    public void setBecaList(List<Beca> becaList) {
+        this.becaList = becaList;
+    }
+
+    public List<Beca> getBecaList1() {
+        return becaList1;
+    }
+
+    public void setBecaList1(List<Beca> becaList1) {
+        this.becaList1 = becaList1;
     }
 
     @Override

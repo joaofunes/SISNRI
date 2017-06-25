@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
  * @author lilian
  */
 @Entity
-@Table(name = "propuesta_convenio", catalog = "sisrni", schema = "", uniqueConstraints = {
+@Table(name = "PROPUESTA_CONVENIO", catalog = "sisrni", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"ID_PROPUESTA"})})
 @NamedQueries({
     @NamedQuery(name = "PropuestaConvenio.findAll", query = "SELECT p FROM PropuestaConvenio p")})
@@ -65,17 +65,17 @@ public class PropuestaConvenio implements Serializable {
     @NotNull
     @Column(name = "ACTIVO", nullable = false)
     private boolean activo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
+    private List<PropuestaEstado> propuestaEstadoList;
+    @OneToMany(mappedBy = "idPropuesta")
+    private List<Documento> documentoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
+    private List<PersonaPropuesta> personaPropuestaList;
+    @OneToMany(mappedBy = "idPropuestaConvenio")
+    private List<Proyecto> proyectoList;
     @JoinColumn(name = "ID_TIPO_PROPUESTA_CONVENIO", referencedColumnName = "ID_TIPO_PROPUESTA")
     @ManyToOne
     private TipoPropuestaConvenio idTipoPropuestaConvenio;
-    @OneToMany(mappedBy = "idPropuesta")
-    private List<Documento> documentoList;
-    @OneToMany(mappedBy = "idPropuestaConvenio")
-    private List<Proyecto> proyectoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
-    private List<PropuestaEstado> propuestaEstadoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propuestaConvenio")
-    private List<PersonaPropuesta> personaPropuestaList;
 
     public PropuestaConvenio() {
     }
@@ -147,12 +147,12 @@ public class PropuestaConvenio implements Serializable {
         this.activo = activo;
     }
 
-    public TipoPropuestaConvenio getIdTipoPropuestaConvenio() {
-        return idTipoPropuestaConvenio;
+    public List<PropuestaEstado> getPropuestaEstadoList() {
+        return propuestaEstadoList;
     }
 
-    public void setIdTipoPropuestaConvenio(TipoPropuestaConvenio idTipoPropuestaConvenio) {
-        this.idTipoPropuestaConvenio = idTipoPropuestaConvenio;
+    public void setPropuestaEstadoList(List<PropuestaEstado> propuestaEstadoList) {
+        this.propuestaEstadoList = propuestaEstadoList;
     }
 
     public List<Documento> getDocumentoList() {
@@ -163,6 +163,14 @@ public class PropuestaConvenio implements Serializable {
         this.documentoList = documentoList;
     }
 
+    public List<PersonaPropuesta> getPersonaPropuestaList() {
+        return personaPropuestaList;
+    }
+
+    public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
+        this.personaPropuestaList = personaPropuestaList;
+    }
+
     public List<Proyecto> getProyectoList() {
         return proyectoList;
     }
@@ -171,20 +179,12 @@ public class PropuestaConvenio implements Serializable {
         this.proyectoList = proyectoList;
     }
 
-    public List<PropuestaEstado> getPropuestaEstadoList() {
-        return propuestaEstadoList;
+    public TipoPropuestaConvenio getIdTipoPropuestaConvenio() {
+        return idTipoPropuestaConvenio;
     }
 
-    public void setPropuestaEstadoList(List<PropuestaEstado> propuestaEstadoList) {
-        this.propuestaEstadoList = propuestaEstadoList;
-    }
-
-    public List<PersonaPropuesta> getPersonaPropuestaList() {
-        return personaPropuestaList;
-    }
-
-    public void setPersonaPropuestaList(List<PersonaPropuesta> personaPropuestaList) {
-        this.personaPropuestaList = personaPropuestaList;
+    public void setIdTipoPropuestaConvenio(TipoPropuestaConvenio idTipoPropuestaConvenio) {
+        this.idTipoPropuestaConvenio = idTipoPropuestaConvenio;
     }
 
     @Override

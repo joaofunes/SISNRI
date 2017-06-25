@@ -495,7 +495,7 @@
                             </p:tab>
                             <p:tab title="Datos del Coordinador Acad&eacute;mico Externo">
                                 <h:panelGroup id="aidiExterno">
-                                    <h:panelGroup id="pgroupBuscadorAsesorExterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabExterno}">
+                                    <h:panelGroup id="pgroupBuscadorAsesorExterno" rendered="#{!becaMB.actualizar and becaMB.mostrarTabExterno or (becaMB.actualizar and becaMB.noEstabaExterno and becaMB.mostrarTabExterno)}">
                                         <p:panelGrid id="pGridBuscadorAsesorExterno">
                                             <p:column>
                                                 <p:outputLabel for="tipoBusquedaAsesorExternoId" value="Tipo de B&uacute;squeda:" />

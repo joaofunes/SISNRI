@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
  * @author lilian
  */
 @Entity
-@Table(name = "estado", catalog = "sisrni", schema = "")
+@Table(name = "ESTADO", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Estado.findAll", query = "SELECT e FROM Estado e")})
 public class Estado implements Serializable {
@@ -53,10 +53,10 @@ public class Estado implements Serializable {
     @NotNull
     @Column(name = "ORDEN_ESTADO", nullable = false)
     private int ordenEstado;
-    @OneToMany(mappedBy = "idEstadoProyecto")
-    private List<Proyecto> proyectoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estado")
     private List<PropuestaEstado> propuestaEstadoList;
+    @OneToMany(mappedBy = "idEstadoProyecto")
+    private List<Proyecto> proyectoList;
 
     public Estado() {
     }
@@ -111,20 +111,20 @@ public class Estado implements Serializable {
         this.ordenEstado = ordenEstado;
     }
 
-    public List<Proyecto> getProyectoList() {
-        return proyectoList;
-    }
-
-    public void setProyectoList(List<Proyecto> proyectoList) {
-        this.proyectoList = proyectoList;
-    }
-
     public List<PropuestaEstado> getPropuestaEstadoList() {
         return propuestaEstadoList;
     }
 
     public void setPropuestaEstadoList(List<PropuestaEstado> propuestaEstadoList) {
         this.propuestaEstadoList = propuestaEstadoList;
+    }
+
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
     }
 
     @Override

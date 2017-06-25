@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
  * @author lilian
  */
 @Entity
-@Table(name = "tipo_facultad", catalog = "sisrni", schema = "")
+@Table(name = "TIPO_FACULTAD", catalog = "sisrni", schema = "")
 @NamedQueries({
     @NamedQuery(name = "TipoFacultad.findAll", query = "SELECT t FROM TipoFacultad t")})
 public class TipoFacultad implements Serializable {
