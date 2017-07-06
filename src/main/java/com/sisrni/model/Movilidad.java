@@ -105,7 +105,7 @@ public class Movilidad implements Serializable {
     @ManyToOne
     private TipoMovilidad idTipoMovilidad;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movilidad")
-    private List<PersonaMovilidad> personaMovilidadList = new ArrayList<PersonaMovilidad>();
+    private List<PersonaMovilidad> personaMovilidadList =  new ArrayList<PersonaMovilidad>();
 
     public Movilidad() {
     }
